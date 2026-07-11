@@ -163,10 +163,198 @@ ENTITY_SCHEMAS = {
 }
 
 
+DETAIL_SCHEMAS = {
+	"customers": {
+		"doctype": "Customer",
+		"singular_title": _("Customer"),
+		"title_field": "customer_name",
+		"subtitle_field": "name",
+		"status_field": "disabled",
+		"status_type": "enabled_status",
+		"image_field": "image",
+		"back_route": "/sales/customers",
+		"desk_route": "/app/customer/{name}",
+		"fields": (
+			"name", "customer_name", "customer_type", "customer_group", "territory", "mobile_no",
+			"email_id", "default_currency", "customer_primary_address", "primary_address",
+			"customer_primary_contact", "tax_id", "disabled", "image", "owner", "creation", "modified",
+			"modified_by", "credit_limits",
+		),
+		"summary": (
+			("customer_group", _("Customer Group"), "text"),
+			("territory", _("Territory"), "text"),
+			("mobile_no", _("Mobile"), "text"),
+			("email_id", _("Email"), "text"),
+			("default_currency", _("Currency"), "text"),
+		),
+		"sections": (
+			{
+				"key": "basic",
+				"title": _("Basic Information"),
+				"fields": (
+					("name", _("Customer ID"), "code"),
+					("customer_name", _("Customer Name"), "text"),
+					("customer_type", _("Customer Type"), "text"),
+					("customer_group", _("Customer Group"), "text"),
+					("territory", _("Territory"), "text"),
+					("tax_id", _("Tax ID"), "text"),
+				),
+			},
+			{
+				"key": "contact",
+				"title": _("Contact Information"),
+				"fields": (
+					("mobile_no", _("Mobile Number"), "text"),
+					("email_id", _("Email Address"), "text"),
+					("customer_primary_contact", _("Primary Contact"), "link"),
+				),
+			},
+			{
+				"key": "address",
+				"title": _("Address Information"),
+				"fields": (
+					("customer_primary_address", _("Primary Address"), "link"),
+					("primary_address", _("Formatted Address"), "multiline"),
+				),
+			},
+			{
+				"key": "sales",
+				"title": _("Sales Information"),
+				"fields": (("default_currency", _("Default Currency"), "text"),),
+			},
+		),
+		"child_tables": (
+			{
+				"fieldname": "credit_limits",
+				"title": _("Credit Limits"),
+				"doctype": "Customer Credit Limit",
+				"required_roles_any": ("Accounts User", "Accounts Manager", "Sales Manager", "System Manager"),
+				"columns": (
+					("company", _("Company"), "text"),
+					("credit_limit", _("Credit Limit"), "currency"),
+				),
+			},
+		),
+		"related": (
+			{"title": _("Quotations"), "doctype": "Quotation", "filters": (("quotation_to", "=", "Customer"), ("party_name", "=", "{name}")), "fields": ("name", "status", "transaction_date", "currency", "grand_total")},
+			{"title": _("Sales Orders"), "doctype": "Sales Order", "filters": (("customer", "=", "{name}"),), "fields": ("name", "status", "transaction_date", "currency", "grand_total"), "custom_route": "/sales/orders/{name}"},
+			{"title": _("Delivery Notes"), "doctype": "Delivery Note", "filters": (("customer", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total")},
+			{"title": _("Sales Invoices"), "doctype": "Sales Invoice", "filters": (("customer", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total", "outstanding_amount")},
+			{"title": _("Payment Entries"), "doctype": "Payment Entry", "filters": (("party_type", "=", "Customer"), ("party", "=", "{name}")), "fields": ("name", "status", "posting_date", "paid_amount")},
+		),
+	},
+	"items": {
+		"doctype": "Item",
+		"singular_title": _("Product"),
+		"title_field": "item_name",
+		"subtitle_field": "name",
+		"status_field": "disabled",
+		"status_type": "enabled_status",
+		"image_field": "image",
+		"back_route": "/inventory/products",
+		"desk_route": "/app/item/{name}",
+		"fields": (
+			"name", "item_code", "item_name", "item_group", "brand", "stock_uom", "is_stock_item",
+			"disabled", "description", "country_of_origin", "image", "valuation_rate", "standard_rate",
+			"barcodes", "supplier_items", "item_defaults", "owner", "creation", "modified", "modified_by",
+		),
+		"optional_custom_fields": (
+			"custom_product_material", "custom_product_size", "custom_product_colour", "custom_product_color"
+		),
+		"restricted_fields": {
+			"valuation_rate": ("Stock Manager", "Accounts User", "Accounts Manager", "System Manager"),
+			"standard_rate": ("Sales Manager", "Stock Manager", "Accounts User", "Accounts Manager", "System Manager"),
+		},
+		"computed_fields": ("default_warehouse",),
+		"summary": (
+			("item_group", _("Item Group"), "text"),
+			("brand", _("Brand"), "text"),
+			("stock_uom", _("Stock UOM"), "text"),
+			("default_warehouse", _("Default Warehouse"), "text"),
+			("valuation_rate", _("Valuation Rate"), "currency"),
+			("standard_rate", _("Standard Rate"), "currency"),
+		),
+		"sections": (
+			{"key": "basic", "title": _("Basic Information"), "fields": (("name", _("Item Code / SKU"), "code"), ("item_name", _("Item Name"), "text"), ("item_group", _("Item Group"), "text"), ("brand", _("Brand"), "text"), ("description", _("Description"), "multiline"))},
+			{"key": "product", "title": _("Product Details"), "fields": (("stock_uom", _("Stock UOM"), "text"), ("country_of_origin", _("Country of Origin"), "text"), ("is_stock_item", _("Stock Item"), "boolean"))},
+			{"key": "stock", "title": _("Stock Information"), "fields": (("default_warehouse", _("Default Warehouse"), "text"), ("valuation_rate", _("Valuation Rate"), "currency"))},
+			{"key": "pricing", "title": _("Pricing Information"), "fields": (("standard_rate", _("Standard Rate"), "currency"),)},
+		),
+		"child_tables": (
+			{"fieldname": "item_defaults", "title": _("Company Defaults"), "doctype": "Item Default", "columns": (("company", _("Company"), "text"), ("default_warehouse", _("Default Warehouse"), "text"), ("default_supplier", _("Default Supplier"), "text"))},
+			{"fieldname": "barcodes", "title": _("Barcodes"), "doctype": "Item Barcode", "columns": (("barcode", _("Barcode"), "code"), ("uom", _("UOM"), "text"))},
+			{"fieldname": "supplier_items", "title": _("Supplier Information"), "doctype": "Item Supplier", "columns": (("supplier", _("Supplier"), "text"), ("supplier_part_no", _("Supplier Part Number"), "code"))},
+		),
+		"related": (
+			{"title": _("Item Prices"), "doctype": "Item Price", "filters": (("item_code", "=", "{name}"),), "fields": ("name", "price_list", "currency", "price_list_rate", "valid_from")},
+			{"title": _("Stock Ledger Entries"), "doctype": "Stock Ledger Entry", "filters": (("item_code", "=", "{name}"),), "fields": ("name", "posting_date", "warehouse", "actual_qty", "qty_after_transaction", "voucher_type", "voucher_no")},
+			{"title": _("Purchase Orders"), "doctype": "Purchase Order", "filters": (("Purchase Order Item", "item_code", "=", "{name}"),), "fields": ("name", "status", "transaction_date", "currency", "grand_total")},
+			{"title": _("Sales Orders"), "doctype": "Sales Order", "filters": (("Sales Order Item", "item_code", "=", "{name}"),), "fields": ("name", "status", "transaction_date", "currency", "grand_total"), "custom_route": "/sales/orders/{name}"},
+			{"title": _("Purchase Invoices"), "doctype": "Purchase Invoice", "filters": (("Purchase Invoice Item", "item_code", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total")},
+			{"title": _("Sales Invoices"), "doctype": "Sales Invoice", "filters": (("Sales Invoice Item", "item_code", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total")},
+		),
+	},
+	"sales_orders": {
+		"doctype": "Sales Order",
+		"singular_title": _("Sales Order"),
+		"title_field": "name",
+		"subtitle_field": "customer_name",
+		"status_field": "status",
+		"status_type": "status",
+		"back_route": "/sales/orders",
+		"desk_route": "/app/sales-order/{name}",
+		"fields": (
+			"name", "customer", "customer_name", "customer_group", "territory", "tax_id", "transaction_date",
+			"delivery_date", "company", "status", "currency", "total", "net_total", "total_taxes_and_charges",
+			"grand_total", "rounded_total", "per_delivered", "per_billed", "shipping_address_name",
+			"shipping_address", "tc_name", "terms", "items", "taxes", "owner", "creation", "modified", "modified_by",
+		),
+		"summary": (
+			("currency", _("Currency"), "text"),
+			("net_total", _("Net Total"), "currency"),
+			("total_taxes_and_charges", _("Taxes"), "currency"),
+			("grand_total", _("Grand Total"), "currency"),
+			("rounded_total", _("Rounded Total"), "currency"),
+			("per_delivered", _("Delivered"), "percent"),
+			("per_billed", _("Billed"), "percent"),
+		),
+		"sections": (
+			{"key": "customer", "title": _("Customer Information"), "fields": (("customer", _("Customer ID"), "link"), ("customer_name", _("Customer Name"), "text"), ("customer_group", _("Customer Group"), "text"), ("territory", _("Territory"), "text"), ("tax_id", _("Tax ID"), "text"))},
+			{"key": "order", "title": _("Order Information"), "fields": (("transaction_date", _("Transaction Date"), "date"), ("delivery_date", _("Delivery Date"), "date"), ("company", _("Company"), "text"), ("status", _("Status"), "status"))},
+			{"key": "delivery", "title": _("Delivery Information"), "fields": (("shipping_address_name", _("Shipping Address"), "link"), ("shipping_address", _("Address Details"), "multiline"), ("per_delivered", _("Delivered"), "percent"))},
+			{"key": "billing", "title": _("Billing Information"), "fields": (("per_billed", _("Billed"), "percent"), ("grand_total", _("Grand Total"), "currency"), ("rounded_total", _("Rounded Total"), "currency"))},
+			{"key": "terms", "title": _("Terms and Notes"), "fields": (("tc_name", _("Terms Template"), "link"), ("terms", _("Terms and Conditions"), "multiline"))},
+		),
+		"child_tables": (
+			{
+				"fieldname": "items", "title": _("Items"), "doctype": "Sales Order Item",
+				"columns": (("item_code", _("Item Code"), "code"), ("item_name", _("Item Name"), "text"), ("description", _("Description"), "multiline"), ("qty", _("Quantity"), "number"), ("uom", _("UOM"), "text"), ("warehouse", _("Warehouse"), "text"), ("rate", _("Rate"), "currency"), ("discount_percentage", _("Discount"), "percent"), ("amount", _("Amount"), "currency"), ("delivered_qty", _("Delivered Qty"), "number"), ("billed_amt", _("Billed Amount"), "currency")),
+			},
+			{
+				"fieldname": "taxes", "title": _("Taxes and Charges"), "doctype": "Sales Taxes and Charges",
+				"columns": (("charge_type", _("Charge Type"), "text"), ("account_head", _("Account"), "text"), ("description", _("Description"), "multiline"), ("rate", _("Rate"), "percent"), ("tax_amount", _("Tax Amount"), "currency"), ("total", _("Total"), "currency")),
+			},
+		),
+		"related": (
+			{"title": _("Delivery Notes"), "doctype": "Delivery Note", "filters": (("Delivery Note Item", "against_sales_order", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total")},
+			{"title": _("Sales Invoices"), "doctype": "Sales Invoice", "filters": (("Sales Invoice Item", "sales_order", "=", "{name}"),), "fields": ("name", "status", "posting_date", "currency", "grand_total", "outstanding_amount")},
+			{"title": _("Payment Entries"), "doctype": "Payment Entry", "filters": (("Payment Entry Reference", "reference_doctype", "=", "Sales Order"), ("Payment Entry Reference", "reference_name", "=", "{name}")), "fields": ("name", "status", "posting_date", "paid_amount")},
+			{"title": _("Pick Lists"), "doctype": "Pick List", "filters": (("Pick List Item", "sales_order", "=", "{name}"),), "fields": ("name", "status", "purpose", "modified")},
+		),
+	},
+}
+
+
 def get_entity_schema(entity_key: str) -> dict:
 	if entity_key not in ENTITY_SCHEMAS:
 		frappe.throw(_("Unknown Retail ERP entity."), frappe.ValidationError)
 	return deepcopy(ENTITY_SCHEMAS[entity_key])
+
+
+def get_entity_detail_schema(entity_key: str) -> dict:
+	if entity_key not in DETAIL_SCHEMAS:
+		frappe.throw(_("Unknown Retail ERP entity."), frappe.ValidationError)
+	return deepcopy(DETAIL_SCHEMAS[entity_key])
 
 
 def validate_registry_against_metadata() -> None:
@@ -191,3 +379,49 @@ def validate_registry_against_metadata() -> None:
 					schema["doctype"], ", ".join(sorted(missing))
 				)
 			)
+
+	for schema in DETAIL_SCHEMAS.values():
+		meta = frappe.get_meta(schema["doctype"])
+		valid_fields = standard_fields | {field.fieldname for field in meta.fields} | set(schema.get("computed_fields", ()))
+		referenced_fields = (
+			set(schema["fields"])
+			| {schema["title_field"], schema["subtitle_field"], schema["status_field"]}
+			| {field[0] for field in schema["summary"]}
+			| {field[0] for section in schema["sections"] for field in section["fields"]}
+		)
+		missing = referenced_fields - valid_fields
+		if missing:
+			frappe.throw(
+				_("Retail ERP detail schema for {0} contains missing fields: {1}").format(
+					schema["doctype"], ", ".join(sorted(missing))
+				)
+			)
+		for child in schema["child_tables"]:
+			child_meta = frappe.get_meta(child["doctype"])
+			valid_child_fields = standard_fields | {field.fieldname for field in child_meta.fields}
+			missing_child = {column[0] for column in child["columns"]} - valid_child_fields
+			if missing_child:
+				frappe.throw(
+					_("Retail ERP child schema for {0} contains missing fields: {1}").format(
+						child["doctype"], ", ".join(sorted(missing_child))
+					)
+				)
+		for relation in schema["related"]:
+			related_meta = frappe.get_meta(relation["doctype"])
+			valid_related_fields = standard_fields | {field.fieldname for field in related_meta.fields}
+			missing_related = set(relation["fields"]) - valid_related_fields
+			if missing_related:
+				frappe.throw(
+					_("Retail ERP related schema for {0} contains missing fields: {1}").format(
+						relation["doctype"], ", ".join(sorted(missing_related))
+					)
+				)
+			for relation_filter in relation["filters"]:
+				filter_meta = related_meta if len(relation_filter) == 3 else frappe.get_meta(relation_filter[0])
+				filter_field = relation_filter[0] if len(relation_filter) == 3 else relation_filter[1]
+				if filter_field not in {field.fieldname for field in filter_meta.fields} | standard_fields:
+					frappe.throw(
+						_("Retail ERP related filter for {0} contains missing field: {1}").format(
+							filter_meta.name, filter_field
+						)
+					)

@@ -1,4 +1,4 @@
-const METHOD = "/api/method/my_store_ui.entity_api.get_entity_list";
+const METHOD_PREFIX = "/api/method/my_store_ui.entity_api.";
 
 export class EntityApiError extends Error {
   constructor(message, { status = 500, type = "ServerError" } = {}) {
@@ -7,11 +7,13 @@ export class EntityApiError extends Error {
     this.status = status;
     this.type = type;
     this.permissionDenied = status === 403 || type === "PermissionError";
+    this.notFound = status === 404 || type === "DoesNotExistError";
+    this.authenticationRequired = status === 401 || type === "AuthenticationError";
   }
 }
 
-export async function getEntityList(params, signal) {
-  const response = await fetch(METHOD, {
+export async function callEntityApi(method, params, signal) {
+  const response = await fetch(`${METHOD_PREFIX}${method}`, {
     method: "POST",
     credentials: "same-origin",
     signal,
@@ -37,4 +39,8 @@ export async function getEntityList(params, signal) {
     });
   }
   return payload.message;
+}
+
+export function getEntityList(params, signal) {
+  return callEntityApi("get_entity_list", params, signal);
 }

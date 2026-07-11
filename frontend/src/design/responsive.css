@@ -49,6 +49,22 @@
   .ref-mobile-record-card dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; margin: 10px 0 0; font-size: 10px; }
   .ref-mobile-record-card dt { color: var(--ref-secondary-text); font-weight: 600; }
   .ref-mobile-record-card dd { margin: 0; overflow: hidden; color: var(--ref-primary-text); text-overflow: ellipsis; white-space: nowrap; }
+  .ref-detail-header { grid-template-columns: auto minmax(0,1fr); padding: 17px; }
+  .ref-detail-header>img { width: 72px; height: 72px; }
+  .ref-detail-header h1 { font-size: 22px !important; }
+  .ref-detail-actions { grid-column: 1/-1; justify-content: flex-start; max-width: none; }
+  .ref-detail-summary-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .ref-detail-sections-grid { grid-template-columns: 1fr; }
+  .ref-detail-section,.ref-child-table-section,.ref-related-section,.ref-activity-summary { padding: 14px; }
+  .ref-child-table-wrap { display: none; }
+  .ref-child-mobile-list { display: grid; gap: 8px; }
+  .ref-child-mobile-list article { padding: 12px; border: 1px solid var(--ref-border-colour); border-radius: 8px; background: #fafbfd; }
+  .ref-child-mobile-list article>strong { display: block; margin-bottom: 9px; color: var(--ref-primary-blue); font-size: 10px; }
+  .ref-child-mobile-list dl { display: grid; grid-template-columns: minmax(90px,auto) 1fr; gap: 5px 9px; margin: 0; }
+  .ref-child-mobile-list dt,.ref-child-mobile-list dd { margin: 0; }
+  .ref-related-grid { grid-template-columns: 1fr; }
+  .ref-activity-summary dl { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .ref-record-not-found { align-items: flex-start; flex-direction: column; }
 }
 
 @media (max-width: 480px) {
@@ -58,6 +74,15 @@
   .ref-page-hero h1 { font-size: 30px !important; }
   .ref-global-search input::placeholder { font-size: 11px; }
   .ref-date-range { grid-template-columns: 1fr; }
+  .ref-detail-header { grid-template-columns: 1fr; }
+  .ref-detail-header>img { width: 82px; height: 82px; }
+  .ref-detail-actions { grid-column: auto; }
+  .ref-detail-summary-grid { grid-template-columns: 1fr 1fr; }
+  .ref-detail-summary-card { min-height: 76px; padding: 12px; }
+  .ref-detail-section>dl { grid-template-columns: 1fr; }
+  .ref-detail-section>dl>div.is-wide { grid-column: auto; }
+  .ref-child-mobile-list dl { grid-template-columns: 1fr; }
+  .ref-activity-summary dl { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
