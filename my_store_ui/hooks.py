@@ -5,6 +5,12 @@ app_description = "Upgrade-safe retail sales interface for ERPNext"
 app_email = "zaidhnajeeb98@gmail.com"
 app_license = "mit"
 
+required_apps = ["erpnext"]
+
+# The stylesheet is deliberately scoped to .smart-sales-shell so standard
+# ERPNext pages keep their native appearance.
+app_include_css = ["/assets/my_store_ui/css/smart_sales.css"]
+
 # Apps
 # ------------------
 
@@ -246,4 +252,3 @@ app_license = "mit"
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-
