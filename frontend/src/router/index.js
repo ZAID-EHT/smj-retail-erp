@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { moduleRoutes } from "./routes.js";
+import { entityRoutes, moduleRoutes } from "./routes.js";
 
 const BASE_PATH = "/app/retail-erp/";
 
@@ -18,6 +18,7 @@ export function createRetailRouter() {
     routes: [
       { path: "/", redirect: "/home" },
       ...moduleRoutes,
+      ...entityRoutes,
       { path: "/:pathMatch(.*)*", redirect: "/home" },
     ],
     scrollBehavior: () => ({ top: 0 }),

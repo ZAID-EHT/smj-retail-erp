@@ -35,9 +35,9 @@ Engine classifications:
 ## Current implementation audit
 
 - `/app/retail-erp/*` is one Vue 3 SPA with a shared shell.
-- Ten module routes exist, but all use `PlaceholderPage.vue`.
+- Ten module routes exist; three approved pilot list routes now use the shared `EntityListPage.vue` engine.
 - Header search, notifications, user menu, toast host, and confirm host are placeholders.
-- No generic list, detail, form, child-table, metadata, print, report, or permission service exists yet.
+- A server-owned, permission-aware read-only list registry exists for Customer, Item, and Sales Order. Detail routes remain placeholders; form, child-table, print, report, and document-action engines do not exist yet.
 - `/app/smart-sales` is a separate legacy Desk Page. It can browse products and create a Draft Sales Order, but it is not inside the SPA and does not implement the complete sales workflow.
 - No login landing or ordinary-user Desk route guard exists.
 - All standard document work still depends on ERPNext Desk.
@@ -90,15 +90,16 @@ Document names must be URL-encoded. Route definitions must carry an approved fro
 
 | Module | Feature | ERPNext backend | Custom route | Engine | L/D/F | Required actions | Permission source | Print/PDF | Mobile | Tests | Status | Standard Desk dependency |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Shared | Read-only entity list engine | Approved DocTypes only | Approved entity routes | G | Y/N/N | Search, allowlisted filters/sort, pagination, refresh, row navigation | Server schema + `frappe.has_permission` + `frappe.get_list` | No | Verified table/cards | 6 automated + browser/API | Complete (list scope only) | None for implemented lists |
 | Shared | Home dashboard | Aggregated permitted DocTypes/reports | `/home` | L | N/A | Metrics, alerts, quick actions, recent records | Per metric/DocType | No | Planned | None | Foundation | Yes: placeholder only |
 | Shared | Global search | Global Search plus approved DocTypes | Header overlay | S | N/A | Grouped search, keyboard open | Per result DocType/read | No | Planned | None | Not started | Yes |
 | Shared | Comments/activity | Communication, Comment, Version | Detail panel | G | N/A | Read/add comments, timeline | Parent document permissions | No | Planned | None | Not started | Yes |
 | Shared | Attachments | File | Detail/form panel | G | N/A | List/upload/remove/download | Parent and File permissions | No | Planned | None | Not started | Yes |
 | Shared | Assignments | ToDo/assignment APIs | Detail panel | G | N/A | Assign/unassign/read | Parent and assignment permission | No | Planned | None | Not started | Yes |
 | Sales | Smart Sales | Customer, Item, Item Price, Bin, Sales Order, Sales Invoice | `/smart-sales` | S | Custom | Cart, SO/SI state workflow, payment links | Each source/action | Invoice only | Planned | None | Partial legacy | Yes: legacy page and standard forms |
-| Sales | Customers | Customer, Contact, Address | `/sales/customers` | G | Y/Y/Y | CRUD, contacts, addresses, transactions, balances | Customer + financial report permission | Optional | Planned | None | Not started | Yes |
+| Sales | Customers | Customer, Contact, Address | `/sales/customers` | G | Y/Y/Y | CRUD, contacts, addresses, transactions, balances | Customer + financial report permission | Optional | List verified | API/browser list tests | List complete; detail/form not started | Yes: detail, create/edit and related data |
 | Sales | Quotations | Quotation | `/sales/quotations` | T | Y/Y/Y | Draft edit, submit/cancel/amend, map to SO, print | Quotation action permissions | Yes | Planned | None | Not started | Yes |
-| Sales | Sales Orders | Sales Order | `/sales/orders` | T | Y/Y/Y | Draft edit, submit/cancel/amend, map DN/SI, status | Sales Order action permissions | Yes | Planned | None | Not started | Yes |
+| Sales | Sales Orders | Sales Order | `/sales/orders` | T | Y/Y/Y | Draft edit, submit/cancel/amend, map DN/SI, status | Sales Order action permissions | Yes | List verified | API/browser list tests | List complete; detail/form/actions not started | Yes: detail and all document actions |
 | Sales | Delivery Notes | Delivery Note | `/sales/delivery-notes` | T | Y/Y/Y | Map from SO, stock validation, submit/cancel/amend, map SI | Delivery Note + stock permissions | Yes | Planned | None | Not started | Yes |
 | Sales | Sales Invoices | Sales Invoice | `/sales/invoices` | T | Y/Y/Y | Map from SO/DN, submit/cancel/amend, payment, print | Sales Invoice + Accounts permissions | Yes | Planned | None | Not started | Yes |
 | Sales | Payment Entries | Payment Entry | `/sales/payments` | T | Y/Y/Y | Allocate references, save, submit/cancel/amend | Payment Entry permissions | Yes | Planned | None | Not started | Yes |
@@ -118,7 +119,7 @@ Document names must be URL-encoded. Route definitions must carry an approved fro
 | Purchase reports | Purchase Order Analysis | Report: Purchase Order Analysis | `/reports/view/Purchase%20Order%20Analysis` | R | N/A | Filters, run, export | Report + Purchase Order | Yes | Planned | None | Not started | Yes |
 | Purchase reports | Supplier balances | Report: Supplier Ledger Summary | `/reports/view/Supplier%20Ledger%20Summary` | R | N/A | Filters, totals, export | Report + financial permissions | Yes | Planned | None | Not started | Yes |
 | Purchase reports | Item-wise purchasing | Report: Item-wise Purchase Register | `/reports/view/Item-wise%20Purchase%20Register` | R | N/A | Filters, totals, export | Report + Purchase Invoice | Yes | Planned | None | Not started | Yes |
-| Inventory | Products | Item | `/inventory/products` | G | Y/Y/Y | Search, CRUD, disable, stock/prices/transactions | Item permissions plus related sources | Optional | Planned | None | Not started | Yes |
+| Inventory | Products | Item | `/inventory/products` | G | Y/Y/Y | Search, CRUD, disable, stock/prices/transactions | Item permissions plus related sources | Optional | List verified | API/browser list tests | List complete; detail/form not started | Yes: detail, create/edit, stock/prices/transactions |
 | Inventory | New Product | Item, Item Price, Barcode, stock documents | `/inventory/products/new` | S | N/N/Y | Pricing, SKU, image, Item Prices, opening stock | Item/Item Price/stock create permissions | No | Planned | None | Not started | Yes |
 | Inventory | Item Groups | Item Group tree | `/inventory/item-groups` | G | Y/Y/Y | Tree read/create/edit | Item Group permissions | No | Planned | None | Not started | Yes |
 | Inventory | Brands | Brand | `/inventory/brands` | G | Y/Y/Y | CRUD | Brand permissions | No | Planned | None | Not started | Yes |

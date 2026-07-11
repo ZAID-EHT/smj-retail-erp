@@ -11,23 +11,18 @@ import AppHeader from "./AppHeader.vue";
 
 defineProps({ fatalError: { type: Error, default: null } });
 
-const booting = ref(true);
+const booting = ref(false);
 const mobileNavigationOpen = ref(false);
-let bootTimer;
 
 function closeTransientUi() {
   mobileNavigationOpen.value = false;
 }
 
 onMounted(() => {
-  bootTimer = window.setTimeout(() => {
-    booting.value = false;
-  }, 180);
   window.addEventListener("retail-erp:close-transient-ui", closeTransientUi);
 });
 
 onBeforeUnmount(() => {
-  window.clearTimeout(bootTimer);
   window.removeEventListener("retail-erp:close-transient-ui", closeTransientUi);
 });
 </script>

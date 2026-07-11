@@ -1,4 +1,6 @@
 import PlaceholderPage from "@/pages/PlaceholderPage.vue";
+import EntityDetailPlaceholder from "@/pages/entities/EntityDetailPlaceholder.vue";
+import EntityListPage from "@/pages/entities/EntityListPage.vue";
 
 export const moduleRoutes = [
   {
@@ -60,6 +62,45 @@ export const moduleRoutes = [
     name: "admin",
     component: PlaceholderPage,
     meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
+  },
+];
+
+export const entityRoutes = [
+  {
+    path: "/sales/customers",
+    name: "customer-list",
+    component: EntityListPage,
+    meta: { title: "Customers", entityKey: "customers", accent: "blue" },
+  },
+  {
+    path: "/sales/customers/:name",
+    name: "customer-detail",
+    component: EntityDetailPlaceholder,
+    meta: { title: "Customer", backRoute: "/sales/customers", accent: "blue" },
+  },
+  {
+    path: "/inventory/products",
+    name: "item-list",
+    component: EntityListPage,
+    meta: { title: "Products", entityKey: "items", accent: "green" },
+  },
+  {
+    path: "/inventory/products/:name",
+    name: "item-detail",
+    component: EntityDetailPlaceholder,
+    meta: { title: "Product", backRoute: "/inventory/products", accent: "green" },
+  },
+  {
+    path: "/sales/orders",
+    name: "sales-order-list",
+    component: EntityListPage,
+    meta: { title: "Sales Orders", entityKey: "sales_orders", accent: "blue" },
+  },
+  {
+    path: "/sales/orders/:name",
+    name: "sales-order-detail",
+    component: EntityDetailPlaceholder,
+    meta: { title: "Sales Order", backRoute: "/sales/orders", accent: "blue" },
   },
 ];
 

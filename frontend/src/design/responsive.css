@@ -28,6 +28,27 @@
   .ref-page-hero__mark { width: 85px; height: 85px; border-radius: 22px; font-size: 46px; }
   .ref-placeholder-grid { grid-template-columns: 1fr; gap: 10px; }
   .ref-colour-card { min-height: 125px; padding: 18px; }
+  .ref-entity-page__header { min-height: 105px; display: grid; align-items: flex-start; padding: 18px; }
+  .ref-entity-page__header h1 { font-size: 23px !important; }
+  .ref-entity-page__header .ref-button { min-height: 36px; justify-self: start; padding: 0 10px; font-size: 10px; }
+  .ref-filter-panel { padding: 11px; }
+  .ref-filter-panel__primary { display: grid; grid-template-columns: 1fr; align-items: stretch; }
+  .ref-list-search { grid-column: auto; width: 100%; min-width: 0; }
+  .ref-filter-control { min-width: 0; }
+  .ref-filter-control--dates { grid-column: auto; }
+  .ref-filter-panel__secondary { align-items: flex-start; flex-direction: column; }
+  .ref-filter-actions { width: 100%; margin-left: 0; overflow-x: auto; }
+  .ref-filter-chips { width: 100%; }
+  .ref-data-table-wrap { display: none; }
+  .ref-mobile-record-list { display: grid; gap: 9px; }
+  .ref-mobile-record-card { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; padding: 14px; border: 1px solid var(--ref-border-colour); border-radius: var(--ref-card-radius); background: #fff; box-shadow: var(--ref-card-shadow); }
+  .ref-mobile-record-card>img { width: 58px; height: 58px; object-fit: contain; border-radius: 9px; background: var(--ref-blue-background); }
+  .ref-mobile-record-card__content { min-width: 0; }
+  .ref-mobile-record-card h3 { margin: 0 0 3px !important; overflow: hidden; color: var(--ref-primary-text) !important; font: 750 14px var(--ref-font) !important; text-overflow: ellipsis; white-space: nowrap; }
+  .ref-mobile-record-card code { color: var(--ref-primary-blue); font-size: 9px; }
+  .ref-mobile-record-card dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; margin: 10px 0 0; font-size: 10px; }
+  .ref-mobile-record-card dt { color: var(--ref-secondary-text); font-weight: 600; }
+  .ref-mobile-record-card dd { margin: 0; overflow: hidden; color: var(--ref-primary-text); text-overflow: ellipsis; white-space: nowrap; }
 }
 
 @media (max-width: 480px) {
@@ -36,6 +57,7 @@
   .ref-page-hero__mark { display: none; }
   .ref-page-hero h1 { font-size: 30px !important; }
   .ref-global-search input::placeholder { font-size: 11px; }
+  .ref-date-range { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
