@@ -1,0 +1,32 @@
+{
+ "content": null,
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "module": "My Store UI",
+ "name": "retail-erp",
+ "page_name": "retail-erp",
+ "roles": [
+  {"role": "Accounts Manager"},
+  {"role": "Accounts User"},
+  {"role": "Manufacturing Manager"},
+  {"role": "Manufacturing User"},
+  {"role": "POS Manager"},
+  {"role": "POS User"},
+  {"role": "Projects Manager"},
+  {"role": "Projects User"},
+  {"role": "Purchase Manager"},
+  {"role": "Purchase User"},
+  {"role": "Sales Manager"},
+  {"role": "Sales User"},
+  {"role": "Stock Manager"},
+  {"role": "Stock User"},
+  {"role": "Support Team"},
+  {"role": "System Manager"}
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Retail ERP"
+}

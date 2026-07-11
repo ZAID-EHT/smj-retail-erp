@@ -1,6 +1,8 @@
 .DS_Store
 *.pyc
 *.egg-info
+frontend/node_modules/
+my_store_ui/public/frontend/
 *.swp
 tags
 node_modules
