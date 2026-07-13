@@ -1,0 +1,13 @@
+[
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_product_material","fieldname":"custom_product_material","label":"Product Material","fieldtype":"Data","insert_after":"standard_rate","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_product_size","fieldname":"custom_product_size","label":"Product Size","fieldtype":"Data","insert_after":"custom_product_material","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_supplier","fieldname":"custom_supplier","label":"Supplier","fieldtype":"Link","options":"Supplier","insert_after":"custom_product_size","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_purchase_price","fieldname":"custom_purchase_price","label":"Purchase Price","fieldtype":"Currency","default":"0","insert_after":"custom_supplier","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_additional_cost","fieldname":"custom_additional_cost","label":"Additional Cost","fieldtype":"Currency","default":"0","insert_after":"custom_purchase_price","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_total_cost","fieldname":"custom_total_cost","label":"Total Cost","fieldtype":"Currency","default":"0","read_only":1,"insert_after":"custom_additional_cost","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_retail_profit_percentage","fieldname":"custom_retail_profit_percentage","label":"Retail Profit Percentage","fieldtype":"Percent","default":"30","insert_after":"custom_total_cost","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_wholesale_profit_percentage","fieldname":"custom_wholesale_profit_percentage","label":"Wholesale Profit Percentage","fieldtype":"Percent","default":"15","insert_after":"custom_retail_profit_percentage","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_retail_price","fieldname":"custom_retail_price","label":"Retail Price","fieldtype":"Currency","default":"0","read_only":1,"insert_after":"custom_wholesale_profit_percentage","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_wholesale_price","fieldname":"custom_wholesale_price","label":"Wholesale Price","fieldtype":"Currency","default":"0","read_only":1,"insert_after":"custom_retail_price","module":"My Store Ui"},
+  {"doctype":"Custom Field","dt":"Item","name":"Item-custom_sku_prefix","fieldname":"custom_sku_prefix","label":"SKU Prefix","fieldtype":"Data","insert_after":"custom_wholesale_price","module":"My Store Ui"}
+]

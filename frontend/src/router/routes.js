@@ -1,5 +1,6 @@
 import PlaceholderPage from "@/pages/PlaceholderPage.vue";
 import EntityDetailPage from "@/pages/entities/EntityDetailPage.vue";
+import EntityFormPage from "@/pages/entities/EntityFormPage.vue";
 import EntityListPage from "@/pages/entities/EntityListPage.vue";
 
 export const moduleRoutes = [
@@ -73,6 +74,18 @@ export const entityRoutes = [
     meta: { title: "Customers", entityKey: "customers", accent: "blue" },
   },
   {
+    path: "/sales/customers/new",
+    name: "customer-new",
+    component: EntityFormPage,
+    meta: { title: "New Customer", entityKey: "customers", accent: "blue" },
+  },
+  {
+    path: "/sales/customers/:name/edit",
+    name: "customer-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Customer", entityKey: "customers", accent: "blue" },
+  },
+  {
     path: "/sales/customers/:name",
     name: "customer-detail",
     component: EntityDetailPage,
@@ -85,6 +98,18 @@ export const entityRoutes = [
     meta: { title: "Products", entityKey: "items", accent: "green" },
   },
   {
+    path: "/inventory/products/new",
+    name: "item-new",
+    component: EntityFormPage,
+    meta: { title: "New Product", entityKey: "items", accent: "green" },
+  },
+  {
+    path: "/inventory/products/:name/edit",
+    name: "item-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Product", entityKey: "items", accent: "green" },
+  },
+  {
     path: "/inventory/products/:name",
     name: "item-detail",
     component: EntityDetailPage,
@@ -95,6 +120,18 @@ export const entityRoutes = [
     name: "sales-order-list",
     component: EntityListPage,
     meta: { title: "Sales Orders", entityKey: "sales_orders", accent: "blue" },
+  },
+  {
+    path: "/sales/orders/new",
+    name: "sales-order-new",
+    component: EntityFormPage,
+    meta: { title: "New Sales Order", entityKey: "sales_orders", accent: "blue" },
+  },
+  {
+    path: "/sales/orders/:name/edit",
+    name: "sales-order-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Sales Order", entityKey: "sales_orders", accent: "blue" },
   },
   {
     path: "/sales/orders/:name",

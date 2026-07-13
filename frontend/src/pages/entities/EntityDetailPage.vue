@@ -56,7 +56,7 @@ const status = computed(() => data.value?.document?.[data.value.entity.status_fi
           <RouterLink class="ref-button ref-button--secondary" :to="data.entity.back_route">← Back</RouterLink>
           <button type="button" class="ref-button ref-button--secondary" :disabled="state.loading" @click="state.load">↻ Refresh</button>
           <button v-if="data.permissions.can_print" type="button" class="ref-button ref-button--secondary" disabled title="Print support is planned">Print</button>
-          <button v-if="data.permissions.can_write" type="button" class="ref-button ref-button--primary" disabled title="Editing is not enabled in this read-only stage">Edit</button>
+          <RouterLink v-if="data.permissions.can_write && (!data.entity.draft_only || data.document.docstatus === 0)" class="ref-button ref-button--primary" :to="`${data.entity.back_route}/${encodeURIComponent(data.document.name)}/edit`">Edit</RouterLink>
           <a v-if="data.entity.desk_route" class="ref-button ref-button--secondary" :href="data.entity.desk_route">Standard Desk ↗</a>
         </div>
       </header>

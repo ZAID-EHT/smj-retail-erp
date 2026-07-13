@@ -19,21 +19,21 @@ This audit is a discovery baseline, not a parity claim. The automated parity che
 | Print Formats | 44 |
 | Client Scripts | 1 |
 | Server Scripts | 0 |
-| Custom Fields | 201 |
+| Custom Fields | 212 |
 | Property Setters | 101 |
 | Document Mappings And Actions | 634 |
-| User Facing Features | 2471 |
+| User Facing Features | 2482 |
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
 | Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2105 |
+| Missing Features Added | 2116 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |
 | Installed App Features | 244 |
-| Remaining Desk Dependencies | 2471 |
+| Remaining Desk Dependencies | 2482 |
 | Unclassified Features | 0 |
-| Features Total | 2830 |
+| Features Total | 2841 |
 
 ## Automated parity audit
 
@@ -42,7 +42,7 @@ Result: **FAIL**
 | Failure class | Count |
 |---|---:|
 | Unclassified User Facing | 0 |
-| Unmapped User Facing | 2466 |
+| Unmapped User Facing | 2477 |
 | Undocumented Actions | 0 |
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
@@ -51,7 +51,7 @@ Result: **FAIL**
 
 - User-supplied previous matrix count: **98**.
 - Observed hand-authored rows before generation: **102**.
-- Machine-discovered user-facing features not represented by the hand-authored matrix: **2105**.
+- Machine-discovered user-facing features not represented by the hand-authored matrix: **2116**.
 - Exact duplicate legacy rows detected: **0**.
 - Existing manual rows were preserved. The generated appendix is canonical for completeness checks.
 
@@ -61,7 +61,7 @@ Result: **FAIL**
 |---|---:|---:|---:|---:|
 | Child Doctype | 335 | 2 | 0 | 335 |
 | Client Script | 1 | 0 | 1 | 0 |
-| Custom Field | 201 | 0 | 201 | 0 |
+| Custom Field | 212 | 0 | 212 | 0 |
 | Dashboard | 9 | 7 | 2 | 0 |
 | Dashboard Chart | 49 | 5 | 44 | 0 |
 | Dashboard Connection | 68 | 0 | 68 | 0 |
@@ -87,7 +87,7 @@ Result: **FAIL**
 | B | Specialized transaction interface | 662 |
 | C | Specialized visual view | 819 |
 | D | Report engine | 200 |
-| E | Administrative interface | 543 |
+| E | Administrative interface | 554 |
 | F | Safe embedded integration | 7 |
 | G | System-internal and not user-facing | 350 |
 

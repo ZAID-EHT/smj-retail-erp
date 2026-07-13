@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **2466**.
+Total user-facing features without a registered custom route: **2477**.
 
 | Feature ID | App | Module | Type | Name | Classification | Standard route | Dependency |
 |---|---|---|---|---|---|---|---|
@@ -2252,6 +2252,17 @@ Total user-facing features without a registered custom route: **2466**.
 | `frappe:workspace:users` | frappe | Core | workspace | Users | C | /app/users | Workspace targets require Retail ERP launchers/routes |
 | `frappe:workspace:website` | frappe | Website | workspace | Website | C | /app/website | Workspace targets require Retail ERP launchers/routes |
 | `frappe:workspace:welcome-workspace` | frappe | Core | workspace | Welcome Workspace | C | /app/welcome-workspace | Workspace targets require Retail ERP launchers/routes |
+| `my-store-ui:custom-field:item:item-custom-additional-cost` | my_store_ui | Stock | custom_field | Item-custom_additional_cost | E | /app/custom-field/item-custom-additional-cost | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-product-material` | my_store_ui | Stock | custom_field | Item-custom_product_material | E | /app/custom-field/item-custom-product-material | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-product-size` | my_store_ui | Stock | custom_field | Item-custom_product_size | E | /app/custom-field/item-custom-product-size | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-purchase-price` | my_store_ui | Stock | custom_field | Item-custom_purchase_price | E | /app/custom-field/item-custom-purchase-price | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-retail-price` | my_store_ui | Stock | custom_field | Item-custom_retail_price | E | /app/custom-field/item-custom-retail-price | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-retail-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_retail_profit_percentage | E | /app/custom-field/item-custom-retail-profit-percentage | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-sku-prefix` | my_store_ui | Stock | custom_field | Item-custom_sku_prefix | E | /app/custom-field/item-custom-sku-prefix | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-supplier` | my_store_ui | Stock | custom_field | Item-custom_supplier | E | /app/custom-field/item-custom-supplier | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-total-cost` | my_store_ui | Stock | custom_field | Item-custom_total_cost | E | /app/custom-field/item-custom-total-cost | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-wholesale-price` | my_store_ui | Stock | custom_field | Item-custom_wholesale_price | E | /app/custom-field/item-custom-wholesale-price | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-wholesale-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_wholesale_profit_percentage | E | /app/custom-field/item-custom-wholesale-profit-percentage | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:page:smart-sales` | my_store_ui | My Store UI | page | smart-sales | C | /app/smart-sales | Required or safe integration route must be designed |
 | `posawesome:custom-field:address:address-posa-delivery-charges` | posawesome | Contacts | custom_field | Address-posa_delivery_charges | E | /app/custom-field/address-posa-delivery-charges | Customization must be represented by approved Retail ERP schema/administration |
 | `posawesome:custom-field:batch:batch-posa-batch-price` | posawesome | Stock | custom_field | Batch-posa_batch_price | E | /app/custom-field/batch-posa-batch-price | Customization must be represented by approved Retail ERP schema/administration |

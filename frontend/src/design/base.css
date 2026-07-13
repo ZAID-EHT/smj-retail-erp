@@ -232,3 +232,32 @@ body.retail-erp-active .gemini-chat-widget { display: none !important; }
 .ref-record-not-found code { color: var(--ref-primary-blue); }
 .ref-detail-loading { min-height: 320px; display: grid; grid-template-columns: auto 1fr; align-content: center; gap: 10px; padding: 24px; border-radius: var(--ref-card-radius); background: #fff; box-shadow: var(--ref-card-shadow); }
 .ref-detail-loading i { grid-column: 1/-1; height: 38px; border-radius: 7px; background: linear-gradient(90deg,#f4f6f9 25%,#e9eef5 50%,#f4f6f9 75%); background-size: 220% 100%; animation: ref-shimmer 1.25s linear infinite; }
+
+.ref-form-page { display: grid; gap: 14px; }
+.ref-form-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+.ref-form-section,.ref-editable-table,.ref-pricing-preview { padding: 20px; border: 1px solid var(--ref-border-colour); border-radius: var(--ref-card-radius); background: #fff; box-shadow: var(--ref-card-shadow); }
+.ref-form-section h2,.ref-editable-table h2,.ref-pricing-preview h2 { margin: 0 0 16px !important; color: var(--ref-primary-text) !important; font: 750 15px var(--ref-font) !important; }
+.ref-form-grid,.ref-editable-row__fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 17px; }
+.ref-form-field { min-width: 0; display: grid; gap: 6px; color: var(--ref-secondary-text); font-size: 10px; font-weight: 750; }
+.ref-form-field>span b { color: var(--ref-pink); }
+.ref-form-field.is-wide { grid-column: 1/-1; }
+.ref-form-field input,.ref-form-field select,.ref-form-field textarea,.ref-link-field input { width: 100%; min-height: 38px; padding: 8px 10px !important; border: 1px solid var(--ref-border-colour) !important; border-radius: var(--ref-input-radius) !important; background: #fff !important; color: var(--ref-primary-text) !important; box-shadow: none !important; font-size: 12px; font-weight: 500; }
+.ref-form-field textarea { min-height: 92px; resize: vertical; }
+.ref-form-field input[type="checkbox"] { width: 18px; min-height: 18px; accent-color: var(--ref-primary-blue); }
+.ref-form-field input[readonly] { background: var(--ref-page-background) !important; color: var(--ref-secondary-text) !important; }
+.ref-form-field.has-error input,.ref-form-field.has-error select,.ref-form-field.has-error textarea { border-color: var(--ref-pink) !important; }
+.ref-form-field small { color: var(--ref-pink); font-weight: 600; }
+.ref-link-field { position: relative; }
+.ref-link-field__options { position: absolute; z-index: 40; top: calc(100% + 4px); left: 0; right: 0; max-height: 215px; overflow: auto; margin: 0; padding: 5px; border: 1px solid var(--ref-border-colour); border-radius: 8px; background: #fff; box-shadow: 0 10px 24px rgba(23,32,51,.18); list-style: none; }
+.ref-link-field__options li { display: grid; gap: 2px; padding: 8px; border-radius: 6px; cursor: pointer; color: var(--ref-primary-text); font-size: 11px; }
+.ref-link-field__options li:hover { background: var(--ref-blue-background); }
+.ref-link-field__options small { color: var(--ref-secondary-text); }
+.ref-editable-table>header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 15px; }
+.ref-editable-table>header h2 { margin-bottom: 3px !important; }
+.ref-editable-table>header small { color: var(--ref-secondary-text); font-size: 10px; }
+.ref-editable-row { position: relative; padding: 14px 44px 14px 0; border-top: 1px solid var(--ref-border-colour); }
+.ref-editable-row:first-of-type { border-top: 0; }
+.ref-row-remove { position: absolute; right: 0; top: 13px; border: 0; border-radius: 7px; background: var(--ref-warning-background); color: #bd5a0d; padding: 7px; font-size: 9px; font-weight: 750; }
+.ref-pricing-preview { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; background: linear-gradient(120deg,#fff,var(--ref-success-background)); }
+.ref-pricing-preview h2 { grid-column: 1/-1; margin-bottom: 0 !important; }
+.ref-pricing-preview strong { min-height: 53px; padding: 13px; border-radius: 8px; background: rgba(255,255,255,.78); color: var(--ref-primary-blue); font-size: 12px; }

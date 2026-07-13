@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `65f8db69f7a8c19d9447589d177cab80ac43c882102a69c7fb0ebdffafef2dbc`
+Inventory fingerprint: `60396bb315ea8e83821b3f6a14d3694af76c33615aae61afaddc7f7e5e1d4118`
 
 ## Coverage summary
 
@@ -21,22 +21,22 @@ Inventory fingerprint: `65f8db69f7a8c19d9447589d177cab80ac43c882102a69c7fb0ebdff
 | Print Formats | 44 |
 | Client Scripts | 1 |
 | Server Scripts | 0 |
-| Custom Fields | 201 |
+| Custom Fields | 212 |
 | Property Setters | 101 |
 | Document Mappings And Actions | 634 |
-| User Facing Features | 2471 |
+| User Facing Features | 2482 |
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
 | Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2105 |
+| Missing Features Added | 2116 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |
 | Installed App Features | 244 |
-| Remaining Desk Dependencies | 2471 |
+| Remaining Desk Dependencies | 2482 |
 | Unclassified Features | 0 |
-| Features Total | 2830 |
-| New Matrix Rows | 2932 |
+| Features Total | 2841 |
+| New Matrix Rows | 2943 |
 
 ## Feature records
 
@@ -2638,6 +2638,17 @@ Inventory fingerprint: `65f8db69f7a8c19d9447589d177cab80ac43c882102a69c7fb0ebdff
 | `frappe:workspace:users` | frappe | Core | workspace | Users | C | Yes | — | Not implemented | Workspace targets require Retail ERP launchers/routes |
 | `frappe:workspace:website` | frappe | Website | workspace | Website | C | Yes | — | Not implemented | Workspace targets require Retail ERP launchers/routes |
 | `frappe:workspace:welcome-workspace` | frappe | Core | workspace | Welcome Workspace | C | Yes | — | Not implemented | Workspace targets require Retail ERP launchers/routes |
+| `my-store-ui:custom-field:item:item-custom-additional-cost` | my_store_ui | Stock | custom_field | Item-custom_additional_cost | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-product-material` | my_store_ui | Stock | custom_field | Item-custom_product_material | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-product-size` | my_store_ui | Stock | custom_field | Item-custom_product_size | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-purchase-price` | my_store_ui | Stock | custom_field | Item-custom_purchase_price | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-retail-price` | my_store_ui | Stock | custom_field | Item-custom_retail_price | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-retail-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_retail_profit_percentage | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-sku-prefix` | my_store_ui | Stock | custom_field | Item-custom_sku_prefix | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-supplier` | my_store_ui | Stock | custom_field | Item-custom_supplier | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-total-cost` | my_store_ui | Stock | custom_field | Item-custom_total_cost | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-wholesale-price` | my_store_ui | Stock | custom_field | Item-custom_wholesale_price | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
+| `my-store-ui:custom-field:item:item-custom-wholesale-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_wholesale_profit_percentage | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:installed-app:my-store-ui` | my_store_ui | my_store_ui | installed_app | my_store_ui | E | Yes | /app/retail-erp | SPA shell implemented; app feature parity incomplete | Installed app capabilities require classified Retail ERP routes or safe embedding |
 | `my-store-ui:page:retail-erp` | my_store_ui | My Store UI | page | retail-erp | C | Yes | /app/retail-erp | SPA shell implemented; feature coverage partial | Partial modules remain |
 | `my-store-ui:page:smart-sales` | my_store_ui | My Store UI | page | smart-sales | C | Yes | — | Not implemented | Required or safe integration route must be designed |

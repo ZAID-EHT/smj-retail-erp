@@ -302,9 +302,10 @@ DETAIL_SCHEMAS = {
 		"status_field": "status",
 		"status_type": "status",
 		"back_route": "/sales/orders",
+		"draft_only": True,
 		"desk_route": "/app/sales-order/{name}",
 		"fields": (
-			"name", "customer", "customer_name", "customer_group", "territory", "tax_id", "transaction_date",
+			"name", "docstatus", "customer", "customer_name", "customer_group", "territory", "tax_id", "transaction_date",
 			"delivery_date", "company", "status", "currency", "total", "net_total", "total_taxes_and_charges",
 			"grand_total", "rounded_total", "per_delivered", "per_billed", "shipping_address_name",
 			"shipping_address", "tc_name", "terms", "items", "taxes", "owner", "creation", "modified", "modified_by",

@@ -54,8 +54,8 @@ function openRecord(record) {
           v-if="canCreate(state.permissions)"
           class="ref-button ref-button--primary"
           type="button"
-          disabled
-          title="Create forms will be implemented in a later approved stage"
+          title="Create a new ERPNext record"
+          @click="router.push(`${state.entity.detail_route.split('/{name}')[0]}/new`)"
         >
           + Create {{ state.entity.title.replace(/s$/, "") }}
         </button>

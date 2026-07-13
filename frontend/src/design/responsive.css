@@ -65,6 +65,12 @@
   .ref-related-grid { grid-template-columns: 1fr; }
   .ref-activity-summary dl { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .ref-record-not-found { align-items: flex-start; flex-direction: column; }
+  .ref-form-section,.ref-editable-table,.ref-pricing-preview { padding: 15px; }
+  .ref-form-grid,.ref-editable-row__fields,.ref-pricing-preview { grid-template-columns: 1fr; }
+  .ref-pricing-preview h2 { grid-column: auto; }
+  .ref-editable-table>header { align-items: flex-start; flex-direction: column; }
+  .ref-editable-row { padding-right: 0; padding-bottom: 45px; }
+  .ref-row-remove { top: auto; bottom: 12px; left: 0; right: auto; }
 }
 
 @media (max-width: 480px) {

@@ -7,6 +7,20 @@ app_license = "mit"
 
 required_apps = ["erpnext"]
 
+# Keep Retail ERP metadata customisations upgrade-safe and version controlled.
+# This app owns only the explicitly named Item fields below.
+fixtures = [
+	{
+		"dt": "Custom Field",
+		"filters": [["dt", "=", "Item"], ["fieldname", "in", [
+			"custom_product_material", "custom_product_size", "custom_supplier",
+			"custom_purchase_price", "custom_additional_cost", "custom_total_cost",
+			"custom_retail_profit_percentage", "custom_wholesale_profit_percentage",
+			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
+		]]],
+	}
+]
+
 # The stylesheet is deliberately scoped to .smart-sales-shell so standard
 # ERPNext pages keep their native appearance.
 app_include_css = ["/assets/my_store_ui/css/smart_sales.css"]

@@ -389,6 +389,7 @@ def get_entity_detail(entity_key: str, name: str):
 			"image_field": schema.get("image_field"),
 			"back_route": schema["back_route"],
 			"desk_route": schema["desk_route"].format(name=quote(name, safe="")) if allow_desk else None,
+			"draft_only": bool(schema.get("draft_only", False)),
 		},
 		"document": values,
 		"summary": [
