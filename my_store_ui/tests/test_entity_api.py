@@ -17,6 +17,9 @@ from my_store_ui.services.entity_schemas import DETAIL_SCHEMAS, ENTITY_SCHEMAS, 
 class TestEntityListApi(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
+		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
+		frappe.connect()
+		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
 	@classmethod
@@ -25,7 +28,7 @@ class TestEntityListApi(unittest.TestCase):
 
 	def test_registry_is_metadata_safe(self):
 		validate_registry_against_metadata()
-		self.assertEqual(set(ENTITY_SCHEMAS), {"customers", "items", "sales_orders"})
+		self.assertEqual(set(ENTITY_SCHEMAS), {"customers", "items", "sales_orders", "delivery_notes", "sales_invoices"})
 		self.assertEqual(set(DETAIL_SCHEMAS), {"customers", "items", "sales_orders"})
 
 	def test_each_approved_entity_returns_only_approved_fields(self):

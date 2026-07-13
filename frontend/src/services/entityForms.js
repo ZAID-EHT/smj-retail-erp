@@ -20,3 +20,4 @@ async function call(method, params, signal) {
 export const getEntityForm = (entity_key, name, signal) => call("get_entity_form", { entity_key, name }, signal);
 export const saveEntityForm = (entity_key, values, name, request_id, signal) => call("save_entity_form", { entity_key, values, name, request_id }, signal);
 export const searchLinkOptions = (entity_key, fieldname, search, signal) => call("search_link_options", { entity_key, fieldname, search }, signal);
+export const getMappedDraftDetail = (entity_key, name, signal) => call("get_mapped_draft_detail", { entity_key, name }, signal);

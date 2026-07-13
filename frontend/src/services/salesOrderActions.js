@@ -1,0 +1,7 @@
+import { EntityApiError } from "./entities.js";
+const PREFIX = "/api/method/my_store_ui.sales_order_actions.";
+async function call(method, params, signal) { const response = await fetch(`${PREFIX}${method}`, { method: "POST", credentials: "same-origin", signal, headers: { "Content-Type": "application/json", "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "" }, body: JSON.stringify(params) }); const payload = await response.json().catch(() => ({})); if (!response.ok || payload.exc) { let message = payload.message; try { message = JSON.parse(payload._server_messages || "[]").map((item) => JSON.parse(item).message)[0] || message; } catch { /* Frappe response envelope varies */ } throw new EntityApiError(message || "Action failed.", { status: response.status, type: payload.exc_type || "ServerError" }); } return payload.message; }
+export const getSalesOrderActions = (name, signal) => call("get_document_actions", { name }, signal);
+export const executeSalesOrderAction = (name, action, expected_modified, params, signal) => call("execute_document_action", { name, action, expected_modified, params }, signal);
+export const getMappedPreview = (name, target, selected_items, expected_modified, signal) => call("get_mapped_document_preview", { name, target, selected_items, expected_modified }, signal);
+export const createMappedDocument = (name, target, selected_items, expected_modified, signal) => call("create_mapped_document", { name, target, selected_items, expected_modified }, signal);

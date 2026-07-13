@@ -64,6 +64,22 @@ FORM_SCHEMAS = {
 		),
 		"sections": (("basic", _("Basic Information")), ("product", _("Product Details")), ("pricing", _("Pricing"))),
 	},
+	"delivery_notes": {
+		"doctype": "Delivery Note", "title": _("Delivery Note"), "back_route": "/sales/delivery-notes", "detail_route": "/sales/delivery-notes/{name}", "draft_only": True, "create_via_mapping_only": True,
+		"fields": (
+			field("customer", _("Customer"), "Link", required=True, options="Customer", section="delivery"), field("company", _("Company"), "Link", required=True, options="Company", section="delivery"), field("posting_date", _("Posting Date"), "Date", required=True, section="delivery"), field("set_warehouse", _("Default Warehouse"), "Link", options="Warehouse", section="delivery"), field("customer_address", _("Customer Address"), "Link", options="Address", section="delivery"), field("shipping_address_name", _("Shipping Address"), "Link", options="Address", section="delivery"), field("instructions", _("Instructions"), "Text", section="notes"),
+		),
+		"sections": (("delivery", _("Delivery Information")), ("notes", _("Notes"))),
+		"child_tables": {"items": {"doctype": "Delivery Note Item", "title": _("Items"), "min_rows": 1, "fields": (field("name", "Row ID", "Data", read_only=True), field("item_code", _("Item"), "Data", read_only=True), field("item_name", _("Item Name"), "Data", read_only=True), field("description", _("Description"), "Text"), field("qty", _("Quantity"), "Float", required=True), field("uom", _("UOM"), "Link", options="UOM"), field("warehouse", _("Warehouse"), "Link", options="Warehouse"), field("rate", _("Rate"), "Currency", read_only=True), field("amount", _("Amount"), "Currency", read_only=True))}},
+	},
+	"sales_invoices": {
+		"doctype": "Sales Invoice", "title": _("Sales Invoice"), "back_route": "/sales/invoices", "detail_route": "/sales/invoices/{name}", "draft_only": True, "create_via_mapping_only": True,
+		"fields": (
+			field("customer", _("Customer"), "Link", required=True, options="Customer", section="invoice"), field("company", _("Company"), "Link", required=True, options="Company", section="invoice"), field("posting_date", _("Posting Date"), "Date", required=True, section="invoice"), field("due_date", _("Due Date"), "Date", section="invoice"), field("currency", _("Currency"), "Link", options="Currency", section="invoice"), field("selling_price_list", _("Selling Price List"), "Link", options="Price List", section="invoice"), field("set_warehouse", _("Default Warehouse"), "Link", options="Warehouse", section="invoice"), field("taxes_and_charges", _("Taxes Template"), "Link", options="Sales Taxes and Charges Template", section="invoice"), field("remarks", _("Remarks"), "Text", section="notes"), field("terms", _("Terms"), "Text", section="notes"),
+		),
+		"sections": (("invoice", _("Invoice Information")), ("notes", _("Terms and Notes"))),
+		"child_tables": {"items": {"doctype": "Sales Invoice Item", "title": _("Items"), "min_rows": 1, "fields": (field("name", "Row ID", "Data", read_only=True), field("item_code", _("Item"), "Data", read_only=True), field("item_name", _("Item Name"), "Data", read_only=True), field("description", _("Description"), "Text"), field("qty", _("Quantity"), "Float", required=True), field("uom", _("UOM"), "Link", options="UOM"), field("warehouse", _("Warehouse"), "Link", options="Warehouse"), field("rate", _("Rate"), "Currency", read_only=True), field("amount", _("Amount"), "Currency", read_only=True))}},
+	},
 	"sales_orders": {
 		"doctype": "Sales Order", "title": _("Sales Order"), "back_route": "/sales/orders", "detail_route": "/sales/orders/{name}",
 		"draft_only": True,
@@ -118,7 +134,7 @@ def validate_form_registry_against_metadata() -> None:
 		if missing:
 			frappe.throw(_("Retail ERP form schema for {0} contains missing fields: {1}").format(schema["doctype"], ", ".join(sorted(missing))))
 		for table in schema.get("child_tables", {}).values():
-			child_available = {df.fieldname for df in frappe.get_meta(table["doctype"]).fields}
+			child_available = {df.fieldname for df in frappe.get_meta(table["doctype"]).fields} | {"name"}
 			missing_child = {f["fieldname"] for f in table["fields"]} - child_available
 			if missing_child:
 				frappe.throw(_("Retail ERP child form schema contains missing fields: {0}").format(", ".join(sorted(missing_child))))

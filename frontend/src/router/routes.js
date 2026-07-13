@@ -1,6 +1,7 @@
 import PlaceholderPage from "@/pages/PlaceholderPage.vue";
 import EntityDetailPage from "@/pages/entities/EntityDetailPage.vue";
 import EntityFormPage from "@/pages/entities/EntityFormPage.vue";
+import MappedDocumentDetailPage from "@/pages/entities/MappedDocumentDetailPage.vue";
 import EntityListPage from "@/pages/entities/EntityListPage.vue";
 
 export const moduleRoutes = [
@@ -114,6 +115,54 @@ export const entityRoutes = [
     name: "item-detail",
     component: EntityDetailPage,
     meta: { title: "Product", entityKey: "items", backRoute: "/inventory/products", accent: "green" },
+  },
+  {
+    path: "/sales/delivery-notes",
+    name: "delivery-note-list",
+    component: EntityListPage,
+    meta: { title: "Delivery Notes", entityKey: "delivery_notes", accent: "blue" },
+  },
+  {
+    path: "/sales/delivery-notes/new",
+    name: "delivery-note-new",
+    component: EntityFormPage,
+    meta: { title: "New Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+  },
+  {
+    path: "/sales/delivery-notes/:name/edit",
+    name: "delivery-note-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+  },
+  {
+    path: "/sales/delivery-notes/:name",
+    name: "delivery-note-detail",
+    component: MappedDocumentDetailPage,
+    meta: { title: "Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+  },
+  {
+    path: "/sales/invoices",
+    name: "sales-invoice-list",
+    component: EntityListPage,
+    meta: { title: "Sales Invoices", entityKey: "sales_invoices", accent: "green" },
+  },
+  {
+    path: "/sales/invoices/new",
+    name: "sales-invoice-new",
+    component: EntityFormPage,
+    meta: { title: "New Sales Invoice", entityKey: "sales_invoices", accent: "green" },
+  },
+  {
+    path: "/sales/invoices/:name/edit",
+    name: "sales-invoice-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Sales Invoice", entityKey: "sales_invoices", accent: "green" },
+  },
+  {
+    path: "/sales/invoices/:name",
+    name: "sales-invoice-detail",
+    component: MappedDocumentDetailPage,
+    meta: { title: "Sales Invoice", entityKey: "sales_invoices", accent: "green" },
   },
   {
     path: "/sales/orders",

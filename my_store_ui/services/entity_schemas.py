@@ -105,6 +105,20 @@ ENTITY_SCHEMAS = {
 		"detail_route": "/inventory/products/{name}",
 		"desk_route": "/app/item/{name}",
 	},
+	"delivery_notes": {
+		"doctype": "Delivery Note", "title": _("Delivery Notes"), "description": _("Review mapped Delivery Notes without leaving Retail ERP."),
+		"fields": ("name", "customer", "customer_name", "posting_date", "status", "currency", "grand_total", "per_billed", "modified"),
+		"search_fields": ("name", "customer", "customer_name"), "filters": {"status": {"label": _("Status"), "type": "Select", "values": (("Draft", _("Draft")), ("To Bill", _("To Bill")), ("Completed", _("Completed")), ("Cancelled", _("Cancelled")))}, "posting_date": {"label": _("Posting Date"), "type": "DateRange"}},
+		"sortable_fields": ("modified", "posting_date", "name", "grand_total"), "default_sort": ("modified", "desc"), "status_field": "status", "primary_field": "name", "secondary_field": "customer_name",
+		"columns": (("name", _("Delivery Note"), "code"), ("customer_name", _("Customer"), "text"), ("posting_date", _("Posting Date"), "date"), ("status", _("Status"), "status"), ("grand_total", _("Grand Total"), "currency"), ("per_billed", _("Billed"), "percent")), "mobile_fields": ("customer_name", "posting_date", "grand_total", "status"), "detail_route": "/sales/delivery-notes/{name}", "desk_route": "/app/delivery-note/{name}",
+	},
+	"sales_invoices": {
+		"doctype": "Sales Invoice", "title": _("Sales Invoices"), "description": _("Review mapped Draft Sales Invoices without leaving Retail ERP."),
+		"fields": ("name", "customer", "customer_name", "posting_date", "due_date", "status", "currency", "grand_total", "outstanding_amount", "modified"),
+		"search_fields": ("name", "customer", "customer_name"), "filters": {"status": {"label": _("Status"), "type": "Select", "values": (("Draft", _("Draft")), ("Unpaid", _("Unpaid")), ("Paid", _("Paid")), ("Cancelled", _("Cancelled")))}, "posting_date": {"label": _("Posting Date"), "type": "DateRange"}},
+		"sortable_fields": ("modified", "posting_date", "name", "grand_total"), "default_sort": ("modified", "desc"), "status_field": "status", "primary_field": "name", "secondary_field": "customer_name",
+		"columns": (("name", _("Sales Invoice"), "code"), ("customer_name", _("Customer"), "text"), ("posting_date", _("Posting Date"), "date"), ("status", _("Status"), "status"), ("grand_total", _("Grand Total"), "currency"), ("outstanding_amount", _("Outstanding"), "currency")), "mobile_fields": ("customer_name", "posting_date", "grand_total", "status"), "detail_route": "/sales/invoices/{name}", "desk_route": "/app/sales-invoice/{name}",
+	},
 	"sales_orders": {
 		"doctype": "Sales Order",
 		"title": _("Sales Orders"),

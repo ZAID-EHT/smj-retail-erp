@@ -118,6 +118,8 @@ def _validate_items(schema: dict, values: dict) -> list[dict]:
 		if unknown:
 			frappe.throw(_("Unsupported item field."), frappe.ValidationError)
 		clean = {}
+		if row.get("name"):
+			clean["_row_name"] = str(row["name"])
 		for fieldname, field_definition in allowed.items():
 			value = _normalise_value(field_definition, row.get(fieldname))
 			if field_definition.get("required") and value in (None, ""):
@@ -189,6 +191,22 @@ def _hydrate_sales_order_items(doc, rows: list[dict]) -> None:
 	doc.run_method("calculate_taxes_and_totals")
 
 
+def _apply_existing_draft_items(doc, rows: list[dict]) -> None:
+	"""Allow only approved changes to already mapped Draft transaction rows."""
+	existing = {row.name: row for row in doc.get("items", [])}
+	if len(rows) != len(existing) or any(row.get("_row_name") not in existing for row in rows):
+		frappe.throw(_("Mapped item rows cannot be added, removed, or replaced."), frappe.ValidationError)
+	for submitted in rows:
+		row = existing[submitted["_row_name"]]
+		for fieldname in ("description", "qty", "uom", "warehouse"):
+			if fieldname in submitted:
+				row.set(fieldname, submitted[fieldname])
+		if flt(row.qty) <= 0:
+			frappe.throw(_("Quantity must be greater than zero."), frappe.ValidationError)
+	doc.run_method("set_missing_values")
+	doc.run_method("calculate_taxes_and_totals")
+
+
 def _form_document_values(doc, schema: dict) -> dict:
 	values = {}
 	for definition in schema["fields"]:
@@ -198,7 +216,7 @@ def _form_document_values(doc, schema: dict) -> dict:
 		else:
 			values[fieldname] = doc.get(fieldname)
 	if "items" in schema.get("child_tables", {}):
-		values["items"] = [{field["fieldname"]: row.get(field["fieldname"]) for field in schema["child_tables"]["items"]["fields"]} for row in doc.get("items", [])]
+		values["items"] = [{field["fieldname"]: (row.name if field["fieldname"] == "name" else row.get(field["fieldname"])) for field in schema["child_tables"]["items"]["fields"]} for row in doc.get("items", [])]
 	return values
 
 
@@ -235,6 +253,8 @@ def get_entity_form(entity_key: str, name: str | None = None):
 		if not permissions["can_write"]:
 			frappe.throw(_("You do not have permission to edit this record."), frappe.PermissionError)
 	else:
+		if schema.get("create_via_mapping_only"):
+			frappe.throw(_("Create this document from a submitted Sales Order."), frappe.PermissionError)
 		if not permissions["can_create"]:
 			frappe.throw(_("You do not have permission to create this record."), frappe.PermissionError)
 		doc = frappe.new_doc(schema["doctype"])
@@ -242,6 +262,25 @@ def get_entity_form(entity_key: str, name: str | None = None):
 			doc.transaction_date = nowdate()
 			doc.delivery_date = nowdate()
 	return {"entity": _public_schema(schema), "document": _form_document_values(doc, schema), "is_new": not bool(name), "permissions": permissions, "desk_route": None if not can_open_standard_desk() else f"/app/{frappe.scrub(schema['doctype']).replace('_', '-')}"}
+
+
+@frappe.whitelist()
+def get_mapped_draft_detail(entity_key: str, name: str):
+	"""Read-only approved detail shape for mapped Delivery Notes and Invoices."""
+	_require_login()
+	if entity_key not in {"delivery_notes", "sales_invoices"}:
+		frappe.throw(_("Unsupported mapped document."), frappe.ValidationError)
+	schema = get_entity_form_schema(entity_key)
+	if not frappe.has_permission(schema["doctype"], "read"):
+		frappe.throw(_("You do not have permission to view this document."), frappe.PermissionError)
+	if not _available_document(None, schema["doctype"], name):
+		frappe.throw(_("Record not found or unavailable."), frappe.DoesNotExistError)
+	doc = frappe.get_doc(schema["doctype"], name)
+	if not frappe.has_permission(schema["doctype"], "read", doc=doc):
+		frappe.throw(_("Record not found or unavailable."), frappe.DoesNotExistError)
+	values = _form_document_values(doc, schema)
+	values["name"] = doc.name
+	return {"entity": _public_schema(schema), "document": values, "permissions": get_document_permissions(doc), "docstatus": doc.docstatus, "status": doc.status, "totals": {"currency": doc.currency, "net_total": doc.net_total, "taxes": doc.total_taxes_and_charges, "grand_total": doc.grand_total}, "modified": str(doc.modified)}
 
 
 @frappe.whitelist()
@@ -282,18 +321,22 @@ def save_entity_form(entity_key: str, values: str | dict, name: str | None = Non
 		if not frappe.has_permission(schema["doctype"], "write", doc=doc):
 			frappe.throw(_("You do not have permission to edit this record."), frappe.PermissionError)
 	else:
+		if schema.get("create_via_mapping_only"):
+			frappe.throw(_("Create this document from a submitted Sales Order."), frappe.PermissionError)
 		if not frappe.has_permission(schema["doctype"], "create"):
 			frappe.throw(_("You do not have permission to create this record."), frappe.PermissionError)
 		doc = frappe.new_doc(schema["doctype"])
 
 	clean = _validate_payload(schema, payload)
+	items = _validate_items(schema, payload) if schema.get("child_tables") else []
 	if schema["doctype"] == "Sales Order":
-		items = _validate_items(schema, payload)
 		if clean.get("delivery_date") and clean.get("transaction_date") and getdate(clean["delivery_date"]) < getdate(clean["transaction_date"]):
 			frappe.throw(_("Delivery Date cannot be before Transaction Date."), frappe.ValidationError)
 	_set_safe_values(doc, schema, clean)
 	if schema["doctype"] == "Sales Order":
 		_hydrate_sales_order_items(doc, items)
+	elif schema.get("child_tables"):
+		_apply_existing_draft_items(doc, items)
 	if doc.is_new():
 		doc.insert()
 	else:

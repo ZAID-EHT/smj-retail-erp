@@ -29,13 +29,15 @@ class TestRetailEntityForms(unittest.TestCase):
 
 	def test_form_registry_matches_site_metadata_and_custom_fields(self):
 		validate_form_registry_against_metadata()
-		self.assertEqual(set(FORM_SCHEMAS), {"customers", "items", "sales_orders"})
+		self.assertEqual(set(FORM_SCHEMAS), {"customers", "items", "sales_orders", "delivery_notes", "sales_invoices"})
 		for fieldname in ("custom_product_material", "custom_product_size", "custom_supplier", "custom_purchase_price", "custom_additional_cost", "custom_total_cost", "custom_retail_profit_percentage", "custom_wholesale_profit_percentage", "custom_retail_price", "custom_wholesale_price", "custom_sku_prefix"):
 			self.assertTrue(frappe.get_meta("Item").has_field(fieldname))
 
 	def test_new_forms_load_only_the_approved_schema(self):
 		for entity_key in FORM_SCHEMAS:
 			with self.subTest(entity_key=entity_key):
+				if FORM_SCHEMAS[entity_key].get("create_via_mapping_only"):
+					continue
 				result = get_entity_form(entity_key)
 				self.assertEqual(result["entity"]["doctype"], FORM_SCHEMAS[entity_key]["doctype"])
 				self.assertTrue(result["is_new"])
