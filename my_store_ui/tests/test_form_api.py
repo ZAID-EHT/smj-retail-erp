@@ -11,7 +11,7 @@ BENCH_PATH = Path(__file__).resolve().parents[4]
 frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
 frappe.connect()
 
-from my_store_ui.form_api import _apply_item_pricing, _validate_items, _validate_payload, get_entity_form, save_entity_form, search_link_options
+from my_store_ui.form_api import _apply_item_pricing, _validate_items, _validate_payload, get_entity_form, get_mapped_draft_detail, save_entity_form, search_link_options
 from my_store_ui.services.form_schemas import FORM_SCHEMAS, validate_form_registry_against_metadata
 
 
@@ -114,6 +114,24 @@ class TestRetailEntityForms(unittest.TestCase):
 	def test_link_search_rejects_non_registry_field(self):
 		with self.assertRaises(frappe.ValidationError):
 			search_link_options("items", "owner", "Admin")
+
+	def test_existing_sales_invoice_detail_handles_absent_references_table(self):
+		invoice = frappe.get_list("Sales Invoice", filters={"docstatus": 1}, pluck="name", limit_page_length=1)
+		if not invoice:
+			self.skipTest("No submitted Sales Invoice is available on this site")
+		result = get_mapped_draft_detail("sales_invoices", invoice[0])
+		self.assertEqual(result["document"]["name"], invoice[0])
+		self.assertIn("items", result["document"])
+		self.assertIn("totals", result)
+
+	def test_missing_sales_invoice_detail_is_not_a_save_error(self):
+		with self.assertRaises(frappe.DoesNotExistError):
+			get_mapped_draft_detail("sales_invoices", "ACC-SINV-NOT-PRESENT")
+
+	def test_sales_invoice_detail_denies_global_read_permission(self):
+		with patch("my_store_ui.form_api.frappe.has_permission", return_value=False):
+			with self.assertRaises(frappe.PermissionError):
+				get_mapped_draft_detail("sales_invoices", "ACC-SINV-2026-00010")
 
 
 if __name__ == "__main__":

@@ -354,7 +354,9 @@ def get_mapped_draft_detail(entity_key: str, name: str):
 	values = _form_document_values(doc, schema)
 	values["name"] = doc.name
 	related = []
-	for row in doc.get("references", []):
+	# Only Payment Entry owns a ``references`` child table. Frappe returns
+	# ``None`` for the absent field on Delivery Note and Sales Invoice.
+	for row in doc.get("references") or []:
 		if row.reference_doctype and row.reference_name and frappe.has_permission(row.reference_doctype, "read") and _available_document(None, row.reference_doctype, row.reference_name):
 			related.append({"doctype": row.reference_doctype, "name": row.reference_name, "label": row.reference_doctype, "route": _custom_route(row.reference_doctype, row.reference_name)})
 	for fieldname, doctype in (("customer", "Customer"), ("party", doc.get("party_type"))):
