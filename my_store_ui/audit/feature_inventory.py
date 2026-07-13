@@ -371,9 +371,9 @@ def _doctype_views(row: frappe._dict, source: dict | None, calendars: set[str], 
 
 def _custom_route_for_doctype(name: str) -> str | None:
 	return {
-		"Customer": "/app/retail-erp/sales/customers",
-		"Item": "/app/retail-erp/inventory/products",
-		"Sales Order": "/app/retail-erp/sales/orders",
+		"Customer": "/retail-erp/sales/customers",
+		"Item": "/retail-erp/inventory/products",
+		"Sales Order": "/retail-erp/sales/orders",
 	}.get(name)
 
 
@@ -726,7 +726,7 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 		is_integration = application not in {"frappe", "erpnext", "my_store_ui"}
 		classification = "F" if is_integration else ("E" if row.module in ADMIN_MODULES else "C")
 		implementation = "Safe embedded integration" if is_integration else ("Administrative interface" if classification == "E" else "Specialized visual view")
-		custom_route = "/app/retail-erp" if name == "retail-erp" else None
+		custom_route = "/retail-erp" if name == "retail-erp" else None
 		features.append(_base_feature(
 			feature_id=_feature_id(application, "page", name), application=application, module=row.module,
 			feature_type="page", name=name, page=name, route=f"/app/{name}", standard_desk_route=f"/app/{name}",
@@ -947,7 +947,7 @@ def _installed_app_features(installed_apps: list[str], catalog: dict) -> list[di
 			feature_id=_feature_id(app, "installed_app", app), application=app, module=app,
 			feature_type="installed_app", name=app, source_location=[catalog["hooks"].get(app, {}).get("source")]
 			if catalog["hooks"].get(app, {}).get("source") else [],
-			current_custom_route="/app/retail-erp" if app == "my_store_ui" else None,
+			current_custom_route="/retail-erp" if app == "my_store_ui" else None,
 			read=True, implementation_type=implementation, classification=classification, user_facing=True,
 			completion_status="SPA shell implemented; app feature parity incomplete" if app == "my_store_ui" else "Not implemented",
 			remaining_desk_dependency="Installed app capabilities require classified Retail ERP routes or safe embedding",

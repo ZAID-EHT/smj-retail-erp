@@ -1,0 +1,29 @@
+.ref-skip-link { position: fixed; z-index: 2000; top: 8px; left: 8px; padding: 10px 14px; border-radius: 7px; background: #fff; color: var(--ref-primary-blue); box-shadow: var(--ref-card-shadow); transform: translateY(-150%); }
+.ref-skip-link:focus { transform: translateY(0); }
+.ref-login-page { min-height: 100vh; display: grid; place-items: center; padding: 28px; background: radial-gradient(circle at 10% 10%,rgba(9,175,196,.24),transparent 28%),radial-gradient(circle at 90% 85%,rgba(112,56,212,.22),transparent 30%),linear-gradient(135deg,#edf4ff,#f5f7fb 50%,#eef2ff); font-family: var(--ref-font); }
+.ref-login-card { width: min(100%,460px); display: grid; gap: 23px; padding: 34px; border: 1px solid rgba(226,232,240,.9); border-radius: 18px; background: rgba(255,255,255,.96); box-shadow: 0 24px 70px rgba(18,57,184,.17); color: var(--ref-primary-text); }
+.ref-login-brand { display: flex; align-items: center; gap: 12px; }
+.ref-login-brand>img,.ref-login-brand>span { width: 48px; height: 48px; display: grid; place-items: center; object-fit: contain; padding: 4px; border-radius: 12px; background: linear-gradient(145deg,#22b8f2,var(--ref-primary-blue)); color: #fff; font-size: 26px; font-weight: 850; }
+.ref-login-brand>div { display: grid; gap: 3px; }
+.ref-login-brand strong { font-size: 16px; }
+.ref-login-brand small { color: var(--ref-secondary-text); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.ref-login-copy>span { color: var(--ref-primary-blue); font-size: 9px; font-weight: 850; letter-spacing: .16em; }
+.ref-login-copy h1 { margin: 7px 0; color: var(--ref-primary-text); font: 800 30px/1.15 var(--ref-font); }
+.ref-login-copy p { margin: 0; color: var(--ref-secondary-text); font-size: 13px; line-height: 1.55; }
+.ref-login-card form { display: grid; gap: 8px; }
+.ref-login-card label { margin-top: 5px; color: var(--ref-primary-text); font-size: 11px; font-weight: 750; }
+.ref-login-card input { width: 100%; min-height: 45px; padding: 10px 12px; border: 1px solid var(--ref-border-colour); border-radius: var(--ref-input-radius); background: #fff; color: var(--ref-primary-text); font: 500 13px var(--ref-font); }
+.ref-login-card input:focus { border-color: var(--ref-primary-blue); outline: 0; box-shadow: var(--ref-focus-ring); }
+.ref-password-field { position: relative; }
+.ref-password-field input { padding-right: 62px; }
+.ref-password-field button { position: absolute; top: 5px; right: 5px; min-height: 35px; padding: 0 9px; border: 0; border-radius: 6px; background: var(--ref-blue-background); color: var(--ref-primary-blue); font-size: 10px; font-weight: 750; }
+.ref-login-error,.ref-login-warning { margin: 7px 0 0; padding: 10px 12px; border-radius: 7px; background: #fff0f5; color: #ae1d64; font-size: 11px; }
+.ref-login-warning { background: var(--ref-warning-background); color: #9a4b10; }
+.ref-login-submit { width: 100%; min-height: 45px; margin-top: 9px; font-family: var(--ref-font); cursor: pointer; }
+.ref-login-forgot,.ref-login-secondary { justify-self: center; margin-top: 5px; border: 0; background: transparent; color: var(--ref-primary-blue); font: 700 11px var(--ref-font); text-decoration: none; cursor: pointer; }
+
+@media (max-width: 480px) {
+  .ref-login-page { padding: 14px; }
+  .ref-login-card { padding: 24px 19px; border-radius: 14px; }
+  .ref-login-copy h1 { font-size: 26px; }
+}

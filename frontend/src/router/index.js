@@ -2,24 +2,25 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import { entityRoutes, moduleRoutes } from "./routes.js";
 
-const BASE_PATH = "/app/retail-erp/";
+export const DESK_BASE_PATH = "/app/retail-erp/";
+export const STANDALONE_BASE_PATH = "/retail-erp/";
 
-export function routeFromLocation() {
+export function routeFromLocation(basePath = DESK_BASE_PATH) {
   const pathname = window.location.pathname || "";
-  const prefix = BASE_PATH.slice(0, -1);
+  const prefix = basePath.slice(0, -1);
   if (!pathname.startsWith(prefix)) return "/home";
   const route = pathname.slice(prefix.length) || "/home";
   return `${route}${window.location.search || ""}${window.location.hash || ""}`;
 }
 
-export function createRetailRouter() {
+export function createRetailRouter(basePath = DESK_BASE_PATH) {
   const router = createRouter({
-    history: createWebHistory(BASE_PATH),
+    history: createWebHistory(basePath),
     routes: [
       { path: "/", redirect: "/home" },
       ...moduleRoutes,
       ...entityRoutes,
-      { path: "/:pathMatch(.*)*", redirect: "/home" },
+      { path: "/:pathMatch(.*)*", name: "route-not-found", component: () => import("@/pages/NotFoundPage.vue"), meta: { title: "Page Not Found", accent: "orange" } },
     ],
     scrollBehavior: () => ({ top: 0 }),
   });

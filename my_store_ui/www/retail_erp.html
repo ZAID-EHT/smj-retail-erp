@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="{{ frappe.local.lang or 'en' }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="referrer" content="same-origin" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ retail_stylesheet | e }}" />
+  </head>
+  <body class="retail-erp-active retail-erp-standalone">
+    <a class="ref-skip-link" href="#retail-erp-main">Skip to content</a>
+    <div id="retail-erp-root" class="retail-erp-mount" role="application" aria-label="Retail ERP" data-brand="{{ retail_brand | e }}" data-logo="{{ retail_logo | e }}" data-asset-version="{{ retail_asset_version | e }}"></div>
+    <section id="retail-erp-asset-error" class="ref-login-page" hidden><div class="ref-login-card"><h1>Retail ERP was updated</h1><p>The application files could not be loaded. Refresh this page to load the current version.</p><button class="ref-button ref-button--primary" type="button" onclick="window.location.reload()">Reload</button></div></section>
+    <noscript>Retail ERP requires JavaScript to run.</noscript>
+    <script>
+      const retailRoot = document.getElementById("retail-erp-root");
+      window.retailERPConfig = {
+        basePath: "/retail-erp/",
+        brand: retailRoot.dataset.brand,
+        logo: retailRoot.dataset.logo,
+        assetVersion: retailRoot.dataset.assetVersion
+      };
+      window.frappe = window.frappe || { session: { user: "Guest" }, csrf_token: "" };
+      window.retailAssetFailure = function () {
+        retailRoot.hidden = true;
+        document.getElementById("retail-erp-asset-error").hidden = false;
+      };
+    </script>
+    <!-- csrf_token -->
+    <script src="{{ retail_javascript | e }}" defer onerror="window.retailAssetFailure()"></script>
+  </body>
+</html>

@@ -1,11 +1,14 @@
 <script setup>
-import { computed } from "vue";
+import { computed, inject } from "vue";
+
+const session = inject("retailSession", null);
+const branding = inject("retailBranding", {});
 
 const companyName = computed(() => {
   const frappe = window.frappe;
   return (
     frappe?.defaults?.get_user_default?.("Company") ||
-    frappe?.boot?.sysdefaults?.company ||
+    frappe?.boot?.sysdefaults?.company || session?.state?.company || branding.brand ||
     "Retail ERP"
   );
 });
@@ -13,7 +16,8 @@ const companyName = computed(() => {
 
 <template>
   <RouterLink class="ref-brand" to="/home" aria-label="Retail ERP home">
-    <span class="ref-brand__logo" aria-hidden="true">E</span>
+    <img v-if="branding.logo" class="ref-brand__logo" :src="branding.logo" alt="" />
+    <span v-else class="ref-brand__logo" aria-hidden="true">E</span>
     <span class="ref-brand__copy">
       <strong>{{ companyName }}</strong>
       <small>ERPNext v15</small>

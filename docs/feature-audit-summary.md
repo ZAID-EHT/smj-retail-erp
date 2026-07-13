@@ -26,7 +26,7 @@ This audit is a discovery baseline, not a parity claim. The automated parity che
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
 | Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2081 |
+| Missing Features Added | 2076 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |
@@ -51,7 +51,7 @@ Result: **FAIL**
 
 - User-supplied previous matrix count: **98**.
 - Observed hand-authored rows before generation: **102**.
-- Machine-discovered user-facing features not represented by the hand-authored matrix: **2081**.
+- Machine-discovered user-facing features not represented by the hand-authored matrix: **2076**.
 - Exact duplicate legacy rows detected: **0**.
 - Existing manual rows were preserved. The generated appendix is canonical for completeness checks.
 
@@ -65,19 +65,19 @@ Result: **FAIL**
 | Dashboard | 9 | 7 | 2 | 0 |
 | Dashboard Chart | 49 | 5 | 44 | 0 |
 | Dashboard Connection | 68 | 0 | 68 | 0 |
-| Doctype | 467 | 65 | 387 | 15 |
-| Document Action | 634 | 130 | 504 | 0 |
+| Doctype | 467 | 66 | 386 | 15 |
+| Document Action | 634 | 132 | 502 | 0 |
 | Installed App | 7 | 1 | 6 | 0 |
 | Notification | 4 | 0 | 2 | 2 |
 | Number Card | 50 | 1 | 49 | 0 |
 | Page | 22 | 3 | 19 | 0 |
 | Platform Capability | 16 | 3 | 13 | 0 |
-| Print Format | 44 | 1 | 39 | 4 |
+| Print Format | 44 | 2 | 38 | 4 |
 | Property Setter | 101 | 0 | 101 | 0 |
-| Report | 198 | 23 | 174 | 1 |
+| Report | 198 | 22 | 175 | 1 |
 | Source Only Report | 2 | 0 | 0 | 2 |
 | Workspace | 25 | 15 | 10 | 0 |
-| Workspace Target | 597 | 147 | 450 | 0 |
+| Workspace Target | 597 | 149 | 448 | 0 |
 
 ### Implementation classification
 

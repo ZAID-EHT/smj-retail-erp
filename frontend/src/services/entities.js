@@ -9,6 +9,9 @@ export class EntityApiError extends Error {
     this.permissionDenied = status === 403 || type === "PermissionError";
     this.notFound = status === 404 || type === "DoesNotExistError";
     this.authenticationRequired = status === 401 || type === "AuthenticationError";
+    if (this.authenticationRequired && window.retailERPConfig) {
+      window.dispatchEvent(new CustomEvent("retail-erp:session-expired"));
+    }
   }
 }
 

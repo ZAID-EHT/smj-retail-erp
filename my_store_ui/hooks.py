@@ -25,6 +25,15 @@ fixtures = [
 # ERPNext pages keep their native appearance.
 app_include_css = ["/assets/my_store_ui/css/smart_sales.css"]
 
+# Standalone Retail ERP website shell. Rules are prefix-scoped and cannot
+# intercept APIs, assets, files, print/PDF, webhooks or other website routes.
+home_page = "retail_erp"
+website_route_rules = [
+	{"from_route": "/retail-erp", "to_route": "retail_erp"},
+	{"from_route": "/retail-erp/<path:app_path>", "to_route": "retail_erp"},
+]
+before_request = ["my_store_ui.route_guard.before_request"]
+
 # Apps
 # ------------------
 

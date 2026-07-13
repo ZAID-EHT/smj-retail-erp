@@ -3,6 +3,9 @@ import EntityDetailPage from "@/pages/entities/EntityDetailPage.vue";
 import EntityFormPage from "@/pages/entities/EntityFormPage.vue";
 import MappedDocumentDetailPage from "@/pages/entities/MappedDocumentDetailPage.vue";
 import EntityListPage from "@/pages/entities/EntityListPage.vue";
+import FeatureUnavailablePage from "@/pages/FeatureUnavailablePage.vue";
+import PermissionDeniedPage from "@/pages/PermissionDeniedPage.vue";
+import NotFoundPage from "@/pages/NotFoundPage.vue";
 
 export const moduleRoutes = [
   {
@@ -65,6 +68,9 @@ export const moduleRoutes = [
     component: PlaceholderPage,
     meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
   },
+  { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
+  { path: "/permission-denied", name: "permission-denied", component: PermissionDeniedPage, meta: { title: "Permission Denied", accent: "pink" } },
+  { path: "/not-found", name: "not-found", component: NotFoundPage, meta: { title: "Page Not Found", accent: "orange" } },
 ];
 
 export const entityRoutes = [
@@ -215,7 +221,7 @@ export const entityRoutes = [
 ];
 
 export const navigationModules = moduleRoutes
-  .filter((route) => route.name !== "smart-sales")
+  .filter((route) => !["smart-sales", "feature-unavailable", "permission-denied", "not-found"].includes(route.name))
   .map((route) => ({
     name: route.name,
     label: route.meta.title,

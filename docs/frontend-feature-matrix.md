@@ -34,13 +34,14 @@ Engine classifications:
 
 ## Current implementation audit
 
-- `/app/retail-erp/*` is one Vue 3 SPA with a shared shell.
-- Ten module routes exist; three approved pilot list routes now use the shared `EntityListPage.vue` engine.
-- Header search, notifications, user menu, toast host, and confirm host are placeholders.
-- Server-owned, permission-aware list, detail and Draft form registries exist for Customer, Item, and Sales Order. Customer and Item create/edit, plus Draft-only Sales Order create/edit, run through the Retail ERP shell with Link search, child-row validation and ERPNext document controllers. Submission, print, reports and document mappings do not exist yet.
+- `/retail-erp/*` is one Vue 3 SPA with a shared shell.
+- The SPA is served outside Desk at `/retail-erp/*`; `/` renders the custom login, and nested clean routes have a website history fallback.
+- Authentication uses the standard Frappe login/logout/session and CSRF mechanisms. Landing routes and navigation are resolved by the server from roles plus actual DocType permissions.
+- A server-owned route registry distinguishes permitted, denied, unavailable and unknown routes. Browser HTML GETs under `/app` are redirected without intercepting APIs, assets, files, print/PDF, password reset or integrations.
+- Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry have the implemented list/detail/form/lifecycle coverage documented below. ERPNext controllers remain authoritative for all writes.
+- Header global search and notifications remain placeholders; the user menu now supports standard Frappe logout.
 - `/app/smart-sales` is a separate legacy Desk Page. It can browse products and create a Draft Sales Order, but it is not inside the SPA and does not implement the complete sales workflow.
-- No login landing or ordinary-user Desk route guard exists.
-- All standard document work still depends on ERPNext Desk.
+- Unimplemented features remain inside Retail ERP through the Feature Unavailable page. Strict parity remains red and ordinary-user feature gaps are explicitly counted.
 
 ## Role-based feature inventory
 
@@ -48,8 +49,8 @@ Visibility is an initial navigation expectation only. The backend must evaluate 
 
 | Role/persona | Primary custom area | Expected features | Standard Desk target |
 |---|---|---|---|
-| Administrator | `/admin` and all modules | All permitted records, setup, developer and recovery tools | Allowed |
-| System Manager | `/home` and `/admin` | Administration, configuration, audit, all role-permitted modules | Allowed |
+| Administrator | `/home`, `/admin` and all modules | All permitted records, setup, developer and recovery tools | Emergency Desk disabled by default |
+| System Manager | `/home` and `/admin` | Administration, configuration, audit, all role-permitted modules | Retail ERP only |
 | Sales Manager | `/smart-sales` | CRM, customers, quotations, orders, delivery, invoices, sales reports | Not required for daily work |
 | Sales User | `/smart-sales` | Customers, quotations, orders, delivery/invoice actions granted by DocPerm | Not required for daily work |
 | POS Manager / POS User | `/smart-sales` | Smart Sales and POS Awesome integration where permitted | Not required for daily work |
@@ -76,13 +77,13 @@ Visibility is an initial navigation expectation only. The backend must evaluate 
 
 | Page type | Route pattern |
 |---|---|
-| Module dashboard | `/app/retail-erp/{module}` |
-| Entity list | `/app/retail-erp/{module}/{entity}` |
-| New entity | `/app/retail-erp/{module}/{entity}/new` |
-| Entity detail | `/app/retail-erp/{module}/{entity}/{encoded-name}` |
-| Draft edit | `/app/retail-erp/{module}/{entity}/{encoded-name}/edit` |
-| Report launcher | `/app/retail-erp/reports/{group}` |
-| Report viewer | `/app/retail-erp/reports/view/{encoded-report-name}` |
+| Module dashboard | `/retail-erp/{module}` |
+| Entity list | `/retail-erp/{module}/{entity}` |
+| New entity | `/retail-erp/{module}/{entity}/new` |
+| Entity detail | `/retail-erp/{module}/{entity}/{encoded-name}` |
+| Draft edit | `/retail-erp/{module}/{entity}/{encoded-name}/edit` |
+| Report launcher | `/retail-erp/reports/{group}` |
+| Report viewer | `/retail-erp/reports/view/{encoded-report-name}` |
 
 Document names must be URL-encoded. Route definitions must carry an approved frontend schema key, not accept an arbitrary DocType from the URL.
 
@@ -103,9 +104,9 @@ Document names must be URL-encoded. Route definitions must carry an approved fro
 | Sales | Customers | Customer, Contact, Address | `/sales/customers` | G | Y/Y/Y | CRUD, contacts, addresses, transactions, balances | Customer + financial report permission | Optional | Form responsive | API form validation + manual browser check required | List/detail and basic Customer create/edit complete; contacts, addresses and balances remain | Yes: full contacts/addresses, balances/activity |
 | Sales | Quotations | Quotation | `/sales/quotations` | T | Y/Y/Y | Draft edit, submit/cancel/amend, map to SO, print | Quotation action permissions | Yes | Planned | None | Not started | Yes |
 | Sales | Sales Orders | Sales Order | `/sales/orders` | T | Y/Y/Y | Draft edit, submit/cancel/amend, mapped DN/SI preview, hold/resume/close/reopen, print/PDF | Sales Order action permissions + document state | Yes | Action controls responsive | Lifecycle API rollback tests; browser walkthrough pending | Draft lifecycle, submit/cancel/amend, status transitions and DN/SI mapping complete; other mappings remain | Yes: Payment Request, Pick List, Project, Work Order and complete related workflows |
-| Sales | Delivery Notes | Delivery Note | `/sales/delivery-notes` | T | Y/Y/Y | Map from SO, review/edit Draft mapped document | Delivery Note + stock permissions | No submission in this stage | Form responsive | Mapped Draft rollback tests; browser walkthrough pending | SO mapping plus Draft detail/edit complete; submission/cancel/amend remain | Yes: submission, cancellation, stock posting, DN→SI mapping |
-| Sales | Sales Invoices | Sales Invoice | `/sales/invoices` | T | Y/Y/Y | Map from SO, review/edit Draft mapped document | Sales Invoice + Accounts permissions | No submission in this stage | Form responsive | Mapped Draft rollback tests; browser walkthrough pending | SO mapping plus Draft detail/edit complete; submission/cancel/amend/payment remain | Yes: submission, cancellation, accounting posting, payment |
-| Sales | Payment Entries | Payment Entry | `/sales/payments` | T | Y/Y/Y | Allocate references, save, submit/cancel/amend | Payment Entry permissions | Yes | Planned | None | Not started | Yes |
+| Sales | Delivery Notes | Delivery Note | `/sales/delivery-notes` | T | Y/Y/Y | Create/edit, map from SO, submit/cancel/amend/return, map SI, print/PDF | Delivery Note + stock permissions | Yes | Responsive components implemented | Controller rollback tests; full browser walkthrough pending | Core lifecycle implemented and tested; specialized serial/batch browser cases remain | Yes: specialized serial/batch and complete interactive browser verification |
+| Sales | Sales Invoices | Sales Invoice | `/sales/invoices` | T | Y/Y/Y | Create/edit, map SO/DN, submit/cancel/amend/credit note, draft payment, print/PDF | Sales Invoice + Accounts permissions | Yes | Responsive components implemented | Controller/accounting rollback tests; full browser walkthrough pending | Core lifecycle implemented and tested; outbound email remains | Yes: email communication and complete interactive browser verification |
+| Sales | Payment Entries | Payment Entry | `/finance/payments` | T | Y/Y/Y | Sales navigation alias to the Finance Payment Entry lifecycle | Payment Entry permissions | Yes | Responsive components implemented | Shared Finance Payment Entry tests | Implemented through Finance route | No duplicate implementation; see Finance Payment Entries |
 | Sales reports | Sales Register | Report: Sales Register | `/reports/view/Sales%20Register` | R | N/A | Filters, run, totals, export, print | Report + Sales Invoice | Yes | Planned | None | Not started | Yes |
 | Sales reports | Sales Order Analysis | Report: Sales Order Analysis | `/reports/view/Sales%20Order%20Analysis` | R | N/A | Filters, run, export | Report + Sales Order | Yes | Planned | None | Not started | Yes |
 | Sales reports | Customer balances | Report: Customer Ledger Summary | `/reports/view/Customer%20Ledger%20Summary` | R | N/A | Filters, run, totals, export | Report + financial permissions | Yes | Planned | None | Not started | Yes |
@@ -143,7 +144,7 @@ Document names must be URL-encoded. Route definitions must carry an approved fro
 | Finance | Finance dashboard | Permitted accounting reports | `/finance` | L | N/A | KPIs, receivables/payables summaries | Per report and company | No | Planned | None | Foundation | Yes: placeholder only |
 | Finance | Chart of Accounts | Account tree | `/finance/chart-of-accounts` | S | N/A | Tree browse and permitted maintenance | Account permissions/company | Optional | Planned | None | Not started | Yes |
 | Finance | Journal Entries | Journal Entry | `/finance/journal-entries` | T | Y/Y/Y | Accounts rows, save, submit/cancel/amend | Journal Entry permissions | Yes | Planned | None | Not started | Yes |
-| Finance | Payment Entries | Payment Entry | `/finance/payment-entries` | T | Y/Y/Y | References, allocations, submit/cancel/amend | Payment Entry permissions | Yes | Planned | None | Not started | Yes |
+| Finance | Payment Entries | Payment Entry | `/finance/payments` | T | Y/Y/Y | Receive/Pay/Internal Transfer, references, allocations, submit/cancel/amend, print/PDF | Payment Entry permissions and standard controllers | Yes | Responsive forms/cards/dialog | Allocation, lifecycle, permissions and rollback tests | Core Payment Entry lifecycle implemented and tested | Yes: dedicated single-role browser matrix and bank/payment reconciliation |
 | Finance | Bank Reconciliation | Bank Transaction/Bank Reconciliation Tool | `/finance/bank-reconciliation` | S | N/A | Fetch, match, reconcile | Bank/account permissions | Optional | Planned | None | Not started | Yes |
 | Finance | Accounts Receivable | Report: Accounts Receivable | `/reports/view/Accounts%20Receivable` | R | N/A | Filters, aging, totals, export | Report + financial permissions | Yes | Planned | None | Not started | Yes |
 | Finance | Accounts Payable | Report: Accounts Payable | `/reports/view/Accounts%20Payable` | R | N/A | Filters, aging, totals, export | Report + financial permissions | Yes | Planned | None | Not started | Yes |
@@ -1007,7 +1008,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /app/retail-erp/sales/customers | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /retail-erp/sales/customers | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:customer-group` | erpnext | Setup | doctype | Customer Group | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:customs-tariff-number` | erpnext | Stock | doctype | Customs Tariff Number | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-note` | erpnext | Stock | doctype | Delivery Note | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1041,7 +1042,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:issue` | erpnext | Support | doctype | Issue | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:issue-priority` | erpnext | Support | doctype | Issue Priority | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:issue-type` | erpnext | Support | doctype | Issue Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /app/retail-erp/inventory/products | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /retail-erp/inventory/products | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:item-alternative` | erpnext | Stock | doctype | Item Alternative | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-attribute` | erpnext | Stock | doctype | Item Attribute | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-group` | erpnext | Setup | doctype | Item Group | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1144,7 +1145,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:request-for-quotation` | erpnext | Buying | doctype | Request for Quotation | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-invoice` | erpnext | Accounts | doctype | Sales Invoice | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /app/retail-erp/sales/orders | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /retail-erp/sales/orders | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner-type` | erpnext | Selling | doctype | Sales Partner Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-person` | erpnext | Setup | doctype | Sales Person | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -3061,8 +3062,8 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `my-store-ui:custom-field:item:item-custom-total-cost` | my_store_ui | Stock | custom_field | Item-custom_total_cost | E | Yes | — | Not tested | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:custom-field:item:item-custom-wholesale-price` | my_store_ui | Stock | custom_field | Item-custom_wholesale_price | E | Yes | — | Not tested | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:custom-field:item:item-custom-wholesale-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_wholesale_profit_percentage | E | Yes | — | Not tested | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
-| `my-store-ui:installed-app:my-store-ui` | my_store_ui | my_store_ui | installed_app | my_store_ui | E | Yes | /app/retail-erp | Not tested | SPA shell implemented; app feature parity incomplete | Installed app capabilities require classified Retail ERP routes or safe embedding |
-| `my-store-ui:page:retail-erp` | my_store_ui | My Store UI | page | retail-erp | C | Yes | /app/retail-erp | Shell route tests | SPA shell implemented; feature coverage partial | Partial modules remain |
+| `my-store-ui:installed-app:my-store-ui` | my_store_ui | my_store_ui | installed_app | my_store_ui | E | Yes | /retail-erp | Not tested | SPA shell implemented; app feature parity incomplete | Installed app capabilities require classified Retail ERP routes or safe embedding |
+| `my-store-ui:page:retail-erp` | my_store_ui | My Store UI | page | retail-erp | C | Yes | /retail-erp | Shell route tests | SPA shell implemented; feature coverage partial | Partial modules remain |
 | `my-store-ui:page:smart-sales` | my_store_ui | My Store UI | page | smart-sales | C | Yes | — | Not tested | Not implemented | Required or safe integration route must be designed |
 | `posawesome:child-doctype:delivery-charges-pos-profile` | posawesome | POSAwesome | child_doctype | Delivery Charges POS Profile | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |
 | `posawesome:child-doctype:pos-allowed-expense-account` | posawesome | POSAwesome | child_doctype | POS Allowed Expense Account | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |

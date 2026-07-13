@@ -28,4 +28,7 @@ def get_document_permissions(doc) -> dict[str, bool]:
 
 
 def can_open_standard_desk() -> bool:
-	return frappe.session.user == "Administrator" or "System Manager" in frappe.get_roles()
+	# Emergency Desk is intentionally never advertised by business APIs or the
+	# normal navigation. A separately approved direct Administrator bypass is
+	# enforced only by route_guard when site configuration explicitly enables it.
+	return False

@@ -6,7 +6,7 @@ import ColourCard from "@/components/ui/ColourCard.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 
 const route = useRoute();
-const routeLabel = computed(() => `/app/retail-erp${route.path}`);
+const routeLabel = computed(() => `${window.retailERPConfig ? "/retail-erp" : "/app/retail-erp"}${route.path}`);
 </script>
 
 <template>

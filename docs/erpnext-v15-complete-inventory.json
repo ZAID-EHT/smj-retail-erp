@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "680ab20c85a1bce537d2875c8bc8ae334f90ad06",
+      "git_commit": "110d1fb97f41e573a8c5ec4c27b81a74754b0697",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -388,8 +388,11 @@
           "app_name",
           "app_publisher",
           "app_title",
+          "before_request",
           "fixtures",
-          "required_apps"
+          "home_page",
+          "required_apps",
+          "website_route_rules"
         ],
         "source": "/home/zaidh/frappe-bench/apps/my_store_ui/my_store_ui/hooks.py"
       },
@@ -2948,7 +2951,7 @@
     "generic_engine_features": 249,
     "installed_app_features": 244,
     "installed_applications": 7,
-    "missing_features_added": 2081,
+    "missing_features_added": 2076,
     "modules": 40,
     "new_matrix_rows": 2943,
     "pages": 22,
@@ -127077,7 +127080,7 @@
         "Customer"
       ],
       "create": true,
-      "current_custom_route": "/app/retail-erp/sales/customers",
+      "current_custom_route": "/retail-erp/sales/customers",
       "customizations": [
         {
           "fieldname": "posa_discount",
@@ -146244,7 +146247,7 @@
         "Item"
       ],
       "create": true,
-      "current_custom_route": "/app/retail-erp/inventory/products",
+      "current_custom_route": "/retail-erp/inventory/products",
       "customizations": [
         {
           "fieldname": "custom_product_material",
@@ -169914,7 +169917,7 @@
       "remaining_desk_dependency": "Required for ordinary-user parity",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": "/app/payment-reconciliation",
       "share": true,
       "source_location": [
@@ -215436,7 +215439,7 @@
         "SalesOrder"
       ],
       "create": true,
-      "current_custom_route": "/app/retail-erp/sales/orders",
+      "current_custom_route": "/retail-erp/sales/orders",
       "customizations": [
         {
           "fieldname": "posa_additional_notes_section",
@@ -260209,7 +260212,7 @@
       "remaining_desk_dependency": "Action not implemented in Retail ERP",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [
@@ -263451,7 +263454,7 @@
       "remaining_desk_dependency": "Action not implemented in Retail ERP",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [
@@ -269694,7 +269697,7 @@
       "remaining_desk_dependency": "Action not implemented in Retail ERP",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": true,
+      "represented_in_previous_matrix": false,
       "route": null,
       "share": false,
       "source_location": [
@@ -271658,7 +271661,7 @@
       "remaining_desk_dependency": "Action not implemented in Retail ERP",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [
@@ -292251,7 +292254,7 @@
       "remaining_desk_dependency": "Print preview/PDF selector not implemented",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [],
@@ -308160,7 +308163,7 @@
         "Quality Manager",
         "System Manager"
       ],
-      "represented_in_previous_matrix": true,
+      "represented_in_previous_matrix": false,
       "route": "/app/query-report/Review",
       "share": false,
       "source_location": [
@@ -334231,7 +334234,7 @@
       "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [],
@@ -336814,7 +336817,7 @@
       "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": null,
       "share": false,
       "source_location": [],
@@ -448288,7 +448291,7 @@
       "completion_status": "SPA shell implemented; app feature parity incomplete",
       "controller_class": null,
       "create": false,
-      "current_custom_route": "/app/retail-erp",
+      "current_custom_route": "/retail-erp",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -448308,7 +448311,7 @@
       "name": "my_store_ui",
       "notes": [
         "modules=My Store UI",
-        "hook_names=app_description,app_email,app_include_css,app_license,app_name,app_publisher,app_title,fixtures,required_apps"
+        "hook_names=app_description,app_email,app_include_css,app_license,app_name,app_publisher,app_title,before_request,fixtures,home_page,required_apps,website_route_rules"
       ],
       "page": null,
       "page_permissions": [],
@@ -448353,7 +448356,7 @@
       "completion_status": "SPA shell implemented; feature coverage partial",
       "controller_class": null,
       "create": false,
-      "current_custom_route": "/app/retail-erp",
+      "current_custom_route": "/retail-erp",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -469254,7 +469257,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3ce229c979",
+  "inventory_fingerprint": "22c6ac5fef82279480834dba4c85bda0c6da5cc25186dca7956c5e30d4205a1b",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {
@@ -469295,14 +469298,14 @@
       },
       "doctype": {
         "excluded": 15,
-        "missing_user_facing": 387,
-        "represented": 65,
+        "missing_user_facing": 386,
+        "represented": 66,
         "total": 467
       },
       "document_action": {
         "excluded": 0,
-        "missing_user_facing": 504,
-        "represented": 130,
+        "missing_user_facing": 502,
+        "represented": 132,
         "total": 634
       },
       "installed_app": {
@@ -469337,8 +469340,8 @@
       },
       "print_format": {
         "excluded": 4,
-        "missing_user_facing": 39,
-        "represented": 1,
+        "missing_user_facing": 38,
+        "represented": 2,
         "total": 44
       },
       "property_setter": {
@@ -469349,8 +469352,8 @@
       },
       "report": {
         "excluded": 1,
-        "missing_user_facing": 174,
-        "represented": 23,
+        "missing_user_facing": 175,
+        "represented": 22,
         "total": 198
       },
       "source_only_report": {
@@ -469367,8 +469370,8 @@
       },
       "workspace_target": {
         "excluded": 0,
-        "missing_user_facing": 450,
-        "represented": 147,
+        "missing_user_facing": 448,
+        "represented": 149,
         "total": 597
       }
     },
@@ -469736,7 +469739,6 @@
       "erpnext:doctype:payment-gateway-account",
       "erpnext:doctype:payment-ledger-entry",
       "erpnext:doctype:payment-order",
-      "erpnext:doctype:payment-reconciliation",
       "erpnext:doctype:payment-term",
       "erpnext:doctype:payment-terms-template",
       "erpnext:doctype:pegged-currencies",
@@ -469924,7 +469926,6 @@
       "erpnext:document-action:customer:make-opportunity",
       "erpnext:document-action:customer:make-quotation",
       "erpnext:document-action:customer:pricing-rule",
-      "erpnext:document-action:delivery-note:credit-note",
       "erpnext:document-action:delivery-note:delivery-trip",
       "erpnext:document-action:delivery-note:installation-note",
       "erpnext:document-action:delivery-note:make-delivery-trip",
@@ -469957,7 +469958,6 @@
       "erpnext:document-action:issue:make-task",
       "erpnext:document-action:issue:set-status",
       "erpnext:document-action:item:add-edit-prices",
-      "erpnext:document-action:item:duplicate",
       "erpnext:document-action:item:item-variant-settings",
       "erpnext:document-action:item:multiple-variants",
       "erpnext:document-action:item:show-variants",
@@ -470019,6 +470019,7 @@
       "erpnext:document-action:payment-entry:view-exchange-gain-loss-journals",
       "erpnext:document-action:payment-order:create-journal-entries",
       "erpnext:document-action:payment-order:make-payment-records",
+      "erpnext:document-action:payment-reconciliation:allocate",
       "erpnext:document-action:payment-reconciliation:get-unreconciled-entries",
       "erpnext:document-action:payment-request:create-payment-entry",
       "erpnext:document-action:payment-request:make-payment-entry",
@@ -470043,7 +470044,6 @@
       "erpnext:document-action:pos-invoice:create-payment-request",
       "erpnext:document-action:pos-invoice:make-merge-log",
       "erpnext:document-action:pos-invoice:make-sales-return",
-      "erpnext:document-action:pos-invoice:return",
       "erpnext:document-action:price-list:add-edit-prices",
       "erpnext:document-action:pricing-rule:make-pricing-rule",
       "erpnext:document-action:process-period-closing-voucher:cancel-pcv-processing",
@@ -470277,7 +470277,6 @@
       "erpnext:print-format:delivery-note:delivery-note-with-item-image",
       "erpnext:print-format:dunning:dunning-letter",
       "erpnext:print-format:general-ledger-standard",
-      "erpnext:print-format:journal-entry:credit-note",
       "erpnext:print-format:journal-entry:journal-auditing-voucher",
       "erpnext:print-format:p-l-statement-standard",
       "erpnext:print-format:payment-entry:bank-and-cash-payment-voucher",
@@ -470418,6 +470417,7 @@
       "erpnext:report:requested-items-to-be-transferred",
       "erpnext:report:requested-items-to-order-and-receive",
       "erpnext:report:reserved-stock",
+      "erpnext:report:review",
       "erpnext:report:sales-invoice-trends",
       "erpnext:report:sales-order-trends",
       "erpnext:report:sales-partner-commission-summary",
@@ -470707,7 +470707,6 @@
       "erpnext:workspace-target:manufacturing:report-quality-inspection-summary",
       "erpnext:workspace-target:manufacturing:report-work-order-consumed-materials",
       "erpnext:workspace-target:manufacturing:report-work-order-summary",
-      "erpnext:workspace-target:payables:doctype-payment-reconciliation",
       "erpnext:workspace-target:payables:report-accounts-payable-summary",
       "erpnext:workspace-target:payables:report-received-items-to-be-billed",
       "erpnext:workspace-target:projects:chart-project-summary",
@@ -470734,7 +470733,6 @@
       "erpnext:workspace-target:receivables:doctype-dunning",
       "erpnext:workspace-target:receivables:doctype-dunning-type",
       "erpnext:workspace-target:receivables:doctype-payment-gateway-account",
-      "erpnext:workspace-target:receivables:doctype-payment-reconciliation",
       "erpnext:workspace-target:receivables:doctype-pos-invoice",
       "erpnext:workspace-target:receivables:report-accounts-receivable-summary",
       "erpnext:workspace-target:receivables:report-delivered-items-to-be-billed",
@@ -471496,6 +471494,7 @@
       "erpnext:doctype:material-request",
       "erpnext:doctype:opportunity",
       "erpnext:doctype:payment-entry",
+      "erpnext:doctype:payment-reconciliation",
       "erpnext:doctype:payment-request",
       "erpnext:doctype:pick-list",
       "erpnext:doctype:price-list",
@@ -471530,6 +471529,7 @@
       "erpnext:document-action:company:chart-of-accounts",
       "erpnext:document-action:customer:accounts-receivable",
       "erpnext:document-action:delivery-note:close",
+      "erpnext:document-action:delivery-note:credit-note",
       "erpnext:document-action:delivery-note:pick-list",
       "erpnext:document-action:delivery-note:reopen",
       "erpnext:document-action:delivery-note:sales-invoice",
@@ -471543,6 +471543,7 @@
       "erpnext:document-action:issue:task",
       "erpnext:document-action:item-group:item-group-tree",
       "erpnext:document-action:item-group:items",
+      "erpnext:document-action:item:duplicate",
       "erpnext:document-action:item:stock-balance",
       "erpnext:document-action:item:stock-ledger",
       "erpnext:document-action:job-card:material-request",
@@ -471570,10 +471571,10 @@
       "erpnext:document-action:payment-entry:ledger",
       "erpnext:document-action:payment-order:payment-entry",
       "erpnext:document-action:payment-order:payment-request",
-      "erpnext:document-action:payment-reconciliation:allocate",
       "erpnext:document-action:payment-reconciliation:reconcile",
       "erpnext:document-action:period-closing-voucher:ledger",
       "erpnext:document-action:pos-closing-entry:retry",
+      "erpnext:document-action:pos-invoice:return",
       "erpnext:document-action:process-statement-of-accounts:download",
       "erpnext:document-action:production-plan:close",
       "erpnext:document-action:production-plan:material-request",
@@ -471638,6 +471639,7 @@
       "erpnext:document-action:warehouse:stock-balance",
       "erpnext:document-action:work-order:bom",
       "erpnext:document-action:work-order:close",
+      "erpnext:print-format:journal-entry:credit-note",
       "erpnext:print-format:pick-list:pick-list",
       "erpnext:report:accounts-payable",
       "erpnext:report:accounts-receivable",
@@ -471652,7 +471654,6 @@
       "erpnext:report:profit-and-loss-statement",
       "erpnext:report:purchase-order-analysis",
       "erpnext:report:purchase-register",
-      "erpnext:report:review",
       "erpnext:report:sales-analytics",
       "erpnext:report:sales-order-analysis",
       "erpnext:report:sales-register",
@@ -471736,6 +471737,7 @@
       "erpnext:workspace-target:manufacturing:doctype-work-order",
       "erpnext:workspace-target:payables:doctype-journal-entry",
       "erpnext:workspace-target:payables:doctype-payment-entry",
+      "erpnext:workspace-target:payables:doctype-payment-reconciliation",
       "erpnext:workspace-target:payables:doctype-purchase-invoice",
       "erpnext:workspace-target:payables:doctype-supplier",
       "erpnext:workspace-target:payables:report-accounts-payable",
@@ -471750,6 +471752,7 @@
       "erpnext:workspace-target:receivables:doctype-customer",
       "erpnext:workspace-target:receivables:doctype-journal-entry",
       "erpnext:workspace-target:receivables:doctype-payment-entry",
+      "erpnext:workspace-target:receivables:doctype-payment-reconciliation",
       "erpnext:workspace-target:receivables:doctype-payment-request",
       "erpnext:workspace-target:receivables:doctype-sales-invoice",
       "erpnext:workspace-target:receivables:report-accounts-receivable",

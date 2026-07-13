@@ -1,0 +1,119 @@
+from __future__ import annotations
+
+import json
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+import frappe
+
+BENCH_PATH = Path(__file__).resolve().parents[4]
+APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
+frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
+frappe.connect()
+
+from my_store_ui.route_guard import _mapped_desk_route
+from my_store_ui.services.frontend_routes import resolve_frontend_route
+from my_store_ui.services.permissions import can_open_standard_desk
+from my_store_ui.standalone import authorize_frontend_route, get_landing_route, get_session_bootstrap
+
+
+class TestStandaloneRetailERP(unittest.TestCase):
+	@classmethod
+	def setUpClass(cls):
+		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
+		frappe.connect()
+		frappe.local.session = frappe._dict(user="Administrator", data={})
+		frappe.set_user("Administrator")
+
+	@classmethod
+	def tearDownClass(cls):
+		frappe.destroy()
+
+	def test_registered_clean_routes_resolve_without_double_slashes(self):
+		for route in (
+			"/retail-erp/home",
+			"/retail-erp/sales/orders/new",
+			"/retail-erp/sales/invoices/ACC-SINV-2026-00010",
+			"/retail-erp/finance/payments/new",
+		):
+			definition, _params = resolve_frontend_route(route)
+			self.assertIsNotNone(definition, route)
+			self.assertNotIn("//", route)
+
+	def test_unknown_route_returns_custom_not_found(self):
+		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
+		self.assertEqual(result["outcome"], "not_found")
+		self.assertEqual(result["route"], "/retail-erp/not-found")
+		definition, _params = resolve_frontend_route("/retail-erp/sales/invoices/%00")
+		self.assertIsNone(definition)
+
+	def test_permission_denial_is_server_owned(self):
+		with patch("my_store_ui.standalone.route_is_permitted", return_value=False):
+			result = authorize_frontend_route("/retail-erp/sales/orders")
+		self.assertEqual(result, {"outcome": "denied", "route": "/retail-erp/permission-denied"})
+
+	def test_guest_bootstrap_contains_no_identity_or_permissions(self):
+		original = frappe.session.user
+		try:
+			frappe.session.user = "Guest"
+			self.assertEqual(get_session_bootstrap(), {"authenticated": False})
+		finally:
+			frappe.session.user = original
+
+	def test_role_landing_precedence(self):
+		original = frappe.session.user
+		try:
+			frappe.session.user = "multi-role@example.invalid"
+			with patch("my_store_ui.standalone.frappe.get_roles", return_value=["Accounts User", "Sales User"]), patch("my_store_ui.standalone.route_is_permitted", return_value=True):
+				self.assertEqual(get_landing_route(), "/retail-erp/smart-sales")
+		finally:
+			frappe.session.user = original
+
+	def test_desk_routes_map_only_to_retail_frontend(self):
+		self.assertEqual(_mapped_desk_route("/app/customer"), "/retail-erp/sales/customers")
+		self.assertEqual(_mapped_desk_route("/app/sales-order/SAL-ORD-0001"), "/retail-erp/sales/orders/SAL-ORD-0001")
+		self.assertEqual(_mapped_desk_route("/app/retail-erp/finance/payments"), "/retail-erp/finance/payments")
+		self.assertTrue(_mapped_desk_route("/app/manufacturing").startswith("/retail-erp/feature-unavailable"))
+		self.assertFalse(can_open_standard_desk())
+
+	def test_hashed_assets_and_desk_compatibility_assets_exist(self):
+		output = APP_PATH / "my_store_ui" / "public" / "frontend"
+		manifest = json.loads((output / ".vite" / "manifest.json").read_text())
+		entry = manifest["src/main.js"]
+		self.assertRegex(entry["file"], r"assets/retail-erp-[A-Za-z0-9_-]+\.js")
+		self.assertTrue((output / entry["file"]).exists())
+		self.assertTrue((output / "retail-erp.js").exists())
+		self.assertTrue((output / "retail-erp.css").exists())
+
+	def test_login_source_does_not_persist_credentials_or_sessions(self):
+		source = (APP_PATH / "frontend" / "src" / "services" / "session.js").read_text()
+		self.assertNotIn("localStorage", source)
+		self.assertNotIn("sessionStorage", source)
+		self.assertIn('fetch("/api/method/login"', source)
+		self.assertIn('fetch("/api/method/logout"', source)
+
+	def test_empty_server_navigation_never_falls_back_to_static_modules(self):
+		for relative_path in (
+			"frontend/src/components/shell/ModuleNavigation.vue",
+			"frontend/src/components/navigation/MobileNavigation.vue",
+		):
+			source = (APP_PATH / relative_path).read_text()
+			self.assertIn("session ? session.state.navigation : navigationModules", source)
+			self.assertNotIn("navigation?.length", source)
+
+	def test_modal_focus_manager_supports_escape_trapping_and_restoration(self):
+		source = (APP_PATH / "frontend" / "src" / "directives" / "focusTrap.js").read_text()
+		self.assertIn('event.key === "Escape"', source)
+		self.assertIn('event.key !== "Tab"', source)
+		self.assertIn("previousFocus.focus()", source)
+		self.assertIn("MutationObserver", source)
+
+	def test_raw_website_template_remains_safe_render_compatible(self):
+		template = (APP_PATH / "my_store_ui" / "www" / "retail_erp.html").read_text()
+		self.assertNotIn(".__", template)
+		self.assertIn('id="retail-erp-root"', template)
+
+
+if __name__ == "__main__":
+	unittest.main()

@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3ce229c979`
+Inventory fingerprint: `22c6ac5fef82279480834dba4c85bda0c6da5cc25186dca7956c5e30d4205a1b`
 
 ## Coverage summary
 
@@ -28,7 +28,7 @@ Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3c
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
 | Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2081 |
+| Missing Features Added | 2076 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |
@@ -595,7 +595,7 @@ Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3c
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /app/retail-erp/sales/customers | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /retail-erp/sales/customers | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:customer-group` | erpnext | Setup | doctype | Customer Group | C | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:customs-tariff-number` | erpnext | Stock | doctype | Customs Tariff Number | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-note` | erpnext | Stock | doctype | Delivery Note | B | Yes | — | Not implemented | Required for ordinary-user parity |
@@ -629,7 +629,7 @@ Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3c
 | `erpnext:doctype:issue` | erpnext | Support | doctype | Issue | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:issue-priority` | erpnext | Support | doctype | Issue Priority | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:issue-type` | erpnext | Support | doctype | Issue Type | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /app/retail-erp/inventory/products | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /retail-erp/inventory/products | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:item-alternative` | erpnext | Stock | doctype | Item Alternative | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-attribute` | erpnext | Stock | doctype | Item Attribute | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-group` | erpnext | Setup | doctype | Item Group | C | Yes | — | Not implemented | Required for ordinary-user parity |
@@ -732,7 +732,7 @@ Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3c
 | `erpnext:doctype:request-for-quotation` | erpnext | Buying | doctype | Request for Quotation | B | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-invoice` | erpnext | Accounts | doctype | Sales Invoice | B | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /app/retail-erp/sales/orders | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /retail-erp/sales/orders | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
 | `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner-type` | erpnext | Selling | doctype | Sales Partner Type | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-person` | erpnext | Setup | doctype | Sales Person | C | Yes | — | Not implemented | Required for ordinary-user parity |
@@ -2649,8 +2649,8 @@ Inventory fingerprint: `9399465c4af2a3702ad62a2ede08ef7cd521a512381b012f07117d3c
 | `my-store-ui:custom-field:item:item-custom-total-cost` | my_store_ui | Stock | custom_field | Item-custom_total_cost | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:custom-field:item:item-custom-wholesale-price` | my_store_ui | Stock | custom_field | Item-custom_wholesale_price | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
 | `my-store-ui:custom-field:item:item-custom-wholesale-profit-percentage` | my_store_ui | Stock | custom_field | Item-custom_wholesale_profit_percentage | E | Yes | — | Not implemented | Customization must be represented by approved Retail ERP schema/administration |
-| `my-store-ui:installed-app:my-store-ui` | my_store_ui | my_store_ui | installed_app | my_store_ui | E | Yes | /app/retail-erp | SPA shell implemented; app feature parity incomplete | Installed app capabilities require classified Retail ERP routes or safe embedding |
-| `my-store-ui:page:retail-erp` | my_store_ui | My Store UI | page | retail-erp | C | Yes | /app/retail-erp | SPA shell implemented; feature coverage partial | Partial modules remain |
+| `my-store-ui:installed-app:my-store-ui` | my_store_ui | my_store_ui | installed_app | my_store_ui | E | Yes | /retail-erp | SPA shell implemented; app feature parity incomplete | Installed app capabilities require classified Retail ERP routes or safe embedding |
+| `my-store-ui:page:retail-erp` | my_store_ui | My Store UI | page | retail-erp | C | Yes | /retail-erp | SPA shell implemented; feature coverage partial | Partial modules remain |
 | `my-store-ui:page:smart-sales` | my_store_ui | My Store UI | page | smart-sales | C | Yes | — | Not implemented | Required or safe integration route must be designed |
 | `posawesome:child-doctype:delivery-charges-pos-profile` | posawesome | POSAwesome | child_doctype | Delivery Charges POS Profile | G | No | — | Not implemented | None: excluded from independent frontend routing |
 | `posawesome:child-doctype:pos-allowed-expense-account` | posawesome | POSAwesome | child_doctype | POS Allowed Expense Account | G | No | — | Not implemented | None: excluded from independent frontend routing |

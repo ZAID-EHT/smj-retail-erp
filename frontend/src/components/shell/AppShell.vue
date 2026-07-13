@@ -32,7 +32,7 @@ onBeforeUnmount(() => {
     <AppHeader @toggle-mobile-navigation="mobileNavigationOpen = !mobileNavigationOpen" />
     <MobileNavigation :open="mobileNavigationOpen" @close="mobileNavigationOpen = false" />
 
-    <main class="ref-main" tabindex="-1">
+    <main id="retail-erp-main" class="ref-main" tabindex="-1">
       <AppBreadcrumbs />
       <LoadingState v-if="booting" label="Preparing Retail ERP…" />
       <ErrorState

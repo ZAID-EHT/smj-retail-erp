@@ -1,10 +1,14 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, inject, onBeforeUnmount, onMounted, ref } from "vue";
 
 import { navigationModules } from "@/router/routes.js";
 
 const activeMenu = ref(null);
 const root = ref(null);
+const session = inject("retailSession", null);
+// Standalone navigation is server-owned. An empty permitted list must remain
+// empty instead of falling back to the static Desk compatibility menu.
+const modules = computed(() => session ? session.state.navigation : navigationModules);
 
 function toggleMenu(name) {
   activeMenu.value = activeMenu.value === name ? null : name;
@@ -21,7 +25,7 @@ onBeforeUnmount(() => document.removeEventListener("click", closeMenus));
 <template>
   <nav ref="root" class="ref-module-navigation" aria-label="Main modules">
     <div
-      v-for="module in navigationModules"
+      v-for="module in modules"
       :key="module.name"
       class="ref-module-navigation__item"
       :data-accent="module.accent"

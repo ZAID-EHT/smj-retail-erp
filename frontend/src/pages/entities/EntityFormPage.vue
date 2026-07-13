@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import EditableChildTable from "@/components/forms/EditableChildTable.vue";
 import FormField from "@/components/forms/FormField.vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
@@ -14,7 +14,12 @@ const data = ref(null); const loading = ref(false); const saving = ref(false); c
 function resetForm(values) { Object.keys(form).forEach((key) => delete form[key]); Object.assign(form, JSON.parse(JSON.stringify(values || {}))); initial = JSON.stringify(form); }
 const dirty = computed(() => initial && JSON.stringify(form) !== initial);
 async function load() { controller?.abort(); controller = new AbortController(); loading.value = true; error.value = null; saveError.value = null; permissionDenied.value = false; try { data.value = await getEntityForm(entityKey.value, name.value, controller.signal); resetForm(data.value.document); } catch (requestError) { permissionDenied.value = requestError.permissionDenied; error.value = requestError; } finally { if (!controller.signal.aborted) loading.value = false; } }
-watch(() => route.fullPath, load, { immediate: true }); onBeforeUnmount(() => controller?.abort());
+function beforeUnload(event) { if (!dirty.value) return; event.preventDefault(); event.returnValue = ""; }
+watch(dirty, (value) => { window.__retailERPFormDirty = Boolean(value); });
+watch(() => route.fullPath, load, { immediate: true });
+window.addEventListener("beforeunload", beforeUnload);
+onBeforeRouteLeave((_to, _from, next) => { if (!dirty.value || window.confirm("Discard unsaved changes?")) next(); else next(false); });
+onBeforeUnmount(() => { controller?.abort(); window.removeEventListener("beforeunload", beforeUnload); window.__retailERPFormDirty = false; });
 function validate() { Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key]); saveError.value = null; for (const field of data.value.entity.fields) if (field.required && !form[field.fieldname]) fieldErrors[field.fieldname] = `${field.label} is required.`; if (data.value.entity.child_tables?.items && !form.items?.length) fieldErrors.items = "At least one item is required."; if (entityKey.value === "items") { const purchase = Number(form.custom_purchase_price || 0), additional = Number(form.custom_additional_cost || 0), retail = Number(form.custom_retail_profit_percentage || 0), wholesale = Number(form.custom_wholesale_profit_percentage || 0); if ([purchase, additional, retail, wholesale].some((value) => value < 0)) fieldErrors.custom_purchase_price = "Cost and percentage values cannot be negative."; if (wholesale > retail) fieldErrors.custom_wholesale_profit_percentage = "Wholesale percentage cannot exceed retail percentage."; } return !Object.keys(fieldErrors).length; }
 async function save() { if (!validate() || saving.value) return; saving.value = true; error.value = null; try { const requestId = crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`; const result = await saveEntityForm(entityKey.value, form, name.value, requestId); initial = JSON.stringify(form); await router.push(result.route); } catch (requestError) { if (requestError.type === "ValidationError" || requestError.status === 417) { saveError.value = requestError.message; } else { error.value = requestError; } } finally { saving.value = false; } }
 function cancel() { if (!dirty.value || window.confirm("Discard unsaved changes?")) router.push(data.value?.entity.back_route || "/home"); }
