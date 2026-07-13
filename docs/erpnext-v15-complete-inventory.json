@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "ff645c176d1898d1a8fc7e44b853179ad9c5f4bb",
+      "git_commit": "680ab20c85a1bce537d2875c8bc8ae334f90ad06",
       "hooks": {
         "declared_names": [
           "app_description",

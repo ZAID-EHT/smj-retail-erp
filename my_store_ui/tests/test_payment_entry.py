@@ -49,3 +49,10 @@ class TestPaymentEntryLifecycle(unittest.TestCase):
 	def test_actions_are_state_aware(self):
 		draft = self._draft()
 		self.assertIn("submit", {row["key"] for row in get_document_actions("payment_entries", draft["name"])["actions"]})
+
+	def test_invalid_reference_is_rejected_before_save(self):
+		company = frappe.get_all("Company", pluck="name", limit=1)[0]
+		values = get_entity_form("payment_entries")["document"]
+		values.update({"payment_type": "Internal Transfer", "company": company, "paid_amount": 10, "received_amount": 10, "references": [{"reference_doctype": "Sales Invoice", "reference_name": "NOT-A-REAL-INVOICE", "allocated_amount": 10}]})
+		with self.assertRaises(frappe.ValidationError):
+			save_entity_form("payment_entries", values, request_id="payment-invalid-12345678")
