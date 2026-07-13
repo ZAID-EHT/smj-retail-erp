@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { entityRoutes, generatedRoutes, moduleRoutes } from "./routes.js";
+import { entityRoutes, generatedRoutes, moduleRoutes, priorityRoutes } from "./routes.js";
 
 export const DESK_BASE_PATH = "/app/retail-erp/";
 export const STANDALONE_BASE_PATH = "/retail-erp/";
@@ -20,6 +20,7 @@ export function createRetailRouter(basePath = DESK_BASE_PATH) {
       { path: "/", redirect: "/home" },
       ...moduleRoutes,
       ...entityRoutes,
+      ...priorityRoutes,
       ...generatedRoutes,
       { path: "/:pathMatch(.*)*", name: "route-not-found", component: () => import("@/pages/NotFoundPage.vue"), meta: { title: "Page Not Found", accent: "orange" } },
     ],

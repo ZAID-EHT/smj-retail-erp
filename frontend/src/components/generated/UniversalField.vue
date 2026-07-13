@@ -2,16 +2,16 @@
 import { onBeforeUnmount, ref, watch } from "vue";
 import { getLinkOptions } from "@/services/universal.js";
 
-const props = defineProps({ modelValue: { default: null }, field: { type: Object, required: true }, feature: { type: String, required: true }, parentFieldname: { type: String, default: "" }, error: { type: String, default: "" } });
+const props = defineProps({ modelValue: { default: null }, field: { type: Object, required: true }, feature: { type: String, required: true }, parentFieldname: { type: String, default: "" }, context: { type: Object, default: () => ({}) }, error: { type: String, default: "" } });
 const emit = defineEmits(["update:modelValue"]);
 const options = ref([]); const linkOpen = ref(false); const query = ref(String(props.modelValue ?? "")); let timer; let controller;
 watch(() => props.modelValue, (value) => { if (String(value ?? "") !== query.value) query.value = String(value ?? ""); });
 watch(query, (value) => {
-  if (props.field.fieldtype !== "Link") return;
+  if (!["Link", "Dynamic Link"].includes(props.field.fieldtype)) return;
   emit("update:modelValue", value); window.clearTimeout(timer);
   timer = window.setTimeout(async () => {
     controller?.abort(); controller = new AbortController();
-    try { options.value = (await getLinkOptions(props.feature, props.field.fieldname, value, props.parentFieldname || undefined, controller.signal)).results; linkOpen.value = true; }
+    try { options.value = (await getLinkOptions(props.feature, props.field.fieldname, value, props.parentFieldname || undefined, controller.signal, props.field.fieldtype === "Dynamic Link" ? props.context[props.field.options] : undefined)).results; linkOpen.value = true; }
     catch (error) { if (error.name !== "AbortError") options.value = []; }
   }, 250);
 });
@@ -28,7 +28,7 @@ const textTypes = ["Small Text", "Text", "Long Text", "Text Editor", "Code"];
   <label :class="['ru-field', { 'ru-field--error': error, 'ru-field--wide': textTypes.includes(field.fieldtype) }]" :for="`ru-${parentFieldname}-${field.fieldname}`">
     <span>{{ field.label }} <b v-if="field.required" aria-hidden="true">*</b></span>
     <small v-if="field.description" class="ru-field__description">{{ field.description }}</small>
-    <div v-if="field.fieldtype === 'Link'" class="ru-link">
+    <div v-if="field.fieldtype === 'Link' || field.fieldtype === 'Dynamic Link'" class="ru-link">
       <input :id="`ru-${parentFieldname}-${field.fieldname}`" v-model="query" :readonly="field.read_only" :required="field.required" type="search" autocomplete="off" @focus="linkOpen = true" @keydown.escape="linkOpen = false" />
       <ul v-if="linkOpen && options.length" role="listbox"><li v-for="option in options" :key="option.value" role="option" @mousedown.prevent="select(option)"><strong>{{ option.label }}</strong><small>{{ option.value }}</small></li></ul>
     </div>

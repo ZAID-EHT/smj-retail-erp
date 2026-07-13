@@ -1,10 +1,10 @@
 {
   "counts": {
     "custom": 8,
-    "generated_provisional": 20,
+    "generated_provisional": 55,
     "internal": 359,
     "special": 352,
-    "unavailable": 2104
+    "unavailable": 2069
   },
   "records": [
     {
@@ -18796,24 +18796,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/finance/chart-of-accounts/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/finance/chart-of-accounts/{name}",
       "doctype": "Account",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/finance/chart-of-accounts/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:account",
       "feature_label": "Account",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/finance/chart-of-accounts",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -18908,7 +18911,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/finance/chart-of-accounts",
       "route_key": "account",
       "source_location": [
         "erpnext:accounts/doctype/account/account.json"
@@ -18918,7 +18921,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -19673,24 +19676,27 @@
       "available_actions": [],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/crm/appointments/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/crm/appointments/{name}",
       "doctype": "Appointment",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/crm/appointments/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:appointment",
       "feature_label": "Appointment",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/appointments",
       "module": "CRM",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "pink"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -19767,7 +19773,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/crm/appointments",
       "route_key": "appointment",
       "source_location": [
         "erpnext:crm/doctype/appointment/appointment.json"
@@ -19776,7 +19782,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -19997,12 +20003,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/asset/new",
+      "create_route": "/operations/assets/new",
       "custom_override": false,
-      "detail_route": "/generated/asset/{name}",
+      "detail_route": "/operations/assets/{name}",
       "doctype": "Asset",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/asset/{name}/edit",
+      "edit_route": "/operations/assets/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:asset",
@@ -20010,8 +20016,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/asset",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/assets",
       "module": "Assets",
       "page": null,
       "pdf_support": true,
@@ -20082,7 +20088,7 @@
           "write": 1
         }
       ],
-      "route": "/generated/asset",
+      "route": "/operations/assets",
       "route_key": "asset",
       "source_location": [
         "erpnext:assets/doctype/asset/asset.json"
@@ -20092,7 +20098,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -20702,24 +20708,27 @@
           "required": true
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/asset-movements/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/asset-movements/{name}",
       "doctype": "Asset Movement",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/asset-movements/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:asset-movement",
       "feature_label": "Asset Movement",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/asset-movements",
       "module": "Assets",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -20778,7 +20787,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/asset-movements",
       "route_key": "asset-movement",
       "source_location": [
         "erpnext:assets/doctype/asset_movement/asset_movement.json"
@@ -20787,7 +20796,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -21773,24 +21782,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/generated/bank-reconciliation-tool/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/generated/bank-reconciliation-tool/{name}",
       "doctype": "Bank Reconciliation Tool",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/generated/bank-reconciliation-tool/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:bank-reconciliation-tool",
       "feature_label": "Bank Reconciliation Tool",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
       "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "list_route": "/generated/bank-reconciliation-tool",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -21813,7 +21825,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/generated/bank-reconciliation-tool",
       "route_key": "bank-reconciliation-tool",
       "source_location": [
         "erpnext:accounts/doctype/bank_reconciliation_tool/bank_reconciliation_tool.json"
@@ -22036,24 +22048,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/inventory/batches/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/inventory/batches/{name}",
       "doctype": "Batch",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/inventory/batches/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:batch",
       "feature_label": "Batch",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/batches",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -22076,7 +22091,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/inventory/batches",
       "route_key": "batch",
       "source_location": [
         "erpnext:stock/doctype/batch/batch.json"
@@ -22086,7 +22101,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -22544,24 +22559,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/boms/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/boms/{name}",
       "doctype": "BOM",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/boms/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:bom",
       "feature_label": "BOM",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/boms",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -22602,7 +22620,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/boms",
       "route_key": "bom",
       "source_location": [
         "erpnext:manufacturing/doctype/bom/bom.json"
@@ -22613,7 +22631,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -22951,12 +22969,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/brand/new",
+      "create_route": "/inventory/brands/new",
       "custom_override": false,
-      "detail_route": "/generated/brand/{name}",
+      "detail_route": "/inventory/brands/{name}",
       "doctype": "Brand",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/brand/{name}/edit",
+      "edit_route": "/inventory/brands/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:brand",
@@ -22964,8 +22982,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/brand",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/brands",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -23078,7 +23096,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/brand",
+      "route": "/inventory/brands",
       "route_key": "brand",
       "source_location": [
         "erpnext:setup/doctype/brand/brand.json"
@@ -23087,7 +23105,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -23561,24 +23579,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/crm/campaigns/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/crm/campaigns/{name}",
       "doctype": "Campaign",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/crm/campaigns/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:campaign",
       "feature_label": "Campaign",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/campaigns",
       "module": "CRM",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "pink"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -23637,7 +23658,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/crm/campaigns",
       "route_key": "campaign",
       "source_location": [
         "erpnext:crm/doctype/campaign/campaign.json"
@@ -23646,7 +23667,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -24226,24 +24247,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/admin/companies/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/admin/companies/{name}",
       "doctype": "Company",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/admin/companies/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:company",
       "feature_label": "Company",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/admin/companies",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -24410,7 +24434,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/admin/companies",
       "route_key": "company",
       "source_location": [
         "erpnext:setup/doctype/company/company.json"
@@ -24421,7 +24445,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -24828,12 +24852,12 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": "/generated/cost-center/new",
+      "create_route": "/finance/cost-centers/new",
       "custom_override": false,
-      "detail_route": "/generated/cost-center/{name}",
+      "detail_route": "/finance/cost-centers/{name}",
       "doctype": "Cost Center",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/cost-center/{name}/edit",
+      "edit_route": "/finance/cost-centers/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:cost-center",
@@ -24841,8 +24865,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/cost-center",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/finance/cost-centers",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
@@ -24984,7 +25008,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/cost-center",
+      "route": "/finance/cost-centers",
       "route_key": "cost-center",
       "source_location": [
         "erpnext:accounts/doctype/cost_center/cost_center.json"
@@ -24995,7 +25019,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -25622,7 +25646,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": true,
-      "known_limitations": "Create/edit, workflow, actions, print and communication remain",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/sales/customers",
       "module": "Selling",
       "page": null,
@@ -25803,7 +25827,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Automated API and browser tests for list/detail",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -25826,12 +25850,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/customer-group/new",
+      "create_route": "/crm/customer-groups/new",
       "custom_override": false,
-      "detail_route": "/generated/customer-group/{name}",
+      "detail_route": "/crm/customer-groups/{name}",
       "doctype": "Customer Group",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/customer-group/{name}/edit",
+      "edit_route": "/crm/customer-groups/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:customer-group",
@@ -25839,8 +25863,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/customer-group",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/customer-groups",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -26015,7 +26039,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/customer-group",
+      "route": "/crm/customer-groups",
       "route_key": "customer-group",
       "source_location": [
         "erpnext:setup/doctype/customer_group/customer_group.json"
@@ -26025,7 +26049,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -26247,7 +26271,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/sales/delivery-notes",
       "module": "Stock",
       "page": null,
@@ -26392,7 +26416,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -26597,12 +26621,12 @@
       "available_actions": [],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": "/generated/department/new",
+      "create_route": "/operations/departments/new",
       "custom_override": false,
-      "detail_route": "/generated/department/{name}",
+      "detail_route": "/operations/departments/{name}",
       "doctype": "Department",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/department/{name}/edit",
+      "edit_route": "/operations/departments/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:department",
@@ -26610,8 +26634,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/department",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/departments",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -26717,7 +26741,7 @@
           "write": 1
         }
       ],
-      "route": "/generated/department",
+      "route": "/operations/departments",
       "route_key": "department",
       "source_location": [
         "erpnext:setup/doctype/department/department.json"
@@ -26727,7 +26751,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -26737,12 +26761,12 @@
       "available_actions": [],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": "/generated/designation/new",
+      "create_route": "/operations/designations/new",
       "custom_override": false,
-      "detail_route": "/generated/designation/{name}",
+      "detail_route": "/operations/designations/{name}",
       "doctype": "Designation",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/designation/{name}/edit",
+      "edit_route": "/operations/designations/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:designation",
@@ -26750,8 +26774,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/designation",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/designations",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -26810,7 +26834,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/designation",
+      "route": "/operations/designations",
       "route_key": "designation",
       "source_location": [
         "erpnext:setup/doctype/designation/designation.json"
@@ -26819,7 +26843,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -29121,24 +29145,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/operations/support/issues/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/support/issues/{name}",
       "doctype": "Issue",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/support/issues/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:issue",
       "feature_label": "Issue",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/support/issues",
       "module": "Support",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -29161,7 +29188,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/support/issues",
       "route_key": "issue",
       "source_location": [
         "erpnext:support/doctype/issue/issue.json"
@@ -29171,7 +29198,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -29435,7 +29462,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": true,
-      "known_limitations": "Create/edit, workflow, actions, print and communication remain",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/inventory/products",
       "module": "Stock",
       "page": null,
@@ -29616,7 +29643,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Automated API and browser tests for list/detail",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -29811,12 +29838,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/item-group/new",
+      "create_route": "/inventory/item-groups/new",
       "custom_override": false,
-      "detail_route": "/generated/item-group/{name}",
+      "detail_route": "/inventory/item-groups/{name}",
       "doctype": "Item Group",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/item-group/{name}/edit",
+      "edit_route": "/inventory/item-groups/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:item-group",
@@ -29824,8 +29851,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/item-group",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/item-groups",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -29980,7 +30007,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/item-group",
+      "route": "/inventory/item-groups",
       "route_key": "item-group",
       "source_location": [
         "erpnext:setup/doctype/item_group/item_group.json"
@@ -29990,7 +30017,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -30095,24 +30122,27 @@
       "available_actions": [],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/inventory/item-prices/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/inventory/item-prices/{name}",
       "doctype": "Item Price",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/inventory/item-prices/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:item-price",
       "feature_label": "Item Price",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/item-prices",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -30153,7 +30183,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/inventory/item-prices",
       "route_key": "item-price",
       "source_location": [
         "erpnext:stock/doctype/item_price/item_price.json"
@@ -30162,7 +30192,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -30452,24 +30482,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/job-cards/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/job-cards/{name}",
       "doctype": "Job Card",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/job-cards/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:job-card",
       "feature_label": "Job Card",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/job-cards",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -30528,7 +30561,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/job-cards",
       "route_key": "job-card",
       "source_location": [
         "erpnext:manufacturing/doctype/job_card/job_card.json"
@@ -30539,7 +30572,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -30597,24 +30630,27 @@
           "required": true
         }
       ],
-      "create_route": null,
+      "create_route": "/finance/journal-entries/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/finance/journal-entries/{name}",
       "doctype": "Journal Entry",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/finance/journal-entries/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:journal-entry",
       "feature_label": "Journal Entry",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/finance/journal-entries",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -30673,7 +30709,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/finance/journal-entries",
       "route_key": "journal-entry",
       "source_location": [
         "erpnext:accounts/doctype/journal_entry/journal_entry.json"
@@ -30682,7 +30718,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -30930,12 +30966,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/lead/new",
+      "create_route": "/crm/leads/new",
       "custom_override": false,
-      "detail_route": "/generated/lead/{name}",
+      "detail_route": "/crm/leads/{name}",
       "doctype": "Lead",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/lead/{name}/edit",
+      "edit_route": "/crm/leads/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:lead",
@@ -30943,8 +30979,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/lead",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/leads",
       "module": "CRM",
       "page": null,
       "pdf_support": true,
@@ -31087,7 +31123,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/lead",
+      "route": "/crm/leads",
       "route_key": "lead",
       "source_location": [
         "erpnext:crm/doctype/lead/lead.json"
@@ -31097,7 +31133,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -32319,24 +32355,27 @@
           "required": true
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/material-requests/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/material-requests/{name}",
       "doctype": "Material Request",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/material-requests/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:material-request",
       "feature_label": "Material Request",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/material-requests",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -32413,7 +32452,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/material-requests",
       "route_key": "material-request",
       "source_location": [
         "erpnext:stock/doctype/material_request/material_request.json"
@@ -32423,7 +32462,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -32440,12 +32479,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/mode-of-payment/new",
+      "create_route": "/finance/modes-of-payment/new",
       "custom_override": false,
-      "detail_route": "/generated/mode-of-payment/{name}",
+      "detail_route": "/finance/modes-of-payment/{name}",
       "doctype": "Mode of Payment",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/mode-of-payment/{name}/edit",
+      "edit_route": "/finance/modes-of-payment/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:mode-of-payment",
@@ -32453,8 +32492,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/mode-of-payment",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/finance/modes-of-payment",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
@@ -32519,7 +32558,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/mode-of-payment",
+      "route": "/finance/modes-of-payment",
       "route_key": "mode-of-payment",
       "source_location": [
         "erpnext:accounts/doctype/mode_of_payment/mode_of_payment.json"
@@ -32528,7 +32567,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -32779,24 +32818,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/operations/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/operations/{name}",
       "doctype": "Operation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/operations/{name}/edit",
       "email_support": false,
       "export_support": true,
       "feature_id": "erpnext:doctype:operation",
       "feature_label": "Operation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/operations",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": false,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": false,
       "report": null,
       "required_permissions": [
@@ -32837,7 +32879,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/operations",
       "route_key": "operation",
       "source_location": [
         "erpnext:manufacturing/doctype/operation/operation.json"
@@ -32847,7 +32889,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -32943,12 +32985,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/opportunity/new",
+      "create_route": "/crm/opportunities/new",
       "custom_override": false,
-      "detail_route": "/generated/opportunity/{name}",
+      "detail_route": "/crm/opportunities/{name}",
       "doctype": "Opportunity",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/opportunity/{name}/edit",
+      "edit_route": "/crm/opportunities/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:opportunity",
@@ -32956,8 +32998,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/opportunity",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/opportunities",
       "module": "CRM",
       "page": null,
       "pdf_support": true,
@@ -33028,7 +33070,7 @@
           "write": 1
         }
       ],
-      "route": "/generated/opportunity",
+      "route": "/crm/opportunities",
       "route_key": "opportunity",
       "source_location": [
         "erpnext:crm/doctype/opportunity/opportunity.json"
@@ -33038,7 +33080,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -33702,7 +33744,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/finance/payments",
       "module": "Accounts",
       "page": null,
@@ -33756,7 +33798,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -34062,24 +34104,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/generated/payment-reconciliation/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/generated/payment-reconciliation/{name}",
       "doctype": "Payment Reconciliation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/generated/payment-reconciliation/{name}/edit",
       "email_support": false,
       "export_support": false,
       "feature_id": "erpnext:doctype:payment-reconciliation",
       "feature_label": "Payment Reconciliation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
       "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "list_route": "/generated/payment-reconciliation",
       "module": "Accounts",
       "page": null,
       "pdf_support": false,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": false,
       "report": null,
       "required_permissions": [
@@ -34120,7 +34165,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/generated/payment-reconciliation",
       "route_key": "payment-reconciliation",
       "source_location": [
         "erpnext:accounts/doctype/payment_reconciliation/payment_reconciliation.json"
@@ -34172,24 +34217,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/finance/payment-requests/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/finance/payment-requests/{name}",
       "doctype": "Payment Request",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/finance/payment-requests/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:payment-request",
       "feature_label": "Payment Request",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/finance/payment-requests",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -34230,7 +34278,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/finance/payment-requests",
       "route_key": "payment-request",
       "source_location": [
         "erpnext:accounts/doctype/payment_request/payment_request.json"
@@ -34240,7 +34288,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -35541,24 +35589,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/generated/pos-profile/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/generated/pos-profile/{name}",
       "doctype": "POS Profile",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/generated/pos-profile/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:pos-profile",
       "feature_label": "POS Profile",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
       "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "list_route": "/generated/pos-profile",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -35599,7 +35650,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/generated/pos-profile",
       "route_key": "pos-profile",
       "source_location": [
         "erpnext:accounts/doctype/pos_profile/pos_profile.json"
@@ -35739,12 +35790,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/price-list/new",
+      "create_route": "/inventory/price-lists/new",
       "custom_override": false,
-      "detail_route": "/generated/price-list/{name}",
+      "detail_route": "/inventory/price-lists/{name}",
       "doctype": "Price List",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/price-list/{name}/edit",
+      "edit_route": "/inventory/price-lists/{name}/edit",
       "email_support": false,
       "export_support": true,
       "feature_id": "erpnext:doctype:price-list",
@@ -35752,8 +35803,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/price-list",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/price-lists",
       "module": "Stock",
       "page": null,
       "pdf_support": false,
@@ -35877,7 +35928,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/price-list",
+      "route": "/inventory/price-lists",
       "route_key": "price-list",
       "source_location": [
         "erpnext:stock/doctype/price_list/price_list.json"
@@ -35886,7 +35937,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -36876,24 +36927,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/production-plans/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/production-plans/{name}",
       "doctype": "Production Plan",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/production-plans/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:production-plan",
       "feature_label": "Production Plan",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/production-plans",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -36916,7 +36970,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/production-plans",
       "route_key": "production-plan",
       "source_location": [
         "erpnext:manufacturing/doctype/production_plan/production_plan.json"
@@ -36926,7 +36980,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -36979,12 +37033,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/project/new",
+      "create_route": "/operations/projects/new",
       "custom_override": false,
-      "detail_route": "/generated/project/{name}",
+      "detail_route": "/operations/projects/{name}",
       "doctype": "Project",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/project/{name}/edit",
+      "edit_route": "/operations/projects/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:project",
@@ -36992,8 +37046,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/project",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/projects",
       "module": "Projects",
       "page": null,
       "pdf_support": true,
@@ -37100,7 +37154,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/project",
+      "route": "/operations/projects",
       "route_key": "project",
       "source_location": [
         "erpnext:projects/doctype/project/project.json"
@@ -37110,7 +37164,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -37859,24 +37913,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/invoices/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/invoices/{name}",
       "doctype": "Purchase Invoice",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/invoices/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:purchase-invoice",
       "feature_label": "Purchase Invoice",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/invoices",
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -37971,7 +38028,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/invoices",
       "route_key": "purchase-invoice",
       "source_location": [
         "erpnext:accounts/doctype/purchase_invoice/purchase_invoice.json"
@@ -37981,7 +38038,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -38138,24 +38195,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/orders/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/orders/{name}",
       "doctype": "Purchase Order",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/orders/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:purchase-order",
       "feature_label": "Purchase Order",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/orders",
       "module": "Buying",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "orange"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -38232,7 +38292,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/orders",
       "route_key": "purchase-order",
       "source_location": [
         "erpnext:buying/doctype/purchase_order/purchase_order.json"
@@ -38242,7 +38302,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -38373,24 +38433,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/receipts/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/receipts/{name}",
       "doctype": "Purchase Receipt",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/receipts/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:purchase-receipt",
       "feature_label": "Purchase Receipt",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/receipts",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -38485,7 +38548,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/receipts",
       "route_key": "purchase-receipt",
       "source_location": [
         "erpnext:stock/doctype/purchase_receipt/purchase_receipt.json"
@@ -38495,7 +38558,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -39034,24 +39097,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/quality-inspections/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/quality-inspections/{name}",
       "doctype": "Quality Inspection",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/quality-inspections/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:quality-inspection",
       "feature_label": "Quality Inspection",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/quality-inspections",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -39074,7 +39140,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/quality-inspections",
       "route_key": "quality-inspection",
       "source_location": [
         "erpnext:stock/doctype/quality_inspection/quality_inspection.json"
@@ -39083,7 +39149,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -39891,24 +39957,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/sales/quotations/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/sales/quotations/{name}",
       "doctype": "Quotation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/sales/quotations/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:quotation",
       "feature_label": "Quotation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/sales/quotations",
       "module": "Selling",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -40057,7 +40126,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/sales/quotations",
       "route_key": "quotation",
       "source_location": [
         "erpnext:selling/doctype/quotation/quotation.json"
@@ -40067,7 +40136,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -40718,24 +40787,27 @@
           "required": true
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/requests-for-quotation/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/requests-for-quotation/{name}",
       "doctype": "Request for Quotation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/requests-for-quotation/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:request-for-quotation",
       "feature_label": "Request for Quotation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/requests-for-quotation",
       "module": "Buying",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "orange"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -40848,7 +40920,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/requests-for-quotation",
       "route_key": "request-for-quotation",
       "source_location": [
         "erpnext:buying/doctype/request_for_quotation/request_for_quotation.json"
@@ -40858,7 +40930,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -41130,7 +41202,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/sales/invoices",
       "module": "Accounts",
       "page": null,
@@ -41221,7 +41293,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -41484,7 +41556,7 @@
       "generated_component": null,
       "implementation_type": "custom",
       "import_support": true,
-      "known_limitations": "Create/edit, workflow, actions, print and communication remain",
+      "known_limitations": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "list_route": "/sales/orders",
       "module": "Selling",
       "page": null,
@@ -41612,7 +41684,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Automated API and browser tests for list/detail",
+      "testing_state": "Automated API, lifecycle and frontend regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -41790,12 +41862,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/sales-person/new",
+      "create_route": "/crm/sales-people/new",
       "custom_override": false,
-      "detail_route": "/generated/sales-person/{name}",
+      "detail_route": "/crm/sales-people/{name}",
       "doctype": "Sales Person",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/sales-person/{name}/edit",
+      "edit_route": "/crm/sales-people/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:sales-person",
@@ -41803,8 +41875,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/sales-person",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/sales-people",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -41890,7 +41962,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/sales-person",
+      "route": "/crm/sales-people",
       "route_key": "sales-person",
       "source_location": [
         "erpnext:setup/doctype/sales_person/sales_person.json"
@@ -41901,7 +41973,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -42377,24 +42449,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/inventory/serial-numbers/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/inventory/serial-numbers/{name}",
       "doctype": "Serial No",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/inventory/serial-numbers/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:serial-no",
       "feature_label": "Serial No",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/serial-numbers",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -42453,7 +42528,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/inventory/serial-numbers",
       "route_key": "serial-no",
       "source_location": [
         "erpnext:stock/doctype/serial_no/serial_no.json"
@@ -42462,7 +42537,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -43535,24 +43610,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/inventory/stock-entries/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/inventory/stock-entries/{name}",
       "doctype": "Stock Entry",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/inventory/stock-entries/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:stock-entry",
       "feature_label": "Stock Entry",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/stock-entries",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -43629,7 +43707,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/inventory/stock-entries",
       "route_key": "stock-entry",
       "source_location": [
         "erpnext:stock/doctype/stock_entry/stock_entry.json"
@@ -43639,7 +43717,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -43852,24 +43930,27 @@
           "required": true
         }
       ],
-      "create_route": null,
+      "create_route": "/inventory/reconciliations/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/inventory/reconciliations/{name}",
       "doctype": "Stock Reconciliation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/inventory/reconciliations/{name}/edit",
       "email_support": false,
       "export_support": false,
       "feature_id": "erpnext:doctype:stock-reconciliation",
       "feature_label": "Stock Reconciliation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/reconciliations",
       "module": "Stock",
       "page": null,
       "pdf_support": false,
+      "presentation": {
+        "accent": "green"
+      },
       "print_support": false,
       "report": null,
       "required_permissions": [
@@ -43892,7 +43973,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/inventory/reconciliations",
       "route_key": "stock-reconciliation",
       "source_location": [
         "erpnext:stock/doctype/stock_reconciliation/stock_reconciliation.json"
@@ -43901,7 +43982,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -44342,24 +44423,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/subcontracting/orders/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/subcontracting/orders/{name}",
       "doctype": "Subcontracting Order",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/subcontracting/orders/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:subcontracting-order",
       "feature_label": "Subcontracting Order",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/subcontracting/orders",
       "module": "Subcontracting",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -44436,7 +44520,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/subcontracting/orders",
       "route_key": "subcontracting-order",
       "source_location": [
         "erpnext:subcontracting/doctype/subcontracting_order/subcontracting_order.json"
@@ -44446,7 +44530,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -44516,24 +44600,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/subcontracting/receipts/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/subcontracting/receipts/{name}",
       "doctype": "Subcontracting Receipt",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/subcontracting/receipts/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:subcontracting-receipt",
       "feature_label": "Subcontracting Receipt",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/subcontracting/receipts",
       "module": "Subcontracting",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -44628,7 +44715,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/subcontracting/receipts",
       "route_key": "subcontracting-receipt",
       "source_location": [
         "erpnext:subcontracting/doctype/subcontracting_receipt/subcontracting_receipt.json"
@@ -44638,7 +44725,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -45017,12 +45104,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/supplier/new",
+      "create_route": "/purchases/suppliers/new",
       "custom_override": false,
-      "detail_route": "/generated/supplier/{name}",
+      "detail_route": "/purchases/suppliers/{name}",
       "doctype": "Supplier",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/supplier/{name}/edit",
+      "edit_route": "/purchases/suppliers/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:supplier",
@@ -45030,8 +45117,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/supplier",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/suppliers",
       "module": "Buying",
       "page": null,
       "pdf_support": true,
@@ -45190,7 +45277,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/supplier",
+      "route": "/purchases/suppliers",
       "route_key": "supplier",
       "source_location": [
         "erpnext:buying/doctype/supplier/supplier.json"
@@ -45200,7 +45287,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -45217,12 +45304,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/supplier-group/new",
+      "create_route": "/purchases/supplier-groups/new",
       "custom_override": false,
-      "detail_route": "/generated/supplier-group/{name}",
+      "detail_route": "/purchases/supplier-groups/{name}",
       "doctype": "Supplier Group",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/supplier-group/{name}/edit",
+      "edit_route": "/purchases/supplier-groups/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:supplier-group",
@@ -45230,8 +45317,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/supplier-group",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/supplier-groups",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -45386,7 +45473,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/supplier-group",
+      "route": "/purchases/supplier-groups",
       "route_key": "supplier-group",
       "source_location": [
         "erpnext:setup/doctype/supplier_group/supplier_group.json"
@@ -45396,7 +45483,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -45471,24 +45558,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/purchases/supplier-quotations/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/purchases/supplier-quotations/{name}",
       "doctype": "Supplier Quotation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/purchases/supplier-quotations/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:supplier-quotation",
       "feature_label": "Supplier Quotation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/purchases/supplier-quotations",
       "module": "Buying",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "orange"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -45583,7 +45673,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/purchases/supplier-quotations",
       "route_key": "supplier-quotation",
       "source_location": [
         "erpnext:buying/doctype/supplier_quotation/supplier_quotation.json"
@@ -45593,7 +45683,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -46010,24 +46100,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/tasks/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/tasks/{name}",
       "doctype": "Task",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/tasks/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:task",
       "feature_label": "Task",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/tasks",
       "module": "Projects",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "turquoise"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -46050,7 +46143,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/tasks",
       "route_key": "task",
       "source_location": [
         "erpnext:projects/doctype/task/task.json"
@@ -46062,7 +46155,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -46646,12 +46739,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/territory/new",
+      "create_route": "/crm/territories/new",
       "custom_override": false,
-      "detail_route": "/generated/territory/{name}",
+      "detail_route": "/crm/territories/{name}",
       "doctype": "Territory",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/territory/{name}/edit",
+      "edit_route": "/crm/territories/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:territory",
@@ -46659,8 +46752,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/territory",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/territories",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -46815,7 +46908,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/territory",
+      "route": "/crm/territories",
       "route_key": "territory",
       "source_location": [
         "erpnext:setup/doctype/territory/territory.json"
@@ -46825,7 +46918,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -47213,12 +47306,12 @@
       "available_actions": [],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": "/generated/uom/new",
+      "create_route": "/inventory/uoms/new",
       "custom_override": false,
-      "detail_route": "/generated/uom/{name}",
+      "detail_route": "/inventory/uoms/{name}",
       "doctype": "UOM",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/uom/{name}/edit",
+      "edit_route": "/inventory/uoms/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:uom",
@@ -47226,8 +47319,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/uom",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/uoms",
       "module": "Setup",
       "page": null,
       "pdf_support": true,
@@ -47309,7 +47402,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/uom",
+      "route": "/inventory/uoms",
       "route_key": "uom",
       "source_location": [
         "erpnext:setup/doctype/uom/uom.json"
@@ -47318,7 +47411,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -47826,12 +47919,12 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": "/generated/warehouse/new",
+      "create_route": "/inventory/warehouses/new",
       "custom_override": false,
-      "detail_route": "/generated/warehouse/{name}",
+      "detail_route": "/inventory/warehouses/{name}",
       "doctype": "Warehouse",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/warehouse/{name}/edit",
+      "edit_route": "/inventory/warehouses/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:warehouse",
@@ -47839,8 +47932,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/warehouse",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/inventory/warehouses",
       "module": "Stock",
       "page": null,
       "pdf_support": true,
@@ -47981,7 +48074,7 @@
           "write": 0
         }
       ],
-      "route": "/generated/warehouse",
+      "route": "/inventory/warehouses",
       "route_key": "warehouse",
       "source_location": [
         "erpnext:stock/doctype/warehouse/warehouse.json"
@@ -47991,7 +48084,7 @@
         "List",
         "Tree"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -48370,24 +48463,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/work-orders/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/work-orders/{name}",
       "doctype": "Work Order",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/work-orders/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "erpnext:doctype:work-order",
       "feature_label": "Work Order",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/work-orders",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -48428,7 +48524,7 @@
           "write": 0
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/work-orders",
       "route_key": "work-order",
       "source_location": [
         "erpnext:manufacturing/doctype/work_order/work_order.json"
@@ -48439,7 +48535,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -48456,24 +48552,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/operations/manufacturing/workstations/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/operations/manufacturing/workstations/{name}",
       "doctype": "Workstation",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/operations/manufacturing/workstations/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "erpnext:doctype:workstation",
       "feature_label": "Workstation",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/operations/manufacturing/workstations",
       "module": "Manufacturing",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -48496,7 +48595,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/operations/manufacturing/workstations",
       "route_key": "workstation",
       "source_location": [
         "erpnext:manufacturing/doctype/workstation/workstation.json"
@@ -48506,7 +48605,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -72942,7 +73041,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -72963,7 +73062,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -73030,7 +73129,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -73049,7 +73148,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -73201,7 +73300,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -73219,7 +73318,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -73451,7 +73550,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -73471,7 +73570,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -73537,7 +73636,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -73557,7 +73656,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -74135,7 +74234,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -74155,7 +74254,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -74569,7 +74668,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -74588,7 +74687,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -75472,7 +75571,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -75492,7 +75591,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -76421,7 +76520,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -76442,7 +76541,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -76510,7 +76609,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -76529,7 +76628,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -76772,7 +76871,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "CRM",
       "page": null,
@@ -76792,7 +76891,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -77161,7 +77260,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "CRM",
       "page": null,
@@ -77180,7 +77279,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -77671,7 +77770,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -77691,7 +77790,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -77802,7 +77901,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Projects",
       "page": null,
@@ -77821,7 +77920,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -78015,7 +78114,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Buying",
       "page": null,
@@ -78036,7 +78135,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -78146,7 +78245,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -78167,7 +78266,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -78492,7 +78591,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Selling",
       "page": null,
@@ -78513,7 +78612,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -78578,7 +78677,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Selling",
       "page": null,
@@ -78600,7 +78699,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -79058,7 +79157,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -79077,7 +79176,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -79495,7 +79594,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Stock",
       "page": null,
@@ -79516,7 +79615,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -79581,7 +79680,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Stock",
       "page": null,
@@ -79600,7 +79699,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -79623,7 +79722,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Stock",
       "page": null,
@@ -79642,7 +79741,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -79745,7 +79844,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Stock",
       "page": null,
@@ -79770,7 +79869,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -80005,7 +80104,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -80024,7 +80123,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -80438,7 +80537,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Accounts",
       "page": null,
@@ -80458,7 +80557,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -80858,7 +80957,7 @@
       "generated_component": null,
       "implementation_type": "special",
       "import_support": false,
-      "known_limitations": "Required: no Retail ERP report adapter",
+      "known_limitations": "Interactive filter/chart/PDF verification remains",
       "list_route": null,
       "module": "Manufacturing",
       "page": null,
@@ -80878,7 +80977,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority report permission and execution adapter tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -103482,12 +103581,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/address/new",
+      "create_route": "/crm/addresses/new",
       "custom_override": false,
-      "detail_route": "/generated/address/{name}",
+      "detail_route": "/crm/addresses/{name}",
       "doctype": "Address",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/address/{name}/edit",
+      "edit_route": "/crm/addresses/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "frappe:doctype:address",
@@ -103495,8 +103594,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/address",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/addresses",
       "module": "Contacts",
       "page": null,
       "pdf_support": true,
@@ -103640,7 +103739,7 @@
           "write": 1
         }
       ],
-      "route": "/generated/address",
+      "route": "/crm/addresses",
       "route_key": "address",
       "source_location": [
         "frappe:contacts/doctype/address/address.json"
@@ -103649,7 +103748,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -105190,12 +105289,12 @@
           "required": false
         }
       ],
-      "create_route": "/generated/contact/new",
+      "create_route": "/crm/contacts/new",
       "custom_override": false,
-      "detail_route": "/generated/contact/{name}",
+      "detail_route": "/crm/contacts/{name}",
       "doctype": "Contact",
       "documentation_state": "Inventory documented",
-      "edit_route": "/generated/contact/{name}/edit",
+      "edit_route": "/crm/contacts/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "frappe:doctype:contact",
@@ -105203,8 +105302,8 @@
       "generated_component": "UniversalDocument",
       "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": "/generated/contact",
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/crm/contacts",
       "module": "Contacts",
       "page": null,
       "pdf_support": true,
@@ -105455,7 +105554,7 @@
           "write": 1
         }
       ],
-      "route": "/generated/contact",
+      "route": "/crm/contacts",
       "route_key": "contact",
       "source_location": [
         "frappe:contacts/doctype/contact/contact.json"
@@ -105464,7 +105563,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -113130,24 +113229,27 @@
       ],
       "category": "doctype",
       "child_doctypes": [],
-      "create_route": null,
+      "create_route": "/admin/roles/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/admin/roles/{name}",
       "doctype": "Role",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/admin/roles/{name}/edit",
       "email_support": true,
       "export_support": false,
       "feature_id": "frappe:doctype:role",
       "feature_label": "Role",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": false,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/admin/roles",
       "module": "Core",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -113170,7 +113272,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/admin/roles",
       "route_key": "role",
       "source_location": [
         "frappe:core/doctype/role/role.json"
@@ -113179,7 +113281,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null
@@ -115231,24 +115333,27 @@
           "required": false
         }
       ],
-      "create_route": null,
+      "create_route": "/admin/users/new",
       "custom_override": false,
-      "detail_route": null,
+      "detail_route": "/admin/users/{name}",
       "doctype": "User",
       "documentation_state": "Inventory documented",
-      "edit_route": null,
+      "edit_route": "/admin/users/{name}/edit",
       "email_support": true,
       "export_support": true,
       "feature_id": "frappe:doctype:user",
       "feature_label": "User",
-      "generated_component": null,
-      "implementation_type": "unavailable",
+      "generated_component": "UniversalDocument",
+      "implementation_type": "generated_provisional",
       "import_support": true,
-      "known_limitations": "Required for ordinary-user parity",
-      "list_route": null,
+      "known_limitations": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "list_route": "/admin/users",
       "module": "Core",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue"
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -115307,7 +115412,7 @@
           "write": 1
         }
       ],
-      "route": null,
+      "route": "/admin/users",
       "route_key": "user",
       "source_location": [
         "frappe:core/doctype/user/user.json"
@@ -115316,7 +115421,7 @@
         "Form",
         "List"
       ],
-      "testing_state": "Not tested",
+      "testing_state": "Priority route, permission and adapter regression tests",
       "user_facing": true,
       "workflow_state": null,
       "workspace": null

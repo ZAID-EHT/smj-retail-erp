@@ -8,6 +8,7 @@ from collections import Counter, defaultdict
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 import frappe
 from frappe.model import NO_VALUE_FIELDS
@@ -370,11 +371,28 @@ def _doctype_views(row: frappe._dict, source: dict | None, calendars: set[str], 
 
 
 def _custom_route_for_doctype(name: str) -> str | None:
-	return {
+	custom = {
 		"Customer": "/retail-erp/sales/customers",
 		"Item": "/retail-erp/inventory/products",
 		"Sales Order": "/retail-erp/sales/orders",
-	}.get(name)
+		"Delivery Note": "/retail-erp/sales/delivery-notes",
+		"Sales Invoice": "/retail-erp/sales/invoices",
+		"Payment Entry": "/retail-erp/finance/payments",
+	}
+	if name in custom:
+		return custom[name]
+	# The priority registry is a pure server-owned declaration. Importing it
+	# here keeps the generated inventory aligned with clean registered routes
+	# without making any feature discoverable merely because it exists.
+	from my_store_ui.services.priority_registry import CANONICAL_ROUTE_BY_DOCTYPE
+	return CANONICAL_ROUTE_BY_DOCTYPE.get(name)
+
+
+def _custom_route_for_report(name: str) -> str | None:
+	from my_store_ui.services.priority_registry import REPORT_GROUPS
+	if name not in {report for reports in REPORT_GROUPS.values() for report in reports}:
+		return None
+	return f"/retail-erp/reports/view/{quote(name, safe='')}"
 
 
 def _collect_database_snapshot() -> dict:
@@ -597,9 +615,14 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 		test_status = "Not tested"
 		remaining = "Required for ordinary-user parity"
 		if custom_route:
-			completion = "Read-only list/detail implemented; forms and actions pending"
-			test_status = "Automated API and browser tests for list/detail"
-			remaining = "Create/edit, workflow, actions, print and communication remain"
+			if row.name in {"Customer", "Item", "Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry"}:
+				completion = "Handcrafted Retail ERP workflow implemented within documented scope"
+				test_status = "Automated API, lifecycle and frontend regression tests"
+				remaining = "Feature-specific advanced actions and complete interactive role/browser matrix remain"
+			else:
+				completion = "Generated provisional list/detail/form and allowlisted action coverage"
+				test_status = "Priority route, permission and adapter regression tests"
+				remaining = "Per-feature transaction, collaboration and interactive browser graduation remains"
 		feature = _base_feature(
 			feature_id=_feature_id(application, "child_doctype" if cint(row.get("istable")) else "doctype", row.name),
 			application=application,
@@ -674,12 +697,14 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 		source = catalog["reports"].get(row.name)
 		application = source["app"] if source else module_app.get(row.module, "unknown")
 		disabled = bool(cint(row.get("disabled")))
+		custom_route = _custom_route_for_report(row.name) if not disabled else None
 		roles = _roles_for_parent("Report", row.name)
 		source_metadata = _report_source_metadata(source, package_paths)
 		feature = _base_feature(
 			feature_id=_feature_id(application, "report", row.name), application=application, module=row.module,
 			feature_type="report", name=row.name, report=row.name, parent_feature=row.get("ref_doctype"),
 			route=f"/app/query-report/{row.name}", standard_desk_route=f"/app/query-report/{row.name}",
+			current_custom_route=custom_route,
 			source_location=_source_locations(row.name, catalog, "reports"), relevant_roles=roles,
 			report_permissions=roles, supported_views=[row.get("report_type") or "Report"],
 			metadata={
@@ -696,7 +721,9 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 			read=not disabled, export=not disabled, print=not disabled, pdf=not disabled,
 			implementation_type="Report engine", classification="D", user_facing=not disabled,
 			exclusion_reason="Report is disabled on this site" if disabled else None,
-			remaining_desk_dependency="Required: no Retail ERP report adapter" if not disabled else "None while disabled",
+			test_status="Priority report permission and execution adapter tests" if custom_route else "Not tested",
+			completion_status="Permission-aware report viewer provisional" if custom_route else "Not implemented",
+			remaining_desk_dependency=("Interactive filter/chart/PDF verification remains" if custom_route else "Required: no Retail ERP report adapter") if not disabled else "None while disabled",
 			notes=[f"type={row.get('report_type')}", f"reference_doctype={row.get('ref_doctype') or ''}",
 				f"prepared_report={bool(cint(row.get('prepared_report')))}", f"total_row={bool(cint(row.get('add_total_row')))}",
 				f"has_filters={bool(row.get('filters'))}", f"has_columns={bool(row.get('columns'))}"],
@@ -1127,6 +1154,18 @@ def _audit_summary_markdown(inventory: dict) -> str:
 	}
 	for code in "ABCDEFG":
 		lines.append(f"| {code} | {classification_labels[code]} | {counts['classification_counts'].get(code, 0)} |")
+	from my_store_ui.services.priority_registry import ENTITY_ROUTES, FORM_VARIANTS, REPORT_GROUPS, SPECIAL_ROUTES
+	priority_reports = {report for reports in REPORT_GROUPS.values() for report in reports}
+	lines.extend([
+		"", "## Priority page expansion (2026-07-13)", "",
+		f"- Clean priority entity bases registered: **{len(ENTITY_ROUTES)}**.",
+		f"- Purpose-specific transaction forms registered: **{len(FORM_VARIANTS)}**.",
+		f"- Special/read/alias routes registered: **{len(SPECIAL_ROUTES)}**.",
+		f"- Priority report names allowlisted: **{len(priority_reports)}** across **{len(REPORT_GROUPS)}** groups.",
+		"- Existing handcrafted Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry routes retain priority.",
+		"- Generated transactions and specialised tools remain provisional; a route does not count as full workflow parity.",
+		"- Detailed route classifications and limitations are in `docs/priority-page-coverage.md`.",
+	])
 	lines.extend([
 		"", "## Rerun commands", "",
 		"```bash", "bench --site site1.local execute my_store_ui.audit.feature_inventory.generate_complete_inventory", "bench --site site1.local execute my_store_ui.audit.feature_inventory.audit_feature_parity", "```",
@@ -1145,6 +1184,7 @@ def _unmapped_markdown(inventory: dict) -> str:
 	lines = [
 		"# Unmapped Retail ERP features", "",
 		f"Total user-facing features without a registered custom route: **{len(features)}**.", "",
+		"The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.", "",
 		"| Feature ID | App | Module | Type | Name | Classification | Standard route | Dependency |", "|---|---|---|---|---|---|---|---|",
 	]
 	for item in features:

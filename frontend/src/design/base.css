@@ -79,7 +79,6 @@ img.ref-brand__logo { object-fit: contain; padding: 3px; }
 .ref-header__actions { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
 .ref-icon-button { position: relative; display: grid; place-items: center; width: 38px; height: 38px; border: 0 !important; border-radius: 9px !important; background: transparent !important; color: inherit !important; cursor: pointer; }
 .ref-icon-button:hover { background: rgba(255,255,255,.12) !important; }
-.ref-notification-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--ref-orange); border: 1px solid #fff; }
 .ref-user-menu { height: 42px; display: flex; align-items: center; gap: 8px; padding: 0 8px 0 4px; border: 0 !important; border-radius: 10px !important; background: rgba(255,255,255,.09) !important; color: #fff !important; cursor: pointer; }
 .ref-user-menu__avatar { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #def7e8; color: #137847; font-size: 12px; font-weight: 800; }
 .ref-user-menu__name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; font-weight: 650; }

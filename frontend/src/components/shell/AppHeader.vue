@@ -22,10 +22,6 @@ defineEmits(["toggle-mobile-navigation"]);
       <ModuleNavigation class="ref-header__navigation" />
       <GlobalSearch class="ref-header__search" />
       <div class="ref-header__actions">
-        <button class="ref-icon-button" type="button" aria-label="Notifications" title="Notifications">
-          <span aria-hidden="true">♢</span>
-          <span class="ref-notification-dot" aria-hidden="true"></span>
-        </button>
         <UserMenu />
       </div>
     </div>

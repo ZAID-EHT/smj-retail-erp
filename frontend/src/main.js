@@ -11,6 +11,7 @@ import "./design/responsive.css";
 import "./design/standalone.css";
 import "./design/universal.css";
 import "./design/generated-ux.css";
+import "./design/priority-pages.css";
 
 let activeInstance = null;
 

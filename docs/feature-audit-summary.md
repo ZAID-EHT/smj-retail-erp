@@ -42,26 +42,10 @@ Result: **FAIL**
 | Failure class | Count |
 |---|---:|
 | Unclassified User Facing | 0 |
-| Unmapped User Facing | 2477 |
+| Unmapped User Facing | 2396 |
 | Undocumented Actions | 0 |
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
-
-## Universal generated UX review (2026-07-13)
-
-The shared generated list, form and detail engines now use the Retail ERP
-presentation system, bounded primary filters, a More Filters drawer, active
-chips, column preferences, grouped forms, responsive cards, collaboration
-adapters and standard Frappe print discovery. The 20 provisional DocTypes all
-passed Administrator list/configuration smoke checks. The existing
-non-Administrator user could read 17; Department, Project and UOM were denied
-by current permissions. Guest access remained denied.
-
-Graduated to `generated_complete`: **0**. All 20 remain provisional because
-per-feature collaboration writes and interactive browser viewport checks are
-incomplete, and protected PDF output cannot be visually verified while
-`wkhtmltopdf` is missing. This UX work does not reduce the strict unmapped count
-or inflate the approximately 19% project-wide strict completion estimate.
 
 ## Reconciliation
 
@@ -106,6 +90,16 @@ or inflate the approximately 19% project-wide strict completion estimate.
 | E | Administrative interface | 554 |
 | F | Safe embedded integration | 7 |
 | G | System-internal and not user-facing | 350 |
+
+## Priority page expansion (2026-07-13)
+
+- Clean priority entity bases registered: **54**.
+- Purpose-specific transaction forms registered: **3**.
+- Special/read/alias routes registered: **13**.
+- Priority report names allowlisted: **27** across **6** groups.
+- Existing handcrafted Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry routes retain priority.
+- Generated transactions and specialised tools remain provisional; a route does not count as full workflow parity.
+- Detailed route classifications and limitations are in `docs/priority-page-coverage.md`.
 
 ## Rerun commands
 

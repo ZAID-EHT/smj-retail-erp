@@ -181,7 +181,7 @@ def create_draft_sales_order(payload: str | dict):
 	cache_key = f"my_store_ui:sales_order:{frappe.session.user}:{request_id}"
 	existing = frappe.cache.get_value(cache_key)
 	if existing and frappe.db.exists("Sales Order", existing):
-		return {"name": existing, "route": f"/app/sales-order/{existing}", "duplicate": True}
+		return {"name": existing, "route": f"/sales/orders/{existing}", "duplicate": True}
 
 	customer = (data.get("customer") or "").strip()
 	company = (data.get("company") or _default_company() or "").strip()
@@ -221,7 +221,7 @@ def create_draft_sales_order(payload: str | dict):
 	# ERPNext fetches item defaults, rates, taxes and totals during insertion.
 	order.insert()
 	frappe.cache.set_value(cache_key, order.name, expires_in_sec=3600)
-	return {"name": order.name, "route": f"/app/sales-order/{order.name}", "duplicate": False}
+	return {"name": order.name, "route": f"/sales/orders/{order.name}", "duplicate": False}
 
 
 def get_navigation():

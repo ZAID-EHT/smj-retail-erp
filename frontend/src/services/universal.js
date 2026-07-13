@@ -47,7 +47,7 @@ export const deleteDocument = (feature, name, modified) => callUniversal("delete
 export const runDocumentAction = (feature, name, action, modified, parameters = {}) => callUniversal("run_document_action", { feature, name, action, modified, parameters });
 export const getWorkflowActions = (feature, name, signal) => callUniversal("get_workflow_actions", { feature, name }, { signal, httpMethod: "GET" });
 export const runWorkflowAction = (feature, name, action, modified) => callUniversal("run_workflow_action", { feature, name, action, modified });
-export const getLinkOptions = (feature, fieldname, search, parentFieldname, signal) => callUniversal("get_link_options", { feature, fieldname, search, parent_fieldname: parentFieldname }, { signal, httpMethod: "GET" });
+export const getLinkOptions = (feature, fieldname, search, parentFieldname, signal, dynamicDoctype) => callUniversal("get_link_options", { feature, fieldname, search, parent_fieldname: parentFieldname, dynamic_doctype: dynamicDoctype }, { signal, httpMethod: "GET" });
 export const getTimeline = (feature, name, signal) => callUniversal("get_document_timeline", { feature, name }, { signal, httpMethod: "GET" });
 export const getRelated = (feature, name, signal) => callUniversal("get_related_documents", { feature, name }, { signal, httpMethod: "GET" });
 export const getPrintFormats = (feature, name, signal) => callUniversal("get_print_formats", { feature, name }, { signal, httpMethod: "GET" });

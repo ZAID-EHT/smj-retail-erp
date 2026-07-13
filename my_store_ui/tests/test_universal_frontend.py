@@ -26,7 +26,7 @@ from my_store_ui.universal.api import (
 	run_document_action,
 	update_document,
 )
-from my_store_ui.universal.registry import CUSTOM_OVERRIDES, GENERATED_ALLOWLIST, get_feature, get_generated_feature
+from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES, CUSTOM_OVERRIDES, GENERATED_ALLOWLIST, get_feature, get_generated_feature
 
 
 class TestUniversalFrontendFoundation(unittest.TestCase):
@@ -59,12 +59,15 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		with self.assertRaises(frappe.DoesNotExistError):
 			get_feature("definitely-not-installed")
 		with self.assertRaises(frappe.PermissionError):
-			get_generated_feature("stock-entry")
+			get_generated_feature("gl-entry")
 
 	def test_registry_is_paginated_and_does_not_ship_inventory(self):
 		result = get_feature_registry(implementation_type="generated_provisional", page_length=5)
 		self.assertEqual(len(result["records"]), 5)
-		self.assertEqual(result["total"], 20)
+		# The registry contains only installed, user-facing inventory records. A
+		# priority allowlist entry can legitimately be absent from that inventory.
+		self.assertGreaterEqual(result["total"], len(GENERATED_ALLOWLIST))
+		self.assertLessEqual(result["total"], len(ALL_GENERATED_DOCTYPES))
 		self.assertTrue(all("required_permissions" not in row for row in result["records"]))
 
 	def test_metadata_filters_fields_and_marks_client_behaviour(self):
@@ -93,7 +96,7 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		name = frappe.get_list("Supplier", pluck="name", limit_page_length=1)[0]
 		result = get_document_detail("supplier", name)
 		self.assertEqual(result["document"]["name"], name)
-		self.assertTrue(result["route"].startswith("/generated/supplier/"))
+		self.assertTrue(result["route"].startswith("/purchases/suppliers/"))
 		with self.assertRaises(frappe.DoesNotExistError):
 			get_document_detail("supplier", "DOES-NOT-EXIST-UNIVERSAL")
 		with patch("my_store_ui.universal.api.frappe.get_list", return_value=[]), patch("my_store_ui.universal.api.frappe.get_doc") as get_doc:
@@ -152,12 +155,13 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		custom, _params = resolve_frontend_route("/retail-erp/sales/customers")
 		self.assertEqual(custom["name"], "customer-list")
 
-	def test_navigation_promotes_only_allowlisted_generated_features(self):
+	def test_navigation_promotes_clean_priority_routes(self):
 		navigation = get_permitted_navigation()
 		paths = {link["path"] for module in navigation for link in module["links"]}
-		self.assertIn("/generated/supplier", paths)
-		self.assertIn("/generated/warehouse", paths)
-		self.assertNotIn("/generated/stock-entry", paths)
+		self.assertIn("/purchases/suppliers", paths)
+		self.assertIn("/inventory/warehouses", paths)
+		self.assertIn("/inventory/stock-entries", paths)
+		self.assertFalse(any(path.startswith("/generated/") for path in paths))
 
 	def test_frontend_contains_lazy_generated_routes_and_no_desk_links(self):
 		routes = (APP_PATH / "frontend/src/router/routes.js").read_text()

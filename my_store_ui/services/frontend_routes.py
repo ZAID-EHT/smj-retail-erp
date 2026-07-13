@@ -11,6 +11,8 @@ from urllib.parse import quote, unquote, urlsplit
 
 import frappe
 
+from my_store_ui.services.priority_registry import ENTITY_ROUTES, FORM_VARIANTS, REPORT_GROUPS, SPECIAL_ROUTES
+
 
 BASE_PATH = "/retail-erp"
 
@@ -58,63 +60,97 @@ ROUTE_REGISTRY = (
 
 NAVIGATION = (
 	{"name": "home", "label": "Home", "path": "/home", "accent": "blue", "icon": "home", "links": (
-		{"label": "Dashboard", "path": "/home"}, {"label": "Recent Records"}, {"label": "Quick Actions"}, {"label": "Alerts"},
+		{"label": "Dashboard", "path": "/home"}, {"label": "Sales", "path": "/sales"},
+		{"label": "Purchases", "path": "/purchases"}, {"label": "Inventory", "path": "/inventory"},
+		{"label": "Finance", "path": "/finance"}, {"label": "Reports", "path": "/reports"},
+	)},
+	{"name": "smart-sales", "label": "Smart Sales", "path": "/smart-sales", "accent": "blue", "icon": "cart", "any_read": ("Customer", "Item", "Sales Order"), "links": (
+		{"label": "Open Smart Sales", "path": "/smart-sales", "any_read": ("Customer", "Item", "Sales Order")},
+		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"},
+		{"label": "Products", "path": "/inventory/products", "doctype": "Item"},
+		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 	)},
 	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "blue", "icon": "sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice"), "links": (
-		{"label": "Smart Sales", "path": "/smart-sales", "any_read": ("Customer", "Item", "Sales Order")},
-		{"label": "POS Awesome", "page": "posapp"},
+		{"label": "Sales Dashboard", "path": "/sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice")},
 		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"},
-		{"label": "Quotations", "doctype": "Quotation"},
+		{"label": "Quotations", "path": "/sales/quotations", "doctype": "Quotation"},
 		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},
 		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
 		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
-		{"label": "Sales Reports", "report": "Sales Analytics"},
+		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
 	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "orange", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
-		{"label": "Suppliers", "doctype": "Supplier"}, {"label": "Material Requests", "doctype": "Material Request"},
-		{"label": "Requests for Quotation", "doctype": "Request for Quotation"}, {"label": "Supplier Quotations", "doctype": "Supplier Quotation"},
-		{"label": "Purchase Orders", "doctype": "Purchase Order"}, {"label": "Purchase Receipts", "doctype": "Purchase Receipt"},
-		{"label": "Purchase Invoices", "doctype": "Purchase Invoice"}, {"label": "Purchase Reports", "report": "Purchase Analytics"},
+		{"label": "Purchases Dashboard", "path": "/purchases", "any_read": ("Supplier", "Purchase Order", "Purchase Invoice")},
+		{"label": "Suppliers", "path": "/purchases/suppliers", "doctype": "Supplier"},
+		{"label": "Supplier Groups", "path": "/purchases/supplier-groups", "doctype": "Supplier Group"},
+		{"label": "Material Requests", "path": "/purchases/material-requests", "doctype": "Material Request"},
+		{"label": "Requests for Quotation", "path": "/purchases/requests-for-quotation", "doctype": "Request for Quotation"},
+		{"label": "Supplier Quotations", "path": "/purchases/supplier-quotations", "doctype": "Supplier Quotation"},
+		{"label": "Purchase Orders", "path": "/purchases/orders", "doctype": "Purchase Order"},
+		{"label": "Purchase Receipts", "path": "/purchases/receipts", "doctype": "Purchase Receipt"},
+		{"label": "Purchase Invoices", "path": "/purchases/invoices", "doctype": "Purchase Invoice"},
+		{"label": "Purchase Reports", "path": "/reports/purchases", "report": "Purchase Register"},
 	)},
 	{"name": "inventory", "label": "Inventory", "path": "/inventory", "accent": "green", "icon": "box", "any_read": ("Item", "Item Group", "Brand", "Warehouse", "Stock Entry"), "links": (
+		{"label": "Inventory Dashboard", "path": "/inventory", "any_read": ("Item", "Warehouse", "Stock Entry")},
 		{"label": "Products", "path": "/inventory/products", "doctype": "Item"}, {"label": "New Product", "path": "/inventory/products/new", "doctype": "Item", "permission": "create"},
-		{"label": "Item Groups", "doctype": "Item Group"}, {"label": "Brands", "doctype": "Brand"}, {"label": "Warehouses", "doctype": "Warehouse"},
-		{"label": "Stock Entry", "doctype": "Stock Entry"}, {"label": "Stock Transfer", "doctype": "Stock Entry"},
-		{"label": "Stock Reconciliation", "doctype": "Stock Reconciliation"}, {"label": "Serial Numbers", "doctype": "Serial No"},
-		{"label": "Batch Numbers", "doctype": "Batch"}, {"label": "Reorder Alerts", "report": "Stock Projected Qty"},
-		{"label": "Stock Balance", "report": "Stock Balance"}, {"label": "Stock Ledger", "report": "Stock Ledger"}, {"label": "Stock Reports", "report": "Stock Analytics"},
+		{"label": "Item Groups", "path": "/inventory/item-groups", "doctype": "Item Group"}, {"label": "Brands", "path": "/inventory/brands", "doctype": "Brand"},
+		{"label": "Warehouses", "path": "/inventory/warehouses", "doctype": "Warehouse"}, {"label": "Item Prices", "path": "/inventory/item-prices", "doctype": "Item Price"},
+		{"label": "Price Lists", "path": "/inventory/price-lists", "doctype": "Price List"}, {"label": "Units of Measure", "path": "/inventory/uoms", "doctype": "UOM"},
+		{"label": "Stock Entries", "path": "/inventory/stock-entries", "doctype": "Stock Entry"}, {"label": "Stock Transfer", "path": "/inventory/transfers/new", "doctype": "Stock Entry", "permission": "create"},
+		{"label": "Stock Receipt", "path": "/inventory/receipts/new", "doctype": "Stock Entry", "permission": "create"}, {"label": "Stock Issue", "path": "/inventory/issues/new", "doctype": "Stock Entry", "permission": "create"},
+		{"label": "Stock Reconciliation", "path": "/inventory/reconciliations", "doctype": "Stock Reconciliation"}, {"label": "Serial Numbers", "path": "/inventory/serial-numbers", "doctype": "Serial No"},
+		{"label": "Batch Numbers", "path": "/inventory/batches", "doctype": "Batch"}, {"label": "Reorder Alerts", "path": "/inventory/reorder-alerts", "report": "Stock Projected Qty"},
+		{"label": "Stock Reports", "path": "/reports/inventory", "report": "Stock Balance"},
 	)},
 	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "purple", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account"), "links": (
-		{"label": "Finance Dashboard", "path": "/finance"}, {"label": "Chart of Accounts", "doctype": "Account"},
-		{"label": "Journal Entries", "doctype": "Journal Entry"}, {"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
-		{"label": "Bank Reconciliation", "page": "bank-reconciliation-tool"}, {"label": "Accounts Receivable", "report": "Accounts Receivable"},
-		{"label": "Accounts Payable", "report": "Accounts Payable"}, {"label": "General Ledger", "report": "General Ledger"},
-		{"label": "Trial Balance", "report": "Trial Balance"}, {"label": "Profit and Loss", "report": "Profit and Loss Statement"},
-		{"label": "Balance Sheet", "report": "Balance Sheet"}, {"label": "Cash Flow", "report": "Cash Flow"}, {"label": "Financial Reports", "report": "Financial Statements"},
+		{"label": "Finance Dashboard", "path": "/finance"},
+		{"label": "Chart of Accounts", "path": "/finance/chart-of-accounts", "doctype": "Account"},
+		{"label": "Journal Entries", "path": "/finance/journal-entries", "doctype": "Journal Entry"}, {"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
+		{"label": "Payment Requests", "path": "/finance/payment-requests", "doctype": "Payment Request"}, {"label": "Payment Reconciliation", "path": "/finance/payment-reconciliation", "doctype": "Payment Reconciliation"},
+		{"label": "Bank Reconciliation", "path": "/finance/bank-reconciliation", "doctype": "Bank Reconciliation Tool"},
+		{"label": "Cost Centers", "path": "/finance/cost-centers", "doctype": "Cost Center"}, {"label": "Modes of Payment", "path": "/finance/modes-of-payment", "doctype": "Mode of Payment"},
+		{"label": "Financial Reports", "path": "/reports/finance", "report": "General Ledger"},
 	)},
 	{"name": "operations", "label": "Operations", "path": "/operations", "accent": "turquoise", "icon": "settings", "any_read": ("Asset", "Work Order", "BOM", "Quality Inspection", "Project", "Issue"), "links": (
-		{"label": "Assets", "doctype": "Asset"}, {"label": "Asset Movements", "doctype": "Asset Movement"},
-		{"label": "Manufacturing", "doctype": "Work Order"}, {"label": "Bills of Materials", "doctype": "BOM"},
-		{"label": "Production Plans", "doctype": "Production Plan"}, {"label": "Job Cards", "doctype": "Job Card"},
-		{"label": "Subcontracting", "doctype": "Subcontracting Order"}, {"label": "Quality", "doctype": "Quality Inspection"},
-		{"label": "Projects", "doctype": "Project"}, {"label": "Tasks", "doctype": "Task"}, {"label": "Support", "doctype": "Issue"},
+		{"label": "Operations Dashboard", "path": "/operations", "any_read": ("Project", "Asset", "Work Order", "Issue")},
+		{"label": "Projects", "path": "/operations/projects", "doctype": "Project"}, {"label": "Tasks", "path": "/operations/tasks", "doctype": "Task"},
+		{"label": "Assets", "path": "/operations/assets", "doctype": "Asset"}, {"label": "Asset Movements", "path": "/operations/asset-movements", "doctype": "Asset Movement"},
+		{"label": "Quality Inspections", "path": "/operations/quality-inspections", "doctype": "Quality Inspection"}, {"label": "Support Issues", "path": "/operations/support/issues", "doctype": "Issue"},
+		{"label": "Manufacturing", "path": "/operations/manufacturing", "doctype": "Work Order"}, {"label": "Bills of Materials", "path": "/operations/manufacturing/boms", "doctype": "BOM"},
+		{"label": "Production Plans", "path": "/operations/manufacturing/production-plans", "doctype": "Production Plan"}, {"label": "Work Orders", "path": "/operations/manufacturing/work-orders", "doctype": "Work Order"},
+		{"label": "Job Cards", "path": "/operations/manufacturing/job-cards", "doctype": "Job Card"}, {"label": "Operations", "path": "/operations/manufacturing/operations", "doctype": "Operation"},
+		{"label": "Workstations", "path": "/operations/manufacturing/workstations", "doctype": "Workstation"}, {"label": "Subcontracting", "path": "/operations/subcontracting", "doctype": "Subcontracting Order"},
+		{"label": "Departments", "path": "/operations/departments", "doctype": "Department"}, {"label": "Designations", "path": "/operations/designations", "doctype": "Designation"},
 	)},
 	{"name": "crm", "label": "CRM", "path": "/crm", "accent": "pink", "icon": "users", "any_read": ("Lead", "Opportunity", "Customer", "Contact"), "links": (
-		{"label": "Leads", "doctype": "Lead"}, {"label": "Opportunities", "doctype": "Opportunity"},
-		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"}, {"label": "Contacts", "doctype": "Contact"},
-		{"label": "Campaigns", "doctype": "Campaign"}, {"label": "Appointments", "doctype": "Appointment"}, {"label": "CRM Reports", "report": "CRM Analytics"},
+		{"label": "CRM Dashboard", "path": "/crm", "any_read": ("Lead", "Opportunity", "Customer", "Contact")},
+		{"label": "Leads", "path": "/crm/leads", "doctype": "Lead"}, {"label": "Opportunities", "path": "/crm/opportunities", "doctype": "Opportunity"},
+		{"label": "Customers", "path": "/crm/customers", "doctype": "Customer"}, {"label": "Contacts", "path": "/crm/contacts", "doctype": "Contact"},
+		{"label": "Addresses", "path": "/crm/addresses", "doctype": "Address"}, {"label": "Campaigns", "path": "/crm/campaigns", "doctype": "Campaign"},
+		{"label": "Appointments", "path": "/crm/appointments", "doctype": "Appointment"}, {"label": "Territories", "path": "/crm/territories", "doctype": "Territory"},
+		{"label": "Customer Groups", "path": "/crm/customer-groups", "doctype": "Customer Group"}, {"label": "Sales People", "path": "/crm/sales-people", "doctype": "Sales Person"},
+		{"label": "CRM Reports", "path": "/reports/crm", "report": "CRM Analytics"},
 	)},
 	{"name": "reports", "label": "Reports", "path": "/reports", "accent": "dark-blue", "icon": "chart", "links": (
-		{"label": "Sales Reports", "report": "Sales Analytics"}, {"label": "Purchase Reports", "report": "Purchase Analytics"},
-		{"label": "Inventory Reports", "report": "Stock Analytics"}, {"label": "Finance Reports", "report": "General Ledger"},
-		{"label": "CRM Reports", "report": "CRM Analytics"}, {"label": "Operations Reports", "report": "Project Summary"}, {"label": "Custom Reports", "doctype": "Report"},
+		{"label": "Report Hub", "path": "/reports"}, {"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
+		{"label": "Purchase Reports", "path": "/reports/purchases", "report": "Purchase Register"}, {"label": "Inventory Reports", "path": "/reports/inventory", "report": "Stock Balance"},
+		{"label": "Finance Reports", "path": "/reports/finance", "report": "General Ledger"}, {"label": "CRM Reports", "path": "/reports/crm", "report": "CRM Analytics"},
+		{"label": "Operations Reports", "path": "/reports/operations", "report": "Project Summary"},
+	)},
+	{"name": "pos", "label": "POS", "path": "/pos", "accent": "green", "icon": "cart", "any_read": ("POS Profile",), "links": (
+		{"label": "Point of Sale", "path": "/pos", "doctype": "POS Profile"},
+		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
 	)},
 	{"name": "admin", "label": "Admin", "path": "/admin", "accent": "purple", "icon": "shield", "roles": ("System Manager",), "links": (
-		{"label": "Users", "doctype": "User"}, {"label": "Roles", "doctype": "Role"}, {"label": "Role Permissions", "page": "permission-manager"},
-		{"label": "Companies", "doctype": "Company"}, {"label": "Settings", "doctype": "System Settings"},
-		{"label": "Integrations", "doctype": "Integration Request"}, {"label": "Website", "doctype": "Website Settings"},
-		{"label": "Data Import", "doctype": "Data Import"}, {"label": "Background Jobs", "page": "background_jobs"}, {"label": "System Health", "page": "system-health-report"},
+		{"label": "Admin Dashboard", "path": "/admin", "roles": ("System Manager",)},
+		{"label": "Users", "path": "/admin/users", "doctype": "User"}, {"label": "Roles", "path": "/admin/roles", "doctype": "Role"},
+		{"label": "Role Permissions", "path": "/admin/permissions", "page": "permission-manager"}, {"label": "Companies", "path": "/admin/companies", "doctype": "Company"},
+		{"label": "Warehouses", "path": "/admin/warehouses", "doctype": "Warehouse"}, {"label": "Price Lists", "path": "/admin/price-lists", "doctype": "Price List"},
+		{"label": "Settings", "path": "/admin/settings", "doctype": "System Settings"}, {"label": "Integrations", "path": "/admin/integrations", "doctype": "Integration Request"},
+		{"label": "Website", "path": "/admin/website", "doctype": "Website Settings"}, {"label": "Background Jobs", "path": "/admin/background-jobs", "roles": ("System Manager",)},
+		{"label": "System Health", "path": "/admin/system-health", "roles": ("System Manager",)},
 	)},
 )
 
@@ -145,9 +181,9 @@ def _public_navigation_link(link: dict) -> dict:
 	path = link.get("path")
 	implemented = bool(path)
 	if not path and link.get("doctype"):
-		from my_store_ui.universal.registry import GENERATED_ALLOWLIST
-		if link["doctype"] in GENERATED_ALLOWLIST:
-			path = f"/generated/{frappe.scrub(link['doctype']).replace('_', '-')}"
+		from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES, get_feature
+		if link["doctype"] in ALL_GENERATED_DOCTYPES:
+			path = get_feature(frappe.scrub(link["doctype"]).replace("_", "-")).get("route")
 			implemented = True
 	if not path:
 		path = f"/feature-unavailable?feature={quote(link['label'], safe='')}"
@@ -173,6 +209,57 @@ def resolve_frontend_route(path: str) -> tuple[dict | None, dict]:
 			if any(not value or len(value) > 140 or "\x00" in value or "/" in value for value in params.values()):
 				return None, {}
 			return definition, params
+	if relative in FORM_VARIANTS:
+		spec = FORM_VARIANTS[relative]
+		return {
+			"name": "priority-variant-new", "module": spec["module"].title(),
+			"feature_id": f"doctype.{frappe.scrub(spec['doctype'])}.create", "implemented": True,
+			"doctype": spec["doctype"], "permission": "create", "component": "entity",
+			"mode": "new", "base_path": spec["base_path"], "defaults": spec.get("defaults") or {},
+		}, {}
+	for base_path, spec in sorted(ENTITY_ROUTES.items(), key=lambda item: len(item[0]), reverse=True):
+		if relative == base_path:
+			permission = "read"
+			mode = "tree" if spec.get("view") == "tree" else "list"
+			params = {}
+		elif relative == f"{base_path}/new":
+			permission, mode, params = "create", "new", {}
+		elif relative.startswith(f"{base_path}/"):
+			remainder = relative[len(base_path) + 1:]
+			if remainder.endswith("/edit"):
+				permission, mode, encoded = "write", "edit", remainder[:-5]
+			else:
+				permission, mode, encoded = "read", "detail", remainder
+			name = unquote(encoded)
+			if not name or len(name) > 140 or "\x00" in name or "/" in name:
+				return None, {}
+			params = {"name": name}
+		else:
+			continue
+		return {
+			"name": f"priority-{frappe.scrub(spec['doctype'])}-{mode}", "module": spec["module"].title(),
+			"feature_id": f"doctype.{frappe.scrub(spec['doctype'])}.{mode}", "implemented": True,
+			"doctype": spec["doctype"], "permission": permission, "component": "tree" if mode == "tree" else "entity",
+			"mode": mode, "base_path": base_path, "roles": spec.get("roles") or (),
+			"classification": spec.get("classification", "generated_provisional"),
+		}, params
+	if relative in {f"/reports/{group}" for group in REPORT_GROUPS}:
+		group = relative.rsplit("/", 1)[-1]
+		return {"name": "priority-report-group", "module": "Reports", "feature_id": f"reports.{group}", "implemented": True, "component": "report_hub", "group": group}, {}
+	if relative.startswith("/reports/view/"):
+		report_name = unquote(relative[len("/reports/view/"):])
+		if not report_name or report_name not in {name for names in REPORT_GROUPS.values() for name in names}:
+			return None, {}
+		return {"name": "priority-report-view", "module": "Reports", "feature_id": f"report.{frappe.scrub(report_name)}", "implemented": True, "component": "report", "report": report_name}, {"report": report_name}
+	if relative in SPECIAL_ROUTES:
+		spec = SPECIAL_ROUTES[relative]
+		definition = {
+			"name": f"priority-special-{frappe.scrub(spec['label'])}", "module": spec["module"].title(),
+			"feature_id": f"special.{frappe.scrub(spec['label'])}", "implemented": True,
+			"component": "tree" if spec.get("view") == "tree" else "special", "roles": spec.get("roles") or (),
+			"classification": spec.get("classification", "specialised_provisional"), **spec,
+		}
+		return definition, {}
 	generated = re.fullmatch(r"/generated/(?P<feature>[a-z0-9-]+)(?:/(?P<name>[^/]+))?(?:/(?P<edit>edit))?/?", relative)
 	if generated:
 		params = {key: unquote(value) for key, value in generated.groupdict().items() if value}
@@ -210,6 +297,12 @@ def route_is_permitted(definition: dict) -> bool:
 	if definition.get("any_read") and not _has_any_read(definition["any_read"]):
 		return False
 	if definition.get("doctype") and not frappe.has_permission(definition["doctype"], definition.get("permission", "read")):
+		return False
+	if definition.get("page") and not (frappe.db.exists("Page", definition["page"]) and frappe.has_permission("Page", "read", doc=definition["page"])):
+		return False
+	if definition.get("report") and not (frappe.db.exists("Report", definition["report"]) and frappe.has_permission("Report", "read", doc=definition["report"])):
+		return False
+	if definition.get("doctypes") and not _has_any_read(tuple(doctype for doctype in definition["doctypes"] if frappe.db.exists("DocType", doctype))):
 		return False
 	return True
 

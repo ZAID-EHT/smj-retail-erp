@@ -8,6 +8,8 @@ from pathlib import Path
 import frappe
 from frappe.utils import cint
 
+from my_store_ui.services.priority_registry import ALL_PRIORITY_DOCTYPES, CANONICAL_ROUTE_BY_DOCTYPE
+
 
 CUSTOM_OVERRIDES = {
 	"Customer": "/sales/customers",
@@ -23,6 +25,8 @@ GENERATED_ALLOWLIST = {
 	"Territory", "Customer Group", "Supplier Group", "Item Group", "Brand", "UOM", "Sales Person",
 	"Price List", "Mode of Payment", "Cost Center", "Department", "Designation",
 }
+
+ALL_GENERATED_DOCTYPES = frozenset(GENERATED_ALLOWLIST | ALL_PRIORITY_DOCTYPES)
 
 MODULE_PRESENTATION = {
 	"Buying": "orange", "Stock": "green", "CRM": "pink", "Projects": "turquoise",
@@ -77,7 +81,7 @@ def _implementation_type(source: dict) -> str:
 		return "internal"
 	if source.get("feature_type") == "doctype" and source.get("doctype") in CUSTOM_OVERRIDES:
 		return "custom"
-	if source.get("feature_type") == "doctype" and source.get("doctype") in GENERATED_ALLOWLIST:
+	if source.get("feature_type") == "doctype" and source.get("doctype") in ALL_GENERATED_DOCTYPES:
 		return "generated_provisional"
 	if source.get("feature_type") in {"report", "page", "workspace", "dashboard", "dashboard_chart", "number_card"}:
 		return "special"
@@ -89,7 +93,7 @@ def _normalise(source: dict) -> dict:
 	implementation = _implementation_type(source)
 	route_key = _route_key(name or source["feature_id"])
 	base = CUSTOM_OVERRIDES.get(source.get("doctype"))
-	generated_base = f"/generated/{route_key}" if implementation.startswith("generated") else None
+	generated_base = (CANONICAL_ROUTE_BY_DOCTYPE.get(source.get("doctype")) or f"/generated/{route_key}") if implementation.startswith("generated") else None
 	presentation = PRESENTATION_OVERRIDES.get(source.get("doctype"), {})
 	return {
 		"feature_id": source["feature_id"], "route_key": route_key, "feature_label": name,

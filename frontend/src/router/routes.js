@@ -1,4 +1,6 @@
-import PlaceholderPage from "@/pages/PlaceholderPage.vue";
+import ModuleDashboardPage from "@/pages/priority/ModuleDashboardPage.vue";
+import PriorityReportHubPage from "@/pages/priority/PriorityReportHubPage.vue";
+import SmartSalesPage from "@/pages/priority/SmartSalesPage.vue";
 import EntityDetailPage from "@/pages/entities/EntityDetailPage.vue";
 import EntityFormPage from "@/pages/entities/EntityFormPage.vue";
 import MappedDocumentDetailPage from "@/pages/entities/MappedDocumentDetailPage.vue";
@@ -11,61 +13,61 @@ export const moduleRoutes = [
   {
     path: "/home",
     name: "home",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Home", description: "Dashboard, metrics, alerts and quick actions.", accent: "blue", icon: "home" },
   },
   {
     path: "/smart-sales",
     name: "smart-sales",
-    component: PlaceholderPage,
+    component: SmartSalesPage,
     meta: { title: "Smart Sales", description: "Retail catalogue, customer selection and guided sales workflow.", accent: "blue", icon: "cart" },
   },
   {
     path: "/sales",
     name: "sales",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Sales", description: "Customers, quotations, orders, delivery notes and invoices.", accent: "blue", icon: "sales" },
   },
   {
     path: "/purchases",
     name: "purchases",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Purchases", description: "Suppliers, requests, orders, receipts and purchase invoices.", accent: "orange", icon: "bag" },
   },
   {
     path: "/inventory",
     name: "inventory",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Inventory", description: "Products, warehouses, transfers, stock levels and traceability.", accent: "green", icon: "box" },
   },
   {
     path: "/finance",
     name: "finance",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Finance", description: "Accounting, payments, receivables, payables and financial reports.", accent: "purple", icon: "finance" },
   },
   {
     path: "/operations",
     name: "operations",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Operations", description: "Assets, manufacturing, quality, projects and support.", accent: "turquoise", icon: "settings" },
   },
   {
     path: "/crm",
     name: "crm",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "CRM", description: "Leads, opportunities, contacts, campaigns and appointments.", accent: "pink", icon: "users" },
   },
   {
     path: "/reports",
     name: "reports",
-    component: PlaceholderPage,
+    component: PriorityReportHubPage,
     meta: { title: "Reports", description: "Permission-aware operational and financial reporting.", accent: "dark-blue", icon: "chart" },
   },
   {
     path: "/admin",
     name: "admin",
-    component: PlaceholderPage,
+    component: ModuleDashboardPage,
     meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
   },
   { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
@@ -229,6 +231,15 @@ export const generatedRoutes = [
   { path: "/generated/:feature/:name", name: "generated-detail", component: () => import("@/pages/generated/UniversalDetailPage.vue"), meta: { title: "Generated Detail", accent: "turquoise" } },
   { path: "/reports/:report", name: "generated-report", component: () => import("@/pages/generated/UniversalReportPage.vue"), meta: { title: "Report", accent: "dark-blue" } },
   { path: "/views/:feature/:view", name: "generated-view", component: () => import("@/pages/generated/UniversalSpecialPage.vue"), meta: { title: "Special View", accent: "purple" } },
+];
+
+// Clean priority routes resolve through the server-owned registry. They are
+// registered after handcrafted pages and before /generated compatibility URLs.
+export const priorityRoutes = [
+  { path: "/reports/view/:report", name: "priority-report-view", component: () => import("@/pages/priority/PriorityRoutePage.vue"), meta: { title: "Report", accent: "dark-blue" } },
+  { path: "/reports/:group(sales|purchases|inventory|finance|crm|operations)", name: "priority-report-group", component: () => import("@/pages/priority/PriorityRoutePage.vue"), meta: { title: "Reports", accent: "dark-blue" } },
+  { path: "/pos", name: "priority-pos", component: () => import("@/pages/priority/PriorityRoutePage.vue"), meta: { title: "Point of Sale", accent: "green" } },
+  { path: "/:module(sales|purchases|inventory|finance|crm|operations|admin)/:pathMatch(.+)", name: "priority-clean-route", component: () => import("@/pages/priority/PriorityRoutePage.vue"), meta: { title: "Retail ERP", accent: "turquoise" } },
 ];
 
 export const navigationModules = moduleRoutes

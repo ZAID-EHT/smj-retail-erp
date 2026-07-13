@@ -18,7 +18,7 @@ from frappe import _
 from frappe.utils import cint, flt, getdate
 
 from my_store_ui.universal.registry import (
-	GENERATED_ALLOWLIST,
+	ALL_GENERATED_DOCTYPES,
 	SUPPORTED_FIELD_TYPES,
 	feature_is_permitted,
 	get_feature,
@@ -34,6 +34,41 @@ MAX_TIMELINE_ROWS = 30
 SAFE_FILTER_OPERATORS = {"=", "!=", ">", ">=", "<", "<=", "like", "not like", "in", "not in", "between", "is"}
 LAYOUT_FIELDS = {"Section Break", "Column Break", "Tab Break"}
 NUMERIC_FIELDS = {"Currency", "Float", "Int", "Percent", "Duration", "Rating"}
+
+# Fixed server-owned mappings. The browser sends only these symbolic action
+# keys; dotted Python methods are never accepted from a request.
+MAPPED_ACTIONS = {
+	"Quotation": {
+		"make_sales_order": {"label": _("Create Sales Order"), "target": "Sales Order", "method": "quotation_sales_order"},
+		"make_sales_invoice": {"label": _("Create Sales Invoice"), "target": "Sales Invoice", "method": "quotation_sales_invoice"},
+	},
+	"Material Request": {
+		"make_request_for_quotation": {"label": _("Create Request for Quotation"), "target": "Request for Quotation", "method": "material_request_rfq"},
+		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "material_request_purchase_order"},
+	},
+	"Request for Quotation": {
+		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "rfq_supplier_quotation", "requires_parameters": ["supplier"]},
+	},
+	"Supplier Quotation": {
+		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "supplier_quotation_purchase_order"},
+	},
+	"Purchase Order": {
+		"make_purchase_receipt": {"label": _("Create Purchase Receipt"), "target": "Purchase Receipt", "method": "purchase_order_receipt"},
+		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_order_invoice"},
+	},
+	"Purchase Receipt": {
+		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_receipt_invoice"},
+	},
+	"Purchase Invoice": {
+		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "purchase_invoice_payment"},
+	},
+	"Opportunity": {
+		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "opportunity_quotation"},
+	},
+	"Lead": {
+		"make_customer": {"label": _("Create Customer"), "target": "Customer", "method": "lead_customer"},
+	},
+}
 
 
 def _require_login() -> None:
@@ -69,7 +104,7 @@ def _writable_fields(meta) -> list:
 	return [
 		field for field in meta.fields
 		if field.fieldtype in SUPPORTED_FIELD_TYPES
-		and field.fieldtype not in LAYOUT_FIELDS | {"HTML", "Button", "Dynamic Link"}
+		and field.fieldtype not in LAYOUT_FIELDS | {"HTML", "Button"}
 		and not field.read_only and not field.hidden and cint(field.permlevel) in levels
 	]
 
@@ -134,6 +169,16 @@ def _metadata(feature: str) -> tuple[dict, Any, list, set[str]]:
 
 def _public_feature(record: dict) -> dict:
 	return {key: deepcopy(value) for key, value in record.items() if key not in {"required_permissions", "source_location"}}
+
+
+def _record_route(record: dict, name: str | None = None, suffix: str | None = None) -> str:
+	"""Return the registered clean route, retaining /generated as compatibility."""
+	base = record.get("route") or record.get("list_route") or f"/generated/{record['route_key']}"
+	if name:
+		base = f"{base.rstrip('/')}/{quote(name, safe='')}"
+	if suffix:
+		base = f"{base.rstrip('/')}/{suffix}"
+	return base
 
 
 @frappe.whitelist(methods=["GET"])
@@ -323,7 +368,7 @@ def get_document_detail(feature: str, name: str):
 	_require_login()
 	record, meta, readable, writable = _metadata(feature)
 	doc = _get_permitted_doc(meta.name, name)
-	return {"feature": _public_feature(record), "metadata": get_doctype_metadata(feature), "document": _visible_doc(doc, meta, readable), "permissions": _permissions(meta.name, doc=doc), "actions": [*_available_actions(meta, doc), *_available_workflow_actions(doc)], "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}"}
+	return {"feature": _public_feature(record), "metadata": get_doctype_metadata(feature), "document": _visible_doc(doc, meta, readable), "permissions": _permissions(meta.name, doc=doc), "actions": [*_available_actions(meta, doc), *_available_workflow_actions(doc)], "route": _record_route(record, doc.name)}
 
 
 def _coerce_value(field, value):
@@ -348,7 +393,18 @@ def _coerce_value(field, value):
 	return value
 
 
-def _clean_payload(meta, payload: Any) -> dict:
+def _validate_dynamic_links(meta, clean: dict, existing=None) -> None:
+	for field in meta.fields:
+		if field.fieldtype != "Dynamic Link" or not clean.get(field.fieldname):
+			continue
+		target_doctype = clean.get(field.options) or (existing.get(field.options) if existing else None)
+		if not target_doctype or not frappe.db.exists("DocType", target_doctype) or not frappe.has_permission(target_doctype, "read"):
+			frappe.throw(_("Invalid or unavailable {0} type.").format(field.label), frappe.ValidationError)
+		if not frappe.get_list(target_doctype, filters={"name": clean[field.fieldname]}, pluck="name", limit_page_length=1):
+			frappe.throw(_("Invalid or unavailable {0}.").format(field.label), frappe.ValidationError)
+
+
+def _clean_payload(meta, payload: Any, existing=None) -> dict:
 	payload = _parse(payload, dict, "Document")
 	writable = {field.fieldname: field for field in _writable_fields(meta)}
 	unknown = set(payload) - set(writable)
@@ -366,10 +422,13 @@ def _clean_payload(meta, payload: Any) -> dict:
 			for row in value:
 				if not isinstance(row, dict) or set(row) - set(child_write) - {"name", "idx"}:
 					frappe.throw(_("Unsupported child-table field."), frappe.ValidationError)
-				rows.append({key: _coerce_value(child_write[key], item) for key, item in row.items() if key in child_write})
+				clean_row = {key: _coerce_value(child_write[key], item) for key, item in row.items() if key in child_write}
+				_validate_dynamic_links(child_meta, clean_row)
+				rows.append(clean_row)
 			clean[fieldname] = rows
 		else:
 			clean[fieldname] = _coerce_value(field, value)
+	_validate_dynamic_links(meta, clean, existing)
 	return clean
 
 
@@ -383,7 +442,7 @@ def create_document(feature: str, values: Any):
 	doc = frappe.new_doc(meta.name)
 	doc.update(_clean_payload(meta, values))
 	doc.insert()
-	return {"name": doc.name, "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}", "modified": doc.modified}
+	return {"name": doc.name, "route": _record_route(record, doc.name), "modified": doc.modified}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -394,9 +453,9 @@ def update_document(feature: str, name: str, values: Any, modified: str | None =
 	doc = _get_permitted_doc(meta.name, name, "write")
 	if modified and str(doc.modified) != str(modified):
 		frappe.throw(_("This record changed after you opened it. Refresh before saving."), frappe.TimestampMismatchError)
-	doc.update(_clean_payload(meta, values))
+	doc.update(_clean_payload(meta, values, doc))
 	doc.save()
-	return {"name": doc.name, "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}", "modified": doc.modified}
+	return {"name": doc.name, "route": _record_route(record, doc.name), "modified": doc.modified}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -407,7 +466,7 @@ def delete_document(feature: str, name: str, modified: str | None = None):
 	if modified and str(doc.modified) != str(modified):
 		frappe.throw(_("This record changed after you opened it. Refresh before deleting."), frappe.TimestampMismatchError)
 	frappe.delete_doc(doc.doctype, doc.name)
-	return {"deleted": True, "route": f"/generated/{record['route_key']}"}
+	return {"deleted": True, "route": _record_route(record)}
 
 
 def _available_actions(meta, doc) -> list[dict]:
@@ -431,11 +490,93 @@ def _available_actions(meta, doc) -> list[dict]:
 			actions.append({"action": "reopen", "label": _("Reopen"), "destructive": False})
 	if doc.doctype == "Supplier" and frappe.has_permission(meta.name, "write", doc=doc):
 		actions.append({"action": "resume" if doc.on_hold else "hold", "label": _("Resume") if doc.on_hold else _("Hold"), "destructive": False})
+	if doc.doctype == "Material Request" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
+		actions.append({"action": "reopen" if doc.status == "Stopped" else "stop", "label": _("Reopen") if doc.status == "Stopped" else _("Stop"), "destructive": doc.status != "Stopped"})
+	if doc.doctype == "Purchase Order" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
+		if doc.status == "On Hold":
+			actions.append({"action": "resume", "label": _("Resume"), "destructive": False})
+		elif doc.status in {"Closed", "Delivered"}:
+			actions.append({"action": "reopen", "label": _("Reopen"), "destructive": False})
+		else:
+			actions.extend([
+				{"action": "hold", "label": _("Hold"), "destructive": False, "requires_parameters": ["reason_for_hold"]},
+				{"action": "close", "label": _("Close"), "destructive": True},
+			])
 	if doc.doctype == "Lead" and frappe.has_permission("Opportunity", "create"):
 		actions.append({"action": "make_opportunity", "label": _("Create Opportunity"), "destructive": False, "mapping_target": "Opportunity"})
 	if doc.doctype == "Opportunity" and frappe.has_permission("Customer", "create"):
 		actions.append({"action": "make_customer", "label": _("Create Customer"), "destructive": False, "mapping_target": "Customer"})
+	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
+		if key in {item["action"] for item in actions}:
+			continue
+		# ERPNext mapped transaction methods require submitted source documents;
+		# CRM conversions operate on their normal saved draft state.
+		if doc.doctype not in {"Lead", "Opportunity"} and doc.docstatus != 1:
+			continue
+		if frappe.has_permission(mapping["target"], "create"):
+			actions.append({
+				"action": key, "label": mapping["label"], "destructive": False,
+				"mapping_target": mapping["target"],
+				"requires_parameters": mapping.get("requires_parameters") or [],
+			})
 	return actions
+
+
+def _run_mapped_action(doc, action: str, parameters: dict):
+	mapping = MAPPED_ACTIONS[doc.doctype][action]
+	if not frappe.has_permission(mapping["target"], "create"):
+		frappe.throw(_("You cannot create the mapped document."), frappe.PermissionError)
+	method = mapping["method"]
+	if method == "quotation_sales_order":
+		from erpnext.selling.doctype.quotation.quotation import make_sales_order
+		target = make_sales_order(doc.name)
+	elif method == "quotation_sales_invoice":
+		from erpnext.selling.doctype.quotation.quotation import make_sales_invoice
+		target = make_sales_invoice(doc.name)
+	elif method == "material_request_rfq":
+		from erpnext.stock.doctype.material_request.material_request import make_request_for_quotation
+		target = make_request_for_quotation(doc.name)
+	elif method == "material_request_purchase_order":
+		from erpnext.stock.doctype.material_request.material_request import make_purchase_order
+		target = make_purchase_order(doc.name)
+	elif method == "rfq_supplier_quotation":
+		supplier = str(parameters.get("supplier") or "").strip()
+		if not supplier or not frappe.has_permission("Supplier", "read") or not frappe.get_list("Supplier", filters={"name": supplier}, pluck="name", limit_page_length=1):
+			frappe.throw(_("A permitted Supplier is required."), frappe.ValidationError)
+		allowed_suppliers = {row.supplier for row in (doc.get("suppliers") or []) if row.supplier}
+		if allowed_suppliers and supplier not in allowed_suppliers:
+			frappe.throw(_("The Supplier is not registered on this request."), frappe.ValidationError)
+		from erpnext.buying.doctype.request_for_quotation.request_for_quotation import make_supplier_quotation_from_rfq
+		target = make_supplier_quotation_from_rfq(doc.name, for_supplier=supplier)
+	elif method == "supplier_quotation_purchase_order":
+		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_purchase_order
+		target = make_purchase_order(doc.name)
+	elif method == "purchase_order_receipt":
+		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_receipt
+		target = make_purchase_receipt(doc.name)
+	elif method == "purchase_order_invoice":
+		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_invoice
+		target = make_purchase_invoice(doc.name)
+	elif method == "purchase_receipt_invoice":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_purchase_invoice
+		target = make_purchase_invoice(doc.name)
+	elif method == "purchase_invoice_payment":
+		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+		target = get_payment_entry(doc.doctype, doc.name)
+	elif method == "opportunity_quotation":
+		from erpnext.crm.doctype.opportunity.opportunity import make_quotation
+		target = make_quotation(doc.name)
+	elif method == "lead_customer":
+		from erpnext.crm.doctype.lead.lead import make_customer
+		target = make_customer(doc.name)
+	else:
+		frappe.throw(_("Mapped action is not available."), frappe.PermissionError)
+	target.insert()
+	target_record = get_feature(frappe.scrub(target.doctype).replace("_", "-"))
+	return {
+		"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus,
+		"modified": target.modified, "route": _record_route(target_record, target.name, "edit"),
+	}
 
 
 def _available_workflow_actions(doc) -> list[dict]:
@@ -473,7 +614,7 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		doc.cancel()
 	elif action == "delete":
 		frappe.delete_doc(doc.doctype, doc.name)
-		return {"deleted": True, "route": f"/generated/{record['route_key']}"}
+		return {"deleted": True, "route": _record_route(record)}
 	elif action == "duplicate":
 		copy = frappe.copy_doc(doc, ignore_no_copy=False)
 		copy.docstatus = 0
@@ -501,18 +642,34 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		doc.on_hold = 0 if action == "resume" else 1
 		doc.hold_type = "" if action == "resume" else (doc.hold_type or "All")
 		doc.save()
+	elif action in {"stop", "reopen"} and doc.doctype == "Material Request":
+		from erpnext.stock.doctype.material_request.material_request import update_status
+		update_status(doc.name, "Stopped" if action == "stop" else "Submitted")
+		doc.reload()
+	elif action in {"hold", "resume", "close", "reopen"} and doc.doctype == "Purchase Order":
+		from erpnext.buying.doctype.purchase_order.purchase_order import update_status
+		if action == "hold":
+			reason = str(parameters.get("reason_for_hold") or "").strip()
+			if not reason:
+				frappe.throw(_("A reason for hold is required."), frappe.ValidationError)
+			doc.add_comment("Comment", _("Reason for hold: {0}").format(reason[:500]))
+		status = {"hold": "On Hold", "resume": "Draft", "close": "Closed", "reopen": "Submitted"}[action]
+		update_status(status, doc.name)
+		doc.reload()
 	elif action == "make_opportunity" and doc.doctype == "Lead":
 		from erpnext.crm.doctype.lead.lead import make_opportunity
 		target = make_opportunity(doc.name)
 		target.insert()
 		target_record = get_generated_feature("opportunity")
-		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": f"/generated/{target_record['route_key']}/{quote(target.name, safe='')}"}
+		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": _record_route(target_record, target.name)}
 	elif action == "make_customer" and doc.doctype == "Opportunity":
 		from erpnext.crm.doctype.opportunity.opportunity import make_customer
 		target = make_customer(doc.name)
 		target.insert()
 		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": f"/sales/customers/{quote(target.name, safe='')}"}
-	return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}"}
+	elif action in MAPPED_ACTIONS.get(doc.doctype, {}):
+		return _run_mapped_action(doc, action, parameters)
+	return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": _record_route(record, doc.name)}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -543,7 +700,7 @@ def run_workflow_action(feature: str, name: str, action: str, modified: str | No
 
 
 @frappe.whitelist(methods=["GET"])
-def get_link_options(feature: str, fieldname: str, search: str = "", parent_fieldname: str | None = None):
+def get_link_options(feature: str, fieldname: str, search: str = "", parent_fieldname: str | None = None, dynamic_doctype: str | None = None):
 	_require_login()
 	_record, meta, readable, _writable = _metadata(feature)
 	field = meta.get_field(fieldname)
@@ -551,16 +708,24 @@ def get_link_options(feature: str, fieldname: str, search: str = "", parent_fiel
 		parent = meta.get_field(parent_fieldname)
 		field = frappe.get_meta(parent.options).get_field(fieldname) if parent and parent.fieldtype in {"Table", "Table MultiSelect"} else None
 	readable_names = {item.fieldname for item in readable}
-	if not field or (not parent_fieldname and fieldname not in readable_names) or field.fieldtype != "Link" or not field.options:
+	if not field or (not parent_fieldname and fieldname not in readable_names) or field.fieldtype not in {"Link", "Dynamic Link"} or not field.options:
 		frappe.throw(_("Link field is not available."), frappe.PermissionError)
-	if not frappe.has_permission(field.options, "read"):
+	target_doctype = field.options if field.fieldtype == "Link" else str(dynamic_doctype or "").strip()
+	if field.fieldtype == "Dynamic Link":
+		context_meta = frappe.get_meta(parent.options) if parent_fieldname and parent else meta
+		type_field = context_meta.get_field(field.options)
+		if not type_field or not target_doctype or not frappe.db.exists("DocType", target_doctype):
+			frappe.throw(_("Link field is not available."), frappe.PermissionError)
+		if type_field.fieldtype == "Select" and target_doctype not in [value for value in (type_field.options or "").splitlines() if value]:
+			frappe.throw(_("Link field is not available."), frappe.PermissionError)
+	if not frappe.has_permission(target_doctype, "read"):
 		frappe.throw(_("Link field is not available."), frappe.PermissionError)
-	meta_target = frappe.get_meta(field.options)
+	meta_target = frappe.get_meta(target_doctype)
 	search = (search or "").strip()[:140]
 	search_fields = ["name", meta_target.title_field] + [value.strip() for value in (meta_target.search_fields or "").split(",") if value.strip()]
 	or_filters = [[name, "like", f"%{search}%"] for name in dict.fromkeys(search_fields) if name and meta_target.has_field(name)] if search else []
 	fields = ["name"] + ([meta_target.title_field] if meta_target.title_field and meta_target.has_field(meta_target.title_field) else [])
-	rows = frappe.get_list(field.options, fields=fields, or_filters=or_filters, order_by="modified desc", limit_page_length=MAX_LINK_RESULTS)
+	rows = frappe.get_list(target_doctype, fields=fields, or_filters=or_filters, order_by="modified desc", limit_page_length=MAX_LINK_RESULTS)
 	return {"results": [{"value": row.name, "label": row.get(meta_target.title_field) or row.name} for row in rows]}
 
 
@@ -573,9 +738,9 @@ def get_related_documents(feature: str, name: str):
 	rows = frappe.get_list("Dynamic Link", filters={"link_doctype": doc.doctype, "link_name": doc.name}, fields=["parenttype", "parent"], limit_page_length=50)
 	result = []
 	for row in rows:
-		if row.parenttype in GENERATED_ALLOWLIST and frappe.has_permission(row.parenttype, "read") and frappe.get_list(row.parenttype, filters={"name": row.parent}, pluck="name", limit_page_length=1):
+		if row.parenttype in ALL_GENERATED_DOCTYPES and frappe.has_permission(row.parenttype, "read") and frappe.get_list(row.parenttype, filters={"name": row.parent}, pluck="name", limit_page_length=1):
 			target = get_feature(frappe.scrub(row.parenttype).replace("_", "-"))
-			result.append({"doctype": row.parenttype, "name": row.parent, "route": f"/generated/{target['route_key']}/{quote(row.parent, safe='')}"})
+			result.append({"doctype": row.parenttype, "name": row.parent, "route": _record_route(target, row.parent)})
 	return {"records": result}
 
 

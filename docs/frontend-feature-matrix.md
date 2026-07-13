@@ -39,10 +39,10 @@ Engine classifications:
 - Authentication uses the standard Frappe login/logout/session and CSRF mechanisms. Landing routes and navigation are resolved by the server from roles plus actual DocType permissions.
 - A server-owned route registry distinguishes permitted, denied, unavailable and unknown routes. Browser HTML GETs under `/app` are redirected without intercepting APIs, assets, files, print/PDF, password reset or integrations.
 - Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry have the implemented list/detail/form/lifecycle coverage documented below. ERPNext controllers remain authoritative for all writes.
-- Header navigation now contains server-filtered module links, and global search queries allowlisted ERPNext records with permission-aware grouped results. Notifications remain a placeholder; the user menu supports standard Frappe logout.
-- A central 2,843-record feature registry now selects custom overrides before 20 allowlisted metadata-driven master-data routes. Generated features remain **provisional**, not complete, until their applicable write/action/print/collaboration and role/browser tests pass.
+- Header navigation now contains explicit server-filtered clean links for Home, Smart Sales, Sales, Purchases, Inventory, Finance, CRM, Operations, Reports, POS and Admin. Global search queries allowlisted ERPNext records with permission-aware grouped results; the inactive notification placeholder was removed rather than left as a dead control.
+- A central feature registry selects custom overrides before 56 allowlisted metadata-driven priority DocTypes. Generated and specialised transaction features remain **provisional**, not complete, until their applicable controller-edge-case and role/browser tests pass.
 - The universal generated UX now includes module-coloured list banners, up to five primary filters, More Filters, active chips, a permission-safe column chooser, grouped forms, summary details, collaboration adapters and standard Print Preview. All 20 remain provisional; `wkhtmltopdf` is missing and full interactive/per-feature collaboration verification is outstanding.
-- `/app/smart-sales` is a separate legacy Desk Page. It can browse products and create a Draft Sales Order, but it is not inside the SPA and does not implement the complete sales workflow.
+- `/retail-erp/smart-sales` is now a Retail ERP page with a permission-aware live Item catalogue, Customer selection, cart and standard Draft Sales Order creation. It does not replace POS Awesome or the completed Sales Order lifecycle pages.
 - Unimplemented features remain inside Retail ERP through the Feature Unavailable page. Strict parity remains red and ordinary-user feature gaps are explicitly counted.
 
 ## Role-based feature inventory
@@ -90,6 +90,23 @@ Visibility is an initial navigation expectation only. The backend must evaluate 
 Document names must be URL-encoded. Route definitions must carry an approved frontend schema key, not accept an arbitrary DocType from the URL.
 
 ## Complete feature and route inventory
+
+### Priority page expansion (2026-07-13)
+
+The server-owned clean-route registry now covers 54 important entity bases,
+three purpose-specific Stock Entry forms, 13 specialised/read/alias routes, six
+report groups and 27 allowlisted report names. Twenty-six priority reports are
+installed. The module dashboards use real permission-filtered counts and recent
+records; the header and mobile drawer use only explicit clean routes; global
+search covers the registered daily document families.
+
+This expansion is **provisional functional coverage**, not full feature
+completion. Purchasing, Quotation and selected inventory/finance transaction
+documents use normal ERPNext document controllers plus fixed official mapping
+adapters, but feature-specific client-script parity and complete browser/role
+matrices remain. Stock Reconciliation, reconciliation tools, manufacturing,
+subcontracting and POS remain specialised provisional. See
+`docs/priority-page-coverage.md` for the route-by-route ledger.
 
 | Module | Feature | ERPNext backend | Custom route | Engine | L/D/F | Required actions | Permission source | Print/PDF | Mobile | Tests | Status | Standard Desk dependency |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -943,7 +960,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:dashboard:project` | erpnext | Projects | dashboard | Project | C | Yes | — | Not tested | Not implemented | Dashboard view not implemented in Retail ERP |
 | `erpnext:dashboard:selling` | erpnext | Selling | dashboard | Selling | C | Yes | — | Not tested | Not implemented | Dashboard view not implemented in Retail ERP |
 | `erpnext:dashboard:stock` | erpnext | Stock | dashboard | Stock | C | Yes | — | Not tested | Not implemented | Dashboard view not implemented in Retail ERP |
-| `erpnext:doctype:account` | erpnext | Accounts | doctype | Account | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:account` | erpnext | Accounts | doctype | Account | B | Yes | /finance/chart-of-accounts | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:account-closing-balance` | erpnext | Accounts | doctype | Account Closing Balance | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:accounting-dimension` | erpnext | Accounts | doctype | Accounting Dimension | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:accounting-dimension-filter` | erpnext | Accounts | doctype | Accounting Dimension Filter | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -952,9 +969,9 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:activity-cost` | erpnext | Projects | doctype | Activity Cost | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:activity-type` | erpnext | Projects | doctype | Activity Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:advance-payment-ledger-entry` | erpnext | Accounts | doctype | Advance Payment Ledger Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:appointment` | erpnext | CRM | doctype | Appointment | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:appointment` | erpnext | CRM | doctype | Appointment | A | Yes | /crm/appointments | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:appointment-booking-settings` | erpnext | CRM | doctype | Appointment Booking Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:asset` | erpnext | Assets | doctype | Asset | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:asset` | erpnext | Assets | doctype | Asset | B | Yes | /operations/assets | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:asset-activity` | erpnext | Assets | doctype | Asset Activity | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-capitalization` | erpnext | Assets | doctype | Asset Capitalization | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-category` | erpnext | Assets | doctype | Asset Category | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -962,7 +979,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:asset-maintenance` | erpnext | Assets | doctype | Asset Maintenance | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-maintenance-log` | erpnext | Assets | doctype | Asset Maintenance Log | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-maintenance-team` | erpnext | Assets | doctype | Asset Maintenance Team | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:asset-movement` | erpnext | Assets | doctype | Asset Movement | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:asset-movement` | erpnext | Assets | doctype | Asset Movement | B | Yes | /operations/asset-movements | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:asset-repair` | erpnext | Assets | doctype | Asset Repair | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-shift-allocation` | erpnext | Assets | doctype | Asset Shift Allocation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:asset-shift-factor` | erpnext | Assets | doctype | Asset Shift Factor | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -978,23 +995,23 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:bank-reconciliation-tool` | erpnext | Accounts | doctype | Bank Reconciliation Tool | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bank-statement-import` | erpnext | Accounts | doctype | Bank Statement Import | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bank-transaction` | erpnext | Accounts | doctype | Bank Transaction | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:batch` | erpnext | Stock | doctype | Batch | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:batch` | erpnext | Stock | doctype | Batch | A | Yes | /inventory/batches | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-accounting-statements` | erpnext | Accounts | doctype | Bisect Accounting Statements | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-nodes` | erpnext | Accounts | doctype | Bisect Nodes | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:blanket-order` | erpnext | Manufacturing | doctype | Blanket Order | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:bom` | erpnext | Manufacturing | doctype | BOM | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:bom` | erpnext | Manufacturing | doctype | BOM | B | Yes | /operations/manufacturing/boms | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:bom-creator` | erpnext | Manufacturing | doctype | BOM Creator | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-tool` | erpnext | Manufacturing | doctype | BOM Update Tool | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:branch` | erpnext | Setup | doctype | Branch | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:brand` | erpnext | Setup | doctype | Brand | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:brand` | erpnext | Setup | doctype | Brand | E | Yes | /inventory/brands | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:budget` | erpnext | Accounts | doctype | Budget | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log-detail` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log Detail | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:buying-settings` | erpnext | Buying | doctype | Buying Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:call-log` | erpnext | Telephony | doctype | Call Log | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:campaign` | erpnext | CRM | doctype | Campaign | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:campaign` | erpnext | CRM | doctype | Campaign | A | Yes | /crm/campaigns | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:cashier-closing` | erpnext | Accounts | doctype | Cashier Closing | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:chart-of-accounts-importer` | erpnext | Accounts | doctype | Chart of Accounts Importer | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:cheque-print-template` | erpnext | Accounts | doctype | Cheque Print Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1002,24 +1019,24 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:code-list` | erpnext | EDI | doctype | Code List | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:common-code` | erpnext | EDI | doctype | Common Code | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:communication-medium` | erpnext | Communication | doctype | Communication Medium | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:company` | erpnext | Setup | doctype | Company | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:company` | erpnext | Setup | doctype | Company | C | Yes | /admin/companies | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:competitor` | erpnext | CRM | doctype | Competitor | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:contract` | erpnext | CRM | doctype | Contract | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:contract-template` | erpnext | CRM | doctype | Contract Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:cost-center` | erpnext | Accounts | doctype | Cost Center | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:cost-center` | erpnext | Accounts | doctype | Cost Center | C | Yes | /finance/cost-centers | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:cost-center-allocation` | erpnext | Accounts | doctype | Cost Center Allocation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:coupon-code` | erpnext | Accounts | doctype | Coupon Code | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /retail-erp/sales/customers | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
-| `erpnext:doctype:customer-group` | erpnext | Setup | doctype | Customer Group | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:customer` | erpnext | Selling | doctype | Customer | A | Yes | /retail-erp/sales/customers | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
+| `erpnext:doctype:customer-group` | erpnext | Setup | doctype | Customer Group | C | Yes | /crm/customer-groups | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:customs-tariff-number` | erpnext | Stock | doctype | Customs Tariff Number | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:delivery-note` | erpnext | Stock | doctype | Delivery Note | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:delivery-note` | erpnext | Stock | doctype | Delivery Note | B | Yes | /retail-erp/sales/delivery-notes | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
 | `erpnext:doctype:delivery-settings` | erpnext | Stock | doctype | Delivery Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-trip` | erpnext | Stock | doctype | Delivery Trip | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:department` | erpnext | Setup | doctype | Department | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:designation` | erpnext | Setup | doctype | Designation | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:department` | erpnext | Setup | doctype | Department | C | Yes | /operations/departments | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:designation` | erpnext | Setup | doctype | Designation | E | Yes | /operations/designations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:downtime-entry` | erpnext | Manufacturing | doctype | Downtime Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:driver` | erpnext | Setup | doctype | Driver | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:dunning` | erpnext | Accounts | doctype | Dunning | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1043,22 +1060,22 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:installation-note` | erpnext | Selling | doctype | Installation Note | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:inventory-dimension` | erpnext | Stock | doctype | Inventory Dimension | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:invoice-discounting` | erpnext | Accounts | doctype | Invoice Discounting | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:issue` | erpnext | Support | doctype | Issue | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:issue` | erpnext | Support | doctype | Issue | A | Yes | /operations/support/issues | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:issue-priority` | erpnext | Support | doctype | Issue Priority | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:issue-type` | erpnext | Support | doctype | Issue Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /retail-erp/inventory/products | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:item` | erpnext | Stock | doctype | Item | B | Yes | /retail-erp/inventory/products | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
 | `erpnext:doctype:item-alternative` | erpnext | Stock | doctype | Item Alternative | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-attribute` | erpnext | Stock | doctype | Item Attribute | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:item-group` | erpnext | Setup | doctype | Item Group | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:item-group` | erpnext | Setup | doctype | Item Group | C | Yes | /inventory/item-groups | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:item-manufacturer` | erpnext | Stock | doctype | Item Manufacturer | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:item-price` | erpnext | Stock | doctype | Item Price | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:item-price` | erpnext | Stock | doctype | Item Price | A | Yes | /inventory/item-prices | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:item-tax-template` | erpnext | Accounts | doctype | Item Tax Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:item-variant-settings` | erpnext | Stock | doctype | Item Variant Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:job-card` | erpnext | Manufacturing | doctype | Job Card | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:journal-entry` | erpnext | Accounts | doctype | Journal Entry | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:job-card` | erpnext | Manufacturing | doctype | Job Card | B | Yes | /operations/manufacturing/job-cards | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:journal-entry` | erpnext | Accounts | doctype | Journal Entry | B | Yes | /finance/journal-entries | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:journal-entry-template` | erpnext | Accounts | doctype | Journal Entry Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:landed-cost-voucher` | erpnext | Stock | doctype | Landed Cost Voucher | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:lead` | erpnext | CRM | doctype | Lead | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:lead` | erpnext | CRM | doctype | Lead | A | Yes | /crm/leads | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:lead-source` | erpnext | CRM | doctype | Lead Source | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health` | erpnext | Accounts | doctype | Ledger Health | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health-monitor` | erpnext | Accounts | doctype | Ledger Health Monitor | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1072,25 +1089,25 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:manufacturer` | erpnext | Stock | doctype | Manufacturer | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:market-segment` | erpnext | CRM | doctype | Market Segment | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:material-request` | erpnext | Stock | doctype | Material Request | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:mode-of-payment` | erpnext | Accounts | doctype | Mode of Payment | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:material-request` | erpnext | Stock | doctype | Material Request | B | Yes | /purchases/material-requests | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:mode-of-payment` | erpnext | Accounts | doctype | Mode of Payment | A | Yes | /finance/modes-of-payment | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:monthly-distribution` | erpnext | Accounts | doctype | Monthly Distribution | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:non-conformance` | erpnext | Quality Management | doctype | Non Conformance | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:opening-invoice-creation-tool` | erpnext | Accounts | doctype | Opening Invoice Creation Tool | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:operation` | erpnext | Manufacturing | doctype | Operation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:opportunity` | erpnext | CRM | doctype | Opportunity | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:operation` | erpnext | Manufacturing | doctype | Operation | A | Yes | /operations/manufacturing/operations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:opportunity` | erpnext | CRM | doctype | Opportunity | A | Yes | /crm/opportunities | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:opportunity-lost-reason` | erpnext | CRM | doctype | Opportunity Lost Reason | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:opportunity-type` | erpnext | CRM | doctype | Opportunity Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:packing-slip` | erpnext | Stock | doctype | Packing Slip | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:party-link` | erpnext | Accounts | doctype | Party Link | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:party-specific-item` | erpnext | Selling | doctype | Party Specific Item | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:party-type` | erpnext | Setup | doctype | Party Type | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:payment-entry` | erpnext | Accounts | doctype | Payment Entry | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:payment-entry` | erpnext | Accounts | doctype | Payment Entry | B | Yes | /retail-erp/finance/payments | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
 | `erpnext:doctype:payment-gateway-account` | erpnext | Accounts | doctype | Payment Gateway Account | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:payment-ledger-entry` | erpnext | Accounts | doctype | Payment Ledger Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:payment-order` | erpnext | Accounts | doctype | Payment Order | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:payment-reconciliation` | erpnext | Accounts | doctype | Payment Reconciliation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:payment-request` | erpnext | Accounts | doctype | Payment Request | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:payment-request` | erpnext | Accounts | doctype | Payment Request | A | Yes | /finance/payment-requests | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:payment-term` | erpnext | Accounts | doctype | Payment Term | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:payment-terms-template` | erpnext | Accounts | doctype | Payment Terms Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:pegged-currencies` | erpnext | Accounts | doctype | Pegged Currencies | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1104,7 +1121,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:price-list` | erpnext | Stock | doctype | Price List | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:price-list` | erpnext | Stock | doctype | Price List | A | Yes | /inventory/price-lists | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:pricing-rule` | erpnext | Accounts | doctype | Pricing Rule | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1114,24 +1131,24 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:product-bundle` | erpnext | Selling | doctype | Product Bundle | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:production-plan` | erpnext | Manufacturing | doctype | Production Plan | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:project` | erpnext | Projects | doctype | Project | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:production-plan` | erpnext | Manufacturing | doctype | Production Plan | B | Yes | /operations/manufacturing/production-plans | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:project` | erpnext | Projects | doctype | Project | A | Yes | /operations/projects | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:project-template` | erpnext | Projects | doctype | Project Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:project-type` | erpnext | Projects | doctype | Project Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:project-update` | erpnext | Projects | doctype | Project Update | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:promotional-scheme` | erpnext | Accounts | doctype | Promotional Scheme | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:prospect` | erpnext | CRM | doctype | Prospect | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-invoice` | erpnext | Accounts | doctype | Purchase Invoice | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-order` | erpnext | Buying | doctype | Purchase Order | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-receipt` | erpnext | Stock | doctype | Purchase Receipt | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:purchase-invoice` | erpnext | Accounts | doctype | Purchase Invoice | B | Yes | /purchases/invoices | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:purchase-order` | erpnext | Buying | doctype | Purchase Order | B | Yes | /purchases/orders | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:purchase-receipt` | erpnext | Stock | doctype | Purchase Receipt | B | Yes | /purchases/receipts | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:purchase-taxes-and-charges-template` | erpnext | Accounts | doctype | Purchase Taxes and Charges Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:putaway-rule` | erpnext | Stock | doctype | Putaway Rule | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-action` | erpnext | Quality Management | doctype | Quality Action | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-feedback` | erpnext | Quality Management | doctype | Quality Feedback | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-feedback-template` | erpnext | Quality Management | doctype | Quality Feedback Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-goal` | erpnext | Quality Management | doctype | Quality Goal | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:quality-inspection` | erpnext | Stock | doctype | Quality Inspection | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:quality-inspection` | erpnext | Stock | doctype | Quality Inspection | B | Yes | /operations/quality-inspections | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:quality-inspection-parameter` | erpnext | Stock | doctype | Quality Inspection Parameter | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-inspection-parameter-group` | erpnext | Stock | doctype | Quality Inspection Parameter Group | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-inspection-template` | erpnext | Stock | doctype | Quality Inspection Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1139,25 +1156,25 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:quality-procedure` | erpnext | Quality Management | doctype | Quality Procedure | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quality-review` | erpnext | Quality Management | doctype | Quality Review | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:quotation` | erpnext | Selling | doctype | Quotation | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:quotation` | erpnext | Selling | doctype | Quotation | B | Yes | /sales/quotations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:quotation-lost-reason` | erpnext | Setup | doctype | Quotation Lost Reason | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger` | erpnext | Accounts | doctype | Repost Accounting Ledger | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger-settings` | erpnext | Accounts | doctype | Repost Accounting Ledger Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:repost-item-valuation` | erpnext | Stock | doctype | Repost Item Valuation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:repost-payment-ledger` | erpnext | Accounts | doctype | Repost Payment Ledger | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:request-for-quotation` | erpnext | Buying | doctype | Request for Quotation | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:request-for-quotation` | erpnext | Buying | doctype | Request for Quotation | B | Yes | /purchases/requests-for-quotation | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:sales-invoice` | erpnext | Accounts | doctype | Sales Invoice | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /retail-erp/sales/orders | Automated API and browser tests for list/detail | Read-only list/detail implemented; forms and actions pending | Create/edit, workflow, actions, print and communication remain |
+| `erpnext:doctype:sales-invoice` | erpnext | Accounts | doctype | Sales Invoice | B | Yes | /retail-erp/sales/invoices | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
+| `erpnext:doctype:sales-order` | erpnext | Selling | doctype | Sales Order | B | Yes | /retail-erp/sales/orders | Automated API, lifecycle and frontend regression tests | Handcrafted Retail ERP workflow implemented within documented scope | Feature-specific advanced actions and complete interactive role/browser matrix remain |
 | `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner-type` | erpnext | Selling | doctype | Sales Partner Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:sales-person` | erpnext | Setup | doctype | Sales Person | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:sales-person` | erpnext | Setup | doctype | Sales Person | C | Yes | /crm/sales-people | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:sales-stage` | erpnext | CRM | doctype | Sales Stage | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sales-taxes-and-charges-template` | erpnext | Accounts | doctype | Sales Taxes and Charges Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:serial-no` | erpnext | Stock | doctype | Serial No | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:serial-no` | erpnext | Stock | doctype | Serial No | A | Yes | /inventory/serial-numbers | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:service-level-agreement` | erpnext | Support | doctype | Service Level Agreement | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:share-transfer` | erpnext | Accounts | doctype | Share Transfer | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:share-type` | erpnext | Accounts | doctype | Share Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -1168,52 +1185,52 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:doctype:sms-center` | erpnext | Selling | doctype | SMS Center | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:sms-log` | erpnext | Utilities | doctype | SMS Log | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:south-africa-vat-settings` | erpnext | Regional | doctype | South Africa VAT Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:stock-entry` | erpnext | Stock | doctype | Stock Entry | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:stock-entry` | erpnext | Stock | doctype | Stock Entry | B | Yes | /inventory/stock-entries | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:stock-entry-type` | erpnext | Stock | doctype | Stock Entry Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:stock-ledger-entry` | erpnext | Stock | doctype | Stock Ledger Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:stock-reconciliation` | erpnext | Stock | doctype | Stock Reconciliation | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:stock-reconciliation` | erpnext | Stock | doctype | Stock Reconciliation | B | Yes | /inventory/reconciliations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:stock-reposting-settings` | erpnext | Stock | doctype | Stock Reposting Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:stock-reservation-entry` | erpnext | Stock | doctype | Stock Reservation Entry | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:stock-settings` | erpnext | Stock | doctype | Stock Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:subcontracting-bom` | erpnext | Subcontracting | doctype | Subcontracting BOM | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:subcontracting-order` | erpnext | Subcontracting | doctype | Subcontracting Order | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:subcontracting-receipt` | erpnext | Subcontracting | doctype | Subcontracting Receipt | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:subcontracting-order` | erpnext | Subcontracting | doctype | Subcontracting Order | B | Yes | /operations/subcontracting/orders | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:subcontracting-receipt` | erpnext | Subcontracting | doctype | Subcontracting Receipt | B | Yes | /operations/subcontracting/receipts | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:subscription` | erpnext | Accounts | doctype | Subscription | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:subscription-plan` | erpnext | Accounts | doctype | Subscription Plan | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:subscription-settings` | erpnext | Accounts | doctype | Subscription Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:supplier` | erpnext | Buying | doctype | Supplier | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-group` | erpnext | Setup | doctype | Supplier Group | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-quotation` | erpnext | Buying | doctype | Supplier Quotation | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:supplier` | erpnext | Buying | doctype | Supplier | A | Yes | /purchases/suppliers | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:supplier-group` | erpnext | Setup | doctype | Supplier Group | C | Yes | /purchases/supplier-groups | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:supplier-quotation` | erpnext | Buying | doctype | Supplier Quotation | B | Yes | /purchases/supplier-quotations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:supplier-scorecard` | erpnext | Buying | doctype | Supplier Scorecard | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-criteria` | erpnext | Buying | doctype | Supplier Scorecard Criteria | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-period` | erpnext | Buying | doctype | Supplier Scorecard Period | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-standing` | erpnext | Buying | doctype | Supplier Scorecard Standing | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-variable` | erpnext | Buying | doctype | Supplier Scorecard Variable | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:support-settings` | erpnext | Support | doctype | Support Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:task` | erpnext | Projects | doctype | Task | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:task` | erpnext | Projects | doctype | Task | C | Yes | /operations/tasks | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:task-type` | erpnext | Projects | doctype | Task Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:tax-category` | erpnext | Accounts | doctype | Tax Category | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:tax-rule` | erpnext | Accounts | doctype | Tax Rule | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:tax-withholding-category` | erpnext | Accounts | doctype | Tax Withholding Category | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:telephony-call-type` | erpnext | Telephony | doctype | Telephony Call Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:terms-and-conditions` | erpnext | Setup | doctype | Terms and Conditions | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:territory` | erpnext | Setup | doctype | Territory | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:territory` | erpnext | Setup | doctype | Territory | C | Yes | /crm/territories | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:timesheet` | erpnext | Projects | doctype | Timesheet | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:uom` | erpnext | Setup | doctype | UOM | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:uom` | erpnext | Setup | doctype | UOM | E | Yes | /inventory/uoms | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:uom-category` | erpnext | Stock | doctype | UOM Category | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:uom-conversion-factor` | erpnext | Setup | doctype | UOM Conversion Factor | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:vehicle` | erpnext | Setup | doctype | Vehicle | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:video` | erpnext | Utilities | doctype | Video | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:video-settings` | erpnext | Utilities | doctype | Video Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:voice-call-settings` | erpnext | Telephony | doctype | Voice Call Settings | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:warehouse` | erpnext | Stock | doctype | Warehouse | C | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:warehouse` | erpnext | Stock | doctype | Warehouse | C | Yes | /inventory/warehouses | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:warehouse-type` | erpnext | Stock | doctype | Warehouse Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:warranty-claim` | erpnext | Support | doctype | Warranty Claim | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:work-order` | erpnext | Manufacturing | doctype | Work Order | B | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:workstation` | erpnext | Manufacturing | doctype | Workstation | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:work-order` | erpnext | Manufacturing | doctype | Work Order | B | Yes | /operations/manufacturing/work-orders | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:workstation` | erpnext | Manufacturing | doctype | Workstation | A | Yes | /operations/manufacturing/workstations | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:workstation-type` | erpnext | Manufacturing | doctype | Workstation Type | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `erpnext:document-action:account:chart-of-accounts` | erpnext | Accounts | document_action | Chart of Accounts | B | Yes | — | Not tested | Not implemented | Action not implemented in Retail ERP |
 | `erpnext:document-action:account:convert-to-group` | erpnext | Accounts | document_action | Convert to Group | B | Yes | — | Not tested | Not implemented | Action not implemented in Retail ERP |
@@ -1804,21 +1821,21 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:print-format:supplier:irs-1099-form` | erpnext | Regional | print_format | IRS 1099 Form | E | Yes | — | Not tested | Not implemented | Print preview/PDF selector not implemented |
 | `erpnext:print-format:trial-balance-standard` | erpnext | Accounts | print_format | Trial Balance Standard | E | Yes | — | Not tested | Not implemented | Print preview/PDF selector not implemented |
 | `erpnext:report:account-balance` | erpnext | Accounts | report | Account Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-payable` | erpnext | Accounts | report | Accounts Payable | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:accounts-payable` | erpnext | Accounts | report | Accounts Payable | D | Yes | /retail-erp/reports/view/Accounts%20Payable | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:accounts-payable-summary` | erpnext | Accounts | report | Accounts Payable Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-receivable` | erpnext | Accounts | report | Accounts Receivable | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:accounts-receivable` | erpnext | Accounts | report | Accounts Receivable | D | Yes | /retail-erp/reports/view/Accounts%20Receivable | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:accounts-receivable-summary` | erpnext | Accounts | report | Accounts Receivable Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:address-and-contacts` | erpnext | Selling | report | Address And Contacts | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:asset-activity` | erpnext | Assets | report | Asset Activity | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:asset-depreciation-ledger` | erpnext | Accounts | report | Asset Depreciation Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:asset-depreciation-ledger` | erpnext | Accounts | report | Asset Depreciation Ledger | D | Yes | /retail-erp/reports/view/Asset%20Depreciation%20Ledger | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:asset-depreciations-and-balances` | erpnext | Accounts | report | Asset Depreciations and Balances | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:asset-maintenance` | erpnext | Assets | report | Asset Maintenance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:available-batch-report` | erpnext | Stock | report | Available Batch Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:available-serial-no` | erpnext | Stock | report | Available Serial No | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:available-stock-for-packing-items` | erpnext | Selling | report | Available Stock for Packing Items | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:balance-sheet` | erpnext | Accounts | report | Balance Sheet | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:balance-sheet` | erpnext | Accounts | report | Balance Sheet | D | Yes | /retail-erp/reports/view/Balance%20Sheet | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:bank-clearance-summary` | erpnext | Accounts | report | Bank Clearance Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:bank-reconciliation-statement` | erpnext | Accounts | report | Bank Reconciliation Statement | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:bank-reconciliation-statement` | erpnext | Accounts | report | Bank Reconciliation Statement | D | Yes | /retail-erp/reports/view/Bank%20Reconciliation%20Statement | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:batch-item-expiry-status` | erpnext | Stock | report | Batch Item Expiry Status | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:batch-wise-balance-history` | erpnext | Stock | report | Batch-Wise Balance History | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:billed-items-to-be-received` | erpnext | Accounts | report | Billed Items To Be Received | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1832,7 +1849,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:budget-variance-report` | erpnext | Accounts | report | Budget Variance Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:calculated-discount-mismatch` | erpnext | Accounts | report | Calculated Discount Mismatch | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:campaign-efficiency` | erpnext | CRM | report | Campaign Efficiency | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:cash-flow` | erpnext | Accounts | report | Cash Flow | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:cash-flow` | erpnext | Accounts | report | Cash Flow | D | Yes | /retail-erp/reports/view/Cash%20Flow | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:cheques-and-deposits-incorrectly-cleared` | erpnext | Accounts | report | Cheques and Deposits Incorrectly cleared | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:cogs-by-item-group` | erpnext | Stock | report | COGS By Item Group | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:completed-work-orders` | erpnext | Manufacturing | report | Completed Work Orders | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1842,7 +1859,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:custom-financial-statement` | erpnext | Accounts | report | Custom Financial Statement | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:customer-acquisition-and-loyalty` | erpnext | Selling | report | Customer Acquisition and Loyalty | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:customer-credit-balance` | erpnext | Selling | report | Customer Credit Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:customer-ledger-summary` | erpnext | Accounts | report | Customer Ledger Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:customer-ledger-summary` | erpnext | Accounts | report | Customer Ledger Summary | D | Yes | /retail-erp/reports/view/Customer%20Ledger%20Summary | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:customer-wise-item-price` | erpnext | Selling | report | Customer-wise Item Price | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:customers-without-any-sales-transactions` | erpnext | Selling | report | Customers Without Any Sales Transactions | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:daily-timesheet-summary` | erpnext | Projects | report | Daily Timesheet Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1863,7 +1880,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:first-response-time-for-opportunity` | erpnext | CRM | report | First Response Time for Opportunity | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:fixed-asset-register` | erpnext | Assets | report | Fixed Asset Register | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:general-and-payment-ledger-comparison` | erpnext | Accounts | report | General and Payment Ledger Comparison | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:general-ledger` | erpnext | Accounts | report | General Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:general-ledger` | erpnext | Accounts | report | General Ledger | D | Yes | /retail-erp/reports/view/General%20Ledger | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:gross-and-net-profit-report` | erpnext | Accounts | report | Gross and Net Profit Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:gross-profit` | erpnext | Accounts | report | Gross Profit | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:inactive-customers` | erpnext | Selling | report | Inactive Customers | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1885,15 +1902,15 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:item-wise-consumption` | erpnext | Stock | report | Item Wise Consumption | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:item-wise-price-list-rate` | erpnext | Stock | report | Item-wise Price List Rate | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:item-wise-purchase-history` | erpnext | Buying | report | Item-wise Purchase History | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-purchase-register` | erpnext | Accounts | report | Item-wise Purchase Register | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:item-wise-purchase-register` | erpnext | Accounts | report | Item-wise Purchase Register | D | Yes | /retail-erp/reports/view/Item-wise%20Purchase%20Register | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:item-wise-sales-history` | erpnext | Selling | report | Item-wise Sales History | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-sales-register` | erpnext | Accounts | report | Item-wise Sales Register | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:item-wise-sales-register` | erpnext | Accounts | report | Item-wise Sales Register | D | Yes | /retail-erp/reports/view/Item-wise%20Sales%20Register | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:items-to-be-requested` | erpnext | Stock | report | Items To Be Requested | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:itemwise-recommended-reorder-level` | erpnext | Stock | report | Itemwise Recommended Reorder Level | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:job-card-summary` | erpnext | Manufacturing | report | Job Card Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:landed-cost-report` | erpnext | Stock | report | Landed Cost Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:lead-conversion-time` | erpnext | CRM | report | Lead Conversion Time | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:lead-details` | erpnext | CRM | report | Lead Details | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:lead-details` | erpnext | CRM | report | Lead Details | D | Yes | /retail-erp/reports/view/Lead%20Details | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:lead-owner-efficiency` | erpnext | CRM | report | Lead Owner Efficiency | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:lost-opportunity` | erpnext | CRM | report | Lost Opportunity | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:lost-quotations` | erpnext | Selling | report | Lost Quotations | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1902,7 +1919,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:material-requirements-planning-report` | erpnext | Manufacturing | report | Material Requirements Planning Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:negative-batch-report` | erpnext | Stock | report | Negative Batch Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:open-work-orders` | erpnext | Manufacturing | report | Open Work Orders | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:opportunity-summary-by-sales-stage` | erpnext | CRM | report | Opportunity Summary by Sales Stage | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:opportunity-summary-by-sales-stage` | erpnext | CRM | report | Opportunity Summary by Sales Stage | D | Yes | /retail-erp/reports/view/Opportunity%20Summary%20by%20Sales%20Stage | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:payment-ledger` | erpnext | Accounts | report | Payment Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:payment-period-based-on-invoice-date` | erpnext | Accounts | report | Payment Period Based On Invoice Date | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:payment-terms-status-for-sales-order` | erpnext | Selling | report | Payment Terms Status for Sales Order | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1914,18 +1931,18 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:production-analytics` | erpnext | Manufacturing | report | Production Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:production-plan-summary` | erpnext | Manufacturing | report | Production Plan Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:production-planning-report` | erpnext | Manufacturing | report | Production Planning Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:profit-and-loss-statement` | erpnext | Accounts | report | Profit and Loss Statement | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:profit-and-loss-statement` | erpnext | Accounts | report | Profit and Loss Statement | D | Yes | /retail-erp/reports/view/Profit%20and%20Loss%20Statement | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:profitability-analysis` | erpnext | Accounts | report | Profitability Analysis | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:project-billing-summary` | erpnext | Projects | report | Project Billing Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:project-summary` | erpnext | Projects | report | Project Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:project-summary` | erpnext | Projects | report | Project Summary | D | Yes | /retail-erp/reports/view/Project%20Summary | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:project-wise-stock-tracking` | erpnext | Projects | report | Project wise Stock Tracking | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:prospects-engaged-but-not-converted` | erpnext | CRM | report | Prospects Engaged But Not Converted | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-analytics` | erpnext | Buying | report | Purchase Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-invoice-trends` | erpnext | Accounts | report | Purchase Invoice Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-order-analysis` | erpnext | Buying | report | Purchase Order Analysis | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:purchase-order-analysis` | erpnext | Buying | report | Purchase Order Analysis | D | Yes | /retail-erp/reports/view/Purchase%20Order%20Analysis | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:purchase-order-trends` | erpnext | Buying | report | Purchase Order Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-receipt-trends` | erpnext | Stock | report | Purchase Receipt Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-register` | erpnext | Accounts | report | Purchase Register | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:purchase-register` | erpnext | Accounts | report | Purchase Register | D | Yes | /retail-erp/reports/view/Purchase%20Register | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:quality-inspection-summary` | erpnext | Manufacturing | report | Quality Inspection Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:quotation-trends` | erpnext | Selling | report | Quotation Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:received-items-to-be-billed` | erpnext | Accounts | report | Received Items To Be Billed | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1933,9 +1950,9 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:requested-items-to-order-and-receive` | erpnext | Buying | report | Requested Items to Order and Receive | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:reserved-stock` | erpnext | Stock | report | Reserved Stock | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:review` | erpnext | Quality Management | report | Review | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-analytics` | erpnext | Selling | report | Sales Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:sales-analytics` | erpnext | Selling | report | Sales Analytics | D | Yes | /retail-erp/reports/view/Sales%20Analytics | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:sales-invoice-trends` | erpnext | Accounts | report | Sales Invoice Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-order-analysis` | erpnext | Selling | report | Sales Order Analysis | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:sales-order-analysis` | erpnext | Selling | report | Sales Order Analysis | D | Yes | /retail-erp/reports/view/Sales%20Order%20Analysis | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:sales-order-trends` | erpnext | Selling | report | Sales Order Trends | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-partner-commission-summary` | erpnext | Selling | report | Sales Partner Commission Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-partner-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Partner Target Variance based on Item Group | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1946,7 +1963,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:sales-person-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Person Target Variance Based On Item Group | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-person-wise-transaction-summary` | erpnext | Selling | report | Sales Person-wise Transaction Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-pipeline-analytics` | erpnext | CRM | report | Sales Pipeline Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-register` | erpnext | Accounts | report | Sales Register | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:sales-register` | erpnext | Accounts | report | Sales Register | D | Yes | /retail-erp/reports/view/Sales%20Register | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:serial-and-batch-summary` | erpnext | Stock | report | Serial and Batch Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:serial-no-and-batch-traceability` | erpnext | Stock | report | Serial No and Batch Traceability | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:serial-no-ledger` | erpnext | Stock | report | Serial No Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1956,19 +1973,19 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:share-balance` | erpnext | Accounts | report | Share Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:share-ledger` | erpnext | Accounts | report | Share Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-ageing` | erpnext | Stock | report | Stock Ageing | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-analytics` | erpnext | Stock | report | Stock Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:stock-analytics` | erpnext | Stock | report | Stock Analytics | D | Yes | /retail-erp/reports/view/Stock%20Analytics | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:stock-and-account-value-comparison` | erpnext | Stock | report | Stock and Account Value Comparison | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-balance` | erpnext | Stock | report | Stock Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-ledger` | erpnext | Stock | report | Stock Ledger | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:stock-balance` | erpnext | Stock | report | Stock Balance | D | Yes | /retail-erp/reports/view/Stock%20Balance | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
+| `erpnext:report:stock-ledger` | erpnext | Stock | report | Stock Ledger | D | Yes | /retail-erp/reports/view/Stock%20Ledger | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:stock-ledger-invariant-check` | erpnext | Stock | report | Stock Ledger Invariant Check | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-ledger-variance` | erpnext | Stock | report | Stock Ledger Variance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-projected-qty` | erpnext | Stock | report | Stock Projected Qty | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:stock-projected-qty` | erpnext | Stock | report | Stock Projected Qty | D | Yes | /retail-erp/reports/view/Stock%20Projected%20Qty | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:stock-qty-vs-batch-qty` | erpnext | Stock | report | Stock Qty vs Batch Qty | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-qty-vs-serial-no-count` | erpnext | Stock | report | Stock Qty vs Serial No Count | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontract-order-summary` | erpnext | Buying | report | Subcontract Order Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontracted-item-to-be-received` | erpnext | Buying | report | Subcontracted Item To Be Received | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontracted-raw-materials-to-be-transferred` | erpnext | Buying | report | Subcontracted Raw Materials To Be Transferred | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:supplier-ledger-summary` | erpnext | Accounts | report | Supplier Ledger Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:supplier-ledger-summary` | erpnext | Accounts | report | Supplier Ledger Summary | D | Yes | /retail-erp/reports/view/Supplier%20Ledger%20Summary | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:supplier-quotation-comparison` | erpnext | Buying | report | Supplier Quotation Comparison | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:supplier-wise-sales-analytics` | erpnext | Stock | report | Supplier-Wise Sales Analytics | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:support-hour-distribution` | erpnext | Support | report | Support Hour Distribution | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1978,7 +1995,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:territory-wise-sales` | erpnext | Selling | report | Territory-wise Sales | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:timesheet-billing-summary` | erpnext | Projects | report | Timesheet Billing Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:total-stock-summary` | erpnext | Stock | report | Total Stock Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:trial-balance` | erpnext | Accounts | report | Trial Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:trial-balance` | erpnext | Accounts | report | Trial Balance | D | Yes | /retail-erp/reports/view/Trial%20Balance | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:trial-balance-for-party` | erpnext | Accounts | report | Trial Balance for Party | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:trial-balance-simple` | erpnext | Accounts | report | Trial Balance (Simple) | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:uae-vat-201` | erpnext | Regional | report | UAE VAT 201 | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
@@ -1988,7 +2005,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `erpnext:report:warehouse-wise-stock-balance` | erpnext | Stock | report | Warehouse Wise Stock Balance | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:work-order-consumed-materials` | erpnext | Manufacturing | report | Work Order Consumed Materials | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:work-order-stock-report` | erpnext | Manufacturing | report | Work Order Stock Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
-| `erpnext:report:work-order-summary` | erpnext | Manufacturing | report | Work Order Summary | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `erpnext:report:work-order-summary` | erpnext | Manufacturing | report | Work Order Summary | D | Yes | /retail-erp/reports/view/Work%20Order%20Summary | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `erpnext:report:work-orders-in-progress` | erpnext | Manufacturing | report | Work Orders in Progress | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:report:youtube-interactions` | erpnext | Utilities | report | YouTube Interactions | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `erpnext:workspace-target:accounting:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | Yes | — | Not tested | Not implemented | Target must resolve to a classified Retail ERP feature |
@@ -2615,7 +2632,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `frappe:doctype:about-us-settings` | frappe | Website | doctype | About Us Settings | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:access-log` | frappe | Core | doctype | Access Log | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |
 | `frappe:doctype:activity-log` | frappe | Core | doctype | Activity Log | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |
-| `frappe:doctype:address` | frappe | Contacts | doctype | Address | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `frappe:doctype:address` | frappe | Contacts | doctype | Address | A | Yes | /crm/addresses | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `frappe:doctype:address-template` | frappe | Contacts | doctype | Address Template | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:assignment-rule` | frappe | Automation | doctype | Assignment Rule | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:audit-trail` | frappe | Core | doctype | Audit Trail | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -2634,7 +2651,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `frappe:doctype:communication` | frappe | Core | doctype | Communication | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:connected-app` | frappe | Integrations | doctype | Connected App | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:console-log` | frappe | Desk | doctype | Console Log | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `frappe:doctype:contact` | frappe | Contacts | doctype | Contact | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `frappe:doctype:contact` | frappe | Contacts | doctype | Contact | A | Yes | /crm/contacts | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `frappe:doctype:contact-us-settings` | frappe | Website | doctype | Contact Us Settings | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:country` | frappe | Geo | doctype | Country | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:currency` | frappe | Geo | doctype | Currency | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
@@ -2735,7 +2752,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `frappe:doctype:recorder` | frappe | Core | doctype | Recorder | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:reminder` | frappe | Automation | doctype | Reminder | A | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:report` | frappe | Core | doctype | Report | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
-| `frappe:doctype:role` | frappe | Core | doctype | Role | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `frappe:doctype:role` | frappe | Core | doctype | Role | E | Yes | /admin/roles | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `frappe:doctype:role-permission-for-page-and-report` | frappe | Core | doctype | Role Permission for Page and Report | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:role-profile` | frappe | Core | doctype | Role Profile | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:route-history` | frappe | Desk | doctype | Route History | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |
@@ -2764,7 +2781,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `frappe:doctype:transaction-log` | frappe | Core | doctype | Transaction Log | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:translation` | frappe | Core | doctype | Translation | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:unhandled-email` | frappe | Email | doctype | Unhandled Email | G | No | — | Not tested | Not implemented | None: excluded from independent frontend routing |
-| `frappe:doctype:user` | frappe | Core | doctype | User | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
+| `frappe:doctype:user` | frappe | Core | doctype | User | E | Yes | /admin/users | Priority route, permission and adapter regression tests | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `frappe:doctype:user-group` | frappe | Core | doctype | User Group | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:user-invitation` | frappe | Core | doctype | User Invitation | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |
 | `frappe:doctype:user-permission` | frappe | Core | doctype | User Permission | E | Yes | — | Not tested | Not implemented | Required for ordinary-user parity |

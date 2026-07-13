@@ -1,14 +1,8 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **2477**.
+Total user-facing features without a registered custom route: **2396**.
 
-Twenty safer master-data DocTypes have allowlisted metadata-driven routes and
-the redesigned shared list/form/detail/collaboration interface, but remain
-`generated_provisional`. The strict list below intentionally retains them until
-each applicable create/edit/action/print/PDF/collaboration and role/browser test
-is complete. The environment currently lacks `wkhtmltopdf`, and interactive
-viewport verification remains outstanding; a polished generated form is not a
-parity claim.
+The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
 | Feature ID | App | Module | Type | Name | Classification | Standard route | Dependency |
 |---|---|---|---|---|---|---|---|
@@ -265,7 +259,6 @@ parity claim.
 | `erpnext:dashboard:project` | erpnext | Projects | dashboard | Project | C | /app/project | Dashboard view not implemented in Retail ERP |
 | `erpnext:dashboard:selling` | erpnext | Selling | dashboard | Selling | C | /app/selling | Dashboard view not implemented in Retail ERP |
 | `erpnext:dashboard:stock` | erpnext | Stock | dashboard | Stock | C | /app/stock | Dashboard view not implemented in Retail ERP |
-| `erpnext:doctype:account` | erpnext | Accounts | doctype | Account | B | /app/account | Required for ordinary-user parity |
 | `erpnext:doctype:account-closing-balance` | erpnext | Accounts | doctype | Account Closing Balance | A | /app/account-closing-balance | Required for ordinary-user parity |
 | `erpnext:doctype:accounting-dimension` | erpnext | Accounts | doctype | Accounting Dimension | A | /app/accounting-dimension | Required for ordinary-user parity |
 | `erpnext:doctype:accounting-dimension-filter` | erpnext | Accounts | doctype | Accounting Dimension Filter | A | /app/accounting-dimension-filter | Required for ordinary-user parity |
@@ -274,9 +267,7 @@ parity claim.
 | `erpnext:doctype:activity-cost` | erpnext | Projects | doctype | Activity Cost | A | /app/activity-cost | Required for ordinary-user parity |
 | `erpnext:doctype:activity-type` | erpnext | Projects | doctype | Activity Type | A | /app/activity-type | Required for ordinary-user parity |
 | `erpnext:doctype:advance-payment-ledger-entry` | erpnext | Accounts | doctype | Advance Payment Ledger Entry | A | /app/advance-payment-ledger-entry | Required for ordinary-user parity |
-| `erpnext:doctype:appointment` | erpnext | CRM | doctype | Appointment | A | /app/appointment | Required for ordinary-user parity |
 | `erpnext:doctype:appointment-booking-settings` | erpnext | CRM | doctype | Appointment Booking Settings | A | /app/appointment-booking-settings | Required for ordinary-user parity |
-| `erpnext:doctype:asset` | erpnext | Assets | doctype | Asset | B | /app/asset | Required for ordinary-user parity |
 | `erpnext:doctype:asset-activity` | erpnext | Assets | doctype | Asset Activity | A | /app/asset-activity | Required for ordinary-user parity |
 | `erpnext:doctype:asset-capitalization` | erpnext | Assets | doctype | Asset Capitalization | A | /app/asset-capitalization | Required for ordinary-user parity |
 | `erpnext:doctype:asset-category` | erpnext | Assets | doctype | Asset Category | A | /app/asset-category | Required for ordinary-user parity |
@@ -284,7 +275,6 @@ parity claim.
 | `erpnext:doctype:asset-maintenance` | erpnext | Assets | doctype | Asset Maintenance | A | /app/asset-maintenance | Required for ordinary-user parity |
 | `erpnext:doctype:asset-maintenance-log` | erpnext | Assets | doctype | Asset Maintenance Log | A | /app/asset-maintenance-log | Required for ordinary-user parity |
 | `erpnext:doctype:asset-maintenance-team` | erpnext | Assets | doctype | Asset Maintenance Team | A | /app/asset-maintenance-team | Required for ordinary-user parity |
-| `erpnext:doctype:asset-movement` | erpnext | Assets | doctype | Asset Movement | B | /app/asset-movement | Required for ordinary-user parity |
 | `erpnext:doctype:asset-repair` | erpnext | Assets | doctype | Asset Repair | A | /app/asset-repair | Required for ordinary-user parity |
 | `erpnext:doctype:asset-shift-allocation` | erpnext | Assets | doctype | Asset Shift Allocation | A | /app/asset-shift-allocation | Required for ordinary-user parity |
 | `erpnext:doctype:asset-shift-factor` | erpnext | Assets | doctype | Asset Shift Factor | A | /app/asset-shift-factor | Required for ordinary-user parity |
@@ -300,23 +290,19 @@ parity claim.
 | `erpnext:doctype:bank-reconciliation-tool` | erpnext | Accounts | doctype | Bank Reconciliation Tool | A | /app/bank-reconciliation-tool | Required for ordinary-user parity |
 | `erpnext:doctype:bank-statement-import` | erpnext | Accounts | doctype | Bank Statement Import | A | /app/bank-statement-import | Required for ordinary-user parity |
 | `erpnext:doctype:bank-transaction` | erpnext | Accounts | doctype | Bank Transaction | B | /app/bank-transaction | Required for ordinary-user parity |
-| `erpnext:doctype:batch` | erpnext | Stock | doctype | Batch | A | /app/batch | Required for ordinary-user parity |
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | /app/bin | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-accounting-statements` | erpnext | Accounts | doctype | Bisect Accounting Statements | A | /app/bisect-accounting-statements | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-nodes` | erpnext | Accounts | doctype | Bisect Nodes | A | /app/bisect-nodes | Required for ordinary-user parity |
 | `erpnext:doctype:blanket-order` | erpnext | Manufacturing | doctype | Blanket Order | A | /app/blanket-order | Required for ordinary-user parity |
-| `erpnext:doctype:bom` | erpnext | Manufacturing | doctype | BOM | B | /app/bom | Required for ordinary-user parity |
 | `erpnext:doctype:bom-creator` | erpnext | Manufacturing | doctype | BOM Creator | A | /app/bom-creator | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | /app/bom-update-log | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-tool` | erpnext | Manufacturing | doctype | BOM Update Tool | A | /app/bom-update-tool | Required for ordinary-user parity |
 | `erpnext:doctype:branch` | erpnext | Setup | doctype | Branch | E | /app/branch | Required for ordinary-user parity |
-| `erpnext:doctype:brand` | erpnext | Setup | doctype | Brand | E | /app/brand | Required for ordinary-user parity |
 | `erpnext:doctype:budget` | erpnext | Accounts | doctype | Budget | A | /app/budget | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log | A | /app/bulk-transaction-log | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log-detail` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log Detail | A | /app/bulk-transaction-log-detail | Required for ordinary-user parity |
 | `erpnext:doctype:buying-settings` | erpnext | Buying | doctype | Buying Settings | A | /app/buying-settings | Required for ordinary-user parity |
 | `erpnext:doctype:call-log` | erpnext | Telephony | doctype | Call Log | A | /app/call-log | Required for ordinary-user parity |
-| `erpnext:doctype:campaign` | erpnext | CRM | doctype | Campaign | A | /app/campaign | Required for ordinary-user parity |
 | `erpnext:doctype:cashier-closing` | erpnext | Accounts | doctype | Cashier Closing | A | /app/cashier-closing | Required for ordinary-user parity |
 | `erpnext:doctype:chart-of-accounts-importer` | erpnext | Accounts | doctype | Chart of Accounts Importer | A | /app/chart-of-accounts-importer | Required for ordinary-user parity |
 | `erpnext:doctype:cheque-print-template` | erpnext | Accounts | doctype | Cheque Print Template | A | /app/cheque-print-template | Required for ordinary-user parity |
@@ -324,23 +310,17 @@ parity claim.
 | `erpnext:doctype:code-list` | erpnext | EDI | doctype | Code List | A | /app/code-list | Required for ordinary-user parity |
 | `erpnext:doctype:common-code` | erpnext | EDI | doctype | Common Code | A | /app/common-code | Required for ordinary-user parity |
 | `erpnext:doctype:communication-medium` | erpnext | Communication | doctype | Communication Medium | A | /app/communication-medium | Required for ordinary-user parity |
-| `erpnext:doctype:company` | erpnext | Setup | doctype | Company | C | /app/company | Required for ordinary-user parity |
 | `erpnext:doctype:competitor` | erpnext | CRM | doctype | Competitor | A | /app/competitor | Required for ordinary-user parity |
 | `erpnext:doctype:contract` | erpnext | CRM | doctype | Contract | A | /app/contract | Required for ordinary-user parity |
 | `erpnext:doctype:contract-template` | erpnext | CRM | doctype | Contract Template | A | /app/contract-template | Required for ordinary-user parity |
-| `erpnext:doctype:cost-center` | erpnext | Accounts | doctype | Cost Center | C | /app/cost-center | Required for ordinary-user parity |
 | `erpnext:doctype:cost-center-allocation` | erpnext | Accounts | doctype | Cost Center Allocation | A | /app/cost-center-allocation | Required for ordinary-user parity |
 | `erpnext:doctype:coupon-code` | erpnext | Accounts | doctype | Coupon Code | A | /app/coupon-code | Required for ordinary-user parity |
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | /app/crm-settings | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | /app/currency-exchange | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | /app/currency-exchange-settings | Required for ordinary-user parity |
-| `erpnext:doctype:customer-group` | erpnext | Setup | doctype | Customer Group | C | /app/customer-group | Required for ordinary-user parity |
 | `erpnext:doctype:customs-tariff-number` | erpnext | Stock | doctype | Customs Tariff Number | A | /app/customs-tariff-number | Required for ordinary-user parity |
-| `erpnext:doctype:delivery-note` | erpnext | Stock | doctype | Delivery Note | B | /app/delivery-note | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-settings` | erpnext | Stock | doctype | Delivery Settings | A | /app/delivery-settings | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-trip` | erpnext | Stock | doctype | Delivery Trip | A | /app/delivery-trip | Required for ordinary-user parity |
-| `erpnext:doctype:department` | erpnext | Setup | doctype | Department | C | /app/department | Required for ordinary-user parity |
-| `erpnext:doctype:designation` | erpnext | Setup | doctype | Designation | E | /app/designation | Required for ordinary-user parity |
 | `erpnext:doctype:downtime-entry` | erpnext | Manufacturing | doctype | Downtime Entry | A | /app/downtime-entry | Required for ordinary-user parity |
 | `erpnext:doctype:driver` | erpnext | Setup | doctype | Driver | E | /app/driver | Required for ordinary-user parity |
 | `erpnext:doctype:dunning` | erpnext | Accounts | doctype | Dunning | A | /app/dunning | Required for ordinary-user parity |
@@ -364,21 +344,15 @@ parity claim.
 | `erpnext:doctype:installation-note` | erpnext | Selling | doctype | Installation Note | A | /app/installation-note | Required for ordinary-user parity |
 | `erpnext:doctype:inventory-dimension` | erpnext | Stock | doctype | Inventory Dimension | A | /app/inventory-dimension | Required for ordinary-user parity |
 | `erpnext:doctype:invoice-discounting` | erpnext | Accounts | doctype | Invoice Discounting | A | /app/invoice-discounting | Required for ordinary-user parity |
-| `erpnext:doctype:issue` | erpnext | Support | doctype | Issue | A | /app/issue | Required for ordinary-user parity |
 | `erpnext:doctype:issue-priority` | erpnext | Support | doctype | Issue Priority | A | /app/issue-priority | Required for ordinary-user parity |
 | `erpnext:doctype:issue-type` | erpnext | Support | doctype | Issue Type | A | /app/issue-type | Required for ordinary-user parity |
 | `erpnext:doctype:item-alternative` | erpnext | Stock | doctype | Item Alternative | A | /app/item-alternative | Required for ordinary-user parity |
 | `erpnext:doctype:item-attribute` | erpnext | Stock | doctype | Item Attribute | A | /app/item-attribute | Required for ordinary-user parity |
-| `erpnext:doctype:item-group` | erpnext | Setup | doctype | Item Group | C | /app/item-group | Required for ordinary-user parity |
 | `erpnext:doctype:item-manufacturer` | erpnext | Stock | doctype | Item Manufacturer | A | /app/item-manufacturer | Required for ordinary-user parity |
-| `erpnext:doctype:item-price` | erpnext | Stock | doctype | Item Price | A | /app/item-price | Required for ordinary-user parity |
 | `erpnext:doctype:item-tax-template` | erpnext | Accounts | doctype | Item Tax Template | A | /app/item-tax-template | Required for ordinary-user parity |
 | `erpnext:doctype:item-variant-settings` | erpnext | Stock | doctype | Item Variant Settings | A | /app/item-variant-settings | Required for ordinary-user parity |
-| `erpnext:doctype:job-card` | erpnext | Manufacturing | doctype | Job Card | B | /app/job-card | Required for ordinary-user parity |
-| `erpnext:doctype:journal-entry` | erpnext | Accounts | doctype | Journal Entry | B | /app/journal-entry | Required for ordinary-user parity |
 | `erpnext:doctype:journal-entry-template` | erpnext | Accounts | doctype | Journal Entry Template | A | /app/journal-entry-template | Required for ordinary-user parity |
 | `erpnext:doctype:landed-cost-voucher` | erpnext | Stock | doctype | Landed Cost Voucher | A | /app/landed-cost-voucher | Required for ordinary-user parity |
-| `erpnext:doctype:lead` | erpnext | CRM | doctype | Lead | A | /app/lead | Required for ordinary-user parity |
 | `erpnext:doctype:lead-source` | erpnext | CRM | doctype | Lead Source | A | /app/lead-source | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health` | erpnext | Accounts | doctype | Ledger Health | A | /app/ledger-health | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health-monitor` | erpnext | Accounts | doctype | Ledger Health Monitor | A | /app/ledger-health-monitor | Required for ordinary-user parity |
@@ -392,25 +366,19 @@ parity claim.
 | `erpnext:doctype:manufacturer` | erpnext | Stock | doctype | Manufacturer | A | /app/manufacturer | Required for ordinary-user parity |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | /app/manufacturing-settings | Required for ordinary-user parity |
 | `erpnext:doctype:market-segment` | erpnext | CRM | doctype | Market Segment | A | /app/market-segment | Required for ordinary-user parity |
-| `erpnext:doctype:material-request` | erpnext | Stock | doctype | Material Request | B | /app/material-request | Required for ordinary-user parity |
-| `erpnext:doctype:mode-of-payment` | erpnext | Accounts | doctype | Mode of Payment | A | /app/mode-of-payment | Required for ordinary-user parity |
 | `erpnext:doctype:monthly-distribution` | erpnext | Accounts | doctype | Monthly Distribution | A | /app/monthly-distribution | Required for ordinary-user parity |
 | `erpnext:doctype:non-conformance` | erpnext | Quality Management | doctype | Non Conformance | A | /app/non-conformance | Required for ordinary-user parity |
 | `erpnext:doctype:opening-invoice-creation-tool` | erpnext | Accounts | doctype | Opening Invoice Creation Tool | A | /app/opening-invoice-creation-tool | Required for ordinary-user parity |
-| `erpnext:doctype:operation` | erpnext | Manufacturing | doctype | Operation | A | /app/operation | Required for ordinary-user parity |
-| `erpnext:doctype:opportunity` | erpnext | CRM | doctype | Opportunity | A | /app/opportunity | Required for ordinary-user parity |
 | `erpnext:doctype:opportunity-lost-reason` | erpnext | CRM | doctype | Opportunity Lost Reason | A | /app/opportunity-lost-reason | Required for ordinary-user parity |
 | `erpnext:doctype:opportunity-type` | erpnext | CRM | doctype | Opportunity Type | A | /app/opportunity-type | Required for ordinary-user parity |
 | `erpnext:doctype:packing-slip` | erpnext | Stock | doctype | Packing Slip | A | /app/packing-slip | Required for ordinary-user parity |
 | `erpnext:doctype:party-link` | erpnext | Accounts | doctype | Party Link | A | /app/party-link | Required for ordinary-user parity |
 | `erpnext:doctype:party-specific-item` | erpnext | Selling | doctype | Party Specific Item | A | /app/party-specific-item | Required for ordinary-user parity |
 | `erpnext:doctype:party-type` | erpnext | Setup | doctype | Party Type | E | /app/party-type | Required for ordinary-user parity |
-| `erpnext:doctype:payment-entry` | erpnext | Accounts | doctype | Payment Entry | B | /app/payment-entry | Required for ordinary-user parity |
 | `erpnext:doctype:payment-gateway-account` | erpnext | Accounts | doctype | Payment Gateway Account | A | /app/payment-gateway-account | Required for ordinary-user parity |
 | `erpnext:doctype:payment-ledger-entry` | erpnext | Accounts | doctype | Payment Ledger Entry | A | /app/payment-ledger-entry | Required for ordinary-user parity |
 | `erpnext:doctype:payment-order` | erpnext | Accounts | doctype | Payment Order | A | /app/payment-order | Required for ordinary-user parity |
 | `erpnext:doctype:payment-reconciliation` | erpnext | Accounts | doctype | Payment Reconciliation | A | /app/payment-reconciliation | Required for ordinary-user parity |
-| `erpnext:doctype:payment-request` | erpnext | Accounts | doctype | Payment Request | A | /app/payment-request | Required for ordinary-user parity |
 | `erpnext:doctype:payment-term` | erpnext | Accounts | doctype | Payment Term | A | /app/payment-term | Required for ordinary-user parity |
 | `erpnext:doctype:payment-terms-template` | erpnext | Accounts | doctype | Payment Terms Template | A | /app/payment-terms-template | Required for ordinary-user parity |
 | `erpnext:doctype:pegged-currencies` | erpnext | Accounts | doctype | Pegged Currencies | A | /app/pegged-currencies | Required for ordinary-user parity |
@@ -424,7 +392,6 @@ parity claim.
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | /app/pos-opening-entry | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | /app/pos-profile | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | /app/pos-settings | Required for ordinary-user parity |
-| `erpnext:doctype:price-list` | erpnext | Stock | doctype | Price List | A | /app/price-list | Required for ordinary-user parity |
 | `erpnext:doctype:pricing-rule` | erpnext | Accounts | doctype | Pricing Rule | A | /app/pricing-rule | Required for ordinary-user parity |
 | `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | /app/print-heading | Required for ordinary-user parity |
 | `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | /app/process-deferred-accounting | Required for ordinary-user parity |
@@ -434,24 +401,18 @@ parity claim.
 | `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | /app/process-statement-of-accounts | Required for ordinary-user parity |
 | `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | /app/process-subscription | Required for ordinary-user parity |
 | `erpnext:doctype:product-bundle` | erpnext | Selling | doctype | Product Bundle | A | /app/product-bundle | Required for ordinary-user parity |
-| `erpnext:doctype:production-plan` | erpnext | Manufacturing | doctype | Production Plan | B | /app/production-plan | Required for ordinary-user parity |
-| `erpnext:doctype:project` | erpnext | Projects | doctype | Project | A | /app/project | Required for ordinary-user parity |
 | `erpnext:doctype:project-template` | erpnext | Projects | doctype | Project Template | A | /app/project-template | Required for ordinary-user parity |
 | `erpnext:doctype:project-type` | erpnext | Projects | doctype | Project Type | A | /app/project-type | Required for ordinary-user parity |
 | `erpnext:doctype:project-update` | erpnext | Projects | doctype | Project Update | A | /app/project-update | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | /app/projects-settings | Required for ordinary-user parity |
 | `erpnext:doctype:promotional-scheme` | erpnext | Accounts | doctype | Promotional Scheme | A | /app/promotional-scheme | Required for ordinary-user parity |
 | `erpnext:doctype:prospect` | erpnext | CRM | doctype | Prospect | A | /app/prospect | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-invoice` | erpnext | Accounts | doctype | Purchase Invoice | B | /app/purchase-invoice | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-order` | erpnext | Buying | doctype | Purchase Order | B | /app/purchase-order | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-receipt` | erpnext | Stock | doctype | Purchase Receipt | B | /app/purchase-receipt | Required for ordinary-user parity |
 | `erpnext:doctype:purchase-taxes-and-charges-template` | erpnext | Accounts | doctype | Purchase Taxes and Charges Template | A | /app/purchase-taxes-and-charges-template | Required for ordinary-user parity |
 | `erpnext:doctype:putaway-rule` | erpnext | Stock | doctype | Putaway Rule | A | /app/putaway-rule | Required for ordinary-user parity |
 | `erpnext:doctype:quality-action` | erpnext | Quality Management | doctype | Quality Action | A | /app/quality-action | Required for ordinary-user parity |
 | `erpnext:doctype:quality-feedback` | erpnext | Quality Management | doctype | Quality Feedback | A | /app/quality-feedback | Required for ordinary-user parity |
 | `erpnext:doctype:quality-feedback-template` | erpnext | Quality Management | doctype | Quality Feedback Template | A | /app/quality-feedback-template | Required for ordinary-user parity |
 | `erpnext:doctype:quality-goal` | erpnext | Quality Management | doctype | Quality Goal | A | /app/quality-goal | Required for ordinary-user parity |
-| `erpnext:doctype:quality-inspection` | erpnext | Stock | doctype | Quality Inspection | B | /app/quality-inspection | Required for ordinary-user parity |
 | `erpnext:doctype:quality-inspection-parameter` | erpnext | Stock | doctype | Quality Inspection Parameter | A | /app/quality-inspection-parameter | Required for ordinary-user parity |
 | `erpnext:doctype:quality-inspection-parameter-group` | erpnext | Stock | doctype | Quality Inspection Parameter Group | A | /app/quality-inspection-parameter-group | Required for ordinary-user parity |
 | `erpnext:doctype:quality-inspection-template` | erpnext | Stock | doctype | Quality Inspection Template | A | /app/quality-inspection-template | Required for ordinary-user parity |
@@ -459,24 +420,19 @@ parity claim.
 | `erpnext:doctype:quality-procedure` | erpnext | Quality Management | doctype | Quality Procedure | C | /app/quality-procedure | Required for ordinary-user parity |
 | `erpnext:doctype:quality-review` | erpnext | Quality Management | doctype | Quality Review | A | /app/quality-review | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | /app/quick-stock-balance | Required for ordinary-user parity |
-| `erpnext:doctype:quotation` | erpnext | Selling | doctype | Quotation | B | /app/quotation | Required for ordinary-user parity |
 | `erpnext:doctype:quotation-lost-reason` | erpnext | Setup | doctype | Quotation Lost Reason | E | /app/quotation-lost-reason | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | /app/rename-tool | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger` | erpnext | Accounts | doctype | Repost Accounting Ledger | A | /app/repost-accounting-ledger | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger-settings` | erpnext | Accounts | doctype | Repost Accounting Ledger Settings | A | /app/repost-accounting-ledger-settings | Required for ordinary-user parity |
 | `erpnext:doctype:repost-item-valuation` | erpnext | Stock | doctype | Repost Item Valuation | A | /app/repost-item-valuation | Required for ordinary-user parity |
 | `erpnext:doctype:repost-payment-ledger` | erpnext | Accounts | doctype | Repost Payment Ledger | A | /app/repost-payment-ledger | Required for ordinary-user parity |
-| `erpnext:doctype:request-for-quotation` | erpnext | Buying | doctype | Request for Quotation | B | /app/request-for-quotation | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | /app/routing | Required for ordinary-user parity |
-| `erpnext:doctype:sales-invoice` | erpnext | Accounts | doctype | Sales Invoice | B | /app/sales-invoice | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | /app/sales-partner | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner-type` | erpnext | Selling | doctype | Sales Partner Type | A | /app/sales-partner-type | Required for ordinary-user parity |
-| `erpnext:doctype:sales-person` | erpnext | Setup | doctype | Sales Person | C | /app/sales-person | Required for ordinary-user parity |
 | `erpnext:doctype:sales-stage` | erpnext | CRM | doctype | Sales Stage | A | /app/sales-stage | Required for ordinary-user parity |
 | `erpnext:doctype:sales-taxes-and-charges-template` | erpnext | Accounts | doctype | Sales Taxes and Charges Template | A | /app/sales-taxes-and-charges-template | Required for ordinary-user parity |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | /app/selling-settings | Required for ordinary-user parity |
 | `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | /app/serial-and-batch-bundle | Required for ordinary-user parity |
-| `erpnext:doctype:serial-no` | erpnext | Stock | doctype | Serial No | A | /app/serial-no | Required for ordinary-user parity |
 | `erpnext:doctype:service-level-agreement` | erpnext | Support | doctype | Service Level Agreement | A | /app/service-level-agreement | Required for ordinary-user parity |
 | `erpnext:doctype:share-transfer` | erpnext | Accounts | doctype | Share Transfer | A | /app/share-transfer | Required for ordinary-user parity |
 | `erpnext:doctype:share-type` | erpnext | Accounts | doctype | Share Type | A | /app/share-type | Required for ordinary-user parity |
@@ -487,52 +443,39 @@ parity claim.
 | `erpnext:doctype:sms-center` | erpnext | Selling | doctype | SMS Center | A | /app/sms-center | Required for ordinary-user parity |
 | `erpnext:doctype:sms-log` | erpnext | Utilities | doctype | SMS Log | A | /app/sms-log | Required for ordinary-user parity |
 | `erpnext:doctype:south-africa-vat-settings` | erpnext | Regional | doctype | South Africa VAT Settings | A | /app/south-africa-vat-settings | Required for ordinary-user parity |
-| `erpnext:doctype:stock-entry` | erpnext | Stock | doctype | Stock Entry | B | /app/stock-entry | Required for ordinary-user parity |
 | `erpnext:doctype:stock-entry-type` | erpnext | Stock | doctype | Stock Entry Type | A | /app/stock-entry-type | Required for ordinary-user parity |
 | `erpnext:doctype:stock-ledger-entry` | erpnext | Stock | doctype | Stock Ledger Entry | A | /app/stock-ledger-entry | Required for ordinary-user parity |
-| `erpnext:doctype:stock-reconciliation` | erpnext | Stock | doctype | Stock Reconciliation | B | /app/stock-reconciliation | Required for ordinary-user parity |
 | `erpnext:doctype:stock-reposting-settings` | erpnext | Stock | doctype | Stock Reposting Settings | A | /app/stock-reposting-settings | Required for ordinary-user parity |
 | `erpnext:doctype:stock-reservation-entry` | erpnext | Stock | doctype | Stock Reservation Entry | A | /app/stock-reservation-entry | Required for ordinary-user parity |
 | `erpnext:doctype:stock-settings` | erpnext | Stock | doctype | Stock Settings | A | /app/stock-settings | Required for ordinary-user parity |
 | `erpnext:doctype:subcontracting-bom` | erpnext | Subcontracting | doctype | Subcontracting BOM | A | /app/subcontracting-bom | Required for ordinary-user parity |
-| `erpnext:doctype:subcontracting-order` | erpnext | Subcontracting | doctype | Subcontracting Order | B | /app/subcontracting-order | Required for ordinary-user parity |
-| `erpnext:doctype:subcontracting-receipt` | erpnext | Subcontracting | doctype | Subcontracting Receipt | B | /app/subcontracting-receipt | Required for ordinary-user parity |
 | `erpnext:doctype:subscription` | erpnext | Accounts | doctype | Subscription | A | /app/subscription | Required for ordinary-user parity |
 | `erpnext:doctype:subscription-plan` | erpnext | Accounts | doctype | Subscription Plan | A | /app/subscription-plan | Required for ordinary-user parity |
 | `erpnext:doctype:subscription-settings` | erpnext | Accounts | doctype | Subscription Settings | A | /app/subscription-settings | Required for ordinary-user parity |
-| `erpnext:doctype:supplier` | erpnext | Buying | doctype | Supplier | A | /app/supplier | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-group` | erpnext | Setup | doctype | Supplier Group | C | /app/supplier-group | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-quotation` | erpnext | Buying | doctype | Supplier Quotation | B | /app/supplier-quotation | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard` | erpnext | Buying | doctype | Supplier Scorecard | A | /app/supplier-scorecard | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-criteria` | erpnext | Buying | doctype | Supplier Scorecard Criteria | A | /app/supplier-scorecard-criteria | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-period` | erpnext | Buying | doctype | Supplier Scorecard Period | A | /app/supplier-scorecard-period | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-standing` | erpnext | Buying | doctype | Supplier Scorecard Standing | A | /app/supplier-scorecard-standing | Required for ordinary-user parity |
 | `erpnext:doctype:supplier-scorecard-variable` | erpnext | Buying | doctype | Supplier Scorecard Variable | A | /app/supplier-scorecard-variable | Required for ordinary-user parity |
 | `erpnext:doctype:support-settings` | erpnext | Support | doctype | Support Settings | A | /app/support-settings | Required for ordinary-user parity |
-| `erpnext:doctype:task` | erpnext | Projects | doctype | Task | C | /app/task | Required for ordinary-user parity |
 | `erpnext:doctype:task-type` | erpnext | Projects | doctype | Task Type | A | /app/task-type | Required for ordinary-user parity |
 | `erpnext:doctype:tax-category` | erpnext | Accounts | doctype | Tax Category | A | /app/tax-category | Required for ordinary-user parity |
 | `erpnext:doctype:tax-rule` | erpnext | Accounts | doctype | Tax Rule | A | /app/tax-rule | Required for ordinary-user parity |
 | `erpnext:doctype:tax-withholding-category` | erpnext | Accounts | doctype | Tax Withholding Category | A | /app/tax-withholding-category | Required for ordinary-user parity |
 | `erpnext:doctype:telephony-call-type` | erpnext | Telephony | doctype | Telephony Call Type | A | /app/telephony-call-type | Required for ordinary-user parity |
 | `erpnext:doctype:terms-and-conditions` | erpnext | Setup | doctype | Terms and Conditions | E | /app/terms-and-conditions | Required for ordinary-user parity |
-| `erpnext:doctype:territory` | erpnext | Setup | doctype | Territory | C | /app/territory | Required for ordinary-user parity |
 | `erpnext:doctype:timesheet` | erpnext | Projects | doctype | Timesheet | A | /app/timesheet | Required for ordinary-user parity |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | /app/transaction-deletion-record | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | /app/uae-vat-settings | Required for ordinary-user parity |
 | `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | /app/unreconcile-payment | Required for ordinary-user parity |
-| `erpnext:doctype:uom` | erpnext | Setup | doctype | UOM | E | /app/uom | Required for ordinary-user parity |
 | `erpnext:doctype:uom-category` | erpnext | Stock | doctype | UOM Category | A | /app/uom-category | Required for ordinary-user parity |
 | `erpnext:doctype:uom-conversion-factor` | erpnext | Setup | doctype | UOM Conversion Factor | E | /app/uom-conversion-factor | Required for ordinary-user parity |
 | `erpnext:doctype:vehicle` | erpnext | Setup | doctype | Vehicle | E | /app/vehicle | Required for ordinary-user parity |
 | `erpnext:doctype:video` | erpnext | Utilities | doctype | Video | A | /app/video | Required for ordinary-user parity |
 | `erpnext:doctype:video-settings` | erpnext | Utilities | doctype | Video Settings | A | /app/video-settings | Required for ordinary-user parity |
 | `erpnext:doctype:voice-call-settings` | erpnext | Telephony | doctype | Voice Call Settings | A | /app/voice-call-settings | Required for ordinary-user parity |
-| `erpnext:doctype:warehouse` | erpnext | Stock | doctype | Warehouse | C | /app/warehouse | Required for ordinary-user parity |
 | `erpnext:doctype:warehouse-type` | erpnext | Stock | doctype | Warehouse Type | A | /app/warehouse-type | Required for ordinary-user parity |
 | `erpnext:doctype:warranty-claim` | erpnext | Support | doctype | Warranty Claim | A | /app/warranty-claim | Required for ordinary-user parity |
-| `erpnext:doctype:work-order` | erpnext | Manufacturing | doctype | Work Order | B | /app/work-order | Required for ordinary-user parity |
-| `erpnext:doctype:workstation` | erpnext | Manufacturing | doctype | Workstation | A | /app/workstation | Required for ordinary-user parity |
 | `erpnext:doctype:workstation-type` | erpnext | Manufacturing | doctype | Workstation Type | A | /app/workstation-type | Required for ordinary-user parity |
 | `erpnext:document-action:account:chart-of-accounts` | erpnext | Accounts | document_action | Chart of Accounts | B | — | Action not implemented in Retail ERP |
 | `erpnext:document-action:account:convert-to-group` | erpnext | Accounts | document_action | Convert to Group | B | — | Action not implemented in Retail ERP |
@@ -1119,21 +1062,16 @@ parity claim.
 | `erpnext:print-format:supplier:irs-1099-form` | erpnext | Regional | print_format | IRS 1099 Form | E | /app/print-format/irs-1099-form | Print preview/PDF selector not implemented |
 | `erpnext:print-format:trial-balance-standard` | erpnext | Accounts | print_format | Trial Balance Standard | E | /app/print-format/trial-balance-standard | Print preview/PDF selector not implemented |
 | `erpnext:report:account-balance` | erpnext | Accounts | report | Account Balance | D | /app/query-report/Account Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-payable` | erpnext | Accounts | report | Accounts Payable | D | /app/query-report/Accounts Payable | Required: no Retail ERP report adapter |
 | `erpnext:report:accounts-payable-summary` | erpnext | Accounts | report | Accounts Payable Summary | D | /app/query-report/Accounts Payable Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-receivable` | erpnext | Accounts | report | Accounts Receivable | D | /app/query-report/Accounts Receivable | Required: no Retail ERP report adapter |
 | `erpnext:report:accounts-receivable-summary` | erpnext | Accounts | report | Accounts Receivable Summary | D | /app/query-report/Accounts Receivable Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:address-and-contacts` | erpnext | Selling | report | Address And Contacts | D | /app/query-report/Address And Contacts | Required: no Retail ERP report adapter |
 | `erpnext:report:asset-activity` | erpnext | Assets | report | Asset Activity | D | /app/query-report/Asset Activity | Required: no Retail ERP report adapter |
-| `erpnext:report:asset-depreciation-ledger` | erpnext | Accounts | report | Asset Depreciation Ledger | D | /app/query-report/Asset Depreciation Ledger | Required: no Retail ERP report adapter |
 | `erpnext:report:asset-depreciations-and-balances` | erpnext | Accounts | report | Asset Depreciations and Balances | D | /app/query-report/Asset Depreciations and Balances | Required: no Retail ERP report adapter |
 | `erpnext:report:asset-maintenance` | erpnext | Assets | report | Asset Maintenance | D | /app/query-report/Asset Maintenance | Required: no Retail ERP report adapter |
 | `erpnext:report:available-batch-report` | erpnext | Stock | report | Available Batch Report | D | /app/query-report/Available Batch Report | Required: no Retail ERP report adapter |
 | `erpnext:report:available-serial-no` | erpnext | Stock | report | Available Serial No | D | /app/query-report/Available Serial No | Required: no Retail ERP report adapter |
 | `erpnext:report:available-stock-for-packing-items` | erpnext | Selling | report | Available Stock for Packing Items | D | /app/query-report/Available Stock for Packing Items | Required: no Retail ERP report adapter |
-| `erpnext:report:balance-sheet` | erpnext | Accounts | report | Balance Sheet | D | /app/query-report/Balance Sheet | Required: no Retail ERP report adapter |
 | `erpnext:report:bank-clearance-summary` | erpnext | Accounts | report | Bank Clearance Summary | D | /app/query-report/Bank Clearance Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:bank-reconciliation-statement` | erpnext | Accounts | report | Bank Reconciliation Statement | D | /app/query-report/Bank Reconciliation Statement | Required: no Retail ERP report adapter |
 | `erpnext:report:batch-item-expiry-status` | erpnext | Stock | report | Batch Item Expiry Status | D | /app/query-report/Batch Item Expiry Status | Required: no Retail ERP report adapter |
 | `erpnext:report:batch-wise-balance-history` | erpnext | Stock | report | Batch-Wise Balance History | D | /app/query-report/Batch-Wise Balance History | Required: no Retail ERP report adapter |
 | `erpnext:report:billed-items-to-be-received` | erpnext | Accounts | report | Billed Items To Be Received | D | /app/query-report/Billed Items To Be Received | Required: no Retail ERP report adapter |
@@ -1147,7 +1085,6 @@ parity claim.
 | `erpnext:report:budget-variance-report` | erpnext | Accounts | report | Budget Variance Report | D | /app/query-report/Budget Variance Report | Required: no Retail ERP report adapter |
 | `erpnext:report:calculated-discount-mismatch` | erpnext | Accounts | report | Calculated Discount Mismatch | D | /app/query-report/Calculated Discount Mismatch | Required: no Retail ERP report adapter |
 | `erpnext:report:campaign-efficiency` | erpnext | CRM | report | Campaign Efficiency | D | /app/query-report/Campaign Efficiency | Required: no Retail ERP report adapter |
-| `erpnext:report:cash-flow` | erpnext | Accounts | report | Cash Flow | D | /app/query-report/Cash Flow | Required: no Retail ERP report adapter |
 | `erpnext:report:cheques-and-deposits-incorrectly-cleared` | erpnext | Accounts | report | Cheques and Deposits Incorrectly cleared | D | /app/query-report/Cheques and Deposits Incorrectly cleared | Required: no Retail ERP report adapter |
 | `erpnext:report:cogs-by-item-group` | erpnext | Stock | report | COGS By Item Group | D | /app/query-report/COGS By Item Group | Required: no Retail ERP report adapter |
 | `erpnext:report:completed-work-orders` | erpnext | Manufacturing | report | Completed Work Orders | D | /app/query-report/Completed Work Orders | Required: no Retail ERP report adapter |
@@ -1157,7 +1094,6 @@ parity claim.
 | `erpnext:report:custom-financial-statement` | erpnext | Accounts | report | Custom Financial Statement | D | /app/query-report/Custom Financial Statement | Required: no Retail ERP report adapter |
 | `erpnext:report:customer-acquisition-and-loyalty` | erpnext | Selling | report | Customer Acquisition and Loyalty | D | /app/query-report/Customer Acquisition and Loyalty | Required: no Retail ERP report adapter |
 | `erpnext:report:customer-credit-balance` | erpnext | Selling | report | Customer Credit Balance | D | /app/query-report/Customer Credit Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:customer-ledger-summary` | erpnext | Accounts | report | Customer Ledger Summary | D | /app/query-report/Customer Ledger Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:customer-wise-item-price` | erpnext | Selling | report | Customer-wise Item Price | D | /app/query-report/Customer-wise Item Price | Required: no Retail ERP report adapter |
 | `erpnext:report:customers-without-any-sales-transactions` | erpnext | Selling | report | Customers Without Any Sales Transactions | D | /app/query-report/Customers Without Any Sales Transactions | Required: no Retail ERP report adapter |
 | `erpnext:report:daily-timesheet-summary` | erpnext | Projects | report | Daily Timesheet Summary | D | /app/query-report/Daily Timesheet Summary | Required: no Retail ERP report adapter |
@@ -1177,7 +1113,6 @@ parity claim.
 | `erpnext:report:first-response-time-for-opportunity` | erpnext | CRM | report | First Response Time for Opportunity | D | /app/query-report/First Response Time for Opportunity | Required: no Retail ERP report adapter |
 | `erpnext:report:fixed-asset-register` | erpnext | Assets | report | Fixed Asset Register | D | /app/query-report/Fixed Asset Register | Required: no Retail ERP report adapter |
 | `erpnext:report:general-and-payment-ledger-comparison` | erpnext | Accounts | report | General and Payment Ledger Comparison | D | /app/query-report/General and Payment Ledger Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:general-ledger` | erpnext | Accounts | report | General Ledger | D | /app/query-report/General Ledger | Required: no Retail ERP report adapter |
 | `erpnext:report:gross-and-net-profit-report` | erpnext | Accounts | report | Gross and Net Profit Report | D | /app/query-report/Gross and Net Profit Report | Required: no Retail ERP report adapter |
 | `erpnext:report:gross-profit` | erpnext | Accounts | report | Gross Profit | D | /app/query-report/Gross Profit | Required: no Retail ERP report adapter |
 | `erpnext:report:inactive-customers` | erpnext | Selling | report | Inactive Customers | D | /app/query-report/Inactive Customers | Required: no Retail ERP report adapter |
@@ -1199,15 +1134,12 @@ parity claim.
 | `erpnext:report:item-wise-consumption` | erpnext | Stock | report | Item Wise Consumption | D | /app/query-report/Item Wise Consumption | Required: no Retail ERP report adapter |
 | `erpnext:report:item-wise-price-list-rate` | erpnext | Stock | report | Item-wise Price List Rate | D | /app/query-report/Item-wise Price List Rate | Required: no Retail ERP report adapter |
 | `erpnext:report:item-wise-purchase-history` | erpnext | Buying | report | Item-wise Purchase History | D | /app/query-report/Item-wise Purchase History | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-purchase-register` | erpnext | Accounts | report | Item-wise Purchase Register | D | /app/query-report/Item-wise Purchase Register | Required: no Retail ERP report adapter |
 | `erpnext:report:item-wise-sales-history` | erpnext | Selling | report | Item-wise Sales History | D | /app/query-report/Item-wise Sales History | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-sales-register` | erpnext | Accounts | report | Item-wise Sales Register | D | /app/query-report/Item-wise Sales Register | Required: no Retail ERP report adapter |
 | `erpnext:report:items-to-be-requested` | erpnext | Stock | report | Items To Be Requested | D | /app/query-report/Items To Be Requested | Required: no Retail ERP report adapter |
 | `erpnext:report:itemwise-recommended-reorder-level` | erpnext | Stock | report | Itemwise Recommended Reorder Level | D | /app/query-report/Itemwise Recommended Reorder Level | Required: no Retail ERP report adapter |
 | `erpnext:report:job-card-summary` | erpnext | Manufacturing | report | Job Card Summary | D | /app/query-report/Job Card Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:landed-cost-report` | erpnext | Stock | report | Landed Cost Report | D | /app/query-report/Landed Cost Report | Required: no Retail ERP report adapter |
 | `erpnext:report:lead-conversion-time` | erpnext | CRM | report | Lead Conversion Time | D | /app/query-report/Lead Conversion Time | Required: no Retail ERP report adapter |
-| `erpnext:report:lead-details` | erpnext | CRM | report | Lead Details | D | /app/query-report/Lead Details | Required: no Retail ERP report adapter |
 | `erpnext:report:lead-owner-efficiency` | erpnext | CRM | report | Lead Owner Efficiency | D | /app/query-report/Lead Owner Efficiency | Required: no Retail ERP report adapter |
 | `erpnext:report:lost-opportunity` | erpnext | CRM | report | Lost Opportunity | D | /app/query-report/Lost Opportunity | Required: no Retail ERP report adapter |
 | `erpnext:report:lost-quotations` | erpnext | Selling | report | Lost Quotations | D | /app/query-report/Lost Quotations | Required: no Retail ERP report adapter |
@@ -1216,7 +1148,6 @@ parity claim.
 | `erpnext:report:material-requirements-planning-report` | erpnext | Manufacturing | report | Material Requirements Planning Report | D | /app/query-report/Material Requirements Planning Report | Required: no Retail ERP report adapter |
 | `erpnext:report:negative-batch-report` | erpnext | Stock | report | Negative Batch Report | D | /app/query-report/Negative Batch Report | Required: no Retail ERP report adapter |
 | `erpnext:report:open-work-orders` | erpnext | Manufacturing | report | Open Work Orders | D | /app/query-report/Open Work Orders | Required: no Retail ERP report adapter |
-| `erpnext:report:opportunity-summary-by-sales-stage` | erpnext | CRM | report | Opportunity Summary by Sales Stage | D | /app/query-report/Opportunity Summary by Sales Stage | Required: no Retail ERP report adapter |
 | `erpnext:report:payment-ledger` | erpnext | Accounts | report | Payment Ledger | D | /app/query-report/Payment Ledger | Required: no Retail ERP report adapter |
 | `erpnext:report:payment-period-based-on-invoice-date` | erpnext | Accounts | report | Payment Period Based On Invoice Date | D | /app/query-report/Payment Period Based On Invoice Date | Required: no Retail ERP report adapter |
 | `erpnext:report:payment-terms-status-for-sales-order` | erpnext | Selling | report | Payment Terms Status for Sales Order | D | /app/query-report/Payment Terms Status for Sales Order | Required: no Retail ERP report adapter |
@@ -1228,18 +1159,14 @@ parity claim.
 | `erpnext:report:production-analytics` | erpnext | Manufacturing | report | Production Analytics | D | /app/query-report/Production Analytics | Required: no Retail ERP report adapter |
 | `erpnext:report:production-plan-summary` | erpnext | Manufacturing | report | Production Plan Summary | D | /app/query-report/Production Plan Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:production-planning-report` | erpnext | Manufacturing | report | Production Planning Report | D | /app/query-report/Production Planning Report | Required: no Retail ERP report adapter |
-| `erpnext:report:profit-and-loss-statement` | erpnext | Accounts | report | Profit and Loss Statement | D | /app/query-report/Profit and Loss Statement | Required: no Retail ERP report adapter |
 | `erpnext:report:profitability-analysis` | erpnext | Accounts | report | Profitability Analysis | D | /app/query-report/Profitability Analysis | Required: no Retail ERP report adapter |
 | `erpnext:report:project-billing-summary` | erpnext | Projects | report | Project Billing Summary | D | /app/query-report/Project Billing Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:project-summary` | erpnext | Projects | report | Project Summary | D | /app/query-report/Project Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:project-wise-stock-tracking` | erpnext | Projects | report | Project wise Stock Tracking | D | /app/query-report/Project wise Stock Tracking | Required: no Retail ERP report adapter |
 | `erpnext:report:prospects-engaged-but-not-converted` | erpnext | CRM | report | Prospects Engaged But Not Converted | D | /app/query-report/Prospects Engaged But Not Converted | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-analytics` | erpnext | Buying | report | Purchase Analytics | D | /app/query-report/Purchase Analytics | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-invoice-trends` | erpnext | Accounts | report | Purchase Invoice Trends | D | /app/query-report/Purchase Invoice Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-order-analysis` | erpnext | Buying | report | Purchase Order Analysis | D | /app/query-report/Purchase Order Analysis | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-order-trends` | erpnext | Buying | report | Purchase Order Trends | D | /app/query-report/Purchase Order Trends | Required: no Retail ERP report adapter |
 | `erpnext:report:purchase-receipt-trends` | erpnext | Stock | report | Purchase Receipt Trends | D | /app/query-report/Purchase Receipt Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-register` | erpnext | Accounts | report | Purchase Register | D | /app/query-report/Purchase Register | Required: no Retail ERP report adapter |
 | `erpnext:report:quality-inspection-summary` | erpnext | Manufacturing | report | Quality Inspection Summary | D | /app/query-report/Quality Inspection Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:quotation-trends` | erpnext | Selling | report | Quotation Trends | D | /app/query-report/Quotation Trends | Required: no Retail ERP report adapter |
 | `erpnext:report:received-items-to-be-billed` | erpnext | Accounts | report | Received Items To Be Billed | D | /app/query-report/Received Items To Be Billed | Required: no Retail ERP report adapter |
@@ -1247,9 +1174,7 @@ parity claim.
 | `erpnext:report:requested-items-to-order-and-receive` | erpnext | Buying | report | Requested Items to Order and Receive | D | /app/query-report/Requested Items to Order and Receive | Required: no Retail ERP report adapter |
 | `erpnext:report:reserved-stock` | erpnext | Stock | report | Reserved Stock | D | /app/query-report/Reserved Stock | Required: no Retail ERP report adapter |
 | `erpnext:report:review` | erpnext | Quality Management | report | Review | D | /app/query-report/Review | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-analytics` | erpnext | Selling | report | Sales Analytics | D | /app/query-report/Sales Analytics | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-invoice-trends` | erpnext | Accounts | report | Sales Invoice Trends | D | /app/query-report/Sales Invoice Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-order-analysis` | erpnext | Selling | report | Sales Order Analysis | D | /app/query-report/Sales Order Analysis | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-order-trends` | erpnext | Selling | report | Sales Order Trends | D | /app/query-report/Sales Order Trends | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-partner-commission-summary` | erpnext | Selling | report | Sales Partner Commission Summary | D | /app/query-report/Sales Partner Commission Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-partner-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Partner Target Variance based on Item Group | D | /app/query-report/Sales Partner Target Variance based on Item Group | Required: no Retail ERP report adapter |
@@ -1260,7 +1185,6 @@ parity claim.
 | `erpnext:report:sales-person-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Person Target Variance Based On Item Group | D | /app/query-report/Sales Person Target Variance Based On Item Group | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-person-wise-transaction-summary` | erpnext | Selling | report | Sales Person-wise Transaction Summary | D | /app/query-report/Sales Person-wise Transaction Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:sales-pipeline-analytics` | erpnext | CRM | report | Sales Pipeline Analytics | D | /app/query-report/Sales Pipeline Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-register` | erpnext | Accounts | report | Sales Register | D | /app/query-report/Sales Register | Required: no Retail ERP report adapter |
 | `erpnext:report:serial-and-batch-summary` | erpnext | Stock | report | Serial and Batch Summary | D | /app/query-report/Serial and Batch Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:serial-no-and-batch-traceability` | erpnext | Stock | report | Serial No and Batch Traceability | D | /app/query-report/Serial No and Batch Traceability | Required: no Retail ERP report adapter |
 | `erpnext:report:serial-no-ledger` | erpnext | Stock | report | Serial No Ledger | D | /app/query-report/Serial No Ledger | Required: no Retail ERP report adapter |
@@ -1270,19 +1194,14 @@ parity claim.
 | `erpnext:report:share-balance` | erpnext | Accounts | report | Share Balance | D | /app/query-report/Share Balance | Required: no Retail ERP report adapter |
 | `erpnext:report:share-ledger` | erpnext | Accounts | report | Share Ledger | D | /app/query-report/Share Ledger | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-ageing` | erpnext | Stock | report | Stock Ageing | D | /app/query-report/Stock Ageing | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-analytics` | erpnext | Stock | report | Stock Analytics | D | /app/query-report/Stock Analytics | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-and-account-value-comparison` | erpnext | Stock | report | Stock and Account Value Comparison | D | /app/query-report/Stock and Account Value Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-balance` | erpnext | Stock | report | Stock Balance | D | /app/query-report/Stock Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-ledger` | erpnext | Stock | report | Stock Ledger | D | /app/query-report/Stock Ledger | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-ledger-invariant-check` | erpnext | Stock | report | Stock Ledger Invariant Check | D | /app/query-report/Stock Ledger Invariant Check | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-ledger-variance` | erpnext | Stock | report | Stock Ledger Variance | D | /app/query-report/Stock Ledger Variance | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-projected-qty` | erpnext | Stock | report | Stock Projected Qty | D | /app/query-report/Stock Projected Qty | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-qty-vs-batch-qty` | erpnext | Stock | report | Stock Qty vs Batch Qty | D | /app/query-report/Stock Qty vs Batch Qty | Required: no Retail ERP report adapter |
 | `erpnext:report:stock-qty-vs-serial-no-count` | erpnext | Stock | report | Stock Qty vs Serial No Count | D | /app/query-report/Stock Qty vs Serial No Count | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontract-order-summary` | erpnext | Buying | report | Subcontract Order Summary | D | /app/query-report/Subcontract Order Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontracted-item-to-be-received` | erpnext | Buying | report | Subcontracted Item To Be Received | D | /app/query-report/Subcontracted Item To Be Received | Required: no Retail ERP report adapter |
 | `erpnext:report:subcontracted-raw-materials-to-be-transferred` | erpnext | Buying | report | Subcontracted Raw Materials To Be Transferred | D | /app/query-report/Subcontracted Raw Materials To Be Transferred | Required: no Retail ERP report adapter |
-| `erpnext:report:supplier-ledger-summary` | erpnext | Accounts | report | Supplier Ledger Summary | D | /app/query-report/Supplier Ledger Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:supplier-quotation-comparison` | erpnext | Buying | report | Supplier Quotation Comparison | D | /app/query-report/Supplier Quotation Comparison | Required: no Retail ERP report adapter |
 | `erpnext:report:supplier-wise-sales-analytics` | erpnext | Stock | report | Supplier-Wise Sales Analytics | D | /app/query-report/Supplier-Wise Sales Analytics | Required: no Retail ERP report adapter |
 | `erpnext:report:support-hour-distribution` | erpnext | Support | report | Support Hour Distribution | D | /app/query-report/Support Hour Distribution | Required: no Retail ERP report adapter |
@@ -1292,7 +1211,6 @@ parity claim.
 | `erpnext:report:territory-wise-sales` | erpnext | Selling | report | Territory-wise Sales | D | /app/query-report/Territory-wise Sales | Required: no Retail ERP report adapter |
 | `erpnext:report:timesheet-billing-summary` | erpnext | Projects | report | Timesheet Billing Summary | D | /app/query-report/Timesheet Billing Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:total-stock-summary` | erpnext | Stock | report | Total Stock Summary | D | /app/query-report/Total Stock Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:trial-balance` | erpnext | Accounts | report | Trial Balance | D | /app/query-report/Trial Balance | Required: no Retail ERP report adapter |
 | `erpnext:report:trial-balance-for-party` | erpnext | Accounts | report | Trial Balance for Party | D | /app/query-report/Trial Balance for Party | Required: no Retail ERP report adapter |
 | `erpnext:report:trial-balance-simple` | erpnext | Accounts | report | Trial Balance (Simple) | D | /app/query-report/Trial Balance (Simple) | Required: no Retail ERP report adapter |
 | `erpnext:report:uae-vat-201` | erpnext | Regional | report | UAE VAT 201 | D | /app/query-report/UAE VAT 201 | Required: no Retail ERP report adapter |
@@ -1302,7 +1220,6 @@ parity claim.
 | `erpnext:report:warehouse-wise-stock-balance` | erpnext | Stock | report | Warehouse Wise Stock Balance | D | /app/query-report/Warehouse Wise Stock Balance | Required: no Retail ERP report adapter |
 | `erpnext:report:work-order-consumed-materials` | erpnext | Manufacturing | report | Work Order Consumed Materials | D | /app/query-report/Work Order Consumed Materials | Required: no Retail ERP report adapter |
 | `erpnext:report:work-order-stock-report` | erpnext | Manufacturing | report | Work Order Stock Report | D | /app/query-report/Work Order Stock Report | Required: no Retail ERP report adapter |
-| `erpnext:report:work-order-summary` | erpnext | Manufacturing | report | Work Order Summary | D | /app/query-report/Work Order Summary | Required: no Retail ERP report adapter |
 | `erpnext:report:work-orders-in-progress` | erpnext | Manufacturing | report | Work Orders in Progress | D | /app/query-report/Work Orders in Progress | Required: no Retail ERP report adapter |
 | `erpnext:report:youtube-interactions` | erpnext | Utilities | report | YouTube Interactions | D | /app/query-report/YouTube Interactions | Required: no Retail ERP report adapter |
 | `erpnext:workspace-target:accounting:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1835,7 +1752,6 @@ parity claim.
 | `frappe:dashboard-connection:core-doctype-user-type-user-type-dashboard-py:user-type` | frappe |  | dashboard_connection | User Type Dashboard | C | — | Dashboard connections and related-document actions require Retail ERP detail integration |
 | `frappe:dashboard-connection:desk-doctype-dashboard-test-dashboard-py:test` | frappe |  | dashboard_connection | Test Dashboard | C | — | Dashboard connections and related-document actions require Retail ERP detail integration |
 | `frappe:doctype:about-us-settings` | frappe | Website | doctype | About Us Settings | E | /app/about-us-settings | Required for ordinary-user parity |
-| `frappe:doctype:address` | frappe | Contacts | doctype | Address | A | /app/address | Required for ordinary-user parity |
 | `frappe:doctype:address-template` | frappe | Contacts | doctype | Address Template | A | /app/address-template | Required for ordinary-user parity |
 | `frappe:doctype:assignment-rule` | frappe | Automation | doctype | Assignment Rule | A | /app/assignment-rule | Required for ordinary-user parity |
 | `frappe:doctype:audit-trail` | frappe | Core | doctype | Audit Trail | E | /app/audit-trail | Required for ordinary-user parity |
@@ -1854,7 +1770,6 @@ parity claim.
 | `frappe:doctype:communication` | frappe | Core | doctype | Communication | E | /app/communication | Required for ordinary-user parity |
 | `frappe:doctype:connected-app` | frappe | Integrations | doctype | Connected App | E | /app/connected-app | Required for ordinary-user parity |
 | `frappe:doctype:console-log` | frappe | Desk | doctype | Console Log | E | /app/console-log | Required for ordinary-user parity |
-| `frappe:doctype:contact` | frappe | Contacts | doctype | Contact | A | /app/contact | Required for ordinary-user parity |
 | `frappe:doctype:contact-us-settings` | frappe | Website | doctype | Contact Us Settings | E | /app/contact-us-settings | Required for ordinary-user parity |
 | `frappe:doctype:country` | frappe | Geo | doctype | Country | A | /app/country | Required for ordinary-user parity |
 | `frappe:doctype:currency` | frappe | Geo | doctype | Currency | A | /app/currency | Required for ordinary-user parity |
@@ -1949,7 +1864,6 @@ parity claim.
 | `frappe:doctype:recorder` | frappe | Core | doctype | Recorder | E | /app/recorder | Required for ordinary-user parity |
 | `frappe:doctype:reminder` | frappe | Automation | doctype | Reminder | A | /app/reminder | Required for ordinary-user parity |
 | `frappe:doctype:report` | frappe | Core | doctype | Report | E | /app/report | Required for ordinary-user parity |
-| `frappe:doctype:role` | frappe | Core | doctype | Role | E | /app/role | Required for ordinary-user parity |
 | `frappe:doctype:role-permission-for-page-and-report` | frappe | Core | doctype | Role Permission for Page and Report | E | /app/role-permission-for-page-and-report | Required for ordinary-user parity |
 | `frappe:doctype:role-profile` | frappe | Core | doctype | Role Profile | E | /app/role-profile | Required for ordinary-user parity |
 | `frappe:doctype:rq-worker` | frappe | Core | doctype | RQ Worker | E | /app/rq-worker | Required for ordinary-user parity |
@@ -1973,7 +1887,6 @@ parity claim.
 | `frappe:doctype:todo` | frappe | Desk | doctype | ToDo | E | /app/todo | Required for ordinary-user parity |
 | `frappe:doctype:transaction-log` | frappe | Core | doctype | Transaction Log | E | /app/transaction-log | Required for ordinary-user parity |
 | `frappe:doctype:translation` | frappe | Core | doctype | Translation | E | /app/translation | Required for ordinary-user parity |
-| `frappe:doctype:user` | frappe | Core | doctype | User | E | /app/user | Required for ordinary-user parity |
 | `frappe:doctype:user-group` | frappe | Core | doctype | User Group | E | /app/user-group | Required for ordinary-user parity |
 | `frappe:doctype:user-invitation` | frappe | Core | doctype | User Invitation | E | /app/user-invitation | Required for ordinary-user parity |
 | `frappe:doctype:user-permission` | frappe | Core | doctype | User Permission | E | /app/user-permission | Required for ordinary-user parity |

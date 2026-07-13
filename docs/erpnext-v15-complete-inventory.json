@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "e180ffefdd7f596d0de2a08563671c3a5ee00c3a",
+      "git_commit": "98794f8300e3da9e2bf9648d538130522d4911a0",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -419,7 +419,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 2477
+      "unmapped_user_facing": 2396
     },
     "failures": {
       "complete_without_tests": [],
@@ -680,7 +680,6 @@
         "erpnext:dashboard:project",
         "erpnext:dashboard:selling",
         "erpnext:dashboard:stock",
-        "erpnext:doctype:account",
         "erpnext:doctype:account-closing-balance",
         "erpnext:doctype:accounting-dimension",
         "erpnext:doctype:accounting-dimension-filter",
@@ -689,9 +688,7 @@
         "erpnext:doctype:activity-cost",
         "erpnext:doctype:activity-type",
         "erpnext:doctype:advance-payment-ledger-entry",
-        "erpnext:doctype:appointment",
         "erpnext:doctype:appointment-booking-settings",
-        "erpnext:doctype:asset",
         "erpnext:doctype:asset-activity",
         "erpnext:doctype:asset-capitalization",
         "erpnext:doctype:asset-category",
@@ -699,7 +696,6 @@
         "erpnext:doctype:asset-maintenance",
         "erpnext:doctype:asset-maintenance-log",
         "erpnext:doctype:asset-maintenance-team",
-        "erpnext:doctype:asset-movement",
         "erpnext:doctype:asset-repair",
         "erpnext:doctype:asset-shift-allocation",
         "erpnext:doctype:asset-shift-factor",
@@ -715,23 +711,19 @@
         "erpnext:doctype:bank-reconciliation-tool",
         "erpnext:doctype:bank-statement-import",
         "erpnext:doctype:bank-transaction",
-        "erpnext:doctype:batch",
         "erpnext:doctype:bin",
         "erpnext:doctype:bisect-accounting-statements",
         "erpnext:doctype:bisect-nodes",
         "erpnext:doctype:blanket-order",
-        "erpnext:doctype:bom",
         "erpnext:doctype:bom-creator",
         "erpnext:doctype:bom-update-log",
         "erpnext:doctype:bom-update-tool",
         "erpnext:doctype:branch",
-        "erpnext:doctype:brand",
         "erpnext:doctype:budget",
         "erpnext:doctype:bulk-transaction-log",
         "erpnext:doctype:bulk-transaction-log-detail",
         "erpnext:doctype:buying-settings",
         "erpnext:doctype:call-log",
-        "erpnext:doctype:campaign",
         "erpnext:doctype:cashier-closing",
         "erpnext:doctype:chart-of-accounts-importer",
         "erpnext:doctype:cheque-print-template",
@@ -739,23 +731,17 @@
         "erpnext:doctype:code-list",
         "erpnext:doctype:common-code",
         "erpnext:doctype:communication-medium",
-        "erpnext:doctype:company",
         "erpnext:doctype:competitor",
         "erpnext:doctype:contract",
         "erpnext:doctype:contract-template",
-        "erpnext:doctype:cost-center",
         "erpnext:doctype:cost-center-allocation",
         "erpnext:doctype:coupon-code",
         "erpnext:doctype:crm-settings",
         "erpnext:doctype:currency-exchange",
         "erpnext:doctype:currency-exchange-settings",
-        "erpnext:doctype:customer-group",
         "erpnext:doctype:customs-tariff-number",
-        "erpnext:doctype:delivery-note",
         "erpnext:doctype:delivery-settings",
         "erpnext:doctype:delivery-trip",
-        "erpnext:doctype:department",
-        "erpnext:doctype:designation",
         "erpnext:doctype:downtime-entry",
         "erpnext:doctype:driver",
         "erpnext:doctype:dunning",
@@ -779,21 +765,15 @@
         "erpnext:doctype:installation-note",
         "erpnext:doctype:inventory-dimension",
         "erpnext:doctype:invoice-discounting",
-        "erpnext:doctype:issue",
         "erpnext:doctype:issue-priority",
         "erpnext:doctype:issue-type",
         "erpnext:doctype:item-alternative",
         "erpnext:doctype:item-attribute",
-        "erpnext:doctype:item-group",
         "erpnext:doctype:item-manufacturer",
-        "erpnext:doctype:item-price",
         "erpnext:doctype:item-tax-template",
         "erpnext:doctype:item-variant-settings",
-        "erpnext:doctype:job-card",
-        "erpnext:doctype:journal-entry",
         "erpnext:doctype:journal-entry-template",
         "erpnext:doctype:landed-cost-voucher",
-        "erpnext:doctype:lead",
         "erpnext:doctype:lead-source",
         "erpnext:doctype:ledger-health",
         "erpnext:doctype:ledger-health-monitor",
@@ -807,25 +787,19 @@
         "erpnext:doctype:manufacturer",
         "erpnext:doctype:manufacturing-settings",
         "erpnext:doctype:market-segment",
-        "erpnext:doctype:material-request",
-        "erpnext:doctype:mode-of-payment",
         "erpnext:doctype:monthly-distribution",
         "erpnext:doctype:non-conformance",
         "erpnext:doctype:opening-invoice-creation-tool",
-        "erpnext:doctype:operation",
-        "erpnext:doctype:opportunity",
         "erpnext:doctype:opportunity-lost-reason",
         "erpnext:doctype:opportunity-type",
         "erpnext:doctype:packing-slip",
         "erpnext:doctype:party-link",
         "erpnext:doctype:party-specific-item",
         "erpnext:doctype:party-type",
-        "erpnext:doctype:payment-entry",
         "erpnext:doctype:payment-gateway-account",
         "erpnext:doctype:payment-ledger-entry",
         "erpnext:doctype:payment-order",
         "erpnext:doctype:payment-reconciliation",
-        "erpnext:doctype:payment-request",
         "erpnext:doctype:payment-term",
         "erpnext:doctype:payment-terms-template",
         "erpnext:doctype:pegged-currencies",
@@ -839,7 +813,6 @@
         "erpnext:doctype:pos-opening-entry",
         "erpnext:doctype:pos-profile",
         "erpnext:doctype:pos-settings",
-        "erpnext:doctype:price-list",
         "erpnext:doctype:pricing-rule",
         "erpnext:doctype:print-heading",
         "erpnext:doctype:process-deferred-accounting",
@@ -849,24 +822,18 @@
         "erpnext:doctype:process-statement-of-accounts",
         "erpnext:doctype:process-subscription",
         "erpnext:doctype:product-bundle",
-        "erpnext:doctype:production-plan",
-        "erpnext:doctype:project",
         "erpnext:doctype:project-template",
         "erpnext:doctype:project-type",
         "erpnext:doctype:project-update",
         "erpnext:doctype:projects-settings",
         "erpnext:doctype:promotional-scheme",
         "erpnext:doctype:prospect",
-        "erpnext:doctype:purchase-invoice",
-        "erpnext:doctype:purchase-order",
-        "erpnext:doctype:purchase-receipt",
         "erpnext:doctype:purchase-taxes-and-charges-template",
         "erpnext:doctype:putaway-rule",
         "erpnext:doctype:quality-action",
         "erpnext:doctype:quality-feedback",
         "erpnext:doctype:quality-feedback-template",
         "erpnext:doctype:quality-goal",
-        "erpnext:doctype:quality-inspection",
         "erpnext:doctype:quality-inspection-parameter",
         "erpnext:doctype:quality-inspection-parameter-group",
         "erpnext:doctype:quality-inspection-template",
@@ -874,24 +841,19 @@
         "erpnext:doctype:quality-procedure",
         "erpnext:doctype:quality-review",
         "erpnext:doctype:quick-stock-balance",
-        "erpnext:doctype:quotation",
         "erpnext:doctype:quotation-lost-reason",
         "erpnext:doctype:rename-tool",
         "erpnext:doctype:repost-accounting-ledger",
         "erpnext:doctype:repost-accounting-ledger-settings",
         "erpnext:doctype:repost-item-valuation",
         "erpnext:doctype:repost-payment-ledger",
-        "erpnext:doctype:request-for-quotation",
         "erpnext:doctype:routing",
-        "erpnext:doctype:sales-invoice",
         "erpnext:doctype:sales-partner",
         "erpnext:doctype:sales-partner-type",
-        "erpnext:doctype:sales-person",
         "erpnext:doctype:sales-stage",
         "erpnext:doctype:sales-taxes-and-charges-template",
         "erpnext:doctype:selling-settings",
         "erpnext:doctype:serial-and-batch-bundle",
-        "erpnext:doctype:serial-no",
         "erpnext:doctype:service-level-agreement",
         "erpnext:doctype:share-transfer",
         "erpnext:doctype:share-type",
@@ -902,52 +864,39 @@
         "erpnext:doctype:sms-center",
         "erpnext:doctype:sms-log",
         "erpnext:doctype:south-africa-vat-settings",
-        "erpnext:doctype:stock-entry",
         "erpnext:doctype:stock-entry-type",
         "erpnext:doctype:stock-ledger-entry",
-        "erpnext:doctype:stock-reconciliation",
         "erpnext:doctype:stock-reposting-settings",
         "erpnext:doctype:stock-reservation-entry",
         "erpnext:doctype:stock-settings",
         "erpnext:doctype:subcontracting-bom",
-        "erpnext:doctype:subcontracting-order",
-        "erpnext:doctype:subcontracting-receipt",
         "erpnext:doctype:subscription",
         "erpnext:doctype:subscription-plan",
         "erpnext:doctype:subscription-settings",
-        "erpnext:doctype:supplier",
-        "erpnext:doctype:supplier-group",
-        "erpnext:doctype:supplier-quotation",
         "erpnext:doctype:supplier-scorecard",
         "erpnext:doctype:supplier-scorecard-criteria",
         "erpnext:doctype:supplier-scorecard-period",
         "erpnext:doctype:supplier-scorecard-standing",
         "erpnext:doctype:supplier-scorecard-variable",
         "erpnext:doctype:support-settings",
-        "erpnext:doctype:task",
         "erpnext:doctype:task-type",
         "erpnext:doctype:tax-category",
         "erpnext:doctype:tax-rule",
         "erpnext:doctype:tax-withholding-category",
         "erpnext:doctype:telephony-call-type",
         "erpnext:doctype:terms-and-conditions",
-        "erpnext:doctype:territory",
         "erpnext:doctype:timesheet",
         "erpnext:doctype:transaction-deletion-record",
         "erpnext:doctype:uae-vat-settings",
         "erpnext:doctype:unreconcile-payment",
-        "erpnext:doctype:uom",
         "erpnext:doctype:uom-category",
         "erpnext:doctype:uom-conversion-factor",
         "erpnext:doctype:vehicle",
         "erpnext:doctype:video",
         "erpnext:doctype:video-settings",
         "erpnext:doctype:voice-call-settings",
-        "erpnext:doctype:warehouse",
         "erpnext:doctype:warehouse-type",
         "erpnext:doctype:warranty-claim",
-        "erpnext:doctype:work-order",
-        "erpnext:doctype:workstation",
         "erpnext:doctype:workstation-type",
         "erpnext:document-action:account:chart-of-accounts",
         "erpnext:document-action:account:convert-to-group",
@@ -1534,21 +1483,16 @@
         "erpnext:print-format:supplier:irs-1099-form",
         "erpnext:print-format:trial-balance-standard",
         "erpnext:report:account-balance",
-        "erpnext:report:accounts-payable",
         "erpnext:report:accounts-payable-summary",
-        "erpnext:report:accounts-receivable",
         "erpnext:report:accounts-receivable-summary",
         "erpnext:report:address-and-contacts",
         "erpnext:report:asset-activity",
-        "erpnext:report:asset-depreciation-ledger",
         "erpnext:report:asset-depreciations-and-balances",
         "erpnext:report:asset-maintenance",
         "erpnext:report:available-batch-report",
         "erpnext:report:available-serial-no",
         "erpnext:report:available-stock-for-packing-items",
-        "erpnext:report:balance-sheet",
         "erpnext:report:bank-clearance-summary",
-        "erpnext:report:bank-reconciliation-statement",
         "erpnext:report:batch-item-expiry-status",
         "erpnext:report:batch-wise-balance-history",
         "erpnext:report:billed-items-to-be-received",
@@ -1562,7 +1506,6 @@
         "erpnext:report:budget-variance-report",
         "erpnext:report:calculated-discount-mismatch",
         "erpnext:report:campaign-efficiency",
-        "erpnext:report:cash-flow",
         "erpnext:report:cheques-and-deposits-incorrectly-cleared",
         "erpnext:report:cogs-by-item-group",
         "erpnext:report:completed-work-orders",
@@ -1572,7 +1515,6 @@
         "erpnext:report:custom-financial-statement",
         "erpnext:report:customer-acquisition-and-loyalty",
         "erpnext:report:customer-credit-balance",
-        "erpnext:report:customer-ledger-summary",
         "erpnext:report:customer-wise-item-price",
         "erpnext:report:customers-without-any-sales-transactions",
         "erpnext:report:daily-timesheet-summary",
@@ -1592,7 +1534,6 @@
         "erpnext:report:first-response-time-for-opportunity",
         "erpnext:report:fixed-asset-register",
         "erpnext:report:general-and-payment-ledger-comparison",
-        "erpnext:report:general-ledger",
         "erpnext:report:gross-and-net-profit-report",
         "erpnext:report:gross-profit",
         "erpnext:report:inactive-customers",
@@ -1614,15 +1555,12 @@
         "erpnext:report:item-wise-consumption",
         "erpnext:report:item-wise-price-list-rate",
         "erpnext:report:item-wise-purchase-history",
-        "erpnext:report:item-wise-purchase-register",
         "erpnext:report:item-wise-sales-history",
-        "erpnext:report:item-wise-sales-register",
         "erpnext:report:items-to-be-requested",
         "erpnext:report:itemwise-recommended-reorder-level",
         "erpnext:report:job-card-summary",
         "erpnext:report:landed-cost-report",
         "erpnext:report:lead-conversion-time",
-        "erpnext:report:lead-details",
         "erpnext:report:lead-owner-efficiency",
         "erpnext:report:lost-opportunity",
         "erpnext:report:lost-quotations",
@@ -1631,7 +1569,6 @@
         "erpnext:report:material-requirements-planning-report",
         "erpnext:report:negative-batch-report",
         "erpnext:report:open-work-orders",
-        "erpnext:report:opportunity-summary-by-sales-stage",
         "erpnext:report:payment-ledger",
         "erpnext:report:payment-period-based-on-invoice-date",
         "erpnext:report:payment-terms-status-for-sales-order",
@@ -1643,18 +1580,14 @@
         "erpnext:report:production-analytics",
         "erpnext:report:production-plan-summary",
         "erpnext:report:production-planning-report",
-        "erpnext:report:profit-and-loss-statement",
         "erpnext:report:profitability-analysis",
         "erpnext:report:project-billing-summary",
-        "erpnext:report:project-summary",
         "erpnext:report:project-wise-stock-tracking",
         "erpnext:report:prospects-engaged-but-not-converted",
         "erpnext:report:purchase-analytics",
         "erpnext:report:purchase-invoice-trends",
-        "erpnext:report:purchase-order-analysis",
         "erpnext:report:purchase-order-trends",
         "erpnext:report:purchase-receipt-trends",
-        "erpnext:report:purchase-register",
         "erpnext:report:quality-inspection-summary",
         "erpnext:report:quotation-trends",
         "erpnext:report:received-items-to-be-billed",
@@ -1662,9 +1595,7 @@
         "erpnext:report:requested-items-to-order-and-receive",
         "erpnext:report:reserved-stock",
         "erpnext:report:review",
-        "erpnext:report:sales-analytics",
         "erpnext:report:sales-invoice-trends",
-        "erpnext:report:sales-order-analysis",
         "erpnext:report:sales-order-trends",
         "erpnext:report:sales-partner-commission-summary",
         "erpnext:report:sales-partner-target-variance-based-on-item-group",
@@ -1675,7 +1606,6 @@
         "erpnext:report:sales-person-target-variance-based-on-item-group",
         "erpnext:report:sales-person-wise-transaction-summary",
         "erpnext:report:sales-pipeline-analytics",
-        "erpnext:report:sales-register",
         "erpnext:report:serial-and-batch-summary",
         "erpnext:report:serial-no-and-batch-traceability",
         "erpnext:report:serial-no-ledger",
@@ -1685,19 +1615,14 @@
         "erpnext:report:share-balance",
         "erpnext:report:share-ledger",
         "erpnext:report:stock-ageing",
-        "erpnext:report:stock-analytics",
         "erpnext:report:stock-and-account-value-comparison",
-        "erpnext:report:stock-balance",
-        "erpnext:report:stock-ledger",
         "erpnext:report:stock-ledger-invariant-check",
         "erpnext:report:stock-ledger-variance",
-        "erpnext:report:stock-projected-qty",
         "erpnext:report:stock-qty-vs-batch-qty",
         "erpnext:report:stock-qty-vs-serial-no-count",
         "erpnext:report:subcontract-order-summary",
         "erpnext:report:subcontracted-item-to-be-received",
         "erpnext:report:subcontracted-raw-materials-to-be-transferred",
-        "erpnext:report:supplier-ledger-summary",
         "erpnext:report:supplier-quotation-comparison",
         "erpnext:report:supplier-wise-sales-analytics",
         "erpnext:report:support-hour-distribution",
@@ -1707,7 +1632,6 @@
         "erpnext:report:territory-wise-sales",
         "erpnext:report:timesheet-billing-summary",
         "erpnext:report:total-stock-summary",
-        "erpnext:report:trial-balance",
         "erpnext:report:trial-balance-for-party",
         "erpnext:report:trial-balance-simple",
         "erpnext:report:uae-vat-201",
@@ -1717,7 +1641,6 @@
         "erpnext:report:warehouse-wise-stock-balance",
         "erpnext:report:work-order-consumed-materials",
         "erpnext:report:work-order-stock-report",
-        "erpnext:report:work-order-summary",
         "erpnext:report:work-orders-in-progress",
         "erpnext:report:youtube-interactions",
         "erpnext:workspace-target:accounting:chart-profit-and-loss",
@@ -2250,7 +2173,6 @@
         "frappe:dashboard-connection:core-doctype-user-type-user-type-dashboard-py:user-type",
         "frappe:dashboard-connection:desk-doctype-dashboard-test-dashboard-py:test",
         "frappe:doctype:about-us-settings",
-        "frappe:doctype:address",
         "frappe:doctype:address-template",
         "frappe:doctype:assignment-rule",
         "frappe:doctype:audit-trail",
@@ -2269,7 +2191,6 @@
         "frappe:doctype:communication",
         "frappe:doctype:connected-app",
         "frappe:doctype:console-log",
-        "frappe:doctype:contact",
         "frappe:doctype:contact-us-settings",
         "frappe:doctype:country",
         "frappe:doctype:currency",
@@ -2364,7 +2285,6 @@
         "frappe:doctype:recorder",
         "frappe:doctype:reminder",
         "frappe:doctype:report",
-        "frappe:doctype:role",
         "frappe:doctype:role-permission-for-page-and-report",
         "frappe:doctype:role-profile",
         "frappe:doctype:rq-worker",
@@ -2388,7 +2308,6 @@
         "frappe:doctype:todo",
         "frappe:doctype:transaction-log",
         "frappe:doctype:translation",
-        "frappe:doctype:user",
         "frappe:doctype:user-group",
         "frappe:doctype:user-invitation",
         "frappe:doctype:user-permission",
@@ -94547,7 +94466,7 @@
       "child_tables": [],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "RootNotEditable",
         "BalanceMismatchError",
@@ -94555,7 +94474,7 @@
         "Account"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/chart-of-accounts",
       "customizations": [],
       "delete": true,
       "doctype": "Account",
@@ -95052,7 +94971,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -95071,7 +94990,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -98763,12 +98682,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Appointment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/appointments",
       "customizations": [],
       "delete": true,
       "doctype": "Appointment",
@@ -99125,7 +99044,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -99143,7 +99062,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -99614,12 +99533,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Asset"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/assets",
       "customizations": [],
       "delete": true,
       "doctype": "Asset",
@@ -100990,7 +100909,7 @@
         "Accounts User",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -101070,7 +100989,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -104035,12 +103954,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetMovement"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-movements",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Movement",
@@ -104338,7 +104257,7 @@
         "Stock Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -104356,7 +104275,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -110486,13 +110405,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "UnableToSelectBatchError",
         "Batch"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/batches",
       "customizations": [
         {
           "fieldname": "posa_batch_price",
@@ -111023,7 +110942,7 @@
       "relevant_roles": [
         "Item Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -111042,7 +110961,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -112984,14 +112903,14 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BOMRecursionError",
         "BOMTree",
         "BOM"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/boms",
       "customizations": [],
       "delete": true,
       "doctype": "BOM",
@@ -114360,7 +114279,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -114421,7 +114340,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -115933,12 +115852,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Brand"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/brands",
       "customizations": [],
       "delete": true,
       "doctype": "Brand",
@@ -116163,7 +116082,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -116181,7 +116100,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -118522,12 +118441,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Campaign"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/campaigns",
       "customizations": [],
       "delete": true,
       "doctype": "Campaign",
@@ -118750,7 +118669,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -118768,7 +118687,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -121316,12 +121235,12 @@
       "child_tables": [],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Company"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/companies",
       "customizations": [
         {
           "fieldname": "posa_referral_section",
@@ -123624,7 +123543,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -123644,7 +123563,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -124887,12 +124806,12 @@
       "child_tables": [],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CostCenter"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/cost-centers",
       "customizations": [],
       "delete": true,
       "doctype": "Cost Center",
@@ -125268,7 +125187,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -125288,7 +125207,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -127075,7 +126994,7 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Read-only list/detail implemented; forms and actions pending",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "Customer"
       ],
@@ -128745,7 +128664,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Create/edit, workflow, actions, print and communication remain",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -128764,7 +128683,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Automated API and browser tests for list/detail",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -128794,12 +128713,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CustomerGroup"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/customer-groups",
       "customizations": [],
       "delete": true,
       "doctype": "Customer Group",
@@ -129219,7 +129138,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -129238,7 +129157,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -129540,12 +129459,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "DeliveryNote"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/delivery-notes",
       "customizations": [
         {
           "name": "Delivery Note-base_rounded_total-hidden",
@@ -132413,7 +132332,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -132518,7 +132437,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -133357,12 +133276,12 @@
       "child_tables": [],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Department"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/departments",
       "customizations": [],
       "delete": true,
       "doctype": "Department",
@@ -133639,7 +133558,7 @@
         "HR Manager",
         "HR User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -133658,7 +133577,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -133675,12 +133594,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Designation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/designations",
       "customizations": [],
       "delete": true,
       "doctype": "Designation",
@@ -133803,7 +133722,7 @@
         "HR User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -133821,7 +133740,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -144946,12 +144865,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Issue"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/support/issues",
       "customizations": [],
       "delete": true,
       "doctype": "Issue",
@@ -145799,7 +145718,7 @@
       "relevant_roles": [
         "Support Team"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -145839,7 +145758,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -146238,7 +146157,7 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Read-only list/detail implemented; forms and actions pending",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "DuplicateReorderRows",
         "StockExistsForTemplate",
@@ -148450,7 +148369,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Create/edit, workflow, actions, print and communication remain",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -148469,7 +148388,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Automated API and browser tests for list/detail",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -149050,12 +148969,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemGroup"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/item-groups",
       "customizations": [],
       "delete": true,
       "doctype": "Item Group",
@@ -149460,7 +149379,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -149479,7 +149398,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -149764,13 +149683,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemPriceDuplicateItem",
         "ItemPrice"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/item-prices",
       "customizations": [],
       "delete": true,
       "doctype": "Item Price",
@@ -150309,7 +150228,7 @@
         "Purchase Master Manager",
         "Sales Master Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -150327,7 +150246,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -150918,7 +150837,7 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverlapError",
         "OperationMismatchError",
@@ -150928,7 +150847,7 @@
         "JobCard"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/job-cards",
       "customizations": [
         {
           "name": "Job Card-barcode-hidden",
@@ -152192,7 +152111,7 @@
         "Manufacturing User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -152248,7 +152167,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -152313,14 +152232,14 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "StockAccountInvalidTransaction",
         "JournalEntry",
         "JournalEntryTaxWithholding"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "customizations": [],
       "delete": true,
       "doctype": "Journal Entry",
@@ -153426,7 +153345,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -153475,7 +153394,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -154280,12 +154199,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Lead"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/leads",
       "customizations": [],
       "delete": true,
       "doctype": "Lead",
@@ -155578,7 +155497,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -155608,7 +155527,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -160789,12 +160708,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MaterialRequest"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/material-requests",
       "customizations": [
         {
           "name": "Material Request-scan_barcode-hidden",
@@ -161694,7 +161613,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -161789,7 +161708,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -161813,12 +161732,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ModeofPayment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/modes-of-payment",
       "customizations": [],
       "delete": false,
       "doctype": "Mode of Payment",
@@ -161971,7 +161890,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -161989,7 +161908,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -162797,12 +162716,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Operation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/operations",
       "customizations": [],
       "delete": true,
       "doctype": "Operation",
@@ -163105,7 +163024,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -163124,7 +163043,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -163227,12 +163146,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Opportunity"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/opportunities",
       "customizations": [],
       "delete": true,
       "doctype": "Opportunity",
@@ -164666,7 +164585,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -164736,7 +164655,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -166347,13 +166266,13 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "InvalidPaymentEntry",
         "PaymentEntry"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/finance/payments",
       "customizations": [
         {
           "fieldname": "posa_client_request_id",
@@ -167993,7 +167912,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -168022,7 +167941,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -169982,12 +169901,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PaymentRequest"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/payment-requests",
       "customizations": [],
       "delete": true,
       "doctype": "Payment Request",
@@ -171025,7 +170944,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -171060,7 +170979,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -182018,12 +181937,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PriceList"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/price-lists",
       "customizations": [],
       "delete": true,
       "doctype": "Price List",
@@ -182320,7 +182239,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -182338,7 +182257,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -187189,12 +187108,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProductionPlan"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/production-plans",
       "customizations": [],
       "delete": true,
       "doctype": "Production Plan",
@@ -188224,7 +188143,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -188279,7 +188198,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -188339,12 +188258,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Project"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/projects",
       "customizations": [],
       "delete": true,
       "doctype": "Project",
@@ -189407,7 +189326,7 @@
         "Projects Manager",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -189457,7 +189376,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -191946,13 +191865,13 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "WarehouseMissingError",
         "PurchaseInvoice"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "customizations": [
         {
           "name": "Purchase Invoice-base_rounded_total-hidden",
@@ -195324,7 +195243,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -195414,7 +195333,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -195578,12 +195497,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PurchaseOrder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "customizations": [
         {
           "name": "Purchase Order-base_rounded_total-hidden",
@@ -198363,7 +198282,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -198483,7 +198402,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -198621,12 +198540,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PurchaseReceipt"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/receipts",
       "customizations": [
         {
           "name": "Purchase Receipt-base_rounded_total-hidden",
@@ -201279,7 +201198,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -201389,7 +201308,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -203079,12 +202998,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityInspection"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-inspections",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Inspection",
@@ -203665,7 +203584,7 @@
       "relevant_roles": [
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -203689,7 +203608,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -205652,12 +205571,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Quotation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotations",
       "customizations": [
         {
           "name": "Quotation-base_rounded_total-hidden",
@@ -207972,7 +207891,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -208017,7 +207936,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -209885,12 +209804,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "RequestforQuotation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/requests-for-quotation",
       "customizations": [],
       "delete": true,
       "doctype": "Request for Quotation",
@@ -210722,7 +210641,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -210787,7 +210706,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -211156,12 +211075,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "SalesInvoice"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [
         {
           "fieldname": "posa_return_valid_upto",
@@ -215096,7 +215015,7 @@
         "Accounts User",
         "All"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -215176,7 +215095,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -215433,7 +215352,7 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Read-only list/detail implemented; forms and actions pending",
+      "completion_status": "Handcrafted Retail ERP workflow implemented within documented scope",
       "controller_class": [
         "WarehouseRequired",
         "SalesOrder"
@@ -218485,7 +218404,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Create/edit, workflow, actions, print and communication remain",
+      "remaining_desk_dependency": "Feature-specific advanced actions and complete interactive role/browser matrix remain",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -218611,7 +218530,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Automated API and browser tests for list/detail",
+      "test_status": "Automated API, lifecycle and frontend regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -219309,12 +219228,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SalesPerson"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/sales-people",
       "customizations": [],
       "delete": true,
       "doctype": "Sales Person",
@@ -219656,7 +219575,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -219676,7 +219595,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -221536,7 +221455,7 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SerialNoCannotCreateDirectError",
         "SerialNoCannotCannotChangeError",
@@ -221544,7 +221463,7 @@
         "SerialNo"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/serial-numbers",
       "customizations": [],
       "delete": true,
       "doctype": "Serial No",
@@ -222198,7 +222117,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -222216,7 +222135,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -226712,7 +226631,7 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "FinishedGoodError",
         "IncorrectValuationRateError",
@@ -226722,7 +226641,7 @@
         "StockEntry"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/stock-entries",
       "customizations": [
         {
           "name": "Stock Entry-scan_barcode-hidden",
@@ -228300,7 +228219,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -228380,7 +228299,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -229343,14 +229262,14 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OpeningEntryAccountError",
         "EmptyStockReconciliationItemsError",
         "StockReconciliation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/reconciliations",
       "customizations": [
         {
           "name": "Stock Reconciliation-scan_barcode-hidden",
@@ -229822,7 +229741,7 @@
       "relevant_roles": [
         "Stock Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -229846,7 +229765,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -232511,12 +232430,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SubcontractingOrder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/subcontracting/orders",
       "customizations": [],
       "delete": true,
       "doctype": "Subcontracting Order",
@@ -233566,7 +233485,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -233616,7 +233535,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -233693,13 +233612,13 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BOMQuantityError",
         "SubcontractingReceipt"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/subcontracting/receipts",
       "customizations": [],
       "delete": true,
       "doctype": "Subcontracting Receipt",
@@ -235181,7 +235100,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -235226,7 +235145,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -236751,12 +236670,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Supplier"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/suppliers",
       "customizations": [
         {
           "name": "Supplier-naming_series-hidden",
@@ -238023,7 +237942,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -238042,7 +237961,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -238066,12 +237985,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SupplierGroup"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-groups",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Group",
@@ -238422,7 +238341,7 @@
         "Purchase Master Manager",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -238441,7 +238360,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -238523,12 +238442,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SupplierQuotation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-quotations",
       "customizations": [
         {
           "name": "Supplier Quotation-base_rounded_total-hidden",
@@ -240523,7 +240442,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -240588,7 +240507,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -242561,14 +242480,14 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CircularReferenceError",
         "ParentIsGroupError",
         "Task"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/tasks",
       "customizations": [],
       "delete": true,
       "doctype": "Task",
@@ -243391,7 +243310,7 @@
       "relevant_roles": [
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -243418,7 +243337,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -245304,12 +245223,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Territory"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/territories",
       "customizations": [],
       "delete": true,
       "doctype": "Territory",
@@ -245663,7 +245582,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -245682,7 +245601,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -247311,12 +247230,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "UOM"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/uoms",
       "customizations": [],
       "delete": true,
       "doctype": "UOM",
@@ -247473,7 +247392,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -247491,7 +247410,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -249256,12 +249175,12 @@
       "child_tables": [],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Warehouse"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/warehouses",
       "customizations": [],
       "delete": true,
       "doctype": "Warehouse",
@@ -249952,7 +249871,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -249971,7 +249890,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -251132,7 +251051,7 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverProductionError",
         "CapacityError",
@@ -251143,7 +251062,7 @@
         "WorkOrder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/work-orders",
       "customizations": [],
       "delete": true,
       "doctype": "Work Order",
@@ -252465,7 +252384,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -252561,7 +252480,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -252585,7 +252504,7 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "WorkstationHolidayError",
         "NotInWorkingHoursError",
@@ -252593,7 +252512,7 @@
         "Workstation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/manufacturing/workstations",
       "customizations": [],
       "delete": true,
       "doctype": "Workstation",
@@ -253159,7 +253078,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -253178,7 +253097,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -294392,10 +294311,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Accounts%20Payable",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294495,7 +294414,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Accounts Payable",
       "report_permissions": [
         "Accounts Manager",
@@ -294517,7 +294436,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -294663,10 +294582,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Accounts%20Receivable",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294823,7 +294742,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Accounts Receivable",
       "report_permissions": [
         "Accounts Manager",
@@ -294843,7 +294762,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295222,10 +295141,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Asset%20Depreciation%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295295,7 +295214,7 @@
       "relevant_roles": [
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Asset Depreciation Ledger",
       "report_permissions": [
         "Accounts User"
@@ -295314,7 +295233,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295843,10 +295762,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Balance%20Sheet",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295911,7 +295830,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Balance Sheet",
       "report_permissions": [
         "Accounts Manager",
@@ -295932,7 +295851,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296052,10 +295971,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Bank%20Reconciliation%20Statement",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296120,7 +296039,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Bank Reconciliation Statement",
       "report_permissions": [
         "Accounts Manager",
@@ -296141,7 +296060,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297490,10 +297409,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Cash%20Flow",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297555,7 +297474,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Cash Flow",
       "report_permissions": [
         "Accounts Manager",
@@ -297576,7 +297495,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298528,10 +298447,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Customer%20Ledger%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298611,7 +298530,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Customer Ledger Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -298631,7 +298550,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300797,10 +300716,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/General%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300909,7 +300828,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "General Ledger",
       "report_permissions": [
         "Accounts Manager",
@@ -300930,7 +300849,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303116,10 +303035,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item-wise%20Purchase%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303193,7 +303112,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item-wise Purchase Register",
       "report_permissions": [
         "Accounts Manager",
@@ -303215,7 +303134,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303345,10 +303264,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item-wise%20Sales%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303427,7 +303346,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item-wise Sales Register",
       "report_permissions": [
         "Accounts Manager",
@@ -303447,7 +303366,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303980,10 +303899,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Lead%20Details",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304049,7 +303968,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Lead Details",
       "report_permissions": [
         "Sales Manager",
@@ -304070,7 +303989,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304884,10 +304803,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Opportunity%20Summary%20by%20Sales%20Stage",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304959,7 +304878,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Opportunity Summary by Sales Stage",
       "report_permissions": [
         "Sales Manager",
@@ -304979,7 +304898,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306199,10 +306118,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Profit%20and%20Loss%20Statement",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306267,7 +306186,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Profit and Loss Statement",
       "report_permissions": [
         "Accounts Manager",
@@ -306288,7 +306207,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306527,10 +306446,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Project%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306595,7 +306514,7 @@
         "Projects Manager",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Project Summary",
       "report_permissions": [
         "Projects Manager",
@@ -306615,7 +306534,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307034,10 +306953,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Order%20Analysis",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307110,7 +307029,7 @@
         "Stock User",
         "Supplier"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Order Analysis",
       "report_permissions": [
         "Purchase Manager",
@@ -307132,7 +307051,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307345,10 +307264,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307428,7 +307347,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Register",
       "report_permissions": [
         "Accounts Manager",
@@ -307450,7 +307369,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308194,10 +308113,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308283,7 +308202,7 @@
         "Sales Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Analytics",
       "report_permissions": [
         "Accounts User",
@@ -308305,7 +308224,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308415,10 +308334,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Order%20Analysis",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308491,7 +308410,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Order Analysis",
       "report_permissions": [
         "Accounts User",
@@ -308514,7 +308433,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309639,10 +309558,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309724,7 +309643,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Register",
       "report_permissions": [
         "Accounts Manager",
@@ -309744,7 +309663,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310686,10 +310605,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310765,7 +310684,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Analytics",
       "report_permissions": [
         "Manufacturing Manager",
@@ -310787,7 +310706,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310905,10 +310824,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310993,7 +310912,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -311013,7 +310932,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311030,10 +310949,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311116,7 +311035,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Ledger",
       "report_permissions": [
         "Accounts Manager",
@@ -311136,7 +311055,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311351,10 +311270,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Projected%20Qty",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311427,7 +311346,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Projected Qty",
       "report_permissions": [
         "Accounts User",
@@ -311453,7 +311372,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311987,10 +311906,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Supplier%20Ledger%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312064,7 +311983,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Supplier Ledger Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -312084,7 +312003,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313045,10 +312964,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Trial%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313137,7 +313056,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Trial Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -313158,7 +313077,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -314111,10 +314030,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Work%20Order%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -314188,7 +314107,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Work Order Summary",
       "report_permissions": [
         "Manufacturing Manager",
@@ -314209,7 +314128,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -365962,12 +365881,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Address"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/addresses",
       "customizations": [
         {
           "fieldname": "tax_category",
@@ -366495,7 +366414,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -366513,7 +366432,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -373185,12 +373104,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Contact"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/contacts",
       "customizations": [
         {
           "fieldname": "is_billing_contact",
@@ -374013,7 +373932,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -374031,7 +373950,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -409037,12 +408956,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Role"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/roles",
       "customizations": [],
       "delete": true,
       "doctype": "Role",
@@ -409253,7 +409172,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -409271,7 +409190,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -419051,12 +418970,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "User"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/users",
       "customizations": [
         {
           "fieldname": "posa_pos_pin",
@@ -420863,7 +420782,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -420881,7 +420800,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -469257,7 +469176,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "b22312f15a2415a4a57385913489417d482bd20fe40824bb5b90eb9c77c5bfe6",
+  "inventory_fingerprint": "c8cab9468d2eb48aa5f29f2a7a570c096f78366e60502a59c22c3fc5dcb17d14",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {
