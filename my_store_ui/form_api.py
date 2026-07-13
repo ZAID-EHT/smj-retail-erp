@@ -46,6 +46,13 @@ def _available_document(doc, doctype: str, name: str) -> bool:
 	return bool(frappe.get_list(doctype, filters={"name": name}, pluck="name", limit_page_length=1))
 
 
+def _custom_route(doctype: str, name: str) -> str | None:
+	routes = {"Customer": "/sales/customers/{name}", "Sales Order": "/sales/orders/{name}", "Delivery Note": "/sales/delivery-notes/{name}", "Sales Invoice": "/sales/invoices/{name}", "Payment Entry": "/finance/payments/{name}"}
+	if doctype in routes:
+		return routes[doctype].format(name=quote(name, safe=""))
+	return "/feature-unavailable?feature={0}".format(quote(frappe.scrub(doctype), safe=""))
+
+
 def _validate_link(doctype: str, value: Any, label: str) -> str | None:
 	if value in (None, ""):
 		return None
@@ -216,6 +223,56 @@ def _apply_existing_draft_items(doc, rows: list[dict]) -> None:
 	doc.run_method("calculate_taxes_and_totals")
 
 
+def _apply_payment_entry(doc, payload: dict) -> None:
+	"""Apply only approved Payment Entry fields; ERPNext validate() owns amounts/accounts."""
+	party_type = payload.get("party_type")
+	party = payload.get("party")
+	if party_type and party:
+		if party_type not in {"Customer", "Supplier", "Employee", "Shareholder"}:
+			frappe.throw(_("Unsupported Party Type."), frappe.ValidationError)
+		if not _available_document(None, party_type, party):
+			frappe.throw(_("Invalid or unavailable Party."), frappe.ValidationError)
+		doc.party_type = party_type
+		doc.party = party
+	for table_name in ("references", "deductions"):
+		rows = payload.get(table_name, [])
+		if not isinstance(rows, list):
+			frappe.throw(_("{0} must be a list.").format(table_name.title()), frappe.ValidationError)
+		if table_name == "references":
+			allowed_types = {"Sales Invoice", "Purchase Invoice", "Sales Order", "Purchase Order", "Journal Entry", "Dunning", "Payment Entry"}
+			clean_rows = []
+			for row in rows:
+				dt, rn = row.get("reference_doctype"), row.get("reference_name")
+				if dt not in allowed_types or not rn or not _available_document(None, dt, rn):
+					frappe.throw(_("Invalid payment reference."), frappe.ValidationError)
+				if flt(row.get("allocated_amount")) < 0:
+					frappe.throw(_("Allocated Amount cannot be negative."), frappe.ValidationError)
+				clean_rows.append({k: row.get(k) for k in ("reference_doctype", "reference_name", "allocated_amount", "exchange_rate", "payment_term") if row.get(k) not in (None, "")})
+			if doc.is_new():
+				doc.set("references", clean_rows)
+			else:
+				existing = {row.name: row for row in doc.references}
+				for row in rows:
+					if row.get("name") in existing:
+						existing[row["name"]].allocated_amount = flt(row.get("allocated_amount"))
+		else:
+			clean_rows = []
+			for row in rows:
+				if row.get("account") and not _available_document(None, "Account", row["account"]):
+					frappe.throw(_("Invalid deduction account."), frappe.ValidationError)
+				if flt(row.get("amount")) < 0:
+					frappe.throw(_("Deduction amount cannot be negative."), frappe.ValidationError)
+				clean_rows.append({k: row.get(k) for k in ("account", "cost_center", "amount", "description") if row.get(k) not in (None, "")})
+			if doc.is_new():
+				doc.set("deductions", clean_rows)
+			else:
+				existing = {row.name: row for row in doc.deductions}
+				for row in rows:
+					if row.get("name") in existing:
+						for key in ("account", "cost_center", "amount", "description"):
+							if key in row: existing[row["name"]].set(key, row[key])
+
+
 def _form_document_values(doc, schema: dict) -> dict:
 	values = {}
 	for definition in schema["fields"]:
@@ -271,6 +328,12 @@ def get_entity_form(entity_key: str, name: str | None = None):
 			doc.transaction_date = nowdate(); doc.delivery_date = nowdate()
 		elif schema["doctype"] in {"Delivery Note", "Sales Invoice"}:
 			doc.posting_date = nowdate()
+		elif schema["doctype"] == "Payment Entry":
+			doc.payment_type = "Receive"
+			doc.posting_date = nowdate()
+			doc.company = frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company")
+			doc.source_exchange_rate = 1
+			doc.target_exchange_rate = 1
 	return {"entity": _public_schema(schema), "document": _form_document_values(doc, schema), "is_new": not bool(name), "permissions": permissions, "desk_route": None if not can_open_standard_desk() else f"/app/{frappe.scrub(schema['doctype']).replace('_', '-')}"}
 
 
@@ -290,7 +353,15 @@ def get_mapped_draft_detail(entity_key: str, name: str):
 		frappe.throw(_("Record not found or unavailable."), frappe.DoesNotExistError)
 	values = _form_document_values(doc, schema)
 	values["name"] = doc.name
-	return {"entity": _public_schema(schema), "document": values, "permissions": get_document_permissions(doc), "docstatus": doc.docstatus, "status": doc.get("status"), "totals": {"currency": doc.get("currency"), "net_total": doc.get("net_total"), "taxes": doc.get("total_taxes_and_charges"), "grand_total": doc.get("grand_total"), "paid_amount": doc.get("paid_amount")}, "modified": str(doc.modified)}
+	related = []
+	for row in doc.get("references", []):
+		if row.reference_doctype and row.reference_name and frappe.has_permission(row.reference_doctype, "read") and _available_document(None, row.reference_doctype, row.reference_name):
+			related.append({"doctype": row.reference_doctype, "name": row.reference_name, "label": row.reference_doctype, "route": _custom_route(row.reference_doctype, row.reference_name)})
+	for fieldname, doctype in (("customer", "Customer"), ("party", doc.get("party_type"))):
+		value = doc.get(fieldname)
+		if value and doctype and frappe.has_permission(doctype, "read") and _available_document(None, doctype, value):
+			related.append({"doctype": doctype, "name": value, "label": doctype, "route": _custom_route(doctype, value)})
+	return {"entity": _public_schema(schema), "document": values, "permissions": get_document_permissions(doc), "docstatus": doc.docstatus, "status": doc.get("status"), "totals": {"currency": doc.get("currency"), "net_total": doc.get("net_total"), "taxes": doc.get("total_taxes_and_charges"), "grand_total": doc.get("grand_total"), "paid_amount": doc.get("paid_amount")}, "modified": str(doc.modified), "related": related}
 
 
 @frappe.whitelist()
@@ -351,12 +422,8 @@ def save_entity_form(entity_key: str, values: str | dict, name: str | None = Non
 			_apply_existing_draft_items(doc, items)
 		else:
 			_hydrate_transaction_items(doc, items)
-	elif schema["doctype"] == "Payment Entry" and table_name == "references":
-		existing = {row.name: row for row in doc.references}
-		if len(items) != len(existing) or any(row.get("_row_name") not in existing for row in items):
-			frappe.throw(_("Mapped payment references cannot be added, removed, or replaced."), frappe.ValidationError)
-		for submitted in items:
-			existing[submitted["_row_name"]].allocated_amount = submitted.get("allocated_amount", 0)
+	elif schema["doctype"] == "Payment Entry":
+		_apply_payment_entry(doc, payload)
 	if doc.is_new():
 		doc.insert()
 	else:

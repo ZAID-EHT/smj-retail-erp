@@ -9,7 +9,7 @@ from my_store_ui.document_actions import ENTITY_REGISTRY, _definition
 
 class TestDocumentActionRegistry(unittest.TestCase):
 	def test_delivery_note_and_invoice_are_allowlisted(self):
-		self.assertEqual(set(ENTITY_REGISTRY), {"delivery_notes", "sales_invoices"})
+		self.assertEqual(set(ENTITY_REGISTRY), {"delivery_notes", "sales_invoices", "payment_entries"})
 		self.assertEqual(ENTITY_REGISTRY["delivery_notes"]["doctype"], "Delivery Note")
 		self.assertEqual(ENTITY_REGISTRY["sales_invoices"]["doctype"], "Sales Invoice")
 

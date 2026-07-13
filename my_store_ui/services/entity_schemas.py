@@ -121,10 +121,10 @@ ENTITY_SCHEMAS = {
 	},
 	"payment_entries": {
 		"doctype": "Payment Entry", "title": _("Payment Entries"), "description": _("Review payment records and draft allocations."),
-		"fields": ("name", "payment_type", "party", "posting_date", "paid_amount", "received_amount", "docstatus", "modified"),
-		"search_fields": ("name", "party"), "filters": {"posting_date": {"label": _("Posting Date"), "type": "DateRange"}},
+		"fields": ("name", "payment_type", "party_type", "party", "posting_date", "company", "mode_of_payment", "paid_amount", "received_amount", "unallocated_amount", "difference_amount", "docstatus", "modified"),
+		"search_fields": ("name", "party"), "filters": {"payment_type": {"label": _("Payment Type"), "type": "Select", "values": (("Receive", _("Receive")), ("Pay", _("Pay")), ("Internal Transfer", _("Internal Transfer")))}, "party_type": {"label": _("Party Type"), "type": "Select", "values": (("Customer", _("Customer")), ("Supplier", _("Supplier")), ("Employee", _("Employee")))}, "posting_date": {"label": _("Posting Date"), "type": "DateRange"}, "company": {"label": _("Company"), "type": "Link", "options": "Company"}, "mode_of_payment": {"label": _("Mode of Payment"), "type": "Link", "options": "Mode of Payment"}, "docstatus": {"label": _("Status"), "type": "Select", "values": (("0", _("Draft")), ("1", _("Submitted")), ("2", _("Cancelled")))}},
 		"sortable_fields": ("modified", "posting_date", "name"), "default_sort": ("modified", "desc"), "status_field": "docstatus", "primary_field": "name", "secondary_field": "party",
-		"columns": (("name", _("Payment Entry"), "code"), ("party", _("Party"), "text"), ("posting_date", _("Posting Date"), "date"), ("payment_type", _("Type"), "text"), ("paid_amount", _("Paid"), "currency")), "mobile_fields": ("party", "posting_date", "paid_amount"), "detail_route": "/finance/payments/{name}", "desk_route": "/app/payment-entry/{name}",
+		"columns": (("name", _("Payment Entry"), "code"), ("party", _("Party"), "text"), ("posting_date", _("Posting Date"), "date"), ("payment_type", _("Type"), "text"), ("paid_amount", _("Paid"), "currency"), ("received_amount", _("Received"), "currency"), ("unallocated_amount", _("Unallocated"), "currency"), ("docstatus", _("Status"), "status")), "mobile_fields": ("party", "posting_date", "paid_amount", "docstatus"), "detail_route": "/finance/payments/{name}", "desk_route": "/app/payment-entry/{name}",
 	},
 	"sales_orders": {
 		"doctype": "Sales Order",

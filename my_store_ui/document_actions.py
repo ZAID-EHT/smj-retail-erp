@@ -45,6 +45,14 @@ ENTITY_REGISTRY = {
 			"payment_entry": {"doctype": "Payment Entry", "route": "/finance/payments/{name}/edit"},
 		},
 	},
+	"payment_entries": {
+		"doctype": "Payment Entry", "route": "/finance/payments/{name}",
+		"actions": {
+			"submit": {"permission": "can_submit", "docstatus": 0, "confirm": True},
+			"cancel": {"permission": "can_cancel", "docstatus": 1, "confirm": True},
+			"amend": {"permission": "can_create", "docstatus": 2, "confirm": True},
+		}, "mapped": {},
+	},
 }
 
 
