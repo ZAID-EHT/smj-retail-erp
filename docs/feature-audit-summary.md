@@ -25,8 +25,8 @@ This audit is a discovery baseline, not a parity claim. The automated parity che
 | User Facing Features | 2482 |
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
-| Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2075 |
+| Previous Matrix Rows Observed | 104 |
+| Missing Features Added | 2052 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |
@@ -47,25 +47,27 @@ Result: **FAIL**
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
 
-## Universal frontend foundation (2026-07-13)
+## Universal generated UX review (2026-07-13)
 
-The new runtime registry contains 2,843 records: 8 custom overrides, 20
-`generated_provisional`, 352 special adapters, 2,104 unavailable and 359
-internal. All 20 provisional DocTypes passed metadata and paginated-list smoke
-checks on `site1.local`; 73 total automated tests and the Vue production build
-passed. Provisional rendering is deliberately not treated as functional
-completion, so the strict parity counts above remain unchanged.
+The shared generated list, form and detail engines now use the Retail ERP
+presentation system, bounded primary filters, a More Filters drawer, active
+chips, column preferences, grouped forms, responsive cards, collaboration
+adapters and standard Frappe print discovery. The 20 provisional DocTypes all
+passed Administrator list/configuration smoke checks. The existing
+non-Administrator user could read 17; Department, Project and UOM were denied
+by current permissions. Guest access remained denied.
 
-Direct custom/generated-provisional entry coverage is 28 of 2,484 registry
-user-facing records (1.13%). Special classification covers another 352 records
-(14.17%) but those visual/report adapters remain incomplete. See
-`universal-frontend-foundation.md` for the non-inflated coverage contract.
+Graduated to `generated_complete`: **0**. All 20 remain provisional because
+per-feature collaboration writes and interactive browser viewport checks are
+incomplete, and protected PDF output cannot be visually verified while
+`wkhtmltopdf` is missing. This UX work does not reduce the strict unmapped count
+or inflate the approximately 19% project-wide strict completion estimate.
 
 ## Reconciliation
 
 - User-supplied previous matrix count: **98**.
-- Observed hand-authored rows before generation: **102**.
-- Machine-discovered user-facing features not represented by the hand-authored matrix: **2075**.
+- Observed hand-authored rows before generation: **104**.
+- Machine-discovered user-facing features not represented by the hand-authored matrix: **2052**.
 - Exact duplicate legacy rows detected: **0**.
 - Existing manual rows were preserved. The generated appendix is canonical for completeness checks.
 
@@ -79,7 +81,7 @@ user-facing records (1.13%). Special classification covers another 352 records
 | Dashboard | 9 | 7 | 2 | 0 |
 | Dashboard Chart | 49 | 5 | 44 | 0 |
 | Dashboard Connection | 68 | 0 | 68 | 0 |
-| Doctype | 467 | 66 | 386 | 15 |
+| Doctype | 467 | 76 | 376 | 15 |
 | Document Action | 634 | 132 | 502 | 0 |
 | Installed App | 7 | 1 | 6 | 0 |
 | Notification | 4 | 0 | 2 | 2 |
@@ -91,7 +93,7 @@ user-facing records (1.13%). Special classification covers another 352 records
 | Report | 198 | 22 | 175 | 1 |
 | Source Only Report | 2 | 0 | 0 | 2 |
 | Workspace | 25 | 16 | 9 | 0 |
-| Workspace Target | 597 | 149 | 448 | 0 |
+| Workspace Target | 597 | 162 | 435 | 0 |
 
 ### Implementation classification
 

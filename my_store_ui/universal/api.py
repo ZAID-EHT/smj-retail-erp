@@ -8,9 +8,10 @@ writes, validation, workflows and document state transitions.
 from __future__ import annotations
 
 import json
+import shutil
 from copy import deepcopy
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 
 import frappe
 from frappe import _
@@ -180,6 +181,7 @@ def get_doctype_metadata(feature: str):
 		"defaults": defaults,
 		"permissions": _permissions(meta.name),
 		"client_script_policy": "not_executed",
+		"presentation": record.get("presentation") or {},
 	}
 
 
@@ -195,18 +197,46 @@ def _list_fields(meta, readable: list) -> list[str]:
 	return result or ["name", "modified"]
 
 
+def _available_list_fields(readable: list) -> list:
+	return [field for field in readable if field.fieldtype not in LAYOUT_FIELDS | {"Table", "Table MultiSelect", "Button", "HTML", "Text Editor", "Code", "Long Text", "Text"} and not field.hidden]
+
+
 @frappe.whitelist(methods=["GET"])
 def get_list_configuration(feature: str):
 	_require_login()
 	record, meta, readable, _writable = _metadata(feature)
-	fields = _list_fields(meta, readable)
+	available = _available_list_fields(readable)
+	available_names = {field.fieldname for field in available} | {"name", "modified"}
+	presentation = record.get("presentation") or {}
+	requested_defaults = presentation.get("default_columns") or []
+	fields = [fieldname for fieldname in requested_defaults if fieldname in available_names]
+	if not fields:
+		fields = _list_fields(meta, readable)
+	if "name" not in fields:
+		fields.insert(0, "name")
 	field_map = {field.fieldname: field for field in readable}
+	all_columns = [{"fieldname": name, "label": (field_map[name].label if name in field_map else "ID" if name == "name" else name.title()), "fieldtype": (field_map[name].fieldtype if name in field_map else "Datetime" if name == "modified" else "Data"), "options": _safe_options(field_map[name]) if name in field_map else None} for name in ["name", *[field.fieldname for field in available], "modified"] if name not in {"creation", "owner", "modified_by"}]
+	# Deduplicate metadata fields that overlap standard fields.
+	all_columns = list({column["fieldname"]: column for column in all_columns}.values())
+	filter_fields = [_field_definition(field, writable=set()) for field in readable if field.fieldtype in {"Link", "Select", "Date", "Datetime", "Check"} and not field.hidden]
+	filter_map = {field["fieldname"]: field for field in filter_fields}
+	main_filters = [filter_map[name] for name in presentation.get("main_filters", []) if name in filter_map][:5]
+	if not main_filters:
+		main_filters = filter_fields[:5]
+	main_names = {field["fieldname"] for field in main_filters}
 	return {
 		"feature": _public_feature(record), "doctype": meta.name,
-		"columns": [{"fieldname": name, "label": (field_map[name].label if name in field_map else "ID"), "fieldtype": (field_map[name].fieldtype if name in field_map else "Data")} for name in fields],
-		"filter_fields": [_field_definition(field, writable=set()) for field in readable if field.fieldtype in {"Link", "Select", "Date", "Datetime", "Check"} and not field.hidden][:20],
-		"sortable_fields": fields, "default_sort": {"field": "modified", "order": "desc"},
+		"columns": [{
+			"fieldname": name,
+			"label": field_map[name].label if name in field_map else "ID" if name == "name" else "Modified" if name == "modified" else name.replace("_", " ").title(),
+			"fieldtype": field_map[name].fieldtype if name in field_map else "Datetime" if name == "modified" else "Data",
+		} for name in fields],
+		"all_columns": all_columns, "default_columns": fields,
+		"filter_fields": filter_fields, "main_filters": main_filters,
+		"more_filters": [field for field in filter_fields if field["fieldname"] not in main_names],
+		"sortable_fields": [column["fieldname"] for column in all_columns], "default_sort": {"field": "modified", "order": "desc"},
 		"title_field": meta.title_field or "name", "permissions": _permissions(meta.name),
+		"presentation": presentation,
 	}
 
 
@@ -226,16 +256,27 @@ def _validated_filters(filters: Any, meta, readable_names: set[str]) -> list:
 
 
 @frappe.whitelist(methods=["GET", "POST"])
-def get_document_list(feature: str, search: str = "", filters: Any = None, sort_field: str = "modified", sort_order: str = "desc", page: int = 1, page_size: int = DEFAULT_PAGE_SIZE):
+def get_document_list(feature: str, search: str = "", filters: Any = None, columns: Any = None, sort_field: str = "modified", sort_order: str = "desc", page: int = 1, page_size: int = DEFAULT_PAGE_SIZE):
 	_require_login()
 	record, meta, readable, _writable = _metadata(feature)
 	if not frappe.has_permission(meta.name, "read"):
 		frappe.throw(_("Feature is not available."), frappe.PermissionError)
-	columns = _list_fields(meta, readable)
-	readable_names = {field.fieldname for field in readable} | {"name", "creation", "modified", "owner", "modified_by", "docstatus", "idx"}
-	if sort_field not in readable_names or sort_order.lower() not in {"asc", "desc"}:
+	available_columns = {field.fieldname for field in _available_list_fields(readable)} | {"name", "modified"}
+	if columns:
+		columns = _parse(columns, list, "Columns")
+		if not columns or len(columns) > 12 or any(not isinstance(field, str) or field not in available_columns for field in columns):
+			frappe.throw(_("Unsupported column selection."), frappe.ValidationError)
+		columns = list(dict.fromkeys(columns))
+	else:
+		columns = [column["fieldname"] for column in get_list_configuration(feature)["columns"]]
+	readable_names = {field.fieldname for field in readable} | {"name", "modified"}
+	filterable_names = {
+		field.fieldname for field in readable
+		if field.fieldtype in {"Link", "Select", "Date", "Datetime", "Check"} and not field.hidden
+	}
+	if sort_field not in available_columns or sort_order.lower() not in {"asc", "desc"}:
 		frappe.throw(_("Unsupported sort selection."), frappe.ValidationError)
-	query_filters = _validated_filters(filters, meta, readable_names)
+	query_filters = _validated_filters(filters, meta, filterable_names)
 	or_filters = []
 	search = (search or "").strip()[:140]
 	if search:
@@ -247,7 +288,9 @@ def get_document_list(feature: str, search: str = "", filters: Any = None, sort_
 	count = frappe.get_list(meta.name, fields=["count(name) as total"], limit_page_length=1, **args)
 	total = cint(count[0].total) if count else 0
 	rows = frappe.get_list(meta.name, fields=columns, order_by=f"`tab{meta.name}`.`{sort_field}` {sort_order.lower()}", limit_start=(page - 1) * page_size, limit_page_length=page_size, **args)
-	return {"feature": _public_feature(record), "records": rows, "columns": get_list_configuration(feature)["columns"], "permissions": _permissions(meta.name), "pagination": {"page": page, "page_size": page_size, "total": total, "pages": max((total + page_size - 1) // page_size, 1)}}
+	configuration = get_list_configuration(feature)
+	column_map = {column["fieldname"]: column for column in configuration["all_columns"]}
+	return {"feature": _public_feature(record), "records": rows, "columns": [column_map[name] for name in columns], "permissions": _permissions(meta.name), "pagination": {"page": page, "page_size": page_size, "total": total, "pages": max((total + page_size - 1) // page_size, 1)}}
 
 
 def _visible_doc(doc, meta, readable: list) -> dict:
@@ -280,7 +323,7 @@ def get_document_detail(feature: str, name: str):
 	_require_login()
 	record, meta, readable, writable = _metadata(feature)
 	doc = _get_permitted_doc(meta.name, name)
-	return {"feature": _public_feature(record), "metadata": get_doctype_metadata(feature), "document": _visible_doc(doc, meta, readable), "permissions": _permissions(meta.name, doc=doc), "actions": _available_actions(meta, doc), "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}"}
+	return {"feature": _public_feature(record), "metadata": get_doctype_metadata(feature), "document": _visible_doc(doc, meta, readable), "permissions": _permissions(meta.name, doc=doc), "actions": [*_available_actions(meta, doc), *_available_workflow_actions(doc)], "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}"}
 
 
 def _coerce_value(field, value):
@@ -379,7 +422,30 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "delete", "label": _("Delete"), "destructive": True})
 	if frappe.has_permission(meta.name, "create"):
 		actions.append({"action": "duplicate", "label": _("Duplicate"), "destructive": False})
+	if meta.allow_rename and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "rename", "label": _("Rename"), "destructive": False, "requires_parameters": ["new_name"]})
+	if doc.doctype == "Opportunity" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.status == "Open":
+			actions.append({"action": "close", "label": _("Close"), "destructive": False})
+		else:
+			actions.append({"action": "reopen", "label": _("Reopen"), "destructive": False})
+	if doc.doctype == "Supplier" and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "resume" if doc.on_hold else "hold", "label": _("Resume") if doc.on_hold else _("Hold"), "destructive": False})
+	if doc.doctype == "Lead" and frappe.has_permission("Opportunity", "create"):
+		actions.append({"action": "make_opportunity", "label": _("Create Opportunity"), "destructive": False, "mapping_target": "Opportunity"})
+	if doc.doctype == "Opportunity" and frappe.has_permission("Customer", "create"):
+		actions.append({"action": "make_customer", "label": _("Create Customer"), "destructive": False, "mapping_target": "Customer"})
 	return actions
+
+
+def _available_workflow_actions(doc) -> list[dict]:
+	from frappe.model.workflow import get_transitions, get_workflow_name
+	if not get_workflow_name(doc.doctype):
+		return []
+	return [
+		{"action": row.action, "label": row.action, "destructive": False, "kind": "workflow", "next_state": row.next_state}
+		for row in (get_transitions(doc) or [])
+	]
 
 
 @frappe.whitelist(methods=["GET"])
@@ -387,11 +453,11 @@ def get_document_actions(feature: str, name: str):
 	_require_login()
 	record = get_generated_feature(feature)
 	doc = _get_permitted_doc(record["doctype"], name)
-	return {"actions": _available_actions(doc.meta, doc), "modified": doc.modified, "docstatus": doc.docstatus}
+	return {"actions": [*_available_actions(doc.meta, doc), *_available_workflow_actions(doc)], "modified": doc.modified, "docstatus": doc.docstatus}
 
 
 @frappe.whitelist(methods=["POST"])
-def run_document_action(feature: str, name: str, action: str, modified: str | None = None):
+def run_document_action(feature: str, name: str, action: str, modified: str | None = None, parameters: Any = None):
 	_require_login()
 	record = get_generated_feature(feature)
 	doc = _get_permitted_doc(record["doctype"], name)
@@ -400,6 +466,7 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		frappe.throw(_("Action is not available."), frappe.PermissionError)
 	if modified and str(doc.modified) != str(modified):
 		frappe.throw(_("This record changed after you opened it. Refresh before continuing."), frappe.TimestampMismatchError)
+	parameters = _parse(parameters or {}, dict, "Action parameters")
 	if action == "submit":
 		doc.submit()
 	elif action == "cancel":
@@ -418,6 +485,33 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		amendment.docstatus = 0
 		amendment.insert()
 		doc = amendment
+	elif action == "rename":
+		new_name = str(parameters.get("new_name") or "").strip()
+		if not new_name or len(new_name) > 140 or any(character in new_name for character in ("/", "\x00")):
+			frappe.throw(_("A valid new name is required."), frappe.ValidationError)
+		from frappe.model.rename_doc import rename_doc
+		new_name = rename_doc(doc=doc, new=new_name)
+		doc = frappe.get_doc(doc.doctype, new_name)
+	elif action in {"close", "reopen"} and doc.doctype == "Opportunity":
+		doc.status = "Closed" if action == "close" else "Open"
+		if action == "reopen" and doc.meta.has_field("lost_reasons"):
+			doc.set("lost_reasons", [])
+		doc.save()
+	elif action in {"hold", "resume"} and doc.doctype == "Supplier":
+		doc.on_hold = 0 if action == "resume" else 1
+		doc.hold_type = "" if action == "resume" else (doc.hold_type or "All")
+		doc.save()
+	elif action == "make_opportunity" and doc.doctype == "Lead":
+		from erpnext.crm.doctype.lead.lead import make_opportunity
+		target = make_opportunity(doc.name)
+		target.insert()
+		target_record = get_generated_feature("opportunity")
+		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": f"/generated/{target_record['route_key']}/{quote(target.name, safe='')}"}
+	elif action == "make_customer" and doc.doctype == "Opportunity":
+		from erpnext.crm.doctype.opportunity.opportunity import make_customer
+		target = make_customer(doc.name)
+		target.insert()
+		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": f"/sales/customers/{quote(target.name, safe='')}"}
 	return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": f"/generated/{record['route_key']}/{quote(doc.name, safe='')}"}
 
 
@@ -426,7 +520,9 @@ def get_workflow_actions(feature: str, name: str):
 	_require_login()
 	record = get_generated_feature(feature)
 	doc = _get_permitted_doc(record["doctype"], name)
-	from frappe.model.workflow import get_transitions
+	from frappe.model.workflow import get_transitions, get_workflow_name
+	if not get_workflow_name(doc.doctype):
+		return {"actions": []}
 	return {"actions": [{"action": row.action, "next_state": row.next_state, "allowed": row.allowed} for row in (get_transitions(doc) or [])]}
 
 
@@ -437,7 +533,9 @@ def run_workflow_action(feature: str, name: str, action: str, modified: str | No
 	doc = _get_permitted_doc(record["doctype"], name, "write")
 	if modified and str(doc.modified) != str(modified):
 		frappe.throw(_("This record changed after you opened it."), frappe.TimestampMismatchError)
-	from frappe.model.workflow import apply_workflow, get_transitions
+	from frappe.model.workflow import apply_workflow, get_transitions, get_workflow_name
+	if not get_workflow_name(doc.doctype):
+		frappe.throw(_("Workflow action is not available."), frappe.PermissionError)
 	if action not in {row.action for row in (get_transitions(doc) or [])}:
 		frappe.throw(_("Workflow action is not available."), frappe.PermissionError)
 	updated = apply_workflow(doc, action)
@@ -499,7 +597,18 @@ def get_print_formats(feature: str, name: str | None = None):
 	if not frappe.has_permission(record["doctype"], "print"):
 		frappe.throw(_("Print is not available."), frappe.PermissionError)
 	formats = frappe.get_list("Print Format", filters={"doc_type": record["doctype"], "disabled": 0}, pluck="name", order_by="name asc")
-	return {"formats": ["Standard", *formats], "print_url": f"/printview?doctype={quote(record['doctype'])}&name={quote(name or '')}" if name else None}
+	letterheads = []
+	if frappe.has_permission("Letter Head", "read"):
+		letterheads = frappe.get_list("Letter Head", filters={"disabled": 0}, fields=["name", "is_default"], order_by="is_default desc, name asc", limit_page_length=100)
+	language = frappe.local.lang or frappe.db.get_default("lang") or "en"
+	base = {"doctype": record["doctype"], "name": name or ""}
+	return {
+		"formats": ["Standard", *formats], "letterheads": letterheads,
+		"languages": [{"value": language, "label": language}], "default_language": language,
+		"print_url": f"/printview?{urlencode(base)}" if name else None,
+		"pdf_url": f"/api/method/frappe.utils.print_format.download_pdf?{urlencode(base)}" if name else None,
+		"pdf_environment": {"available": bool(shutil.which("wkhtmltopdf")), "generator": "wkhtmltopdf", "installation_required": not bool(shutil.which("wkhtmltopdf"))},
+	}
 
 
 def _special_definition(feature: str, expected_type: str) -> tuple[dict, Any]:

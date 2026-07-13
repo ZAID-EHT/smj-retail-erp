@@ -24,6 +24,36 @@ GENERATED_ALLOWLIST = {
 	"Price List", "Mode of Payment", "Cost Center", "Department", "Designation",
 }
 
+MODULE_PRESENTATION = {
+	"Buying": "orange", "Stock": "green", "CRM": "pink", "Projects": "turquoise",
+	"Assets": "purple", "Setup": "blue", "Selling": "blue", "Accounts": "purple",
+}
+
+# Presentation overrides contain no permissions or business rules.  Missing
+# values are inferred from installed metadata by the universal API.
+PRESENTATION_OVERRIDES = {
+	"Supplier": {"plural": "Suppliers", "description": "Manage supplier identities, groups, payment defaults and purchasing details.", "primary_fields": ["supplier_name", "supplier_group", "supplier_type"], "default_columns": ["name", "supplier_name", "supplier_group", "supplier_type", "country", "disabled", "modified"], "main_filters": ["supplier_group", "supplier_type", "country", "disabled"]},
+	"Warehouse": {"plural": "Warehouses", "description": "Browse and maintain the warehouses available to permitted companies.", "primary_fields": ["warehouse_name", "company", "parent_warehouse"], "default_columns": ["name", "warehouse_name", "company", "parent_warehouse", "is_group", "disabled", "modified"], "main_filters": ["company", "parent_warehouse", "is_group", "disabled"]},
+	"Lead": {"plural": "Leads", "description": "Track prospective customers and their current CRM status.", "primary_fields": ["lead_name", "company_name", "status", "source"], "default_columns": ["name", "lead_name", "company_name", "status", "source", "email_id", "mobile_no", "modified"], "main_filters": ["status", "source", "territory", "industry"]},
+	"Opportunity": {"plural": "Opportunities", "description": "Review qualified sales opportunities, parties, values and expected closing dates.", "primary_fields": ["opportunity_from", "party_name", "status", "opportunity_type"], "default_columns": ["name", "opportunity_from", "party_name", "status", "opportunity_amount", "currency", "expected_closing", "modified"], "main_filters": ["status", "opportunity_type", "opportunity_from", "company"]},
+	"Project": {"plural": "Projects", "description": "Manage permitted projects, progress, customers and expected dates.", "primary_fields": ["project_name", "status", "project_type", "customer"], "default_columns": ["name", "project_name", "status", "customer", "percent_complete", "expected_start_date", "expected_end_date", "modified"], "main_filters": ["status", "project_type", "customer", "company"]},
+	"Asset": {"plural": "Assets", "description": "Review fixed assets, categories, locations and operational status.", "primary_fields": ["asset_name", "item_code", "asset_category", "company"], "default_columns": ["name", "asset_name", "item_code", "asset_category", "status", "location", "company", "modified"], "main_filters": ["status", "asset_category", "location", "company"]},
+	"Address": {"plural": "Addresses", "description": "Maintain postal and business addresses linked to permitted records.", "primary_fields": ["address_title", "address_type", "city", "country"], "default_columns": ["name", "address_title", "address_type", "city", "state", "country", "disabled", "modified"], "main_filters": ["address_type", "city", "state", "country", "disabled"]},
+	"Contact": {"plural": "Contacts", "description": "Manage people, email addresses, phone numbers and linked organisations.", "primary_fields": ["first_name", "last_name", "company_name", "status"], "default_columns": ["name", "first_name", "last_name", "company_name", "email_id", "mobile_no", "status", "modified"], "main_filters": ["status", "gender", "designation", "department"]},
+	"Territory": {"plural": "Territories", "description": "Organise sales territories in the permitted hierarchy.", "primary_fields": ["territory_name", "parent_territory", "is_group"], "default_columns": ["name", "territory_name", "parent_territory", "is_group", "modified"], "main_filters": ["parent_territory", "is_group"]},
+	"Customer Group": {"plural": "Customer Groups", "description": "Maintain the hierarchy used to classify customers.", "primary_fields": ["customer_group_name", "parent_customer_group", "is_group"], "default_columns": ["name", "customer_group_name", "parent_customer_group", "is_group", "default_price_list", "modified"], "main_filters": ["parent_customer_group", "is_group", "default_price_list"]},
+	"Supplier Group": {"plural": "Supplier Groups", "description": "Maintain the hierarchy used to classify suppliers.", "primary_fields": ["supplier_group_name", "parent_supplier_group", "is_group"], "default_columns": ["name", "supplier_group_name", "parent_supplier_group", "is_group", "modified"], "main_filters": ["parent_supplier_group", "is_group"]},
+	"Item Group": {"plural": "Item Groups", "description": "Organise items into the permitted product hierarchy.", "primary_fields": ["item_group_name", "parent_item_group", "is_group"], "default_columns": ["name", "item_group_name", "parent_item_group", "is_group", "modified"], "main_filters": ["parent_item_group", "is_group"]},
+	"Brand": {"plural": "Brands", "description": "Maintain the brands used by products and catalogues.", "primary_fields": ["brand"], "default_columns": ["name", "brand", "description", "modified"], "main_filters": []},
+	"UOM": {"plural": "Units of Measure", "description": "Maintain units of measure used by products and transactions.", "primary_fields": ["uom_name", "must_be_whole_number"], "default_columns": ["name", "uom_name", "must_be_whole_number", "enabled", "modified"], "main_filters": ["must_be_whole_number", "enabled"]},
+	"Sales Person": {"plural": "Sales People", "description": "Maintain the sales-person hierarchy and allocation settings.", "primary_fields": ["sales_person_name", "parent_sales_person", "is_group", "enabled"], "default_columns": ["name", "sales_person_name", "parent_sales_person", "is_group", "enabled", "modified"], "main_filters": ["parent_sales_person", "is_group", "enabled"]},
+	"Price List": {"plural": "Price Lists", "description": "Manage buying and selling price-list definitions and currencies.", "primary_fields": ["price_list_name", "currency", "selling", "buying"], "default_columns": ["name", "price_list_name", "currency", "selling", "buying", "enabled", "modified"], "main_filters": ["currency", "selling", "buying", "enabled"]},
+	"Mode of Payment": {"plural": "Modes of Payment", "description": "Maintain payment methods and their permitted account defaults.", "primary_fields": ["mode_of_payment", "type", "enabled"], "default_columns": ["name", "mode_of_payment", "type", "enabled", "modified"], "main_filters": ["type", "enabled"]},
+	"Cost Center": {"plural": "Cost Centers", "description": "Maintain the accounting cost-center hierarchy for permitted companies.", "primary_fields": ["cost_center_name", "company", "parent_cost_center", "is_group"], "default_columns": ["name", "cost_center_name", "company", "parent_cost_center", "is_group", "disabled", "modified"], "main_filters": ["company", "parent_cost_center", "is_group", "disabled"]},
+	"Department": {"plural": "Departments", "description": "Maintain organisation departments and company assignments.", "primary_fields": ["department_name", "company", "parent_department", "is_group"], "default_columns": ["name", "department_name", "company", "parent_department", "is_group", "disabled", "modified"], "main_filters": ["company", "parent_department", "is_group", "disabled"]},
+	"Designation": {"plural": "Designations", "description": "Maintain employee designation names and descriptions.", "primary_fields": ["designation_name"], "default_columns": ["name", "designation_name", "description", "modified"], "main_filters": []},
+}
+
 SUPPORTED_FIELD_TYPES = {
 	"Data", "Link", "Dynamic Link", "Select", "Date", "Datetime", "Time", "Currency", "Float", "Int",
 	"Percent", "Check", "Small Text", "Text", "Long Text", "Text Editor", "Code", "Attach", "Attach Image",
@@ -60,6 +90,7 @@ def _normalise(source: dict) -> dict:
 	route_key = _route_key(name or source["feature_id"])
 	base = CUSTOM_OVERRIDES.get(source.get("doctype"))
 	generated_base = f"/generated/{route_key}" if implementation.startswith("generated") else None
+	presentation = PRESENTATION_OVERRIDES.get(source.get("doctype"), {})
 	return {
 		"feature_id": source["feature_id"], "route_key": route_key, "feature_label": name,
 		"application": source.get("application"), "module": source.get("module"),
@@ -80,6 +111,7 @@ def _normalise(source: dict) -> dict:
 		"export_support": bool(source.get("export")), "testing_state": source.get("test_status") or "Not tested",
 		"documentation_state": "Inventory documented", "known_limitations": source.get("remaining_desk_dependency"),
 		"user_facing": bool(source.get("user_facing")), "source_location": source.get("source_location") or [],
+		**({"presentation": {"accent": MODULE_PRESENTATION.get(source.get("module"), "blue"), **presentation}} if implementation.startswith("generated") else {}),
 	}
 
 

@@ -23,10 +23,11 @@ Project, Asset, Address, Contact, Territory, Customer Group, Supplier Group,
 Item Group, Brand, UOM, Sales Person, Price List, Mode of Payment, Cost Center,
 Department and Designation.
 
-All 20 are classified `generated_provisional`. This means their metadata and
-permission-aware lists were tested, but the feature is not considered complete
-until its applicable create/edit/actions/print/collaboration paths have passed
-role, desktop and mobile tests.
+All 20 remain classified `generated_provisional`. Their metadata,
+permission-aware list configuration and bounded list reads were tested for
+Administrator and the existing non-Administrator user. A feature is not
+promoted until every applicable write, action, collaboration, print/PDF and
+interactive desktop/mobile path is proven.
 
 ## Security model
 
@@ -50,15 +51,25 @@ role, desktop and mobile tests.
 
 Implemented foundations:
 
-- universal responsive list with search, metadata filters, server pagination,
-  sorting, loading/empty/error/permission states and mobile record cards;
-- universal form with create/edit, defaults, required/read-only fields,
-  validation, dirty navigation protection and double-submit prevention;
+- universal responsive list with module-coloured presentation, plural titles,
+  search, no more than five primary filters, a More Filters drawer, active
+  filter chips, a 12-column server allowlist, saved non-business display
+  preferences, sticky table headers, internal table overflow and mobile cards;
+- universal form with primary fields first, metadata sections, two-column
+  cards, an Advanced disclosure, create/edit defaults, required/read-only
+  fields, validation, dirty navigation protection and double-submit prevention;
 - universal field rendering for Data, Link, Select, Date/Datetime/Time,
   numeric, Check, text, Attach URL, Color and other safe scalar types;
 - universal editable child tables with add, remove, duplicate and reorder;
-- universal detail with summary, readable fields, child tables, related records,
-  timeline, print discovery and server-returned actions;
+- universal detail with summary cards, grouped sections, child tables, related
+  records, timeline, collaboration panels, print selection and server-returned
+  actions;
+- permission-aware collaboration adapters for private file upload through the
+  standard Frappe upload endpoint, attachment list/download/removal, comments,
+  assignments, sharing, tags, document email and field-name-only version
+  summaries;
+- print-format, letterhead and language discovery plus standard Frappe print
+  preview and protected PDF URLs;
 - lazy routes for generated documents plus provisional report/view adapters.
 
 Generated route patterns remain available under both existing mounting modes:
@@ -73,24 +84,48 @@ Generated route patterns remain available under both existing mounting modes:
 The existing `/app/retail-erp/*` compatibility mount is retained.
 
 Role smoke testing used the existing non-Administrator
-`zaidhnajeeb98@gmail.com` account (System Manager plus Purchase, Sales and
-Accounts User roles) without changing it. Supplier, Warehouse, Lead and
-Designation were permission-filtered as expected; Project was denied and the
-registry exposed 17 of the 20 provisional features. Dedicated isolated
-single-role browser users do not exist and were not created.
+`zaidhnajeeb98@gmail.com` without changing it. Administrator could list all 20
+allowlisted features. The existing user could list 17; Department, Project and
+UOM were denied by the current server permissions. Guest API access remains
+denied. Dedicated isolated single-role browser users do not exist and were not
+created.
+
+## Generated UX completion review (2026-07-13)
+
+The shared list, form and detail experience is no longer presented as a raw
+metadata/debug surface. Presentation configuration is server-owned and falls
+back to installed metadata. The same engines serve all 20 allowlisted features;
+no Supplier-only page was introduced.
+
+No feature was promoted to `generated_complete` in this stage. This is
+intentional: interactive browser coverage at every requested viewport was not
+available, collaboration write paths were not exercised for every feature, and
+the server cannot generate PDFs because `wkhtmltopdf` is absent. Automated and
+read-only role smoke tests are evidence for the shared foundation, not full
+feature parity.
+
+Frappe's PDF path currently fails with:
+
+```text
+OSError: No wkhtmltopdf executable found: "b''"
+```
+
+The application reports this dependency in the print dialog and keeps Print
+Preview/browser printing available. Installing a supported wkhtmltopdf build is
+a machine change and requires separate approval.
 
 ## Unsupported metadata and specialised adapters
 
 Vue does not execute ERPNext Client Scripts, `eval:` dependencies or Button
 field handlers. These are marked `unsupported_client_behavior`; a reviewed
 adapter or custom override is required. Dynamic Link, Signature, Geolocation,
-rich HTML sanitisation, file upload, Table MultiSelect semantics, tree naming,
-complex transaction pricing, specialised maps, close/hold/resume methods,
-report rendering and collaboration writes still require controlled adapters.
+rich HTML semantics, Table MultiSelect semantics, tree naming, complex
+transaction pricing and specialised maps still require controlled adapters.
 
-The universal action foundation currently executes only standard submit,
-cancel, amend, delete and duplicate actions plus active workflow transitions.
-Rename, close, reopen, hold, resume and mappings remain server-registry work.
+The universal action foundation supports standard submit, cancel, amend,
+delete, duplicate and active workflow transitions, plus allowlisted Rename,
+Opportunity Close/Reopen, Supplier Hold/Resume, Lead-to-Opportunity and
+Opportunity-to-Customer adapters. The browser never supplies a Python method.
 Reports, Workspaces, dashboards, Kanban, calendar, tree, Gantt, map and POS are
 registered as special; their current route is a Retail ERP provisional screen,
 not a completion claim.
@@ -105,7 +140,7 @@ features). Classification: 8 custom, 20 generated provisional, 352 special,
   registry user-facing records = **1.13%** of the atomic inventory.
 - Special-adapter classification coverage: 352 / 2,484 = **14.17%**, but these
   are not functionally complete.
-- Functional tested coverage is not increased for the 20 provisional features.
+- Functional strict coverage is not increased for the 20 provisional features.
 - The project's previously estimated strict completion remains approximately
   **19%**; the machine strict audit remains the authoritative red gate at
   `unmapped_user_facing=2477`.

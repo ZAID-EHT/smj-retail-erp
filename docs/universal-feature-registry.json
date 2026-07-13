@@ -20015,6 +20015,33 @@
       "module": "Assets",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple",
+        "default_columns": [
+          "name",
+          "asset_name",
+          "item_code",
+          "asset_category",
+          "status",
+          "location",
+          "company",
+          "modified"
+        ],
+        "description": "Review fixed assets, categories, locations and operational status.",
+        "main_filters": [
+          "status",
+          "asset_category",
+          "location",
+          "company"
+        ],
+        "plural": "Assets",
+        "primary_fields": [
+          "asset_name",
+          "item_code",
+          "asset_category",
+          "company"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -22942,6 +22969,21 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "brand",
+          "description",
+          "modified"
+        ],
+        "description": "Maintain the brands used by products and catalogues.",
+        "main_filters": [],
+        "plural": "Brands",
+        "primary_fields": [
+          "brand"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -24804,6 +24846,32 @@
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple",
+        "default_columns": [
+          "name",
+          "cost_center_name",
+          "company",
+          "parent_cost_center",
+          "is_group",
+          "disabled",
+          "modified"
+        ],
+        "description": "Maintain the accounting cost-center hierarchy for permitted companies.",
+        "main_filters": [
+          "company",
+          "parent_cost_center",
+          "is_group",
+          "disabled"
+        ],
+        "plural": "Cost Centers",
+        "primary_fields": [
+          "cost_center_name",
+          "company",
+          "parent_cost_center",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -25776,6 +25844,29 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "customer_group_name",
+          "parent_customer_group",
+          "is_group",
+          "default_price_list",
+          "modified"
+        ],
+        "description": "Maintain the hierarchy used to classify customers.",
+        "main_filters": [
+          "parent_customer_group",
+          "is_group",
+          "default_price_list"
+        ],
+        "plural": "Customer Groups",
+        "primary_fields": [
+          "customer_group_name",
+          "parent_customer_group",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -26524,6 +26615,32 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "department_name",
+          "company",
+          "parent_department",
+          "is_group",
+          "disabled",
+          "modified"
+        ],
+        "description": "Maintain organisation departments and company assignments.",
+        "main_filters": [
+          "company",
+          "parent_department",
+          "is_group",
+          "disabled"
+        ],
+        "plural": "Departments",
+        "primary_fields": [
+          "department_name",
+          "company",
+          "parent_department",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -26638,6 +26755,21 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "designation_name",
+          "description",
+          "modified"
+        ],
+        "description": "Maintain employee designation names and descriptions.",
+        "main_filters": [],
+        "plural": "Designations",
+        "primary_fields": [
+          "designation_name"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -29697,6 +29829,27 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "item_group_name",
+          "parent_item_group",
+          "is_group",
+          "modified"
+        ],
+        "description": "Organise items into the permitted product hierarchy.",
+        "main_filters": [
+          "parent_item_group",
+          "is_group"
+        ],
+        "plural": "Item Groups",
+        "primary_fields": [
+          "item_group_name",
+          "parent_item_group",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -30795,6 +30948,33 @@
       "module": "CRM",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "pink",
+        "default_columns": [
+          "name",
+          "lead_name",
+          "company_name",
+          "status",
+          "source",
+          "email_id",
+          "mobile_no",
+          "modified"
+        ],
+        "description": "Track prospective customers and their current CRM status.",
+        "main_filters": [
+          "status",
+          "source",
+          "territory",
+          "industry"
+        ],
+        "plural": "Leads",
+        "primary_fields": [
+          "lead_name",
+          "company_name",
+          "status",
+          "source"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -32278,6 +32458,27 @@
       "module": "Accounts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "purple",
+        "default_columns": [
+          "name",
+          "mode_of_payment",
+          "type",
+          "enabled",
+          "modified"
+        ],
+        "description": "Maintain payment methods and their permitted account defaults.",
+        "main_filters": [
+          "type",
+          "enabled"
+        ],
+        "plural": "Modes of Payment",
+        "primary_fields": [
+          "mode_of_payment",
+          "type",
+          "enabled"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -32760,6 +32961,33 @@
       "module": "CRM",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "pink",
+        "default_columns": [
+          "name",
+          "opportunity_from",
+          "party_name",
+          "status",
+          "opportunity_amount",
+          "currency",
+          "expected_closing",
+          "modified"
+        ],
+        "description": "Review qualified sales opportunities, parties, values and expected closing dates.",
+        "main_filters": [
+          "status",
+          "opportunity_type",
+          "opportunity_from",
+          "company"
+        ],
+        "plural": "Opportunities",
+        "primary_fields": [
+          "opportunity_from",
+          "party_name",
+          "status",
+          "opportunity_type"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -35529,6 +35757,32 @@
       "module": "Stock",
       "page": null,
       "pdf_support": false,
+      "presentation": {
+        "accent": "green",
+        "default_columns": [
+          "name",
+          "price_list_name",
+          "currency",
+          "selling",
+          "buying",
+          "enabled",
+          "modified"
+        ],
+        "description": "Manage buying and selling price-list definitions and currencies.",
+        "main_filters": [
+          "currency",
+          "selling",
+          "buying",
+          "enabled"
+        ],
+        "plural": "Price Lists",
+        "primary_fields": [
+          "price_list_name",
+          "currency",
+          "selling",
+          "buying"
+        ]
+      },
       "print_support": false,
       "report": null,
       "required_permissions": [
@@ -36743,6 +36997,33 @@
       "module": "Projects",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "turquoise",
+        "default_columns": [
+          "name",
+          "project_name",
+          "status",
+          "customer",
+          "percent_complete",
+          "expected_start_date",
+          "expected_end_date",
+          "modified"
+        ],
+        "description": "Manage permitted projects, progress, customers and expected dates.",
+        "main_filters": [
+          "status",
+          "project_type",
+          "customer",
+          "company"
+        ],
+        "plural": "Projects",
+        "primary_fields": [
+          "project_name",
+          "status",
+          "project_type",
+          "customer"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -41527,6 +41808,30 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "sales_person_name",
+          "parent_sales_person",
+          "is_group",
+          "enabled",
+          "modified"
+        ],
+        "description": "Maintain the sales-person hierarchy and allocation settings.",
+        "main_filters": [
+          "parent_sales_person",
+          "is_group",
+          "enabled"
+        ],
+        "plural": "Sales People",
+        "primary_fields": [
+          "sales_person_name",
+          "parent_sales_person",
+          "is_group",
+          "enabled"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -44730,6 +45035,31 @@
       "module": "Buying",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "orange",
+        "default_columns": [
+          "name",
+          "supplier_name",
+          "supplier_group",
+          "supplier_type",
+          "country",
+          "disabled",
+          "modified"
+        ],
+        "description": "Manage supplier identities, groups, payment defaults and purchasing details.",
+        "main_filters": [
+          "supplier_group",
+          "supplier_type",
+          "country",
+          "disabled"
+        ],
+        "plural": "Suppliers",
+        "primary_fields": [
+          "supplier_name",
+          "supplier_group",
+          "supplier_type"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -44905,6 +45235,27 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "supplier_group_name",
+          "parent_supplier_group",
+          "is_group",
+          "modified"
+        ],
+        "description": "Maintain the hierarchy used to classify suppliers.",
+        "main_filters": [
+          "parent_supplier_group",
+          "is_group"
+        ],
+        "plural": "Supplier Groups",
+        "primary_fields": [
+          "supplier_group_name",
+          "parent_supplier_group",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -46313,6 +46664,27 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "territory_name",
+          "parent_territory",
+          "is_group",
+          "modified"
+        ],
+        "description": "Organise sales territories in the permitted hierarchy.",
+        "main_filters": [
+          "parent_territory",
+          "is_group"
+        ],
+        "plural": "Territories",
+        "primary_fields": [
+          "territory_name",
+          "parent_territory",
+          "is_group"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -46859,6 +47231,26 @@
       "module": "Setup",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "uom_name",
+          "must_be_whole_number",
+          "enabled",
+          "modified"
+        ],
+        "description": "Maintain units of measure used by products and transactions.",
+        "main_filters": [
+          "must_be_whole_number",
+          "enabled"
+        ],
+        "plural": "Units of Measure",
+        "primary_fields": [
+          "uom_name",
+          "must_be_whole_number"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -47452,6 +47844,31 @@
       "module": "Stock",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "green",
+        "default_columns": [
+          "name",
+          "warehouse_name",
+          "company",
+          "parent_warehouse",
+          "is_group",
+          "disabled",
+          "modified"
+        ],
+        "description": "Browse and maintain the warehouses available to permitted companies.",
+        "main_filters": [
+          "company",
+          "parent_warehouse",
+          "is_group",
+          "disabled"
+        ],
+        "plural": "Warehouses",
+        "primary_fields": [
+          "warehouse_name",
+          "company",
+          "parent_warehouse"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -103083,6 +103500,34 @@
       "module": "Contacts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "address_title",
+          "address_type",
+          "city",
+          "state",
+          "country",
+          "disabled",
+          "modified"
+        ],
+        "description": "Maintain postal and business addresses linked to permitted records.",
+        "main_filters": [
+          "address_type",
+          "city",
+          "state",
+          "country",
+          "disabled"
+        ],
+        "plural": "Addresses",
+        "primary_fields": [
+          "address_title",
+          "address_type",
+          "city",
+          "country"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [
@@ -104763,6 +105208,33 @@
       "module": "Contacts",
       "page": null,
       "pdf_support": true,
+      "presentation": {
+        "accent": "blue",
+        "default_columns": [
+          "name",
+          "first_name",
+          "last_name",
+          "company_name",
+          "email_id",
+          "mobile_no",
+          "status",
+          "modified"
+        ],
+        "description": "Manage people, email addresses, phone numbers and linked organisations.",
+        "main_filters": [
+          "status",
+          "gender",
+          "designation",
+          "department"
+        ],
+        "plural": "Contacts",
+        "primary_fields": [
+          "first_name",
+          "last_name",
+          "company_name",
+          "status"
+        ]
+      },
       "print_support": true,
       "report": null,
       "required_permissions": [

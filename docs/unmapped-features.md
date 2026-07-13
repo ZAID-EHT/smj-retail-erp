@@ -2,10 +2,13 @@
 
 Total user-facing features without a registered custom route: **2477**.
 
-Twenty safer master-data DocTypes now have allowlisted metadata-driven routes,
-but remain `generated_provisional`. The strict list below intentionally retains
-them until each applicable create/edit/action/print/collaboration and role/browser
-test is complete; a rendered provisional form is not parity.
+Twenty safer master-data DocTypes have allowlisted metadata-driven routes and
+the redesigned shared list/form/detail/collaboration interface, but remain
+`generated_provisional`. The strict list below intentionally retains them until
+each applicable create/edit/action/print/PDF/collaboration and role/browser test
+is complete. The environment currently lacks `wkhtmltopdf`, and interactive
+viewport verification remains outstanding; a polished generated form is not a
+parity claim.
 
 | Feature ID | App | Module | Type | Name | Classification | Standard route | Dependency |
 |---|---|---|---|---|---|---|---|

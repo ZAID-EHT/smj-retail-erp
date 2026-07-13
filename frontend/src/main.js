@@ -10,6 +10,7 @@ import "./design/base.css";
 import "./design/responsive.css";
 import "./design/standalone.css";
 import "./design/universal.css";
+import "./design/generated-ux.css";
 
 let activeInstance = null;
 
