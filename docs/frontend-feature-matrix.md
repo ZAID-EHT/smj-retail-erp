@@ -39,7 +39,7 @@ Engine classifications:
 - Authentication uses the standard Frappe login/logout/session and CSRF mechanisms. Landing routes and navigation are resolved by the server from roles plus actual DocType permissions.
 - A server-owned route registry distinguishes permitted, denied, unavailable and unknown routes. Browser HTML GETs under `/app` are redirected without intercepting APIs, assets, files, print/PDF, password reset or integrations.
 - Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry have the implemented list/detail/form/lifecycle coverage documented below. ERPNext controllers remain authoritative for all writes.
-- Header global search and notifications remain placeholders; the user menu now supports standard Frappe logout.
+- Header navigation now contains server-filtered module links, and global search queries allowlisted ERPNext records with permission-aware grouped results. Notifications remain a placeholder; the user menu supports standard Frappe logout.
 - `/app/smart-sales` is a separate legacy Desk Page. It can browse products and create a Draft Sales Order, but it is not inside the SPA and does not implement the complete sales workflow.
 - Unimplemented features remain inside Retail ERP through the Feature Unavailable page. Strict parity remains red and ordinary-user feature gaps are explicitly counted.
 
@@ -96,7 +96,7 @@ Document names must be URL-encoded. Route definitions must carry an approved fro
 | Shared | Read-only child-table display | Approved child DocTypes | Detail sections | G | N/Y/N | Approved columns, formatting, row count, desktop/mobile rendering | Parent document read plus server schema | No | Verified table/cards | Sales Order items/taxes tests | Complete (display only) | None for approved child rows |
 | Shared | Related-document summaries | Approved related DocTypes | Detail sections | G | N/Y/N | Permission-filtered count up to cap and five recent records | Related DocType `read` + `frappe.get_list` | No | Verified cards | API/browser permission tests | Complete (summary only) | Custom detail routes unavailable for most related types |
 | Shared | Home dashboard | Aggregated permitted DocTypes/reports | `/home` | L | N/A | Metrics, alerts, quick actions, recent records | Per metric/DocType | No | Planned | None | Foundation | Yes: placeholder only |
-| Shared | Global search | Global Search plus approved DocTypes | Header overlay | S | N/A | Grouped search, keyboard open | Per result DocType/read | No | Planned | None | Not started | Yes |
+| Shared | Global search | Approved Customer, Supplier, Item, sales, purchasing, payment, CRM, project and User records | Header overlay | S | N/A | Debounced grouped search, barcode-aware Item lookup, arrows/Enter/Escape, Ctrl/Cmd+G | Server allowlist + DocType/read + permission-filtered `frappe.get_list` | No | Responsive overlay | 5 API/navigation tests + production build | Complete for approved record search scope | Unimplemented result types open Feature Unavailable inside Retail ERP |
 | Shared | Comments/activity | Communication, Comment, Version | Detail panel | G | N/A | Read/add comments, timeline | Parent document permissions | No | Planned | None | Not started | Yes |
 | Shared | Attachments | File | Detail/form panel | G | N/A | List/upload/remove/download | Parent and File permissions | No | Planned | None | Not started | Yes |
 | Shared | Assignments | ToDo/assignment APIs | Detail panel | G | N/A | Assign/unassign/read | Parent and assignment permission | No | Planned | None | Not started | Yes |

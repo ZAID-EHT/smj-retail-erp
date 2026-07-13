@@ -18,20 +18,18 @@ const modules = computed(() => session ? session.state.navigation : navigationMo
           <button class="ref-icon-button" type="button" data-dialog-close aria-label="Close navigation" @click="$emit('close')">×</button>
         </div>
         <nav aria-label="Mobile modules">
-          <RouterLink
-            v-for="module in modules"
-            :key="module.name"
-            :to="module.path"
-            :data-accent="module.accent"
-            @click="$emit('close')"
-          >
-            <span aria-hidden="true">◆</span>
-            {{ module.label }}
-          </RouterLink>
-          <RouterLink v-if="modules.some((module) => module.name === 'sales')" to="/smart-sales" data-accent="orange" @click="$emit('close')">
-            <span aria-hidden="true">◆</span>
-            Smart Sales
-          </RouterLink>
+          <section v-for="module in modules" :key="module.name" :data-accent="module.accent">
+            <RouterLink class="ref-mobile-navigation__module" :to="module.path" @click="$emit('close')">
+              <span aria-hidden="true">◆</span>{{ module.label }}
+            </RouterLink>
+            <RouterLink
+              v-for="link in module.links"
+              :key="`${module.name}-${link.label}`"
+              class="ref-mobile-navigation__link"
+              :to="link.path"
+              @click="$emit('close')"
+            >{{ link.label }}</RouterLink>
+          </section>
         </nav>
       </aside>
     </div>

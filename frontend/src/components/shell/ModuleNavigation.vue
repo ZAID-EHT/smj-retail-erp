@@ -40,13 +40,22 @@ onBeforeUnmount(() => document.removeEventListener("click", closeMenus));
         {{ module.label }}
         <span class="ref-module-button__chevron" aria-hidden="true">⌄</span>
       </button>
-      <div v-if="activeMenu === module.name" class="ref-module-dropdown">
-        <RouterLink :to="module.path" @click="activeMenu = null">
-          <strong>{{ module.label }} overview</strong>
-          <small>Open the {{ module.label.toLowerCase() }} module</small>
+      <div v-if="activeMenu === module.name" class="ref-module-dropdown" role="menu">
+        <RouterLink
+          v-for="link in module.links"
+          :key="`${module.name}-${link.label}`"
+          :to="link.path"
+          role="menuitem"
+          @click="activeMenu = null"
+        >
+          <span class="ref-module-dropdown__icon" aria-hidden="true">◇</span>
+          <span>
+            <strong>{{ link.label }}</strong>
+            <small>{{ link.implemented ? `Open ${link.label}` : 'Opens safely inside Retail ERP' }}</small>
+          </span>
         </RouterLink>
-        <div class="ref-module-dropdown__notice">
-          Detailed permitted links will be added in Stage 6.
+        <div v-if="!module.links?.length" class="ref-module-dropdown__empty">
+          No permitted features are available in this module.
         </div>
       </div>
     </div>

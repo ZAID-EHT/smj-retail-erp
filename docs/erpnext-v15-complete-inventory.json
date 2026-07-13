@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "110d1fb97f41e573a8c5ec4c27b81a74754b0697",
+      "git_commit": "24193e6ff4efe05aa9c45a9e4602188a6fd2b83b",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -2951,7 +2951,7 @@
     "generic_engine_features": 249,
     "installed_app_features": 244,
     "installed_applications": 7,
-    "missing_features_added": 2076,
+    "missing_features_added": 2075,
     "modules": 40,
     "new_matrix_rows": 2943,
     "pages": 22,
@@ -447229,7 +447229,7 @@
       "remaining_desk_dependency": "Workspace targets require Retail ERP launchers/routes",
       "report": null,
       "report_permissions": [],
-      "represented_in_previous_matrix": false,
+      "represented_in_previous_matrix": true,
       "route": "/app/build",
       "share": false,
       "source_location": [
@@ -469257,7 +469257,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "22c6ac5fef82279480834dba4c85bda0c6da5cc25186dca7956c5e30d4205a1b",
+  "inventory_fingerprint": "8a509f6291f73ee229d931bf65305eb8f4dc0b29a23512e8e2a3b70b716c7c24",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {
@@ -469364,8 +469364,8 @@
       },
       "workspace": {
         "excluded": 0,
-        "missing_user_facing": 10,
-        "represented": 15,
+        "missing_user_facing": 9,
+        "represented": 16,
         "total": 25
       },
       "workspace_target": {
@@ -471220,7 +471220,6 @@
       "frappe:workspace-target:website:number-card-published-web-forms",
       "frappe:workspace-target:website:number-card-published-web-pages",
       "frappe:workspace-target:website:number-card-website-themes-available",
-      "frappe:workspace:build",
       "frappe:workspace:tools",
       "frappe:workspace:welcome-workspace",
       "my-store-ui:custom-field:item:item-custom-additional-cost",
@@ -471860,6 +471859,7 @@
       "frappe:workspace-target:users:doctype-user-permission",
       "frappe:workspace-target:users:number-card-users",
       "frappe:workspace-target:website:doctype-website-settings",
+      "frappe:workspace:build",
       "frappe:workspace:integrations",
       "frappe:workspace:users",
       "frappe:workspace:website",

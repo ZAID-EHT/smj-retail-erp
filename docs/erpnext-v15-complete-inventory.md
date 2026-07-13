@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `22c6ac5fef82279480834dba4c85bda0c6da5cc25186dca7956c5e30d4205a1b`
+Inventory fingerprint: `8a509f6291f73ee229d931bf65305eb8f4dc0b29a23512e8e2a3b70b716c7c24`
 
 ## Coverage summary
 
@@ -28,7 +28,7 @@ Inventory fingerprint: `22c6ac5fef82279480834dba4c85bda0c6da5cc25186dca7956c5e30
 | System Internal Exclusions | 359 |
 | Previous Matrix Rows User Supplied | 98 |
 | Previous Matrix Rows Observed | 102 |
-| Missing Features Added | 2076 |
+| Missing Features Added | 2075 |
 | Duplicate Rows Detected | 0 |
 | Specialized Interfaces | 1481 |
 | Generic Engine Features | 249 |

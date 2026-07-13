@@ -7,7 +7,7 @@ frontend path is resolved against this allowlist before navigation is allowed.
 from __future__ import annotations
 
 import re
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urlsplit
 
 import frappe
 
@@ -57,15 +57,65 @@ ROUTE_REGISTRY = (
 
 
 NAVIGATION = (
-	{"name": "home", "label": "Home", "path": "/home", "accent": "blue", "icon": "home"},
-	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "blue", "icon": "sales", "any_read": ("Customer", "Sales Order", "Delivery Note", "Sales Invoice")},
-	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "orange", "icon": "bag", "any_read": ("Supplier", "Material Request", "Purchase Order", "Purchase Receipt", "Purchase Invoice")},
-	{"name": "inventory", "label": "Inventory", "path": "/inventory", "accent": "green", "icon": "box", "any_read": ("Item", "Warehouse", "Stock Entry")},
-	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "purple", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account")},
-	{"name": "operations", "label": "Operations", "path": "/operations", "accent": "turquoise", "icon": "settings", "any_read": ("Asset", "Work Order", "Project", "Issue")},
-	{"name": "crm", "label": "CRM", "path": "/crm", "accent": "pink", "icon": "users", "any_read": ("Lead", "Opportunity", "Customer")},
-	{"name": "reports", "label": "Reports", "path": "/reports", "accent": "dark-blue", "icon": "chart"},
-	{"name": "admin", "label": "Admin", "path": "/admin", "accent": "purple", "icon": "shield", "roles": ("System Manager",)},
+	{"name": "home", "label": "Home", "path": "/home", "accent": "blue", "icon": "home", "links": (
+		{"label": "Dashboard", "path": "/home"}, {"label": "Recent Records"}, {"label": "Quick Actions"}, {"label": "Alerts"},
+	)},
+	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "blue", "icon": "sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice"), "links": (
+		{"label": "Smart Sales", "path": "/smart-sales", "any_read": ("Customer", "Item", "Sales Order")},
+		{"label": "POS Awesome", "page": "posapp"},
+		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"},
+		{"label": "Quotations", "doctype": "Quotation"},
+		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
+		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},
+		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
+		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
+		{"label": "Sales Reports", "report": "Sales Analytics"},
+	)},
+	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "orange", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
+		{"label": "Suppliers", "doctype": "Supplier"}, {"label": "Material Requests", "doctype": "Material Request"},
+		{"label": "Requests for Quotation", "doctype": "Request for Quotation"}, {"label": "Supplier Quotations", "doctype": "Supplier Quotation"},
+		{"label": "Purchase Orders", "doctype": "Purchase Order"}, {"label": "Purchase Receipts", "doctype": "Purchase Receipt"},
+		{"label": "Purchase Invoices", "doctype": "Purchase Invoice"}, {"label": "Purchase Reports", "report": "Purchase Analytics"},
+	)},
+	{"name": "inventory", "label": "Inventory", "path": "/inventory", "accent": "green", "icon": "box", "any_read": ("Item", "Item Group", "Brand", "Warehouse", "Stock Entry"), "links": (
+		{"label": "Products", "path": "/inventory/products", "doctype": "Item"}, {"label": "New Product", "path": "/inventory/products/new", "doctype": "Item", "permission": "create"},
+		{"label": "Item Groups", "doctype": "Item Group"}, {"label": "Brands", "doctype": "Brand"}, {"label": "Warehouses", "doctype": "Warehouse"},
+		{"label": "Stock Entry", "doctype": "Stock Entry"}, {"label": "Stock Transfer", "doctype": "Stock Entry"},
+		{"label": "Stock Reconciliation", "doctype": "Stock Reconciliation"}, {"label": "Serial Numbers", "doctype": "Serial No"},
+		{"label": "Batch Numbers", "doctype": "Batch"}, {"label": "Reorder Alerts", "report": "Stock Projected Qty"},
+		{"label": "Stock Balance", "report": "Stock Balance"}, {"label": "Stock Ledger", "report": "Stock Ledger"}, {"label": "Stock Reports", "report": "Stock Analytics"},
+	)},
+	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "purple", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account"), "links": (
+		{"label": "Finance Dashboard", "path": "/finance"}, {"label": "Chart of Accounts", "doctype": "Account"},
+		{"label": "Journal Entries", "doctype": "Journal Entry"}, {"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
+		{"label": "Bank Reconciliation", "page": "bank-reconciliation-tool"}, {"label": "Accounts Receivable", "report": "Accounts Receivable"},
+		{"label": "Accounts Payable", "report": "Accounts Payable"}, {"label": "General Ledger", "report": "General Ledger"},
+		{"label": "Trial Balance", "report": "Trial Balance"}, {"label": "Profit and Loss", "report": "Profit and Loss Statement"},
+		{"label": "Balance Sheet", "report": "Balance Sheet"}, {"label": "Cash Flow", "report": "Cash Flow"}, {"label": "Financial Reports", "report": "Financial Statements"},
+	)},
+	{"name": "operations", "label": "Operations", "path": "/operations", "accent": "turquoise", "icon": "settings", "any_read": ("Asset", "Work Order", "BOM", "Quality Inspection", "Project", "Issue"), "links": (
+		{"label": "Assets", "doctype": "Asset"}, {"label": "Asset Movements", "doctype": "Asset Movement"},
+		{"label": "Manufacturing", "doctype": "Work Order"}, {"label": "Bills of Materials", "doctype": "BOM"},
+		{"label": "Production Plans", "doctype": "Production Plan"}, {"label": "Job Cards", "doctype": "Job Card"},
+		{"label": "Subcontracting", "doctype": "Subcontracting Order"}, {"label": "Quality", "doctype": "Quality Inspection"},
+		{"label": "Projects", "doctype": "Project"}, {"label": "Tasks", "doctype": "Task"}, {"label": "Support", "doctype": "Issue"},
+	)},
+	{"name": "crm", "label": "CRM", "path": "/crm", "accent": "pink", "icon": "users", "any_read": ("Lead", "Opportunity", "Customer", "Contact"), "links": (
+		{"label": "Leads", "doctype": "Lead"}, {"label": "Opportunities", "doctype": "Opportunity"},
+		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"}, {"label": "Contacts", "doctype": "Contact"},
+		{"label": "Campaigns", "doctype": "Campaign"}, {"label": "Appointments", "doctype": "Appointment"}, {"label": "CRM Reports", "report": "CRM Analytics"},
+	)},
+	{"name": "reports", "label": "Reports", "path": "/reports", "accent": "dark-blue", "icon": "chart", "links": (
+		{"label": "Sales Reports", "report": "Sales Analytics"}, {"label": "Purchase Reports", "report": "Purchase Analytics"},
+		{"label": "Inventory Reports", "report": "Stock Analytics"}, {"label": "Finance Reports", "report": "General Ledger"},
+		{"label": "CRM Reports", "report": "CRM Analytics"}, {"label": "Operations Reports", "report": "Project Summary"}, {"label": "Custom Reports", "doctype": "Report"},
+	)},
+	{"name": "admin", "label": "Admin", "path": "/admin", "accent": "purple", "icon": "shield", "roles": ("System Manager",), "links": (
+		{"label": "Users", "doctype": "User"}, {"label": "Roles", "doctype": "Role"}, {"label": "Role Permissions", "page": "permission-manager"},
+		{"label": "Companies", "doctype": "Company"}, {"label": "Settings", "doctype": "System Settings"},
+		{"label": "Integrations", "doctype": "Integration Request"}, {"label": "Website", "doctype": "Website Settings"},
+		{"label": "Data Import", "doctype": "Data Import"}, {"label": "Background Jobs", "page": "background_jobs"}, {"label": "System Health", "page": "system-health-report"},
+	)},
 )
 
 
@@ -75,6 +125,28 @@ def _has_any_read(doctypes: tuple[str, ...]) -> bool:
 
 def _has_roles(roles: tuple[str, ...]) -> bool:
 	return frappe.session.user == "Administrator" or bool(set(roles) & set(frappe.get_roles()))
+
+
+def _link_is_permitted(link: dict) -> bool:
+	if link.get("roles") and not _has_roles(link["roles"]):
+		return False
+	if link.get("any_read") and not _has_any_read(link["any_read"]):
+		return False
+	if link.get("doctype") and not frappe.has_permission(link["doctype"], link.get("permission", "read")):
+		return False
+	if link.get("page"):
+		return bool(frappe.db.exists("Page", link["page"]) and frappe.has_permission("Page", "read", doc=link["page"]))
+	if link.get("report"):
+		return bool(frappe.db.exists("Report", link["report"]) and frappe.has_permission("Report", "read", doc=link["report"]))
+	return True
+
+
+def _public_navigation_link(link: dict) -> dict:
+	path = link.get("path")
+	implemented = bool(path)
+	if not path:
+		path = f"/feature-unavailable?feature={quote(link['label'], safe='')}"
+	return {"label": link["label"], "path": path, "implemented": implemented}
 
 
 def _safe_relative_path(path: str) -> str:
@@ -118,5 +190,8 @@ def get_permitted_navigation() -> list[dict]:
 			continue
 		if item.get("any_read") and not _has_any_read(item["any_read"]):
 			continue
-		result.append({key: value for key, value in item.items() if key not in {"roles", "any_read"}})
+		links = [_public_navigation_link(link) for link in item.get("links", ()) if _link_is_permitted(link)]
+		public = {key: value for key, value in item.items() if key not in {"roles", "any_read", "links"}}
+		public["links"] = links
+		result.append(public)
 	return result
