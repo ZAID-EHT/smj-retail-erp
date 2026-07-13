@@ -1,4 +1,11 @@
-body.retail-erp-active { overflow: hidden; background: #f5f7fb !important; }
+html:has(body.retail-erp-active),
+body.retail-erp-active {
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f5f7fb !important;
+  overscroll-behavior-y: auto;
+}
 body.retail-erp-active > .navbar,
 body.retail-erp-active .navbar.navbar-expand { display: none !important; }
 body.retail-erp-active #gemini-chat-widget,
@@ -13,13 +20,13 @@ body.retail-erp-active .gemini-chat-widget { display: none !important; }
 .retail-erp-page .layout-main-section { width: 100% !important; max-width: none !important; margin: 0 !important; padding: 0 !important; }
 .retail-erp-page .container,
 .retail-erp-page .container-fluid { max-width: none !important; padding: 0 !important; }
-.retail-erp-page .retail-erp-mount { min-height: 100vh; }
+.retail-erp-page .retail-erp-mount { min-height: 100vh; overflow: visible; }
 
 .ref-app-shell,
 .ref-app-shell *,
 .ref-app-shell *::before,
 .ref-app-shell *::after { box-sizing: border-box; }
-.ref-app-shell { min-height: 100vh; background: var(--ref-page-background); color: var(--ref-primary-text); font-family: var(--ref-font); -webkit-font-smoothing: antialiased; }
+.ref-app-shell { min-height: 100vh; overflow: visible; background: var(--ref-page-background); color: var(--ref-primary-text); font-family: var(--ref-font); -webkit-font-smoothing: antialiased; }
 .ref-app-shell a { color: inherit !important; text-decoration: none !important; }
 .ref-app-shell button,
 .ref-app-shell input { font: inherit; }
@@ -62,7 +69,7 @@ body.retail-erp-active .gemini-chat-widget { display: none !important; }
 .ref-user-menu__name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; font-weight: 650; }
 .ref-mobile-toggle { display: none; }
 
-.ref-main { min-height: 100vh; padding-top: var(--ref-header-height); background: var(--ref-page-background); overflow-x: hidden; }
+.ref-main { min-height: 100vh; overflow-x: clip; overflow-y: visible; padding-top: var(--ref-header-height); background: var(--ref-page-background); }
 .ref-breadcrumbs { max-width: var(--ref-content-width); height: 44px; display: flex; align-items: center; gap: 8px; margin: 0 auto; padding: 0 24px; color: var(--ref-secondary-text); font-size: 11px; }
 .ref-breadcrumbs a { color: var(--ref-primary-blue) !important; font-weight: 700; }
 .ref-page-container { width: min(100%, var(--ref-content-width)); margin: 0 auto; padding: 0 24px 32px; }
