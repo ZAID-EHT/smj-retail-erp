@@ -9,6 +9,7 @@ import "./design/tokens.css";
 import "./design/base.css";
 import "./design/responsive.css";
 import "./design/standalone.css";
+import "./design/universal.css";
 
 let activeInstance = null;
 

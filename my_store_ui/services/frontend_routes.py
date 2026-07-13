@@ -144,6 +144,11 @@ def _link_is_permitted(link: dict) -> bool:
 def _public_navigation_link(link: dict) -> dict:
 	path = link.get("path")
 	implemented = bool(path)
+	if not path and link.get("doctype"):
+		from my_store_ui.universal.registry import GENERATED_ALLOWLIST
+		if link["doctype"] in GENERATED_ALLOWLIST:
+			path = f"/generated/{frappe.scrub(link['doctype']).replace('_', '-')}"
+			implemented = True
 	if not path:
 		path = f"/feature-unavailable?feature={quote(link['label'], safe='')}"
 	return {"label": link["label"], "path": path, "implemented": implemented}
@@ -168,6 +173,32 @@ def resolve_frontend_route(path: str) -> tuple[dict | None, dict]:
 			if any(not value or len(value) > 140 or "\x00" in value or "/" in value for value in params.values()):
 				return None, {}
 			return definition, params
+	generated = re.fullmatch(r"/generated/(?P<feature>[a-z0-9-]+)(?:/(?P<name>[^/]+))?(?:/(?P<edit>edit))?/?", relative)
+	if generated:
+		params = {key: unquote(value) for key, value in generated.groupdict().items() if value}
+		if any(not value or len(value) > 140 or "\x00" in value or "/" in value for value in params.values()):
+			return None, {}
+		try:
+			from my_store_ui.universal.registry import get_generated_feature
+			record = get_generated_feature(params["feature"])
+		except Exception:
+			return None, {}
+		is_new = params.get("name") == "new"
+		permission = "create" if is_new else "write" if params.get("edit") else "read"
+		return {"name": f"generated-{permission}", "module": record.get("module"), "feature_id": record["feature_id"], "implemented": True, "doctype": record["doctype"], "permission": permission}, params
+	special = re.fullmatch(r"/(?P<kind>reports|views)/(?P<feature>[^/]+)(?:/(?P<view>[^/]+))?/?", relative)
+	if special:
+		params = {key: unquote(value) for key, value in special.groupdict().items() if value}
+		try:
+			from my_store_ui.universal.registry import feature_is_permitted, get_feature
+			category = "report" if params["kind"] == "reports" else params.get("view", "page").lower()
+			record = get_feature(f"{category}:{params['feature']}")
+			if not feature_is_permitted(record):
+				return None, {}
+		except Exception:
+			return None, {}
+		# Special renderers remain explicitly provisional and never execute methods.
+		return {"name": f"generated-{params['kind']}", "module": record.get("module"), "feature_id": record["feature_id"], "implemented": True}, params
 	return None, {}
 
 

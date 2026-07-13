@@ -47,6 +47,20 @@ Result: **FAIL**
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
 
+## Universal frontend foundation (2026-07-13)
+
+The new runtime registry contains 2,843 records: 8 custom overrides, 20
+`generated_provisional`, 352 special adapters, 2,104 unavailable and 359
+internal. All 20 provisional DocTypes passed metadata and paginated-list smoke
+checks on `site1.local`; 73 total automated tests and the Vue production build
+passed. Provisional rendering is deliberately not treated as functional
+completion, so the strict parity counts above remain unchanged.
+
+Direct custom/generated-provisional entry coverage is 28 of 2,484 registry
+user-facing records (1.13%). Special classification covers another 352 records
+(14.17%) but those visual/report adapters remain incomplete. See
+`universal-frontend-foundation.md` for the non-inflated coverage contract.
+
 ## Reconciliation
 
 - User-supplied previous matrix count: **98**.

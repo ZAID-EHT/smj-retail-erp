@@ -220,6 +220,17 @@ export const entityRoutes = [
   },
 ];
 
+// Generated routes are deliberately registered after handcrafted routes.
+// The server-owned feature registry decides whether the feature is allowlisted.
+export const generatedRoutes = [
+  { path: "/generated/:feature", name: "generated-list", component: () => import("@/pages/generated/UniversalListPage.vue"), meta: { title: "Generated List", accent: "turquoise" } },
+  { path: "/generated/:feature/new", name: "generated-new", component: () => import("@/pages/generated/UniversalFormPage.vue"), meta: { title: "Generated Form", accent: "turquoise" } },
+  { path: "/generated/:feature/:name/edit", name: "generated-edit", component: () => import("@/pages/generated/UniversalFormPage.vue"), meta: { title: "Generated Form", accent: "turquoise" } },
+  { path: "/generated/:feature/:name", name: "generated-detail", component: () => import("@/pages/generated/UniversalDetailPage.vue"), meta: { title: "Generated Detail", accent: "turquoise" } },
+  { path: "/reports/:report", name: "generated-report", component: () => import("@/pages/generated/UniversalReportPage.vue"), meta: { title: "Report", accent: "dark-blue" } },
+  { path: "/views/:feature/:view", name: "generated-view", component: () => import("@/pages/generated/UniversalSpecialPage.vue"), meta: { title: "Special View", accent: "purple" } },
+];
+
 export const navigationModules = moduleRoutes
   .filter((route) => !["smart-sales", "feature-unavailable", "permission-denied", "not-found"].includes(route.name))
   .map((route) => ({

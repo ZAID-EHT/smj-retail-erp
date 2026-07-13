@@ -2,6 +2,11 @@
 
 Total user-facing features without a registered custom route: **2477**.
 
+Twenty safer master-data DocTypes now have allowlisted metadata-driven routes,
+but remain `generated_provisional`. The strict list below intentionally retains
+them until each applicable create/edit/action/print/collaboration and role/browser
+test is complete; a rendered provisional form is not parity.
+
 | Feature ID | App | Module | Type | Name | Classification | Standard route | Dependency |
 |---|---|---|---|---|---|---|---|
 | `custom:client-script:user:theme` | custom | Core | client_script | theme | E | /app/client-script/theme | Customization must be represented by approved Retail ERP schema/administration |
