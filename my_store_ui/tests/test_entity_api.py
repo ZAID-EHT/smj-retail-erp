@@ -28,7 +28,7 @@ class TestEntityListApi(unittest.TestCase):
 
 	def test_registry_is_metadata_safe(self):
 		validate_registry_against_metadata()
-		self.assertEqual(set(ENTITY_SCHEMAS), {"customers", "items", "sales_orders", "delivery_notes", "sales_invoices"})
+		self.assertEqual(set(ENTITY_SCHEMAS), {"customers", "items", "sales_orders", "delivery_notes", "sales_invoices", "payment_entries"})
 		self.assertEqual(set(DETAIL_SCHEMAS), {"customers", "items", "sales_orders"})
 
 	def test_each_approved_entity_returns_only_approved_fields(self):

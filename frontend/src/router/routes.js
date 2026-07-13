@@ -165,6 +165,30 @@ export const entityRoutes = [
     meta: { title: "Sales Invoice", entityKey: "sales_invoices", accent: "green" },
   },
   {
+    path: "/finance/payments",
+    name: "payment-entry-list",
+    component: EntityListPage,
+    meta: { title: "Payment Entries", entityKey: "payment_entries", accent: "purple" },
+  },
+  {
+    path: "/finance/payments/new",
+    name: "payment-entry-new",
+    component: EntityFormPage,
+    meta: { title: "New Payment Entry", entityKey: "payment_entries", accent: "purple" },
+  },
+  {
+    path: "/finance/payments/:name/edit",
+    name: "payment-entry-edit",
+    component: EntityFormPage,
+    meta: { title: "Edit Payment Entry", entityKey: "payment_entries", accent: "purple" },
+  },
+  {
+    path: "/finance/payments/:name",
+    name: "payment-entry-detail",
+    component: MappedDocumentDetailPage,
+    meta: { title: "Payment Entry", entityKey: "payment_entries", accent: "purple" },
+  },
+  {
     path: "/sales/orders",
     name: "sales-order-list",
     component: EntityListPage,
