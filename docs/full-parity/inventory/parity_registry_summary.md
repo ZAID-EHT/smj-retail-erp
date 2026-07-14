@@ -1,9 +1,9 @@
 # Authoritative Parity Registry Summary (Stage 2)
 
-- Source inventory fingerprint: `1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37`
+- Source inventory fingerprint: `6d21028f0eb81e720eac4dd326386c4d170fc651f144e864fa946cdbc1bfe565`
 - Registry entries (one per user-facing feature): **2482**
 - Validation: **PASS** (0 errors)
-- Implemented in some form (custom/provisional/adapter/unverified): **292**
+- Implemented in some form (custom/provisional/adapter/unverified): **448**
 
 > A route alone is never counted as completion. `unavailable_with_reason`, `not_required` and `internal` are NOT implemented functionality.
 
@@ -11,11 +11,11 @@
 
 | Status | Meaning | Count |
 |---|---|---:|
-| generated_provisional | Generic engine exposes it; specialised behaviour unverified | 193 |
+| generated_provisional | Generic engine exposes it; specialised behaviour unverified | 349 |
 | implemented_unverified | Implemented, lacks browser/role/business verification | 99 |
 | internal | Technical/internal, no user route required | 1212 |
-| not_required | Not needed for this business | 197 |
-| unavailable_with_reason | Inventoried, intentionally not yet available (planned) | 781 |
+| not_required | Not needed for this business | 175 |
+| unavailable_with_reason | Inventoried, intentionally not yet available (planned) | 647 |
 
 ## By business priority
 
@@ -35,9 +35,9 @@
 | custom_override | 6 |
 | generated_dashboard | 92 |
 | generated_doctype | 167 |
-| generated_report | 164 |
+| generated_report | 186 |
 | internal | 1212 |
-| not_required | 197 |
+| not_required | 175 |
 | special_adapter | 93 |
 | unavailable_with_reason | 551 |
 

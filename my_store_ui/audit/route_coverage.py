@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import frappe
 
+import frappe.utils
+
 from my_store_ui import priority_pages
-from my_store_ui.services.priority_registry import ENTITY_ROUTES
+from my_store_ui.services.priority_registry import ENTITY_ROUTES, REPORT_GROUPS
 from my_store_ui.universal import api as universal_api
 
 
@@ -41,6 +43,33 @@ def verify_generated_routes(limit_per_route: int = 2) -> dict:
             permission_denied.append({"path": path, "doctype": doctype})
         except Exception as exc:  # noqa: BLE001 - report, do not raise
             failures.append({"path": path, "doctype": doctype, "error": f"{type(exc).__name__}: {exc}"})
+    return {
+        "status": "pass" if not failures else "fail",
+        "served": len(served),
+        "permission_denied": len(permission_denied),
+        "failed": len(failures),
+        "failures": failures[:50],
+    }
+
+
+def verify_generated_reports() -> dict:
+    """Resolve every REPORT_GROUPS report and load its viewer definition.
+
+    Crediting a report means its route resolves and the permission-aware
+    definition (filters + Report doc) loads. Execution is user-filter dependent
+    and left to the standard ERPNext report engine.
+    """
+    served, permission_denied, failures = [], [], []
+    names = [name for names in REPORT_GROUPS.values() for name in names]
+    for name in names:
+        try:
+            priority_pages.get_priority_route_definition("/reports/view/%s" % frappe.utils.quote(name))
+            priority_pages.get_priority_report_definition(name)
+            served.append(name)
+        except frappe.PermissionError:
+            permission_denied.append(name)
+        except Exception as exc:  # noqa: BLE001
+            failures.append({"report": name, "error": f"{type(exc).__name__}: {exc}"})
     return {
         "status": "pass" if not failures else "fail",
         "served": len(served),

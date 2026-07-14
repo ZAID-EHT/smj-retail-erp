@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "bc9e6a73e2e09938424a8cd6b53441850223e195",
+      "git_commit": "e0070c5bffd3c6168bbcacdf0ab3af23c57ce650",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -419,7 +419,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 2280
+      "unmapped_user_facing": 2124
     },
     "failures": {
       "complete_without_tests": [],
@@ -1369,166 +1369,10 @@
         "erpnext:print-format:sales-order:sales-order-with-item-image",
         "erpnext:print-format:supplier:irs-1099-form",
         "erpnext:print-format:trial-balance-standard",
-        "erpnext:report:account-balance",
-        "erpnext:report:accounts-payable-summary",
-        "erpnext:report:accounts-receivable-summary",
-        "erpnext:report:address-and-contacts",
-        "erpnext:report:asset-activity",
-        "erpnext:report:asset-depreciations-and-balances",
-        "erpnext:report:asset-maintenance",
-        "erpnext:report:available-batch-report",
-        "erpnext:report:available-serial-no",
-        "erpnext:report:available-stock-for-packing-items",
-        "erpnext:report:bank-clearance-summary",
-        "erpnext:report:batch-item-expiry-status",
-        "erpnext:report:batch-wise-balance-history",
-        "erpnext:report:billed-items-to-be-received",
-        "erpnext:report:bom-explorer",
-        "erpnext:report:bom-operations-time",
-        "erpnext:report:bom-search",
-        "erpnext:report:bom-stock-analysis",
-        "erpnext:report:bom-stock-calculated",
-        "erpnext:report:bom-stock-report",
-        "erpnext:report:bom-variance-report",
-        "erpnext:report:budget-variance-report",
-        "erpnext:report:calculated-discount-mismatch",
-        "erpnext:report:campaign-efficiency",
-        "erpnext:report:cheques-and-deposits-incorrectly-cleared",
-        "erpnext:report:cogs-by-item-group",
-        "erpnext:report:completed-work-orders",
-        "erpnext:report:consolidated-financial-statement",
-        "erpnext:report:consolidated-trial-balance",
-        "erpnext:report:cost-of-poor-quality-report",
-        "erpnext:report:custom-financial-statement",
-        "erpnext:report:customer-acquisition-and-loyalty",
-        "erpnext:report:customer-credit-balance",
-        "erpnext:report:customer-wise-item-price",
-        "erpnext:report:customers-without-any-sales-transactions",
-        "erpnext:report:daily-timesheet-summary",
-        "erpnext:report:deferred-revenue-and-expense",
-        "erpnext:report:delayed-item-report",
-        "erpnext:report:delayed-order-report",
-        "erpnext:report:delayed-tasks-summary",
-        "erpnext:report:delivered-items-to-be-billed",
-        "erpnext:report:delivery-note-trends",
-        "erpnext:report:dimension-wise-accounts-balance-report",
-        "erpnext:report:downtime-analysis",
-        "erpnext:report:employee-billing-summary",
-        "erpnext:report:exponential-smoothing-forecasting",
-        "erpnext:report:fifo-queue-vs-qty-after-transaction-comparison",
-        "erpnext:report:financial-ratios",
-        "erpnext:report:first-response-time-for-issues",
-        "erpnext:report:first-response-time-for-opportunity",
-        "erpnext:report:fixed-asset-register",
-        "erpnext:report:general-and-payment-ledger-comparison",
-        "erpnext:report:gross-and-net-profit-report",
-        "erpnext:report:gross-profit",
-        "erpnext:report:inactive-customers",
-        "erpnext:report:inactive-sales-items",
-        "erpnext:report:incorrect-balance-qty-after-transaction",
-        "erpnext:report:incorrect-serial-and-batch-bundle",
-        "erpnext:report:incorrect-serial-no-valuation",
-        "erpnext:report:incorrect-stock-value-report",
-        "erpnext:report:invalid-ledger-entries",
         "erpnext:report:irs-1099",
-        "erpnext:report:issue-analytics",
-        "erpnext:report:issue-summary",
-        "erpnext:report:issued-items-against-work-order",
-        "erpnext:report:item-balance-simple",
-        "erpnext:report:item-price-stock",
-        "erpnext:report:item-prices",
-        "erpnext:report:item-shortage-report",
-        "erpnext:report:item-variant-details",
-        "erpnext:report:item-wise-consumption",
-        "erpnext:report:item-wise-price-list-rate",
-        "erpnext:report:item-wise-purchase-history",
-        "erpnext:report:item-wise-sales-history",
-        "erpnext:report:items-to-be-requested",
-        "erpnext:report:itemwise-recommended-reorder-level",
-        "erpnext:report:job-card-summary",
-        "erpnext:report:landed-cost-report",
-        "erpnext:report:lead-conversion-time",
-        "erpnext:report:lead-owner-efficiency",
-        "erpnext:report:lost-opportunity",
-        "erpnext:report:lost-quotations",
         "erpnext:report:maintenance-schedules",
-        "erpnext:report:material-requests-for-which-supplier-quotations-are-not-created",
-        "erpnext:report:material-requirements-planning-report",
-        "erpnext:report:negative-batch-report",
-        "erpnext:report:open-work-orders",
-        "erpnext:report:payment-ledger",
-        "erpnext:report:payment-period-based-on-invoice-date",
-        "erpnext:report:payment-terms-status-for-sales-order",
-        "erpnext:report:pending-so-items-for-purchase-request",
-        "erpnext:report:pos-register",
-        "erpnext:report:process-loss-report",
-        "erpnext:report:procurement-tracker",
-        "erpnext:report:product-bundle-balance",
-        "erpnext:report:production-analytics",
-        "erpnext:report:production-plan-summary",
-        "erpnext:report:production-planning-report",
-        "erpnext:report:profitability-analysis",
-        "erpnext:report:project-billing-summary",
-        "erpnext:report:project-wise-stock-tracking",
-        "erpnext:report:prospects-engaged-but-not-converted",
-        "erpnext:report:purchase-analytics",
-        "erpnext:report:purchase-invoice-trends",
-        "erpnext:report:purchase-order-trends",
-        "erpnext:report:purchase-receipt-trends",
-        "erpnext:report:quality-inspection-summary",
-        "erpnext:report:quotation-trends",
-        "erpnext:report:received-items-to-be-billed",
-        "erpnext:report:requested-items-to-be-transferred",
-        "erpnext:report:requested-items-to-order-and-receive",
-        "erpnext:report:reserved-stock",
-        "erpnext:report:review",
-        "erpnext:report:sales-invoice-trends",
-        "erpnext:report:sales-order-trends",
-        "erpnext:report:sales-partner-commission-summary",
-        "erpnext:report:sales-partner-target-variance-based-on-item-group",
-        "erpnext:report:sales-partner-transaction-summary",
-        "erpnext:report:sales-partners-commission",
-        "erpnext:report:sales-payment-summary",
-        "erpnext:report:sales-person-commission-summary",
-        "erpnext:report:sales-person-target-variance-based-on-item-group",
-        "erpnext:report:sales-person-wise-transaction-summary",
-        "erpnext:report:sales-pipeline-analytics",
-        "erpnext:report:serial-and-batch-summary",
-        "erpnext:report:serial-no-and-batch-traceability",
-        "erpnext:report:serial-no-ledger",
-        "erpnext:report:serial-no-service-contract-expiry",
-        "erpnext:report:serial-no-status",
-        "erpnext:report:serial-no-warranty-expiry",
-        "erpnext:report:share-balance",
-        "erpnext:report:share-ledger",
-        "erpnext:report:stock-ageing",
-        "erpnext:report:stock-and-account-value-comparison",
-        "erpnext:report:stock-ledger-invariant-check",
-        "erpnext:report:stock-ledger-variance",
-        "erpnext:report:stock-qty-vs-batch-qty",
-        "erpnext:report:stock-qty-vs-serial-no-count",
-        "erpnext:report:subcontract-order-summary",
-        "erpnext:report:subcontracted-item-to-be-received",
-        "erpnext:report:subcontracted-raw-materials-to-be-transferred",
-        "erpnext:report:supplier-quotation-comparison",
-        "erpnext:report:supplier-wise-sales-analytics",
-        "erpnext:report:support-hour-distribution",
-        "erpnext:report:tax-withholding-details",
-        "erpnext:report:tds-computation-summary",
-        "erpnext:report:territory-target-variance-based-on-item-group",
-        "erpnext:report:territory-wise-sales",
-        "erpnext:report:timesheet-billing-summary",
-        "erpnext:report:total-stock-summary",
-        "erpnext:report:trial-balance-for-party",
-        "erpnext:report:trial-balance-simple",
         "erpnext:report:uae-vat-201",
         "erpnext:report:vat-audit-report",
-        "erpnext:report:voucher-wise-balance",
-        "erpnext:report:warehouse-wise-item-balance-age-and-value",
-        "erpnext:report:warehouse-wise-stock-balance",
-        "erpnext:report:work-order-consumed-materials",
-        "erpnext:report:work-order-stock-report",
-        "erpnext:report:work-orders-in-progress",
         "erpnext:report:youtube-interactions",
         "erpnext:workspace-target:accounting:chart-profit-and-loss",
         "erpnext:workspace-target:accounting:dashboard-accounts",
@@ -294097,10 +293941,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Account%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294161,7 +294005,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Account Balance",
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -294178,7 +294022,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -294337,10 +294181,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Accounts%20Payable%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294427,7 +294271,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Accounts Payable Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -294449,7 +294293,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -294663,10 +294507,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Accounts%20Receivable%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294792,7 +294636,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Accounts Receivable Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -294812,7 +294656,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -294829,10 +294673,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Address%20And%20Contacts",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294893,7 +294737,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Address And Contacts",
       "report_permissions": [
         "Accounts User",
@@ -294915,7 +294759,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -294932,10 +294776,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Asset%20Activity",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -294987,7 +294831,7 @@
         "Quality Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Asset Activity",
       "report_permissions": [
         "Accounts User",
@@ -295008,7 +294852,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295134,10 +294978,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Asset%20Depreciations%20and%20Balances",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295205,7 +295049,7 @@
       "relevant_roles": [
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Asset Depreciations and Balances",
       "report_permissions": [
         "Accounts User"
@@ -295224,7 +295068,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295241,10 +295085,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Asset%20Maintenance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295294,7 +295138,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Asset Maintenance",
       "report_permissions": [
         "System Manager"
@@ -295313,7 +295157,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295330,10 +295174,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Available%20Batch%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295404,7 +295248,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Available Batch Report",
       "report_permissions": [
         "Accounts Manager",
@@ -295424,7 +295268,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295441,10 +295285,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Available%20Serial%20No",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295514,7 +295358,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Available Serial No",
       "report_permissions": [
         "Accounts Manager",
@@ -295534,7 +295378,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295551,10 +295395,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Available%20Stock%20for%20Packing%20Items",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295608,7 +295452,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Available Stock for Packing Items",
       "report_permissions": [
         "Sales User",
@@ -295629,7 +295473,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295752,10 +295596,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Bank%20Clearance%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -295817,7 +295661,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Bank Clearance Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -295838,7 +295682,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -295961,10 +295805,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Batch%20Item%20Expiry%20Status",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296025,7 +295869,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Batch Item Expiry Status",
       "report_permissions": [
         "Accounts Manager",
@@ -296045,7 +295889,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296062,10 +295906,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Batch-Wise%20Balance%20History",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296134,7 +295978,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Batch-Wise Balance History",
       "report_permissions": [
         "Accounts Manager",
@@ -296154,7 +295998,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296171,10 +296015,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Billed%20Items%20To%20Be%20Received",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296238,7 +296082,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Billed Items To Be Received",
       "report_permissions": [
         "Accounts Manager",
@@ -296261,7 +296105,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296278,10 +296122,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Explorer",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296338,7 +296182,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Explorer",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296358,7 +296202,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296375,10 +296219,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Operations%20Time",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296439,7 +296283,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Operations Time",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296459,7 +296303,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296476,10 +296320,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Search",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296546,7 +296390,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Search",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296566,7 +296410,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296583,10 +296427,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Stock%20Analysis",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296634,7 +296478,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Stock Analysis",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296652,7 +296496,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296669,10 +296513,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Stock%20Calculated",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296736,7 +296580,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Stock Calculated",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296756,7 +296600,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296773,10 +296617,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Stock%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296840,7 +296684,7 @@
         "Manufacturing Manager",
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Stock Report",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296860,7 +296704,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296877,10 +296721,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/BOM%20Variance%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -296941,7 +296785,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "BOM Variance Report",
       "report_permissions": [
         "Manufacturing Manager",
@@ -296963,7 +296807,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -296980,10 +296824,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Budget%20Variance%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297055,7 +296899,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Budget Variance Report",
       "report_permissions": [
         "Accounts Manager",
@@ -297078,7 +296922,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297095,10 +296939,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Calculated%20Discount%20Mismatch",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297153,7 +296997,7 @@
         "Administrator",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Calculated Discount Mismatch",
       "report_permissions": [
         "Accounts Manager",
@@ -297175,7 +297019,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297192,10 +297036,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Campaign%20Efficiency",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297255,7 +297099,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Campaign Efficiency",
       "report_permissions": [
         "Sales Manager",
@@ -297276,7 +297120,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297396,10 +297240,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Cheques%20and%20Deposits%20Incorrectly%20cleared",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297460,7 +297304,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Cheques and Deposits Incorrectly cleared",
       "report_permissions": [
         "Accounts Manager",
@@ -297480,7 +297324,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297497,10 +297341,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/COGS%20By%20Item%20Group",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297562,7 +297406,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "COGS By Item Group",
       "report_permissions": [
         "Accounts Manager",
@@ -297583,7 +297427,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297600,10 +297444,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Completed%20Work%20Orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297654,7 +297498,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Completed Work Orders",
       "report_permissions": [
         "Manufacturing User",
@@ -297674,7 +297518,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297691,10 +297535,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Consolidated%20Financial%20Statement",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297776,7 +297620,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Consolidated Financial Statement",
       "report_permissions": [
         "Accounts Manager",
@@ -297799,7 +297643,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297816,10 +297660,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Consolidated%20Trial%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297868,7 +297712,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Consolidated Trial Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -297887,7 +297731,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -297904,10 +297748,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Cost%20of%20Poor%20Quality%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -297983,7 +297827,7 @@
         "Manufacturing User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Cost of Poor Quality Report",
       "report_permissions": [
         "Manufacturing Manager",
@@ -298004,7 +297848,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298021,10 +297865,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Custom%20Financial%20Statement",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298073,7 +297917,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Custom Financial Statement",
       "report_permissions": [
         "Accounts Manager",
@@ -298092,7 +297936,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298109,10 +297953,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Customer%20Acquisition%20and%20Loyalty",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298180,7 +298024,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Customer Acquisition and Loyalty",
       "report_permissions": [
         "Accounts Manager",
@@ -298205,7 +298049,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298222,10 +298066,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Customer%20Credit%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298289,7 +298133,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Customer Credit Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -298314,7 +298158,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298451,10 +298295,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Customer-wise%20Item%20Price",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298518,7 +298362,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Customer-wise Item Price",
       "report_permissions": [
         "Accounts Manager",
@@ -298543,7 +298387,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298560,10 +298404,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Customers%20Without%20Any%20Sales%20Transactions",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298615,7 +298459,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Customers Without Any Sales Transactions",
       "report_permissions": [
         "Sales Manager",
@@ -298636,7 +298480,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298653,10 +298497,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Daily%20Timesheet%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298717,7 +298561,7 @@
         "Manufacturing User",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Daily Timesheet Summary",
       "report_permissions": [
         "Accounts User",
@@ -298739,7 +298583,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298756,10 +298600,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Deferred%20Revenue%20and%20Expense",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298834,7 +298678,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Deferred Revenue and Expense",
       "report_permissions": [
         "Accounts Manager",
@@ -298855,7 +298699,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298872,10 +298716,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Delayed%20Item%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -298949,7 +298793,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Delayed Item Report",
       "report_permissions": [
         "Accounts User",
@@ -298972,7 +298816,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -298989,10 +298833,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Delayed%20Order%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299066,7 +298910,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Delayed Order Report",
       "report_permissions": [
         "Accounts User",
@@ -299089,7 +298933,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299106,10 +298950,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Delayed%20Tasks%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299175,7 +299019,7 @@
         "Projects Manager",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Delayed Tasks Summary",
       "report_permissions": [
         "Projects Manager",
@@ -299195,7 +299039,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299212,10 +299056,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Delivered%20Items%20To%20Be%20Billed",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299276,7 +299120,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Delivered Items To Be Billed",
       "report_permissions": [
         "Accounts Manager",
@@ -299296,7 +299140,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299313,10 +299157,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Delivery%20Note%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299371,7 +299215,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Delivery Note Trends",
       "report_permissions": [
         "Accounts User",
@@ -299393,7 +299237,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299410,10 +299254,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Dimension-wise%20Accounts%20Balance%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299479,7 +299323,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Dimension-wise Accounts Balance Report",
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -299496,7 +299340,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299513,10 +299357,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Downtime%20Analysis",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299578,7 +299422,7 @@
         "Manufacturing User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Downtime Analysis",
       "report_permissions": [
         "Manufacturing Manager",
@@ -299599,7 +299443,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299713,10 +299557,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Employee%20Billing%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299782,7 +299626,7 @@
         "Manufacturing User",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Employee Billing Summary",
       "report_permissions": [
         "Accounts User",
@@ -299805,7 +299649,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299822,10 +299666,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Exponential%20Smoothing%20Forecasting",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -299905,7 +299749,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Exponential Smoothing Forecasting",
       "report_permissions": [
         "Manufacturing Manager",
@@ -299929,7 +299773,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -299946,10 +299790,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/FIFO%20Queue%20vs%20Qty%20After%20Transaction%20Comparison",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300013,7 +299857,7 @@
       "relevant_roles": [
         "Administrator"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "FIFO Queue vs Qty After Transaction Comparison",
       "report_permissions": [
         "Administrator"
@@ -300032,7 +299876,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300049,10 +299893,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Financial%20Ratios",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300122,7 +299966,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Financial Ratios",
       "report_permissions": [
         "Accounts Manager",
@@ -300145,7 +299989,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300162,10 +300006,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/First%20Response%20Time%20for%20Issues",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300223,7 +300067,7 @@
       "relevant_roles": [
         "Support Team"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "First Response Time for Issues",
       "report_permissions": [
         "Support Team"
@@ -300242,7 +300086,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300259,10 +300103,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/First%20Response%20Time%20for%20Opportunity",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300321,7 +300165,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "First Response Time for Opportunity",
       "report_permissions": [
         "Sales Manager",
@@ -300341,7 +300185,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300358,10 +300202,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Fixed%20Asset%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300445,7 +300289,7 @@
         "Accounts User",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Fixed Asset Register",
       "report_permissions": [
         "Accounts User",
@@ -300465,7 +300309,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300482,10 +300326,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/General%20and%20Payment%20Ledger%20Comparison",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300562,7 +300406,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "General and Payment Ledger Comparison",
       "report_permissions": [
         "Accounts Manager",
@@ -300583,7 +300427,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300750,10 +300594,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Gross%20and%20Net%20Profit%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300811,7 +300655,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Gross and Net Profit Report",
       "report_permissions": [
         "Accounts Manager",
@@ -300832,7 +300676,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300849,10 +300693,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Gross%20Profit",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -300932,7 +300776,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Gross Profit",
       "report_permissions": [
         "Accounts Manager",
@@ -300952,7 +300796,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -300969,10 +300813,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Inactive%20Customers",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301034,7 +300878,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Inactive Customers",
       "report_permissions": [
         "Accounts User",
@@ -301057,7 +300901,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301074,10 +300918,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Inactive%20Sales%20Items",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301144,7 +300988,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Inactive Sales Items",
       "report_permissions": [
         "Accounts Manager",
@@ -301165,7 +301009,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301182,10 +301026,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Incorrect%20Balance%20Qty%20After%20Transaction",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301247,7 +301091,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Incorrect Balance Qty After Transaction",
       "report_permissions": [
         "Purchase User",
@@ -301268,7 +301112,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301285,10 +301129,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Incorrect%20Serial%20and%20Batch%20Bundle",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301355,7 +301199,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Incorrect Serial and Batch Bundle",
       "report_permissions": [
         "Delivery Manager",
@@ -301383,7 +301227,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301400,10 +301244,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Incorrect%20Serial%20No%20Valuation",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301466,7 +301310,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Incorrect Serial No Valuation",
       "report_permissions": [
         "Accounts Manager",
@@ -301488,7 +301332,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301505,10 +301349,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Incorrect%20Stock%20Value%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301569,7 +301413,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Incorrect Stock Value Report",
       "report_permissions": [
         "Accounts Manager",
@@ -301589,7 +301433,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301606,10 +301450,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Invalid%20Ledger%20Entries",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301671,7 +301515,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Invalid Ledger Entries",
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -301688,7 +301532,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301806,10 +301650,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Issue%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301884,7 +301728,7 @@
       "relevant_roles": [
         "Support Team"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Issue Analytics",
       "report_permissions": [
         "Support Team"
@@ -301903,7 +301747,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -301920,10 +301764,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Issue%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -301996,7 +301840,7 @@
       "relevant_roles": [
         "Support Team"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Issue Summary",
       "report_permissions": [
         "Support Team"
@@ -302015,7 +301859,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302032,10 +301876,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Issued%20Items%20Against%20Work%20Order",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302086,7 +301930,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Issued Items Against Work Order",
       "report_permissions": [
         "Manufacturing User",
@@ -302106,7 +301950,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302123,10 +301967,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Balance%20%28Simple%29",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302178,7 +302022,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Balance (Simple)",
       "report_permissions": [
         "Purchase User",
@@ -302199,7 +302043,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302216,10 +302060,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Price%20Stock",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302282,7 +302126,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Price Stock",
       "report_permissions": [
         "Accounts User",
@@ -302308,7 +302152,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302325,10 +302169,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Prices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302385,7 +302229,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Prices",
       "report_permissions": [
         "Accounts Manager",
@@ -302405,7 +302249,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302422,10 +302266,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Shortage%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302486,7 +302330,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Shortage Report",
       "report_permissions": [
         "Purchase User",
@@ -302507,7 +302351,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302524,10 +302368,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Variant%20Details",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302590,7 +302434,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Variant Details",
       "report_permissions": [
         "Accounts User",
@@ -302616,7 +302460,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302633,10 +302477,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item%20Wise%20Consumption",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302684,7 +302528,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item Wise Consumption",
       "report_permissions": [
         "Accounts Manager",
@@ -302702,7 +302546,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302719,10 +302563,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item-wise%20Price%20List%20Rate",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302773,7 +302617,7 @@
         "Purchase Master Manager",
         "Sales Master Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item-wise Price List Rate",
       "report_permissions": [
         "Purchase Master Manager",
@@ -302793,7 +302637,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -302810,10 +302654,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item-wise%20Purchase%20History",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -302881,7 +302725,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item-wise Purchase History",
       "report_permissions": [
         "Purchase Manager",
@@ -302902,7 +302746,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303035,10 +302879,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Item-wise%20Sales%20History",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303108,7 +302952,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Item-wise Sales History",
       "report_permissions": [
         "Accounts User",
@@ -303131,7 +302975,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303267,10 +303111,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Items%20To%20Be%20Requested",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303323,7 +303167,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Items To Be Requested",
       "report_permissions": [
         "Purchase Manager",
@@ -303345,7 +303189,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303362,10 +303206,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Itemwise%20Recommended%20Reorder%20Level",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303434,7 +303278,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Itemwise Recommended Reorder Level",
       "report_permissions": [
         "Accounts User",
@@ -303460,7 +303304,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303477,10 +303321,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Job%20Card%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303555,7 +303399,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Job Card Summary",
       "report_permissions": [
         "Manufacturing Manager",
@@ -303577,7 +303421,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303594,10 +303438,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Landed%20Cost%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303647,7 +303491,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Landed Cost Report",
       "report_permissions": [
         "Purchase Manager",
@@ -303667,7 +303511,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303684,10 +303528,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Lead%20Conversion%20Time",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303746,7 +303590,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Lead Conversion Time",
       "report_permissions": [
         "Sales Manager",
@@ -303766,7 +303610,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303890,10 +303734,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Lead%20Owner%20Efficiency",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -303953,7 +303797,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Lead Owner Efficiency",
       "report_permissions": [
         "Sales Manager",
@@ -303974,7 +303818,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -303991,10 +303835,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Lost%20Opportunity",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304063,7 +303907,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Lost Opportunity",
       "report_permissions": [
         "Sales Manager",
@@ -304083,7 +303927,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304100,10 +303944,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Lost%20Quotations",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304168,7 +304012,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Lost Quotations",
       "report_permissions": [
         "Sales Manager",
@@ -304188,7 +304032,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304290,10 +304134,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Material%20Requests%20for%20which%20Supplier%20Quotations%20are%20not%20created",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304346,7 +304190,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Material Requests for which Supplier Quotations are not created",
       "report_permissions": [
         "Purchase Manager",
@@ -304368,7 +304212,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304385,10 +304229,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Material%20Requirements%20Planning%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304441,7 +304285,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Material Requirements Planning Report",
       "report_permissions": [
         "Manufacturing Manager",
@@ -304464,7 +304308,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304481,10 +304325,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Negative%20Batch%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304552,7 +304396,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Negative Batch Report",
       "report_permissions": [
         "Delivery Manager",
@@ -304579,7 +304423,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304596,10 +304440,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Open%20Work%20Orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304650,7 +304494,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Open Work Orders",
       "report_permissions": [
         "Manufacturing User",
@@ -304670,7 +304514,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304799,10 +304643,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Payment%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -304891,7 +304735,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Payment Ledger",
       "report_permissions": [
         "Accounts Manager",
@@ -304912,7 +304756,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -304929,10 +304773,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Payment%20Period%20Based%20On%20Invoice%20Date",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305000,7 +304844,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Payment Period Based On Invoice Date",
       "report_permissions": [
         "Accounts Manager",
@@ -305021,7 +304865,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305038,10 +304882,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Payment%20Terms%20Status%20for%20Sales%20Order",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305122,7 +304966,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Payment Terms Status for Sales Order",
       "report_permissions": [
         "Accounts User",
@@ -305145,7 +304989,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305162,10 +305006,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Pending%20SO%20Items%20For%20Purchase%20Request",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305222,7 +305066,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Pending SO Items For Purchase Request",
       "report_permissions": [
         "Accounts User",
@@ -305245,7 +305089,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305262,10 +305106,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/POS%20Register",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305340,7 +305184,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "POS Register",
       "report_permissions": [
         "Accounts Manager",
@@ -305360,7 +305204,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305377,10 +305221,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Process%20Loss%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305444,7 +305288,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Process Loss Report",
       "report_permissions": [
         "Manufacturing User"
@@ -305463,7 +305307,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305480,10 +305324,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Procurement%20Tracker",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305549,7 +305393,7 @@
         "Purchase Manager",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Procurement Tracker",
       "report_permissions": [
         "Purchase Manager",
@@ -305569,7 +305413,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305586,10 +305430,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Product%20Bundle%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305655,7 +305499,7 @@
       "relevant_roles": [
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Product Bundle Balance",
       "report_permissions": [
         "Stock User"
@@ -305674,7 +305518,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305691,10 +305535,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Production%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305757,7 +305601,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Production Analytics",
       "report_permissions": [
         "Manufacturing User",
@@ -305777,7 +305621,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305794,10 +305638,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Production%20Plan%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305853,7 +305697,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Production Plan Summary",
       "report_permissions": [
         "Manufacturing User"
@@ -305872,7 +305716,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -305889,10 +305733,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Production%20Planning%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -305964,7 +305808,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Production Planning Report",
       "report_permissions": [
         "Manufacturing Manager",
@@ -305985,7 +305829,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306108,10 +305952,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Profitability%20Analysis",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306183,7 +306027,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Profitability Analysis",
       "report_permissions": [
         "Accounts Manager",
@@ -306204,7 +306048,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306221,10 +306065,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Project%20Billing%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306290,7 +306134,7 @@
         "Manufacturing User",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Project Billing Summary",
       "report_permissions": [
         "Accounts User",
@@ -306313,7 +306157,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306435,10 +306279,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Project%20wise%20Stock%20Tracking",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306491,7 +306335,7 @@
         "Projects Manager",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Project wise Stock Tracking",
       "report_permissions": [
         "Projects Manager",
@@ -306511,7 +306355,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306528,10 +306372,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Prospects%20Engaged%20But%20Not%20Converted",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306593,7 +306437,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Prospects Engaged But Not Converted",
       "report_permissions": [
         "Sales Manager",
@@ -306614,7 +306458,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306631,10 +306475,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306703,7 +306547,7 @@
         "Purchase Manager",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Analytics",
       "report_permissions": [
         "Purchase Manager",
@@ -306723,7 +306567,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306740,10 +306584,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Invoice%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -306798,7 +306642,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Invoice Trends",
       "report_permissions": [
         "Accounts Manager",
@@ -306820,7 +306664,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -306952,10 +306796,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Order%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307013,7 +306857,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Order Trends",
       "report_permissions": [
         "Purchase Manager",
@@ -307034,7 +306878,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307051,10 +306895,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Purchase%20Receipt%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307109,7 +306953,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Purchase Receipt Trends",
       "report_permissions": [
         "Accounts User",
@@ -307131,7 +306975,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307270,10 +307114,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Quality%20Inspection%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307339,7 +307183,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Quality Inspection Summary",
       "report_permissions": [
         "Quality Manager",
@@ -307360,7 +307204,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307377,10 +307221,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Quotation%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307435,7 +307279,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Quotation Trends",
       "report_permissions": [
         "Maintenance Manager",
@@ -307457,7 +307301,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307474,10 +307318,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Received%20Items%20To%20Be%20Billed",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307540,7 +307384,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Received Items To Be Billed",
       "report_permissions": [
         "Accounts Manager",
@@ -307562,7 +307406,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307579,10 +307423,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Requested%20Items%20To%20Be%20Transferred",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307635,7 +307479,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Requested Items To Be Transferred",
       "report_permissions": [
         "Manufacturing Manager",
@@ -307657,7 +307501,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307674,10 +307518,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Requested%20Items%20to%20Order%20and%20Receive",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307747,7 +307591,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Requested Items to Order and Receive",
       "report_permissions": [
         "Purchase Manager",
@@ -307769,7 +307613,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307786,10 +307630,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Reserved%20Stock",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307870,7 +307714,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Reserved Stock",
       "report_permissions": [
         "System Manager"
@@ -307889,7 +307733,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -307906,10 +307750,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Review",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -307960,7 +307804,7 @@
         "Quality Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Review",
       "report_permissions": [
         "Quality Manager",
@@ -307980,7 +307824,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308125,10 +307969,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Invoice%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308181,7 +308025,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Invoice Trends",
       "report_permissions": [
         "Accounts Manager",
@@ -308201,7 +308045,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308334,10 +308178,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Order%20Trends",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308397,7 +308241,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Order Trends",
       "report_permissions": [
         "Accounts User",
@@ -308420,7 +308264,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308437,10 +308281,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Partner%20Commission%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308509,7 +308353,7 @@
         "Maintenance User",
         "Sales Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Partner Commission Summary",
       "report_permissions": [
         "Maintenance User",
@@ -308529,7 +308373,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308546,10 +308390,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Partner%20Target%20Variance%20based%20on%20Item%20Group",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308622,7 +308466,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Partner Target Variance based on Item Group",
       "report_permissions": [
         "Accounts User",
@@ -308645,7 +308489,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308662,10 +308506,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Partner%20Transaction%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308743,7 +308587,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Partner Transaction Summary",
       "report_permissions": [
         "Accounts User",
@@ -308766,7 +308610,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308783,10 +308627,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Partners%20Commission",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308837,7 +308681,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Partners Commission",
       "report_permissions": [
         "Accounts Manager",
@@ -308857,7 +308701,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308874,10 +308718,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Payment%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -308945,7 +308789,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Payment Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -308965,7 +308809,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -308982,10 +308826,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Person%20Commission%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309054,7 +308898,7 @@
         "Maintenance User",
         "Sales Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Person Commission Summary",
       "report_permissions": [
         "Maintenance User",
@@ -309074,7 +308918,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309091,10 +308935,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Person%20Target%20Variance%20Based%20On%20Item%20Group",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309163,7 +309007,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Person Target Variance Based On Item Group",
       "report_permissions": [
         "Accounts User",
@@ -309186,7 +309030,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309203,10 +309047,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Person-wise%20Transaction%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309286,7 +309130,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Person-wise Transaction Summary",
       "report_permissions": [
         "Accounts User",
@@ -309309,7 +309153,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309326,10 +309170,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Sales%20Pipeline%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309405,7 +309249,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Sales Pipeline Analytics",
       "report_permissions": [
         "Sales Manager",
@@ -309425,7 +309269,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309564,10 +309408,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20and%20Batch%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309643,7 +309487,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial and Batch Summary",
       "report_permissions": [
         "Maintenance User",
@@ -309666,7 +309510,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309683,10 +309527,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20No%20and%20Batch%20Traceability",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309741,7 +309585,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial No and Batch Traceability",
       "report_permissions": [
         "Delivery Manager",
@@ -309766,7 +309610,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309783,10 +309627,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20No%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309852,7 +309696,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial No Ledger",
       "report_permissions": [
         "Purchase User",
@@ -309873,7 +309717,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309890,10 +309734,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20No%20Service%20Contract%20Expiry",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -309945,7 +309789,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial No Service Contract Expiry",
       "report_permissions": [
         "Item Manager",
@@ -309966,7 +309810,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -309983,10 +309827,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20No%20Status",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310038,7 +309882,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial No Status",
       "report_permissions": [
         "Item Manager",
@@ -310059,7 +309903,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310076,10 +309920,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Serial%20No%20Warranty%20Expiry",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310131,7 +309975,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Serial No Warranty Expiry",
       "report_permissions": [
         "Item Manager",
@@ -310152,7 +309996,7 @@
       "supported_views": [
         "Report Builder"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310169,10 +310013,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Share%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310230,7 +310074,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Share Balance",
       "report_permissions": [
         "System Manager"
@@ -310249,7 +310093,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310266,10 +310110,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Share%20Ledger",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310328,7 +310172,7 @@
         "Administrator",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Share Ledger",
       "report_permissions": [
         "Administrator",
@@ -310348,7 +310192,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310365,10 +310209,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Ageing",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310446,7 +310290,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Ageing",
       "report_permissions": [
         "Accounts User",
@@ -310472,7 +310316,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310607,10 +310451,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20and%20Account%20Value%20Comparison",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -310671,7 +310515,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock and Account Value Comparison",
       "report_permissions": [
         "Accounts Manager",
@@ -310691,7 +310535,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -310956,10 +310800,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Ledger%20Invariant%20Check",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311019,7 +310863,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Ledger Invariant Check",
       "report_permissions": [
         "System Manager"
@@ -311038,7 +310882,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311055,10 +310899,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Ledger%20Variance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311120,7 +310964,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Ledger Variance",
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -311137,7 +310981,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311273,10 +311117,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Qty%20vs%20Batch%20Qty",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311334,7 +311178,7 @@
       "relevant_roles": [
         "Item Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Qty vs Batch Qty",
       "report_permissions": [
         "Item Manager"
@@ -311353,7 +311197,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311370,10 +311214,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Stock%20Qty%20vs%20Serial%20No%20Count",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311434,7 +311278,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Stock Qty vs Serial No Count",
       "report_permissions": [
         "Stock Manager",
@@ -311454,7 +311298,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311471,10 +311315,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Subcontract%20Order%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311540,7 +311384,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Subcontract Order Summary",
       "report_permissions": [
         "Purchase Manager",
@@ -311561,7 +311405,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311578,10 +311422,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Subcontracted%20Item%20To%20Be%20Received",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311646,7 +311490,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Subcontracted Item To Be Received",
       "report_permissions": [
         "Purchase Manager",
@@ -311667,7 +311511,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311684,10 +311528,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Subcontracted%20Raw%20Materials%20To%20Be%20Transferred",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311752,7 +311596,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Subcontracted Raw Materials To Be Transferred",
       "report_permissions": [
         "Purchase Manager",
@@ -311773,7 +311617,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -311904,10 +311748,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Supplier%20Quotation%20Comparison",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -311982,7 +311826,7 @@
         "Purchase User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Supplier Quotation Comparison",
       "report_permissions": [
         "Manufacturing Manager",
@@ -312004,7 +311848,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312021,10 +311865,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Supplier-Wise%20Sales%20Analytics",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312085,7 +311929,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Supplier-Wise Sales Analytics",
       "report_permissions": [
         "Accounts Manager",
@@ -312105,7 +311949,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312122,10 +311966,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Support%20Hour%20Distribution",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312184,7 +312028,7 @@
         "Support Team",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Support Hour Distribution",
       "report_permissions": [
         "Support Team",
@@ -312204,7 +312048,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312221,10 +312065,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Tax%20Withholding%20Details",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312292,7 +312136,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Tax Withholding Details",
       "report_permissions": [
         "Accounts Manager",
@@ -312314,7 +312158,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312331,10 +312175,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/TDS%20Computation%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312401,7 +312245,7 @@
         "Auditor",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "TDS Computation Summary",
       "report_permissions": [
         "Accounts Manager",
@@ -312423,7 +312267,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312440,10 +312284,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Territory%20Target%20Variance%20Based%20On%20Item%20Group",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312511,7 +312355,7 @@
         "Sales User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Territory Target Variance Based On Item Group",
       "report_permissions": [
         "Accounts User",
@@ -312534,7 +312378,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312551,10 +312395,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Territory-wise%20Sales",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312614,7 +312458,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Territory-wise Sales",
       "report_permissions": [
         "Sales Manager",
@@ -312634,7 +312478,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312651,10 +312495,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Timesheet%20Billing%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312706,7 +312550,7 @@
         "Manufacturing User",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Timesheet Billing Summary",
       "report_permissions": [
         "Accounts User",
@@ -312728,7 +312572,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312745,10 +312589,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Total%20Stock%20Summary",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -312809,7 +312653,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Total Stock Summary",
       "report_permissions": [
         "Manufacturing Manager",
@@ -312831,7 +312675,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -312978,10 +312822,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Trial%20Balance%20for%20Party",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313058,7 +312902,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Trial Balance for Party",
       "report_permissions": [
         "Accounts Manager",
@@ -313079,7 +312923,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313096,10 +312940,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Trial%20Balance%20%28Simple%29",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313161,7 +313005,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Trial Balance (Simple)",
       "report_permissions": [
         "Accounts Manager",
@@ -313182,7 +313026,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313391,10 +313235,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Voucher-wise%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313456,7 +313300,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Voucher-wise Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -313477,7 +313321,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313494,10 +313338,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Warehouse%20wise%20Item%20Balance%20Age%20and%20Value",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313568,7 +313412,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Warehouse wise Item Balance Age and Value",
       "report_permissions": [
         "Accounts Manager",
@@ -313590,7 +313434,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313607,10 +313451,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Warehouse%20Wise%20Stock%20Balance",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313671,7 +313515,7 @@
         "Accounts Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Warehouse Wise Stock Balance",
       "report_permissions": [
         "Accounts Manager",
@@ -313691,7 +313535,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313708,10 +313552,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Work%20Order%20Consumed%20Materials",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313780,7 +313624,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Work Order Consumed Materials",
       "report_permissions": [
         "Manufacturing User",
@@ -313800,7 +313644,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -313817,10 +313661,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Work%20Order%20Stock%20Report",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -313877,7 +313721,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Work Order Stock Report",
       "report_permissions": [
         "Manufacturing User",
@@ -313897,7 +313741,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -314029,10 +313873,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Work%20Orders%20in%20Progress",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -314083,7 +313927,7 @@
         "Manufacturing User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Work Orders in Progress",
       "report_permissions": [
         "Manufacturing User",
@@ -314103,7 +313947,7 @@
       "supported_views": [
         "Query Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -469060,7 +468904,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37",
+  "inventory_fingerprint": "6d21028f0eb81e720eac4dd326386c4d170fc651f144e864fa946cdbc1bfe565",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

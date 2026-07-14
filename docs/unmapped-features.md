@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **2280**.
+Total user-facing features without a registered custom route: **2124**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -948,166 +948,10 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:print-format:sales-order:sales-order-with-item-image` | erpnext | Selling | print_format | Sales Order with Item Image | E | /app/print-format/sales-order-with-item-image | Print preview/PDF selector not implemented |
 | `erpnext:print-format:supplier:irs-1099-form` | erpnext | Regional | print_format | IRS 1099 Form | E | /app/print-format/irs-1099-form | Print preview/PDF selector not implemented |
 | `erpnext:print-format:trial-balance-standard` | erpnext | Accounts | print_format | Trial Balance Standard | E | /app/print-format/trial-balance-standard | Print preview/PDF selector not implemented |
-| `erpnext:report:account-balance` | erpnext | Accounts | report | Account Balance | D | /app/query-report/Account Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-payable-summary` | erpnext | Accounts | report | Accounts Payable Summary | D | /app/query-report/Accounts Payable Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:accounts-receivable-summary` | erpnext | Accounts | report | Accounts Receivable Summary | D | /app/query-report/Accounts Receivable Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:address-and-contacts` | erpnext | Selling | report | Address And Contacts | D | /app/query-report/Address And Contacts | Required: no Retail ERP report adapter |
-| `erpnext:report:asset-activity` | erpnext | Assets | report | Asset Activity | D | /app/query-report/Asset Activity | Required: no Retail ERP report adapter |
-| `erpnext:report:asset-depreciations-and-balances` | erpnext | Accounts | report | Asset Depreciations and Balances | D | /app/query-report/Asset Depreciations and Balances | Required: no Retail ERP report adapter |
-| `erpnext:report:asset-maintenance` | erpnext | Assets | report | Asset Maintenance | D | /app/query-report/Asset Maintenance | Required: no Retail ERP report adapter |
-| `erpnext:report:available-batch-report` | erpnext | Stock | report | Available Batch Report | D | /app/query-report/Available Batch Report | Required: no Retail ERP report adapter |
-| `erpnext:report:available-serial-no` | erpnext | Stock | report | Available Serial No | D | /app/query-report/Available Serial No | Required: no Retail ERP report adapter |
-| `erpnext:report:available-stock-for-packing-items` | erpnext | Selling | report | Available Stock for Packing Items | D | /app/query-report/Available Stock for Packing Items | Required: no Retail ERP report adapter |
-| `erpnext:report:bank-clearance-summary` | erpnext | Accounts | report | Bank Clearance Summary | D | /app/query-report/Bank Clearance Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:batch-item-expiry-status` | erpnext | Stock | report | Batch Item Expiry Status | D | /app/query-report/Batch Item Expiry Status | Required: no Retail ERP report adapter |
-| `erpnext:report:batch-wise-balance-history` | erpnext | Stock | report | Batch-Wise Balance History | D | /app/query-report/Batch-Wise Balance History | Required: no Retail ERP report adapter |
-| `erpnext:report:billed-items-to-be-received` | erpnext | Accounts | report | Billed Items To Be Received | D | /app/query-report/Billed Items To Be Received | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-explorer` | erpnext | Manufacturing | report | BOM Explorer | D | /app/query-report/BOM Explorer | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-operations-time` | erpnext | Manufacturing | report | BOM Operations Time | D | /app/query-report/BOM Operations Time | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-search` | erpnext | Stock | report | BOM Search | D | /app/query-report/BOM Search | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-stock-analysis` | erpnext | Manufacturing | report | BOM Stock Analysis | D | /app/query-report/BOM Stock Analysis | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-stock-calculated` | erpnext | Manufacturing | report | BOM Stock Calculated | D | /app/query-report/BOM Stock Calculated | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-stock-report` | erpnext | Manufacturing | report | BOM Stock Report | D | /app/query-report/BOM Stock Report | Required: no Retail ERP report adapter |
-| `erpnext:report:bom-variance-report` | erpnext | Manufacturing | report | BOM Variance Report | D | /app/query-report/BOM Variance Report | Required: no Retail ERP report adapter |
-| `erpnext:report:budget-variance-report` | erpnext | Accounts | report | Budget Variance Report | D | /app/query-report/Budget Variance Report | Required: no Retail ERP report adapter |
-| `erpnext:report:calculated-discount-mismatch` | erpnext | Accounts | report | Calculated Discount Mismatch | D | /app/query-report/Calculated Discount Mismatch | Required: no Retail ERP report adapter |
-| `erpnext:report:campaign-efficiency` | erpnext | CRM | report | Campaign Efficiency | D | /app/query-report/Campaign Efficiency | Required: no Retail ERP report adapter |
-| `erpnext:report:cheques-and-deposits-incorrectly-cleared` | erpnext | Accounts | report | Cheques and Deposits Incorrectly cleared | D | /app/query-report/Cheques and Deposits Incorrectly cleared | Required: no Retail ERP report adapter |
-| `erpnext:report:cogs-by-item-group` | erpnext | Stock | report | COGS By Item Group | D | /app/query-report/COGS By Item Group | Required: no Retail ERP report adapter |
-| `erpnext:report:completed-work-orders` | erpnext | Manufacturing | report | Completed Work Orders | D | /app/query-report/Completed Work Orders | Required: no Retail ERP report adapter |
-| `erpnext:report:consolidated-financial-statement` | erpnext | Accounts | report | Consolidated Financial Statement | D | /app/query-report/Consolidated Financial Statement | Required: no Retail ERP report adapter |
-| `erpnext:report:consolidated-trial-balance` | erpnext | Accounts | report | Consolidated Trial Balance | D | /app/query-report/Consolidated Trial Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:cost-of-poor-quality-report` | erpnext | Manufacturing | report | Cost of Poor Quality Report | D | /app/query-report/Cost of Poor Quality Report | Required: no Retail ERP report adapter |
-| `erpnext:report:custom-financial-statement` | erpnext | Accounts | report | Custom Financial Statement | D | /app/query-report/Custom Financial Statement | Required: no Retail ERP report adapter |
-| `erpnext:report:customer-acquisition-and-loyalty` | erpnext | Selling | report | Customer Acquisition and Loyalty | D | /app/query-report/Customer Acquisition and Loyalty | Required: no Retail ERP report adapter |
-| `erpnext:report:customer-credit-balance` | erpnext | Selling | report | Customer Credit Balance | D | /app/query-report/Customer Credit Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:customer-wise-item-price` | erpnext | Selling | report | Customer-wise Item Price | D | /app/query-report/Customer-wise Item Price | Required: no Retail ERP report adapter |
-| `erpnext:report:customers-without-any-sales-transactions` | erpnext | Selling | report | Customers Without Any Sales Transactions | D | /app/query-report/Customers Without Any Sales Transactions | Required: no Retail ERP report adapter |
-| `erpnext:report:daily-timesheet-summary` | erpnext | Projects | report | Daily Timesheet Summary | D | /app/query-report/Daily Timesheet Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:deferred-revenue-and-expense` | erpnext | Accounts | report | Deferred Revenue and Expense | D | /app/query-report/Deferred Revenue and Expense | Required: no Retail ERP report adapter |
-| `erpnext:report:delayed-item-report` | erpnext | Stock | report | Delayed Item Report | D | /app/query-report/Delayed Item Report | Required: no Retail ERP report adapter |
-| `erpnext:report:delayed-order-report` | erpnext | Stock | report | Delayed Order Report | D | /app/query-report/Delayed Order Report | Required: no Retail ERP report adapter |
-| `erpnext:report:delayed-tasks-summary` | erpnext | Projects | report | Delayed Tasks Summary | D | /app/query-report/Delayed Tasks Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:delivered-items-to-be-billed` | erpnext | Accounts | report | Delivered Items To Be Billed | D | /app/query-report/Delivered Items To Be Billed | Required: no Retail ERP report adapter |
-| `erpnext:report:delivery-note-trends` | erpnext | Stock | report | Delivery Note Trends | D | /app/query-report/Delivery Note Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:dimension-wise-accounts-balance-report` | erpnext | Accounts | report | Dimension-wise Accounts Balance Report | D | /app/query-report/Dimension-wise Accounts Balance Report | Required: no Retail ERP report adapter |
-| `erpnext:report:downtime-analysis` | erpnext | Manufacturing | report | Downtime Analysis | D | /app/query-report/Downtime Analysis | Required: no Retail ERP report adapter |
-| `erpnext:report:employee-billing-summary` | erpnext | Projects | report | Employee Billing Summary | D | /app/query-report/Employee Billing Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:exponential-smoothing-forecasting` | erpnext | Manufacturing | report | Exponential Smoothing Forecasting | D | /app/query-report/Exponential Smoothing Forecasting | Required: no Retail ERP report adapter |
-| `erpnext:report:fifo-queue-vs-qty-after-transaction-comparison` | erpnext | Stock | report | FIFO Queue vs Qty After Transaction Comparison | D | /app/query-report/FIFO Queue vs Qty After Transaction Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:financial-ratios` | erpnext | Accounts | report | Financial Ratios | D | /app/query-report/Financial Ratios | Required: no Retail ERP report adapter |
-| `erpnext:report:first-response-time-for-issues` | erpnext | Support | report | First Response Time for Issues | D | /app/query-report/First Response Time for Issues | Required: no Retail ERP report adapter |
-| `erpnext:report:first-response-time-for-opportunity` | erpnext | CRM | report | First Response Time for Opportunity | D | /app/query-report/First Response Time for Opportunity | Required: no Retail ERP report adapter |
-| `erpnext:report:fixed-asset-register` | erpnext | Assets | report | Fixed Asset Register | D | /app/query-report/Fixed Asset Register | Required: no Retail ERP report adapter |
-| `erpnext:report:general-and-payment-ledger-comparison` | erpnext | Accounts | report | General and Payment Ledger Comparison | D | /app/query-report/General and Payment Ledger Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:gross-and-net-profit-report` | erpnext | Accounts | report | Gross and Net Profit Report | D | /app/query-report/Gross and Net Profit Report | Required: no Retail ERP report adapter |
-| `erpnext:report:gross-profit` | erpnext | Accounts | report | Gross Profit | D | /app/query-report/Gross Profit | Required: no Retail ERP report adapter |
-| `erpnext:report:inactive-customers` | erpnext | Selling | report | Inactive Customers | D | /app/query-report/Inactive Customers | Required: no Retail ERP report adapter |
-| `erpnext:report:inactive-sales-items` | erpnext | Accounts | report | Inactive Sales Items | D | /app/query-report/Inactive Sales Items | Required: no Retail ERP report adapter |
-| `erpnext:report:incorrect-balance-qty-after-transaction` | erpnext | Stock | report | Incorrect Balance Qty After Transaction | D | /app/query-report/Incorrect Balance Qty After Transaction | Required: no Retail ERP report adapter |
-| `erpnext:report:incorrect-serial-and-batch-bundle` | erpnext | Stock | report | Incorrect Serial and Batch Bundle | D | /app/query-report/Incorrect Serial and Batch Bundle | Required: no Retail ERP report adapter |
-| `erpnext:report:incorrect-serial-no-valuation` | erpnext | Stock | report | Incorrect Serial No Valuation | D | /app/query-report/Incorrect Serial No Valuation | Required: no Retail ERP report adapter |
-| `erpnext:report:incorrect-stock-value-report` | erpnext | Stock | report | Incorrect Stock Value Report | D | /app/query-report/Incorrect Stock Value Report | Required: no Retail ERP report adapter |
-| `erpnext:report:invalid-ledger-entries` | erpnext | Accounts | report | Invalid Ledger Entries | D | /app/query-report/Invalid Ledger Entries | Required: no Retail ERP report adapter |
 | `erpnext:report:irs-1099` | erpnext | Regional | report | IRS 1099 | D | /app/query-report/IRS 1099 | Required: no Retail ERP report adapter |
-| `erpnext:report:issue-analytics` | erpnext | Support | report | Issue Analytics | D | /app/query-report/Issue Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:issue-summary` | erpnext | Support | report | Issue Summary | D | /app/query-report/Issue Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:issued-items-against-work-order` | erpnext | Manufacturing | report | Issued Items Against Work Order | D | /app/query-report/Issued Items Against Work Order | Required: no Retail ERP report adapter |
-| `erpnext:report:item-balance-simple` | erpnext | Stock | report | Item Balance (Simple) | D | /app/query-report/Item Balance (Simple) | Required: no Retail ERP report adapter |
-| `erpnext:report:item-price-stock` | erpnext | Stock | report | Item Price Stock | D | /app/query-report/Item Price Stock | Required: no Retail ERP report adapter |
-| `erpnext:report:item-prices` | erpnext | Stock | report | Item Prices | D | /app/query-report/Item Prices | Required: no Retail ERP report adapter |
-| `erpnext:report:item-shortage-report` | erpnext | Stock | report | Item Shortage Report | D | /app/query-report/Item Shortage Report | Required: no Retail ERP report adapter |
-| `erpnext:report:item-variant-details` | erpnext | Stock | report | Item Variant Details | D | /app/query-report/Item Variant Details | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-consumption` | erpnext | Stock | report | Item Wise Consumption | D | /app/query-report/Item Wise Consumption | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-price-list-rate` | erpnext | Stock | report | Item-wise Price List Rate | D | /app/query-report/Item-wise Price List Rate | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-purchase-history` | erpnext | Buying | report | Item-wise Purchase History | D | /app/query-report/Item-wise Purchase History | Required: no Retail ERP report adapter |
-| `erpnext:report:item-wise-sales-history` | erpnext | Selling | report | Item-wise Sales History | D | /app/query-report/Item-wise Sales History | Required: no Retail ERP report adapter |
-| `erpnext:report:items-to-be-requested` | erpnext | Stock | report | Items To Be Requested | D | /app/query-report/Items To Be Requested | Required: no Retail ERP report adapter |
-| `erpnext:report:itemwise-recommended-reorder-level` | erpnext | Stock | report | Itemwise Recommended Reorder Level | D | /app/query-report/Itemwise Recommended Reorder Level | Required: no Retail ERP report adapter |
-| `erpnext:report:job-card-summary` | erpnext | Manufacturing | report | Job Card Summary | D | /app/query-report/Job Card Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:landed-cost-report` | erpnext | Stock | report | Landed Cost Report | D | /app/query-report/Landed Cost Report | Required: no Retail ERP report adapter |
-| `erpnext:report:lead-conversion-time` | erpnext | CRM | report | Lead Conversion Time | D | /app/query-report/Lead Conversion Time | Required: no Retail ERP report adapter |
-| `erpnext:report:lead-owner-efficiency` | erpnext | CRM | report | Lead Owner Efficiency | D | /app/query-report/Lead Owner Efficiency | Required: no Retail ERP report adapter |
-| `erpnext:report:lost-opportunity` | erpnext | CRM | report | Lost Opportunity | D | /app/query-report/Lost Opportunity | Required: no Retail ERP report adapter |
-| `erpnext:report:lost-quotations` | erpnext | Selling | report | Lost Quotations | D | /app/query-report/Lost Quotations | Required: no Retail ERP report adapter |
 | `erpnext:report:maintenance-schedules` | erpnext | Maintenance | report | Maintenance Schedules | D | /app/query-report/Maintenance Schedules | Required: no Retail ERP report adapter |
-| `erpnext:report:material-requests-for-which-supplier-quotations-are-not-created` | erpnext | Stock | report | Material Requests for which Supplier Quotations are not created | D | /app/query-report/Material Requests for which Supplier Quotations are not created | Required: no Retail ERP report adapter |
-| `erpnext:report:material-requirements-planning-report` | erpnext | Manufacturing | report | Material Requirements Planning Report | D | /app/query-report/Material Requirements Planning Report | Required: no Retail ERP report adapter |
-| `erpnext:report:negative-batch-report` | erpnext | Stock | report | Negative Batch Report | D | /app/query-report/Negative Batch Report | Required: no Retail ERP report adapter |
-| `erpnext:report:open-work-orders` | erpnext | Manufacturing | report | Open Work Orders | D | /app/query-report/Open Work Orders | Required: no Retail ERP report adapter |
-| `erpnext:report:payment-ledger` | erpnext | Accounts | report | Payment Ledger | D | /app/query-report/Payment Ledger | Required: no Retail ERP report adapter |
-| `erpnext:report:payment-period-based-on-invoice-date` | erpnext | Accounts | report | Payment Period Based On Invoice Date | D | /app/query-report/Payment Period Based On Invoice Date | Required: no Retail ERP report adapter |
-| `erpnext:report:payment-terms-status-for-sales-order` | erpnext | Selling | report | Payment Terms Status for Sales Order | D | /app/query-report/Payment Terms Status for Sales Order | Required: no Retail ERP report adapter |
-| `erpnext:report:pending-so-items-for-purchase-request` | erpnext | Selling | report | Pending SO Items For Purchase Request | D | /app/query-report/Pending SO Items For Purchase Request | Required: no Retail ERP report adapter |
-| `erpnext:report:pos-register` | erpnext | Accounts | report | POS Register | D | /app/query-report/POS Register | Required: no Retail ERP report adapter |
-| `erpnext:report:process-loss-report` | erpnext | Manufacturing | report | Process Loss Report | D | /app/query-report/Process Loss Report | Required: no Retail ERP report adapter |
-| `erpnext:report:procurement-tracker` | erpnext | Buying | report | Procurement Tracker | D | /app/query-report/Procurement Tracker | Required: no Retail ERP report adapter |
-| `erpnext:report:product-bundle-balance` | erpnext | Stock | report | Product Bundle Balance | D | /app/query-report/Product Bundle Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:production-analytics` | erpnext | Manufacturing | report | Production Analytics | D | /app/query-report/Production Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:production-plan-summary` | erpnext | Manufacturing | report | Production Plan Summary | D | /app/query-report/Production Plan Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:production-planning-report` | erpnext | Manufacturing | report | Production Planning Report | D | /app/query-report/Production Planning Report | Required: no Retail ERP report adapter |
-| `erpnext:report:profitability-analysis` | erpnext | Accounts | report | Profitability Analysis | D | /app/query-report/Profitability Analysis | Required: no Retail ERP report adapter |
-| `erpnext:report:project-billing-summary` | erpnext | Projects | report | Project Billing Summary | D | /app/query-report/Project Billing Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:project-wise-stock-tracking` | erpnext | Projects | report | Project wise Stock Tracking | D | /app/query-report/Project wise Stock Tracking | Required: no Retail ERP report adapter |
-| `erpnext:report:prospects-engaged-but-not-converted` | erpnext | CRM | report | Prospects Engaged But Not Converted | D | /app/query-report/Prospects Engaged But Not Converted | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-analytics` | erpnext | Buying | report | Purchase Analytics | D | /app/query-report/Purchase Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-invoice-trends` | erpnext | Accounts | report | Purchase Invoice Trends | D | /app/query-report/Purchase Invoice Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-order-trends` | erpnext | Buying | report | Purchase Order Trends | D | /app/query-report/Purchase Order Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:purchase-receipt-trends` | erpnext | Stock | report | Purchase Receipt Trends | D | /app/query-report/Purchase Receipt Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:quality-inspection-summary` | erpnext | Manufacturing | report | Quality Inspection Summary | D | /app/query-report/Quality Inspection Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:quotation-trends` | erpnext | Selling | report | Quotation Trends | D | /app/query-report/Quotation Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:received-items-to-be-billed` | erpnext | Accounts | report | Received Items To Be Billed | D | /app/query-report/Received Items To Be Billed | Required: no Retail ERP report adapter |
-| `erpnext:report:requested-items-to-be-transferred` | erpnext | Stock | report | Requested Items To Be Transferred | D | /app/query-report/Requested Items To Be Transferred | Required: no Retail ERP report adapter |
-| `erpnext:report:requested-items-to-order-and-receive` | erpnext | Buying | report | Requested Items to Order and Receive | D | /app/query-report/Requested Items to Order and Receive | Required: no Retail ERP report adapter |
-| `erpnext:report:reserved-stock` | erpnext | Stock | report | Reserved Stock | D | /app/query-report/Reserved Stock | Required: no Retail ERP report adapter |
-| `erpnext:report:review` | erpnext | Quality Management | report | Review | D | /app/query-report/Review | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-invoice-trends` | erpnext | Accounts | report | Sales Invoice Trends | D | /app/query-report/Sales Invoice Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-order-trends` | erpnext | Selling | report | Sales Order Trends | D | /app/query-report/Sales Order Trends | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-partner-commission-summary` | erpnext | Selling | report | Sales Partner Commission Summary | D | /app/query-report/Sales Partner Commission Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-partner-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Partner Target Variance based on Item Group | D | /app/query-report/Sales Partner Target Variance based on Item Group | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-partner-transaction-summary` | erpnext | Selling | report | Sales Partner Transaction Summary | D | /app/query-report/Sales Partner Transaction Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-partners-commission` | erpnext | Accounts | report | Sales Partners Commission | D | /app/query-report/Sales Partners Commission | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-payment-summary` | erpnext | Accounts | report | Sales Payment Summary | D | /app/query-report/Sales Payment Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-person-commission-summary` | erpnext | Selling | report | Sales Person Commission Summary | D | /app/query-report/Sales Person Commission Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-person-target-variance-based-on-item-group` | erpnext | Selling | report | Sales Person Target Variance Based On Item Group | D | /app/query-report/Sales Person Target Variance Based On Item Group | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-person-wise-transaction-summary` | erpnext | Selling | report | Sales Person-wise Transaction Summary | D | /app/query-report/Sales Person-wise Transaction Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:sales-pipeline-analytics` | erpnext | CRM | report | Sales Pipeline Analytics | D | /app/query-report/Sales Pipeline Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-and-batch-summary` | erpnext | Stock | report | Serial and Batch Summary | D | /app/query-report/Serial and Batch Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-no-and-batch-traceability` | erpnext | Stock | report | Serial No and Batch Traceability | D | /app/query-report/Serial No and Batch Traceability | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-no-ledger` | erpnext | Stock | report | Serial No Ledger | D | /app/query-report/Serial No Ledger | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-no-service-contract-expiry` | erpnext | Stock | report | Serial No Service Contract Expiry | D | /app/query-report/Serial No Service Contract Expiry | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-no-status` | erpnext | Stock | report | Serial No Status | D | /app/query-report/Serial No Status | Required: no Retail ERP report adapter |
-| `erpnext:report:serial-no-warranty-expiry` | erpnext | Stock | report | Serial No Warranty Expiry | D | /app/query-report/Serial No Warranty Expiry | Required: no Retail ERP report adapter |
-| `erpnext:report:share-balance` | erpnext | Accounts | report | Share Balance | D | /app/query-report/Share Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:share-ledger` | erpnext | Accounts | report | Share Ledger | D | /app/query-report/Share Ledger | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-ageing` | erpnext | Stock | report | Stock Ageing | D | /app/query-report/Stock Ageing | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-and-account-value-comparison` | erpnext | Stock | report | Stock and Account Value Comparison | D | /app/query-report/Stock and Account Value Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-ledger-invariant-check` | erpnext | Stock | report | Stock Ledger Invariant Check | D | /app/query-report/Stock Ledger Invariant Check | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-ledger-variance` | erpnext | Stock | report | Stock Ledger Variance | D | /app/query-report/Stock Ledger Variance | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-qty-vs-batch-qty` | erpnext | Stock | report | Stock Qty vs Batch Qty | D | /app/query-report/Stock Qty vs Batch Qty | Required: no Retail ERP report adapter |
-| `erpnext:report:stock-qty-vs-serial-no-count` | erpnext | Stock | report | Stock Qty vs Serial No Count | D | /app/query-report/Stock Qty vs Serial No Count | Required: no Retail ERP report adapter |
-| `erpnext:report:subcontract-order-summary` | erpnext | Buying | report | Subcontract Order Summary | D | /app/query-report/Subcontract Order Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:subcontracted-item-to-be-received` | erpnext | Buying | report | Subcontracted Item To Be Received | D | /app/query-report/Subcontracted Item To Be Received | Required: no Retail ERP report adapter |
-| `erpnext:report:subcontracted-raw-materials-to-be-transferred` | erpnext | Buying | report | Subcontracted Raw Materials To Be Transferred | D | /app/query-report/Subcontracted Raw Materials To Be Transferred | Required: no Retail ERP report adapter |
-| `erpnext:report:supplier-quotation-comparison` | erpnext | Buying | report | Supplier Quotation Comparison | D | /app/query-report/Supplier Quotation Comparison | Required: no Retail ERP report adapter |
-| `erpnext:report:supplier-wise-sales-analytics` | erpnext | Stock | report | Supplier-Wise Sales Analytics | D | /app/query-report/Supplier-Wise Sales Analytics | Required: no Retail ERP report adapter |
-| `erpnext:report:support-hour-distribution` | erpnext | Support | report | Support Hour Distribution | D | /app/query-report/Support Hour Distribution | Required: no Retail ERP report adapter |
-| `erpnext:report:tax-withholding-details` | erpnext | Accounts | report | Tax Withholding Details | D | /app/query-report/Tax Withholding Details | Required: no Retail ERP report adapter |
-| `erpnext:report:tds-computation-summary` | erpnext | Accounts | report | TDS Computation Summary | D | /app/query-report/TDS Computation Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:territory-target-variance-based-on-item-group` | erpnext | Selling | report | Territory Target Variance Based On Item Group | D | /app/query-report/Territory Target Variance Based On Item Group | Required: no Retail ERP report adapter |
-| `erpnext:report:territory-wise-sales` | erpnext | Selling | report | Territory-wise Sales | D | /app/query-report/Territory-wise Sales | Required: no Retail ERP report adapter |
-| `erpnext:report:timesheet-billing-summary` | erpnext | Projects | report | Timesheet Billing Summary | D | /app/query-report/Timesheet Billing Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:total-stock-summary` | erpnext | Stock | report | Total Stock Summary | D | /app/query-report/Total Stock Summary | Required: no Retail ERP report adapter |
-| `erpnext:report:trial-balance-for-party` | erpnext | Accounts | report | Trial Balance for Party | D | /app/query-report/Trial Balance for Party | Required: no Retail ERP report adapter |
-| `erpnext:report:trial-balance-simple` | erpnext | Accounts | report | Trial Balance (Simple) | D | /app/query-report/Trial Balance (Simple) | Required: no Retail ERP report adapter |
 | `erpnext:report:uae-vat-201` | erpnext | Regional | report | UAE VAT 201 | D | /app/query-report/UAE VAT 201 | Required: no Retail ERP report adapter |
 | `erpnext:report:vat-audit-report` | erpnext | Regional | report | VAT Audit Report | D | /app/query-report/VAT Audit Report | Required: no Retail ERP report adapter |
-| `erpnext:report:voucher-wise-balance` | erpnext | Accounts | report | Voucher-wise Balance | D | /app/query-report/Voucher-wise Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:warehouse-wise-item-balance-age-and-value` | erpnext | Stock | report | Warehouse wise Item Balance Age and Value | D | /app/query-report/Warehouse wise Item Balance Age and Value | Required: no Retail ERP report adapter |
-| `erpnext:report:warehouse-wise-stock-balance` | erpnext | Stock | report | Warehouse Wise Stock Balance | D | /app/query-report/Warehouse Wise Stock Balance | Required: no Retail ERP report adapter |
-| `erpnext:report:work-order-consumed-materials` | erpnext | Manufacturing | report | Work Order Consumed Materials | D | /app/query-report/Work Order Consumed Materials | Required: no Retail ERP report adapter |
-| `erpnext:report:work-order-stock-report` | erpnext | Manufacturing | report | Work Order Stock Report | D | /app/query-report/Work Order Stock Report | Required: no Retail ERP report adapter |
-| `erpnext:report:work-orders-in-progress` | erpnext | Manufacturing | report | Work Orders in Progress | D | /app/query-report/Work Orders in Progress | Required: no Retail ERP report adapter |
 | `erpnext:report:youtube-interactions` | erpnext | Utilities | report | YouTube Interactions | D | /app/query-report/YouTube Interactions | Required: no Retail ERP report adapter |
 | `erpnext:workspace-target:accounting:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:dashboard-accounts` | erpnext | Accounts | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |

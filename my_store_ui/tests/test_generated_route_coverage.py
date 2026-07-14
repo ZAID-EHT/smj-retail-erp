@@ -41,3 +41,9 @@ class TestGeneratedRouteCoverage(FrappeTestCase):
         routed = {spec["doctype"] for spec in ENTITY_ROUTES.values()}
         for doctype in ("GL Entry", "Stock Ledger Entry", "Payment Ledger Entry", "Bin"):
             self.assertNotIn(doctype, routed)
+
+    def test_every_grouped_report_definition_loads(self):
+        # Every REPORT_GROUPS report must resolve and load its viewer definition.
+        frappe.set_user("Administrator")
+        result = route_coverage.verify_generated_reports()
+        self.assertEqual(result["failed"], 0, msg=str(result["failures"]))
