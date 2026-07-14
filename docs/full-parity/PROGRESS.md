@@ -1,6 +1,58 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-14 21:20 (batch: URGENT MAPPING MISSION — final mapping pass 1)_
+_Last updated: 2026-07-14 22:05 (batch: URGENT MAPPING MISSION — pass 2, continuation)_
+
+## Pass 2 — continuation (Batches 7, 8, 13, 14 + a POS follow-up fix)
+
+Continued directly from pass 1 (commit `b3f0c5a`). 5 more real, independently
+committed, verified batches:
+
+| Batch | What | Commit |
+|---|---|---|
+| 7-8 | Added 5 new allowlisted `MAPPED_ACTIONS` to `universal/api.py` (Purchase Receipt→Purchase Return/Landed Cost Voucher, Material Request→Stock Entry, Purchase Invoice→Debit Note, Journal Entry→Reverse Journal Entry), each verified against real erpnext controller source before wiring | c2f95fa |
+| 13 | Classified 45 platform/technical DocTypes (Integrations, Email, Workflow-design, Automation-config, system logs, setup wizards) → `internal`; credited 9 report-attached financial-statement print formats via their already-routed report | 0dcc9a0 |
+| 14 | Classified 23 POS Awesome-module entries per Step 12's taxonomy: 2 → `not_required` (Kenya M-Pesa, wrong jurisdiction), 8 → `external_app_adapter` (genuinely handled inside the POS Awesome app UI, reachable via `/pos`) | 393c45a |
+| 14b | Follow-up: extended the same `external_app_adapter` reasoning to 5 ERPNext-core POS doctypes (POS Invoice, POS Profile, POS Opening/Closing Entry, Cashier Closing) that POS Awesome creates and manages internally | 6a3d661 |
+
+### Headline metrics after pass 2
+
+| Metric | After pass 1 | After pass 2 |
+|---|---:|---:|
+| Route-based unmapped_user_facing | 1,699 | 1,699 (unchanged — this pass was classification + real action handlers, not new routes) |
+| Registry: implemented_unverified | 137 | 160 |
+| Registry: internal | 900 | 976 |
+| Registry: not_required | 178 | 181 |
+| Registry: unavailable_with_reason | 491 | 380 |
+| Registry: special_adapter (strategy) | 130 | 135 |
+| Registry: external_app_adapter (strategy) | 0 | 18 |
+| **Corrected `required_but_missing`** | 367 | **327** |
+
+### What's still genuinely NOT done (Batches 10, 11, 12)
+
+Investigated further before stopping — a few candidates (Pick List → Delivery
+Note / Stock Entry) were deliberately **not** wired into `MAPPED_ACTIONS`
+after reading their real ERPNext source: `create_delivery_note` can create
+*multiple* Delivery Notes per call and may save documents internally rather
+than returning one unsaved doc for `.insert()`; `create_stock_entry` takes a
+JSON-serialized Pick List (not a docname) as its argument. Both break the
+simple 1:1 "get_mapped_doc → insert()" pattern every other `MAPPED_ACTIONS`
+entry uses, and forcing them in without a dedicated adapter risked duplicate
+documents or broken behaviour — exactly what the mission forbids. Left
+honestly `unavailable_with_reason`; real Pick List → Delivery Note fulfillment
+already exists via the wholesale-core reservation flow (Smart Sales → SO →
+reserve → DN), just not through this generic action path.
+
+Remaining `required_but_missing = 327` breaks down as: 255 document_actions
+(mostly Asset lifecycle, Company setup wizards, Bank/Payment Reconciliation
+actions, remaining Pick List/Stock Entry purpose-specific actions — genuinely
+need dedicated handlers or adapters), 28 dashboard_chart + 25 number_card + 6
+dashboard (unbuilt analytics UI, unchanged from pass 1), ~12 doctypes (Bank
+Reconciliation Tool, Payment Reconciliation, Serial and Batch Bundle, and
+company period-closing/subscription/reconciliation process tools — Batch
+10/11 special-adapter territory), 4 print_format, 2 page (sales-funnel,
+warehouse-capacity-summary).
+
+---
 
 ## Final mapping mission — batches completed this pass
 

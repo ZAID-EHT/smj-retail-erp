@@ -104,6 +104,54 @@ disabled / no browser installed blockers as before). No schema, site-config,
 or other-app change was made. Recovery tag:
 `pre-map-all-remaining-20260714-2056`.
 
+## 0c. Update — URGENT MAPPING MISSION, pass 2 continuation (2026-07-14, later same day)
+
+Continued directly on the same branch from 0b (commit `b3f0c5a`). 5 more real
+batches, all independently committed and verified (`test_parity_registry.py`
+7/7, route/report verifiers 0 failures, `npm run build` PASS every time):
+
+- **Batches 7-8 (commit c2f95fa):** added 5 new allowlisted `MAPPED_ACTIONS`
+  to `universal/api.py` — Purchase Receipt→Purchase Return/Landed Cost
+  Voucher, Material Request→Stock Entry, Purchase Invoice→Debit Note,
+  Journal Entry→Reverse Journal Entry. Each verified by directly importing
+  the real erpnext controller function inside a `frappe.init()` context
+  (`bench execute` has an unrelated pre-existing quirk with this app's
+  whitelisted GET methods) before wiring it in.
+- **Batch 13 (commit 0dcc9a0):** classified 45 platform/technical DocTypes
+  (Integrations/OAuth/webhooks, Email infrastructure, Workflow *design*
+  tooling, Automation config, system logs, one-time setup wizards) →
+  `internal`; credited 9 report-attached financial-statement print formats
+  (Trial Balance Standard, General Ledger Standard, etc.) via their
+  already-routed report.
+- **Batch 14 (commits 393c45a, 6a3d661):** classified all 23 POS
+  Awesome-module registry entries per Step 12's taxonomy — 2 → `not_required`
+  (Kenya M-Pesa integration, wrong jurisdiction), 18 → `external_app_adapter`
+  (genuinely handled inside the POS Awesome app's own UI, reachable via the
+  existing `/pos` launcher — including 5 ERPNext-core POS doctypes that POS
+  Awesome creates and manages internally).
+
+**Net result:** `required_but_missing` dropped from 367 → **327**.
+`implemented_unverified` 137→160, `internal` 900→976, `unavailable_with_reason`
+491→380, `external_app_adapter` (a strategy this pass used for the first
+time) 0→18.
+
+**Batches 10, 11, 12 remain genuinely open** — investigated Pick List's
+`create_delivery_note`/`create_stock_entry` as a candidate for Batch 11 and
+deliberately did NOT wire them into `MAPPED_ACTIONS`: reading the real
+ERPNext source showed `create_delivery_note` can create multiple Delivery
+Notes per call and may save documents internally, and `create_stock_entry`
+takes a JSON-serialized Pick List rather than a docname — both break the
+simple "get_mapped_doc → insert()" pattern every other `MAPPED_ACTIONS` entry
+uses. Forcing them in without a dedicated adapter risked duplicate documents
+or broken behaviour. Left honestly `unavailable_with_reason`; see
+`docs/full-parity/BLOCKERS.md` for the full remaining list (special finance
+adapters, special stock adapters, purchasing/imports, and ~255 remaining
+document actions across Asset/Company/Bank Reconciliation flows).
+
+**Still NOT production-ready** — `required_but_missing = 327`, still no
+browser or `bench run-tests` verification. No schema, site-config, or
+other-app change was made this pass either.
+
 The audit below (Sections 1–25) remains valid as the production-readiness picture.
 
 ## 1. Executive Summary
