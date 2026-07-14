@@ -272,6 +272,24 @@ NOT_REQUIRED_REPORT_NAMES = {
 # NOT_REQUIRED_REPORT_NAMES above) not applicable outside their jurisdiction.
 NOT_REQUIRED_DOCTYPE_NAMES = {
     "Import Supplier Invoice": "India GST e-invoice bulk-import tool; not applicable outside India.",
+    "Mpesa C2B Register URL": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
+    "Mpesa Payment Register": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
+}
+
+# Step 12 (POS Awesome / external apps): capabilities that POS Awesome's own
+# app UI (launched via the /pos safe_integration route, see PAGE_OVERRIDES
+# and WORKSPACE_OVERRIDES) already handles natively — session/shift
+# management, cash movements, and coupon condition editing. Retail ERP
+# deliberately does not duplicate POS Awesome's own UI; these are reachable
+# through the external launcher, not through a Retail ERP-native page.
+POS_EXTERNAL_LAUNCHER_NAMES = {
+    "POS Cash Movement": "POS Awesome session cash-in/cash-out record; managed inside the POS Awesome app itself.",
+    "POS Closing Shift": "POS Awesome shift-closing record; managed inside the POS Awesome app itself.",
+    "POS Opening Shift": "POS Awesome shift-opening record; managed inside the POS Awesome app itself.",
+    "POS Invoice Submission Ledger": "POS Awesome offline-sync ledger; internal to the POS Awesome app.",
+}
+POS_EXTERNAL_LAUNCHER_ACTIONS = {
+    "make_closing_shift_from_opening", "submit_closing_shift", "add_edit_coupon_conditions",
 }
 
 # Audit correction: print formats attached to a Report (doc_type is empty in
@@ -406,6 +424,12 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
     if _system_parent in NOT_REQUIRED_DOCTYPE_NAMES:
         return ("not_required", "not_required", "n/a", [], NOT_REQUIRED_DOCTYPE_NAMES[_system_parent])
 
+    # 2e. Step 12 (POS Awesome): records genuinely managed inside the POS
+    # Awesome app's own UI, reachable via the /pos external launcher.
+    if _system_parent in POS_EXTERNAL_LAUNCHER_NAMES:
+        return ("external_app_adapter", "implemented_unverified", "source_only", ["Reachable via the /pos external launcher"],
+                POS_EXTERNAL_LAUNCHER_NAMES[_system_parent])
+
     # 3. Platform/technical modules with no wholesale user destination.
     if priority == "internal":
         return ("internal", "internal", "n/a", [],
@@ -427,6 +451,10 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         mapped = feature.get("mapped_actions") or []
         if mapped and isinstance(mapped, list):
             action_key = str(mapped[0].get("action") or "")
+        if action_key in POS_EXTERNAL_LAUNCHER_ACTIONS:
+            return ("external_app_adapter", "implemented_unverified", "source_only",
+                    ["Reachable via the /pos external launcher"],
+                    "Handled inside the POS Awesome app's own UI, not reimplemented in Retail ERP.")
         served = action_key in GENERIC_LIFECYCLE_ACTIONS or action_key in DOCTYPE_SPECIFIC_ACTIONS.get(parent, set())
         if served and parent in routed_doctypes:
             return ("special_adapter", "implemented_unverified", "source_only",

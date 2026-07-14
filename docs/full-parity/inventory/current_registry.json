@@ -12019,14 +12019,16 @@
       "action_name": "Add/Edit Coupon Conditions",
       "parent_feature": "Coupon Code",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Handled inside the POS Awesome app's own UI, not reimplemented in Retail ERP.",
       "blocking_reason": null
     },
     {
@@ -48300,14 +48302,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "not_required",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "not_required",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "notes": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
       "blocking_reason": null
     },
     {
@@ -48319,14 +48321,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "not_required",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "not_required",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "notes": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
       "blocking_reason": null
     },
     {
@@ -48338,14 +48340,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome session cash-in/cash-out record; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -48357,14 +48361,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome shift-closing record; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -48418,14 +48424,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome offline-sync ledger; internal to the POS Awesome app.",
       "blocking_reason": null
     },
     {
@@ -48458,14 +48466,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome shift-opening record; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -48517,14 +48527,16 @@
       "action_name": "Make Closing Shift From Opening",
       "parent_feature": "POS Closing Shift",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome shift-closing record; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -48536,14 +48548,16 @@
       "action_name": "Submit Closing Shift",
       "parent_feature": "POS Closing Shift",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome shift-closing record; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -48555,14 +48569,16 @@
       "action_name": "Add/Edit Coupon Conditions",
       "parent_feature": "POS Coupon",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Handled inside the POS Awesome app's own UI, not reimplemented in Retail ERP.",
       "blocking_reason": null
     },
     {
