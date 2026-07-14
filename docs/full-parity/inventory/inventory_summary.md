@@ -1,6 +1,6 @@
 # Full-Parity Inventory Summary (Stage 1)
 
-- Captured: 2026-07-14 11:56
+- Captured: 2026-07-14 11:58
 - Site: `site1.local`
 - Canonical source: `docs/erpnext-v15-complete-inventory.json`
 - Inventory fingerprint: `1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37`

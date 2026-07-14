@@ -1,21 +1,21 @@
 {
-  "captured_at": "2026-07-14 11:56",
+  "captured_at": "2026-07-14 11:26",
   "site": "site1.local",
-  "inventory_fingerprint": "1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37",
+  "inventory_fingerprint": "c8cab9468d2eb48aa5f29f2a7a570c096f78366e60502a59c22c3fc5dcb17d14",
   "status": "fail",
   "failure_counts": {
     "complete_without_tests": 0,
     "unclassified_user_facing": 0,
     "undocumented_actions": 0,
     "unhandled_active_workflows": 0,
-    "unmapped_user_facing": 2280
+    "unmapped_user_facing": 2396
   },
   "counts_of_interest": {
     "user_facing_features": 2482,
     "system_internal_exclusions": 359,
     "features_total": 2841,
-    "mapped_user_facing": 202,
-    "unmapped_user_facing": 2280,
+    "mapped_user_facing": 86,
+    "unmapped_user_facing": 2396,
     "generic_engine_features": 249,
     "specialized_interfaces": 1481
   }

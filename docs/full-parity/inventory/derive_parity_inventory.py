@@ -73,7 +73,7 @@ mapped = [slim(f) for f in features if f.get("current_custom_route")]
     }, indent=2, ensure_ascii=False, default=str) + "\n", encoding="utf-8"
 )
 
-(OUT / "strict_audit_before.json").write_text(
+(OUT / "strict_audit_latest.json").write_text(
     json.dumps({
         "captured_at": NOW,
         "site": data.get("site"),
@@ -93,7 +93,7 @@ mapped = [slim(f) for f in features if f.get("current_custom_route")]
 )
 
 unmapped = [slim(f) for f in features if f.get("user_facing") and not f.get("current_custom_route")]
-(OUT / "unmapped_before.json").write_text(
+(OUT / "unmapped_latest.json").write_text(
     json.dumps({
         "captured_at": NOW,
         "unmapped_user_facing_count": len(unmapped),
