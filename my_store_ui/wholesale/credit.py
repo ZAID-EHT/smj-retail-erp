@@ -70,37 +70,45 @@ def get_customer_credit_status(customer: str, company: str | None = None):
     }
 
 
-def evaluate_delivery_gate(customer: str, company: str | None, incremental_amount: float = 0.0) -> dict:
-    """Server-side decision on whether goods may leave before full payment.
+def decide_delivery_gate(credit_type: str | None, has_overdue: bool, credit_limit: float,
+                         current_outstanding: float, incremental_amount: float = 0.0,
+                         field_present: bool = True) -> dict:
+    """Pure decision for the delivery-before-payment gate (no DB access).
 
-    Returns {allowed, requires_manager_approval, reason}. This is the authoritative
-    gate; the frontend only reflects it. Rules (approved):
-    - Non-Credit: dispatch requires full payment (never allowed here on credit).
+    Rules (approved):
+    - Type unset: a manager must classify the customer.
+    - Non-Credit: dispatch requires full payment (not allowed on credit here).
+    - Credit + overdue: requires manager approval.
+    - Credit + would exceed limit: requires manager approval.
     - Credit within limit and not overdue: allowed.
-    - Credit over limit OR overdue: requires manager approval.
     """
-    status = get_customer_credit_status(customer, company)
-    incremental_amount = flt(incremental_amount)
-    if not status["credit_type_field_present"] or status["credit_type"] is None:
+    if not field_present or credit_type is None:
         return {"allowed": False, "requires_manager_approval": True,
-                "reason": _("Customer credit type is not set; a manager must classify the customer."),
-                "status": status}
-    if status["credit_type"] == NON_CREDIT_CUSTOMER:
+                "reason": _("Customer credit type is not set; a manager must classify the customer.")}
+    if credit_type == NON_CREDIT_CUSTOMER:
         return {"allowed": False, "requires_manager_approval": False,
-                "reason": _("Non-Credit customer: full payment is required before dispatch."),
-                "status": status}
-    # Credit customer.
-    if status["has_overdue"]:
+                "reason": _("Non-Credit customer: full payment is required before dispatch.")}
+    if has_overdue:
         return {"allowed": False, "requires_manager_approval": True,
-                "reason": _("Customer has overdue invoices; a manager must approve credit delivery."),
-                "status": status}
-    projected = flt(status["current_outstanding"]) + incremental_amount
-    if status["credit_limit"] and projected > status["credit_limit"]:
+                "reason": _("Customer has overdue invoices; a manager must approve credit delivery.")}
+    projected = flt(current_outstanding) + flt(incremental_amount)
+    if credit_limit and projected > credit_limit:
         return {"allowed": False, "requires_manager_approval": True,
-                "reason": _("This delivery would exceed the credit limit; a manager must approve."),
-                "status": status}
+                "reason": _("This delivery would exceed the credit limit; a manager must approve.")}
     return {"allowed": True, "requires_manager_approval": False,
-            "reason": _("Within credit limit and not overdue."), "status": status}
+            "reason": _("Within credit limit and not overdue.")}
+
+
+def evaluate_delivery_gate(customer: str, company: str | None, incremental_amount: float = 0.0) -> dict:
+    """Authoritative server-side delivery gate for a customer (reads real balances)."""
+    status = get_customer_credit_status(customer, company)
+    decision = decide_delivery_gate(
+        credit_type=status["credit_type"], has_overdue=status["has_overdue"],
+        credit_limit=flt(status["credit_limit"]), current_outstanding=flt(status["current_outstanding"]),
+        incremental_amount=incremental_amount, field_present=status["credit_type_field_present"],
+    )
+    decision["status"] = status
+    return decision
 
 
 MANAGER_ROLES = ("Sales Manager", "Accounts Manager", "Credit Manager")
