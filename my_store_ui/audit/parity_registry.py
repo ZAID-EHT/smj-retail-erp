@@ -412,7 +412,7 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
     # doctype/document_action only — reports whose *reference* doctype is a
     # ledger table (e.g. a report built on GL Entry) are still legitimate
     # financial reports and must not be swept into this rule.
-    _system_parent = doctype or (feature.get("parent_feature") if ftype in {"doctype", "document_action"} else None)
+    _system_parent = doctype or (feature.get("parent_feature") if ftype in {"doctype", "document_action", "print_format"} else None)
     if _system_parent in SYSTEM_INTERNAL_DOCTYPE_NAMES:
         return ("internal", "internal", "n/a", [],
                 "System/ledger/settings record excluded from generic routing: "
