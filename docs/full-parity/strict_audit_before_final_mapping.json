@@ -1,0 +1,49 @@
+{
+  "captured_at": "2026-07-14 20:56",
+  "site": "site1.local",
+  "mission": "URGENT MAPPING MISSION — map every remaining retail ERP capability",
+  "starting_branch": "full-feature-parity",
+  "starting_commit": "7a580c393d711f86e54e016ebd8e89d006ac8c78",
+  "recovery_tag": "pre-map-all-remaining-20260714-2056",
+  "inventory_fingerprint": "87b439c3eb8c2d1f210cd791b6a33b1c403ad4a802d5cc2a2ba3e963241a32b6",
+  "status": "fail",
+  "failure_counts": {
+    "complete_without_tests": 0,
+    "unclassified_user_facing": 0,
+    "undocumented_actions": 0,
+    "unhandled_active_workflows": 0,
+    "unmapped_user_facing": 1746
+  },
+  "counts_of_interest": {
+    "user_facing_features": 2482,
+    "system_internal_exclusions": 359,
+    "features_total": 2841,
+    "mapped_user_facing": 736,
+    "unmapped_user_facing": 1746,
+    "generic_engine_features": 249,
+    "specialized_interfaces": 1481
+  },
+  "registry_summary_before": {
+    "entry_count": 2482,
+    "implemented_any": 829,
+    "by_status": {
+      "generated_provisional": 728,
+      "implemented_unverified": 101,
+      "internal": 858,
+      "not_required": 175,
+      "unavailable_with_reason": 620
+    },
+    "by_strategy": {
+      "custom_override": 6,
+      "generated_dashboard": 92,
+      "generated_doctype": 519,
+      "generated_print": 27,
+      "generated_report": 186,
+      "internal": 858,
+      "not_required": 175,
+      "special_adapter": 95,
+      "unavailable_with_reason": 524
+    }
+  },
+  "notes": "Frozen source-of-truth immediately after re-running generate_complete_inventory and parity_registry.generate at the start of this mission, before any Batch 1-16 mapping work. Matches the prior session's final reported numbers (unmapped 1746) exactly — confirming no drift since the last handoff."
+}
