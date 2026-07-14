@@ -18,7 +18,18 @@ fixtures = [
 			"custom_retail_profit_percentage", "custom_wholesale_profit_percentage",
 			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
 		]]],
-	}
+	},
+	{
+		"dt": "Custom Field",
+		"filters": [["dt", "=", "Customer"], ["fieldname", "=", "custom_credit_type"]],
+	},
+	{
+		"dt": "Custom Field",
+		"filters": [
+			["dt", "in", ["Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry"]],
+			["fieldname", "=", "custom_wholesale_transaction_id"],
+		],
+	},
 ]
 
 # The stylesheet is deliberately scoped to .smart-sales-shell so standard
@@ -174,8 +185,34 @@ before_request = ["my_store_ui.route_guard.before_request"]
 # 	}
 # }
 
+# Shared Wholesale Transaction ID stamping/propagation. Each handler is a no-op
+# when the custom_wholesale_transaction_id field is absent, so this is safe on
+# any site (including before the fixture is applied).
+doc_events = {
+	"Sales Order": {
+		"validate": "my_store_ui.wholesale.transaction_id.assign_to_sales_order",
+	},
+	"Delivery Note": {
+		"validate": "my_store_ui.wholesale.transaction_id.propagate_from_source",
+	},
+	"Sales Invoice": {
+		"validate": "my_store_ui.wholesale.transaction_id.propagate_from_source",
+	},
+	"Payment Entry": {
+		"validate": "my_store_ui.wholesale.transaction_id.propagate_payment_entry",
+	},
+}
+
 # Scheduled Tasks
 # ---------------
+
+# Release stock reservations past the configurable expiry window (default 3 days).
+# No-op when reservation is disabled.
+scheduler_events = {
+	"daily": [
+		"my_store_ui.wholesale.reservation.release_expired_reservations",
+	],
+}
 
 # scheduler_events = {
 # 	"all": [
