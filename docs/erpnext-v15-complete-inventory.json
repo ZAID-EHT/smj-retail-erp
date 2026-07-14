@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "62aba02d1fda368359aaf5c2616bb17b21e541d9",
+      "git_commit": "7a580c393d711f86e54e016ebd8e89d006ac8c78",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -421,7 +421,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1746
+      "unmapped_user_facing": 1700
     },
     "failures": {
       "complete_without_tests": [],
@@ -686,7 +686,6 @@
         "erpnext:doctype:appointment-booking-settings",
         "erpnext:doctype:asset-depreciation-schedule",
         "erpnext:doctype:authorization-control",
-        "erpnext:doctype:authorization-rule",
         "erpnext:doctype:bank-clearance",
         "erpnext:doctype:bank-reconciliation-tool",
         "erpnext:doctype:bin",
@@ -696,7 +695,6 @@
         "erpnext:doctype:bom-creator",
         "erpnext:doctype:bom-update-log",
         "erpnext:doctype:bom-update-tool",
-        "erpnext:doctype:branch",
         "erpnext:doctype:bulk-transaction-log",
         "erpnext:doctype:bulk-transaction-log-detail",
         "erpnext:doctype:buying-settings",
@@ -708,33 +706,24 @@
         "erpnext:doctype:common-code",
         "erpnext:doctype:communication-medium",
         "erpnext:doctype:crm-settings",
-        "erpnext:doctype:currency-exchange",
         "erpnext:doctype:currency-exchange-settings",
         "erpnext:doctype:delivery-settings",
         "erpnext:doctype:downtime-entry",
-        "erpnext:doctype:driver",
-        "erpnext:doctype:email-digest",
-        "erpnext:doctype:employee",
-        "erpnext:doctype:employee-group",
         "erpnext:doctype:gl-entry",
         "erpnext:doctype:global-defaults",
-        "erpnext:doctype:holiday-list",
         "erpnext:doctype:homepage",
         "erpnext:doctype:homepage-section",
         "erpnext:doctype:import-supplier-invoice",
         "erpnext:doctype:incoming-call-settings",
-        "erpnext:doctype:incoterm",
         "erpnext:doctype:item-variant-settings",
         "erpnext:doctype:ledger-health",
         "erpnext:doctype:ledger-health-monitor",
         "erpnext:doctype:ledger-merge",
-        "erpnext:doctype:lower-deduction-certificate",
         "erpnext:doctype:loyalty-point-entry",
         "erpnext:doctype:maintenance-schedule",
         "erpnext:doctype:maintenance-visit",
         "erpnext:doctype:manufacturing-settings",
         "erpnext:doctype:opening-invoice-creation-tool",
-        "erpnext:doctype:party-type",
         "erpnext:doctype:payment-ledger-entry",
         "erpnext:doctype:payment-reconciliation",
         "erpnext:doctype:pegged-currencies",
@@ -746,7 +735,6 @@
         "erpnext:doctype:pos-opening-entry",
         "erpnext:doctype:pos-profile",
         "erpnext:doctype:pos-settings",
-        "erpnext:doctype:print-heading",
         "erpnext:doctype:process-deferred-accounting",
         "erpnext:doctype:process-payment-reconciliation",
         "erpnext:doctype:process-payment-reconciliation-log",
@@ -755,14 +743,12 @@
         "erpnext:doctype:process-subscription",
         "erpnext:doctype:projects-settings",
         "erpnext:doctype:quick-stock-balance",
-        "erpnext:doctype:quotation-lost-reason",
         "erpnext:doctype:rename-tool",
         "erpnext:doctype:repost-accounting-ledger",
         "erpnext:doctype:repost-accounting-ledger-settings",
         "erpnext:doctype:repost-item-valuation",
         "erpnext:doctype:repost-payment-ledger",
         "erpnext:doctype:routing",
-        "erpnext:doctype:sales-partner",
         "erpnext:doctype:selling-settings",
         "erpnext:doctype:serial-and-batch-bundle",
         "erpnext:doctype:sms-center",
@@ -775,12 +761,9 @@
         "erpnext:doctype:subscription-settings",
         "erpnext:doctype:support-settings",
         "erpnext:doctype:telephony-call-type",
-        "erpnext:doctype:terms-and-conditions",
         "erpnext:doctype:transaction-deletion-record",
         "erpnext:doctype:uae-vat-settings",
         "erpnext:doctype:unreconcile-payment",
-        "erpnext:doctype:uom-conversion-factor",
-        "erpnext:doctype:vehicle",
         "erpnext:doctype:video",
         "erpnext:doctype:video-settings",
         "erpnext:doctype:voice-call-settings",
@@ -1357,12 +1340,9 @@
         "erpnext:workspace-target:accounting:doctype-bank-reconciliation-tool",
         "erpnext:workspace-target:accounting:doctype-chart-of-accounts-importer",
         "erpnext:workspace-target:accounting:doctype-currency",
-        "erpnext:workspace-target:accounting:doctype-currency-exchange",
-        "erpnext:workspace-target:accounting:doctype-lower-deduction-certificate",
         "erpnext:workspace-target:accounting:doctype-opening-invoice-creation-tool",
         "erpnext:workspace-target:accounting:doctype-plaid-settings",
         "erpnext:workspace-target:accounting:doctype-subscription-settings",
-        "erpnext:workspace-target:accounting:doctype-terms-and-conditions",
         "erpnext:workspace-target:accounting:number-card-total-incoming-bills",
         "erpnext:workspace-target:accounting:number-card-total-incoming-payment",
         "erpnext:workspace-target:accounting:number-card-total-outgoing-bills",
@@ -1373,7 +1353,6 @@
         "erpnext:workspace-target:buying:dashboard-buying",
         "erpnext:workspace-target:buying:doctype-buying-settings",
         "erpnext:workspace-target:buying:doctype-import-supplier-invoice",
-        "erpnext:workspace-target:buying:doctype-terms-and-conditions",
         "erpnext:workspace-target:crm:chart-territory-wise-sales",
         "erpnext:workspace-target:crm:dashboard-crm",
         "erpnext:workspace-target:crm:doctype-communication",
@@ -1419,9 +1398,7 @@
         "erpnext:workspace-target:erpnext-settings:doctype-newsletter",
         "erpnext:workspace-target:erpnext-settings:doctype-notification",
         "erpnext:workspace-target:erpnext-settings:doctype-notification-settings",
-        "erpnext:workspace-target:erpnext-settings:doctype-print-format",
         "erpnext:workspace-target:erpnext-settings:doctype-print-settings",
-        "erpnext:workspace-target:erpnext-settings:doctype-print-style",
         "erpnext:workspace-target:erpnext-settings:doctype-projects-settings",
         "erpnext:workspace-target:erpnext-settings:doctype-selling-settings",
         "erpnext:workspace-target:erpnext-settings:doctype-stock-settings",
@@ -1439,7 +1416,6 @@
         "erpnext:workspace-target:home:doctype-chart-of-accounts-importer",
         "erpnext:workspace-target:home:doctype-data-import",
         "erpnext:workspace-target:home:doctype-email-account",
-        "erpnext:workspace-target:home:doctype-letter-head",
         "erpnext:workspace-target:home:doctype-opening-invoice-creation-tool",
         "erpnext:workspace-target:home:page-leaderboard",
         "erpnext:workspace-target:invoicing:chart-profit-and-loss",
@@ -1448,12 +1424,9 @@
         "erpnext:workspace-target:invoicing:doctype-bank-reconciliation-tool",
         "erpnext:workspace-target:invoicing:doctype-chart-of-accounts-importer",
         "erpnext:workspace-target:invoicing:doctype-currency",
-        "erpnext:workspace-target:invoicing:doctype-currency-exchange",
-        "erpnext:workspace-target:invoicing:doctype-lower-deduction-certificate",
         "erpnext:workspace-target:invoicing:doctype-opening-invoice-creation-tool",
         "erpnext:workspace-target:invoicing:doctype-plaid-settings",
         "erpnext:workspace-target:invoicing:doctype-subscription-settings",
-        "erpnext:workspace-target:invoicing:doctype-terms-and-conditions",
         "erpnext:workspace-target:invoicing:number-card-total-incoming-bills",
         "erpnext:workspace-target:invoicing:number-card-total-incoming-payment",
         "erpnext:workspace-target:invoicing:number-card-total-outgoing-bills",
@@ -1480,9 +1453,7 @@
         "erpnext:workspace-target:selling:doctype-pos-opening-entry",
         "erpnext:workspace-target:selling:doctype-pos-profile",
         "erpnext:workspace-target:selling:doctype-pos-settings",
-        "erpnext:workspace-target:selling:doctype-sales-partner",
         "erpnext:workspace-target:selling:doctype-selling-settings",
-        "erpnext:workspace-target:selling:doctype-terms-and-conditions",
         "erpnext:workspace-target:selling:page-point-of-sale",
         "erpnext:workspace-target:selling:page-sales-funnel",
         "erpnext:workspace-target:stock:chart-warehouse-wise-stock-value",
@@ -1490,7 +1461,6 @@
         "erpnext:workspace-target:stock:doctype-item-variant-settings",
         "erpnext:workspace-target:stock:doctype-quick-stock-balance",
         "erpnext:workspace-target:stock:doctype-stock-settings",
-        "erpnext:workspace-target:stock:doctype-uom-conversion-factor",
         "erpnext:workspace-target:stock:number-card-total-active-items",
         "erpnext:workspace-target:stock:number-card-total-stock-value",
         "erpnext:workspace-target:stock:number-card-total-warehouses",
@@ -1599,7 +1569,6 @@
         "frappe:doctype:kanban-board",
         "frappe:doctype:language",
         "frappe:doctype:ldap-settings",
-        "frappe:doctype:letter-head",
         "frappe:doctype:list-filter",
         "frappe:doctype:list-view-settings",
         "frappe:doctype:log-settings",
@@ -1631,10 +1600,7 @@
         "frappe:doctype:personal-data-deletion-request",
         "frappe:doctype:personal-data-download-request",
         "frappe:doctype:portal-settings",
-        "frappe:doctype:print-format",
-        "frappe:doctype:print-format-field-template",
         "frappe:doctype:print-settings",
-        "frappe:doctype:print-style",
         "frappe:doctype:property-setter",
         "frappe:doctype:push-notification-settings",
         "frappe:doctype:recorder",
@@ -1876,7 +1842,6 @@
         "frappe:workspace-target:build:doctype-package",
         "frappe:workspace-target:build:doctype-package-import",
         "frappe:workspace-target:build:doctype-page",
-        "frappe:workspace-target:build:doctype-print-format",
         "frappe:workspace-target:build:doctype-report",
         "frappe:workspace-target:build:doctype-rq-job",
         "frappe:workspace-target:build:doctype-scheduled-job-log",
@@ -1914,7 +1879,6 @@
         "frappe:workspace-target:tools:doctype-note",
         "frappe:workspace-target:tools:doctype-notification",
         "frappe:workspace-target:tools:doctype-notification-settings",
-        "frappe:workspace-target:tools:doctype-print-heading",
         "frappe:workspace-target:tools:doctype-print-settings",
         "frappe:workspace-target:tools:doctype-todo",
         "frappe:workspace-target:tools:page-backups",
@@ -2139,17 +2103,12 @@
         "posawesome:custom-field:sales-order:sales-order-posa-notes",
         "posawesome:custom-field:sales-order:sales-order-posa-offers",
         "posawesome:custom-field:user:user-posa-pos-pin",
-        "posawesome:doctype:delivery-charges",
         "posawesome:doctype:mpesa-c2b-register-url",
         "posawesome:doctype:mpesa-payment-register",
         "posawesome:doctype:pos-cash-movement",
         "posawesome:doctype:pos-closing-shift",
-        "posawesome:doctype:pos-coupon",
-        "posawesome:doctype:pos-gift-card",
         "posawesome:doctype:pos-invoice-submission-ledger",
-        "posawesome:doctype:pos-offer",
         "posawesome:doctype:pos-opening-shift",
-        "posawesome:doctype:referral-code",
         "posawesome:doctype:scale-barcode-settings",
         "posawesome:document-action:pos-closing-shift:make-closing-shift-from-opening",
         "posawesome:document-action:pos-closing-shift:submit-closing-shift",
@@ -2161,16 +2120,11 @@
         "posawesome:property-setter:sales-invoice-reference:sales-invoice-reference-sales-invoice-reqd",
         "posawesome:property-setter:sales-invoice:sales-invoice-posa-pos-opening-shift-no-copy",
         "posawesome:property-setter:sales-invoice:sales-invoice-update-outstanding-for-self-default",
-        "posawesome:workspace-target:pos-awesome:doctype-delivery-charges",
         "posawesome:workspace-target:pos-awesome:doctype-pos-cash-movement",
         "posawesome:workspace-target:pos-awesome:doctype-pos-closing-shift",
-        "posawesome:workspace-target:pos-awesome:doctype-pos-coupon",
-        "posawesome:workspace-target:pos-awesome:doctype-pos-gift-card",
         "posawesome:workspace-target:pos-awesome:doctype-pos-invoice-submission-ledger",
-        "posawesome:workspace-target:pos-awesome:doctype-pos-offer",
         "posawesome:workspace-target:pos-awesome:doctype-pos-opening-shift",
         "posawesome:workspace-target:pos-awesome:doctype-pos-profile",
-        "posawesome:workspace-target:pos-awesome:doctype-referral-code",
         "posawesome:workspace-target:pos-awesome:doctype-scale-barcode-settings",
         "posawesome:workspace-target:pos-awesome:page-posapp",
         "posawesome:workspace:pos-awesome",
@@ -105319,12 +105273,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AuthorizationRule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/authorization-rule",
       "customizations": [],
       "delete": true,
       "doctype": "Authorization Rule",
@@ -105709,7 +105663,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -105727,7 +105681,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -115051,12 +115005,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Branch"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/branch",
       "customizations": [],
       "delete": true,
       "doctype": "Branch",
@@ -115164,7 +115118,7 @@
         "HR Manager",
         "HR User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -115182,7 +115136,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -125634,12 +125588,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CurrencyExchange"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/currency-exchange",
       "customizations": [],
       "delete": true,
       "doctype": "Currency Exchange",
@@ -125886,7 +125840,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -125904,7 +125858,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -133446,12 +133400,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Driver"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/driver",
       "customizations": [],
       "delete": true,
       "doctype": "Driver",
@@ -133857,7 +133811,7 @@
         "HR Manager",
         "HR User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -133875,7 +133829,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -135630,12 +135584,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "EmailDigest"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/email-digest",
       "customizations": [],
       "delete": true,
       "doctype": "Email Digest",
@@ -136389,7 +136343,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -136407,7 +136361,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -136449,14 +136403,14 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "EmployeeUserDisabledError",
         "InactiveEmployeeStatusError",
         "Employee"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/employee",
       "customizations": [],
       "delete": true,
       "doctype": "Employee",
@@ -138245,7 +138199,7 @@
         "HR Manager",
         "HR User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -138270,7 +138224,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -138294,12 +138248,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "EmployeeGroup"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/employee-group",
       "customizations": [],
       "delete": true,
       "doctype": "Employee Group",
@@ -138418,7 +138372,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -138436,7 +138390,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -140573,13 +140527,13 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverlapError",
         "HolidayList"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/holiday-list",
       "customizations": [],
       "delete": true,
       "doctype": "Holiday List",
@@ -140913,7 +140867,7 @@
       "relevant_roles": [
         "HR Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -140933,7 +140887,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -142022,12 +141976,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Incoterm"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/incoterm",
       "customizations": [],
       "delete": true,
       "doctype": "Incoterm",
@@ -142350,7 +142304,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -142368,7 +142322,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -156291,12 +156245,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "LowerDeductionCertificate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/lower-deduction-certificate",
       "customizations": [],
       "delete": true,
       "doctype": "Lower Deduction Certificate",
@@ -156699,7 +156653,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -156717,7 +156671,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -165392,12 +165346,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PartyType"
       ],
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/party-type",
       "customizations": [],
       "delete": false,
       "doctype": "Party Type",
@@ -165545,7 +165499,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -165563,7 +165517,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -183255,12 +183209,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PrintHeading"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-heading",
       "customizations": [],
       "delete": true,
       "doctype": "Print Heading",
@@ -183383,7 +183337,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -183401,7 +183355,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -207307,12 +207261,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QuotationLostReason"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotation-lost-reason",
       "customizations": [],
       "delete": true,
       "doctype": "Quotation Lost Reason",
@@ -207485,7 +207439,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -207503,7 +207457,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -217908,12 +217862,12 @@
       ],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SalesPartner"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/sales-partner",
       "customizations": [],
       "delete": false,
       "doctype": "Sales Partner",
@@ -218411,7 +218365,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -218429,7 +218383,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -244211,12 +244165,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "TermsandConditions"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/terms-and-conditions",
       "customizations": [],
       "delete": true,
       "doctype": "Terms and Conditions",
@@ -244535,7 +244489,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -244553,7 +244507,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -246910,12 +246864,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "UOMConversionFactor"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/uom-conversion-factor",
       "customizations": [],
       "delete": true,
       "doctype": "UOM Conversion Factor",
@@ -247080,7 +247034,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -247098,7 +247052,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -247115,12 +247069,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Vehicle"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/vehicle",
       "customizations": [],
       "delete": true,
       "doctype": "Vehicle",
@@ -247655,7 +247609,7 @@
         "Delivery User",
         "Fleet Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -247674,7 +247628,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -314754,10 +314708,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/currency-exchange",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -314778,7 +314732,7 @@
       "notes": [
         "target_type=DocType",
         "target=Currency Exchange",
-        "target_route="
+        "target_route=/finance/currency-exchange"
       ],
       "page": null,
       "page_permissions": [],
@@ -314788,7 +314742,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -315202,10 +315156,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/lower-deduction-certificate",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -315226,7 +315180,7 @@
       "notes": [
         "target_type=DocType",
         "target=Lower Deduction Certificate",
-        "target_route="
+        "target_route=/finance/lower-deduction-certificate"
       ],
       "page": null,
       "page_permissions": [],
@@ -315236,7 +315190,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -316482,10 +316436,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/terms-and-conditions",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -316506,7 +316460,7 @@
       "notes": [
         "target_type=DocType",
         "target=Terms and Conditions",
-        "target_route="
+        "target_route=/sales/terms-and-conditions"
       ],
       "page": null,
       "page_permissions": [],
@@ -316516,7 +316470,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -319938,10 +319892,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/terms-and-conditions",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -319962,7 +319916,7 @@
       "notes": [
         "target_type=DocType",
         "target=Terms and Conditions",
-        "target_route="
+        "target_route=/sales/terms-and-conditions"
       ],
       "page": null,
       "page_permissions": [],
@@ -319972,7 +319926,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -325378,10 +325332,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-format",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -325402,7 +325356,7 @@
       "notes": [
         "target_type=DocType",
         "target=Print Format",
-        "target_route="
+        "target_route=/admin/print-format"
       ],
       "page": null,
       "page_permissions": [],
@@ -325412,7 +325366,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -325506,10 +325460,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-style",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -325530,7 +325484,7 @@
       "notes": [
         "target_type=DocType",
         "target=Print Style",
-        "target_route="
+        "target_route=/admin/print-style"
       ],
       "page": null,
       "page_permissions": [],
@@ -325540,7 +325494,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -328258,10 +328212,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/letter-head",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -328282,7 +328236,7 @@
       "notes": [
         "target_type=DocType",
         "target=Letter Head",
-        "target_route="
+        "target_route=/admin/letter-head"
       ],
       "page": null,
       "page_permissions": [],
@@ -328292,7 +328246,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -329794,10 +329748,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/currency-exchange",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -329818,7 +329772,7 @@
       "notes": [
         "target_type=DocType",
         "target=Currency Exchange",
-        "target_route="
+        "target_route=/finance/currency-exchange"
       ],
       "page": null,
       "page_permissions": [],
@@ -329828,7 +329782,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -330242,10 +330196,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/lower-deduction-certificate",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -330266,7 +330220,7 @@
       "notes": [
         "target_type=DocType",
         "target=Lower Deduction Certificate",
-        "target_route="
+        "target_route=/finance/lower-deduction-certificate"
       ],
       "page": null,
       "page_permissions": [],
@@ -330276,7 +330230,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -331394,10 +331348,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/terms-and-conditions",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -331418,7 +331372,7 @@
       "notes": [
         "target_type=DocType",
         "target=Terms and Conditions",
-        "target_route="
+        "target_route=/sales/terms-and-conditions"
       ],
       "page": null,
       "page_permissions": [],
@@ -331428,7 +331382,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -338754,10 +338708,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/sales-partner",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -338778,7 +338732,7 @@
       "notes": [
         "target_type=DocType",
         "target=Sales Partner",
-        "target_route="
+        "target_route=/sales/sales-partner"
       ],
       "page": null,
       "page_permissions": [],
@@ -338788,7 +338742,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -339074,10 +339028,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/terms-and-conditions",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -339098,7 +339052,7 @@
       "notes": [
         "target_type=DocType",
         "target=Terms and Conditions",
-        "target_route="
+        "target_route=/sales/terms-and-conditions"
       ],
       "page": null,
       "page_permissions": [],
@@ -339108,7 +339062,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -342594,10 +342548,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/uom-conversion-factor",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -342618,7 +342572,7 @@
       "notes": [
         "target_type=DocType",
         "target=UOM Conversion Factor",
-        "target_route="
+        "target_route=/inventory/uom-conversion-factor"
       ],
       "page": null,
       "page_permissions": [],
@@ -342628,7 +342582,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -395529,12 +395483,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "LetterHead"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/letter-head",
       "customizations": [],
       "delete": true,
       "doctype": "Letter Head",
@@ -395987,7 +395941,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -396005,7 +395959,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -405420,12 +405374,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PrintFormat"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-format",
       "customizations": [],
       "delete": true,
       "doctype": "Print Format",
@@ -406095,7 +406049,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -406113,7 +406067,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -406130,12 +406084,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PrintFormatFieldTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-format-field-template",
       "customizations": [],
       "delete": true,
       "doctype": "Print Format Field Template",
@@ -406340,7 +406294,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -406358,7 +406312,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -406861,12 +406815,12 @@
       "child_tables": [],
       "classification": "E",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PrintStyle"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-style",
       "customizations": [],
       "delete": true,
       "doctype": "Print Style",
@@ -407021,7 +406975,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -407039,7 +406993,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -442866,10 +442820,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-format",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -442890,7 +442844,7 @@
       "notes": [
         "target_type=DocType",
         "target=Print Format",
-        "target_route="
+        "target_route=/admin/print-format"
       ],
       "page": null,
       "page_permissions": [],
@@ -442900,7 +442854,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -445298,10 +445252,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/admin/print-heading",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -445322,7 +445276,7 @@
       "notes": [
         "target_type=DocType",
         "target=Print Heading",
-        "target_route="
+        "target_route=/admin/print-heading"
       ],
       "page": null,
       "page_permissions": [],
@@ -445332,7 +445286,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -461968,12 +461922,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "DeliveryCharges"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/delivery-charges",
       "customizations": [],
       "delete": true,
       "doctype": "Delivery Charges",
@@ -462213,7 +462167,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -462231,7 +462185,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -464221,12 +464175,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "POSCoupon"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-coupon",
       "customizations": [],
       "delete": true,
       "doctype": "POS Coupon",
@@ -464689,7 +464643,7 @@
         "System Manager",
         "Website Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -464707,7 +464661,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -464731,12 +464685,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "POSGiftCard"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-gift-card",
       "customizations": [],
       "delete": true,
       "doctype": "POS Gift Card",
@@ -464980,7 +464934,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -464998,7 +464952,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -465378,12 +465332,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "POSOffer"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-offer",
       "customizations": [],
       "delete": true,
       "doctype": "POS Offer",
@@ -466258,7 +466212,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -466276,7 +466230,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -466713,12 +466667,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ReferralCode"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/referral-code",
       "customizations": [],
       "delete": true,
       "doctype": "Referral Code",
@@ -467070,7 +467024,7 @@
         "System Manager",
         "Website Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -467088,7 +467042,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -468146,10 +468100,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/delivery-charges",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -468170,7 +468124,7 @@
       "notes": [
         "target_type=DocType",
         "target=Delivery Charges",
-        "target_route="
+        "target_route=/sales/delivery-charges"
       ],
       "page": null,
       "page_permissions": [],
@@ -468180,7 +468134,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -468338,10 +468292,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-coupon",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -468362,7 +468316,7 @@
       "notes": [
         "target_type=DocType",
         "target=POS Coupon",
-        "target_route="
+        "target_route=/sales/pos-coupon"
       ],
       "page": null,
       "page_permissions": [],
@@ -468372,7 +468326,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -468402,10 +468356,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-gift-card",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -468426,7 +468380,7 @@
       "notes": [
         "target_type=DocType",
         "target=POS Gift Card",
-        "target_route="
+        "target_route=/sales/pos-gift-card"
       ],
       "page": null,
       "page_permissions": [],
@@ -468436,7 +468390,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -468530,10 +468484,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/pos-offer",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -468554,7 +468508,7 @@
       "notes": [
         "target_type=DocType",
         "target=POS Offer",
-        "target_route="
+        "target_route=/sales/pos-offer"
       ],
       "page": null,
       "page_permissions": [],
@@ -468564,7 +468518,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -468786,10 +468740,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/referral-code",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -468810,7 +468764,7 @@
       "notes": [
         "target_type=DocType",
         "target=Referral Code",
-        "target_route="
+        "target_route=/sales/referral-code"
       ],
       "page": null,
       "page_permissions": [],
@@ -468820,7 +468774,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -469169,7 +469123,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "87b439c3eb8c2d1f210cd791b6a33b1c403ad4a802d5cc2a2ba3e963241a32b6",
+  "inventory_fingerprint": "f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca7e9f9111",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

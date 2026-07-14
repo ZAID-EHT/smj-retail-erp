@@ -215,6 +215,43 @@ _GENERATED_ENTITY_ROUTES = {
 ENTITY_ROUTES.update(_GENERATED_ENTITY_ROUTES)
 
 
+# --- Generated in-scope DocType routes (Full Feature Parity, batch: final-mapping masters) ---
+# Remaining safe non-table, non-single, non-ledger master DocTypes from Accounts,
+# Setup, Printing, Regional, Selling and POSAwesome. Settings singletons, repair/
+# repost tools, reconciliation wizards and ledger tables (GL Entry, Payment Ledger
+# Entry, Stock Ledger Entry, Bin, Serial and Batch Bundle, etc.) are deliberately
+# excluded here — see parity_registry.INTERNAL_DOCTYPE_NAMES / special_adapter work.
+_GENERATED_ENTITY_ROUTES_2 = {
+	"/operations/employee": {"doctype": "Employee", "module": "operations", "classification": "generated_provisional"},
+	"/operations/employee-group": {"doctype": "Employee Group", "module": "operations", "classification": "generated_provisional"},
+	"/operations/holiday-list": {"doctype": "Holiday List", "module": "operations", "classification": "generated_provisional"},
+	"/operations/driver": {"doctype": "Driver", "module": "operations", "classification": "generated_provisional"},
+	"/operations/vehicle": {"doctype": "Vehicle", "module": "operations", "classification": "generated_provisional"},
+	"/admin/branch": {"doctype": "Branch", "module": "admin", "classification": "generated_provisional"},
+	"/admin/print-heading": {"doctype": "Print Heading", "module": "admin", "classification": "generated_provisional"},
+	"/admin/authorization-rule": {"doctype": "Authorization Rule", "module": "admin", "classification": "generated_provisional"},
+	"/admin/email-digest": {"doctype": "Email Digest", "module": "admin", "classification": "generated_provisional"},
+	"/admin/letter-head": {"doctype": "Letter Head", "module": "admin", "classification": "generated_provisional"},
+	"/admin/print-format": {"doctype": "Print Format", "module": "admin", "classification": "generated_provisional"},
+	"/admin/print-format-field-template": {"doctype": "Print Format Field Template", "module": "admin", "classification": "generated_provisional"},
+	"/admin/print-style": {"doctype": "Print Style", "module": "admin", "classification": "generated_provisional"},
+	"/purchases/incoterm": {"doctype": "Incoterm", "module": "purchases", "classification": "generated_provisional"},
+	"/finance/party-type": {"doctype": "Party Type", "module": "finance", "classification": "generated_provisional"},
+	"/finance/currency-exchange": {"doctype": "Currency Exchange", "module": "finance", "classification": "generated_provisional"},
+	"/finance/lower-deduction-certificate": {"doctype": "Lower Deduction Certificate", "module": "finance", "classification": "generated_provisional"},
+	"/sales/quotation-lost-reason": {"doctype": "Quotation Lost Reason", "module": "sales", "classification": "generated_provisional"},
+	"/sales/sales-partner": {"doctype": "Sales Partner", "module": "sales", "classification": "generated_provisional"},
+	"/sales/terms-and-conditions": {"doctype": "Terms and Conditions", "module": "sales", "classification": "generated_provisional"},
+	"/sales/pos-coupon": {"doctype": "POS Coupon", "module": "sales", "classification": "generated_provisional"},
+	"/sales/pos-gift-card": {"doctype": "POS Gift Card", "module": "sales", "classification": "generated_provisional"},
+	"/sales/pos-offer": {"doctype": "POS Offer", "module": "sales", "classification": "generated_provisional"},
+	"/sales/delivery-charges": {"doctype": "Delivery Charges", "module": "sales", "classification": "generated_provisional"},
+	"/sales/referral-code": {"doctype": "Referral Code", "module": "sales", "classification": "generated_provisional"},
+	"/inventory/uom-conversion-factor": {"doctype": "UOM Conversion Factor", "module": "inventory", "classification": "generated_provisional"},
+}
+ENTITY_ROUTES.update(_GENERATED_ENTITY_ROUTES_2)
+
+
 FORM_VARIANTS = {
 	"/inventory/transfers/new": {"doctype": "Stock Entry", "module": "inventory", "base_path": "/inventory/stock-entries", "defaults": {"stock_entry_type": "Material Transfer"}},
 	"/inventory/receipts/new": {"doctype": "Stock Entry", "module": "inventory", "base_path": "/inventory/stock-entries", "defaults": {"stock_entry_type": "Material Receipt"}},

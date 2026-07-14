@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1746**.
+Total user-facing features without a registered custom route: **1700**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -263,7 +263,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:appointment-booking-settings` | erpnext | CRM | doctype | Appointment Booking Settings | A | /app/appointment-booking-settings | Required for ordinary-user parity |
 | `erpnext:doctype:asset-depreciation-schedule` | erpnext | Assets | doctype | Asset Depreciation Schedule | A | /app/asset-depreciation-schedule | Required for ordinary-user parity |
 | `erpnext:doctype:authorization-control` | erpnext | Setup | doctype | Authorization Control | E | /app/authorization-control | Required for ordinary-user parity |
-| `erpnext:doctype:authorization-rule` | erpnext | Setup | doctype | Authorization Rule | E | /app/authorization-rule | Required for ordinary-user parity |
 | `erpnext:doctype:bank-clearance` | erpnext | Accounts | doctype | Bank Clearance | A | /app/bank-clearance | Required for ordinary-user parity |
 | `erpnext:doctype:bank-reconciliation-tool` | erpnext | Accounts | doctype | Bank Reconciliation Tool | A | /app/bank-reconciliation-tool | Required for ordinary-user parity |
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | /app/bin | Required for ordinary-user parity |
@@ -273,7 +272,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:bom-creator` | erpnext | Manufacturing | doctype | BOM Creator | A | /app/bom-creator | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | /app/bom-update-log | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-tool` | erpnext | Manufacturing | doctype | BOM Update Tool | A | /app/bom-update-tool | Required for ordinary-user parity |
-| `erpnext:doctype:branch` | erpnext | Setup | doctype | Branch | E | /app/branch | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log | A | /app/bulk-transaction-log | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log-detail` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log Detail | A | /app/bulk-transaction-log-detail | Required for ordinary-user parity |
 | `erpnext:doctype:buying-settings` | erpnext | Buying | doctype | Buying Settings | A | /app/buying-settings | Required for ordinary-user parity |
@@ -285,33 +283,24 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:common-code` | erpnext | EDI | doctype | Common Code | A | /app/common-code | Required for ordinary-user parity |
 | `erpnext:doctype:communication-medium` | erpnext | Communication | doctype | Communication Medium | A | /app/communication-medium | Required for ordinary-user parity |
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | /app/crm-settings | Required for ordinary-user parity |
-| `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | /app/currency-exchange | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | /app/currency-exchange-settings | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-settings` | erpnext | Stock | doctype | Delivery Settings | A | /app/delivery-settings | Required for ordinary-user parity |
 | `erpnext:doctype:downtime-entry` | erpnext | Manufacturing | doctype | Downtime Entry | A | /app/downtime-entry | Required for ordinary-user parity |
-| `erpnext:doctype:driver` | erpnext | Setup | doctype | Driver | E | /app/driver | Required for ordinary-user parity |
-| `erpnext:doctype:email-digest` | erpnext | Setup | doctype | Email Digest | E | /app/email-digest | Required for ordinary-user parity |
-| `erpnext:doctype:employee` | erpnext | Setup | doctype | Employee | C | /app/employee | Required for ordinary-user parity |
-| `erpnext:doctype:employee-group` | erpnext | Setup | doctype | Employee Group | E | /app/employee-group | Required for ordinary-user parity |
 | `erpnext:doctype:gl-entry` | erpnext | Accounts | doctype | GL Entry | A | /app/gl-entry | Required for ordinary-user parity |
 | `erpnext:doctype:global-defaults` | erpnext | Setup | doctype | Global Defaults | E | /app/global-defaults | Required for ordinary-user parity |
-| `erpnext:doctype:holiday-list` | erpnext | Setup | doctype | Holiday List | E | /app/holiday-list | Required for ordinary-user parity |
 | `erpnext:doctype:homepage` | erpnext | Portal | doctype | Homepage | A | /app/homepage | Required for ordinary-user parity |
 | `erpnext:doctype:homepage-section` | erpnext | Portal | doctype | Homepage Section | A | /app/homepage-section | Required for ordinary-user parity |
 | `erpnext:doctype:import-supplier-invoice` | erpnext | Regional | doctype | Import Supplier Invoice | A | /app/import-supplier-invoice | Required for ordinary-user parity |
 | `erpnext:doctype:incoming-call-settings` | erpnext | Telephony | doctype | Incoming Call Settings | A | /app/incoming-call-settings | Required for ordinary-user parity |
-| `erpnext:doctype:incoterm` | erpnext | Setup | doctype | Incoterm | E | /app/incoterm | Required for ordinary-user parity |
 | `erpnext:doctype:item-variant-settings` | erpnext | Stock | doctype | Item Variant Settings | A | /app/item-variant-settings | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health` | erpnext | Accounts | doctype | Ledger Health | A | /app/ledger-health | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health-monitor` | erpnext | Accounts | doctype | Ledger Health Monitor | A | /app/ledger-health-monitor | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-merge` | erpnext | Accounts | doctype | Ledger Merge | A | /app/ledger-merge | Required for ordinary-user parity |
-| `erpnext:doctype:lower-deduction-certificate` | erpnext | Regional | doctype | Lower Deduction Certificate | A | /app/lower-deduction-certificate | Required for ordinary-user parity |
 | `erpnext:doctype:loyalty-point-entry` | erpnext | Accounts | doctype | Loyalty Point Entry | A | /app/loyalty-point-entry | Required for ordinary-user parity |
 | `erpnext:doctype:maintenance-schedule` | erpnext | Maintenance | doctype | Maintenance Schedule | A | /app/maintenance-schedule | Required for ordinary-user parity |
 | `erpnext:doctype:maintenance-visit` | erpnext | Maintenance | doctype | Maintenance Visit | A | /app/maintenance-visit | Required for ordinary-user parity |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | /app/manufacturing-settings | Required for ordinary-user parity |
 | `erpnext:doctype:opening-invoice-creation-tool` | erpnext | Accounts | doctype | Opening Invoice Creation Tool | A | /app/opening-invoice-creation-tool | Required for ordinary-user parity |
-| `erpnext:doctype:party-type` | erpnext | Setup | doctype | Party Type | E | /app/party-type | Required for ordinary-user parity |
 | `erpnext:doctype:payment-ledger-entry` | erpnext | Accounts | doctype | Payment Ledger Entry | A | /app/payment-ledger-entry | Required for ordinary-user parity |
 | `erpnext:doctype:payment-reconciliation` | erpnext | Accounts | doctype | Payment Reconciliation | A | /app/payment-reconciliation | Required for ordinary-user parity |
 | `erpnext:doctype:pegged-currencies` | erpnext | Accounts | doctype | Pegged Currencies | A | /app/pegged-currencies | Required for ordinary-user parity |
@@ -323,7 +312,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | /app/pos-opening-entry | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | /app/pos-profile | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | /app/pos-settings | Required for ordinary-user parity |
-| `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | /app/print-heading | Required for ordinary-user parity |
 | `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | /app/process-deferred-accounting | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | /app/process-payment-reconciliation | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | /app/process-payment-reconciliation-log | Required for ordinary-user parity |
@@ -332,14 +320,12 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | /app/process-subscription | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | /app/projects-settings | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | /app/quick-stock-balance | Required for ordinary-user parity |
-| `erpnext:doctype:quotation-lost-reason` | erpnext | Setup | doctype | Quotation Lost Reason | E | /app/quotation-lost-reason | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | /app/rename-tool | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger` | erpnext | Accounts | doctype | Repost Accounting Ledger | A | /app/repost-accounting-ledger | Required for ordinary-user parity |
 | `erpnext:doctype:repost-accounting-ledger-settings` | erpnext | Accounts | doctype | Repost Accounting Ledger Settings | A | /app/repost-accounting-ledger-settings | Required for ordinary-user parity |
 | `erpnext:doctype:repost-item-valuation` | erpnext | Stock | doctype | Repost Item Valuation | A | /app/repost-item-valuation | Required for ordinary-user parity |
 | `erpnext:doctype:repost-payment-ledger` | erpnext | Accounts | doctype | Repost Payment Ledger | A | /app/repost-payment-ledger | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | /app/routing | Required for ordinary-user parity |
-| `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | /app/sales-partner | Required for ordinary-user parity |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | /app/selling-settings | Required for ordinary-user parity |
 | `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | /app/serial-and-batch-bundle | Required for ordinary-user parity |
 | `erpnext:doctype:sms-center` | erpnext | Selling | doctype | SMS Center | A | /app/sms-center | Required for ordinary-user parity |
@@ -352,12 +338,9 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:subscription-settings` | erpnext | Accounts | doctype | Subscription Settings | A | /app/subscription-settings | Required for ordinary-user parity |
 | `erpnext:doctype:support-settings` | erpnext | Support | doctype | Support Settings | A | /app/support-settings | Required for ordinary-user parity |
 | `erpnext:doctype:telephony-call-type` | erpnext | Telephony | doctype | Telephony Call Type | A | /app/telephony-call-type | Required for ordinary-user parity |
-| `erpnext:doctype:terms-and-conditions` | erpnext | Setup | doctype | Terms and Conditions | E | /app/terms-and-conditions | Required for ordinary-user parity |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | /app/transaction-deletion-record | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | /app/uae-vat-settings | Required for ordinary-user parity |
 | `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | /app/unreconcile-payment | Required for ordinary-user parity |
-| `erpnext:doctype:uom-conversion-factor` | erpnext | Setup | doctype | UOM Conversion Factor | E | /app/uom-conversion-factor | Required for ordinary-user parity |
-| `erpnext:doctype:vehicle` | erpnext | Setup | doctype | Vehicle | E | /app/vehicle | Required for ordinary-user parity |
 | `erpnext:doctype:video` | erpnext | Utilities | doctype | Video | A | /app/video | Required for ordinary-user parity |
 | `erpnext:doctype:video-settings` | erpnext | Utilities | doctype | Video Settings | A | /app/video-settings | Required for ordinary-user parity |
 | `erpnext:doctype:voice-call-settings` | erpnext | Telephony | doctype | Voice Call Settings | A | /app/voice-call-settings | Required for ordinary-user parity |
@@ -934,12 +917,9 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:accounting:doctype-bank-reconciliation-tool` | erpnext | Accounts | workspace_target | Bank Reconciliation Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-chart-of-accounts-importer` | erpnext | Accounts | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-currency` | erpnext | Accounts | workspace_target | Currency | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-currency-exchange` | erpnext | Accounts | workspace_target | Currency Exchange | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-lower-deduction-certificate` | erpnext | Accounts | workspace_target | Lower Deduction Certificate | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-opening-invoice-creation-tool` | erpnext | Accounts | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-plaid-settings` | erpnext | Accounts | workspace_target | Plaid Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-subscription-settings` | erpnext | Accounts | workspace_target | Subscription Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-terms-and-conditions` | erpnext | Accounts | workspace_target | Terms and Conditions | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-incoming-bills` | erpnext | Accounts | workspace_target | Total Incoming Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-incoming-payment` | erpnext | Accounts | workspace_target | Total Incoming Payment | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-outgoing-bills` | erpnext | Accounts | workspace_target | Total Outgoing Bills | C | — | Target must resolve to a classified Retail ERP feature |
@@ -950,7 +930,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:buying:dashboard-buying` | erpnext | Buying | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:doctype-buying-settings` | erpnext | Buying | workspace_target | Buying Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:doctype-import-supplier-invoice` | erpnext | Buying | workspace_target | Import Supplier Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-terms-and-conditions` | erpnext | Buying | workspace_target | Terms and Conditions Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:chart-territory-wise-sales` | erpnext | CRM | workspace_target | Territory Wise Sales | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:dashboard-crm` | erpnext | CRM | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-communication` | erpnext | CRM | workspace_target | Communication | C | — | Target must resolve to a classified Retail ERP feature |
@@ -996,9 +975,7 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:erpnext-settings:doctype-newsletter` | erpnext | Setup | workspace_target | Newsletter | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-notification` | erpnext | Setup | workspace_target | Notification | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-notification-settings` | erpnext | Setup | workspace_target | Notification Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:erpnext-settings:doctype-print-format` | erpnext | Setup | workspace_target | Print Format | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-print-settings` | erpnext | Setup | workspace_target | Print Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:erpnext-settings:doctype-print-style` | erpnext | Setup | workspace_target | Print Style | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-projects-settings` | erpnext | Setup | workspace_target | Projects Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-selling-settings` | erpnext | Setup | workspace_target | Selling Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:doctype-stock-settings` | erpnext | Setup | workspace_target | Stock Settings | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1016,7 +993,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:home:doctype-chart-of-accounts-importer` | erpnext | Setup | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-data-import` | erpnext | Setup | workspace_target | Import Data | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-email-account` | erpnext | Setup | workspace_target | Email Account | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-letter-head` | erpnext | Setup | workspace_target | Letter Head | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-opening-invoice-creation-tool` | erpnext | Setup | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:page-leaderboard` | erpnext | Setup | workspace_target | Leaderboard | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1025,12 +1001,9 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:invoicing:doctype-bank-reconciliation-tool` | erpnext | Accounts | workspace_target | Bank Reconciliation Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-chart-of-accounts-importer` | erpnext | Accounts | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-currency` | erpnext | Accounts | workspace_target | Currency | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-currency-exchange` | erpnext | Accounts | workspace_target | Currency Exchange | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-lower-deduction-certificate` | erpnext | Accounts | workspace_target | Lower Deduction Certificate | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-opening-invoice-creation-tool` | erpnext | Accounts | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-plaid-settings` | erpnext | Accounts | workspace_target | Plaid Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-subscription-settings` | erpnext | Accounts | workspace_target | Subscription Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-terms-and-conditions` | erpnext | Accounts | workspace_target | Terms and Conditions | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-incoming-bills` | erpnext | Accounts | workspace_target | Total Incoming Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-incoming-payment` | erpnext | Accounts | workspace_target | Total Incoming Payment | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-outgoing-bills` | erpnext | Accounts | workspace_target | Total Outgoing Bills | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1057,9 +1030,7 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:selling:doctype-pos-opening-entry` | erpnext | Selling | workspace_target | POS Opening Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-profile` | erpnext | Selling | workspace_target | Point-of-Sale Profile | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-settings` | erpnext | Selling | workspace_target | POS Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-sales-partner` | erpnext | Selling | workspace_target | Sales Partner | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-selling-settings` | erpnext | Selling | workspace_target | Selling Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-terms-and-conditions` | erpnext | Selling | workspace_target | Terms and Conditions Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:page-point-of-sale` | erpnext | Selling | workspace_target | Point of Sale | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:page-sales-funnel` | erpnext | Selling | workspace_target | Sales Funnel | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:chart-warehouse-wise-stock-value` | erpnext | Stock | workspace_target | Warehouse wise Stock Value | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1067,7 +1038,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:stock:doctype-item-variant-settings` | erpnext | Stock | workspace_target | Item Variant Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-quick-stock-balance` | erpnext | Stock | workspace_target | Quick Stock Balance | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-stock-settings` | erpnext | Stock | workspace_target | Stock Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-uom-conversion-factor` | erpnext | Stock | workspace_target | UOM Conversion Factor | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-active-items` | erpnext | Stock | workspace_target | Total Active Items | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-stock-value` | erpnext | Stock | workspace_target | Total Stock Value | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-warehouses` | erpnext | Stock | workspace_target | Total Warehouses | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1176,7 +1146,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:doctype:kanban-board` | frappe | Desk | doctype | Kanban Board | E | /app/kanban-board | Required for ordinary-user parity |
 | `frappe:doctype:language` | frappe | Core | doctype | Language | E | /app/language | Required for ordinary-user parity |
 | `frappe:doctype:ldap-settings` | frappe | Integrations | doctype | LDAP Settings | E | /app/ldap-settings | Required for ordinary-user parity |
-| `frappe:doctype:letter-head` | frappe | Printing | doctype | Letter Head | E | /app/letter-head | Required for ordinary-user parity |
 | `frappe:doctype:list-filter` | frappe | Desk | doctype | List Filter | E | /app/list-filter | Required for ordinary-user parity |
 | `frappe:doctype:list-view-settings` | frappe | Desk | doctype | List View Settings | E | /app/list-view-settings | Required for ordinary-user parity |
 | `frappe:doctype:log-settings` | frappe | Core | doctype | Log Settings | E | /app/log-settings | Required for ordinary-user parity |
@@ -1208,10 +1177,7 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:doctype:personal-data-deletion-request` | frappe | Website | doctype | Personal Data Deletion Request | E | /app/personal-data-deletion-request | Required for ordinary-user parity |
 | `frappe:doctype:personal-data-download-request` | frappe | Website | doctype | Personal Data Download Request | E | /app/personal-data-download-request | Required for ordinary-user parity |
 | `frappe:doctype:portal-settings` | frappe | Website | doctype | Portal Settings | E | /app/portal-settings | Required for ordinary-user parity |
-| `frappe:doctype:print-format` | frappe | Printing | doctype | Print Format | E | /app/print-format | Required for ordinary-user parity |
-| `frappe:doctype:print-format-field-template` | frappe | Printing | doctype | Print Format Field Template | E | /app/print-format-field-template | Required for ordinary-user parity |
 | `frappe:doctype:print-settings` | frappe | Printing | doctype | Print Settings | E | /app/print-settings | Required for ordinary-user parity |
-| `frappe:doctype:print-style` | frappe | Printing | doctype | Print Style | E | /app/print-style | Required for ordinary-user parity |
 | `frappe:doctype:property-setter` | frappe | Custom | doctype | Property Setter | E | /app/property-setter | Required for ordinary-user parity |
 | `frappe:doctype:push-notification-settings` | frappe | Integrations | doctype | Push Notification Settings | E | /app/push-notification-settings | Required for ordinary-user parity |
 | `frappe:doctype:recorder` | frappe | Core | doctype | Recorder | E | /app/recorder | Required for ordinary-user parity |
@@ -1453,7 +1419,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:workspace-target:build:doctype-package` | frappe | Core | workspace_target | Package | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:build:doctype-package-import` | frappe | Core | workspace_target | Package Import | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:build:doctype-page` | frappe | Core | workspace_target | Page | C | — | Target must resolve to a classified Retail ERP feature |
-| `frappe:workspace-target:build:doctype-print-format` | frappe | Core | workspace_target | Print Format | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:build:doctype-report` | frappe | Core | workspace_target | Report | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:build:doctype-rq-job` | frappe | Core | workspace_target | Background Jobs | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:build:doctype-scheduled-job-log` | frappe | Core | workspace_target | Scheduled Jobs Logs | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1491,7 +1456,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:workspace-target:tools:doctype-note` | frappe | Automation | workspace_target | Note | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:tools:doctype-notification` | frappe | Automation | workspace_target | Notification | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:tools:doctype-notification-settings` | frappe | Automation | workspace_target | Notification Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `frappe:workspace-target:tools:doctype-print-heading` | frappe | Automation | workspace_target | Print Heading | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:tools:doctype-print-settings` | frappe | Automation | workspace_target | Print Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:tools:doctype-todo` | frappe | Automation | workspace_target | ToDo | C | — | Target must resolve to a classified Retail ERP feature |
 | `frappe:workspace-target:tools:page-backups` | frappe | Automation | workspace_target | Download Backups | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1716,17 +1680,12 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `posawesome:custom-field:sales-order:sales-order-posa-notes` | posawesome | Selling | custom_field | Sales Order-posa_notes | E | /app/custom-field/sales-order-posa-notes | Customization must be represented by approved Retail ERP schema/administration |
 | `posawesome:custom-field:sales-order:sales-order-posa-offers` | posawesome | Selling | custom_field | Sales Order-posa_offers | E | /app/custom-field/sales-order-posa-offers | Customization must be represented by approved Retail ERP schema/administration |
 | `posawesome:custom-field:user:user-posa-pos-pin` | posawesome | Core | custom_field | User-posa_pos_pin | E | /app/custom-field/user-posa-pos-pin | Customization must be represented by approved Retail ERP schema/administration |
-| `posawesome:doctype:delivery-charges` | posawesome | POSAwesome | doctype | Delivery Charges | A | /app/delivery-charges | Required for ordinary-user parity |
 | `posawesome:doctype:mpesa-c2b-register-url` | posawesome | POSAwesome | doctype | Mpesa C2B Register URL | A | /app/mpesa-c2b-register-url | Required for ordinary-user parity |
 | `posawesome:doctype:mpesa-payment-register` | posawesome | POSAwesome | doctype | Mpesa Payment Register | A | /app/mpesa-payment-register | Required for ordinary-user parity |
 | `posawesome:doctype:pos-cash-movement` | posawesome | POSAwesome | doctype | POS Cash Movement | A | /app/pos-cash-movement | Required for ordinary-user parity |
 | `posawesome:doctype:pos-closing-shift` | posawesome | POSAwesome | doctype | POS Closing Shift | A | /app/pos-closing-shift | Required for ordinary-user parity |
-| `posawesome:doctype:pos-coupon` | posawesome | POSAwesome | doctype | POS Coupon | A | /app/pos-coupon | Required for ordinary-user parity |
-| `posawesome:doctype:pos-gift-card` | posawesome | POSAwesome | doctype | POS Gift Card | A | /app/pos-gift-card | Required for ordinary-user parity |
 | `posawesome:doctype:pos-invoice-submission-ledger` | posawesome | POSAwesome | doctype | POS Invoice Submission Ledger | A | /app/pos-invoice-submission-ledger | Required for ordinary-user parity |
-| `posawesome:doctype:pos-offer` | posawesome | POSAwesome | doctype | POS Offer | A | /app/pos-offer | Required for ordinary-user parity |
 | `posawesome:doctype:pos-opening-shift` | posawesome | POSAwesome | doctype | POS Opening Shift | A | /app/pos-opening-shift | Required for ordinary-user parity |
-| `posawesome:doctype:referral-code` | posawesome | POSAwesome | doctype | Referral Code | A | /app/referral-code | Required for ordinary-user parity |
 | `posawesome:doctype:scale-barcode-settings` | posawesome | POSAwesome | doctype | Scale Barcode Settings | A | /app/scale-barcode-settings | Required for ordinary-user parity |
 | `posawesome:document-action:pos-closing-shift:make-closing-shift-from-opening` | posawesome | POSAwesome | document_action | Make Closing Shift From Opening | B | — | Action not implemented in Retail ERP |
 | `posawesome:document-action:pos-closing-shift:submit-closing-shift` | posawesome | POSAwesome | document_action | Submit Closing Shift | B | — | Action not implemented in Retail ERP |
@@ -1738,16 +1697,11 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `posawesome:property-setter:sales-invoice-reference:sales-invoice-reference-sales-invoice-reqd` | posawesome | POSAwesome | property_setter | Sales Invoice Reference-sales_invoice-reqd | E | /app/property-setter/sales-invoice-reference-sales-invoice-reqd | Customization must be represented by approved Retail ERP schema/administration |
 | `posawesome:property-setter:sales-invoice:sales-invoice-posa-pos-opening-shift-no-copy` | posawesome | Accounts | property_setter | Sales Invoice-posa_pos_opening_shift-no_copy | E | /app/property-setter/sales-invoice-posa-pos-opening-shift-no-copy | Customization must be represented by approved Retail ERP schema/administration |
 | `posawesome:property-setter:sales-invoice:sales-invoice-update-outstanding-for-self-default` | posawesome | Accounts | property_setter | Sales Invoice-update_outstanding_for_self-default | E | /app/property-setter/sales-invoice-update-outstanding-for-self-default | Customization must be represented by approved Retail ERP schema/administration |
-| `posawesome:workspace-target:pos-awesome:doctype-delivery-charges` | posawesome | POSAwesome | workspace_target | Delivery Charges | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-cash-movement` | posawesome | POSAwesome | workspace_target | Cash Movement | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-closing-shift` | posawesome | POSAwesome | workspace_target | Closing Shift | C | — | Target must resolve to a classified Retail ERP feature |
-| `posawesome:workspace-target:pos-awesome:doctype-pos-coupon` | posawesome | POSAwesome | workspace_target | Coupons | C | — | Target must resolve to a classified Retail ERP feature |
-| `posawesome:workspace-target:pos-awesome:doctype-pos-gift-card` | posawesome | POSAwesome | workspace_target | Gift Cards | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-invoice-submission-ledger` | posawesome | POSAwesome | workspace_target | Invoice Submission Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `posawesome:workspace-target:pos-awesome:doctype-pos-offer` | posawesome | POSAwesome | workspace_target | Offers | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-opening-shift` | posawesome | POSAwesome | workspace_target | Opening Shift | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-profile` | posawesome | POSAwesome | workspace_target | POS Profile | C | — | Target must resolve to a classified Retail ERP feature |
-| `posawesome:workspace-target:pos-awesome:doctype-referral-code` | posawesome | POSAwesome | workspace_target | Referral Code | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-scale-barcode-settings` | posawesome | POSAwesome | workspace_target | Scale Barcode Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:page-posapp` | posawesome | POSAwesome | workspace_target | POS Awesome | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace:pos-awesome` | posawesome | POSAwesome | workspace | POS Awesome | C | /app/pos-awesome | Workspace targets require Retail ERP launchers/routes |

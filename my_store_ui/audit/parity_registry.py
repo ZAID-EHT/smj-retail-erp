@@ -117,6 +117,37 @@ INTERNAL_FEATURE_TYPES = {
 # Feature types that map onto the generic engine when their parent is in scope.
 VISUAL_TYPES = {"dashboard", "dashboard_chart", "number_card", "workspace"}
 
+# Audit correction (Step 13, final-mapping mission): specific DocTypes whose
+# *module* priority is P1/P2 (Accounts, Stock, Buying, ...) but which are
+# genuinely system/ledger tables, auto-generated log records, or single
+# admin-config screens rather than independent user destinations. Exposing
+# these as normal pages would violate the "no unsafe ledger/stock records"
+# rule, so they are corrected to `internal` here regardless of module.
+# This never grants or removes data access — Frappe permissions are unchanged.
+SYSTEM_INTERNAL_DOCTYPE_NAMES = {
+    # Accounting ledger / posting tables — never directly writable pages.
+    "GL Entry", "Payment Ledger Entry", "Advance Payment Ledger Entry",
+    "Account Closing Balance", "Stock Ledger Entry", "Bin", "Closing Stock Balance",
+    "Loyalty Point Entry",
+    # Ledger repair / repost / diagnostic tools — technical maintenance, not a
+    # wholesale business route.
+    "Ledger Health", "Ledger Health Monitor", "Ledger Merge",
+    "Bisect Accounting Statements", "Bisect Nodes",
+    "Repost Accounting Ledger", "Repost Accounting Ledger Settings",
+    "Repost Payment Ledger", "Repost Item Valuation", "Quick Stock Balance",
+    # System logs, not user-created records.
+    "POS Invoice Merge Log", "Transaction Deletion Record",
+    # Single admin-config screens (issingle=1): system configuration, not a
+    # list of business records.
+    "Accounts Settings", "Buying Settings", "Selling Settings", "Stock Settings",
+    "Print Settings", "POS Settings", "CRM Settings", "Support Settings",
+    "Subscription Settings", "Global Defaults", "Currency Exchange Settings",
+    "Delivery Settings", "Item Variant Settings", "Projects Settings",
+    "South Africa VAT Settings", "UAE VAT Settings", "Network Printer Settings",
+    "Scale Barcode Settings", "Authorization Control", "Stock Reposting Settings",
+    "Appointment Booking Settings",
+}
+
 
 def _canonical_path() -> Path:
     try:
@@ -175,6 +206,16 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
     if ftype in INTERNAL_FEATURE_TYPES:
         return ("internal", "internal", "n/a", [],
                 f"{ftype} is a component of its parent, not an independent user route.")
+
+    # 2b. Audit correction: system/ledger/settings DocTypes and their document
+    # actions are technical infrastructure, not a wholesale business
+    # destination, regardless of their module's default priority.
+    _system_parent = doctype or feature.get("parent_feature")
+    if _system_parent in SYSTEM_INTERNAL_DOCTYPE_NAMES:
+        return ("internal", "internal", "n/a", [],
+                "System/ledger/settings record excluded from generic routing: "
+                "never exposed as a normal page (unsafe accounting/stock record "
+                "or single admin-config screen). Standard ERPNext Desk retains it.")
 
     # 3. Platform/technical modules with no wholesale user destination.
     if priority == "internal":
