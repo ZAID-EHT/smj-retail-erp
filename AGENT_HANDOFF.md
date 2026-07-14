@@ -1,5 +1,32 @@
 # Retail ERP — Agent Handoff and Production-Readiness Audit
 
+## 0. Update — Full Feature Parity mission (2026-07-14)
+
+A follow-up "full feature parity" mission ran on branch `full-feature-parity`
+(off `develop@3ce5958`, recovery tag `pre-full-feature-parity-20260714-1123`).
+It completed the safe, non-gated foundation and stopped at the approval gates the
+mission itself defines. See `docs/full-parity/`.
+
+- **Stage 0–2 complete:** re-ran the live audit (unchanged: 2482 user-facing,
+  2396 unmapped, 3.46% route coverage, FAIL) and built an **authoritative parity
+  registry** (`my_store_ui/audit/parity_registry.py`) classifying all 2482
+  user-facing features with truthful status/priority/strategy. Honesty contract is
+  test-enforced (`test_parity_registry.py`, 7/7 pass standalone; the Frappe runner
+  is blocked). Registry distribution: 176 implemented-in-some-form, 897
+  unavailable_with_reason, 197 not_required, 1212 internal, **0 verified_complete**.
+- **`unmapped_user_facing` deliberately NOT reduced:** the strict audit treats any
+  route as "mapped", so mass-adding routes would fake parity. Coverage advances
+  only through genuine, verified implementation.
+- **All P0 implementation is gated** (see `docs/full-parity/BLOCKERS.md`): enabling
+  stock reservation + policy; Custom Fields for Credit/Non-Credit and the shared
+  Transaction ID; a test site with `allow_tests`; and browser automation. Each has
+  a written approval proposal. Nothing gated was executed; no site config, schema,
+  Custom Field, DocType or migration changed.
+- Key trackers: `docs/full-parity/PROGRESS.md`, `BLOCKERS.md`, `DECISIONS.md`,
+  `VERIFICATION_MATRIX.md`, and `docs/full-parity/inventory/`.
+
+The audit below (Sections 1–25) remains valid as the production-readiness picture.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**
