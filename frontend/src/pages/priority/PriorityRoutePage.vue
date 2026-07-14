@@ -9,6 +9,7 @@ import UniversalFormPage from "@/pages/generated/UniversalFormPage.vue";
 import UniversalListPage from "@/pages/generated/UniversalListPage.vue";
 import PriorityReportPage from "@/pages/priority/PriorityReportPage.vue";
 import WholesaleTransactionsPage from "@/pages/priority/WholesaleTransactionsPage.vue";
+import PaymentReconciliationPage from "@/pages/priority/PaymentReconciliationPage.vue";
 import PriorityReportHubPage from "@/pages/priority/PriorityReportHubPage.vue";
 import PrioritySpecialPage from "@/pages/priority/PrioritySpecialPage.vue";
 import PriorityTreePage from "@/pages/priority/PriorityTreePage.vue";
@@ -50,6 +51,7 @@ onBeforeUnmount(() => controller?.abort());
   <UniversalDetailPage v-else-if="definition?.component === 'entity' && definition.mode === 'detail'" :feature-key="definition.feature" :base-path="definition.base_path" :record-name="recordName" />
   <PriorityTreePage v-else-if="definition?.component === 'tree'" :definition="definition" />
   <WholesaleTransactionsPage v-else-if="definition?.component === 'register'" />
+  <PaymentReconciliationPage v-else-if="definition?.component === 'payment_reconciliation'" />
   <PriorityReportHubPage v-else-if="definition?.component === 'report_hub'" :group="definition.group" />
   <PriorityReportPage v-else-if="definition?.component === 'report'" :report-name="definition.report" />
   <PrioritySpecialPage v-else-if="definition?.component === 'special'" :definition="definition" />

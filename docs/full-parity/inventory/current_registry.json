@@ -7806,14 +7806,18 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "my_store_ui/wholesale/payment_reconciliation_api.py (get_unreconciled_entries/preview_allocation/reconcile, calling the standard erpnext PaymentReconciliation controller methods)",
+        "frontend/src/pages/priority/PaymentReconciliationPage.vue",
+        "Behaviourally verified read-only against site1 (Grant Plastics Ltd.: 2 outstanding invoices, correct receivable account resolved). allocate/reconcile are source-verified (exact method signatures matched against erpnext's own Desk client) but not behaviourally exercised — no unallocated Payment Entry exists on site1 to reconcile against without creating test data."
+      ],
+      "notes": "Dedicated Retail ERP adapter implemented at /retail-erp/finance/payment-reconciliation.",
       "blocking_reason": null
     },
     {
@@ -14869,14 +14873,16 @@
       "action_name": "Allocate",
       "parent_feature": "Payment Reconciliation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/payment-reconciliation adapter"
+      ],
+      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
       "blocking_reason": null
     },
     {
@@ -14888,14 +14894,16 @@
       "action_name": "Get Unreconciled Entries",
       "parent_feature": "Payment Reconciliation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/payment-reconciliation adapter"
+      ],
+      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
       "blocking_reason": null
     },
     {
@@ -14907,14 +14915,16 @@
       "action_name": "Reconcile",
       "parent_feature": "Payment Reconciliation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/payment-reconciliation adapter"
+      ],
+      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
       "blocking_reason": null
     },
     {

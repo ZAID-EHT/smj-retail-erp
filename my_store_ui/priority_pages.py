@@ -48,7 +48,12 @@ def get_priority_route_definition(path: str):
 	# The Wholesale Transaction Register is a dedicated Retail ERP register page.
 	if definition.get("classification") == "register":
 		component = "register"
-	if component not in {"entity", "tree", "special", "report", "report_hub", "register"}:
+	# Payment Reconciliation is a dedicated 3-step adapter (see
+	# my_store_ui.wholesale.payment_reconciliation_api), not the generic
+	# read-only "specialised interface" placeholder.
+	if path == "/finance/payment-reconciliation":
+		component = "payment_reconciliation"
+	if component not in {"entity", "tree", "special", "report", "report_hub", "register", "payment_reconciliation"}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {
 		"component": component, "mode": definition.get("mode"), "module": definition.get("module"),

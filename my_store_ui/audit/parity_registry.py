@@ -260,6 +260,31 @@ PAGE_OVERRIDES = {
 }
 
 
+# Batch 10 (special finance adapters): DocTypes with a genuinely built,
+# dedicated Retail ERP adapter — real Vue page + backend module, not generic
+# CRUD (these are ERPNext "virtual"/tool doctypes, never meant for a list/
+# form). The route lives outside ENTITY_ROUTES (which drives the generic
+# engine only), so it is credited here with real evidence.
+BUILT_ADAPTER_DOCTYPE_NAMES = {
+    "Payment Reconciliation": (
+        "/retail-erp/finance/payment-reconciliation",
+        [
+            "my_store_ui/wholesale/payment_reconciliation_api.py "
+            "(get_unreconciled_entries/preview_allocation/reconcile, calling the standard "
+            "erpnext PaymentReconciliation controller methods)",
+            "frontend/src/pages/priority/PaymentReconciliationPage.vue",
+            "Behaviourally verified read-only against site1 (Grant Plastics Ltd.: "
+            "2 outstanding invoices, correct receivable account resolved). "
+            "allocate/reconcile are source-verified (exact method signatures matched "
+            "against erpnext's own Desk client) but not behaviourally exercised — "
+            "no unallocated Payment Entry exists on site1 to reconcile against "
+            "without creating test data.",
+        ],
+    ),
+}
+BUILT_ADAPTER_ACTIONS = {"allocate", "get_unreconciled_entries", "reconcile"}
+
+
 NOT_REQUIRED_REPORT_NAMES = {
     "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
     "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
@@ -376,6 +401,23 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         return ("generated_doctype", "generated_provisional", "route_only",
                 [f"Reachable via mapped destination {route}"],
                 "Workspace shortcut resolves to a routed Retail ERP destination; card verification pending.")
+
+    # 0b. Batch 10: DocTypes with a genuinely built dedicated adapter (virtual/
+    # tool doctypes that don't belong in generic ENTITY_ROUTES CRUD).
+    if ftype == "doctype" and doctype in BUILT_ADAPTER_DOCTYPE_NAMES:
+        adapter_route, evidence = BUILT_ADAPTER_DOCTYPE_NAMES[doctype]
+        return ("special_adapter", "implemented_unverified", "source_only", list(evidence),
+                f"Dedicated Retail ERP adapter implemented at {adapter_route}.")
+    if ftype == "document_action" and feature.get("parent_feature") in BUILT_ADAPTER_DOCTYPE_NAMES:
+        action_key = ""
+        mapped = feature.get("mapped_actions") or []
+        if mapped and isinstance(mapped, list):
+            action_key = str(mapped[0].get("action") or "")
+        if action_key in BUILT_ADAPTER_ACTIONS:
+            adapter_route, _evidence = BUILT_ADAPTER_DOCTYPE_NAMES[feature.get("parent_feature")]
+            return ("special_adapter", "implemented_unverified", "source_only",
+                    [f"Served by the {adapter_route} adapter"],
+                    "Step of the dedicated Payment Reconciliation adapter flow.")
 
     # 1. Any feature carrying a real Retail ERP route is implemented in some form
     # regardless of module/type — evaluate this before internal/priority rules.

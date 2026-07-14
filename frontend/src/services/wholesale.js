@@ -40,3 +40,14 @@ export const getCustomerCreditStatus = (customer, company, signal) =>
   call("credit.get_customer_credit_status", { customer, company }, { signal });
 export const getStockAvailability = (itemCode, warehouse, company, signal) =>
   call("reservation.get_stock_availability", { item_code: itemCode, warehouse, company }, { signal });
+
+export const getUnreconciledEntries = (params, signal) =>
+  call("payment_reconciliation_api.get_unreconciled_entries", params, { signal, httpMethod: "POST" });
+export const previewReconciliationAllocation = (params, signal) =>
+  call("payment_reconciliation_api.preview_allocation", params, { signal, httpMethod: "POST" });
+export const reconcilePayments = (params, signal) =>
+  call("payment_reconciliation_api.reconcile", params, { signal, httpMethod: "POST" });
+export const searchReconciliationCompany = (txt, signal) =>
+  call("payment_reconciliation_api.search_company", { txt }, { signal });
+export const searchReconciliationParty = (partyType, txt, signal) =>
+  call("payment_reconciliation_api.search_party", { party_type: partyType, txt }, { signal });
