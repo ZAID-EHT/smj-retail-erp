@@ -13744,14 +13744,16 @@
       "action_name": "Make Customer",
       "parent_feature": "Lead",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_customer' served by the universal engine on routed Lead"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -13782,14 +13784,16 @@
       "action_name": "Make Opportunity",
       "parent_feature": "Lead",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_opportunity' served by the universal engine on routed Lead"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14067,14 +14071,16 @@
       "action_name": "Make Purchase Order",
       "parent_feature": "Material Request",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_purchase_order' served by the universal engine on routed Material Request"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14105,14 +14111,16 @@
       "action_name": "Make Request For Quotation",
       "parent_feature": "Material Request",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_request_for_quotation' served by the universal engine on routed Material Request"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14314,14 +14322,16 @@
       "action_name": "Stop",
       "parent_feature": "Material Request",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'stop' served by the universal engine on routed Material Request"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14428,14 +14438,16 @@
       "action_name": "Close",
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'close' served by the universal engine on routed Opportunity"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14485,14 +14497,16 @@
       "action_name": "Make Customer",
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_customer' served by the universal engine on routed Opportunity"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14523,14 +14537,16 @@
       "action_name": "Make Quotation",
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_quotation' served by the universal engine on routed Opportunity"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -14599,14 +14615,16 @@
       "action_name": "Reopen",
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'reopen' served by the universal engine on routed Opportunity"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16108,14 +16126,16 @@
       "action_name": "Close",
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'close' served by the universal engine on routed Purchase Order"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16146,14 +16166,16 @@
       "action_name": "Hold",
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'hold' served by the universal engine on routed Purchase Order"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16203,14 +16225,16 @@
       "action_name": "Make Purchase Invoice",
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_purchase_invoice' served by the universal engine on routed Purchase Order"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16241,14 +16265,16 @@
       "action_name": "Make Purchase Receipt",
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_purchase_receipt' served by the universal engine on routed Purchase Order"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16412,14 +16438,16 @@
       "action_name": "Resume",
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'resume' served by the universal engine on routed Purchase Order"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16697,14 +16725,16 @@
       "action_name": "Make Purchase Invoice",
       "parent_feature": "Purchase Receipt",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_purchase_invoice' served by the universal engine on routed Purchase Receipt"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16906,14 +16936,16 @@
       "action_name": "Make Sales Invoice",
       "parent_feature": "Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_sales_invoice' served by the universal engine on routed Quotation"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -16925,14 +16957,16 @@
       "action_name": "Make Sales Order",
       "parent_feature": "Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_sales_order' served by the universal engine on routed Quotation"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {
@@ -19235,14 +19269,16 @@
       "action_name": "Make Purchase Order",
       "parent_feature": "Supplier Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Allowlisted action 'make_purchase_order' served by the universal engine on routed Supplier Quotation"
+      ],
+      "notes": "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py (standard erpnext.*.make_* controller, permission re-checked); state/role/browser verification pending.",
       "blocking_reason": null
     },
     {

@@ -205,6 +205,30 @@ WORKSPACE_OVERRIDES = {
 }
 
 
+# Audit correction (Steps 5-9, final-mapping mission): document_action
+# features whose action is genuinely served by the universal engine's
+# allowlisted handler (my_store_ui/universal/api.py) on a doctype that
+# already has a real Retail ERP route. These are real server-verified
+# handlers (frappe.has_permission re-checked, standard ERPNext make_*
+# controllers, no arbitrary method paths) — not fabricated routes. Behavioural
+# proof is still pending (allow_tests disabled), so status is
+# implemented_unverified, matching the handcrafted-doctype treatment.
+GENERIC_LIFECYCLE_ACTIONS = {"submit", "cancel", "amend", "delete", "duplicate", "rename"}
+
+DOCTYPE_SPECIFIC_ACTIONS = {
+    "Opportunity": {"close", "reopen", "make_customer", "make_quotation"},
+    "Supplier": {"hold", "resume"},
+    "Material Request": {"stop", "reopen", "make_request_for_quotation", "make_purchase_order"},
+    "Purchase Order": {"hold", "close", "resume", "reopen", "make_purchase_receipt", "make_purchase_invoice"},
+    "Lead": {"make_opportunity", "make_customer"},
+    "Quotation": {"make_sales_order", "make_sales_invoice"},
+    "Request for Quotation": {"make_supplier_quotation"},
+    "Supplier Quotation": {"make_purchase_order"},
+    "Purchase Receipt": {"make_purchase_invoice"},
+    "Purchase Invoice": {"make_payment_entry"},
+}
+
+
 NOT_REQUIRED_REPORT_NAMES = {
     "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
     "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
@@ -230,7 +254,7 @@ def _priority_for(feature: dict) -> str:
     return MODULE_PRIORITY.get(feature.get("module") or "", "P3_optional")
 
 
-def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, list[str], str]:
+def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozenset[str] = frozenset()) -> tuple[str, str, str, list[str], str]:
     """Return (strategy, status, verification_level, evidence, notes)."""
     ftype = feature.get("feature_type")
     doctype = feature.get("doctype")
@@ -302,6 +326,17 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
             return ("special_adapter", "implemented_unverified", "source_only",
                     [f"Mapped action on {parent}"],
                     "Allowlisted mapped-document action exists; state/role/duplicate tests pending.")
+        action_key = ""
+        mapped = feature.get("mapped_actions") or []
+        if mapped and isinstance(mapped, list):
+            action_key = str(mapped[0].get("action") or "")
+        served = action_key in GENERIC_LIFECYCLE_ACTIONS or action_key in DOCTYPE_SPECIFIC_ACTIONS.get(parent, set())
+        if served and parent in routed_doctypes:
+            return ("special_adapter", "implemented_unverified", "source_only",
+                    [f"Allowlisted action '{action_key}' served by the universal engine on routed {parent}"],
+                    "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py "
+                    "(standard erpnext.*.make_* controller, permission re-checked); "
+                    "state/role/browser verification pending.")
         return ("unavailable_with_reason", "unavailable_with_reason", "n/a", [],
                 f"Pending implementation ({priority}); standard Desk mapping remains source of truth.")
 
@@ -335,12 +370,16 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
 def build_parity_registry() -> dict:
     """Build the authoritative registry from the canonical inventory (read-only)."""
     data = json.loads(_canonical_path().read_text(encoding="utf-8"))
+    routed_doctypes = frozenset(
+        f.get("doctype") for f in data["features"]
+        if f.get("feature_type") == "doctype" and f.get("current_custom_route")
+    )
     entries = []
     for f in data["features"]:
         if not f.get("user_facing"):
             continue
         priority = _priority_for(f)
-        strategy, status, vlevel, evidence, note = _strategy_and_status(f, priority)
+        strategy, status, vlevel, evidence, note = _strategy_and_status(f, priority, routed_doctypes)
         entries.append({
             "feature_key": f["feature_id"],
             "source_app": f.get("application"),
