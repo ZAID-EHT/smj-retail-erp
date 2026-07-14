@@ -223,6 +223,7 @@ FORM_VARIANTS = {
 
 
 SPECIAL_ROUTES = {
+	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},
 	"/finance/payment-reconciliation": {"module": "finance", "label": "Payment Reconciliation", "doctype": "Payment Reconciliation", "classification": "specialised_provisional"},
 	"/finance/bank-reconciliation": {"module": "finance", "label": "Bank Reconciliation", "doctype": "Bank Reconciliation Tool", "classification": "specialised_provisional"},

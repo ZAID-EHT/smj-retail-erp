@@ -45,7 +45,10 @@ def get_priority_route_definition(path: str):
 	_require_login()
 	definition, params = _authorise(path)
 	component = definition.get("component")
-	if component not in {"entity", "tree", "special", "report", "report_hub"}:
+	# The Wholesale Transaction Register is a dedicated Retail ERP register page.
+	if definition.get("classification") == "register":
+		component = "register"
+	if component not in {"entity", "tree", "special", "report", "report_hub", "register"}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {
 		"component": component, "mode": definition.get("mode"), "module": definition.get("module"),
