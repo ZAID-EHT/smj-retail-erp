@@ -60,12 +60,15 @@ complete = {
     json.dumps(complete, indent=2, ensure_ascii=False, default=str) + "\n", encoding="utf-8"
 )
 
+# NOTE: the authoritative registry (current_registry.json) is owned by
+# my_store_ui.audit.parity_registry.generate. Here we only snapshot which
+# features currently carry a route, as `currently_routed.json`.
 mapped = [slim(f) for f in features if f.get("current_custom_route")]
-(OUT / "current_registry.json").write_text(
+(OUT / "currently_routed.json").write_text(
     json.dumps({
         "captured_at": NOW,
-        "definition": "A feature is 'currently mapped' iff the canonical audit assigned it a current_custom_route.",
-        "mapped_count": len(mapped),
+        "definition": "A feature is 'currently routed' iff the canonical audit assigned it a current_custom_route.",
+        "routed_count": len(mapped),
         "features": sorted(mapped, key=lambda x: (x["application"], x["module"], x["name"])),
     }, indent=2, ensure_ascii=False, default=str) + "\n", encoding="utf-8"
 )
