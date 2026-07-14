@@ -152,6 +152,31 @@ document actions across Asset/Company/Bank Reconciliation flows).
 browser or `bench run-tests` verification. No schema, site-config, or
 other-app change was made this pass either.
 
+## 0d. Update — Payment Reconciliation adapter, pass 3 (2026-07-14, later same day)
+
+Given the choice between more classification sweeps or building one real
+adapter properly, built **Payment Reconciliation** end-to-end (commit
+`54f3859`): backend module `my_store_ui/wholesale/payment_reconciliation_api.py`
+(3 fixed-purpose whitelisted functions reproducing ERPNext's standard 3-step
+reconciliation flow via the real `PaymentReconciliation` virtual-doctype
+controller — never the generic browser-suppliable `run_doc_method`), a new
+Vue page (`PaymentReconciliationPage.vue`) wired into the existing route
+dispatch, and 2 search helpers for the filter form.
+
+Verified behaviourally (read-only, rolled back) against real site1 data:
+`get_unreconciled_entries` correctly found 2 outstanding invoices for Grant
+Plastics Ltd. and resolved the right receivable account. Guest access is
+blocked on every endpoint including `reconcile`. The write path
+(`allocate`/`reconcile`) is source-verified against ERPNext's own Desk
+client signatures but not behaviourally exercised — there is no unallocated
+Payment Entry on site1 to reconcile against without creating test data.
+
+`required_but_missing`: 323 → **319**. Batches 11 (special stock adapters)
+and 12 (purchasing/imports) remain fully open; Batch 10 has one adapter done
+(Payment Reconciliation) with several still open (Bank Reconciliation Tool,
+GL/Trial Balance/P&L/Balance Sheet drill-down, Budgets, period-closing
+tools) — same template applies to each if continued.
+
 The audit below (Sections 1–25) remains valid as the production-readiness picture.
 
 ## 1. Executive Summary

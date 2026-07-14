@@ -1,6 +1,42 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-14 22:05 (batch: URGENT MAPPING MISSION — pass 2, continuation)_
+_Last updated: 2026-07-14 22:35 (batch: URGENT MAPPING MISSION — pass 3, Payment Reconciliation adapter)_
+
+## Pass 3 — real new feature: Payment Reconciliation adapter (Batch 10)
+
+User chose "pick one adapter to build properly" over more classification
+sweeps. Built the first genuinely new UI + backend feature since the
+wholesale-core batch (commit `54f3859`):
+
+- **Backend** (`my_store_ui/wholesale/payment_reconciliation_api.py`): 3
+  fixed-purpose whitelisted functions reproducing ERPNext's standard 3-step
+  Payment Reconciliation flow (`get_unreconciled_entries` →
+  `preview_allocation` → `reconcile`), each delegating to the exact same
+  `PaymentReconciliation` virtual-doctype controller methods the ERPNext
+  Desk client itself calls. Deliberately did NOT expose Frappe's generic
+  `run_doc_method` (browser-suppliable method path) — only these 3 named
+  operations can ever run.
+- **Frontend** (`PaymentReconciliationPage.vue`): 3-step selection UI
+  wired into the existing `PriorityRoutePage.vue` dispatch pattern via a
+  new `payment_reconciliation` component type.
+- **Verified:** `get_unreconciled_entries` behaviourally exercised against
+  real site1 data (Grant Plastics Ltd. → 2 outstanding invoices, correct
+  receivable account resolved, then rolled back). Guest access confirmed
+  blocked on every endpoint including `reconcile`. `allocate`/`reconcile`
+  are source-verified (signatures matched against ERPNext's own Desk
+  client) but not behaviourally exercised — no unallocated Payment Entry
+  exists on site1 to reconcile against without creating test data.
+
+`required_but_missing`: 323 → **319**.
+
+This is a template for the remaining Batch 10/11/12 items if the user wants
+more built the same way: read the real ERPNext controller first, reproduce
+its exact call contract with fixed-purpose whitelisted wrappers (never a
+generic method-path RPC), build a dedicated Vue page, verify what's safely
+verifiable against live data without creating test records, and credit it
+in `parity_registry.py` via a `BUILT_ADAPTER_DOCTYPE_NAMES`-style table.
+
+---
 
 ## Pass 2 — continuation (Batches 7, 8, 13, 14 + a POS follow-up fix)
 
