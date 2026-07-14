@@ -268,6 +268,59 @@ NOT_REQUIRED_REPORT_NAMES = {
                          "tax reports instead.",
 }
 
+# Audit correction: country-specific DocTypes (as opposed to reports, see
+# NOT_REQUIRED_REPORT_NAMES above) not applicable outside their jurisdiction.
+NOT_REQUIRED_DOCTYPE_NAMES = {
+    "Import Supplier Invoice": "India GST e-invoice bulk-import tool; not applicable outside India.",
+}
+
+# Audit correction: print formats attached to a Report (doc_type is empty in
+# ERPNext for these) rather than a DocType. feature_inventory.py's print
+# format route resolver only checks doc_type, so these never get a route even
+# though their underlying report is already routed via REPORT_GROUPS. Credit
+# them the same way a DocType print format is credited by its routed parent.
+PRINT_FORMAT_REPORT_NAMES = {
+    "Accounts Payable Standard": "Accounts Payable",
+    "Accounts Payable Summary Standard": "Accounts Payable",
+    "Accounts Receivable Standard": "Accounts Receivable",
+    "Accounts Receivable Summary Standard": "Accounts Receivable",
+    "Balance Sheet Standard": "Balance Sheet",
+    "Cash Flow Statement Standard": "Cash Flow",
+    "General Ledger Standard": "General Ledger",
+    "P&L Statement Standard": "Profit and Loss Statement",
+    "Trial Balance Standard": "Trial Balance",
+}
+
+# Audit correction (Step 11): technical backend-only components — email/
+# integration/OAuth/webhook infrastructure, workflow *design* tooling (as
+# opposed to using an active workflow), bulk-automation config, system log
+# tables, and one-time admin setup wizards. None of these are independent
+# wholesale business destinations; System Manager retains them in Desk.
+PLATFORM_INTERNAL_DOCTYPE_NAMES = {
+    # Integrations module: auth/webhook/cloud-storage config.
+    "Connected App", "Dropbox Settings", "Google Calendar", "Google Contacts",
+    "Google Drive", "Google Settings", "LDAP Settings", "OAuth Authorization Code",
+    "OAuth Bearer Token", "OAuth Client", "OAuth Provider Settings",
+    "Push Notification Settings", "S3 Backup Settings", "Slack Webhook URL",
+    "Social Login Key", "Webhook", "Plaid Settings",
+    # Email module: mail infrastructure config.
+    "Auto Email Report", "Email Account", "Email Domain", "Email Flag Queue",
+    "Email Group", "Email Group Member", "Email Queue", "Email Rule",
+    "Email Template", "Email Unsubscribe", "Newsletter", "Notification",
+    "Communication Medium",
+    # Workflow *design* tooling (distinct from using an active workflow).
+    "Workflow", "Workflow Action", "Workflow Action Master", "Workflow State",
+    # Automation/bulk-config admin tooling.
+    "Assignment Rule", "Auto Repeat", "Milestone", "Milestone Tracker", "Reminder",
+    "Bulk Transaction Log", "Bulk Transaction Log Detail",
+    # One-time company setup wizards.
+    "Chart of Accounts Importer", "Opening Invoice Creation Tool",
+    # Bulk marketing/messaging admin tool.
+    "SMS Center",
+    # Auto-generated child-like record tied to Asset, not independently created.
+    "Asset Depreciation Schedule",
+}
+
 
 def _canonical_path() -> Path:
     try:
@@ -340,6 +393,19 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
                 "never exposed as a normal page (unsafe accounting/stock record "
                 "or single admin-config screen). Standard ERPNext Desk retains it.")
 
+    # 2c. Audit correction (Step 11/13): platform/technical backend-only
+    # components (email, integrations/OAuth/webhooks, workflow design
+    # tooling, bulk-automation config, system logs, one-time setup wizards).
+    if _system_parent in PLATFORM_INTERNAL_DOCTYPE_NAMES:
+        return ("internal", "internal", "n/a", [],
+                "Technical backend-only component (Step 11): admin/system configuration, "
+                "not an independent wholesale business destination. Standard ERPNext Desk retains it.")
+
+    # 2d. Audit correction: country-specific DocTypes not applicable to this
+    # business's jurisdiction.
+    if _system_parent in NOT_REQUIRED_DOCTYPE_NAMES:
+        return ("not_required", "not_required", "n/a", [], NOT_REQUIRED_DOCTYPE_NAMES[_system_parent])
+
     # 3. Platform/technical modules with no wholesale user destination.
     if priority == "internal":
         return ("internal", "internal", "n/a", [],
@@ -389,6 +455,20 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
     # to this business's jurisdiction.
     if ftype == "report" and feature.get("name") in NOT_REQUIRED_REPORT_NAMES:
         return ("not_required", "not_required", "n/a", [], NOT_REQUIRED_REPORT_NAMES[feature.get("name")])
+
+    # 6c. Audit correction: print formats attached to a Report rather than a
+    # DocType (doc_type is empty in ERPNext for these), whose report is
+    # already routed via REPORT_GROUPS. feature_inventory.py's print-format
+    # resolver only checks doc_type, so these were never credited even though
+    # the report they render is genuinely reachable.
+    if ftype == "print_format" and feature.get("name") in PRINT_FORMAT_REPORT_NAMES:
+        from my_store_ui.services.priority_registry import REPORT_GROUPS as _REPORT_GROUPS
+        report_name = PRINT_FORMAT_REPORT_NAMES[feature.get("name")]
+        if report_name in {r for names in _REPORT_GROUPS.values() for r in names}:
+            return ("generated_print", "generated_provisional", "route_only",
+                    [f"Selectable via the routed report {report_name}'s Print Preview"],
+                    "Report-attached print format; renders through the routed report viewer's "
+                    "print/PDF dialog. Per-format/letterhead verification pending.")
 
     # 7. Reports without a route.
     if ftype == "report":
