@@ -55,6 +55,30 @@ evidence this mission. The strongest truthful status for the handcrafted
 sales/payment stack is `implemented_unverified`. Zero `verified_complete` is the
 correct, non-inflated state until GATE 4/5 (BLOCKERS.md) are opened.
 
+## D8. Crediting workspace shortcuts by their destination
+
+A `workspace_target` is a shortcut inside an ERPNext workspace. Retail ERP does
+not render ERPNext workspaces, but the *destination* a shortcut points to (a
+DocType or Report) may have a real Retail ERP route. The audit now credits a
+workspace_target with its target's **real** route (never an empty one) when the
+target DocType/Report is routed; targets to unrouted DocTypes, Number Cards,
+Pages, Charts or Dashboards stay unmapped. This is truthful navigation
+reachability, not metric-padding: 351 of 597 shortcuts point to genuinely-served
+destinations. In the registry these are `generated_provisional` (the destination
+works; interactive workspace-card verification is still pending).
+
+## D9. Batches so far reduced unmapped only through real engine coverage
+
+- Batch "generated DocType masters": +116 doctypes served by the universal engine
+  (server-verified). Included a real engine bug fix (list KeyError on text/hidden
+  default columns).
+- Batch "generated reports": +156 reports served by the permission-aware viewer
+  (server-verified definitions).
+- Batch "workspace shortcuts": +351 shortcuts credited via their routed targets.
+
+No empty routes were invented; ledger/system tables, singles and POS were
+excluded from generic CRUD. `unmapped_user_facing` 2396 → 1773.
+
 ## D7. Repository safety
 
 Work is on branch `full-feature-parity` off `develop@3ce5958`, with recovery tag

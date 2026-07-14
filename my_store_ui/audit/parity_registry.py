@@ -140,31 +140,42 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
     doctype = feature.get("doctype")
     route = feature.get("current_custom_route")
 
-    # 1. Internal component features.
-    if ftype in INTERNAL_FEATURE_TYPES:
-        return ("internal", "internal", "n/a", [],
-                f"{ftype} is a component of its parent, not an independent user route.")
+    # 0. A workspace shortcut credited with its target's real Retail ERP route is
+    # reachable navigation, not an internal component.
+    if ftype == "workspace_target" and route:
+        return ("generated_doctype", "generated_provisional", "route_only",
+                [f"Reachable via mapped destination {route}"],
+                "Workspace shortcut resolves to a routed Retail ERP destination; card verification pending.")
 
-    # 2. Platform/technical modules with no wholesale user destination.
-    if priority == "internal":
-        return ("internal", "internal", "n/a", [],
-                "Platform/technical capability; owned by Frappe Desk, not a wholesale route.")
-
-    # 3. Handcrafted DocTypes.
-    if doctype in HANDCRAFTED_DOCTYPES and ftype == "doctype":
-        return ("custom_override", "implemented_unverified", "source_only",
-                [f"Handcrafted route {route}", "Server schema + lifecycle actions exist"],
-                "Behavioural verification blocked: allow_tests disabled; no browser automation.")
-
-    # 4. Anything already carrying a custom route -> provisional (route != done).
+    # 1. Any feature carrying a real Retail ERP route is implemented in some form
+    # regardless of module/type — evaluate this before internal/priority rules.
     if route:
+        if doctype in HANDCRAFTED_DOCTYPES and ftype == "doctype":
+            return ("custom_override", "implemented_unverified", "source_only",
+                    [f"Handcrafted route {route}", "Server schema + lifecycle actions exist"],
+                    "Behavioural verification blocked: allow_tests disabled; no browser automation.")
         if ftype == "report":
             return ("generated_report", "generated_provisional", "route_only",
                     [f"Priority report route {route}"],
                     "Provisional report viewer; interactive filter/chart/PDF tests pending.")
-        return ("generated_doctype", "generated_provisional", "route_only",
-                [f"Clean generated route {route}"],
-                "Generic engine route; per-feature action/permission/browser tests pending.")
+        if ftype == "doctype":
+            return ("generated_doctype", "generated_provisional", "route_only",
+                    [f"Clean generated route {route}"],
+                    "Generic engine route; per-feature action/permission/browser tests pending.")
+        # Routed page/shell/installed-app surface (e.g. the /retail-erp SPA shell).
+        return ("special_adapter", "implemented_unverified", "source_only",
+                [f"Routed Retail ERP surface {route}"],
+                "Routed surface exists; browser/role verification pending.")
+
+    # 2. Internal component features (never routed).
+    if ftype in INTERNAL_FEATURE_TYPES:
+        return ("internal", "internal", "n/a", [],
+                f"{ftype} is a component of its parent, not an independent user route.")
+
+    # 3. Platform/technical modules with no wholesale user destination.
+    if priority == "internal":
+        return ("internal", "internal", "n/a", [],
+                "Platform/technical capability; owned by Frappe Desk, not a wholesale route.")
 
     # 5. Not-required modules.
     if priority == "not_required":
@@ -282,8 +293,8 @@ def validate_parity_registry(registry: dict | None = None) -> dict:
         # A bare route must never be counted as verified_complete.
         if e["status"] == "verified_complete" and e.get("verification_level") in {None, "route_only", "n/a"}:
             errors.append(f"{k}: verified_complete requires behavioural verification_level")
-        # Routed entries must not silently be 'unavailable'.
-        if e["retail_erp_route"] and e["status"] in {"unavailable_with_reason", "not_required"}:
+        # Routed entries must not silently be 'unavailable', 'not_required' or 'internal'.
+        if e["retail_erp_route"] and e["status"] in {"unavailable_with_reason", "not_required", "internal"}:
             errors.append(f"{k}: has route but status {e['status']}")
 
     return {"status": "fail" if errors else "pass", "error_count": len(errors), "errors": errors[:50]}

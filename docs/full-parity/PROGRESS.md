@@ -1,15 +1,15 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-14 (batch: generated reports)_
+_Last updated: 2026-07-14 (batch: workspace shortcuts)_
 
 ## Headline metrics
 
 | Metric | Starting | Current |
 |---|---:|---:|
 | User-facing capabilities (source of truth) | 2482 | 2482 |
-| Unmapped user-facing (route-based strict audit) | 2396 | **2124** |
-| Currently routed features | 86 | **358** |
-| Strict route coverage | 3.46% | **14.42%** |
+| Unmapped user-facing (route-based strict audit) | 2396 | **1773** |
+| Currently routed features | 86 | **709** |
+| Strict route coverage | 3.46% | **28.57%** |
 | Authoritative registry entries | 0 | **2482** |
 
 _Batch "generated DocType masters": added 116 in-scope standard parent DocTypes to

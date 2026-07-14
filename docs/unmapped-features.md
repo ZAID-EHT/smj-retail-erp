@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **2124**.
+Total user-facing features without a registered custom route: **1773**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -955,153 +955,40 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:report:youtube-interactions` | erpnext | Utilities | report | YouTube Interactions | D | /app/query-report/YouTube Interactions | Required: no Retail ERP report adapter |
 | `erpnext:workspace-target:accounting:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:dashboard-accounts` | erpnext | Accounts | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-account` | erpnext | Accounts | workspace_target | Chart of Accounts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-accounting-dimension` | erpnext | Accounts | workspace_target | Accounting Dimension | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-accounting-period` | erpnext | Accounts | workspace_target | Accounting Period | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-accounts-settings` | erpnext | Accounts | workspace_target | Accounts Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-bank` | erpnext | Accounts | workspace_target | Bank | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-bank-account` | erpnext | Accounts | workspace_target | Bank Account | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-bank-clearance` | erpnext | Accounts | workspace_target | Bank Clearance | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-bank-reconciliation-tool` | erpnext | Accounts | workspace_target | Bank Reconciliation Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-budget` | erpnext | Accounts | workspace_target | Budget | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-chart-of-accounts-importer` | erpnext | Accounts | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-company` | erpnext | Accounts | workspace_target | Company | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-cost-center` | erpnext | Accounts | workspace_target | Chart of Cost Centers | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-cost-center-allocation` | erpnext | Accounts | workspace_target | Cost Center Allocation | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-currency` | erpnext | Accounts | workspace_target | Currency | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-currency-exchange` | erpnext | Accounts | workspace_target | Currency Exchange | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-exchange-rate-revaluation` | erpnext | Accounts | workspace_target | Exchange Rate Revaluation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-finance-book` | erpnext | Accounts | workspace_target | Finance Book | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-fiscal-year` | erpnext | Accounts | workspace_target | Fiscal Year | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-item-tax-template` | erpnext | Accounts | workspace_target | Item Tax Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-journal-entry` | erpnext | Accounts | workspace_target | Journal Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-journal-entry-template` | erpnext | Accounts | workspace_target | Journal Entry Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-lower-deduction-certificate` | erpnext | Accounts | workspace_target | Lower Deduction Certificate | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-mode-of-payment` | erpnext | Accounts | workspace_target | Mode of Payment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-monthly-distribution` | erpnext | Accounts | workspace_target | Monthly Distribution | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-opening-invoice-creation-tool` | erpnext | Accounts | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-payment-entry` | erpnext | Accounts | workspace_target | Payment Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-payment-term` | erpnext | Accounts | workspace_target | Payment Term | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-period-closing-voucher` | erpnext | Accounts | workspace_target | Period Closing Voucher | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-plaid-settings` | erpnext | Accounts | workspace_target | Plaid Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-purchase-invoice` | erpnext | Accounts | workspace_target | Purchase Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-purchase-taxes-and-charges-template` | erpnext | Accounts | workspace_target | Purchase Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-sales-invoice` | erpnext | Accounts | workspace_target | Sales Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-sales-taxes-and-charges-template` | erpnext | Accounts | workspace_target | Sales Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-share-transfer` | erpnext | Accounts | workspace_target | Share Transfer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-shareholder` | erpnext | Accounts | workspace_target | Shareholder | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-subscription` | erpnext | Accounts | workspace_target | Subscription | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-subscription-plan` | erpnext | Accounts | workspace_target | Subscription Plan | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-subscription-settings` | erpnext | Accounts | workspace_target | Subscription Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-tax-category` | erpnext | Accounts | workspace_target | Tax Category | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-tax-rule` | erpnext | Accounts | workspace_target | Tax Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:doctype-tax-withholding-category` | erpnext | Accounts | workspace_target | Tax Withholding Category | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:doctype-terms-and-conditions` | erpnext | Accounts | workspace_target | Terms and Conditions | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-incoming-bills` | erpnext | Accounts | workspace_target | Total Incoming Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-incoming-payment` | erpnext | Accounts | workspace_target | Total Incoming Payment | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-outgoing-bills` | erpnext | Accounts | workspace_target | Total Outgoing Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:accounting:number-card-total-outgoing-payment` | erpnext | Accounts | workspace_target | Total Outgoing Payment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-accounts-receivable` | erpnext | Accounts | workspace_target | Accounts Receivable | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-bank-reconciliation-statement` | erpnext | Accounts | workspace_target | Bank Reconciliation Statement | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-budget-variance-report` | erpnext | Accounts | workspace_target | Budget Variance Report | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-general-ledger` | erpnext | Accounts | workspace_target | General Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-share-balance` | erpnext | Accounts | workspace_target | Share Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-share-ledger` | erpnext | Accounts | workspace_target | Share Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:accounting:report-trial-balance` | erpnext | Accounts | workspace_target | Trial Balance | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:assets:chart-asset-value-analytics` | erpnext | Assets | workspace_target | Asset Value Analytics | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:assets:dashboard-asset` | erpnext | Assets | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset` | erpnext | Assets | workspace_target | Asset | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-capitalization` | erpnext | Assets | workspace_target | Asset Capitalization | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-category` | erpnext | Assets | workspace_target | Asset Category | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-maintenance` | erpnext | Assets | workspace_target | Asset Maintenance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-maintenance-log` | erpnext | Assets | workspace_target | Asset Maintenance Log | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-maintenance-team` | erpnext | Assets | workspace_target | Asset Maintenance Team | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-movement` | erpnext | Assets | workspace_target | Asset Movement | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-repair` | erpnext | Assets | workspace_target | Asset Repair | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-asset-value-adjustment` | erpnext | Assets | workspace_target | Asset Value Adjustment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:doctype-location` | erpnext | Assets | workspace_target | Location | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:report-asset-activity` | erpnext | Assets | workspace_target | Asset Activity | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:report-asset-depreciation-ledger` | erpnext | Assets | workspace_target | Asset Depreciation Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:report-asset-depreciations-and-balances` | erpnext | Assets | workspace_target | Asset Depreciations and Balances | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:report-asset-maintenance` | erpnext | Assets | workspace_target | Asset Maintenance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:assets:report-fixed-asset-register` | erpnext | Assets | workspace_target | Fixed Asset Register | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:chart-purchase-order-trends` | erpnext | Buying | workspace_target | Purchase Order Trends | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:dashboard-buying` | erpnext | Buying | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-address` | erpnext | Buying | workspace_target | Address | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:doctype-buying-settings` | erpnext | Buying | workspace_target | Buying Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-contact` | erpnext | Buying | workspace_target | Contact | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:doctype-import-supplier-invoice` | erpnext | Buying | workspace_target | Import Supplier Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-item` | erpnext | Buying | workspace_target | Item | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-item-group` | erpnext | Buying | workspace_target | Item Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-item-price` | erpnext | Buying | workspace_target | Item Price | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-material-request` | erpnext | Buying | workspace_target | Material Request | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-price-list` | erpnext | Buying | workspace_target | Price List | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-pricing-rule` | erpnext | Buying | workspace_target | Pricing Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-product-bundle` | erpnext | Buying | workspace_target | Product Bundle | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-promotional-scheme` | erpnext | Buying | workspace_target | Promotional Scheme | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-purchase-invoice` | erpnext | Buying | workspace_target | Purchase Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-purchase-order` | erpnext | Buying | workspace_target | Purchase Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-purchase-taxes-and-charges-template` | erpnext | Buying | workspace_target | Purchase Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-request-for-quotation` | erpnext | Buying | workspace_target | Request for Quotation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier` | erpnext | Buying | workspace_target | Supplier | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-group` | erpnext | Buying | workspace_target | Supplier Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-quotation` | erpnext | Buying | workspace_target | Supplier Quotation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-scorecard` | erpnext | Buying | workspace_target | Supplier Scorecard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-scorecard-criteria` | erpnext | Buying | workspace_target | Supplier Scorecard Criteria | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-scorecard-standing` | erpnext | Buying | workspace_target | Supplier Scorecard Standing | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:doctype-supplier-scorecard-variable` | erpnext | Buying | workspace_target | Supplier Scorecard Variable | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:buying:doctype-terms-and-conditions` | erpnext | Buying | workspace_target | Terms and Conditions Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-address-and-contacts` | erpnext | Buying | workspace_target | Supplier Addresses And Contacts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-item-wise-purchase-history` | erpnext | Buying | workspace_target | Item-wise Purchase History | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-items-to-be-requested` | erpnext | Buying | workspace_target | Items To Be Requested | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-material-requests-for-which-supplier-quotations-are-not-created` | erpnext | Buying | workspace_target | Material Requests for which Supplier Quotations are not created | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-procurement-tracker` | erpnext | Buying | workspace_target | Procurement Tracker | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-purchase-analytics` | erpnext | Buying | workspace_target | Purchase Analytics | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-purchase-invoice-trends` | erpnext | Buying | workspace_target | Purchase Invoice Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-purchase-order-analysis` | erpnext | Buying | workspace_target | Purchase Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-purchase-order-trends` | erpnext | Buying | workspace_target | Purchase Order Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-purchase-receipt-trends` | erpnext | Buying | workspace_target | Purchase Receipt Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-requested-items-to-order-and-receive` | erpnext | Buying | workspace_target | Items to Order and Receive | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-subcontracted-item-to-be-received` | erpnext | Buying | workspace_target | Subcontracted Item To Be Received | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-subcontracted-raw-materials-to-be-transferred` | erpnext | Buying | workspace_target | Subcontracted Raw Materials To Be Transferred | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-supplier-quotation-comparison` | erpnext | Buying | workspace_target | Supplier Quotation Comparison | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:buying:report-supplier-wise-sales-analytics` | erpnext | Buying | workspace_target | Supplier-Wise Sales Analytics | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:chart-territory-wise-sales` | erpnext | CRM | workspace_target | Territory Wise Sales | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:dashboard-crm` | erpnext | CRM | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-appointment` | erpnext | CRM | workspace_target | Appointment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-campaign` | erpnext | CRM | workspace_target | Campaign | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-communication` | erpnext | CRM | workspace_target | Communication | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-contact` | erpnext | CRM | workspace_target | Contact | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-contract` | erpnext | CRM | workspace_target | Contract | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-crm-settings` | erpnext | CRM | workspace_target | CRM Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-customer` | erpnext | CRM | workspace_target | Customer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-customer-group` | erpnext | CRM | workspace_target | Customer Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-email-campaign` | erpnext | CRM | workspace_target | Email Campaign | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-email-group` | erpnext | CRM | workspace_target | Email Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-lead` | erpnext | CRM | workspace_target | Lead | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-lead-source` | erpnext | CRM | workspace_target | Lead Source | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-maintenance-schedule` | erpnext | CRM | workspace_target | Maintenance Schedule | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-maintenance-visit` | erpnext | CRM | workspace_target | Maintenance Visit | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-newsletter` | erpnext | CRM | workspace_target | Newsletter | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-opportunity` | erpnext | CRM | workspace_target | Opportunity | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-prospect` | erpnext | CRM | workspace_target | Prospect | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-sales-person` | erpnext | CRM | workspace_target | Sales Person | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-sales-stage` | erpnext | CRM | workspace_target | Sales Stage | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-sms-center` | erpnext | CRM | workspace_target | SMS Center | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-sms-log` | erpnext | CRM | workspace_target | SMS Log | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-sms-settings` | erpnext | CRM | workspace_target | SMS Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-territory` | erpnext | CRM | workspace_target | Territory | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-warranty-claim` | erpnext | CRM | workspace_target | Warranty Claim | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:page-sales-funnel` | erpnext | CRM | workspace_target | Sales Funnel | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-campaign-efficiency` | erpnext | CRM | workspace_target | Campaign Efficiency | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-first-response-time-for-opportunity` | erpnext | CRM | workspace_target | First Response Time for Opportunity | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-inactive-customers` | erpnext | CRM | workspace_target | Inactive Customers | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-lead-details` | erpnext | CRM | workspace_target | Lead Details | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-lead-owner-efficiency` | erpnext | CRM | workspace_target | Lead Owner Efficiency | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-opportunity-summary-by-sales-stage` | erpnext | CRM | workspace_target | Opportunity Summary by Sales Stage | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-prospects-engaged-but-not-converted` | erpnext | CRM | workspace_target | Prospects Engaged But Not Converted | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-sales-analytics` | erpnext | CRM | workspace_target | Sales Analytics | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:report-sales-pipeline-analytics` | erpnext | CRM | workspace_target | Sales Pipeline Analytics | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-integrations:doctype-dropbox-settings` | erpnext | ERPNext Integrations | workspace_target | Dropbox Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-integrations:doctype-google-calendar` | erpnext | ERPNext Integrations | workspace_target | Google Calendar | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-integrations:doctype-google-contacts` | erpnext | ERPNext Integrations | workspace_target | Google Contacts | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1151,311 +1038,74 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:erpnext-settings:doctype-workflow-state` | erpnext | Setup | workspace_target | Workflow State | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:page-backups` | erpnext | Setup | workspace_target | Download Backups | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:erpnext-settings:page-print-format-builder` | erpnext | Setup | workspace_target | Print Format Builder | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-address-and-contacts` | erpnext | Accounts | workspace_target | Address And Contacts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-balance-sheet` | erpnext | Accounts | workspace_target | Balance Sheet | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-cash-flow` | erpnext | Accounts | workspace_target | Cash Flow | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-consolidated-financial-statement` | erpnext | Accounts | workspace_target | Consolidated Financial Statement | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-customer-credit-balance` | erpnext | Accounts | workspace_target | Customer Credit Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-customer-ledger-summary` | erpnext | Accounts | workspace_target | Customer Ledger Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-general-ledger` | erpnext | Accounts | workspace_target | General Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-gross-profit` | erpnext | Accounts | workspace_target | Gross Profit | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-payment-period-based-on-invoice-date` | erpnext | Accounts | workspace_target | Payment Period Based On Invoice Date | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-profit-and-loss-statement` | erpnext | Accounts | workspace_target | Profit and Loss Statement | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-profitability-analysis` | erpnext | Accounts | workspace_target | Profitability Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-purchase-invoice-trends` | erpnext | Accounts | workspace_target | Purchase Invoice Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-sales-invoice-trends` | erpnext | Accounts | workspace_target | Sales Invoice Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-sales-partners-commission` | erpnext | Accounts | workspace_target | Sales Partners Commission | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-sales-payment-summary` | erpnext | Accounts | workspace_target | Sales Payment Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-supplier-ledger-summary` | erpnext | Accounts | workspace_target | Supplier Ledger Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-trial-balance` | erpnext | Accounts | workspace_target | Trial Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:financial-reports:report-trial-balance-for-party` | erpnext | Accounts | workspace_target | Trial Balance for Party | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:financial-reports:report-uae-vat-201` | erpnext | Accounts | workspace_target | UAE VAT 201 | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-account` | erpnext | Setup | workspace_target | Chart of Accounts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-brand` | erpnext | Setup | workspace_target | Brand | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-chart-of-accounts-importer` | erpnext | Setup | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-company` | erpnext | Setup | workspace_target | Company | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-customer` | erpnext | Setup | workspace_target | Customer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-customer-group` | erpnext | Setup | workspace_target | Customer Group | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-data-import` | erpnext | Setup | workspace_target | Import Data | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-email-account` | erpnext | Setup | workspace_target | Email Account | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-item` | erpnext | Setup | workspace_target | Item | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-lead` | erpnext | Setup | workspace_target | Lead | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-letter-head` | erpnext | Setup | workspace_target | Letter Head | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:doctype-opening-invoice-creation-tool` | erpnext | Setup | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-sales-invoice` | erpnext | Setup | workspace_target | Sales Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-stock-reconciliation` | erpnext | Setup | workspace_target | Stock Reconciliation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-supplier` | erpnext | Setup | workspace_target | Supplier | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-territory` | erpnext | Setup | workspace_target | Territory | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-uom` | erpnext | Setup | workspace_target | Unit of Measure (UOM) | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:home:doctype-warehouse` | erpnext | Setup | workspace_target | Warehouse | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:home:page-leaderboard` | erpnext | Setup | workspace_target | Leaderboard | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:chart-profit-and-loss` | erpnext | Accounts | workspace_target | Profit and Loss | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-account` | erpnext | Accounts | workspace_target | Chart of Accounts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-accounting-dimension` | erpnext | Accounts | workspace_target | Accounting Dimension | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-accounting-period` | erpnext | Accounts | workspace_target | Accounting Period | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-accounts-settings` | erpnext | Accounts | workspace_target | Accounts Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-bank` | erpnext | Accounts | workspace_target | Bank | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-bank-account` | erpnext | Accounts | workspace_target | Bank Account | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-bank-clearance` | erpnext | Accounts | workspace_target | Bank Clearance | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-bank-reconciliation-tool` | erpnext | Accounts | workspace_target | Bank Reconciliation Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-budget` | erpnext | Accounts | workspace_target | Budget | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-chart-of-accounts-importer` | erpnext | Accounts | workspace_target | Chart of Accounts Importer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-company` | erpnext | Accounts | workspace_target | Company | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-cost-center` | erpnext | Accounts | workspace_target | Chart of Cost Centers | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-cost-center-allocation` | erpnext | Accounts | workspace_target | Cost Center Allocation | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-currency` | erpnext | Accounts | workspace_target | Currency | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-currency-exchange` | erpnext | Accounts | workspace_target | Currency Exchange | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-exchange-rate-revaluation` | erpnext | Accounts | workspace_target | Exchange Rate Revaluation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-finance-book` | erpnext | Accounts | workspace_target | Finance Book | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-fiscal-year` | erpnext | Accounts | workspace_target | Fiscal Year | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-item-tax-template` | erpnext | Accounts | workspace_target | Item Tax Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-journal-entry` | erpnext | Accounts | workspace_target | Journal Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-journal-entry-template` | erpnext | Accounts | workspace_target | Journal Entry Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-lower-deduction-certificate` | erpnext | Accounts | workspace_target | Lower Deduction Certificate | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-mode-of-payment` | erpnext | Accounts | workspace_target | Mode of Payment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-monthly-distribution` | erpnext | Accounts | workspace_target | Monthly Distribution | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-opening-invoice-creation-tool` | erpnext | Accounts | workspace_target | Opening Invoice Creation Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-payment-entry` | erpnext | Accounts | workspace_target | Payment Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-payment-term` | erpnext | Accounts | workspace_target | Payment Term | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-period-closing-voucher` | erpnext | Accounts | workspace_target | Period Closing Voucher | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-plaid-settings` | erpnext | Accounts | workspace_target | Plaid Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-purchase-taxes-and-charges-template` | erpnext | Accounts | workspace_target | Purchase Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-sales-taxes-and-charges-template` | erpnext | Accounts | workspace_target | Sales Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-share-transfer` | erpnext | Accounts | workspace_target | Share Transfer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-shareholder` | erpnext | Accounts | workspace_target | Shareholder | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-subscription` | erpnext | Accounts | workspace_target | Subscription | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-subscription-plan` | erpnext | Accounts | workspace_target | Subscription Plan | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-subscription-settings` | erpnext | Accounts | workspace_target | Subscription Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-tax-category` | erpnext | Accounts | workspace_target | Tax Category | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-tax-rule` | erpnext | Accounts | workspace_target | Tax Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:doctype-tax-withholding-category` | erpnext | Accounts | workspace_target | Tax Withholding Category | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:doctype-terms-and-conditions` | erpnext | Accounts | workspace_target | Terms and Conditions | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-incoming-bills` | erpnext | Accounts | workspace_target | Total Incoming Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-incoming-payment` | erpnext | Accounts | workspace_target | Total Incoming Payment | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-outgoing-bills` | erpnext | Accounts | workspace_target | Total Outgoing Bills | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:invoicing:number-card-total-outgoing-payment` | erpnext | Accounts | workspace_target | Total Outgoing Payment | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:report-bank-reconciliation-statement` | erpnext | Accounts | workspace_target | Bank Reconciliation Statement | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:report-budget-variance-report` | erpnext | Accounts | workspace_target | Budget Variance Report | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:report-share-balance` | erpnext | Accounts | workspace_target | Share Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:invoicing:report-share-ledger` | erpnext | Accounts | workspace_target | Share Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-bom` | erpnext | Manufacturing | workspace_target | BOM | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-bom-creator` | erpnext | Manufacturing | workspace_target | BOM Creator | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-bom-update-tool` | erpnext | Manufacturing | workspace_target | BOM Update Tool | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-downtime-entry` | erpnext | Manufacturing | workspace_target | Downtime Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-item` | erpnext | Manufacturing | workspace_target | Item | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-job-card` | erpnext | Manufacturing | workspace_target | Job Card | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-manufacturing-settings` | erpnext | Manufacturing | workspace_target | Manufacturing Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-operation` | erpnext | Manufacturing | workspace_target | Operation | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-plant-floor` | erpnext | Manufacturing | workspace_target | Plant Floor | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-production-plan` | erpnext | Manufacturing | workspace_target | Production Plan | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-routing` | erpnext | Manufacturing | workspace_target | Routing | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-stock-entry` | erpnext | Manufacturing | workspace_target | Stock Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-work-order` | erpnext | Manufacturing | workspace_target | Work Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:doctype-workstation` | erpnext | Manufacturing | workspace_target | Workstation | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:doctype-workstation-type` | erpnext | Manufacturing | workspace_target | Workstation Type | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:manufacturing:page-bom-comparison-tool` | erpnext | Manufacturing | workspace_target | BOM Comparison Tool | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-bom-operations-time` | erpnext | Manufacturing | workspace_target | BOM Operations Time | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-bom-search` | erpnext | Manufacturing | workspace_target | BOM Search | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-bom-stock-report` | erpnext | Manufacturing | workspace_target | BOM Stock Report | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-downtime-analysis` | erpnext | Manufacturing | workspace_target | Downtime Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-exponential-smoothing-forecasting` | erpnext | Manufacturing | workspace_target | Forecasting | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-job-card-summary` | erpnext | Manufacturing | workspace_target | Job Card Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-production-analytics` | erpnext | Manufacturing | workspace_target | Production Analytics | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-production-planning-report` | erpnext | Manufacturing | workspace_target | Production Planning Report | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-quality-inspection-summary` | erpnext | Manufacturing | workspace_target | Quality Inspection Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-work-order-consumed-materials` | erpnext | Manufacturing | workspace_target | Work Order Consumed Materials | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:manufacturing:report-work-order-summary` | erpnext | Manufacturing | workspace_target | Work Order Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:doctype-journal-entry` | erpnext | Accounts | workspace_target | Journal Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:doctype-payment-entry` | erpnext | Accounts | workspace_target | Payment Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:payables:doctype-payment-reconciliation` | erpnext | Accounts | workspace_target | Payment Reconciliation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:doctype-purchase-invoice` | erpnext | Accounts | workspace_target | Purchase Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:doctype-supplier` | erpnext | Accounts | workspace_target | Supplier | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-accounts-payable` | erpnext | Accounts | workspace_target | Accounts Payable | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-accounts-payable-summary` | erpnext | Accounts | workspace_target | Accounts Payable Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-item-wise-purchase-register` | erpnext | Accounts | workspace_target | Item-wise Purchase Register | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-purchase-order-analysis` | erpnext | Accounts | workspace_target | Purchase Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-purchase-register` | erpnext | Accounts | workspace_target | Purchase Register | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-received-items-to-be-billed` | erpnext | Accounts | workspace_target | Received Items To Be Billed | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:payables:report-supplier-ledger-summary` | erpnext | Accounts | workspace_target | Supplier Ledger Summary | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:projects:chart-project-summary` | erpnext | Projects | workspace_target | Project Summary | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:projects:dashboard-project` | erpnext | Projects | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-activity-cost` | erpnext | Projects | workspace_target | Activity Cost | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-activity-type` | erpnext | Projects | workspace_target | Activity Type | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-project` | erpnext | Projects | workspace_target | Project | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-project-template` | erpnext | Projects | workspace_target | Project Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-project-type` | erpnext | Projects | workspace_target | Project Type | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-project-update` | erpnext | Projects | workspace_target | Project Update | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:projects:doctype-projects-settings` | erpnext | Projects | workspace_target | Projects Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-task` | erpnext | Projects | workspace_target | Task | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:doctype-timesheet` | erpnext | Projects | workspace_target | Timesheet | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:report-daily-timesheet-summary` | erpnext | Projects | workspace_target | Daily Timesheet Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:report-delayed-tasks-summary` | erpnext | Projects | workspace_target | Delayed Tasks Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:report-project-billing-summary` | erpnext | Projects | workspace_target | Project Billing Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:projects:report-project-wise-stock-tracking` | erpnext | Projects | workspace_target | Project wise Stock Tracking | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-non-conformance` | erpnext | Quality Management | workspace_target | Non Conformance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-action` | erpnext | Quality Management | workspace_target | Quality Action | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-feedback` | erpnext | Quality Management | workspace_target | Quality Feedback | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-feedback-template` | erpnext | Quality Management | workspace_target | Quality Feedback Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-goal` | erpnext | Quality Management | workspace_target | Quality Goal | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-inspection` | erpnext | Quality Management | workspace_target | Quality Inspection | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-meeting` | erpnext | Quality Management | workspace_target | Quality Meeting | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-procedure` | erpnext | Quality Management | workspace_target | Quality Procedure | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:quality:doctype-quality-review` | erpnext | Quality Management | workspace_target | Quality Review | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-cost-center` | erpnext | Accounts | workspace_target | Cost Center | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-customer` | erpnext | Accounts | workspace_target | Customer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-dunning` | erpnext | Accounts | workspace_target | Dunning | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-dunning-type` | erpnext | Accounts | workspace_target | Dunning Type | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-journal-entry` | erpnext | Accounts | workspace_target | Journal Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-payment-entry` | erpnext | Accounts | workspace_target | Payment Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-payment-gateway-account` | erpnext | Accounts | workspace_target | Payment Gateway Account | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:receivables:doctype-payment-reconciliation` | erpnext | Accounts | workspace_target | Payment Reconciliation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-payment-request` | erpnext | Accounts | workspace_target | Payment Request | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:receivables:doctype-pos-invoice` | erpnext | Accounts | workspace_target | POS Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:doctype-sales-invoice` | erpnext | Accounts | workspace_target | Sales Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-accounts-receivable` | erpnext | Accounts | workspace_target | Accounts Receivable | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-accounts-receivable-summary` | erpnext | Accounts | workspace_target | Accounts Receivable Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-delivered-items-to-be-billed` | erpnext | Accounts | workspace_target | Delivered Items To Be Billed | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-item-wise-sales-register` | erpnext | Accounts | workspace_target | Item-wise Sales Register | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-sales-order-analysis` | erpnext | Accounts | workspace_target | Sales Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:receivables:report-sales-register` | erpnext | Accounts | workspace_target | Sales Register | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:chart-sales-order-trends` | erpnext | Selling | workspace_target | Sales Order Trends | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:dashboard-selling` | erpnext | Selling | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-address` | erpnext | Selling | workspace_target | Address | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-blanket-order` | erpnext | Selling | workspace_target | Blanket Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-campaign` | erpnext | Selling | workspace_target | Campaign | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-contact` | erpnext | Selling | workspace_target | Contact | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-coupon-code` | erpnext | Selling | workspace_target | Coupon Code | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-customer` | erpnext | Selling | workspace_target | Customer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-customer-group` | erpnext | Selling | workspace_target | Customer Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-item` | erpnext | Selling | workspace_target | Item | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-item-group` | erpnext | Selling | workspace_target | Item Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-item-price` | erpnext | Selling | workspace_target | Item Price | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-lead-source` | erpnext | Selling | workspace_target | Lead Source | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-loyalty-point-entry` | erpnext | Selling | workspace_target | Loyalty Point Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-loyalty-program` | erpnext | Selling | workspace_target | Loyalty Program | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-closing-entry` | erpnext | Selling | workspace_target | POS Closing Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-opening-entry` | erpnext | Selling | workspace_target | POS Opening Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-profile` | erpnext | Selling | workspace_target | Point-of-Sale Profile | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-settings` | erpnext | Selling | workspace_target | POS Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-price-list` | erpnext | Selling | workspace_target | Price List | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-pricing-rule` | erpnext | Selling | workspace_target | Pricing Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-product-bundle` | erpnext | Selling | workspace_target | Product Bundle | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-promotional-scheme` | erpnext | Selling | workspace_target | Promotional Scheme | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-quotation` | erpnext | Selling | workspace_target | Quotation | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-sales-invoice` | erpnext | Selling | workspace_target | Sales Invoice | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-sales-order` | erpnext | Selling | workspace_target | Sales Order | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-sales-partner` | erpnext | Selling | workspace_target | Sales Partner | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-sales-person` | erpnext | Selling | workspace_target | Sales Person | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-sales-taxes-and-charges-template` | erpnext | Selling | workspace_target | Sales Taxes and Charges Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-selling-settings` | erpnext | Selling | workspace_target | Selling Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-shipping-rule` | erpnext | Selling | workspace_target | Shipping Rule | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-terms-and-conditions` | erpnext | Selling | workspace_target | Terms and Conditions Template | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-territory` | erpnext | Selling | workspace_target | Territory | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:page-point-of-sale` | erpnext | Selling | workspace_target | Point of Sale | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:page-sales-funnel` | erpnext | Selling | workspace_target | Sales Funnel | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-address-and-contacts` | erpnext | Selling | workspace_target | Customer Addresses And Contacts | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-available-stock-for-packing-items` | erpnext | Selling | workspace_target | Available Stock for Packing Items | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-customer-acquisition-and-loyalty` | erpnext | Selling | workspace_target | Customer Acquisition and Loyalty | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-customer-credit-balance` | erpnext | Selling | workspace_target | Customer Credit Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-customers-without-any-sales-transactions` | erpnext | Selling | workspace_target | Customers Without Any Sales Transactions | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-delivery-note-trends` | erpnext | Selling | workspace_target | Delivery Note Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-inactive-customers` | erpnext | Selling | workspace_target | Inactive Customers | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-item-wise-sales-history` | erpnext | Selling | workspace_target | Item-wise Sales History | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-pending-so-items-for-purchase-request` | erpnext | Selling | workspace_target | Pending SO Items For Purchase Request | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-quotation-trends` | erpnext | Selling | workspace_target | Quotation Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-analytics` | erpnext | Selling | workspace_target | Sales Analytics | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-invoice-trends` | erpnext | Selling | workspace_target | Sales Invoice Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-order-analysis` | erpnext | Selling | workspace_target | Sales Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-order-trends` | erpnext | Selling | workspace_target | Sales Order Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-partner-target-variance-based-on-item-group` | erpnext | Selling | workspace_target | Sales Partner Target Variance Based On Item Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-partners-commission` | erpnext | Selling | workspace_target | Sales Partners Commission | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-person-target-variance-based-on-item-group` | erpnext | Selling | workspace_target | Sales Person Target Variance Based On Item Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-sales-person-wise-transaction-summary` | erpnext | Selling | workspace_target | Sales Person-wise Transaction Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:report-territory-target-variance-based-on-item-group` | erpnext | Selling | workspace_target | Territory Target Variance Based On Item Group | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:chart-warehouse-wise-stock-value` | erpnext | Stock | workspace_target | Warehouse wise Stock Value | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:dashboard-stock` | erpnext | Stock | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-batch` | erpnext | Stock | workspace_target | Batch | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-brand` | erpnext | Stock | workspace_target | Brand | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-customs-tariff-number` | erpnext | Stock | workspace_target | Customs Tariff Number | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-delivery-note` | erpnext | Stock | workspace_target | Delivery Note | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-delivery-trip` | erpnext | Stock | workspace_target | Delivery Trip | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-installation-note` | erpnext | Stock | workspace_target | Installation Note | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item` | erpnext | Stock | workspace_target | Item | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item-alternative` | erpnext | Stock | workspace_target | Item Alternative | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item-attribute` | erpnext | Stock | workspace_target | Item Attribute | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item-group` | erpnext | Stock | workspace_target | Item Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item-manufacturer` | erpnext | Stock | workspace_target | Item Manufacturer | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-item-price` | erpnext | Stock | workspace_target | Item Price | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-item-variant-settings` | erpnext | Stock | workspace_target | Item Variant Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-landed-cost-voucher` | erpnext | Stock | workspace_target | Landed Cost Voucher | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-material-request` | erpnext | Stock | workspace_target | Material Request | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-packing-slip` | erpnext | Stock | workspace_target | Packing Slip | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-pick-list` | erpnext | Stock | workspace_target | Pick List | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-price-list` | erpnext | Stock | workspace_target | Price List | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-pricing-rule` | erpnext | Stock | workspace_target | Pricing Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-product-bundle` | erpnext | Stock | workspace_target | Product Bundle | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-purchase-receipt` | erpnext | Stock | workspace_target | Purchase Receipt | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-quality-inspection` | erpnext | Stock | workspace_target | Quality Inspection | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-quality-inspection-template` | erpnext | Stock | workspace_target | Quality Inspection Template | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-quick-stock-balance` | erpnext | Stock | workspace_target | Quick Stock Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-serial-no` | erpnext | Stock | workspace_target | Serial No | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-shipping-rule` | erpnext | Stock | workspace_target | Shipping Rule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-stock-entry` | erpnext | Stock | workspace_target | Stock Entry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-stock-reconciliation` | erpnext | Stock | workspace_target | Stock Reconciliation | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-stock-settings` | erpnext | Stock | workspace_target | Stock Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-uom` | erpnext | Stock | workspace_target | Unit of Measure (UOM) | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:doctype-uom-conversion-factor` | erpnext | Stock | workspace_target | UOM Conversion Factor | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:doctype-warehouse` | erpnext | Stock | workspace_target | Warehouse | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-active-items` | erpnext | Stock | workspace_target | Total Active Items | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-stock-value` | erpnext | Stock | workspace_target | Total Stock Value | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:number-card-total-warehouses` | erpnext | Stock | workspace_target | Total Warehouses | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:stock:page-stock-balance` | erpnext | Stock | workspace_target | Stock Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-batch-item-expiry-status` | erpnext | Stock | workspace_target | Batch Item Expiry Status | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-batch-wise-balance-history` | erpnext | Stock | workspace_target | Batch-Wise Balance History | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-delivery-note-trends` | erpnext | Stock | workspace_target | Delivery Note Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-item-price-stock` | erpnext | Stock | workspace_target | Item Price Stock | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-item-prices` | erpnext | Stock | workspace_target | Item Prices | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-item-shortage-report` | erpnext | Stock | workspace_target | Item Shortage Report | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-item-variant-details` | erpnext | Stock | workspace_target | Item Variant Details | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-itemwise-recommended-reorder-level` | erpnext | Stock | workspace_target | Itemwise Recommended Reorder Level | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-purchase-order-analysis` | erpnext | Stock | workspace_target | Purchase Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-purchase-receipt-trends` | erpnext | Stock | workspace_target | Purchase Receipt Trends | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-requested-items-to-be-transferred` | erpnext | Stock | workspace_target | Requested Items To Be Transferred | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-sales-order-analysis` | erpnext | Stock | workspace_target | Sales Order Analysis | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-serial-no-service-contract-expiry` | erpnext | Stock | workspace_target | Serial No Service Contract Expiry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-serial-no-status` | erpnext | Stock | workspace_target | Serial No Status | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-serial-no-warranty-expiry` | erpnext | Stock | workspace_target | Serial No Warranty Expiry | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-stock-ageing` | erpnext | Stock | workspace_target | Stock Ageing | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-stock-analytics` | erpnext | Stock | workspace_target | Stock Analytics | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-stock-balance` | erpnext | Stock | workspace_target | Stock Balance | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-stock-ledger` | erpnext | Stock | workspace_target | Stock Ledger | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-stock-projected-qty` | erpnext | Stock | workspace_target | Stock Projected Qty | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-subcontracted-item-to-be-received` | erpnext | Stock | workspace_target | Subcontracted Item To Be Received | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-subcontracted-raw-materials-to-be-transferred` | erpnext | Stock | workspace_target | Subcontracted Raw Materials To Be Transferred | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:stock:report-warehouse-wise-stock-balance` | erpnext | Stock | workspace_target | Warehouse Wise Stock Balance | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:chart-subcontracting-order` | erpnext | Subcontracting | workspace_target | Subcontracting Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:doctype-purchase-order` | erpnext | Subcontracting | workspace_target | Purchase Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:doctype-sales-order` | erpnext | Subcontracting | workspace_target | Sales Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:doctype-stock-entry` | erpnext | Subcontracting | workspace_target | Subcontracting Delivery | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:doctype-subcontracting-inward-order` | erpnext | Subcontracting | workspace_target | Subcontracting Inward Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:doctype-subcontracting-order` | erpnext | Subcontracting | workspace_target | Subcontracting Outward Order | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:doctype-subcontracting-receipt` | erpnext | Subcontracting | workspace_target | Subcontracting Receipt | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:number-card-active-subcontracted-items` | erpnext | Subcontracting | workspace_target | Active Subcontracted Items | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:number-card-subcontracting-inward-order-count` | erpnext | Subcontracting | workspace_target | Subcontracting Inward Order Count | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:number-card-subcontracting-outward-order-count` | erpnext | Subcontracting | workspace_target | Subcontracting Outward Order Count | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:report-subcontract-order-summary` | erpnext | Subcontracting | workspace_target | Subcontract Order Summary | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:report-subcontracted-item-to-be-received` | erpnext | Subcontracting | workspace_target | Subcontracted Item To Be Received | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:subcontracting:report-subcontracted-raw-materials-to-be-transferred` | erpnext | Subcontracting | workspace_target | Subcontracted Raw Materials To Be Transferred | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-issue` | erpnext | Support | workspace_target | Issue | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-issue-priority` | erpnext | Support | workspace_target | Issue Priority | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-issue-type` | erpnext | Support | workspace_target | Issue Type | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:support:doctype-maintenance-schedule` | erpnext | Support | workspace_target | Maintenance Schedule | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:support:doctype-maintenance-visit` | erpnext | Support | workspace_target | Maintenance Visit | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-serial-no` | erpnext | Support | workspace_target | Serial No | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-service-level-agreement` | erpnext | Support | workspace_target | Service Level Agreement | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:support:doctype-support-settings` | erpnext | Support | workspace_target | Support Settings | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-warranty-claim` | erpnext | Support | workspace_target | Warranty Claim | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:report-first-response-time-for-issues` | erpnext | Support | workspace_target | First Response Time for Issues | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace:accounting` | erpnext | Accounts | workspace | Accounting | C | /app/accounting | Workspace targets require Retail ERP launchers/routes |
 | `erpnext:workspace:assets` | erpnext | Assets | workspace | Assets | C | /app/assets | Workspace targets require Retail ERP launchers/routes |
 | `erpnext:workspace:buying` | erpnext | Buying | workspace | Buying | C | /app/buying | Workspace targets require Retail ERP launchers/routes |
@@ -2123,7 +1773,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `posawesome:workspace-target:pos-awesome:doctype-pos-offer` | posawesome | POSAwesome | workspace_target | Offers | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-opening-shift` | posawesome | POSAwesome | workspace_target | Opening Shift | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-pos-profile` | posawesome | POSAwesome | workspace_target | POS Profile | C | — | Target must resolve to a classified Retail ERP feature |
-| `posawesome:workspace-target:pos-awesome:doctype-promotional-scheme` | posawesome | POSAwesome | workspace_target | Promotional Schemes | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-referral-code` | posawesome | POSAwesome | workspace_target | Referral Code | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:doctype-scale-barcode-settings` | posawesome | POSAwesome | workspace_target | Scale Barcode Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace-target:pos-awesome:page-posapp` | posawesome | POSAwesome | workspace_target | POS Awesome | C | — | Target must resolve to a classified Retail ERP feature |

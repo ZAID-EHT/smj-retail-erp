@@ -395,6 +395,17 @@ def _custom_route_for_report(name: str) -> str | None:
 	return f"/retail-erp/reports/view/{quote(name, safe='')}"
 
 
+def _custom_route_for_workspace_target(target_type: str, target_name: str) -> str | None:
+	"""A workspace shortcut is reachable when its destination has a Retail ERP
+	route. This credits the shortcut with its target's real route (never an empty
+	one); targets to unrouted DocTypes/Reports/cards/pages stay unmapped."""
+	if target_type == "DocType":
+		return _custom_route_for_doctype(target_name)
+	if target_type == "Report":
+		return _custom_route_for_report(target_name)
+	return None
+
+
 def _collect_database_snapshot() -> dict:
 	return {
 		"modules": _get_all("Module Def", ["name", "app_name", "custom", "restrict_to_domain", "disabled"], order_by="name asc"),
@@ -782,14 +793,17 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 		for target in _workspace_targets(row, snapshot):
 			target_name = str(target["target"])
 			target_type = str(target["type"])
+			target_route = _custom_route_for_workspace_target(target_type, target_name)
 			features.append(_base_feature(
 				feature_id=_feature_id(application, "workspace_target", f"{target_type}-{target_name}", row.name), application=application,
 				module=row.module, feature_type="workspace_target", name=target.get("label") or target_name,
 				parent_feature=workspace_id, tool=target_type, route=None, standard_desk_route=None,
+				current_custom_route=target_route,
 				implementation_type="Specialized visual view", classification="C", user_facing=not hidden,
 				exclusion_reason="Parent Workspace hidden" if hidden else None, read=not hidden,
-				remaining_desk_dependency="Target must resolve to a classified Retail ERP feature",
-				notes=[f"target_type={target_type}", f"target={target_name}"],
+				completion_status="Reachable via mapped Retail ERP destination" if target_route else "Not implemented",
+				remaining_desk_dependency=("Target resolves to a Retail ERP route; interactive workspace card verification remains" if target_route else "Target must resolve to a classified Retail ERP feature"),
+				notes=[f"target_type={target_type}", f"target={target_name}", f"target_route={target_route or ''}"],
 			))
 
 	for row in snapshot["workflows"]:
