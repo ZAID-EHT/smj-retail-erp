@@ -1,7 +1,7 @@
 {
-  "captured_at": "2026-07-14 12:11",
+  "captured_at": "2026-07-14 15:49",
   "site": "site1.local",
-  "inventory_fingerprint": "485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727",
+  "inventory_fingerprint": "87b439c3eb8c2d1f210cd791b6a33b1c403ad4a802d5cc2a2ba3e963241a32b6",
   "status": "fail",
   "failure_counts": {
     "complete_without_tests": 0,

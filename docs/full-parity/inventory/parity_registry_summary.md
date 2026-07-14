@@ -1,6 +1,6 @@
 # Authoritative Parity Registry Summary (Stage 2)
 
-- Source inventory fingerprint: `485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727`
+- Source inventory fingerprint: `87b439c3eb8c2d1f210cd791b6a33b1c403ad4a802d5cc2a2ba3e963241a32b6`
 - Registry entries (one per user-facing feature): **2482**
 - Validation: **PASS** (0 errors)
 - Implemented in some form (custom/provisional/adapter/unverified): **829**

@@ -153,3 +153,27 @@ value is the wholesale operating model, which needs these approvals:
    verification checklist in VERIFICATION_MATRIX.md.
 
 Grant any subset; each unblocks the corresponding batch independently.
+
+---
+
+## STAGING — remaining ENVIRONMENT blockers for the wholesale core (2026-07-14)
+
+The wholesale core is fully implemented and committed. Two blockers are
+environment-level (not code, not approval) and could not be self-resolved:
+
+1. **MariaDB root password** — required to create the approved staging database.
+   No root password in config, no passwordless sudo, and the site DB-user lacks
+   CREATE privileges. Provide it (or run `bench new-site` yourself) and then run
+   `apps/my_store_ui/docs/full-parity/setup_staging.sh`, which backs up, creates
+   staging, restores, applies fixtures, enables reservation + allow_tests ON
+   STAGING ONLY, and runs the wholesale test suite.
+2. **Network access** — the npm registry is unreachable (`npm ping` times out), so
+   Playwright/Chromium cannot be downloaded despite approval. Once network is
+   available: `cd apps/my_store_ui/frontend && npm i -D @playwright/test &&
+   npx playwright install chromium && npx playwright test e2e/wholesale.spec.js`.
+
+What is verified now (site1 read-only, no config/schema change): Available-to-Sell
+snapshot + Smart Sales display, credit status + all 7 gate rules, transaction
+register on real data, route HTTP 200, transaction-id hooks safe no-op, Bin-lock
+query validity, Vue build. What needs staging: applying custom fields, enabling
+reservation, and running the reservation/concurrency/integration + browser tests.

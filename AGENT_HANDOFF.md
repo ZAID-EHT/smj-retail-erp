@@ -19,10 +19,23 @@ mission itself defines. See `docs/full-parity/`.
 - **Registry-based completeness (the truthful measure):** of 2482 — 829 implemented
   in some form (0 `verified_complete`, honest given blocked tests/no browser), 858
   internal, 175 not_required, 620 genuinely pending. ~75% resolved, ~25% pending.
-- **All P0 business features remain gated** (see `docs/full-parity/BLOCKERS.md`):
-  stock reservation + policy; Custom Fields for Credit/Non-Credit and the shared
-  Transaction ID; a test site with `allow_tests`; browser automation. Nothing gated
-  was executed; no site config, schema, Custom Field, DocType or migration changed.
+- **Wholesale core implemented (approved batch, 2026-07-14):** Available-to-Sell
+  (Actual − Reserved) in Smart Sales + snapshot API; customer credit-status service
+  with 7 verified delivery-gate rules; reservation service delegating to standard
+  Stock Reservation Entry with Bin row-locking (concurrency-safe) + 3-day
+  configurable expiry scheduler; atomic TRX-YYYY-###### stamping/propagation
+  (SO→DN→SI→PE, safe no-op until fields applied); Wholesale Transaction Register at
+  `/retail-erp/sales/transactions`. Custom fields added via fixtures (credit type +
+  txn id — standard credit_limits reused, no duplicates). Code in
+  `my_store_ui/wholesale/`. Everything schema-independent verified on site1
+  read-only; no site config/schema/reservation change was made to site1.
+- **Two ENVIRONMENT blockers remain** (see `docs/full-parity/BLOCKERS.md` → STAGING):
+  the MariaDB **root password** (to create the staging DB) and **network access**
+  (npm registry unreachable → Playwright/Chromium can't download). `setup_staging.sh`
+  is turn-key once the root password is available; it applies fixtures, enables
+  reservation + allow_tests on staging only, and runs the wholesale test suite.
+- Earlier gated items (reservation policy, credit fields, transaction id) are now
+  DONE in code; only staging execution + browser verification remain.
 - Key trackers: `docs/full-parity/PROGRESS.md`, `BLOCKERS.md`, `DECISIONS.md`,
   `VERIFICATION_MATRIX.md`, and `docs/full-parity/inventory/`.
 

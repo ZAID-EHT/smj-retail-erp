@@ -95,7 +95,7 @@ Result: **FAIL**
 
 - Clean priority entity bases registered: **170**.
 - Purpose-specific transaction forms registered: **3**.
-- Special/read/alias routes registered: **13**.
+- Special/read/alias routes registered: **14**.
 - Priority report names allowlisted: **183** across **6** groups.
 - Existing handcrafted Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry routes retain priority.
 - Generated transactions and specialised tools remain provisional; a route does not count as full workflow parity.

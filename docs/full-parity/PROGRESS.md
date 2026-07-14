@@ -1,5 +1,30 @@
 # Full Feature Parity — Progress
 
+_Last updated: 2026-07-14 (batch: wholesale core)_
+
+## Wholesale core (approved implementation batch)
+
+| Capability | Code | Verified now | Blocked on |
+|---|---|---|---|
+| Available-to-Sell (Actual − Reserved) in Smart Sales + snapshot API | ✅ | ✅ site1 read-only | — |
+| Customer credit-status service + 7 delivery-gate rules | ✅ | ✅ 7/7 via bench + real balances | — |
+| Transaction Register (SO-anchored, native links, role-gated $) | ✅ | ✅ site1 real data, route HTTP 200 | — |
+| `/retail-erp/sales/transactions` page (filters/sort/CSV/mobile/timeline) | ✅ | ✅ resolves + builds | browser render |
+| Transaction ID stamping/propagation (SO→DN→SI→PE, no-op safe) | ✅ | ✅ no-op safe on site1 | needs fields applied |
+| Custom fields (credit type + txn id) via fixtures | ✅ | metadata inspected, no dupes | migrate on staging |
+| Reservation service (delegates to standard SRE + Bin locking) | ✅ | ✅ lock query valid; snapshot | reservation on (staging) |
+| Reservation expiry (3d configurable) daily scheduler | ✅ | — | staging |
+| Concurrency / reservation / integration tests | ✅ written | credit 7/7 | staging |
+| Playwright browser suite | ✅ scaffold | — | network + login |
+
+Two environment blockers remain (see BLOCKERS.md → STAGING): the MariaDB **root
+password** (to create the staging DB) and **network access** (npm registry is
+unreachable, so Playwright/Chromium can't download). All code is written,
+committed, and everything schema-independent is verified against site1 read-only.
+No site config, schema, or reservation setting was changed on site1.
+
+---
+
 _Last updated: 2026-07-14 (batch: print formats)_
 
 ## Headline metrics

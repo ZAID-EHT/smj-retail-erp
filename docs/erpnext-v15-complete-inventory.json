@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "33c0c9d9e7438c0116bc1a3a0e638c140138ad5a",
+      "git_commit": "62aba02d1fda368359aaf5c2616bb17b21e541d9",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -389,9 +389,11 @@
           "app_publisher",
           "app_title",
           "before_request",
+          "doc_events",
           "fixtures",
           "home_page",
           "required_apps",
+          "scheduler_events",
           "website_route_rules"
         ],
         "source": "/home/zaidh/frappe-bench/apps/my_store_ui/my_store_ui/hooks.py"
@@ -448207,7 +448209,7 @@
       "name": "my_store_ui",
       "notes": [
         "modules=My Store UI",
-        "hook_names=app_description,app_email,app_include_css,app_license,app_name,app_publisher,app_title,before_request,fixtures,home_page,required_apps,website_route_rules"
+        "hook_names=app_description,app_email,app_include_css,app_license,app_name,app_publisher,app_title,before_request,doc_events,fixtures,home_page,required_apps,scheduler_events,website_route_rules"
       ],
       "page": null,
       "page_permissions": [],
@@ -469167,7 +469169,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727",
+  "inventory_fingerprint": "87b439c3eb8c2d1f210cd791b6a33b1c403ad4a802d5cc2a2ba3e963241a32b6",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

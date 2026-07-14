@@ -18,6 +18,15 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 | 156 generated report routes (definition + viewer) | behavioural (server) | `route_coverage.verify_generated_reports` → served=182, failed=0 |
 | 351 workspace shortcuts credited to routed targets | behavioural (audit) | targets present in CANONICAL_ROUTE_BY_DOCTYPE / REPORT_GROUPS |
 | 27 print formats credited to routed DocTypes | behavioural (audit) | doc_type present in CANONICAL_ROUTE_BY_DOCTYPE |
+| Available-to-Sell in get_bootstrap (Actual/Reserved/Available/Projected) | behavioural (server) | real Bin data on site1 |
+| Customer credit status + 7 delivery-gate rules | behavioural (server) | 7/7 PASS via bench execute; real balances |
+| Wholesale transaction register + timeline | behavioural (server) | 5 real transactions, correct links/status/outstanding |
+| /sales/transactions route resolves + page builds | behavioural (server) | component=register, HTTP 200, Vue build |
+| Transaction-id propagation hooks safe on site1 | behavioural (server) | no-op confirmed with field absent |
+| Reservation Bin-lock (FOR UPDATE) query validity | behavioural (server) | `_lock_bins` runs, rolled back |
+| Reservation reserve/unreserve/expiry, concurrency 10/8/8 | NOT verified | needs staging (reservation on) |
+| Applying custom fields (credit type + txn id) | NOT verified | needs migrate on staging |
+| Browser (register render, Smart Sales, mobile) | NOT verified | needs Playwright (network) + login |
 
 _Note: "behavioural (server)" means the exact resolve→feature→list API path was
 driven as a real user server-side and returned. Browser rendering, role matrix
