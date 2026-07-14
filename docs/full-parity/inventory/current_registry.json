@@ -20886,14 +20886,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /pos"
+      ],
+      "notes": "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome).",
       "blocking_reason": null
     },
     {
@@ -20924,14 +20926,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "generated_report",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /retail-erp/reports/view/Stock%20Balance"
+      ],
+      "notes": "Superseded by the routed Stock Balance report (REPORT_GROUPS.inventory).",
       "blocking_reason": null
     },
     {
@@ -42307,14 +42311,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "notes": "Native Desk print-preview shell; the routed DocType print/PDF dialog is the Retail ERP path.",
       "blocking_reason": null
     },
     {
@@ -42326,14 +42330,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "notes": "Admin-only visual print format design tool; not a wholesale business route.",
       "blocking_reason": null
     },
     {
@@ -42345,14 +42349,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "notes": "Admin-only visual print format design tool; not a wholesale business route.",
       "blocking_reason": null
     },
     {
@@ -42402,14 +42406,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Pending implementation (P3_optional); standard Desk remains the source of truth.",
+      "notes": "Admin-only workflow design tool; not a wholesale business route.",
       "blocking_reason": null
     },
     {
@@ -44825,14 +44829,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "custom_override",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P3_optional); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /retail-erp/smart-sales"
+      ],
+      "notes": "Handcrafted Smart Sales page is implemented at the Retail ERP SPA route (frontend/src/router/routes.js); this is a legacy pre-SPA Frappe Page stub.",
       "blocking_reason": null
     },
     {
@@ -48559,14 +48565,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /pos"
+      ],
+      "notes": "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome).",
       "blocking_reason": null
     },
     {
@@ -48578,14 +48586,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /pos"
+      ],
+      "notes": "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome).",
       "blocking_reason": null
     },
     {

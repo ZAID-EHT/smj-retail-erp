@@ -229,6 +229,36 @@ DOCTYPE_SPECIFIC_ACTIONS = {
 }
 
 
+# Audit correction: standard Desk "Page" feature entries that are either a
+# stale/legacy stub superseded by the real Retail ERP Vue route, superseded
+# by an already-routed destination, or genuine internal admin tooling.
+PAGE_OVERRIDES = {
+    # Legacy Frappe "Page" doctype stub (my_store_ui/page/smart_sales/) from
+    # before the app moved to the Vue SPA shell. Smart Sales is a preserved
+    # handcrafted page, genuinely implemented at the real SPA route below —
+    # this stub is not what serves it.
+    "smart-sales": ("custom_override", "implemented_unverified", "/retail-erp/smart-sales",
+                     "Handcrafted Smart Sales page is implemented at the Retail ERP SPA route "
+                     "(frontend/src/router/routes.js); this is a legacy pre-SPA Frappe Page stub."),
+    "point-of-sale": ("special_adapter", "implemented_unverified", "/pos",
+                       "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome)."),
+    "pos": ("special_adapter", "implemented_unverified", "/pos",
+            "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome)."),
+    "posapp": ("special_adapter", "implemented_unverified", "/pos",
+               "Superseded by the Retail ERP POS launcher (safe_integration to POS Awesome)."),
+    "stock-balance": ("generated_report", "generated_provisional", "/retail-erp/reports/view/Stock%20Balance",
+                       "Superseded by the routed Stock Balance report (REPORT_GROUPS.inventory)."),
+    "print": ("internal", "internal", None,
+              "Native Desk print-preview shell; the routed DocType print/PDF dialog is the Retail ERP path."),
+    "print-format-builder": ("internal", "internal", None,
+                              "Admin-only visual print format design tool; not a wholesale business route."),
+    "print-format-builder-beta": ("internal", "internal", None,
+                                   "Admin-only visual print format design tool; not a wholesale business route."),
+    "workflow-builder": ("internal", "internal", None,
+                          "Admin-only workflow design tool; not a wholesale business route."),
+}
+
+
 NOT_REQUIRED_REPORT_NAMES = {
     "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
     "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
@@ -339,6 +369,13 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
                     "state/role/browser verification pending.")
         return ("unavailable_with_reason", "unavailable_with_reason", "n/a", [],
                 f"Pending implementation ({priority}); standard Desk mapping remains source of truth.")
+
+    # 5b. Audit correction: legacy Page stubs superseded by the real Retail
+    # ERP SPA route, or genuine internal admin tooling.
+    if ftype == "page" and feature.get("name") in PAGE_OVERRIDES:
+        strategy, status, dest, reason = PAGE_OVERRIDES[feature.get("name")]
+        evidence = [f"Superseded by routed Retail ERP destination {dest}"] if dest else []
+        return (strategy, status, "source_only" if dest else "n/a", evidence, reason)
 
     # 6a. Audit correction: native ERPNext module workspaces superseded by a
     # Retail ERP nav module landing page, or genuinely internal Desk config.
