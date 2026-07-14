@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **2396**.
+Total user-facing features without a registered custom route: **2280**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -260,36 +260,14 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:dashboard:selling` | erpnext | Selling | dashboard | Selling | C | /app/selling | Dashboard view not implemented in Retail ERP |
 | `erpnext:dashboard:stock` | erpnext | Stock | dashboard | Stock | C | /app/stock | Dashboard view not implemented in Retail ERP |
 | `erpnext:doctype:account-closing-balance` | erpnext | Accounts | doctype | Account Closing Balance | A | /app/account-closing-balance | Required for ordinary-user parity |
-| `erpnext:doctype:accounting-dimension` | erpnext | Accounts | doctype | Accounting Dimension | A | /app/accounting-dimension | Required for ordinary-user parity |
-| `erpnext:doctype:accounting-dimension-filter` | erpnext | Accounts | doctype | Accounting Dimension Filter | A | /app/accounting-dimension-filter | Required for ordinary-user parity |
-| `erpnext:doctype:accounting-period` | erpnext | Accounts | doctype | Accounting Period | A | /app/accounting-period | Required for ordinary-user parity |
 | `erpnext:doctype:accounts-settings` | erpnext | Accounts | doctype | Accounts Settings | A | /app/accounts-settings | Required for ordinary-user parity |
-| `erpnext:doctype:activity-cost` | erpnext | Projects | doctype | Activity Cost | A | /app/activity-cost | Required for ordinary-user parity |
-| `erpnext:doctype:activity-type` | erpnext | Projects | doctype | Activity Type | A | /app/activity-type | Required for ordinary-user parity |
 | `erpnext:doctype:advance-payment-ledger-entry` | erpnext | Accounts | doctype | Advance Payment Ledger Entry | A | /app/advance-payment-ledger-entry | Required for ordinary-user parity |
 | `erpnext:doctype:appointment-booking-settings` | erpnext | CRM | doctype | Appointment Booking Settings | A | /app/appointment-booking-settings | Required for ordinary-user parity |
-| `erpnext:doctype:asset-activity` | erpnext | Assets | doctype | Asset Activity | A | /app/asset-activity | Required for ordinary-user parity |
-| `erpnext:doctype:asset-capitalization` | erpnext | Assets | doctype | Asset Capitalization | A | /app/asset-capitalization | Required for ordinary-user parity |
-| `erpnext:doctype:asset-category` | erpnext | Assets | doctype | Asset Category | A | /app/asset-category | Required for ordinary-user parity |
 | `erpnext:doctype:asset-depreciation-schedule` | erpnext | Assets | doctype | Asset Depreciation Schedule | A | /app/asset-depreciation-schedule | Required for ordinary-user parity |
-| `erpnext:doctype:asset-maintenance` | erpnext | Assets | doctype | Asset Maintenance | A | /app/asset-maintenance | Required for ordinary-user parity |
-| `erpnext:doctype:asset-maintenance-log` | erpnext | Assets | doctype | Asset Maintenance Log | A | /app/asset-maintenance-log | Required for ordinary-user parity |
-| `erpnext:doctype:asset-maintenance-team` | erpnext | Assets | doctype | Asset Maintenance Team | A | /app/asset-maintenance-team | Required for ordinary-user parity |
-| `erpnext:doctype:asset-repair` | erpnext | Assets | doctype | Asset Repair | A | /app/asset-repair | Required for ordinary-user parity |
-| `erpnext:doctype:asset-shift-allocation` | erpnext | Assets | doctype | Asset Shift Allocation | A | /app/asset-shift-allocation | Required for ordinary-user parity |
-| `erpnext:doctype:asset-shift-factor` | erpnext | Assets | doctype | Asset Shift Factor | A | /app/asset-shift-factor | Required for ordinary-user parity |
-| `erpnext:doctype:asset-value-adjustment` | erpnext | Assets | doctype | Asset Value Adjustment | A | /app/asset-value-adjustment | Required for ordinary-user parity |
 | `erpnext:doctype:authorization-control` | erpnext | Setup | doctype | Authorization Control | E | /app/authorization-control | Required for ordinary-user parity |
 | `erpnext:doctype:authorization-rule` | erpnext | Setup | doctype | Authorization Rule | E | /app/authorization-rule | Required for ordinary-user parity |
-| `erpnext:doctype:bank` | erpnext | Accounts | doctype | Bank | A | /app/bank | Required for ordinary-user parity |
-| `erpnext:doctype:bank-account` | erpnext | Accounts | doctype | Bank Account | A | /app/bank-account | Required for ordinary-user parity |
-| `erpnext:doctype:bank-account-subtype` | erpnext | Accounts | doctype | Bank Account Subtype | A | /app/bank-account-subtype | Required for ordinary-user parity |
-| `erpnext:doctype:bank-account-type` | erpnext | Accounts | doctype | Bank Account Type | A | /app/bank-account-type | Required for ordinary-user parity |
 | `erpnext:doctype:bank-clearance` | erpnext | Accounts | doctype | Bank Clearance | A | /app/bank-clearance | Required for ordinary-user parity |
-| `erpnext:doctype:bank-guarantee` | erpnext | Accounts | doctype | Bank Guarantee | A | /app/bank-guarantee | Required for ordinary-user parity |
 | `erpnext:doctype:bank-reconciliation-tool` | erpnext | Accounts | doctype | Bank Reconciliation Tool | A | /app/bank-reconciliation-tool | Required for ordinary-user parity |
-| `erpnext:doctype:bank-statement-import` | erpnext | Accounts | doctype | Bank Statement Import | A | /app/bank-statement-import | Required for ordinary-user parity |
-| `erpnext:doctype:bank-transaction` | erpnext | Accounts | doctype | Bank Transaction | B | /app/bank-transaction | Required for ordinary-user parity |
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | /app/bin | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-accounting-statements` | erpnext | Accounts | doctype | Bisect Accounting Statements | A | /app/bisect-accounting-statements | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-nodes` | erpnext | Accounts | doctype | Bisect Nodes | A | /app/bisect-nodes | Required for ordinary-user parity |
@@ -298,40 +276,25 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | /app/bom-update-log | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-tool` | erpnext | Manufacturing | doctype | BOM Update Tool | A | /app/bom-update-tool | Required for ordinary-user parity |
 | `erpnext:doctype:branch` | erpnext | Setup | doctype | Branch | E | /app/branch | Required for ordinary-user parity |
-| `erpnext:doctype:budget` | erpnext | Accounts | doctype | Budget | A | /app/budget | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log | A | /app/bulk-transaction-log | Required for ordinary-user parity |
 | `erpnext:doctype:bulk-transaction-log-detail` | erpnext | Bulk Transaction | doctype | Bulk Transaction Log Detail | A | /app/bulk-transaction-log-detail | Required for ordinary-user parity |
 | `erpnext:doctype:buying-settings` | erpnext | Buying | doctype | Buying Settings | A | /app/buying-settings | Required for ordinary-user parity |
 | `erpnext:doctype:call-log` | erpnext | Telephony | doctype | Call Log | A | /app/call-log | Required for ordinary-user parity |
 | `erpnext:doctype:cashier-closing` | erpnext | Accounts | doctype | Cashier Closing | A | /app/cashier-closing | Required for ordinary-user parity |
 | `erpnext:doctype:chart-of-accounts-importer` | erpnext | Accounts | doctype | Chart of Accounts Importer | A | /app/chart-of-accounts-importer | Required for ordinary-user parity |
-| `erpnext:doctype:cheque-print-template` | erpnext | Accounts | doctype | Cheque Print Template | A | /app/cheque-print-template | Required for ordinary-user parity |
 | `erpnext:doctype:closing-stock-balance` | erpnext | Stock | doctype | Closing Stock Balance | A | /app/closing-stock-balance | Required for ordinary-user parity |
 | `erpnext:doctype:code-list` | erpnext | EDI | doctype | Code List | A | /app/code-list | Required for ordinary-user parity |
 | `erpnext:doctype:common-code` | erpnext | EDI | doctype | Common Code | A | /app/common-code | Required for ordinary-user parity |
 | `erpnext:doctype:communication-medium` | erpnext | Communication | doctype | Communication Medium | A | /app/communication-medium | Required for ordinary-user parity |
-| `erpnext:doctype:competitor` | erpnext | CRM | doctype | Competitor | A | /app/competitor | Required for ordinary-user parity |
-| `erpnext:doctype:contract` | erpnext | CRM | doctype | Contract | A | /app/contract | Required for ordinary-user parity |
-| `erpnext:doctype:contract-template` | erpnext | CRM | doctype | Contract Template | A | /app/contract-template | Required for ordinary-user parity |
-| `erpnext:doctype:cost-center-allocation` | erpnext | Accounts | doctype | Cost Center Allocation | A | /app/cost-center-allocation | Required for ordinary-user parity |
-| `erpnext:doctype:coupon-code` | erpnext | Accounts | doctype | Coupon Code | A | /app/coupon-code | Required for ordinary-user parity |
 | `erpnext:doctype:crm-settings` | erpnext | CRM | doctype | CRM Settings | A | /app/crm-settings | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange` | erpnext | Setup | doctype | Currency Exchange | E | /app/currency-exchange | Required for ordinary-user parity |
 | `erpnext:doctype:currency-exchange-settings` | erpnext | Accounts | doctype | Currency Exchange Settings | A | /app/currency-exchange-settings | Required for ordinary-user parity |
-| `erpnext:doctype:customs-tariff-number` | erpnext | Stock | doctype | Customs Tariff Number | A | /app/customs-tariff-number | Required for ordinary-user parity |
 | `erpnext:doctype:delivery-settings` | erpnext | Stock | doctype | Delivery Settings | A | /app/delivery-settings | Required for ordinary-user parity |
-| `erpnext:doctype:delivery-trip` | erpnext | Stock | doctype | Delivery Trip | A | /app/delivery-trip | Required for ordinary-user parity |
 | `erpnext:doctype:downtime-entry` | erpnext | Manufacturing | doctype | Downtime Entry | A | /app/downtime-entry | Required for ordinary-user parity |
 | `erpnext:doctype:driver` | erpnext | Setup | doctype | Driver | E | /app/driver | Required for ordinary-user parity |
-| `erpnext:doctype:dunning` | erpnext | Accounts | doctype | Dunning | A | /app/dunning | Required for ordinary-user parity |
-| `erpnext:doctype:dunning-type` | erpnext | Accounts | doctype | Dunning Type | A | /app/dunning-type | Required for ordinary-user parity |
-| `erpnext:doctype:email-campaign` | erpnext | CRM | doctype | Email Campaign | A | /app/email-campaign | Required for ordinary-user parity |
 | `erpnext:doctype:email-digest` | erpnext | Setup | doctype | Email Digest | E | /app/email-digest | Required for ordinary-user parity |
 | `erpnext:doctype:employee` | erpnext | Setup | doctype | Employee | C | /app/employee | Required for ordinary-user parity |
 | `erpnext:doctype:employee-group` | erpnext | Setup | doctype | Employee Group | E | /app/employee-group | Required for ordinary-user parity |
-| `erpnext:doctype:exchange-rate-revaluation` | erpnext | Accounts | doctype | Exchange Rate Revaluation | A | /app/exchange-rate-revaluation | Required for ordinary-user parity |
-| `erpnext:doctype:finance-book` | erpnext | Accounts | doctype | Finance Book | A | /app/finance-book | Required for ordinary-user parity |
-| `erpnext:doctype:fiscal-year` | erpnext | Accounts | doctype | Fiscal Year | A | /app/fiscal-year | Required for ordinary-user parity |
 | `erpnext:doctype:gl-entry` | erpnext | Accounts | doctype | GL Entry | A | /app/gl-entry | Required for ordinary-user parity |
 | `erpnext:doctype:global-defaults` | erpnext | Setup | doctype | Global Defaults | E | /app/global-defaults | Required for ordinary-user parity |
 | `erpnext:doctype:holiday-list` | erpnext | Setup | doctype | Holiday List | E | /app/holiday-list | Required for ordinary-user parity |
@@ -340,50 +303,20 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:import-supplier-invoice` | erpnext | Regional | doctype | Import Supplier Invoice | A | /app/import-supplier-invoice | Required for ordinary-user parity |
 | `erpnext:doctype:incoming-call-settings` | erpnext | Telephony | doctype | Incoming Call Settings | A | /app/incoming-call-settings | Required for ordinary-user parity |
 | `erpnext:doctype:incoterm` | erpnext | Setup | doctype | Incoterm | E | /app/incoterm | Required for ordinary-user parity |
-| `erpnext:doctype:industry-type` | erpnext | Selling | doctype | Industry Type | A | /app/industry-type | Required for ordinary-user parity |
-| `erpnext:doctype:installation-note` | erpnext | Selling | doctype | Installation Note | A | /app/installation-note | Required for ordinary-user parity |
-| `erpnext:doctype:inventory-dimension` | erpnext | Stock | doctype | Inventory Dimension | A | /app/inventory-dimension | Required for ordinary-user parity |
-| `erpnext:doctype:invoice-discounting` | erpnext | Accounts | doctype | Invoice Discounting | A | /app/invoice-discounting | Required for ordinary-user parity |
-| `erpnext:doctype:issue-priority` | erpnext | Support | doctype | Issue Priority | A | /app/issue-priority | Required for ordinary-user parity |
-| `erpnext:doctype:issue-type` | erpnext | Support | doctype | Issue Type | A | /app/issue-type | Required for ordinary-user parity |
-| `erpnext:doctype:item-alternative` | erpnext | Stock | doctype | Item Alternative | A | /app/item-alternative | Required for ordinary-user parity |
-| `erpnext:doctype:item-attribute` | erpnext | Stock | doctype | Item Attribute | A | /app/item-attribute | Required for ordinary-user parity |
-| `erpnext:doctype:item-manufacturer` | erpnext | Stock | doctype | Item Manufacturer | A | /app/item-manufacturer | Required for ordinary-user parity |
-| `erpnext:doctype:item-tax-template` | erpnext | Accounts | doctype | Item Tax Template | A | /app/item-tax-template | Required for ordinary-user parity |
 | `erpnext:doctype:item-variant-settings` | erpnext | Stock | doctype | Item Variant Settings | A | /app/item-variant-settings | Required for ordinary-user parity |
-| `erpnext:doctype:journal-entry-template` | erpnext | Accounts | doctype | Journal Entry Template | A | /app/journal-entry-template | Required for ordinary-user parity |
-| `erpnext:doctype:landed-cost-voucher` | erpnext | Stock | doctype | Landed Cost Voucher | A | /app/landed-cost-voucher | Required for ordinary-user parity |
-| `erpnext:doctype:lead-source` | erpnext | CRM | doctype | Lead Source | A | /app/lead-source | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health` | erpnext | Accounts | doctype | Ledger Health | A | /app/ledger-health | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-health-monitor` | erpnext | Accounts | doctype | Ledger Health Monitor | A | /app/ledger-health-monitor | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-merge` | erpnext | Accounts | doctype | Ledger Merge | A | /app/ledger-merge | Required for ordinary-user parity |
-| `erpnext:doctype:location` | erpnext | Assets | doctype | Location | C | /app/location | Required for ordinary-user parity |
 | `erpnext:doctype:lower-deduction-certificate` | erpnext | Regional | doctype | Lower Deduction Certificate | A | /app/lower-deduction-certificate | Required for ordinary-user parity |
 | `erpnext:doctype:loyalty-point-entry` | erpnext | Accounts | doctype | Loyalty Point Entry | A | /app/loyalty-point-entry | Required for ordinary-user parity |
-| `erpnext:doctype:loyalty-program` | erpnext | Accounts | doctype | Loyalty Program | A | /app/loyalty-program | Required for ordinary-user parity |
 | `erpnext:doctype:maintenance-schedule` | erpnext | Maintenance | doctype | Maintenance Schedule | A | /app/maintenance-schedule | Required for ordinary-user parity |
 | `erpnext:doctype:maintenance-visit` | erpnext | Maintenance | doctype | Maintenance Visit | A | /app/maintenance-visit | Required for ordinary-user parity |
-| `erpnext:doctype:manufacturer` | erpnext | Stock | doctype | Manufacturer | A | /app/manufacturer | Required for ordinary-user parity |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | /app/manufacturing-settings | Required for ordinary-user parity |
-| `erpnext:doctype:market-segment` | erpnext | CRM | doctype | Market Segment | A | /app/market-segment | Required for ordinary-user parity |
-| `erpnext:doctype:monthly-distribution` | erpnext | Accounts | doctype | Monthly Distribution | A | /app/monthly-distribution | Required for ordinary-user parity |
-| `erpnext:doctype:non-conformance` | erpnext | Quality Management | doctype | Non Conformance | A | /app/non-conformance | Required for ordinary-user parity |
 | `erpnext:doctype:opening-invoice-creation-tool` | erpnext | Accounts | doctype | Opening Invoice Creation Tool | A | /app/opening-invoice-creation-tool | Required for ordinary-user parity |
-| `erpnext:doctype:opportunity-lost-reason` | erpnext | CRM | doctype | Opportunity Lost Reason | A | /app/opportunity-lost-reason | Required for ordinary-user parity |
-| `erpnext:doctype:opportunity-type` | erpnext | CRM | doctype | Opportunity Type | A | /app/opportunity-type | Required for ordinary-user parity |
-| `erpnext:doctype:packing-slip` | erpnext | Stock | doctype | Packing Slip | A | /app/packing-slip | Required for ordinary-user parity |
-| `erpnext:doctype:party-link` | erpnext | Accounts | doctype | Party Link | A | /app/party-link | Required for ordinary-user parity |
-| `erpnext:doctype:party-specific-item` | erpnext | Selling | doctype | Party Specific Item | A | /app/party-specific-item | Required for ordinary-user parity |
 | `erpnext:doctype:party-type` | erpnext | Setup | doctype | Party Type | E | /app/party-type | Required for ordinary-user parity |
-| `erpnext:doctype:payment-gateway-account` | erpnext | Accounts | doctype | Payment Gateway Account | A | /app/payment-gateway-account | Required for ordinary-user parity |
 | `erpnext:doctype:payment-ledger-entry` | erpnext | Accounts | doctype | Payment Ledger Entry | A | /app/payment-ledger-entry | Required for ordinary-user parity |
-| `erpnext:doctype:payment-order` | erpnext | Accounts | doctype | Payment Order | A | /app/payment-order | Required for ordinary-user parity |
 | `erpnext:doctype:payment-reconciliation` | erpnext | Accounts | doctype | Payment Reconciliation | A | /app/payment-reconciliation | Required for ordinary-user parity |
-| `erpnext:doctype:payment-term` | erpnext | Accounts | doctype | Payment Term | A | /app/payment-term | Required for ordinary-user parity |
-| `erpnext:doctype:payment-terms-template` | erpnext | Accounts | doctype | Payment Terms Template | A | /app/payment-terms-template | Required for ordinary-user parity |
 | `erpnext:doctype:pegged-currencies` | erpnext | Accounts | doctype | Pegged Currencies | A | /app/pegged-currencies | Required for ordinary-user parity |
-| `erpnext:doctype:period-closing-voucher` | erpnext | Accounts | doctype | Period Closing Voucher | A | /app/period-closing-voucher | Required for ordinary-user parity |
-| `erpnext:doctype:pick-list` | erpnext | Stock | doctype | Pick List | B | /app/pick-list | Required for ordinary-user parity |
 | `erpnext:doctype:plaid-settings` | erpnext | ERPNext Integrations | doctype | Plaid Settings | A | /app/plaid-settings | Required for ordinary-user parity |
 | `erpnext:doctype:plant-floor` | erpnext | Manufacturing | doctype | Plant Floor | A | /app/plant-floor | Required for ordinary-user parity |
 | `erpnext:doctype:pos-closing-entry` | erpnext | Accounts | doctype | POS Closing Entry | A | /app/pos-closing-entry | Required for ordinary-user parity |
@@ -392,7 +325,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | /app/pos-opening-entry | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | /app/pos-profile | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | /app/pos-settings | Required for ordinary-user parity |
-| `erpnext:doctype:pricing-rule` | erpnext | Accounts | doctype | Pricing Rule | A | /app/pricing-rule | Required for ordinary-user parity |
 | `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | /app/print-heading | Required for ordinary-user parity |
 | `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | /app/process-deferred-accounting | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | /app/process-payment-reconciliation | Required for ordinary-user parity |
@@ -400,25 +332,7 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:process-period-closing-voucher` | erpnext | Accounts | doctype | Process Period Closing Voucher | A | /app/process-period-closing-voucher | Required for ordinary-user parity |
 | `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | /app/process-statement-of-accounts | Required for ordinary-user parity |
 | `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | /app/process-subscription | Required for ordinary-user parity |
-| `erpnext:doctype:product-bundle` | erpnext | Selling | doctype | Product Bundle | A | /app/product-bundle | Required for ordinary-user parity |
-| `erpnext:doctype:project-template` | erpnext | Projects | doctype | Project Template | A | /app/project-template | Required for ordinary-user parity |
-| `erpnext:doctype:project-type` | erpnext | Projects | doctype | Project Type | A | /app/project-type | Required for ordinary-user parity |
-| `erpnext:doctype:project-update` | erpnext | Projects | doctype | Project Update | A | /app/project-update | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | /app/projects-settings | Required for ordinary-user parity |
-| `erpnext:doctype:promotional-scheme` | erpnext | Accounts | doctype | Promotional Scheme | A | /app/promotional-scheme | Required for ordinary-user parity |
-| `erpnext:doctype:prospect` | erpnext | CRM | doctype | Prospect | A | /app/prospect | Required for ordinary-user parity |
-| `erpnext:doctype:purchase-taxes-and-charges-template` | erpnext | Accounts | doctype | Purchase Taxes and Charges Template | A | /app/purchase-taxes-and-charges-template | Required for ordinary-user parity |
-| `erpnext:doctype:putaway-rule` | erpnext | Stock | doctype | Putaway Rule | A | /app/putaway-rule | Required for ordinary-user parity |
-| `erpnext:doctype:quality-action` | erpnext | Quality Management | doctype | Quality Action | A | /app/quality-action | Required for ordinary-user parity |
-| `erpnext:doctype:quality-feedback` | erpnext | Quality Management | doctype | Quality Feedback | A | /app/quality-feedback | Required for ordinary-user parity |
-| `erpnext:doctype:quality-feedback-template` | erpnext | Quality Management | doctype | Quality Feedback Template | A | /app/quality-feedback-template | Required for ordinary-user parity |
-| `erpnext:doctype:quality-goal` | erpnext | Quality Management | doctype | Quality Goal | A | /app/quality-goal | Required for ordinary-user parity |
-| `erpnext:doctype:quality-inspection-parameter` | erpnext | Stock | doctype | Quality Inspection Parameter | A | /app/quality-inspection-parameter | Required for ordinary-user parity |
-| `erpnext:doctype:quality-inspection-parameter-group` | erpnext | Stock | doctype | Quality Inspection Parameter Group | A | /app/quality-inspection-parameter-group | Required for ordinary-user parity |
-| `erpnext:doctype:quality-inspection-template` | erpnext | Stock | doctype | Quality Inspection Template | A | /app/quality-inspection-template | Required for ordinary-user parity |
-| `erpnext:doctype:quality-meeting` | erpnext | Quality Management | doctype | Quality Meeting | A | /app/quality-meeting | Required for ordinary-user parity |
-| `erpnext:doctype:quality-procedure` | erpnext | Quality Management | doctype | Quality Procedure | C | /app/quality-procedure | Required for ordinary-user parity |
-| `erpnext:doctype:quality-review` | erpnext | Quality Management | doctype | Quality Review | A | /app/quality-review | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | /app/quick-stock-balance | Required for ordinary-user parity |
 | `erpnext:doctype:quotation-lost-reason` | erpnext | Setup | doctype | Quotation Lost Reason | E | /app/quotation-lost-reason | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | /app/rename-tool | Required for ordinary-user parity |
@@ -428,54 +342,27 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:repost-payment-ledger` | erpnext | Accounts | doctype | Repost Payment Ledger | A | /app/repost-payment-ledger | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | /app/routing | Required for ordinary-user parity |
 | `erpnext:doctype:sales-partner` | erpnext | Setup | doctype | Sales Partner | E | /app/sales-partner | Required for ordinary-user parity |
-| `erpnext:doctype:sales-partner-type` | erpnext | Selling | doctype | Sales Partner Type | A | /app/sales-partner-type | Required for ordinary-user parity |
-| `erpnext:doctype:sales-stage` | erpnext | CRM | doctype | Sales Stage | A | /app/sales-stage | Required for ordinary-user parity |
-| `erpnext:doctype:sales-taxes-and-charges-template` | erpnext | Accounts | doctype | Sales Taxes and Charges Template | A | /app/sales-taxes-and-charges-template | Required for ordinary-user parity |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | /app/selling-settings | Required for ordinary-user parity |
 | `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | /app/serial-and-batch-bundle | Required for ordinary-user parity |
-| `erpnext:doctype:service-level-agreement` | erpnext | Support | doctype | Service Level Agreement | A | /app/service-level-agreement | Required for ordinary-user parity |
-| `erpnext:doctype:share-transfer` | erpnext | Accounts | doctype | Share Transfer | A | /app/share-transfer | Required for ordinary-user parity |
-| `erpnext:doctype:share-type` | erpnext | Accounts | doctype | Share Type | A | /app/share-type | Required for ordinary-user parity |
-| `erpnext:doctype:shareholder` | erpnext | Accounts | doctype | Shareholder | A | /app/shareholder | Required for ordinary-user parity |
-| `erpnext:doctype:shipment` | erpnext | Stock | doctype | Shipment | A | /app/shipment | Required for ordinary-user parity |
-| `erpnext:doctype:shipment-parcel-template` | erpnext | Stock | doctype | Shipment Parcel Template | A | /app/shipment-parcel-template | Required for ordinary-user parity |
-| `erpnext:doctype:shipping-rule` | erpnext | Accounts | doctype | Shipping Rule | A | /app/shipping-rule | Required for ordinary-user parity |
 | `erpnext:doctype:sms-center` | erpnext | Selling | doctype | SMS Center | A | /app/sms-center | Required for ordinary-user parity |
 | `erpnext:doctype:sms-log` | erpnext | Utilities | doctype | SMS Log | A | /app/sms-log | Required for ordinary-user parity |
 | `erpnext:doctype:south-africa-vat-settings` | erpnext | Regional | doctype | South Africa VAT Settings | A | /app/south-africa-vat-settings | Required for ordinary-user parity |
-| `erpnext:doctype:stock-entry-type` | erpnext | Stock | doctype | Stock Entry Type | A | /app/stock-entry-type | Required for ordinary-user parity |
 | `erpnext:doctype:stock-ledger-entry` | erpnext | Stock | doctype | Stock Ledger Entry | A | /app/stock-ledger-entry | Required for ordinary-user parity |
 | `erpnext:doctype:stock-reposting-settings` | erpnext | Stock | doctype | Stock Reposting Settings | A | /app/stock-reposting-settings | Required for ordinary-user parity |
-| `erpnext:doctype:stock-reservation-entry` | erpnext | Stock | doctype | Stock Reservation Entry | A | /app/stock-reservation-entry | Required for ordinary-user parity |
 | `erpnext:doctype:stock-settings` | erpnext | Stock | doctype | Stock Settings | A | /app/stock-settings | Required for ordinary-user parity |
 | `erpnext:doctype:subcontracting-bom` | erpnext | Subcontracting | doctype | Subcontracting BOM | A | /app/subcontracting-bom | Required for ordinary-user parity |
-| `erpnext:doctype:subscription` | erpnext | Accounts | doctype | Subscription | A | /app/subscription | Required for ordinary-user parity |
-| `erpnext:doctype:subscription-plan` | erpnext | Accounts | doctype | Subscription Plan | A | /app/subscription-plan | Required for ordinary-user parity |
 | `erpnext:doctype:subscription-settings` | erpnext | Accounts | doctype | Subscription Settings | A | /app/subscription-settings | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-scorecard` | erpnext | Buying | doctype | Supplier Scorecard | A | /app/supplier-scorecard | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-scorecard-criteria` | erpnext | Buying | doctype | Supplier Scorecard Criteria | A | /app/supplier-scorecard-criteria | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-scorecard-period` | erpnext | Buying | doctype | Supplier Scorecard Period | A | /app/supplier-scorecard-period | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-scorecard-standing` | erpnext | Buying | doctype | Supplier Scorecard Standing | A | /app/supplier-scorecard-standing | Required for ordinary-user parity |
-| `erpnext:doctype:supplier-scorecard-variable` | erpnext | Buying | doctype | Supplier Scorecard Variable | A | /app/supplier-scorecard-variable | Required for ordinary-user parity |
 | `erpnext:doctype:support-settings` | erpnext | Support | doctype | Support Settings | A | /app/support-settings | Required for ordinary-user parity |
-| `erpnext:doctype:task-type` | erpnext | Projects | doctype | Task Type | A | /app/task-type | Required for ordinary-user parity |
-| `erpnext:doctype:tax-category` | erpnext | Accounts | doctype | Tax Category | A | /app/tax-category | Required for ordinary-user parity |
-| `erpnext:doctype:tax-rule` | erpnext | Accounts | doctype | Tax Rule | A | /app/tax-rule | Required for ordinary-user parity |
-| `erpnext:doctype:tax-withholding-category` | erpnext | Accounts | doctype | Tax Withholding Category | A | /app/tax-withholding-category | Required for ordinary-user parity |
 | `erpnext:doctype:telephony-call-type` | erpnext | Telephony | doctype | Telephony Call Type | A | /app/telephony-call-type | Required for ordinary-user parity |
 | `erpnext:doctype:terms-and-conditions` | erpnext | Setup | doctype | Terms and Conditions | E | /app/terms-and-conditions | Required for ordinary-user parity |
-| `erpnext:doctype:timesheet` | erpnext | Projects | doctype | Timesheet | A | /app/timesheet | Required for ordinary-user parity |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | /app/transaction-deletion-record | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | /app/uae-vat-settings | Required for ordinary-user parity |
 | `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | /app/unreconcile-payment | Required for ordinary-user parity |
-| `erpnext:doctype:uom-category` | erpnext | Stock | doctype | UOM Category | A | /app/uom-category | Required for ordinary-user parity |
 | `erpnext:doctype:uom-conversion-factor` | erpnext | Setup | doctype | UOM Conversion Factor | E | /app/uom-conversion-factor | Required for ordinary-user parity |
 | `erpnext:doctype:vehicle` | erpnext | Setup | doctype | Vehicle | E | /app/vehicle | Required for ordinary-user parity |
 | `erpnext:doctype:video` | erpnext | Utilities | doctype | Video | A | /app/video | Required for ordinary-user parity |
 | `erpnext:doctype:video-settings` | erpnext | Utilities | doctype | Video Settings | A | /app/video-settings | Required for ordinary-user parity |
 | `erpnext:doctype:voice-call-settings` | erpnext | Telephony | doctype | Voice Call Settings | A | /app/voice-call-settings | Required for ordinary-user parity |
-| `erpnext:doctype:warehouse-type` | erpnext | Stock | doctype | Warehouse Type | A | /app/warehouse-type | Required for ordinary-user parity |
-| `erpnext:doctype:warranty-claim` | erpnext | Support | doctype | Warranty Claim | A | /app/warranty-claim | Required for ordinary-user parity |
 | `erpnext:doctype:workstation-type` | erpnext | Manufacturing | doctype | Workstation Type | A | /app/workstation-type | Required for ordinary-user parity |
 | `erpnext:document-action:account:chart-of-accounts` | erpnext | Accounts | document_action | Chart of Accounts | B | — | Action not implemented in Retail ERP |
 | `erpnext:document-action:account:convert-to-group` | erpnext | Accounts | document_action | Convert to Group | B | — | Action not implemented in Retail ERP |
@@ -1752,7 +1639,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:dashboard-connection:core-doctype-user-type-user-type-dashboard-py:user-type` | frappe |  | dashboard_connection | User Type Dashboard | C | — | Dashboard connections and related-document actions require Retail ERP detail integration |
 | `frappe:dashboard-connection:desk-doctype-dashboard-test-dashboard-py:test` | frappe |  | dashboard_connection | Test Dashboard | C | — | Dashboard connections and related-document actions require Retail ERP detail integration |
 | `frappe:doctype:about-us-settings` | frappe | Website | doctype | About Us Settings | E | /app/about-us-settings | Required for ordinary-user parity |
-| `frappe:doctype:address-template` | frappe | Contacts | doctype | Address Template | A | /app/address-template | Required for ordinary-user parity |
 | `frappe:doctype:assignment-rule` | frappe | Automation | doctype | Assignment Rule | A | /app/assignment-rule | Required for ordinary-user parity |
 | `frappe:doctype:audit-trail` | frappe | Core | doctype | Audit Trail | E | /app/audit-trail | Required for ordinary-user parity |
 | `frappe:doctype:auto-email-report` | frappe | Email | doctype | Auto Email Report | E | /app/auto-email-report | Required for ordinary-user parity |
@@ -1811,7 +1697,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:doctype:event` | frappe | Desk | doctype | Event | E | /app/event | Required for ordinary-user parity |
 | `frappe:doctype:file` | frappe | Core | doctype | File | E | /app/file | Required for ordinary-user parity |
 | `frappe:doctype:form-tour` | frappe | Desk | doctype | Form Tour | E | /app/form-tour | Required for ordinary-user parity |
-| `frappe:doctype:gender` | frappe | Contacts | doctype | Gender | A | /app/gender | Required for ordinary-user parity |
 | `frappe:doctype:global-search-settings` | frappe | Desk | doctype | Global Search Settings | E | /app/global-search-settings | Required for ordinary-user parity |
 | `frappe:doctype:google-calendar` | frappe | Integrations | doctype | Google Calendar | E | /app/google-calendar | Required for ordinary-user parity |
 | `frappe:doctype:google-contacts` | frappe | Integrations | doctype | Google Contacts | E | /app/google-contacts | Required for ordinary-user parity |
@@ -1868,7 +1753,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:doctype:role-profile` | frappe | Core | doctype | Role Profile | E | /app/role-profile | Required for ordinary-user parity |
 | `frappe:doctype:rq-worker` | frappe | Core | doctype | RQ Worker | E | /app/rq-worker | Required for ordinary-user parity |
 | `frappe:doctype:s3-backup-settings` | frappe | Integrations | doctype | S3 Backup Settings | E | /app/s3-backup-settings | Required for ordinary-user parity |
-| `frappe:doctype:salutation` | frappe | Contacts | doctype | Salutation | A | /app/salutation | Required for ordinary-user parity |
 | `frappe:doctype:scheduled-job-type` | frappe | Core | doctype | Scheduled Job Type | E | /app/scheduled-job-type | Required for ordinary-user parity |
 | `frappe:doctype:scheduler-event` | frappe | Core | doctype | Scheduler Event | E | /app/scheduler-event | Required for ordinary-user parity |
 | `frappe:doctype:security-settings` | frappe | Core | doctype | Security Settings | E | /app/security-settings | Required for ordinary-user parity |

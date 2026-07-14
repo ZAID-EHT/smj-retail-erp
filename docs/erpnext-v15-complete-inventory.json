@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "3ce5958392a66c9d75243fbec43fe780c168673c",
+      "git_commit": "bc9e6a73e2e09938424a8cd6b53441850223e195",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -419,7 +419,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 2396
+      "unmapped_user_facing": 2280
     },
     "failures": {
       "complete_without_tests": [],
@@ -681,36 +681,14 @@
         "erpnext:dashboard:selling",
         "erpnext:dashboard:stock",
         "erpnext:doctype:account-closing-balance",
-        "erpnext:doctype:accounting-dimension",
-        "erpnext:doctype:accounting-dimension-filter",
-        "erpnext:doctype:accounting-period",
         "erpnext:doctype:accounts-settings",
-        "erpnext:doctype:activity-cost",
-        "erpnext:doctype:activity-type",
         "erpnext:doctype:advance-payment-ledger-entry",
         "erpnext:doctype:appointment-booking-settings",
-        "erpnext:doctype:asset-activity",
-        "erpnext:doctype:asset-capitalization",
-        "erpnext:doctype:asset-category",
         "erpnext:doctype:asset-depreciation-schedule",
-        "erpnext:doctype:asset-maintenance",
-        "erpnext:doctype:asset-maintenance-log",
-        "erpnext:doctype:asset-maintenance-team",
-        "erpnext:doctype:asset-repair",
-        "erpnext:doctype:asset-shift-allocation",
-        "erpnext:doctype:asset-shift-factor",
-        "erpnext:doctype:asset-value-adjustment",
         "erpnext:doctype:authorization-control",
         "erpnext:doctype:authorization-rule",
-        "erpnext:doctype:bank",
-        "erpnext:doctype:bank-account",
-        "erpnext:doctype:bank-account-subtype",
-        "erpnext:doctype:bank-account-type",
         "erpnext:doctype:bank-clearance",
-        "erpnext:doctype:bank-guarantee",
         "erpnext:doctype:bank-reconciliation-tool",
-        "erpnext:doctype:bank-statement-import",
-        "erpnext:doctype:bank-transaction",
         "erpnext:doctype:bin",
         "erpnext:doctype:bisect-accounting-statements",
         "erpnext:doctype:bisect-nodes",
@@ -719,40 +697,25 @@
         "erpnext:doctype:bom-update-log",
         "erpnext:doctype:bom-update-tool",
         "erpnext:doctype:branch",
-        "erpnext:doctype:budget",
         "erpnext:doctype:bulk-transaction-log",
         "erpnext:doctype:bulk-transaction-log-detail",
         "erpnext:doctype:buying-settings",
         "erpnext:doctype:call-log",
         "erpnext:doctype:cashier-closing",
         "erpnext:doctype:chart-of-accounts-importer",
-        "erpnext:doctype:cheque-print-template",
         "erpnext:doctype:closing-stock-balance",
         "erpnext:doctype:code-list",
         "erpnext:doctype:common-code",
         "erpnext:doctype:communication-medium",
-        "erpnext:doctype:competitor",
-        "erpnext:doctype:contract",
-        "erpnext:doctype:contract-template",
-        "erpnext:doctype:cost-center-allocation",
-        "erpnext:doctype:coupon-code",
         "erpnext:doctype:crm-settings",
         "erpnext:doctype:currency-exchange",
         "erpnext:doctype:currency-exchange-settings",
-        "erpnext:doctype:customs-tariff-number",
         "erpnext:doctype:delivery-settings",
-        "erpnext:doctype:delivery-trip",
         "erpnext:doctype:downtime-entry",
         "erpnext:doctype:driver",
-        "erpnext:doctype:dunning",
-        "erpnext:doctype:dunning-type",
-        "erpnext:doctype:email-campaign",
         "erpnext:doctype:email-digest",
         "erpnext:doctype:employee",
         "erpnext:doctype:employee-group",
-        "erpnext:doctype:exchange-rate-revaluation",
-        "erpnext:doctype:finance-book",
-        "erpnext:doctype:fiscal-year",
         "erpnext:doctype:gl-entry",
         "erpnext:doctype:global-defaults",
         "erpnext:doctype:holiday-list",
@@ -761,50 +724,20 @@
         "erpnext:doctype:import-supplier-invoice",
         "erpnext:doctype:incoming-call-settings",
         "erpnext:doctype:incoterm",
-        "erpnext:doctype:industry-type",
-        "erpnext:doctype:installation-note",
-        "erpnext:doctype:inventory-dimension",
-        "erpnext:doctype:invoice-discounting",
-        "erpnext:doctype:issue-priority",
-        "erpnext:doctype:issue-type",
-        "erpnext:doctype:item-alternative",
-        "erpnext:doctype:item-attribute",
-        "erpnext:doctype:item-manufacturer",
-        "erpnext:doctype:item-tax-template",
         "erpnext:doctype:item-variant-settings",
-        "erpnext:doctype:journal-entry-template",
-        "erpnext:doctype:landed-cost-voucher",
-        "erpnext:doctype:lead-source",
         "erpnext:doctype:ledger-health",
         "erpnext:doctype:ledger-health-monitor",
         "erpnext:doctype:ledger-merge",
-        "erpnext:doctype:location",
         "erpnext:doctype:lower-deduction-certificate",
         "erpnext:doctype:loyalty-point-entry",
-        "erpnext:doctype:loyalty-program",
         "erpnext:doctype:maintenance-schedule",
         "erpnext:doctype:maintenance-visit",
-        "erpnext:doctype:manufacturer",
         "erpnext:doctype:manufacturing-settings",
-        "erpnext:doctype:market-segment",
-        "erpnext:doctype:monthly-distribution",
-        "erpnext:doctype:non-conformance",
         "erpnext:doctype:opening-invoice-creation-tool",
-        "erpnext:doctype:opportunity-lost-reason",
-        "erpnext:doctype:opportunity-type",
-        "erpnext:doctype:packing-slip",
-        "erpnext:doctype:party-link",
-        "erpnext:doctype:party-specific-item",
         "erpnext:doctype:party-type",
-        "erpnext:doctype:payment-gateway-account",
         "erpnext:doctype:payment-ledger-entry",
-        "erpnext:doctype:payment-order",
         "erpnext:doctype:payment-reconciliation",
-        "erpnext:doctype:payment-term",
-        "erpnext:doctype:payment-terms-template",
         "erpnext:doctype:pegged-currencies",
-        "erpnext:doctype:period-closing-voucher",
-        "erpnext:doctype:pick-list",
         "erpnext:doctype:plaid-settings",
         "erpnext:doctype:plant-floor",
         "erpnext:doctype:pos-closing-entry",
@@ -813,7 +746,6 @@
         "erpnext:doctype:pos-opening-entry",
         "erpnext:doctype:pos-profile",
         "erpnext:doctype:pos-settings",
-        "erpnext:doctype:pricing-rule",
         "erpnext:doctype:print-heading",
         "erpnext:doctype:process-deferred-accounting",
         "erpnext:doctype:process-payment-reconciliation",
@@ -821,25 +753,7 @@
         "erpnext:doctype:process-period-closing-voucher",
         "erpnext:doctype:process-statement-of-accounts",
         "erpnext:doctype:process-subscription",
-        "erpnext:doctype:product-bundle",
-        "erpnext:doctype:project-template",
-        "erpnext:doctype:project-type",
-        "erpnext:doctype:project-update",
         "erpnext:doctype:projects-settings",
-        "erpnext:doctype:promotional-scheme",
-        "erpnext:doctype:prospect",
-        "erpnext:doctype:purchase-taxes-and-charges-template",
-        "erpnext:doctype:putaway-rule",
-        "erpnext:doctype:quality-action",
-        "erpnext:doctype:quality-feedback",
-        "erpnext:doctype:quality-feedback-template",
-        "erpnext:doctype:quality-goal",
-        "erpnext:doctype:quality-inspection-parameter",
-        "erpnext:doctype:quality-inspection-parameter-group",
-        "erpnext:doctype:quality-inspection-template",
-        "erpnext:doctype:quality-meeting",
-        "erpnext:doctype:quality-procedure",
-        "erpnext:doctype:quality-review",
         "erpnext:doctype:quick-stock-balance",
         "erpnext:doctype:quotation-lost-reason",
         "erpnext:doctype:rename-tool",
@@ -849,54 +763,27 @@
         "erpnext:doctype:repost-payment-ledger",
         "erpnext:doctype:routing",
         "erpnext:doctype:sales-partner",
-        "erpnext:doctype:sales-partner-type",
-        "erpnext:doctype:sales-stage",
-        "erpnext:doctype:sales-taxes-and-charges-template",
         "erpnext:doctype:selling-settings",
         "erpnext:doctype:serial-and-batch-bundle",
-        "erpnext:doctype:service-level-agreement",
-        "erpnext:doctype:share-transfer",
-        "erpnext:doctype:share-type",
-        "erpnext:doctype:shareholder",
-        "erpnext:doctype:shipment",
-        "erpnext:doctype:shipment-parcel-template",
-        "erpnext:doctype:shipping-rule",
         "erpnext:doctype:sms-center",
         "erpnext:doctype:sms-log",
         "erpnext:doctype:south-africa-vat-settings",
-        "erpnext:doctype:stock-entry-type",
         "erpnext:doctype:stock-ledger-entry",
         "erpnext:doctype:stock-reposting-settings",
-        "erpnext:doctype:stock-reservation-entry",
         "erpnext:doctype:stock-settings",
         "erpnext:doctype:subcontracting-bom",
-        "erpnext:doctype:subscription",
-        "erpnext:doctype:subscription-plan",
         "erpnext:doctype:subscription-settings",
-        "erpnext:doctype:supplier-scorecard",
-        "erpnext:doctype:supplier-scorecard-criteria",
-        "erpnext:doctype:supplier-scorecard-period",
-        "erpnext:doctype:supplier-scorecard-standing",
-        "erpnext:doctype:supplier-scorecard-variable",
         "erpnext:doctype:support-settings",
-        "erpnext:doctype:task-type",
-        "erpnext:doctype:tax-category",
-        "erpnext:doctype:tax-rule",
-        "erpnext:doctype:tax-withholding-category",
         "erpnext:doctype:telephony-call-type",
         "erpnext:doctype:terms-and-conditions",
-        "erpnext:doctype:timesheet",
         "erpnext:doctype:transaction-deletion-record",
         "erpnext:doctype:uae-vat-settings",
         "erpnext:doctype:unreconcile-payment",
-        "erpnext:doctype:uom-category",
         "erpnext:doctype:uom-conversion-factor",
         "erpnext:doctype:vehicle",
         "erpnext:doctype:video",
         "erpnext:doctype:video-settings",
         "erpnext:doctype:voice-call-settings",
-        "erpnext:doctype:warehouse-type",
-        "erpnext:doctype:warranty-claim",
         "erpnext:doctype:workstation-type",
         "erpnext:document-action:account:chart-of-accounts",
         "erpnext:document-action:account:convert-to-group",
@@ -2173,7 +2060,6 @@
         "frappe:dashboard-connection:core-doctype-user-type-user-type-dashboard-py:user-type",
         "frappe:dashboard-connection:desk-doctype-dashboard-test-dashboard-py:test",
         "frappe:doctype:about-us-settings",
-        "frappe:doctype:address-template",
         "frappe:doctype:assignment-rule",
         "frappe:doctype:audit-trail",
         "frappe:doctype:auto-email-report",
@@ -2232,7 +2118,6 @@
         "frappe:doctype:event",
         "frappe:doctype:file",
         "frappe:doctype:form-tour",
-        "frappe:doctype:gender",
         "frappe:doctype:global-search-settings",
         "frappe:doctype:google-calendar",
         "frappe:doctype:google-contacts",
@@ -2289,7 +2174,6 @@
         "frappe:doctype:role-profile",
         "frappe:doctype:rq-worker",
         "frappe:doctype:s3-backup-settings",
-        "frappe:doctype:salutation",
         "frappe:doctype:scheduled-job-type",
         "frappe:doctype:scheduler-event",
         "frappe:doctype:security-settings",
@@ -95403,12 +95287,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AccountingDimension"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/accounting-dimension",
       "customizations": [],
       "delete": true,
       "doctype": "Accounting Dimension",
@@ -95588,7 +95472,7 @@
         "Accounts Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -95606,7 +95490,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -95636,12 +95520,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AccountingDimensionFilter"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/accounting-dimension-filter",
       "customizations": [],
       "delete": true,
       "doctype": "Accounting Dimension Filter",
@@ -95954,7 +95838,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -95972,7 +95856,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -95996,14 +95880,14 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverlapError",
         "ClosedAccountingPeriod",
         "AccountingPeriod"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/accounting-period",
       "customizations": [],
       "delete": true,
       "doctype": "Accounting Period",
@@ -96226,7 +96110,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -96244,7 +96128,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -97844,13 +97728,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "DuplicationError",
         "ActivityCost"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/activity-cost",
       "customizations": [],
       "delete": true,
       "doctype": "Activity Cost",
@@ -98090,7 +97974,7 @@
       "relevant_roles": [
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -98108,7 +97992,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -98131,12 +98015,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ActivityType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/activity-type",
       "customizations": [],
       "delete": true,
       "doctype": "Activity Type",
@@ -98329,7 +98213,7 @@
         "Projects User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -98347,7 +98231,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -101006,12 +100890,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetActivity"
       ],
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-activity",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Activity",
@@ -101239,7 +101123,7 @@
         "Quality Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -101257,7 +101141,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -101293,12 +101177,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetCapitalization"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-capitalization",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Capitalization",
@@ -102027,7 +101911,7 @@
         "Manufacturing Manager",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -102045,7 +101929,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -102075,12 +101959,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetCategory"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-category",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Category",
@@ -102327,7 +102211,7 @@
         "Accounts User",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -102345,7 +102229,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -102890,12 +102774,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetMaintenance"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-maintenance",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Maintenance",
@@ -103199,7 +103083,7 @@
         "Manufacturing User",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -103217,7 +103101,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -103234,12 +103118,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetMaintenanceLog"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-maintenance-log",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Maintenance Log",
@@ -103674,7 +103558,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -103693,7 +103577,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -103717,12 +103601,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetMaintenanceTeam"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-maintenance-team",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Maintenance Team",
@@ -103912,7 +103796,7 @@
       "relevant_roles": [
         "Manufacturing User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -103930,7 +103814,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -104305,12 +104189,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetRepair"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-repair",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Repair",
@@ -104935,7 +104819,7 @@
         "Manufacturing Manager",
         "Quality Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -104959,7 +104843,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -104983,12 +104867,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetShiftAllocation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-shift-allocation",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Shift Allocation",
@@ -105217,7 +105101,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -105235,7 +105119,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -105252,12 +105136,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetShiftFactor"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-shift-factor",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Shift Factor",
@@ -105395,7 +105279,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -105413,7 +105297,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -105430,12 +105314,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AssetValueAdjustment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/asset-value-adjustment",
       "customizations": [],
       "delete": true,
       "doctype": "Asset Value Adjustment",
@@ -105838,7 +105722,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -105856,7 +105740,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -106403,12 +106287,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Bank"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank",
       "customizations": [],
       "delete": true,
       "doctype": "Bank",
@@ -106686,7 +106570,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -106705,7 +106589,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -106733,12 +106617,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankAccount"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-account",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Account",
@@ -107354,7 +107238,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -107372,7 +107256,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -107389,12 +107273,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankAccountSubtype"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-account-subtype",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Account Subtype",
@@ -107521,7 +107405,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -107539,7 +107423,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -107556,12 +107440,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankAccountType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-account-type",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Account Type",
@@ -107688,7 +107572,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -107706,7 +107590,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -108032,12 +107916,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankGuarantee"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-guarantee",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Guarantee",
@@ -108626,7 +108510,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -108644,7 +108528,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -109104,12 +108988,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankStatementImport"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-statement-import",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Statement Import",
@@ -109600,7 +109484,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -109634,7 +109518,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -109669,12 +109553,12 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BankTransaction"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/bank-transaction",
       "customizations": [],
       "delete": true,
       "doctype": "Bank Transaction",
@@ -110353,7 +110237,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -110377,7 +110261,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -116124,14 +116008,14 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BudgetError",
         "DuplicateBudgetError",
         "Budget"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/budget",
       "customizations": [],
       "delete": true,
       "doctype": "Budget",
@@ -116581,7 +116465,7 @@
       "relevant_roles": [
         "Accounts Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -116599,7 +116483,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -119217,12 +119101,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ChequePrintTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/cheque-print-template",
       "customizations": [],
       "delete": true,
       "doctype": "Cheque Print Template",
@@ -119925,7 +119809,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -119943,7 +119827,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -123580,12 +123464,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Competitor"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/competitor",
       "customizations": [],
       "delete": true,
       "doctype": "Competitor",
@@ -123773,7 +123657,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -123791,7 +123675,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -123815,12 +123699,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Contract"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/contract",
       "customizations": [],
       "delete": true,
       "doctype": "Contract",
@@ -124462,7 +124346,7 @@
         "Sales Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -124480,7 +124364,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -124504,12 +124388,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ContractTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/contract-template",
       "customizations": [],
       "delete": true,
       "doctype": "Contract Template",
@@ -124745,7 +124629,7 @@
         "Sales Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -124763,7 +124647,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -125231,7 +125115,7 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MainCostCenterCantBeChild",
         "InvalidMainCostCenter",
@@ -125241,7 +125125,7 @@
         "CostCenterAllocation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/cost-center-allocation",
       "customizations": [],
       "delete": true,
       "doctype": "Cost Center Allocation",
@@ -125474,7 +125358,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -125492,7 +125376,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -125515,12 +125399,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CouponCode"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/coupon-code",
       "customizations": [],
       "delete": true,
       "doctype": "Coupon Code",
@@ -125883,7 +125767,7 @@
         "System Manager",
         "Website Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -125901,7 +125785,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -129174,12 +129058,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "CustomsTariffNumber"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/customs-tariff-number",
       "customizations": [],
       "delete": true,
       "doctype": "Customs Tariff Number",
@@ -129302,7 +129186,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -129320,7 +129204,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -132692,12 +132576,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "DeliveryTrip"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/delivery-trip",
       "customizations": [],
       "delete": true,
       "doctype": "Delivery Trip",
@@ -133225,7 +133109,7 @@
         "Fulfillment User",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -133259,7 +133143,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -134561,12 +134445,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Dunning"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/dunning",
       "customizations": [],
       "delete": true,
       "doctype": "Dunning",
@@ -135565,7 +135449,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -135599,7 +135483,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -135623,12 +135507,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "DunningType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/dunning-type",
       "customizations": [],
       "delete": true,
       "doctype": "Dunning Type",
@@ -135973,7 +135857,7 @@
         "Administrator",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -135991,7 +135875,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -136008,12 +135892,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "EmailCampaign"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/email-campaign",
       "customizations": [],
       "delete": true,
       "doctype": "Email Campaign",
@@ -136223,7 +136107,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -136241,7 +136125,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -139117,12 +139001,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ExchangeRateRevaluation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/exchange-rate-revaluation",
       "customizations": [],
       "delete": true,
       "doctype": "Exchange Rate Revaluation",
@@ -139453,7 +139337,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -139478,7 +139362,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -139495,12 +139379,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "FinanceBook"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/finance-book",
       "customizations": [],
       "delete": true,
       "doctype": "Finance Book",
@@ -139632,7 +139516,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -139651,7 +139535,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -139675,12 +139559,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "FiscalYear"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/fiscal-year",
       "customizations": [],
       "delete": true,
       "doctype": "Fiscal Year",
@@ -140018,7 +139902,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -140037,7 +139921,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -143031,12 +142915,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "IndustryType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/industry-type",
       "customizations": [],
       "delete": false,
       "doctype": "Industry Type",
@@ -143163,7 +143047,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -143181,7 +143065,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -143211,12 +143095,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "InstallationNote"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/installation-note",
       "customizations": [],
       "delete": true,
       "doctype": "Installation Note",
@@ -143680,7 +143564,7 @@
       "relevant_roles": [
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -143704,7 +143588,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -143727,7 +143611,7 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "DoNotChangeError",
         "CanNotBeChildDoc",
@@ -143735,7 +143619,7 @@
         "InventoryDimension"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/inventory-dimension",
       "customizations": [],
       "delete": true,
       "doctype": "Inventory Dimension",
@@ -144224,7 +144108,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -144242,7 +144126,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -144292,12 +144176,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "InvoiceDiscounting"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/invoice-discounting",
       "customizations": [],
       "delete": true,
       "doctype": "Invoice Discounting",
@@ -144772,7 +144656,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -144817,7 +144701,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -145775,12 +145659,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "IssuePriority"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/issue-priority",
       "customizations": [],
       "delete": true,
       "doctype": "Issue Priority",
@@ -145869,7 +145753,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -145887,7 +145771,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -145904,12 +145788,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "IssueType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/issue-type",
       "customizations": [],
       "delete": true,
       "doctype": "Issue Type",
@@ -146017,7 +145901,7 @@
         "Support Team",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -146035,7 +145919,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -148405,12 +148289,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemAlternative"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/item-alternative",
       "customizations": [],
       "delete": true,
       "doctype": "Item Alternative",
@@ -148623,7 +148507,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -148641,7 +148525,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -148665,13 +148549,13 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemAttributeIncrementError",
         "ItemAttribute"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/item-attribute",
       "customizations": [],
       "delete": true,
       "doctype": "Item Attribute",
@@ -148910,7 +148794,7 @@
       "relevant_roles": [
         "Item Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -148928,7 +148812,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -149415,12 +149299,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemManufacturer"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/item-manufacturer",
       "customizations": [],
       "delete": true,
       "doctype": "Item Manufacturer",
@@ -149648,7 +149532,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -149666,7 +149550,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -150270,12 +150154,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ItemTaxTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/item-tax-template",
       "customizations": [],
       "delete": true,
       "doctype": "Item Tax Template",
@@ -150493,7 +150377,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -150512,7 +150396,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -153418,12 +153302,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "JournalEntryTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entry-template",
       "customizations": [],
       "delete": true,
       "doctype": "Journal Entry Template",
@@ -153691,7 +153575,7 @@
         "Accounts User",
         "Auditor"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -153709,7 +153593,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -153745,13 +153629,13 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "IncorrectCompanyValidationError",
         "LandedCostVoucher"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/landed-cost-voucher",
       "customizations": [],
       "delete": true,
       "doctype": "Landed Cost Voucher",
@@ -154106,7 +153990,7 @@
       "relevant_roles": [
         "Stock Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -154124,7 +154008,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -155544,12 +155428,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "LeadSource"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/lead-source",
       "customizations": [],
       "delete": true,
       "doctype": "Lead Source",
@@ -155672,7 +155556,7 @@
         "Sales Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -155690,7 +155574,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -156461,12 +156345,12 @@
       "child_tables": [],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Location"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/location",
       "customizations": [],
       "delete": true,
       "doctype": "Location",
@@ -156901,7 +156785,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -156920,7 +156804,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -157735,12 +157619,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "LoyaltyProgram"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/loyalty-program",
       "customizations": [],
       "delete": true,
       "doctype": "Loyalty Program",
@@ -158178,7 +158062,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -158197,7 +158081,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -159487,12 +159371,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Manufacturer"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/manufacturer",
       "customizations": [],
       "delete": true,
       "doctype": "Manufacturer",
@@ -159756,7 +159640,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -159774,7 +159658,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -160461,12 +160345,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MarketSegment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/market-segment",
       "customizations": [],
       "delete": true,
       "doctype": "Market Segment",
@@ -160555,7 +160439,7 @@
       "relevant_roles": [
         "Sales Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -160573,7 +160457,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -161932,12 +161816,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MonthlyDistribution"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/monthly-distribution",
       "customizations": [],
       "delete": true,
       "doctype": "Monthly Distribution",
@@ -162085,7 +161969,7 @@
       "relevant_roles": [
         "Accounts Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -162104,7 +161988,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -162121,12 +162005,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "NonConformance"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/non-conformance",
       "customizations": [],
       "delete": true,
       "doctype": "Non Conformance",
@@ -162375,7 +162259,7 @@
         "Employee",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -162393,7 +162277,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -164672,12 +164556,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OpportunityLostReason"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/opportunity-lost-reason",
       "customizations": [],
       "delete": true,
       "doctype": "Opportunity Lost Reason",
@@ -164823,7 +164707,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -164841,7 +164725,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -164858,12 +164742,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OpportunityType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/opportunity-type",
       "customizations": [],
       "delete": true,
       "doctype": "Opportunity Type",
@@ -164990,7 +164874,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -165008,7 +164892,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -165032,12 +164916,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PackingSlip"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/packing-slip",
       "customizations": [],
       "delete": true,
       "doctype": "Packing Slip",
@@ -165543,7 +165427,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -165561,7 +165445,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -165584,12 +165468,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PartyLink"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/party-link",
       "customizations": [],
       "delete": true,
       "doctype": "Party Link",
@@ -165803,7 +165687,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -165821,7 +165705,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -165838,12 +165722,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PartySpecificItem"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/party-specific-item",
       "customizations": [],
       "delete": true,
       "doctype": "Party Specific Item",
@@ -166003,7 +165887,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -166021,7 +165905,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -167958,12 +167842,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PaymentGatewayAccount"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/payment-gateway-account",
       "customizations": [],
       "delete": true,
       "doctype": "Payment Gateway Account",
@@ -168206,7 +168090,7 @@
       "relevant_roles": [
         "Accounts Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -168225,7 +168109,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -168783,12 +168667,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PaymentOrder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/payment-order",
       "customizations": [],
       "delete": true,
       "doctype": "Payment Order",
@@ -169111,7 +168995,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -169146,7 +169030,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -170996,12 +170880,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PaymentTerm"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/payment-term",
       "customizations": [],
       "delete": true,
       "doctype": "Payment Term",
@@ -171351,7 +171235,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -171370,7 +171254,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -171394,12 +171278,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PaymentTermsTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/payment-terms-template",
       "customizations": [],
       "delete": true,
       "doctype": "Payment Terms Template",
@@ -171585,7 +171469,7 @@
         "All",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -171604,7 +171488,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -171778,12 +171662,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PeriodClosingVoucher"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/period-closing-voucher",
       "customizations": [],
       "delete": true,
       "doctype": "Period Closing Voucher",
@@ -172068,7 +171952,7 @@
         "Accounts Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -172092,7 +171976,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -172177,14 +172061,14 @@
       ],
       "classification": "B",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MissingWarehouseValidationError",
         "IncorrectWarehouseValidationError",
         "PickList"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/pick-list",
       "customizations": [
         {
           "name": "Pick List-scan_barcode-hidden",
@@ -172853,7 +172737,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -172908,7 +172792,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -182299,12 +182183,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PricingRule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/pricing-rule",
       "customizations": [],
       "delete": true,
       "doctype": "Pricing Rule",
@@ -183866,7 +183750,7 @@
         "System Manager",
         "Website Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -183884,7 +183768,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -186731,12 +186615,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProductBundle"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/product-bundle",
       "customizations": [],
       "delete": true,
       "doctype": "Product Bundle",
@@ -186989,7 +186873,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -187007,7 +186891,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -189400,12 +189284,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProjectTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/project-template",
       "customizations": [],
       "delete": true,
       "doctype": "Project Template",
@@ -189517,7 +189401,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -189536,7 +189420,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -189553,12 +189437,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProjectType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/project-type",
       "customizations": [],
       "delete": true,
       "doctype": "Project Type",
@@ -189700,7 +189584,7 @@
         "Projects User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -189718,7 +189602,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -189742,12 +189626,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProjectUpdate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/project-update",
       "customizations": [],
       "delete": true,
       "doctype": "Project Update",
@@ -189967,7 +189851,7 @@
       "relevant_roles": [
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -189985,7 +189869,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -190264,13 +190148,13 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "TransactionExists",
         "PromotionalScheme"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/promotional-scheme",
       "customizations": [],
       "delete": true,
       "doctype": "Promotional Scheme",
@@ -190984,7 +190868,7 @@
         "Sales Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -191003,7 +190887,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -191060,12 +190944,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Prospect"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/prospect",
       "customizations": [],
       "delete": true,
       "doctype": "Prospect",
@@ -191694,7 +191578,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -191718,7 +191602,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -201332,12 +201216,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PurchaseTaxesandChargesTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/purchase-taxes-and-charges-template",
       "customizations": [],
       "delete": true,
       "doctype": "Purchase Taxes and Charges Template",
@@ -201586,7 +201470,7 @@
         "Purchase Master Manager",
         "Purchase User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -201605,7 +201489,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -201622,12 +201506,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "PutawayRule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/putaway-rule",
       "customizations": [],
       "delete": true,
       "doctype": "Putaway Rule",
@@ -201944,7 +201828,7 @@
         "Stock Manager",
         "Stock User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -201962,7 +201846,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -201986,12 +201870,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityAction"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-action",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Action",
@@ -202255,7 +202139,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -202273,7 +202157,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -202297,12 +202181,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityFeedback"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-feedback",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Feedback",
@@ -202503,7 +202387,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -202521,7 +202405,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -202545,12 +202429,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityFeedbackTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-feedback-template",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Feedback Template",
@@ -202677,7 +202561,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -202695,7 +202579,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -202719,12 +202603,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityGoal"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-goal",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Goal",
@@ -202950,7 +202834,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -202968,7 +202852,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -203625,12 +203509,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityInspectionParameter"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/quality-inspection-parameter",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Inspection Parameter",
@@ -203812,7 +203696,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -203830,7 +203714,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -203847,12 +203731,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityInspectionParameterGroup"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/quality-inspection-parameter-group",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Inspection Parameter Group",
@@ -203998,7 +203882,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -204016,7 +203900,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -204040,12 +203924,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityInspectionTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/quality-inspection-template",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Inspection Template",
@@ -204214,7 +204098,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -204232,7 +204116,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -204262,12 +204146,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityMeeting"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-meeting",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Meeting",
@@ -204450,7 +204334,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -204468,7 +204352,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -204492,12 +204376,12 @@
       ],
       "classification": "C",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityProcedure"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-procedure",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Procedure",
@@ -204794,7 +204678,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -204813,7 +204697,7 @@
         "List",
         "Tree"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -204837,12 +204721,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "QualityReview"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/quality-review",
       "customizations": [],
       "delete": true,
       "doctype": "Quality Review",
@@ -205107,7 +204991,7 @@
         "Quality Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -205125,7 +205009,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -219092,12 +218976,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SalesPartnerType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/sales-partner-type",
       "customizations": [],
       "delete": true,
       "doctype": "Sales Partner Type",
@@ -219186,7 +219070,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -219204,7 +219088,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -219612,12 +219496,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SalesStage"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/sales-stage",
       "customizations": [],
       "delete": true,
       "doctype": "Sales Stage",
@@ -219706,7 +219590,7 @@
       "relevant_roles": [
         "Sales Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -219724,7 +219608,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -219748,12 +219632,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SalesTaxesandChargesTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/sales-taxes-and-charges-template",
       "customizations": [],
       "delete": true,
       "doctype": "Sales Taxes and Charges Template",
@@ -220003,7 +219887,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -220022,7 +219906,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -222177,12 +222061,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ServiceLevelAgreement"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/service-level-agreement",
       "customizations": [],
       "delete": true,
       "doctype": "Service Level Agreement",
@@ -222671,7 +222555,7 @@
         "Desk User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -222689,7 +222573,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -222717,13 +222601,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ShareDontExists",
         "ShareTransfer"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/share-transfer",
       "customizations": [],
       "delete": true,
       "doctype": "Share Transfer",
@@ -223272,7 +223156,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -223296,7 +223180,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -223313,12 +223197,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ShareType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/share-type",
       "customizations": [],
       "delete": true,
       "doctype": "Share Type",
@@ -223520,7 +223404,7 @@
         "Sales User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -223539,7 +223423,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -223574,12 +223458,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Shareholder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/shareholder",
       "customizations": [],
       "delete": true,
       "doctype": "Shareholder",
@@ -223935,7 +223819,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -223954,7 +223838,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -223984,12 +223868,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Shipment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/shipment",
       "customizations": [],
       "delete": true,
       "doctype": "Shipment",
@@ -224993,7 +224877,7 @@
         "Stock Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -225011,7 +224895,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -225028,12 +224912,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ShipmentParcelTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/shipment-parcel-template",
       "customizations": [],
       "delete": true,
       "doctype": "Shipment Parcel Template",
@@ -225182,7 +225066,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -225200,7 +225084,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -225230,7 +225114,7 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverlappingConditionError",
         "FromGreaterThanToError",
@@ -225238,7 +225122,7 @@
         "ShippingRule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/shipping-rule",
       "customizations": [],
       "delete": true,
       "doctype": "Shipping Rule",
@@ -225700,7 +225584,7 @@
         "Sales Master Manager",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -225719,7 +225603,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -228316,12 +228200,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "StockEntryType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/stock-entry-type",
       "customizations": [],
       "delete": true,
       "doctype": "Stock Entry Type",
@@ -228497,7 +228381,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -228515,7 +228399,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -230041,12 +229925,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "StockReservationEntry"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/stock-reservation-entry",
       "customizations": [],
       "delete": true,
       "doctype": "Stock Reservation Entry",
@@ -230710,7 +230594,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -230728,7 +230612,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -235195,14 +235079,14 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "InvoiceCancelled",
         "InvoiceNotCancelled",
         "Subscription"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/subscription",
       "customizations": [],
       "delete": true,
       "doctype": "Subscription",
@@ -235880,7 +235764,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -235924,7 +235808,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -235941,12 +235825,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SubscriptionPlan"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/subscription-plan",
       "customizations": [],
       "delete": true,
       "doctype": "Subscription Plan",
@@ -236387,7 +236271,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -236406,7 +236290,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -240543,12 +240427,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SupplierScorecard"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-scorecard",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Scorecard",
@@ -240956,7 +240840,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -240981,7 +240865,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -240998,13 +240882,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "InvalidFormulaVariable",
         "SupplierScorecardCriteria"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-scorecard-criteria",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Scorecard Criteria",
@@ -241138,7 +241022,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -241156,7 +241040,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -241186,12 +241070,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SupplierScorecardPeriod"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-scorecard-period",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Scorecard Period",
@@ -241461,7 +241345,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -241479,7 +241363,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -241496,12 +241380,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SupplierScorecardStanding"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-scorecard-standing",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Scorecard Standing",
@@ -241761,7 +241645,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -241779,7 +241663,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -241796,13 +241680,13 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "VariablePathNotFound",
         "SupplierScorecardVariable"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/supplier-scorecard-variable",
       "customizations": [],
       "delete": true,
       "doctype": "Supplier Scorecard Variable",
@@ -241966,7 +241850,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -241984,7 +241868,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -243354,12 +243238,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "TaskType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/task-type",
       "customizations": [],
       "delete": true,
       "doctype": "Task Type",
@@ -243501,7 +243385,7 @@
         "Projects User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -243519,7 +243403,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -243536,12 +243420,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "TaxCategory"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/tax-category",
       "customizations": [],
       "delete": true,
       "doctype": "Tax Category",
@@ -243695,7 +243579,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -243714,7 +243598,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -243731,7 +243615,7 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "IncorrectCustomerGroup",
         "IncorrectSupplierType",
@@ -243739,7 +243623,7 @@
         "TaxRule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/tax-rule",
       "customizations": [],
       "delete": true,
       "doctype": "Tax Rule",
@@ -244354,7 +244238,7 @@
       "relevant_roles": [
         "Accounts Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -244372,7 +244256,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -244402,12 +244286,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "TaxWithholdingCategory"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/tax-withholding-category",
       "customizations": [],
       "delete": true,
       "doctype": "Tax Withholding Category",
@@ -244671,7 +244555,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -244690,7 +244574,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -245636,14 +245520,14 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "OverlapError",
         "OverWorkLoggedError",
         "Timesheet"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/timesheet",
       "customizations": [],
       "delete": true,
       "doctype": "Timesheet",
@@ -246410,7 +246294,7 @@
         "Manufacturing User",
         "Projects User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -246436,7 +246320,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -247427,12 +247311,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "UOMCategory"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/uom-category",
       "customizations": [],
       "delete": true,
       "doctype": "UOM Category",
@@ -247521,7 +247405,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -247539,7 +247423,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -249907,12 +249791,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "WarehouseType"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/warehouse-type",
       "customizations": [],
       "delete": true,
       "doctype": "Warehouse Type",
@@ -250134,7 +250018,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -250152,7 +250036,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -250180,12 +250064,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "WarrantyClaim"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/warranty-claim",
       "customizations": [],
       "delete": true,
       "doctype": "Warranty Claim",
@@ -250891,7 +250775,7 @@
       "relevant_roles": [
         "Maintenance User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -250920,7 +250804,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -366449,12 +366333,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "AddressTemplate"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/address-template",
       "customizations": [],
       "delete": true,
       "doctype": "Address Template",
@@ -366579,7 +366463,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -366597,7 +366481,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -391663,12 +391547,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Gender"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/gender",
       "customizations": [],
       "delete": true,
       "doctype": "Gender",
@@ -391776,7 +391660,7 @@
         "All",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -391794,7 +391678,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -410930,12 +410814,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "Salutation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/crm/salutation",
       "customizations": [],
       "delete": true,
       "doctype": "Salutation",
@@ -411062,7 +410946,7 @@
         "All",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -411080,7 +410964,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -469176,7 +469060,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "c8cab9468d2eb48aa5f29f2a7a570c096f78366e60502a59c22c3fc5dcb17d14",
+  "inventory_fingerprint": "1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

@@ -335,7 +335,22 @@ def get_document_list(feature: str, search: str = "", filters: Any = None, colum
 	rows = frappe.get_list(meta.name, fields=columns, order_by=f"`tab{meta.name}`.`{sort_field}` {sort_order.lower()}", limit_start=(page - 1) * page_size, limit_page_length=page_size, **args)
 	configuration = get_list_configuration(feature)
 	column_map = {column["fieldname"]: column for column in configuration["all_columns"]}
-	return {"feature": _public_feature(record), "records": rows, "columns": [column_map[name] for name in columns], "permissions": _permissions(meta.name), "pagination": {"page": page, "page_size": page_size, "total": total, "pages": max((total + page_size - 1) // page_size, 1)}}
+	for column in configuration["columns"]:
+		column_map.setdefault(column["fieldname"], column)
+	# Default columns come from _list_fields, which may include a valid but
+	# text/hidden field that _available_list_fields (all_columns) omits. Fall
+	# back to a synthesised column so any servable DocType renders safely.
+	readable_by_name = {field.fieldname: field for field in readable}
+	def _column_for(name: str) -> dict:
+		if name in column_map:
+			return column_map[name]
+		field = readable_by_name.get(name)
+		return {
+			"fieldname": name,
+			"label": (field.label if field and field.label else "ID" if name == "name" else "Modified" if name == "modified" else name.replace("_", " ").title()),
+			"fieldtype": (field.fieldtype if field else "Datetime" if name == "modified" else "Data"),
+		}
+	return {"feature": _public_feature(record), "records": rows, "columns": [_column_for(name) for name in columns], "permissions": _permissions(meta.name), "pagination": {"page": page, "page_size": page_size, "total": total, "pages": max((total + page_size - 1) // page_size, 1)}}
 
 
 def _visible_doc(doc, meta, readable: list) -> dict:

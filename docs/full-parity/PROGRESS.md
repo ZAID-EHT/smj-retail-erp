@@ -1,16 +1,24 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-14 (batch: Stage 0–2 foundation)_
+_Last updated: 2026-07-14 (batch: generated DocType masters)_
 
 ## Headline metrics
 
 | Metric | Starting | Current |
 |---|---:|---:|
 | User-facing capabilities (source of truth) | 2482 | 2482 |
-| Unmapped user-facing (route-based strict audit) | 2396 | 2396 |
-| Currently routed features | 86 | 86 |
-| Strict route coverage | 3.46% | 3.46% |
+| Unmapped user-facing (route-based strict audit) | 2396 | **2280** |
+| Currently routed features | 86 | **202** |
+| Strict route coverage | 3.46% | **8.14%** |
 | Authoritative registry entries | 0 | **2482** |
+
+_Batch "generated DocType masters": added 116 in-scope standard parent DocTypes to
+`ENTITY_ROUTES`, genuinely served by the universal metadata engine (verified
+server-side: 170 served / 0 failures). Fixed a universal list-engine `KeyError`
+that crashed doctypes whose default columns include text/hidden fields. Ledger/
+system tables, single Settings/Tools and the POS family were intentionally
+excluded. All 116 are `generated_provisional` (route + engine work; behavioural
+browser/role verification still pending)._
 
 > The route-based strict audit is intentionally unchanged: this batch added the
 > authoritative registry and the Stage 0–2 capture without inventing any routes.

@@ -13,6 +13,12 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 | Live inventory counts | behavioural | `generate_complete_inventory` re-run, fingerprint match |
 | Blocker facts (reservation/credit/doc counts) | behavioural | read-only Frappe console queries |
 | `wkhtmltopdf` present | behavioural (prior audit) | `wkhtmltopdf --version` 0.12.6.1 |
+| 116 generated DocType routes (list config + list API) | behavioural (server) | `route_coverage.verify_generated_routes` → served=170, failed=0 |
+| Universal list-engine text/hidden column fix | behavioural (server) | all 116 doctypes list without KeyError after fix |
+
+_Note: "behavioural (server)" means the exact resolve→feature→list API path was
+driven as a real user server-side and returned. Browser rendering, role matrix
+and interactive actions for these routes remain unverified (no browser)._
 
 ## What could NOT be verified (and why)
 

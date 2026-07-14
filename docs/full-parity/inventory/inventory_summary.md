@@ -1,9 +1,9 @@
 # Full-Parity Inventory Summary (Stage 1)
 
-- Captured: 2026-07-14 11:30
+- Captured: 2026-07-14 11:56
 - Site: `site1.local`
 - Canonical source: `docs/erpnext-v15-complete-inventory.json`
-- Inventory fingerprint: `c8cab9468d2eb48aa5f29f2a7a570c096f78366e60502a59c22c3fc5dcb17d14`
+- Inventory fingerprint: `1d010352e321053805c8ebdfe794d2bed8bff4af2922d6d5072820bf0addca37`
 
 ## Headline counts
 
@@ -12,9 +12,9 @@
 | Total atomic features | 2841 |
 | User-facing features | 2482 |
 | System-internal exclusions | 359 |
-| Currently mapped (has custom route) | 86 |
-| Unmapped user-facing | 2396 |
-| Strict route coverage | 3.46% |
+| Currently mapped (has custom route) | 202 |
+| Unmapped user-facing | 2280 |
+| Strict route coverage | 8.14% |
 | Generic engine candidates (class A) | 249 |
 | Specialised interfaces (class B+C) | 1481 |
 | Installed non-core app features | 244 |
@@ -72,29 +72,29 @@
 
 | Module | Unmapped |
 |---|---:|
-| Accounts | 632 |
-| Stock | 313 |
-| Selling | 185 |
+| Accounts | 589 |
+| Stock | 293 |
+| Selling | 180 |
 | Core | 154 |
-| Buying | 139 |
+| Buying | 134 |
 | Manufacturing | 132 |
-| CRM | 95 |
 | Setup | 94 |
+| CRM | 85 |
 | Desk | 81 |
 | (none) | 68 |
-| Assets | 60 |
 | Website | 52 |
-| Projects | 47 |
+| Assets | 49 |
+| Projects | 40 |
 | Integrations | 35 |
 | Subcontracting | 33 |
 | POSAwesome | 33 |
 | Automation | 32 |
-| Support | 28 |
 | Email | 25 |
+| Support | 24 |
 | Custom | 20 |
-| Quality Management | 20 |
 | ERPNext Integrations | 19 |
 | Printing | 16 |
-| Contacts | 12 |
+| Quality Management | 12 |
+| Contacts | 9 |
 | Maintenance | 9 |
 
