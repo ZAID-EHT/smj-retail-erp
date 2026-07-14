@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-14 21:04",
+  "captured_at": "2026-07-14 21:08",
   "site": "site1.local",
   "schema_version": 1,
   "source": "docs/erpnext-v15-complete-inventory.json",
-  "inventory_fingerprint": "f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca7e9f9111",
+  "inventory_fingerprint": "69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957",
   "counts": {
     "active_workflows": 0,
     "child_doctypes": 335,
@@ -48165,11 +48165,11 @@
       "parent_feature": "Address",
       "classification": "D",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Addresses%20And%20Contacts",
       "standard_desk_route": "/app/query-report/Addresses And Contacts",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "completion_status": "Permission-aware report viewer provisional",
+      "test_status": "Priority report permission and execution adapter tests",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "exclusion_reason": null
     },
     {

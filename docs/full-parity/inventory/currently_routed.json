@@ -1,7 +1,7 @@
 {
-  "captured_at": "2026-07-14 21:04",
+  "captured_at": "2026-07-14 21:08",
   "definition": "A feature is 'currently routed' iff the canonical audit assigned it a current_custom_route.",
-  "routed_count": 782,
+  "routed_count": 783,
   "features": [
     {
       "feature_id": "custom:print-format:journal-entry:cheque-printing-format",
@@ -14403,6 +14403,25 @@
       "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "test_status": "Priority route, permission and adapter regression tests",
       "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
+      "exclusion_reason": null
+    },
+    {
+      "feature_id": "frappe:report:addresses-and-contacts",
+      "application": "frappe",
+      "module": "Contacts",
+      "feature_type": "report",
+      "name": "Addresses And Contacts",
+      "doctype": null,
+      "report": "Addresses And Contacts",
+      "page": null,
+      "parent_feature": "Address",
+      "classification": "D",
+      "user_facing": true,
+      "current_custom_route": "/retail-erp/reports/view/Addresses%20And%20Contacts",
+      "standard_desk_route": "/app/query-report/Addresses And Contacts",
+      "completion_status": "Permission-aware report viewer provisional",
+      "test_status": "Priority report permission and execution adapter tests",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "exclusion_reason": null
     },
     {

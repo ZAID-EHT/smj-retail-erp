@@ -1,6 +1,6 @@
 {
   "schema": "retail-erp-parity-registry/1",
-  "source_fingerprint": "f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca7e9f9111",
+  "source_fingerprint": "69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957",
   "site": "site1.local",
   "entry_count": 2482,
   "entries": [
@@ -20755,14 +20755,14 @@
       "action_name": null,
       "parent_feature": "Bin",
       "business_priority": "P1_required",
-      "implementation_strategy": "internal",
+      "implementation_strategy": "generated_dashboard",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "internal",
+      "status": "unavailable_with_reason",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "System/ledger/settings record excluded from generic routing: never exposed as a normal page (unsafe accounting/stock record or single admin-config screen). Standard ERPNext Desk retains it.",
+      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
       "blocking_reason": null
     },
     {
@@ -23145,14 +23145,14 @@
       "action_name": null,
       "parent_feature": "Supplier",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_report",
+      "implementation_strategy": "not_required",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "not_required",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P2_important); runs in Desk. Candidate for the report engine.",
+      "notes": "US IRS 1099 contractor tax report; not applicable outside the United States.",
       "blocking_reason": null
     },
     {
@@ -25409,14 +25409,14 @@
       "action_name": null,
       "parent_feature": "GL Entry",
       "business_priority": "P2_important",
-      "implementation_strategy": "internal",
+      "implementation_strategy": "not_required",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "internal",
+      "status": "not_required",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "System/ledger/settings record excluded from generic routing: never exposed as a normal page (unsafe accounting/stock record or single admin-config screen). Standard ERPNext Desk retains it.",
+      "notes": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
       "blocking_reason": null
     },
     {
@@ -25428,14 +25428,14 @@
       "action_name": null,
       "parent_feature": "GL Entry",
       "business_priority": "P2_important",
-      "implementation_strategy": "internal",
+      "implementation_strategy": "not_required",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "internal",
+      "status": "not_required",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "System/ledger/settings record excluded from generic routing: never exposed as a normal page (unsafe accounting/stock record or single admin-config screen). Standard ERPNext Desk retains it.",
+      "notes": "Generic regional VAT audit report tied to non-Sri-Lanka regional localizations (India GST/UAE/Saudi); this business's jurisdiction uses standard Sales/Purchase tax reports instead.",
       "blocking_reason": null
     },
     {
@@ -42664,13 +42664,15 @@
       "parent_feature": "Address",
       "business_priority": "P1_required",
       "implementation_strategy": "generated_report",
-      "retail_erp_route": null,
+      "retail_erp_route": "/retail-erp/reports/view/Addresses%20And%20Contacts",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); runs in Desk. Candidate for the report engine.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Priority report route /retail-erp/reports/view/Addresses%20And%20Contacts"
+      ],
+      "notes": "Provisional report viewer; interactive filter/chart/PDF tests pending.",
       "blocking_reason": null
     },
     {

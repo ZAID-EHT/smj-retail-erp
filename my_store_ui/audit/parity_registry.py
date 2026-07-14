@@ -148,6 +148,20 @@ SYSTEM_INTERNAL_DOCTYPE_NAMES = {
     "Appointment Booking Settings",
 }
 
+# Audit correction: country-specific regional tax reports for jurisdictions
+# other than this business's (Sri Lanka wholesale importing). Regional as a
+# module defaults to P2_important because some regional reports (e.g. VAT
+# Audit Report for applicable jurisdictions) could matter elsewhere; these
+# specific reports are for other countries' tax authorities and are honestly
+# not_required rather than "pending".
+NOT_REQUIRED_REPORT_NAMES = {
+    "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
+    "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
+    "VAT Audit Report": "Generic regional VAT audit report tied to non-Sri-Lanka regional localizations "
+                         "(India GST/UAE/Saudi); this business's jurisdiction uses standard Sales/Purchase "
+                         "tax reports instead.",
+}
+
 
 def _canonical_path() -> Path:
     try:
@@ -209,8 +223,11 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
 
     # 2b. Audit correction: system/ledger/settings DocTypes and their document
     # actions are technical infrastructure, not a wholesale business
-    # destination, regardless of their module's default priority.
-    _system_parent = doctype or feature.get("parent_feature")
+    # destination, regardless of their module's default priority. Scoped to
+    # doctype/document_action only — reports whose *reference* doctype is a
+    # ledger table (e.g. a report built on GL Entry) are still legitimate
+    # financial reports and must not be swept into this rule.
+    _system_parent = doctype or (feature.get("parent_feature") if ftype in {"doctype", "document_action"} else None)
     if _system_parent in SYSTEM_INTERNAL_DOCTYPE_NAMES:
         return ("internal", "internal", "n/a", [],
                 "System/ledger/settings record excluded from generic routing: "
@@ -236,6 +253,11 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
                     "Allowlisted mapped-document action exists; state/role/duplicate tests pending.")
         return ("unavailable_with_reason", "unavailable_with_reason", "n/a", [],
                 f"Pending implementation ({priority}); standard Desk mapping remains source of truth.")
+
+    # 6b. Audit correction: country-specific regional reports not applicable
+    # to this business's jurisdiction.
+    if ftype == "report" and feature.get("name") in NOT_REQUIRED_REPORT_NAMES:
+        return ("not_required", "not_required", "n/a", [], NOT_REQUIRED_REPORT_NAMES[feature.get("name")])
 
     # 7. Reports without a route.
     if ftype == "report":

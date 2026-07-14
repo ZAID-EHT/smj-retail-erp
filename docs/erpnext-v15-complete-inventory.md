@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca7e9f9111`
+Inventory fingerprint: `69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957`
 
 ## Coverage summary
 
@@ -2539,7 +2539,7 @@ Inventory fingerprint: `f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca
 | `frappe:platform-capability:pdf-download` | frappe | Desk | platform_capability | PDF Download | E | Yes | — | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:tags` | frappe | Desk | platform_capability | Tags | A | Yes | — | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:version-history` | frappe | Desk | platform_capability | Version History | A | Yes | — | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
-| `frappe:report:addresses-and-contacts` | frappe | Contacts | report | Addresses And Contacts | D | Yes | — | Not implemented | Required: no Retail ERP report adapter |
+| `frappe:report:addresses-and-contacts` | frappe | Contacts | report | Addresses And Contacts | D | Yes | /retail-erp/reports/view/Addresses%20And%20Contacts | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `frappe:report:audit-system-hooks` | frappe | Custom | report | Audit System Hooks | D | Yes | — | Not implemented | Required: no Retail ERP report adapter |
 | `frappe:report:database-storage-usage-by-tables` | frappe | Core | report | Database Storage Usage By Tables | D | Yes | — | Not implemented | Required: no Retail ERP report adapter |
 | `frappe:report:document-share-report` | frappe | Core | report | Document Share Report | D | Yes | — | Not implemented | Required: no Retail ERP report adapter |

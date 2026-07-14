@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1700**.
+Total user-facing features without a registered custom route: **1699**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -1394,7 +1394,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `frappe:platform-capability:pdf-download` | frappe | Desk | platform_capability | PDF Download | E | — | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:tags` | frappe | Desk | platform_capability | Tags | A | — | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:version-history` | frappe | Desk | platform_capability | Version History | A | — | Shared platform capability is not fully implemented in Retail ERP |
-| `frappe:report:addresses-and-contacts` | frappe | Contacts | report | Addresses And Contacts | D | /app/query-report/Addresses And Contacts | Required: no Retail ERP report adapter |
 | `frappe:report:audit-system-hooks` | frappe | Custom | report | Audit System Hooks | D | /app/query-report/Audit System Hooks | Required: no Retail ERP report adapter |
 | `frappe:report:database-storage-usage-by-tables` | frappe | Core | report | Database Storage Usage By Tables | D | /app/query-report/Database Storage Usage By Tables | Required: no Retail ERP report adapter |
 | `frappe:report:document-share-report` | frappe | Core | report | Document Share Report | D | /app/query-report/Document Share Report | Required: no Retail ERP report adapter |

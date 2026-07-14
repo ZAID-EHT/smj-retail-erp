@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "7a580c393d711f86e54e016ebd8e89d006ac8c78",
+      "git_commit": "9c175f33072f9da40572d692471abf4662dfadb9",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -421,7 +421,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1700
+      "unmapped_user_facing": 1699
     },
     "failures": {
       "complete_without_tests": [],
@@ -1817,7 +1817,6 @@
         "frappe:platform-capability:pdf-download",
         "frappe:platform-capability:tags",
         "frappe:platform-capability:version-history",
-        "frappe:report:addresses-and-contacts",
         "frappe:report:audit-system-hooks",
         "frappe:report:database-storage-usage-by-tables",
         "frappe:report:document-share-report",
@@ -440776,10 +440775,10 @@
       "child_tables": [],
       "classification": "D",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Permission-aware report viewer provisional",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/reports/view/Addresses%20And%20Contacts",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -440841,7 +440840,7 @@
         "Purchase User",
         "Sales User"
       ],
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
+      "remaining_desk_dependency": "Interactive filter/chart/PDF verification remains",
       "report": "Addresses And Contacts",
       "report_permissions": [
         "Accounts User",
@@ -440863,7 +440862,7 @@
       "supported_views": [
         "Script Report"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority report permission and execution adapter tests",
       "tool": null,
       "user_facing": true,
       "write": false
@@ -469123,7 +469122,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "f78d041a3f326827e3da58462fa904b56b10093608770d1c21855cca7e9f9111",
+  "inventory_fingerprint": "69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

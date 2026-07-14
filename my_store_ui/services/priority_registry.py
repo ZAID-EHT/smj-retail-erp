@@ -446,6 +446,7 @@ _GENERATED_REPORT_GROUPS = {
 		'Lost Opportunity',
 		'Prospects Engaged But Not Converted',
 		'Sales Pipeline Analytics',
+		'Addresses And Contacts',
 	),
 	'operations': (
 		'Asset Activity',

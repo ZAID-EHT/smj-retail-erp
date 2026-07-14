@@ -2973,7 +2973,7 @@ Build only the schema registry, permission/metadata services, and shared entity-
 | `frappe:platform-capability:pdf-download` | frappe | Desk | platform_capability | PDF Download | E | Yes | — | Not tested | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:tags` | frappe | Desk | platform_capability | Tags | A | Yes | — | Not tested | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
 | `frappe:platform-capability:version-history` | frappe | Desk | platform_capability | Version History | A | Yes | — | Not tested | Not implemented | Shared platform capability is not fully implemented in Retail ERP |
-| `frappe:report:addresses-and-contacts` | frappe | Contacts | report | Addresses And Contacts | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
+| `frappe:report:addresses-and-contacts` | frappe | Contacts | report | Addresses And Contacts | D | Yes | /retail-erp/reports/view/Addresses%20And%20Contacts | Priority report permission and execution adapter tests | Permission-aware report viewer provisional | Interactive filter/chart/PDF verification remains |
 | `frappe:report:audit-system-hooks` | frappe | Custom | report | Audit System Hooks | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `frappe:report:database-storage-usage-by-tables` | frappe | Core | report | Database Storage Usage By Tables | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |
 | `frappe:report:document-share-report` | frappe | Core | report | Document Share Report | D | Yes | — | Not tested | Not implemented | Required: no Retail ERP report adapter |

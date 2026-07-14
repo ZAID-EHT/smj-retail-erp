@@ -1,6 +1,6 @@
 {
-  "captured_at": "2026-07-14 21:04",
-  "unmapped_user_facing_count": 1700,
+  "captured_at": "2026-07-14 21:08",
+  "unmapped_user_facing_count": 1699,
   "by_feature_type": {
     "client_script": 1,
     "custom_field": 212,
@@ -16,7 +16,7 @@
     "platform_capability": 16,
     "print_format": 13,
     "property_setter": 101,
-    "report": 15,
+    "report": 14,
     "workspace": 25,
     "workspace_target": 226
   },
@@ -42,9 +42,9 @@
     "Custom": 20,
     "ERPNext Integrations": 19,
     "Support": 13,
-    "Contacts": 9,
     "Maintenance": 9,
     "Printing": 9,
+    "Contacts": 8,
     "ERPNext Gemini Integration": 8,
     "Regional": 6,
     "Utilities": 6,
@@ -20947,25 +20947,6 @@
       "completion_status": "Not implemented",
       "test_status": "Not tested",
       "remaining_desk_dependency": "Action not implemented in Retail ERP",
-      "exclusion_reason": null
-    },
-    {
-      "feature_id": "frappe:report:addresses-and-contacts",
-      "application": "frappe",
-      "module": "Contacts",
-      "feature_type": "report",
-      "name": "Addresses And Contacts",
-      "doctype": null,
-      "report": "Addresses And Contacts",
-      "page": null,
-      "parent_feature": "Address",
-      "classification": "D",
-      "user_facing": true,
-      "current_custom_route": null,
-      "standard_desk_route": "/app/query-report/Addresses And Contacts",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required: no Retail ERP report adapter",
       "exclusion_reason": null
     },
     {

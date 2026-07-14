@@ -42,7 +42,7 @@ Result: **FAIL**
 | Failure class | Count |
 |---|---:|
 | Unclassified User Facing | 0 |
-| Unmapped User Facing | 1700 |
+| Unmapped User Facing | 1699 |
 | Undocumented Actions | 0 |
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
@@ -96,7 +96,7 @@ Result: **FAIL**
 - Clean priority entity bases registered: **196**.
 - Purpose-specific transaction forms registered: **3**.
 - Special/read/alias routes registered: **14**.
-- Priority report names allowlisted: **183** across **6** groups.
+- Priority report names allowlisted: **184** across **6** groups.
 - Existing handcrafted Customer, Item, Sales Order, Delivery Note, Sales Invoice and Payment Entry routes retain priority.
 - Generated transactions and specialised tools remain provisional; a route does not count as full workflow parity.
 - Detailed route classifications and limitations are in `docs/priority-page-coverage.md`.
