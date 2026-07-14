@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-14 12:07",
+  "captured_at": "2026-07-14 12:11",
   "site": "site1.local",
   "schema_version": 1,
   "source": "docs/erpnext-v15-complete-inventory.json",
-  "inventory_fingerprint": "c88223dfd99f9f658a6c25a0225d7bcab1a357c5364433d24d6ca72434fa3a22",
+  "inventory_fingerprint": "485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727",
   "counts": {
     "active_workflows": 0,
     "child_doctypes": 335,
@@ -553,11 +553,11 @@
       "parent_feature": "Journal Entry",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "standard_desk_route": "/app/print-format/cheque-printing-format",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -572,11 +572,11 @@
       "parent_feature": "Purchase Order",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "standard_desk_route": "/app/print-format/drop-shipping-format",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25412,11 +25412,11 @@
       "parent_feature": "Delivery Note",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/delivery-notes",
       "standard_desk_route": "/app/print-format/delivery-note-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25431,11 +25431,11 @@
       "parent_feature": "Delivery Note",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/delivery-notes",
       "standard_desk_route": "/app/print-format/delivery-note-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25450,11 +25450,11 @@
       "parent_feature": "Dunning",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/dunning",
       "standard_desk_route": "/app/print-format/dunning-letter",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25488,11 +25488,11 @@
       "parent_feature": "Journal Entry",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "standard_desk_route": "/app/print-format/credit-note",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25507,11 +25507,11 @@
       "parent_feature": "Journal Entry",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "standard_desk_route": "/app/print-format/journal-auditing-voucher",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25545,11 +25545,11 @@
       "parent_feature": "Payment Entry",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/finance/payments",
       "standard_desk_route": "/app/print-format/bank-and-cash-payment-voucher",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25564,11 +25564,11 @@
       "parent_feature": "Pick List",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/pick-list",
       "standard_desk_route": "/app/print-format/pick-list",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25659,11 +25659,11 @@
       "parent_feature": "Purchase Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "standard_desk_route": "/app/print-format/purchase-auditing-voucher",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25697,11 +25697,11 @@
       "parent_feature": "Purchase Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "standard_desk_route": "/app/print-format/purchase-invoice-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25716,11 +25716,11 @@
       "parent_feature": "Purchase Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "standard_desk_route": "/app/print-format/purchase-invoice-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25735,11 +25735,11 @@
       "parent_feature": "Purchase Order",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "standard_desk_route": "/app/print-format/purchase-order-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25754,11 +25754,11 @@
       "parent_feature": "Purchase Order",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "standard_desk_route": "/app/print-format/purchase-order-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25773,11 +25773,11 @@
       "parent_feature": "Purchase Receipt",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/receipts",
       "standard_desk_route": "/app/print-format/purchase-receipt-serial-and-batch-bundle-print",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25792,11 +25792,11 @@
       "parent_feature": "Quotation",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotations",
       "standard_desk_route": "/app/print-format/quotation-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25811,11 +25811,11 @@
       "parent_feature": "Quotation",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotations",
       "standard_desk_route": "/app/print-format/quotation-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25830,11 +25830,11 @@
       "parent_feature": "Request for Quotation",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/requests-for-quotation",
       "standard_desk_route": "/app/print-format/request-for-quotation-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25868,11 +25868,11 @@
       "parent_feature": "Sales Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "standard_desk_route": "/app/print-format/sales-auditing-voucher",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25887,11 +25887,11 @@
       "parent_feature": "Sales Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "standard_desk_route": "/app/print-format/sales-invoice-print",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25906,11 +25906,11 @@
       "parent_feature": "Sales Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "standard_desk_route": "/app/print-format/sales-invoice-return",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25925,11 +25925,11 @@
       "parent_feature": "Sales Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "standard_desk_route": "/app/print-format/sales-invoice-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -25944,11 +25944,11 @@
       "parent_feature": "Sales Invoice",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "standard_desk_route": "/app/print-format/sales-invoice-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -26001,11 +26001,11 @@
       "parent_feature": "Sales Order",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/orders",
       "standard_desk_route": "/app/print-format/sales-order-standard",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -26020,11 +26020,11 @@
       "parent_feature": "Sales Order",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/orders",
       "standard_desk_route": "/app/print-format/sales-order-with-item-image",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -26039,11 +26039,11 @@
       "parent_feature": "Supplier",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/suppliers",
       "standard_desk_route": "/app/print-format/irs-1099-form",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     },
     {
@@ -54696,11 +54696,11 @@
       "parent_feature": "Journal Entry",
       "classification": "E",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "standard_desk_route": "/app/print-format/payment-receipt-voucher",
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "test_status": "Not tested",
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "exclusion_reason": null
     }
   ]

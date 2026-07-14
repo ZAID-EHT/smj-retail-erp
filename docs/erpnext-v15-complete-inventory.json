@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "b2b53dc0b9eb2fcb734d3bd32e71fdb306c402bd",
+      "git_commit": "33c0c9d9e7438c0116bc1a3a0e638c140138ad5a",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -419,7 +419,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1773
+      "unmapped_user_facing": 1746
     },
     "failures": {
       "complete_without_tests": [],
@@ -450,8 +450,6 @@
         "custom:custom-field:pos-settings:pos-settings-posa-enable-awesome-dashboard-global",
         "custom:custom-field:pos-settings:pos-settings-posa-section-dashboard",
         "custom:custom-field:utm-campaign:utm-campaign-crm-campaign",
-        "custom:print-format:journal-entry:cheque-printing-format",
-        "custom:print-format:purchase-order:drop-shipping-format",
         "custom:property-setter:customer:customer-naming-series-hidden",
         "custom:property-setter:customer:customer-naming-series-reqd",
         "custom:property-setter:delivery-note-item:delivery-note-item-barcode-hidden",
@@ -1338,36 +1336,12 @@
         "erpnext:print-format:accounts-receivable-summary-standard",
         "erpnext:print-format:balance-sheet-standard",
         "erpnext:print-format:cash-flow-statement-standard",
-        "erpnext:print-format:delivery-note:delivery-note-standard",
-        "erpnext:print-format:delivery-note:delivery-note-with-item-image",
-        "erpnext:print-format:dunning:dunning-letter",
         "erpnext:print-format:general-ledger-standard",
-        "erpnext:print-format:journal-entry:credit-note",
-        "erpnext:print-format:journal-entry:journal-auditing-voucher",
         "erpnext:print-format:p-l-statement-standard",
-        "erpnext:print-format:payment-entry:bank-and-cash-payment-voucher",
-        "erpnext:print-format:pick-list:pick-list",
         "erpnext:print-format:pos-invoice:pos-invoice",
         "erpnext:print-format:pos-invoice:pos-invoice-standard",
         "erpnext:print-format:pos-invoice:pos-invoice-with-item-image",
         "erpnext:print-format:pos-invoice:return-pos-invoice",
-        "erpnext:print-format:purchase-invoice:purchase-auditing-voucher",
-        "erpnext:print-format:purchase-invoice:purchase-invoice-standard",
-        "erpnext:print-format:purchase-invoice:purchase-invoice-with-item-image",
-        "erpnext:print-format:purchase-order:purchase-order-standard",
-        "erpnext:print-format:purchase-order:purchase-order-with-item-image",
-        "erpnext:print-format:purchase-receipt:purchase-receipt-serial-and-batch-bundle-print",
-        "erpnext:print-format:quotation:quotation-standard",
-        "erpnext:print-format:quotation:quotation-with-item-image",
-        "erpnext:print-format:request-for-quotation:request-for-quotation-with-item-image",
-        "erpnext:print-format:sales-invoice:sales-auditing-voucher",
-        "erpnext:print-format:sales-invoice:sales-invoice-print",
-        "erpnext:print-format:sales-invoice:sales-invoice-return",
-        "erpnext:print-format:sales-invoice:sales-invoice-standard",
-        "erpnext:print-format:sales-invoice:sales-invoice-with-item-image",
-        "erpnext:print-format:sales-order:sales-order-standard",
-        "erpnext:print-format:sales-order:sales-order-with-item-image",
-        "erpnext:print-format:supplier:irs-1099-form",
         "erpnext:print-format:trial-balance-standard",
         "erpnext:report:irs-1099",
         "erpnext:report:maintenance-schedules",
@@ -2198,8 +2172,7 @@
         "posawesome:workspace-target:pos-awesome:doctype-scale-barcode-settings",
         "posawesome:workspace-target:pos-awesome:page-posapp",
         "posawesome:workspace:pos-awesome",
-        "smj-theme:installed-app:smj-theme",
-        "unknown:print-format:journal-entry:payment-receipt-voucher"
+        "smj-theme:installed-app:smj-theme"
       ]
     },
     "status": "fail"
@@ -8268,10 +8241,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -8292,7 +8265,8 @@
       "notes": [
         "doctype=Journal Entry",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/finance/journal-entries"
       ],
       "page": null,
       "page_permissions": [],
@@ -8302,7 +8276,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -8335,10 +8309,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -8359,7 +8333,8 @@
       "notes": [
         "doctype=Purchase Order",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -8369,7 +8344,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -290867,7 +290842,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -290934,7 +290910,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291001,7 +290978,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291068,7 +291046,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291135,7 +291114,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291202,7 +291182,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291245,10 +291226,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/delivery-notes",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291269,7 +291250,8 @@
       "notes": [
         "doctype=Delivery Note",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/delivery-notes"
       ],
       "page": null,
       "page_permissions": [],
@@ -291279,7 +291261,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -291312,10 +291294,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/delivery-notes",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291336,7 +291318,8 @@
       "notes": [
         "doctype=Delivery Note",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/delivery-notes"
       ],
       "page": null,
       "page_permissions": [],
@@ -291346,7 +291329,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -291379,10 +291362,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/dunning",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291403,7 +291386,8 @@
       "notes": [
         "doctype=Dunning",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/finance/dunning"
       ],
       "page": null,
       "page_permissions": [],
@@ -291413,7 +291397,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -291470,7 +291454,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291513,10 +291498,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291537,7 +291522,8 @@
       "notes": [
         "doctype=Journal Entry",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/finance/journal-entries"
       ],
       "page": null,
       "page_permissions": [],
@@ -291547,7 +291533,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -291580,10 +291566,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291604,7 +291590,8 @@
       "notes": [
         "doctype=Journal Entry",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/finance/journal-entries"
       ],
       "page": null,
       "page_permissions": [],
@@ -291614,7 +291601,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -291671,7 +291658,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291714,10 +291702,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/finance/payments",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291738,7 +291726,8 @@
       "notes": [
         "doctype=Payment Entry",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/finance/payments"
       ],
       "page": null,
       "page_permissions": [],
@@ -291748,7 +291737,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -291781,10 +291770,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/pick-list",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -291805,7 +291794,8 @@
       "notes": [
         "doctype=Pick List",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/inventory/pick-list"
       ],
       "page": null,
       "page_permissions": [],
@@ -291815,7 +291805,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": true,
@@ -291872,7 +291862,8 @@
       "notes": [
         "doctype=POS Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -291939,7 +291930,8 @@
       "notes": [
         "doctype=POS Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -292006,7 +291998,8 @@
       "notes": [
         "doctype=POS Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -292073,7 +292066,8 @@
       "notes": [
         "doctype=POS Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -292116,10 +292110,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292140,7 +292134,8 @@
       "notes": [
         "doctype=Purchase Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -292150,7 +292145,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292207,7 +292202,8 @@
       "notes": [
         "doctype=Purchase Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -292250,10 +292246,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292274,7 +292270,8 @@
       "notes": [
         "doctype=Purchase Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -292284,7 +292281,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292317,10 +292314,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292341,7 +292338,8 @@
       "notes": [
         "doctype=Purchase Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -292351,7 +292349,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292384,10 +292382,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292408,7 +292406,8 @@
       "notes": [
         "doctype=Purchase Order",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -292418,7 +292417,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292451,10 +292450,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292475,7 +292474,8 @@
       "notes": [
         "doctype=Purchase Order",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -292485,7 +292485,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292518,10 +292518,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/receipts",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292542,7 +292542,8 @@
       "notes": [
         "doctype=Purchase Receipt",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/receipts"
       ],
       "page": null,
       "page_permissions": [],
@@ -292552,7 +292553,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292585,10 +292586,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotations",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292609,7 +292610,8 @@
       "notes": [
         "doctype=Quotation",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/sales/quotations"
       ],
       "page": null,
       "page_permissions": [],
@@ -292619,7 +292621,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292652,10 +292654,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/quotations",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292676,7 +292678,8 @@
       "notes": [
         "doctype=Quotation",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/sales/quotations"
       ],
       "page": null,
       "page_permissions": [],
@@ -292686,7 +292689,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292719,10 +292722,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/requests-for-quotation",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292743,7 +292746,8 @@
       "notes": [
         "doctype=Request for Quotation",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/requests-for-quotation"
       ],
       "page": null,
       "page_permissions": [],
@@ -292753,7 +292757,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292810,7 +292814,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -292853,10 +292858,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292877,7 +292882,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -292887,7 +292893,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292920,10 +292926,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -292944,7 +292950,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -292954,7 +292961,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -292987,10 +292994,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293011,7 +293018,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -293021,7 +293029,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293054,10 +293062,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293078,7 +293086,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -293088,7 +293097,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293121,10 +293130,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/invoices",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293145,7 +293154,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/invoices"
       ],
       "page": null,
       "page_permissions": [],
@@ -293155,7 +293165,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293212,7 +293222,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -293279,7 +293290,8 @@
       "notes": [
         "doctype=Sales Invoice",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -293322,10 +293334,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293346,7 +293358,8 @@
       "notes": [
         "doctype=Sales Order",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -293356,7 +293369,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293389,10 +293402,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/retail-erp/sales/orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293413,7 +293426,8 @@
       "notes": [
         "doctype=Sales Order",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/retail-erp/sales/orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -293423,7 +293437,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293456,10 +293470,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/purchases/suppliers",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -293480,7 +293494,8 @@
       "notes": [
         "doctype=Supplier",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/purchases/suppliers"
       ],
       "page": null,
       "page_permissions": [],
@@ -293490,7 +293505,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -293547,7 +293562,8 @@
       "notes": [
         "doctype=None",
         "standard=False",
-        "type=JS"
+        "type=JS",
+        "doctype_route="
       ],
       "page": null,
       "page_permissions": [],
@@ -469094,10 +469110,10 @@
       "child_tables": [],
       "classification": "E",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Selectable in the routed DocType print/PDF dialog",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/journal-entries",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -469118,7 +469134,8 @@
       "notes": [
         "doctype=Journal Entry",
         "standard=False",
-        "type=Jinja"
+        "type=Jinja",
+        "doctype_route=/finance/journal-entries"
       ],
       "page": null,
       "page_permissions": [],
@@ -469128,7 +469145,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Print preview/PDF selector not implemented",
+      "remaining_desk_dependency": "Print format renders for a routed DocType; per-format/letterhead/language verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -469150,7 +469167,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "c88223dfd99f9f658a6c25a0225d7bcab1a357c5364433d24d6ca72434fa3a22",
+  "inventory_fingerprint": "485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

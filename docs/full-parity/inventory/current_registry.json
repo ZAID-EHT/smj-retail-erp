@@ -1,6 +1,6 @@
 {
   "schema": "retail-erp-parity-registry/1",
-  "source_fingerprint": "c88223dfd99f9f658a6c25a0225d7bcab1a357c5364433d24d6ca72434fa3a22",
+  "source_fingerprint": "485a01f4fb71c3e4d0ff08598b6eaa0c002c4e72d6aa406c8230a61d41354727",
   "site": "site1.local",
   "entry_count": 2482,
   "entries": [
@@ -450,14 +450,16 @@
       "action_name": null,
       "parent_feature": "Journal Entry",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/finance/journal-entries",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /finance/journal-entries"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -469,14 +471,16 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/orders",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/orders"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21021,14 +21025,16 @@
       "action_name": null,
       "parent_feature": "Delivery Note",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/delivery-notes",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/delivery-notes"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21040,14 +21046,16 @@
       "action_name": null,
       "parent_feature": "Delivery Note",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/delivery-notes",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/delivery-notes"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21059,14 +21067,16 @@
       "action_name": null,
       "parent_feature": "Dunning",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/finance/dunning",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /finance/dunning"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21097,14 +21107,16 @@
       "action_name": null,
       "parent_feature": "Journal Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/finance/journal-entries",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /finance/journal-entries"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21116,14 +21128,16 @@
       "action_name": null,
       "parent_feature": "Journal Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/finance/journal-entries",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /finance/journal-entries"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21154,14 +21168,16 @@
       "action_name": null,
       "parent_feature": "Payment Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/finance/payments",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/finance/payments"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21173,14 +21189,16 @@
       "action_name": null,
       "parent_feature": "Pick List",
       "business_priority": "P0_go_live",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/inventory/pick-list",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P0_go_live); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /inventory/pick-list"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21268,14 +21286,16 @@
       "action_name": null,
       "parent_feature": "Purchase Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21287,14 +21307,16 @@
       "action_name": null,
       "parent_feature": "Purchase Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21306,14 +21328,16 @@
       "action_name": null,
       "parent_feature": "Purchase Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21325,14 +21349,16 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/orders",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/orders"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21344,14 +21370,16 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/orders",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/orders"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21363,14 +21391,16 @@
       "action_name": null,
       "parent_feature": "Purchase Receipt",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/receipts",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/receipts"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21382,14 +21412,16 @@
       "action_name": null,
       "parent_feature": "Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/sales/quotations",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /sales/quotations"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21401,14 +21433,16 @@
       "action_name": null,
       "parent_feature": "Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/sales/quotations",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /sales/quotations"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21420,14 +21454,16 @@
       "action_name": null,
       "parent_feature": "Request for Quotation",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/requests-for-quotation",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/requests-for-quotation"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21439,14 +21475,16 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21458,14 +21496,16 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21477,14 +21517,16 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21496,14 +21538,16 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21515,14 +21559,16 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/invoices",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/invoices"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21534,14 +21580,16 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/orders",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/orders"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21553,14 +21601,16 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/retail-erp/sales/orders",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /retail-erp/sales/orders"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -21572,14 +21622,16 @@
       "action_name": null,
       "parent_feature": "Supplier",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/purchases/suppliers",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /purchases/suppliers"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     },
     {
@@ -48762,14 +48814,16 @@
       "action_name": null,
       "parent_feature": "Journal Entry",
       "business_priority": "P2_important",
-      "implementation_strategy": "unavailable_with_reason",
-      "retail_erp_route": null,
+      "implementation_strategy": "generated_print",
+      "retail_erp_route": "/finance/journal-entries",
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P2_important); standard Desk remains the source of truth.",
+      "status": "generated_provisional",
+      "verification_level": "route_only",
+      "evidence": [
+        "Selectable in the print/PDF dialog of /finance/journal-entries"
+      ],
+      "notes": "Print format renders for a routed DocType; per-format/letterhead/language verification pending.",
       "blocking_reason": null
     }
   ]

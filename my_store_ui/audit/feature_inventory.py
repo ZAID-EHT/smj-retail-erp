@@ -823,15 +823,20 @@ def _build_features(installed_apps: list[str], package_paths: dict[str, Path], c
 	for row in snapshot["print_formats"]:
 		disabled = bool(cint(row.get("disabled")))
 		application = module_app.get(row.get("module"), "custom" if cint(row.get("custom_format")) else "unknown")
+		# A print format is reachable when its DocType is routed: the Retail ERP
+		# print/PDF dialog for that DocType lists and renders it.
+		doctype_route = None if disabled else _custom_route_for_doctype(row.get("doc_type"))
 		features.append(_base_feature(
 			feature_id=_feature_id(application, "print_format", row.name, row.get("doc_type")), application=application,
 			module=row.get("module") or "Printing", feature_type="print_format", name=row.name,
 			parent_feature=row.get("doc_type"), standard_desk_route=f"/app/print-format/{_slug(row.name)}",
+			current_custom_route=doctype_route,
 			supported_views=["Print", "PDF"], read=not disabled, print=not disabled, pdf=not disabled,
 			implementation_type="Administrative interface", classification="E", user_facing=not disabled,
 			exclusion_reason="Print Format disabled" if disabled else None,
-			remaining_desk_dependency="Print preview/PDF selector not implemented" if not disabled else "None while disabled",
-			notes=[f"doctype={row.get('doc_type')}", f"standard={bool(cint(row.get('standard')))}", f"type={row.get('print_format_type') or ''}"],
+			completion_status="Selectable in the routed DocType print/PDF dialog" if doctype_route else "Not implemented",
+			remaining_desk_dependency=("Print format renders for a routed DocType; per-format/letterhead/language verification remains" if doctype_route else "Print preview/PDF selector not implemented") if not disabled else "None while disabled",
+			notes=[f"doctype={row.get('doc_type')}", f"standard={bool(cint(row.get('standard')))}", f"type={row.get('print_format_type') or ''}", f"doctype_route={doctype_route or ''}"],
 		))
 
 	for action in _deduplicate_actions(all_actions):

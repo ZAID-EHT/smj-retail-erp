@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1773**.
+Total user-facing features without a registered custom route: **1746**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -29,8 +29,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `custom:custom-field:pos-settings:pos-settings-posa-enable-awesome-dashboard-global` | custom | Accounts | custom_field | POS Settings-posa_enable_awesome_dashboard_global | E | /app/custom-field/pos-settings-posa-enable-awesome-dashboard-global | Customization must be represented by approved Retail ERP schema/administration |
 | `custom:custom-field:pos-settings:pos-settings-posa-section-dashboard` | custom | Accounts | custom_field | POS Settings-posa_section_dashboard | E | /app/custom-field/pos-settings-posa-section-dashboard | Customization must be represented by approved Retail ERP schema/administration |
 | `custom:custom-field:utm-campaign:utm-campaign-crm-campaign` | custom | Custom | custom_field | UTM Campaign-crm_campaign | E | /app/custom-field/utm-campaign-crm-campaign | Customization must be represented by approved Retail ERP schema/administration |
-| `custom:print-format:journal-entry:cheque-printing-format` | custom | Printing | print_format | Cheque Printing Format | E | /app/print-format/cheque-printing-format | Print preview/PDF selector not implemented |
-| `custom:print-format:purchase-order:drop-shipping-format` | custom | Printing | print_format | Drop Shipping Format | E | /app/print-format/drop-shipping-format | Print preview/PDF selector not implemented |
 | `custom:property-setter:customer:customer-naming-series-hidden` | custom | Selling | property_setter | Customer-naming_series-hidden | E | /app/property-setter/customer-naming-series-hidden | Customization must be represented by approved Retail ERP schema/administration |
 | `custom:property-setter:customer:customer-naming-series-reqd` | custom | Selling | property_setter | Customer-naming_series-reqd | E | /app/property-setter/customer-naming-series-reqd | Customization must be represented by approved Retail ERP schema/administration |
 | `custom:property-setter:delivery-note-item:delivery-note-item-barcode-hidden` | custom | Stock | property_setter | Delivery Note Item-barcode-hidden | E | /app/property-setter/delivery-note-item-barcode-hidden | Customization must be represented by approved Retail ERP schema/administration |
@@ -917,36 +915,12 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:print-format:accounts-receivable-summary-standard` | erpnext | Accounts | print_format | Accounts Receivable Summary Standard | E | /app/print-format/accounts-receivable-summary-standard | Print preview/PDF selector not implemented |
 | `erpnext:print-format:balance-sheet-standard` | erpnext | Accounts | print_format | Balance Sheet Standard | E | /app/print-format/balance-sheet-standard | Print preview/PDF selector not implemented |
 | `erpnext:print-format:cash-flow-statement-standard` | erpnext | Accounts | print_format | Cash Flow Statement Standard | E | /app/print-format/cash-flow-statement-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:delivery-note:delivery-note-standard` | erpnext | Stock | print_format | Delivery Note Standard | E | /app/print-format/delivery-note-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:delivery-note:delivery-note-with-item-image` | erpnext | Stock | print_format | Delivery Note with Item Image | E | /app/print-format/delivery-note-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:dunning:dunning-letter` | erpnext | Accounts | print_format | Dunning Letter | E | /app/print-format/dunning-letter | Print preview/PDF selector not implemented |
 | `erpnext:print-format:general-ledger-standard` | erpnext | Accounts | print_format | General Ledger Standard | E | /app/print-format/general-ledger-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:journal-entry:credit-note` | erpnext | Accounts | print_format | Credit Note | E | /app/print-format/credit-note | Print preview/PDF selector not implemented |
-| `erpnext:print-format:journal-entry:journal-auditing-voucher` | erpnext | Accounts | print_format | Journal Auditing Voucher | E | /app/print-format/journal-auditing-voucher | Print preview/PDF selector not implemented |
 | `erpnext:print-format:p-l-statement-standard` | erpnext | Accounts | print_format | P&L Statement Standard | E | /app/print-format/p-l-statement-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:payment-entry:bank-and-cash-payment-voucher` | erpnext | Accounts | print_format | Bank and Cash Payment Voucher | E | /app/print-format/bank-and-cash-payment-voucher | Print preview/PDF selector not implemented |
-| `erpnext:print-format:pick-list:pick-list` | erpnext | Stock | print_format | Pick List | E | /app/print-format/pick-list | Print preview/PDF selector not implemented |
 | `erpnext:print-format:pos-invoice:pos-invoice` | erpnext | Selling | print_format | POS Invoice | E | /app/print-format/pos-invoice | Print preview/PDF selector not implemented |
 | `erpnext:print-format:pos-invoice:pos-invoice-standard` | erpnext | Accounts | print_format | POS Invoice Standard | E | /app/print-format/pos-invoice-standard | Print preview/PDF selector not implemented |
 | `erpnext:print-format:pos-invoice:pos-invoice-with-item-image` | erpnext | Accounts | print_format | POS Invoice with Item Image | E | /app/print-format/pos-invoice-with-item-image | Print preview/PDF selector not implemented |
 | `erpnext:print-format:pos-invoice:return-pos-invoice` | erpnext | Selling | print_format | Return POS Invoice | E | /app/print-format/return-pos-invoice | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-invoice:purchase-auditing-voucher` | erpnext | Accounts | print_format | Purchase Auditing Voucher | E | /app/print-format/purchase-auditing-voucher | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-invoice:purchase-invoice-standard` | erpnext | Accounts | print_format | Purchase Invoice Standard | E | /app/print-format/purchase-invoice-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-invoice:purchase-invoice-with-item-image` | erpnext | Accounts | print_format | Purchase Invoice with Item Image | E | /app/print-format/purchase-invoice-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-order:purchase-order-standard` | erpnext | Buying | print_format | Purchase Order Standard | E | /app/print-format/purchase-order-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-order:purchase-order-with-item-image` | erpnext | Buying | print_format | Purchase Order with Item Image | E | /app/print-format/purchase-order-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:purchase-receipt:purchase-receipt-serial-and-batch-bundle-print` | erpnext | Stock | print_format | Purchase Receipt Serial and Batch Bundle Print | E | /app/print-format/purchase-receipt-serial-and-batch-bundle-print | Print preview/PDF selector not implemented |
-| `erpnext:print-format:quotation:quotation-standard` | erpnext | Selling | print_format | Quotation Standard | E | /app/print-format/quotation-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:quotation:quotation-with-item-image` | erpnext | Selling | print_format | Quotation with Item Image | E | /app/print-format/quotation-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:request-for-quotation:request-for-quotation-with-item-image` | erpnext | Buying | print_format | Request for Quotation with Item Image | E | /app/print-format/request-for-quotation-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-invoice:sales-auditing-voucher` | erpnext | Accounts | print_format | Sales Auditing Voucher | E | /app/print-format/sales-auditing-voucher | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-invoice:sales-invoice-print` | erpnext | Accounts | print_format | Sales Invoice Print | E | /app/print-format/sales-invoice-print | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-invoice:sales-invoice-return` | erpnext | Accounts | print_format | Sales Invoice Return | E | /app/print-format/sales-invoice-return | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-invoice:sales-invoice-standard` | erpnext | Accounts | print_format | Sales Invoice Standard | E | /app/print-format/sales-invoice-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-invoice:sales-invoice-with-item-image` | erpnext | Accounts | print_format | Sales Invoice with Item Image | E | /app/print-format/sales-invoice-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-order:sales-order-standard` | erpnext | Selling | print_format | Sales Order Standard | E | /app/print-format/sales-order-standard | Print preview/PDF selector not implemented |
-| `erpnext:print-format:sales-order:sales-order-with-item-image` | erpnext | Selling | print_format | Sales Order with Item Image | E | /app/print-format/sales-order-with-item-image | Print preview/PDF selector not implemented |
-| `erpnext:print-format:supplier:irs-1099-form` | erpnext | Regional | print_format | IRS 1099 Form | E | /app/print-format/irs-1099-form | Print preview/PDF selector not implemented |
 | `erpnext:print-format:trial-balance-standard` | erpnext | Accounts | print_format | Trial Balance Standard | E | /app/print-format/trial-balance-standard | Print preview/PDF selector not implemented |
 | `erpnext:report:irs-1099` | erpnext | Regional | report | IRS 1099 | D | /app/query-report/IRS 1099 | Required: no Retail ERP report adapter |
 | `erpnext:report:maintenance-schedules` | erpnext | Maintenance | report | Maintenance Schedules | D | /app/query-report/Maintenance Schedules | Required: no Retail ERP report adapter |
@@ -1778,4 +1752,3 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `posawesome:workspace-target:pos-awesome:page-posapp` | posawesome | POSAwesome | workspace_target | POS Awesome | C | — | Target must resolve to a classified Retail ERP feature |
 | `posawesome:workspace:pos-awesome` | posawesome | POSAwesome | workspace | POS Awesome | C | /app/pos-awesome | Workspace targets require Retail ERP launchers/routes |
 | `smj-theme:installed-app:smj-theme` | smj_theme | smj_theme | installed_app | smj_theme | F | — | Installed app capabilities require classified Retail ERP routes or safe embedding |
-| `unknown:print-format:journal-entry:payment-receipt-voucher` | unknown | Printing | print_format | Payment Receipt Voucher | E | /app/print-format/payment-receipt-voucher | Print preview/PDF selector not implemented |

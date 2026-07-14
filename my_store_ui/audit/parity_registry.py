@@ -162,6 +162,10 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
             return ("generated_doctype", "generated_provisional", "route_only",
                     [f"Clean generated route {route}"],
                     "Generic engine route; per-feature action/permission/browser tests pending.")
+        if ftype == "print_format":
+            return ("generated_print", "generated_provisional", "route_only",
+                    [f"Selectable in the print/PDF dialog of {route}"],
+                    "Print format renders for a routed DocType; per-format/letterhead/language verification pending.")
         # Routed page/shell/installed-app surface (e.g. the /retail-erp SPA shell).
         return ("special_adapter", "implemented_unverified", "source_only",
                 [f"Routed Retail ERP surface {route}"],
