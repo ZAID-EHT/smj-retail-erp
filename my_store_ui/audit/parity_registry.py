@@ -154,6 +154,57 @@ SYSTEM_INTERNAL_DOCTYPE_NAMES = {
 # Audit Report for applicable jurisdictions) could matter elsewhere; these
 # specific reports are for other countries' tax authorities and are honestly
 # not_required rather than "pending".
+# Audit correction: native ERPNext module workspaces (Selling, Buying, Stock,
+# Accounts sub-workspaces, CRM, ...) are Desk's per-module landing pages.
+# Retail ERP already provides its own equivalent module landing page (the
+# /sales, /purchases, /inventory, /finance, /crm, /operations, /pos nav
+# sections) as a deliberate handcrafted replacement — so these are genuinely
+# superseded, not "pending", and the honest strategy is special_adapter
+# (Retail ERP's own nav page is the safe adapter), not a bare generic route.
+# Workspaces with no wholesale-relevant Retail ERP destination (Setup/Core
+# admin landing pages, Integrations config) are internal instead.
+WORKSPACE_OVERRIDES = {
+    "Accounting": ("special_adapter", "implemented_unverified", "/finance",
+                   "Superseded by the Retail ERP Finance module landing page."),
+    "Financial Reports": ("special_adapter", "implemented_unverified", "/finance",
+                          "Superseded by the Retail ERP Finance module + routed report viewer."),
+    "Invoicing": ("special_adapter", "implemented_unverified", "/finance",
+                 "Superseded by the Retail ERP Finance module landing page."),
+    "Payables": ("special_adapter", "implemented_unverified", "/purchases",
+                "Superseded by the Retail ERP Purchases module landing page."),
+    "Receivables": ("special_adapter", "implemented_unverified", "/finance",
+                    "Superseded by the Retail ERP Finance module landing page."),
+    "Assets": ("special_adapter", "implemented_unverified", "/operations",
+              "Superseded by the Retail ERP Operations module (Assets routes)."),
+    "Buying": ("special_adapter", "implemented_unverified", "/purchases",
+              "Superseded by the Retail ERP Purchases module landing page."),
+    "CRM": ("special_adapter", "implemented_unverified", "/crm",
+           "Superseded by the Retail ERP CRM module landing page."),
+    "Projects": ("special_adapter", "implemented_unverified", "/operations",
+                "Superseded by the Retail ERP Operations module (Projects routes)."),
+    "Quality": ("special_adapter", "implemented_unverified", "/operations",
+               "Superseded by the Retail ERP Operations module (Quality routes)."),
+    "Selling": ("special_adapter", "implemented_unverified", "/sales",
+               "Superseded by the Retail ERP Sales module landing page."),
+    "Stock": ("special_adapter", "implemented_unverified", "/inventory",
+             "Superseded by the Retail ERP Inventory module landing page."),
+    "Support": ("special_adapter", "implemented_unverified", "/operations/support/issues",
+               "Superseded by the Retail ERP Operations module (Support routes)."),
+    "POS Awesome": ("special_adapter", "implemented_unverified", "/pos",
+                   "Superseded by the Retail ERP POS launcher (safe_integration)."),
+    "ERPNext Settings": ("internal", "internal", None,
+                         "Native ERPNext Desk admin/settings landing page; not a wholesale business route."),
+    "Home": ("internal", "internal", None,
+            "Native ERPNext Desk home landing page; superseded by the Retail ERP home module."),
+    "ERPNext Integrations": ("internal", "internal", None,
+                             "Technical integration configuration landing page; owned by Frappe Desk."),
+    "Integrations": ("internal", "internal", None,
+                     "Technical integration configuration landing page; owned by Frappe Desk."),
+    "Tools": ("internal", "internal", None,
+             "Native Desk bulk/automation utility landing page; not a wholesale business route."),
+}
+
+
 NOT_REQUIRED_REPORT_NAMES = {
     "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
     "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
@@ -253,6 +304,13 @@ def _strategy_and_status(feature: dict, priority: str) -> tuple[str, str, str, l
                     "Allowlisted mapped-document action exists; state/role/duplicate tests pending.")
         return ("unavailable_with_reason", "unavailable_with_reason", "n/a", [],
                 f"Pending implementation ({priority}); standard Desk mapping remains source of truth.")
+
+    # 6a. Audit correction: native ERPNext module workspaces superseded by a
+    # Retail ERP nav module landing page, or genuinely internal Desk config.
+    if ftype == "workspace" and feature.get("name") in WORKSPACE_OVERRIDES:
+        strategy, status, dest, reason = WORKSPACE_OVERRIDES[feature.get("name")]
+        evidence = [f"Superseded by routed Retail ERP destination {dest}"] if dest else []
+        return (strategy, status, "source_only" if dest else "n/a", evidence, reason)
 
     # 6b. Audit correction: country-specific regional reports not applicable
     # to this business's jurisdiction.

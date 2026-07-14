@@ -35896,14 +35896,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /finance"
+      ],
+      "notes": "Superseded by the Retail ERP Finance module landing page.",
       "blocking_reason": null
     },
     {
@@ -35915,14 +35917,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /operations"
+      ],
+      "notes": "Superseded by the Retail ERP Operations module (Assets routes).",
       "blocking_reason": null
     },
     {
@@ -35934,14 +35938,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /purchases"
+      ],
+      "notes": "Superseded by the Retail ERP Purchases module landing page.",
       "blocking_reason": null
     },
     {
@@ -35953,14 +35959,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /crm"
+      ],
+      "notes": "Superseded by the Retail ERP CRM module landing page.",
       "blocking_reason": null
     },
     {
@@ -35972,14 +35980,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "notes": "Technical integration configuration landing page; owned by Frappe Desk.",
       "blocking_reason": null
     },
     {
@@ -35991,14 +35999,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "notes": "Native ERPNext Desk admin/settings landing page; not a wholesale business route.",
       "blocking_reason": null
     },
     {
@@ -36010,14 +36018,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /finance"
+      ],
+      "notes": "Superseded by the Retail ERP Finance module + routed report viewer.",
       "blocking_reason": null
     },
     {
@@ -36029,14 +36039,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "notes": "Native ERPNext Desk home landing page; superseded by the Retail ERP home module.",
       "blocking_reason": null
     },
     {
@@ -36048,14 +36058,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /finance"
+      ],
+      "notes": "Superseded by the Retail ERP Finance module landing page.",
       "blocking_reason": null
     },
     {
@@ -36086,14 +36098,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /purchases"
+      ],
+      "notes": "Superseded by the Retail ERP Purchases module landing page.",
       "blocking_reason": null
     },
     {
@@ -36105,14 +36119,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /operations"
+      ],
+      "notes": "Superseded by the Retail ERP Operations module (Projects routes).",
       "blocking_reason": null
     },
     {
@@ -36124,14 +36140,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /operations"
+      ],
+      "notes": "Superseded by the Retail ERP Operations module (Quality routes).",
       "blocking_reason": null
     },
     {
@@ -36143,14 +36161,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /finance"
+      ],
+      "notes": "Superseded by the Retail ERP Finance module landing page.",
       "blocking_reason": null
     },
     {
@@ -36162,14 +36182,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /sales"
+      ],
+      "notes": "Superseded by the Retail ERP Sales module landing page.",
       "blocking_reason": null
     },
     {
@@ -36181,14 +36203,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /inventory"
+      ],
+      "notes": "Superseded by the Retail ERP Inventory module landing page.",
       "blocking_reason": null
     },
     {
@@ -36219,14 +36243,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /operations/support/issues"
+      ],
+      "notes": "Superseded by the Retail ERP Operations module (Support routes).",
       "blocking_reason": null
     },
     {
@@ -44417,14 +44443,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "notes": "Technical integration configuration landing page; owned by Frappe Desk.",
       "blocking_reason": null
     },
     {
@@ -44436,14 +44462,14 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P3_optional",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "internal",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
+      "status": "internal",
       "verification_level": "n/a",
       "evidence": [],
-      "notes": "Not yet adapted (P3_optional); Desk workspace/dashboard remains source of truth.",
+      "notes": "Native Desk bulk/automation utility landing page; not a wholesale business route.",
       "blocking_reason": null
     },
     {
@@ -48870,14 +48896,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Superseded by routed Retail ERP destination /pos"
+      ],
+      "notes": "Superseded by the Retail ERP POS launcher (safe_integration).",
       "blocking_reason": null
     },
     {
