@@ -14,6 +14,7 @@ const forgotMode = ref(false);
 const resetSent = ref(false);
 
 const companyName = computed(() => props.branding.brand || "Retail ERP");
+const brandInitial = computed(() => companyName.value.trim().charAt(0).toUpperCase() || "R");
 
 async function submit() {
   error.value = "";
@@ -54,11 +55,11 @@ async function submit() {
 </script>
 
 <template>
-  <main id="retail-erp-main" class="ref-login-page">
+  <main id="retail-erp-main" class="ref-app-shell ref-login-page">
     <section class="ref-login-card" aria-labelledby="login-title">
       <div class="ref-login-brand">
         <img v-if="branding.logo" :src="branding.logo" alt="" />
-        <span v-else aria-hidden="true">E</span>
+        <span v-else aria-hidden="true">{{ brandInitial }}</span>
         <div><strong>{{ companyName }}</strong><small>Retail ERP</small></div>
       </div>
       <div class="ref-login-copy">
