@@ -572,3 +572,108 @@ def generate() -> dict:
     )
     (out / "parity_registry_summary.md").write_text(_summary_markdown(registry, summ, val), encoding="utf-8")
     return {"validation": val["status"], "error_count": val["error_count"], "summary": summ}
+
+
+# ---------------------------------------------------------------------------
+# Step 13: corrected production-parity audit
+# ---------------------------------------------------------------------------
+# The raw route-based `unmapped_user_facing` metric (feature_inventory.py)
+# counts ANY feature without a `current_custom_route` as unmapped, even when
+# that feature is truthfully internal, not_required, or already given a real
+# (non-route) implementation strategy such as special_adapter. This produces
+# a corrected, honest breakdown from the registry instead, so "zero unmapped"
+# can only be reached by truthful classification, never by inventing routes.
+#
+# `required_but_missing` is the genuinely meaningful gap number: P0/P1/P2
+# entries (P3_optional excluded — those are explicitly optional) that carry
+# NO real implementation strategy yet (status not in IMPLEMENTED_STATUSES).
+# This is reported honestly and is NOT forced to zero by this function —
+# doing so would mean re-labelling real gaps as fake completions, which the
+# mission explicitly forbids.
+REQUIRED_PRIORITY_TIERS = {"P0_go_live", "P1_required", "P2_important"}
+ALL_BUSINESS_TIERS = {"P0_go_live", "P1_required", "P2_important", "P3_optional"}
+
+
+def corrected_production_parity_audit(registry: dict | None = None) -> dict:
+    registry = registry or build_parity_registry()
+    entries = registry["entries"]
+    data = json.loads(_canonical_path().read_text(encoding="utf-8"))
+    total_discovered = data["counts"]["features_total"]
+
+    by_status = Counter(e["status"] for e in entries)
+    by_strategy = Counter(e["implementation_strategy"] for e in entries)
+
+    # A feature is "user-facing required" only by its actual resolved status,
+    # not by the raw module-default priority alone: business_priority is
+    # computed from the feature's *module* before any per-feature override
+    # (e.g. a P1_required-module ledger table correctly re-classified
+    # `internal` by SYSTEM_INTERNAL_DOCTYPE_NAMES keeps its module priority).
+    # So "required" here means priority says required AND status did not
+    # resolve it to internal/not_required — those are truthful exclusions,
+    # never a gap, regardless of what the module-default priority says.
+    RESOLVED_EXCLUSIONS = {"internal", "not_required"}
+    user_facing_required = [
+        e for e in entries
+        if e["business_priority"] in ALL_BUSINESS_TIERS and e["status"] not in RESOLVED_EXCLUSIONS
+    ]
+    mapped_required = [e for e in user_facing_required if e["status"] in IMPLEMENTED_STATUSES]
+    required_but_missing = [
+        e for e in user_facing_required
+        if e["status"] not in IMPLEMENTED_STATUSES and e["business_priority"] in REQUIRED_PRIORITY_TIERS
+    ]
+    unclassified = [
+        e for e in entries
+        if e["implementation_strategy"] not in STRATEGIES or e["status"] not in STATUSES
+        or e["business_priority"] not in PRIORITIES
+    ]
+    corrected_unmapped_user_facing = [
+        e for e in entries
+        if e["status"] not in IMPLEMENTED_STATUSES
+        and e["status"] not in RESOLVED_EXCLUSIONS
+        and not (e["status"] in {"unavailable_with_reason", "blocked"} and e.get("notes"))
+    ]
+
+    return {
+        "schema": "retail-erp-corrected-production-parity-audit/1",
+        "source_fingerprint": registry.get("source_fingerprint"),
+        "total_discovered": total_discovered,
+        "user_facing_required": len(user_facing_required),
+        "mapped_required": len(mapped_required),
+        "required_but_missing": len(required_but_missing),
+        "required_but_missing_feature_keys": [e["feature_key"] for e in required_but_missing][:200],
+        "unclassified": len(unclassified),
+        "corrected_unmapped_user_facing": len(corrected_unmapped_user_facing),
+        "verified_complete": by_status.get("verified_complete", 0),
+        "implemented_unverified": by_status.get("implemented_unverified", 0),
+        "generated_provisional": by_status.get("generated_provisional", 0),
+        # special_adapter / external_app_adapter are tracked as *strategy* in
+        # this registry (status stays implemented_unverified) - see
+        # by_strategy, not by_status, for these two.
+        "special_adapter": by_strategy.get("special_adapter", 0),
+        "external_app_adapter": by_strategy.get("external_app_adapter", 0),
+        "unavailable_with_reason": by_status.get("unavailable_with_reason", 0),
+        "not_required": by_status.get("not_required", 0),
+        "internal": by_status.get("internal", 0),
+        "blocked": by_status.get("blocked", 0),
+        "success_criteria": {
+            "required_but_missing_is_zero": len(required_but_missing) == 0,
+            "unclassified_is_zero": len(unclassified) == 0,
+        },
+    }
+
+
+def generate_corrected_audit() -> dict:
+    """Write the Step 13 corrected production-parity audit to docs/full-parity/.
+
+    Kept as a distinct file from strict_audit_latest.json (the raw
+    route-based audit from feature_inventory.py) so both the raw and the
+    corrected/truthful metric are visible side by side, per Step 13.
+    """
+    registry = build_parity_registry()
+    audit = corrected_production_parity_audit(registry)
+    out = _canonical_path().parent / "full-parity"
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "corrected_production_parity_audit.json").write_text(
+        json.dumps(audit, indent=2, ensure_ascii=False, default=str) + "\n", encoding="utf-8"
+    )
+    return audit
