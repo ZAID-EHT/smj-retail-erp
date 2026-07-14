@@ -39,6 +39,71 @@ mission itself defines. See `docs/full-parity/`.
 - Key trackers: `docs/full-parity/PROGRESS.md`, `BLOCKERS.md`, `DECISIONS.md`,
   `VERIFICATION_MATRIX.md`, and `docs/full-parity/inventory/`.
 
+## 0b. Update — URGENT MAPPING MISSION, final mapping pass 1 (2026-07-14, later same day)
+
+A second follow-up mission ran on top of 0. and the wholesale-core batch above,
+still on branch `full-feature-parity`, recovery tag
+`pre-map-all-remaining-20260714-2056`. Re-ran the live audit first: confirmed
+zero drift (2,482 user-facing, 1,746 unmapped, matching 0. exactly). Then
+completed 8 real, independently committed, verified batches:
+
+- **25 more safe master DocTypes** routed through the universal engine
+  (Employee, Branch, Print Format, Incoterm, POS Coupon, ...), each confirmed
+  `istable=0`/`issingle=0` before routing.
+- **1 more required report** routed (Addresses And Contacts); 3 country-specific
+  regional tax reports (IRS 1099, UAE VAT 201, VAT Audit Report) correctly
+  reclassified `not_required` with real jurisdiction reasons.
+- **Audit correction:** added `SYSTEM_INTERNAL_DOCTYPE_NAMES` — ~30 ledger
+  tables (GL Entry, Stock Ledger Entry, Bin, Payment Ledger Entry, ...),
+  repost/repair tools, and Settings singletons were wrongly falling into
+  `unavailable_with_reason` purely because their module defaults to
+  P1/P2_required; corrected to `internal` (never exposed as pages, per the
+  "no unsafe ledger/stock records" rule). Found and fixed a scoping bug where
+  this rule also wrongly caught GL-Entry-*based reports* (UAE VAT 201, VAT
+  Audit Report are real Query Reports, not ledger tables).
+- **Real bug found and fixed:** the handcrafted **Smart Sales** page — a
+  protected primary route — was showing `unavailable_with_reason` because of
+  a stale pre-SPA Frappe "Page" doctype stub (`my_store_ui/page/smart_sales/`)
+  that the inventory generator was matching instead of the real Vue SPA route.
+  Corrected via evidence pointing at `frontend/src/router/routes.js`.
+- **19 native ERPNext module workspaces** (Selling, Buying, Stock, Accounts
+  sub-workspaces, CRM, POS Awesome, ...) reclassified `special_adapter`
+  (genuinely superseded by Retail ERP's own nav module landing pages) or
+  `internal` (pure Desk admin workspaces like Home/Tools/Integrations).
+- **Document-action crediting extended beyond the 6 handcrafted DocTypes:**
+  the universal engine's action handler already serves generic lifecycle
+  actions (submit/cancel/amend/duplicate/rename) and 9 real `MAPPED_ACTIONS`
+  document-conversion handlers (Quotation→SO/SI, Material Request→RFQ/PO,
+  PO→Receipt/Invoice, Opportunity→Quotation, Lead→Customer, ...) for ANY
+  routed doctype — the audit only credited the 6 handcrafted ones. 18 real
+  actions now correctly credited across Lead, Opportunity, Quotation,
+  Material Request, Purchase Order, Purchase Receipt, Supplier Quotation.
+- **Step 13 corrected production-parity audit** built
+  (`parity_registry.corrected_production_parity_audit`), written to
+  `docs/full-parity/corrected_production_parity_audit.json`.
+
+**Net result:** `unmapped_user_facing` (route-based) 1746 → **1699**.
+Registry: `unavailable_with_reason` 620 → **491**, `internal` 858 → **900**,
+`generated_provisional` 728 → **776**, `implemented_unverified` 101 → **137**,
+`special_adapter` (strategy) 95 → **130**.
+
+The Step 13 corrected metrics give the truthful picture the raw route count
+can't: **`corrected_unmapped_user_facing = 0`** (every one of the 2,482
+features now has a real, documented registry status — nothing left
+unclassified) but **`required_but_missing = 367`** (the honest count of
+P0/P1/P2 capabilities with no real implementation yet — mostly unbuilt
+dashboards/charts, and the Stock/Accounts document actions + special
+finance/stock adapters + purchasing/imports + platform admin + POS Awesome
+batches that this pass did not reach — see `docs/full-parity/BLOCKERS.md`
+→ "URGENT MAPPING MISSION" for the exact list and why).
+
+**Feature inventory mapping is substantially advanced, but the system is
+NOT yet production-ready** — `required_but_missing = 367` and none of it has
+browser or `bench run-tests` behavioural verification (same `allow_tests`
+disabled / no browser installed blockers as before). No schema, site-config,
+or other-app change was made. Recovery tag:
+`pre-map-all-remaining-20260714-2056`.
+
 The audit below (Sections 1–25) remains valid as the production-readiness picture.
 
 ## 1. Executive Summary

@@ -86,3 +86,51 @@ Work is on branch `full-feature-parity` off `develop@3ce5958`, with recovery tag
 the deterministic inventory commit-bump were preserved, not overwritten. No other
 app (frappe/erpnext/posawesome/smj_theme) was touched. No site config, schema,
 Custom Field, DocType, or migration was changed.
+
+## D10. Two separate "unmapped" numbers exist on purpose (URGENT MAPPING MISSION)
+
+The route-based `unmapped_user_facing` (feature_inventory.py, currently 1699) and
+the registry-based `corrected_unmapped_user_facing` (parity_registry.py, currently
+0) measure different things and must not be conflated:
+
+- Route-based: counts any feature without a `current_custom_route`. Will never
+  reach zero honestly, because most internal/not-required/deferred features
+  correctly have no route (a GL Entry table should never get a page).
+- Registry-based (Step 13 corrected audit): counts features with NO truthful
+  classification at all. This is zero because every one of the 2,482
+  user-facing features has exactly one of the 8 honest statuses with a real
+  documented reason (enforced by `validate_parity_registry`).
+
+Neither number means "production ready." The number that matters for that
+question is `required_but_missing` (367) — the honest count of P0/P1/P2
+capabilities with no real implementation yet. See PROGRESS.md and
+BLOCKERS.md for exactly what remains.
+
+## D11. Registry status corrections apply per-feature, not per-module
+
+Several audit-correction rules added this pass (`SYSTEM_INTERNAL_DOCTYPE_NAMES`,
+`WORKSPACE_OVERRIDES`, `PAGE_OVERRIDES`, `NOT_REQUIRED_REPORT_NAMES`,
+`DOCTYPE_SPECIFIC_ACTIONS`) override a feature's status by exact name, layered
+on top of (not replacing) the existing module-based `business_priority`
+default. This was a deliberate choice over editing `MODULE_PRIORITY`: a whole
+module (e.g. "Accounts") is genuinely P1-required, but specific DocTypes
+within it (GL Entry, Accounts Settings) are not independent user
+destinations. Correcting the metric computation (Step 13's
+`corrected_production_parity_audit`) to key off *status* rather than raw
+module priority was necessary as a result — see the bug found and fixed in
+commit 921448e (first version wrongly counted 846 "gaps" that included
+doctypes already correctly marked `internal`).
+
+## D12. Document-action crediting extended beyond the 6 handcrafted DocTypes
+
+`my_store_ui/universal/api.py`'s action handler (`_available_actions`,
+`MAPPED_ACTIONS`) already served generic lifecycle actions (submit, cancel,
+amend, delete, duplicate, rename) and 9 real document-conversion handlers for
+ANY routed doctype — not just the 6 handcrafted ones — but the audit only
+credited the 6. Added `GENERIC_LIFECYCLE_ACTIONS` + `DOCTYPE_SPECIFIC_ACTIONS`
+lookup tables to `parity_registry.py`, cross-referenced against a
+`routed_doctypes` set built once from the canonical inventory, so a
+document_action is only credited when both (a) its action key matches a real
+handler and (b) its parent doctype genuinely has a route. This is server-code
+truth, not a registry guess — verified against the actual Python source of
+`universal/api.py` before writing the tables.

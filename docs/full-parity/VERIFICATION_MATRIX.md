@@ -4,7 +4,22 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
-## What was verifiable this mission
+## URGENT MAPPING MISSION (2026-07-14, final mapping pass 1)
+
+| Item | Level | Evidence |
+|---|---|---|
+| 25 new master DocType routes | behavioural (server) | `route_coverage.verify_generated_routes` served=196 (was 170), failed=0; all 25 confirmed `istable=0`/`issingle=0` via `frappe.client.get_list` before routing |
+| 1 new report route (Addresses And Contacts) | behavioural (server) | `route_coverage.verify_generated_reports` served=183, failed=0 |
+| `SYSTEM_INTERNAL_DOCTYPE_NAMES` correction (30 ledger/settings/tool doctypes → internal) | source_only + registry validation | `validate_parity_registry` PASS after each change; scoping bug (false-positive on GL-Entry-based reports) found and fixed same session |
+| `WORKSPACE_OVERRIDES` (19 native workspaces → special_adapter/internal) | source_only | Cross-checked against existing `MODULES`/`ENTITY_ROUTES` nav structure in `priority_registry.py` |
+| Smart Sales page bug (legacy stub vs real SPA route) | behavioural (source) | Confirmed real route in `frontend/src/router/routes.js:20-22` (`path: "/smart-sales"`) before correcting |
+| Document-action crediting (18 actions: Lead, Opportunity, Quotation, Material Request, Purchase Order, Purchase Receipt, Supplier Quotation) | source_only | Read `my_store_ui/universal/api.py` `MAPPED_ACTIONS` + `_available_actions` directly; only credited actions with a real matching handler AND a routed parent doctype |
+| Step 13 corrected audit computation | behavioural (script) | Spot-checked `required_but_missing_feature_keys` sample — all genuine gaps (unbuilt dashboard charts), zero false positives after the priority/status bug fix |
+| Vue production build (7 times, once per batch) | behavioural | `npm run build` PASS every time, 109 modules, same hashed bundle names |
+| Standalone registry tests | behavioural | `PYTHONPATH=. python3 my_store_ui/tests/test_parity_registry.py` → 7/7 PASS, run after every batch |
+| Frappe `bench run-tests` / browser / staging | not run | Same environment blockers as before: `allow_tests` disabled on site1.local, no browser automation installed. Not attempted this pass — out of scope per the mission's "minimal checking only" instruction. |
+
+## What was verifiable this mission (prior wholesale-core pass)
 
 | Item | Level | Evidence |
 |---|---|---|

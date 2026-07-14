@@ -1,5 +1,62 @@
 # Full Feature Parity — Progress
 
+_Last updated: 2026-07-14 21:20 (batch: URGENT MAPPING MISSION — final mapping pass 1)_
+
+## Final mapping mission — batches completed this pass
+
+Ran the "map every remaining capability" mission on top of the wholesale-core
+work below. Re-ran the live audit first (confirmed no drift: 2,482 user-facing,
+1,746 unmapped, matching the prior handoff exactly), then worked 8 real,
+independently committed batches:
+
+| Batch | What | Commit |
+|---|---|---|
+| Step 2 | Froze pre-mapping baseline (`strict_audit_before_final_mapping.json`, `unmapped_before_final_mapping.json`) | f885fd7 |
+| 1 | Routed 25 more safe master DocTypes (Employee, Branch, Print Format, Incoterm, POS Coupon, ...); added `SYSTEM_INTERNAL_DOCTYPE_NAMES` audit correction (ledger tables, settings singletons, repost tools → `internal`) | 9c175f3 |
+| 2 | Routed the one missing required report (Addresses And Contacts); reclassified 3 country-specific regional tax reports → `not_required`; fixed a scoping bug where the internal-doctype rule wrongly caught GL-Entry-based reports | 46d36c9 |
+| 3 | Fixed classification of 19 native ERPNext module workspaces (Selling, Buying, Stock, Accounts sub-workspaces, CRM, POS Awesome, ...) → `special_adapter` (superseded by the Retail ERP nav module) or `internal` (Desk admin workspaces) | c0abed9 |
+| 4 | Found and fixed a real bug: the handcrafted **Smart Sales** page was showing `unavailable_with_reason` because of a stale legacy Frappe "Page" stub; corrected to point at its real SPA route. Also fixed `point-of-sale`/`pos`/`posapp`/`stock-balance`/print-builder tooling | b02d47b |
+| 5-6, 9 | Extended document-action crediting: the universal engine's allowlisted action handler (submit/cancel/amend/duplicate/rename + 9 `MAPPED_ACTIONS` conversions) already serves ANY routed doctype, not just the 6 handcrafted ones — the audit was undercounting this. 18 real actions credited across Lead, Opportunity, Quotation, Material Request, Purchase Order, Purchase Receipt, Supplier Quotation | 11f96bf |
+| 15 | Step 13 corrected production-parity audit: `corrected_production_parity_audit()` in `parity_registry.py`, written to `docs/full-parity/corrected_production_parity_audit.json` | 921448e |
+
+### Headline metrics after this pass
+
+| Metric | Mission start | After this pass |
+|---|---:|---:|
+| Route-based unmapped_user_facing | 1,746 | **1,699** |
+| Registry: generated_provisional | 728 | 776 |
+| Registry: implemented_unverified | 101 | 137 |
+| Registry: internal | 858 | 900 |
+| Registry: not_required | 175 | 178 |
+| Registry: unavailable_with_reason | 620 | 491 |
+| Registry: special_adapter (strategy) | 95 | 130 |
+| **Corrected `required_but_missing` (Step 13, honest gap count)** | not computed | **367** |
+| **Corrected `corrected_unmapped_user_facing`** | not computed | **0** |
+
+`corrected_unmapped_user_facing = 0` means every one of the 2,482 user-facing
+features now has a truthful registry status with a real documented reason —
+no unclassified capability remains. It does **not** mean the system is
+production-ready: `required_but_missing = 367` is the honest count of P0/P1/P2
+capabilities that still have no real implementation (mostly unbuilt
+dashboards/charts, and the Stock/Accounts document-action + special
+finance/stock adapter batches below that were not reached this pass).
+
+### Batches NOT completed this pass (real remaining work, see BLOCKERS.md)
+
+- Batch 7 — Stock document actions (Stock Entry purposes, Serial/Batch actions, Stock Reconciliation actions): the universal engine's `MAPPED_ACTIONS`/`DOCTYPE_SPECIFIC_ACTIONS` tables have no Stock-flow entries yet; needs real server handler work, not just registry classification.
+- Batch 8 — Accounts document actions (Journal Entry actions, payment/reconciliation actions, credit/debit note actions): same — no allowlisted handler exists yet.
+- Batch 10 — Special finance adapters (Bank Reconciliation Tool, Payment Reconciliation, GL/Trial Balance/P&L/Balance Sheet drill-down, Budgets, Accounting Dimensions): genuinely unbuilt; the underlying report routes exist (Batch 1/2 of the prior wholesale-core work) but dedicated interactive adapters do not.
+- Batch 11 — Special stock adapters (Serial and Batch Bundle UI, barcode workflows, Stock Ledger/Ageing views, Transit Warehouse, reorder tools): genuinely unbuilt.
+- Batch 12 — Purchasing/imports (Blanket Order, Drop Shipping, Supplier Statements/Performance, Import Shipment): genuinely unbuilt; Import Shipment likely needs a new Custom DocType (schema change → must stay `blocked` until approved).
+- Batch 13 — Platform administration (Data Import/Export, Bulk Update/Rename, System Health, Background Jobs, Scheduler, Error/Audit Logs): not yet triaged for internal-vs-admin-route classification.
+- Batch 14 — POS Awesome / external-app capability inventory (POS Opening/Closing Shift, POS Cash Movement, Mpesa integration, Cashier Closing, etc.): not yet classified; `external_app_adapter` strategy is currently unused (count 0).
+
+These are exactly the items flagged `unavailable_with_reason` behind
+`required_but_missing = 367` — none were faked into a route or a fake
+`internal`/`not_required` label to hit zero.
+
+---
+
 _Last updated: 2026-07-14 (batch: wholesale core)_
 
 ## Wholesale core (approved implementation batch)
