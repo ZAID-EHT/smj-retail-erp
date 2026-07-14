@@ -45,6 +45,7 @@ MAPPED_ACTIONS = {
 	"Material Request": {
 		"make_request_for_quotation": {"label": _("Create Request for Quotation"), "target": "Request for Quotation", "method": "material_request_rfq"},
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "material_request_purchase_order"},
+		"make_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "material_request_stock_entry"},
 	},
 	"Request for Quotation": {
 		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "rfq_supplier_quotation", "requires_parameters": ["supplier"]},
@@ -58,9 +59,15 @@ MAPPED_ACTIONS = {
 	},
 	"Purchase Receipt": {
 		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_receipt_invoice"},
+		"make_purchase_return": {"label": _("Create Purchase Return"), "target": "Purchase Receipt", "method": "purchase_receipt_return"},
+		"make_lcv": {"label": _("Create Landed Cost Voucher"), "target": "Landed Cost Voucher", "method": "purchase_receipt_lcv"},
 	},
 	"Purchase Invoice": {
 		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "purchase_invoice_payment"},
+		"make_debit_note": {"label": _("Create Debit Note"), "target": "Purchase Invoice", "method": "purchase_invoice_debit_note"},
+	},
+	"Journal Entry": {
+		"make_reverse_journal_entry": {"label": _("Reverse Journal Entry"), "target": "Journal Entry", "method": "journal_entry_reverse"},
 	},
 	"Opportunity": {
 		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "opportunity_quotation"},
@@ -575,6 +582,21 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "purchase_receipt_invoice":
 		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_purchase_invoice
 		target = make_purchase_invoice(doc.name)
+	elif method == "purchase_receipt_return":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_purchase_return
+		target = make_purchase_return(doc.name)
+	elif method == "purchase_receipt_lcv":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_lcv
+		target = frappe.get_doc(make_lcv(doc.doctype, doc.name))
+	elif method == "material_request_stock_entry":
+		from erpnext.stock.doctype.material_request.material_request import make_stock_entry
+		target = make_stock_entry(doc.name)
+	elif method == "purchase_invoice_debit_note":
+		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_debit_note
+		target = make_debit_note(doc.name)
+	elif method == "journal_entry_reverse":
+		from erpnext.accounts.doctype.journal_entry.journal_entry import make_reverse_journal_entry
+		target = make_reverse_journal_entry(doc.name)
 	elif method == "purchase_invoice_payment":
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 		target = get_payment_entry(doc.doctype, doc.name)

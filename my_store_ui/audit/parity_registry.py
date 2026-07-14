@@ -218,14 +218,15 @@ GENERIC_LIFECYCLE_ACTIONS = {"submit", "cancel", "amend", "delete", "duplicate",
 DOCTYPE_SPECIFIC_ACTIONS = {
     "Opportunity": {"close", "reopen", "make_customer", "make_quotation"},
     "Supplier": {"hold", "resume"},
-    "Material Request": {"stop", "reopen", "make_request_for_quotation", "make_purchase_order"},
+    "Material Request": {"stop", "reopen", "make_request_for_quotation", "make_purchase_order", "make_stock_entry"},
     "Purchase Order": {"hold", "close", "resume", "reopen", "make_purchase_receipt", "make_purchase_invoice"},
     "Lead": {"make_opportunity", "make_customer"},
     "Quotation": {"make_sales_order", "make_sales_invoice"},
     "Request for Quotation": {"make_supplier_quotation"},
     "Supplier Quotation": {"make_purchase_order"},
-    "Purchase Receipt": {"make_purchase_invoice"},
-    "Purchase Invoice": {"make_payment_entry"},
+    "Purchase Receipt": {"make_purchase_invoice", "make_purchase_return", "make_lcv"},
+    "Purchase Invoice": {"make_payment_entry", "make_debit_note"},
+    "Journal Entry": {"make_reverse_journal_entry"},
 }
 
 
