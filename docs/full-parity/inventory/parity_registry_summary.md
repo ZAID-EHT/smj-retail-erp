@@ -3,7 +3,7 @@
 - Source inventory fingerprint: `69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957`
 - Registry entries (one per user-facing feature): **2482**
 - Validation: **PASS** (0 errors)
-- Implemented in some form (custom/provisional/adapter/unverified): **935**
+- Implemented in some form (custom/provisional/adapter/unverified): **945**
 
 > A route alone is never counted as completion. `unavailable_with_reason`, `not_required` and `internal` are NOT implemented functionality.
 
@@ -12,10 +12,10 @@
 | Status | Meaning | Count |
 |---|---|---:|
 | generated_provisional | Generic engine exposes it; specialised behaviour unverified | 785 |
-| implemented_unverified | Implemented, lacks browser/role/business verification | 150 |
+| implemented_unverified | Implemented, lacks browser/role/business verification | 160 |
 | internal | Technical/internal, no user route required | 976 |
 | not_required | Not needed for this business | 181 |
-| unavailable_with_reason | Inventoried, intentionally not yet available (planned) | 390 |
+| unavailable_with_reason | Inventoried, intentionally not yet available (planned) | 380 |
 
 ## By business priority
 
@@ -33,7 +33,7 @@
 | Strategy | Count |
 |---|---:|
 | custom_override | 7 |
-| external_app_adapter | 8 |
+| external_app_adapter | 18 |
 | generated_dashboard | 73 |
 | generated_doctype | 565 |
 | generated_print | 36 |
@@ -41,7 +41,7 @@
 | internal | 976 |
 | not_required | 181 |
 | special_adapter | 135 |
-| unavailable_with_reason | 317 |
+| unavailable_with_reason | 307 |
 
 ## Reproduce / validate
 

@@ -5878,14 +5878,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "ERPNext-core POS cashier-closing record created by POS Awesome; managed inside the POS Awesome app.",
       "blocking_reason": null
     },
     {
@@ -7985,14 +7987,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "ERPNext-core POS shift-closing record created by POS Awesome; managed inside the POS Awesome app.",
       "blocking_reason": null
     },
     {
@@ -8004,14 +8008,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
       "blocking_reason": null
     },
     {
@@ -8042,14 +8048,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "ERPNext-core POS shift-opening record created by POS Awesome; managed inside the POS Awesome app.",
       "blocking_reason": null
     },
     {
@@ -8061,14 +8069,16 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "POS Awesome terminal/session configuration; managed inside the POS Awesome app itself.",
       "blocking_reason": null
     },
     {
@@ -15315,14 +15325,16 @@
       "action_name": "Retry",
       "parent_feature": "POS Closing Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "ERPNext-core POS shift-closing record created by POS Awesome; managed inside the POS Awesome app.",
       "blocking_reason": null
     },
     {
@@ -15334,14 +15346,16 @@
       "action_name": "Create Payment Request",
       "parent_feature": "POS Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
       "blocking_reason": null
     },
     {
@@ -15353,14 +15367,16 @@
       "action_name": "Make Merge Log",
       "parent_feature": "POS Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
       "blocking_reason": null
     },
     {
@@ -15372,14 +15388,16 @@
       "action_name": "Make Sales Return",
       "parent_feature": "POS Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
       "blocking_reason": null
     },
     {
@@ -15391,14 +15409,16 @@
       "action_name": "Return",
       "parent_feature": "POS Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "external_app_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Reachable via the /pos external launcher"
+      ],
+      "notes": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
       "blocking_reason": null
     },
     {

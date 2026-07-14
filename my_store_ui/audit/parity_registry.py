@@ -287,6 +287,14 @@ POS_EXTERNAL_LAUNCHER_NAMES = {
     "POS Closing Shift": "POS Awesome shift-closing record; managed inside the POS Awesome app itself.",
     "POS Opening Shift": "POS Awesome shift-opening record; managed inside the POS Awesome app itself.",
     "POS Invoice Submission Ledger": "POS Awesome offline-sync ledger; internal to the POS Awesome app.",
+    # Underlying ERPNext-core POS records that POS Awesome itself creates and
+    # manages as part of its normal operation (POS Awesome is built on top of
+    # ERPNext's POS Invoice/POS Profile) - not a separate Retail ERP concern.
+    "POS Invoice": "Created and managed by POS Awesome transactions; not a separate Retail ERP record.",
+    "POS Profile": "POS Awesome terminal/session configuration; managed inside the POS Awesome app itself.",
+    "POS Opening Entry": "ERPNext-core POS shift-opening record created by POS Awesome; managed inside the POS Awesome app.",
+    "POS Closing Entry": "ERPNext-core POS shift-closing record created by POS Awesome; managed inside the POS Awesome app.",
+    "Cashier Closing": "ERPNext-core POS cashier-closing record created by POS Awesome; managed inside the POS Awesome app.",
 }
 POS_EXTERNAL_LAUNCHER_ACTIONS = {
     "make_closing_shift_from_opening", "submit_closing_shift", "add_edit_coupon_conditions",
