@@ -20,3 +20,23 @@
 @media(max-width:560px){.priority-link-grid{grid-template-columns:1fr}.priority-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.priority-product-grid img,.priority-product-placeholder{height:80px}}
 @media(max-width:350px){.priority-product-grid{grid-template-columns:1fr}}
 @media print{.ref-header,.ref-breadcrumbs,.rug-banner-actions,.rug-section-nav{display:none!important}.ref-main{padding-top:0}.ref-page-container{width:100%;padding:0}.rug-table-region{overflow:visible}.rug-table-region table{min-width:0;font-size:8pt}}
+
+/* Wholesale Transaction Register + Smart Sales credit/stock additions */
+.rug-doc-links{display:flex;flex-wrap:wrap;gap:4px;white-space:normal}
+.rug-chip{display:inline-block;padding:3px 7px;border-radius:999px;background:var(--ref-blue-background);color:var(--ref-primary-blue);font-size:9px;text-decoration:none}
+.rug-sort{border:0;background:transparent;color:var(--ref-primary-text);font:800 10px var(--ref-font);cursor:pointer}
+.rug-secondary{min-height:36px;padding:8px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-primary-text);font:700 10px var(--ref-font);cursor:pointer}
+.rug-card-list{display:none;gap:10px;padding:12px}
+.rug-txn-card{border:1px solid var(--ref-border-colour);border-radius:12px;padding:12px;background:#fff}
+.rug-txn-card header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rug-txn-card dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0 0}
+.rug-txn-card dt{color:var(--ref-secondary-text);font-size:8px;text-transform:uppercase}
+.rug-txn-card dd{margin:0;font-weight:700;font-size:10px}
+.priority-credit-strip{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:12px;padding:10px 14px;border-radius:10px;background:#f6f9ff;border:1px solid #bad1ff;font-size:10px}
+.priority-credit-strip.is-warning{background:#fff6f6;border-color:#f2b8b8}
+.priority-credit-overdue{color:#a52a2a;font-weight:800}
+.priority-stock-detail{display:block;color:var(--ref-secondary-text);font-size:8px;margin-top:2px}
+@media (max-width:720px){
+  .rug-table-region{display:none}
+  .rug-card-list{display:grid}
+}

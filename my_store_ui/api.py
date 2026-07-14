@@ -96,7 +96,10 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		):
 			prices.setdefault(row.item_code, flt(row.price_list_rate))
 
-	stock: dict[str, float] = {code: 0 for code in item_codes}
+	# Actual / Reserved / Available-to-Sell / Projected per item.
+	# Available to Sell = Actual - Reserved (standard Bin.reserved_stock, i.e.
+	# stock reservation entries). Reserved is 0 while reservation is disabled.
+	stock: dict[str, dict] = {code: {"actual": 0.0, "reserved": 0.0, "projected": 0.0} for code in item_codes}
 	if item_codes and frappe.has_permission("Bin", "read"):
 		bin_filters = {"item_code": ["in", item_codes]}
 		if warehouse:
@@ -104,14 +107,21 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		for row in frappe.get_list(
 			"Bin",
 			filters=bin_filters,
-			fields=["item_code", "actual_qty"],
+			fields=["item_code", "actual_qty", "reserved_stock", "projected_qty"],
 			limit_page_length=page_length * 20,
 		):
-			stock[row.item_code] = stock.get(row.item_code, 0) + flt(row.actual_qty)
+			entry = stock.setdefault(row.item_code, {"actual": 0.0, "reserved": 0.0, "projected": 0.0})
+			entry["actual"] += flt(row.actual_qty)
+			entry["reserved"] += flt(row.reserved_stock)
+			entry["projected"] += flt(row.projected_qty)
 
 	for item in items:
 		item.rate = prices.get(item.item_code, 0)
-		item.actual_qty = stock.get(item.item_code, 0)
+		entry = stock.get(item.item_code, {"actual": 0.0, "reserved": 0.0, "projected": 0.0})
+		item.actual_qty = entry["actual"]
+		item.reserved_qty = entry["reserved"]
+		item.available_to_sell = entry["actual"] - entry["reserved"]
+		item.projected_qty = entry["projected"]
 
 	groups = []
 	if frappe.has_permission("Item Group", "read"):
