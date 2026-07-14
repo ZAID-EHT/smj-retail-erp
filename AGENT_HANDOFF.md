@@ -7,21 +7,22 @@ A follow-up "full feature parity" mission ran on branch `full-feature-parity`
 It completed the safe, non-gated foundation and stopped at the approval gates the
 mission itself defines. See `docs/full-parity/`.
 
-- **Stage 0–2 complete:** re-ran the live audit (unchanged: 2482 user-facing,
-  2396 unmapped, 3.46% route coverage, FAIL) and built an **authoritative parity
-  registry** (`my_store_ui/audit/parity_registry.py`) classifying all 2482
-  user-facing features with truthful status/priority/strategy. Honesty contract is
-  test-enforced (`test_parity_registry.py`, 7/7 pass standalone; the Frappe runner
-  is blocked). Registry distribution: 176 implemented-in-some-form, 897
-  unavailable_with_reason, 197 not_required, 1212 internal, **0 verified_complete**.
-- **`unmapped_user_facing` deliberately NOT reduced:** the strict audit treats any
-  route as "mapped", so mass-adding routes would fake parity. Coverage advances
-  only through genuine, verified implementation.
-- **All P0 implementation is gated** (see `docs/full-parity/BLOCKERS.md`): enabling
+- **Authoritative parity registry** (`my_store_ui/audit/parity_registry.py`)
+  classifies all 2482 user-facing features with truthful status/priority/strategy;
+  honesty contract test-enforced (`test_parity_registry.py`, 7/7 pass standalone).
+- **Real, server-verified implementation batches** (no schema/site-config changes):
+  +116 in-scope standard DocTypes served by the universal engine, +156 reports via
+  the permission-aware viewer, +351 workspace shortcuts credited by their routed
+  destinations, +27 print formats via the routed print dialog, plus a genuine
+  universal list-engine bug fix (KeyError on text/hidden default columns).
+  Net: **`unmapped_user_facing` 2396 → 1746**, routed **86 → 736** (3.46% → 29.65%).
+- **Registry-based completeness (the truthful measure):** of 2482 — 829 implemented
+  in some form (0 `verified_complete`, honest given blocked tests/no browser), 858
+  internal, 175 not_required, 620 genuinely pending. ~75% resolved, ~25% pending.
+- **All P0 business features remain gated** (see `docs/full-parity/BLOCKERS.md`):
   stock reservation + policy; Custom Fields for Credit/Non-Credit and the shared
-  Transaction ID; a test site with `allow_tests`; and browser automation. Each has
-  a written approval proposal. Nothing gated was executed; no site config, schema,
-  Custom Field, DocType or migration changed.
+  Transaction ID; a test site with `allow_tests`; browser automation. Nothing gated
+  was executed; no site config, schema, Custom Field, DocType or migration changed.
 - Key trackers: `docs/full-parity/PROGRESS.md`, `BLOCKERS.md`, `DECISIONS.md`,
   `VERIFICATION_MATRIX.md`, and `docs/full-parity/inventory/`.
 

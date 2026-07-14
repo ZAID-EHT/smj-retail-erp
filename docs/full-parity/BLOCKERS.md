@@ -126,3 +126,30 @@ not schema.
 - The interim link-based transaction register (GATE 3 note) — no custom fields.
 
 These can advance but cannot reach `verified_complete` until GATE 4/5 are open.
+
+---
+
+## CONSOLIDATED APPROVAL REQUEST (to unblock P0 business functionality)
+
+Safe, non-gated route/engine work is largely exhausted (829 features implemented
+in some form; ~75% of the inventory truthfully resolved). The remaining business
+value is the wholesale operating model, which needs these approvals:
+
+1. **Custom Fields (reversible fixtures)** — Credit/Non-Credit on Customer, and
+   `custom_wholesale_transaction_id` on Sales Order/Delivery Note/Sales Invoice/
+   Payment Entry/Pick List/Packing Slip/Stock Reservation Entry.
+   - Why standard is insufficient: no standard field marks Credit vs Non-Credit or
+     a shared cross-document transaction id.
+   - DB effect: adds columns via Custom Field fixtures; no data migration of rows.
+   - Backup: pre-change DB backup. Rollback: delete the Custom Fields (fixtures).
+   - Security: `custom_allow_delivery_before_payment` at a restricted permlevel.
+   - Tests: schema presence, credit gate, TRX propagation (on a test site).
+2. **Enable `enable_stock_reservation`** on an approved (non-production) site, plus
+   the reservation policy (expiry window, backorder rule, partial-reservation
+   default). Uses standard Stock Reservation Entry only.
+3. **Test environment** — `allow_tests` on a non-prod site, or a staging site, with
+   single-role test users, so features can graduate past `implemented_unverified`.
+4. **Browser automation** (Playwright/Chromium) install approval, for the manual
+   verification checklist in VERIFICATION_MATRIX.md.
+
+Grant any subset; each unblocks the corresponding batch independently.

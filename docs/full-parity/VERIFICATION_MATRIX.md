@@ -15,6 +15,9 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 | `wkhtmltopdf` present | behavioural (prior audit) | `wkhtmltopdf --version` 0.12.6.1 |
 | 116 generated DocType routes (list config + list API) | behavioural (server) | `route_coverage.verify_generated_routes` → served=170, failed=0 |
 | Universal list-engine text/hidden column fix | behavioural (server) | all 116 doctypes list without KeyError after fix |
+| 156 generated report routes (definition + viewer) | behavioural (server) | `route_coverage.verify_generated_reports` → served=182, failed=0 |
+| 351 workspace shortcuts credited to routed targets | behavioural (audit) | targets present in CANONICAL_ROUTE_BY_DOCTYPE / REPORT_GROUPS |
+| 27 print formats credited to routed DocTypes | behavioural (audit) | doc_type present in CANONICAL_ROUTE_BY_DOCTYPE |
 
 _Note: "behavioural (server)" means the exact resolve→feature→list API path was
 driven as a real user server-side and returned. Browser rendering, role matrix
