@@ -84,9 +84,12 @@ MAPPED_ACTIONS = {
 	},
 	"Opportunity": {
 		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "opportunity_quotation"},
+		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "opportunity_supplier_quotation"},
+		"make_request_for_quotation": {"label": _("Create Request for Quotation"), "target": "Request for Quotation", "method": "opportunity_rfq"},
 	},
 	"Lead": {
 		"make_customer": {"label": _("Create Customer"), "target": "Customer", "method": "lead_customer"},
+		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "lead_quotation"},
 	},
 	"Dunning": {
 		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "make_payment_entry_generic"},
@@ -757,9 +760,18 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "opportunity_quotation":
 		from erpnext.crm.doctype.opportunity.opportunity import make_quotation
 		target = make_quotation(doc.name)
+	elif method == "opportunity_supplier_quotation":
+		from erpnext.crm.doctype.opportunity.opportunity import make_supplier_quotation
+		target = make_supplier_quotation(doc.name)
+	elif method == "opportunity_rfq":
+		from erpnext.crm.doctype.opportunity.opportunity import make_request_for_quotation
+		target = make_request_for_quotation(doc.name)
 	elif method == "lead_customer":
 		from erpnext.crm.doctype.lead.lead import make_customer
 		target = make_customer(doc.name)
+	elif method == "lead_quotation":
+		from erpnext.crm.doctype.lead.lead import make_quotation
+		target = make_quotation(doc.name)
 	else:
 		frappe.throw(_("Mapped action is not available."), frappe.PermissionError)
 	target.insert()

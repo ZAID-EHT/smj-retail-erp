@@ -216,7 +216,16 @@ WORKSPACE_OVERRIDES = {
 GENERIC_LIFECYCLE_ACTIONS = {"submit", "cancel", "amend", "delete", "duplicate", "rename"}
 
 DOCTYPE_SPECIFIC_ACTIONS = {
-    "Opportunity": {"close", "reopen", "make_customer", "make_quotation"},
+    # "customer"/"quotation"/"supplier_quotation"/"request_for_quotation" are
+    # the JS button labels (opportunity.js) for make_customer/make_quotation/
+    # make_supplier_quotation/make_request_for_quotation - the latter two are
+    # real new actions this pass, the former two were dead credits (the
+    # internal method-name keys never matched the scanner's button-label
+    # keys) - verified against source before aliasing.
+    "Opportunity": {
+        "close", "reopen", "make_customer", "customer", "make_quotation", "quotation",
+        "make_supplier_quotation", "supplier_quotation", "make_request_for_quotation", "request_for_quotation",
+    },
     "Supplier": {"hold", "resume"},
     # "re_open"/"update_status" are JS button labels (material_request.js)
     # calling the exact same update_status() the stop/reopen actions wrap;
@@ -250,7 +259,11 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "hold", "close", "resume", "reopen", "re_open",
         "make_purchase_receipt", "purchase_receipt", "make_purchase_invoice", "purchase_invoice", "payment",
     },
-    "Lead": {"make_opportunity", "make_customer"},
+    # "customer"/"opportunity"/"quotation" are the JS button labels
+    # (lead.js) - same dead-credit-then-fixed pattern as Opportunity above.
+    # "make_quotation" is a real new action (Lead has its own make_quotation,
+    # separate from Opportunity's).
+    "Lead": {"make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation"},
     "Quotation": {"make_sales_order", "make_sales_invoice"},
     # Bug fix: the internal action key "make_supplier_quotation" chosen for
     # this MAPPED_ACTIONS entry never matched either real scanner-detected
