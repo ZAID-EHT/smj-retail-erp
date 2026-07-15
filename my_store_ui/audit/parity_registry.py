@@ -263,7 +263,14 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "make_supplier_quotation", "supplier_quotation", "make_supplier_quotation_from_rfq",
         "supplier_quotation_comparison", "send_emails_to_suppliers",
     },
-    "Supplier Quotation": {"make_purchase_order"},
+    # Bug fix: "make_purchase_order" alone never matched the real scanner key
+    # "purchase_order" (the "Purchase Order" button label) - same class of
+    # dead credit as Request for Quotation above, fixed the same way.
+    # "make_quotation"/"quotation" is a real new action: Supplier Quotation
+    # can convert into a (selling) Quotation - verified against
+    # supplier_quotation.js source (make_quotation() -> erpnext...
+    # supplier_quotation.make_quotation, a standard get_mapped_doc call).
+    "Supplier Quotation": {"make_purchase_order", "purchase_order", "make_quotation", "quotation"},
     # "debit_note" (JS label, shown only when is_return=1) calls the exact
     # same erpnext...purchase_receipt.make_purchase_invoice as make_purchase_invoice;
     # "landed_cost_voucher" calls the exact same make_lcv; "purchase_return"

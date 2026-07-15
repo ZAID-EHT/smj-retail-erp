@@ -61,6 +61,7 @@ MAPPED_ACTIONS = {
 	},
 	"Supplier Quotation": {
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "supplier_quotation_purchase_order"},
+		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "supplier_quotation_quotation"},
 	},
 	"Purchase Order": {
 		"make_purchase_receipt": {"label": _("Create Purchase Receipt"), "target": "Purchase Receipt", "method": "purchase_order_receipt"},
@@ -698,6 +699,9 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "supplier_quotation_purchase_order":
 		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_purchase_order
 		target = make_purchase_order(doc.name)
+	elif method == "supplier_quotation_quotation":
+		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_quotation
+		target = make_quotation(doc.name)
 	elif method == "purchase_order_receipt":
 		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_receipt
 		target = make_purchase_receipt(doc.name)
