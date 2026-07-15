@@ -176,11 +176,19 @@ def _filter_definition(fieldname: str) -> dict:
 	}
 	if fieldname in {"from_date", "to_date", "posting_date", "period_start_date", "period_end_date", "report_date"}:
 		fieldtype, options = "Date", None
-	elif fieldname in {"periodicity", "ageing_based_on", "party_type", "filter_based_on"}:
+	elif fieldname in {"periodicity", "ageing_based_on", "party_type", "filter_based_on", "group_by"}:
 		fieldtype, options = "Select", {
 			"periodicity": ["Yearly", "Half-Yearly", "Quarterly", "Monthly"],
 			"ageing_based_on": ["Due Date", "Posting Date"], "party_type": ["Customer", "Supplier"],
 			"filter_based_on": ["Fiscal Year", "Date Range"],
+			# Gross Profit's Group By is reqd-with-a-default in erpnext's own
+			# .js; its execute() indexes group_wise_columns by this value and
+			# raises TypeError on None, so it must always carry a default.
+			"group_by": [
+				"Invoice", "Item Code", "Item Group", "Brand", "Warehouse", "Customer",
+				"Customer Group", "Territory", "Sales Person", "Project", "Cost Center",
+				"Monthly", "Payment Term",
+			],
 		}[fieldname]
 	else:
 		fieldtype, options = ("Link", links.get(fieldname)) if fieldname in links else ("Data", None)
@@ -216,8 +224,15 @@ REPORT_IMPLICIT_PARTY_TYPE = {
 # widget), so a single chosen value is wrapped into a one-item JSON array
 # before being passed to frappe.desk.query_report.run — never passed as a
 # bare string, which erpnext's own parse_json() call would reject.
+#
+# Membership here is NOT guessable from the fieldname: the same fieldname is
+# list-parsed in one report and a plain equality match in another (e.g.
+# `cost_center` is `parse_json`-ed by Gross Profit but compared with `==` by
+# Fixed Asset Register, which would BREAK if wrapped in a list). Each entry
+# below is verified against that specific report's own .py source.
 MULTISELECT_REPORT_FILTER_FIELDS = {
-	"General Ledger": {"party", "cost_center", "project"},
+	"General Ledger": {"party", "account", "cost_center", "project"},
+	"Gross Profit": {"cost_center", "project"},
 	"Trial Balance": {"cost_center", "project"},
 	"Profit and Loss Statement": {"cost_center", "project"},
 	"Balance Sheet": {"cost_center", "project"},
@@ -233,7 +248,7 @@ def _report_defaults() -> dict:
 		"company": frappe.defaults.get_user_default("Company") or frappe.defaults.get_global_default("company"),
 		"from_date": str(add_months(today, -1)), "to_date": str(today), "posting_date": str(today),
 		"period_start_date": str(add_months(today, -12)), "period_end_date": str(today),
-		"periodicity": "Monthly", "ageing_based_on": "Due Date",
+		"periodicity": "Monthly", "ageing_based_on": "Due Date", "group_by": "Invoice",
 		"fiscal_year": frappe.defaults.get_user_default("fiscal_year") or frappe.defaults.get_global_default("fiscal_year"),
 	}
 

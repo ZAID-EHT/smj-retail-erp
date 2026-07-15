@@ -951,7 +951,14 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		doc.set_item_locations(save=True)
 		doc.reload()
 	elif action == "reserved_stock" and doc.doctype == "Pick List":
-		params = urlencode({"company": doc.company, "from_voucher_type": "Pick List", "from_voucher_no": doc.name}, quote_via=quote)
+		# Reserved Stock hard-requires company/from_date/to_date
+		# (reserved_stock.py::validate_filters) - erpnext's own pick_list.js
+		# passes creation..max(locations.modified); today is an equally safe
+		# upper bound and can never be < from_date.
+		params = urlencode({
+			"company": doc.company, "from_date": str(getdate(doc.creation)), "to_date": getdate().isoformat(),
+			"from_voucher_type": "Pick List", "from_voucher_no": doc.name,
+		}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('Reserved Stock')}?{params}"}
 	elif action in {"convert_to_group", "convert_to_non_group"} and doc.doctype in {"Account", "Cost Center"}:
 		if action == "convert_to_group":
