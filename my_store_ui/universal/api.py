@@ -584,6 +584,12 @@ def _available_actions(meta, doc) -> list[dict]:
 	# "cancel_pcv_processing" is not a separate button - it is erpnext's own
 	# on_cancel() hook, already triggered by the standard "cancel" lifecycle
 	# action (GENERIC_LIFECYCLE_ACTIONS) once this doctype is routed.
+	if doc.doctype == "Purchase Invoice" and not doc.is_return and doc.docstatus == 1 and flt(doc.outstanding_amount) != 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.on_hold:
+			actions.append({"action": "change_release_date", "label": _("Change Release Date"), "destructive": False, "requires_parameters": ["release_date"]})
+			actions.append({"action": "unblock_invoice", "label": _("Unblock Invoice"), "destructive": False})
+		else:
+			actions.append({"action": "block_invoice", "label": _("Block Invoice"), "destructive": True, "requires_parameters": ["release_date"]})
 	if doc.doctype == "Process Period Closing Voucher" and doc.docstatus == 1 and frappe.has_permission(meta.name, "write", doc=doc):
 		if doc.status == "Queued":
 			actions.append({"action": "start_pcv_processing", "label": _("Start"), "destructive": False})
@@ -835,6 +841,22 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "resolve" and doc.doctype == "Dunning":
 		doc.status = "Resolved"
 		doc.save()
+	elif action == "block_invoice" and doc.doctype == "Purchase Invoice":
+		release_date = str(parameters.get("release_date") or "").strip()
+		if not release_date:
+			frappe.throw(_("A release date is required."), frappe.ValidationError)
+		hold_comment = str(parameters.get("hold_comment") or "").strip() or None
+		doc.block_invoice(hold_comment, release_date)
+		doc.reload()
+	elif action == "unblock_invoice" and doc.doctype == "Purchase Invoice":
+		doc.unblock_invoice()
+		doc.reload()
+	elif action == "change_release_date" and doc.doctype == "Purchase Invoice":
+		release_date = str(parameters.get("release_date") or "").strip()
+		if not release_date:
+			frappe.throw(_("A release date is required."), frappe.ValidationError)
+		doc.db_set("release_date", release_date)
+		doc.reload()
 	elif action in {"start_pcv_processing", "pause_pcv_processing", "resume_pcv_processing"} and doc.doctype == "Process Period Closing Voucher":
 		from erpnext.accounts.doctype.process_period_closing_voucher import process_period_closing_voucher as pcv_module
 		getattr(pcv_module, action)(doc.name)

@@ -225,7 +225,13 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Request for Quotation": {"make_supplier_quotation"},
     "Supplier Quotation": {"make_purchase_order"},
     "Purchase Receipt": {"make_purchase_invoice", "make_purchase_return", "make_lcv"},
-    "Purchase Invoice": {"make_payment_entry", "make_debit_note"},
+    # "payment"/"return_debit_note" are the JS button labels (purchase_invoice.js);
+    # "payment" calls the same shared make_payment_entry()->get_payment_entry()
+    # path as the existing make_payment_entry action, "return_debit_note" calls
+    # the exact same erpnext...purchase_invoice.make_debit_note as make_debit_note -
+    # genuine scanner-noise duplicates, verified against source. block_invoice/
+    # unblock_invoice/change_release_date are real new actions (universal/api.py).
+    "Purchase Invoice": {"make_payment_entry", "payment", "make_debit_note", "return_debit_note", "block_invoice", "unblock_invoice", "change_release_date"},
     # "reverse_journal_entry" is the JS button handler name (journal_entry.js);
     # it calls the exact same server method as "make_reverse_journal_entry"
     # (journal_entry.py) - genuine scanner-noise duplicate, verified against
