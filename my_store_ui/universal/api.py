@@ -547,6 +547,9 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "supplier_quotation_comparison", "label": _("Supplier Quotation Comparison"), "destructive": False})
 		if frappe.has_permission(meta.name, "write", doc=doc):
 			actions.append({"action": "send_emails_to_suppliers", "label": _("Send Emails to Suppliers"), "destructive": False})
+	if doc.doctype == "Supplier" and frappe.has_permission("GL Entry", "read"):
+		actions.append({"action": "accounting_ledger", "label": _("Accounting Ledger"), "destructive": False})
+		actions.append({"action": "accounts_payable", "label": _("Accounts Payable"), "destructive": False})
 	if doc.doctype == "Purchase Order" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
 		if doc.status == "On Hold":
 			actions.append({"action": "resume", "label": _("Resume"), "destructive": False})
@@ -897,6 +900,12 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		from erpnext.buying.doctype.request_for_quotation.request_for_quotation import send_supplier_emails
 		send_supplier_emails(doc.name)
 		doc.reload()
+	elif action == "accounting_ledger" and doc.doctype == "Supplier":
+		params = urlencode({"party_type": "Supplier", "party": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action == "accounts_payable" and doc.doctype == "Supplier":
+		params = urlencode({"party": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Accounts Payable')}?{params}"}
 	elif action == "view_ledgers" and doc.doctype == "Serial No":
 		params = urlencode({"item_code": doc.item_code, "serial_no": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('Serial No Ledger')}?{params}"}

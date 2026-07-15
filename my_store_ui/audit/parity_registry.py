@@ -271,6 +271,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # supplier_quotation.js source (make_quotation() -> erpnext...
     # supplier_quotation.make_quotation, a standard get_mapped_doc call).
     "Supplier Quotation": {"make_purchase_order", "purchase_order", "make_quotation", "quotation"},
+    # Supplier ledger navigation shortcuts (supplier.js) - real new actions,
+    # same navigation-action pattern as Account/Warehouse.
+    "Supplier": {"accounting_ledger", "accounts_payable"},
     # "debit_note" (JS label, shown only when is_return=1) calls the exact
     # same erpnext...purchase_receipt.make_purchase_invoice as make_purchase_invoice;
     # "landed_cost_voucher" calls the exact same make_lcv; "purchase_return"
