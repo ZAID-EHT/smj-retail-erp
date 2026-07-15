@@ -219,7 +219,16 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Opportunity": {"close", "reopen", "make_customer", "make_quotation"},
     "Supplier": {"hold", "resume"},
     "Material Request": {"stop", "reopen", "make_request_for_quotation", "make_purchase_order", "make_stock_entry"},
-    "Purchase Order": {"hold", "close", "resume", "reopen", "make_purchase_receipt", "make_purchase_invoice"},
+    # "purchase_receipt"/"purchase_invoice"/"re_open" are JS button labels
+    # (purchase_order.js) calling the exact same make_purchase_receipt/
+    # make_purchase_invoice/update_status("Submitted") already credited -
+    # genuine scanner-noise duplicates, verified against source. "payment"
+    # is a real new action (shared get_payment_entry, same as Purchase
+    # Invoice/Dunning's "payment").
+    "Purchase Order": {
+        "hold", "close", "resume", "reopen", "re_open",
+        "make_purchase_receipt", "purchase_receipt", "make_purchase_invoice", "purchase_invoice", "payment",
+    },
     "Lead": {"make_opportunity", "make_customer"},
     "Quotation": {"make_sales_order", "make_sales_invoice"},
     "Request for Quotation": {"make_supplier_quotation"},

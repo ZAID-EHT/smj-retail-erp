@@ -56,6 +56,7 @@ MAPPED_ACTIONS = {
 	"Purchase Order": {
 		"make_purchase_receipt": {"label": _("Create Purchase Receipt"), "target": "Purchase Receipt", "method": "purchase_order_receipt"},
 		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_order_invoice"},
+		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "make_payment_entry_generic"},
 	},
 	"Purchase Receipt": {
 		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_receipt_invoice"},
@@ -76,7 +77,7 @@ MAPPED_ACTIONS = {
 		"make_customer": {"label": _("Create Customer"), "target": "Customer", "method": "lead_customer"},
 	},
 	"Dunning": {
-		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "dunning_payment"},
+		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "make_payment_entry_generic"},
 	},
 }
 
@@ -682,7 +683,7 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "purchase_invoice_payment":
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 		target = get_payment_entry(doc.doctype, doc.name)
-	elif method == "dunning_payment":
+	elif method == "make_payment_entry_generic":
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 		target = get_payment_entry(doc.doctype, doc.name)
 	elif method == "opportunity_quotation":
