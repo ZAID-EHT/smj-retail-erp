@@ -290,7 +290,13 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # the exact same erpnext...purchase_invoice.make_debit_note as make_debit_note -
     # genuine scanner-noise duplicates, verified against source. block_invoice/
     # unblock_invoice/change_release_date are real new actions (universal/api.py).
-    "Purchase Invoice": {"make_payment_entry", "payment", "make_debit_note", "return_debit_note", "block_invoice", "unblock_invoice", "change_release_date"},
+    # "make_lcv" (Landed Cost Voucher, gated by update_stock=1) reuses the
+    # exact same doctype-agnostic make_lcv(doctype, docname) Purchase
+    # Receipt uses - verified against purchase_invoice.js source.
+    "Purchase Invoice": {
+        "make_payment_entry", "payment", "make_debit_note", "return_debit_note",
+        "block_invoice", "unblock_invoice", "change_release_date", "make_lcv", "landed_cost_voucher",
+    },
     # "reverse_journal_entry" is the JS button handler name (journal_entry.js);
     # it calls the exact same server method as "make_reverse_journal_entry"
     # (journal_entry.py) - genuine scanner-noise duplicate, verified against

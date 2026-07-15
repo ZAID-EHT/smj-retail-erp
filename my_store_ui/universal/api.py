@@ -76,6 +76,8 @@ MAPPED_ACTIONS = {
 	"Purchase Invoice": {
 		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "purchase_invoice_payment"},
 		"make_debit_note": {"label": _("Create Debit Note"), "target": "Purchase Invoice", "method": "purchase_invoice_debit_note"},
+		# Same doctype-agnostic make_lcv(doctype, docname) Purchase Receipt uses.
+		"make_lcv": {"label": _("Create Landed Cost Voucher"), "target": "Landed Cost Voucher", "method": "purchase_receipt_lcv"},
 	},
 	"Journal Entry": {
 		"make_reverse_journal_entry": {"label": _("Reverse Journal Entry"), "target": "Journal Entry", "method": "journal_entry_reverse"},
@@ -547,6 +549,8 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "supplier_quotation_comparison", "label": _("Supplier Quotation Comparison"), "destructive": False})
 		if frappe.has_permission(meta.name, "write", doc=doc):
 			actions.append({"action": "send_emails_to_suppliers", "label": _("Send Emails to Suppliers"), "destructive": False})
+	if doc.doctype == "Purchase Invoice" and doc.docstatus == 1 and doc.update_stock and frappe.has_permission("Landed Cost Voucher", "create"):
+		actions.append({"action": "make_lcv", "label": _("Create Landed Cost Voucher"), "destructive": False, "mapping_target": "Landed Cost Voucher"})
 	if doc.doctype == "Supplier" and frappe.has_permission("GL Entry", "read"):
 		actions.append({"action": "accounting_ledger", "label": _("Accounting Ledger"), "destructive": False})
 		actions.append({"action": "accounts_payable", "label": _("Accounts Payable"), "destructive": False})
