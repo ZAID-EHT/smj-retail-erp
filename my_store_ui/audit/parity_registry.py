@@ -237,6 +237,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "create_pick_list", "pick_list",
         "make_in_transit_stock_entry", "material_transfer_in_transit",
     },
+    # "End Transit" button calls the exact same make_stock_in_entry() -
+    # verified against stock_entry.js source.
+    "Stock Entry": {"make_stock_in_entry", "end_transit"},
     # "purchase_receipt"/"purchase_invoice"/"re_open" are JS button labels
     # (purchase_order.js) calling the exact same make_purchase_receipt/
     # make_purchase_invoice/update_status("Submitted") already credited -

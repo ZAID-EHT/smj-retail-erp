@@ -56,6 +56,9 @@ MAPPED_ACTIONS = {
 	"Request for Quotation": {
 		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "rfq_supplier_quotation", "requires_parameters": ["supplier"]},
 	},
+	"Stock Entry": {
+		"make_stock_in_entry": {"label": _("End Transit"), "target": "Stock Entry", "method": "stock_entry_end_transit"},
+	},
 	"Supplier Quotation": {
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "supplier_quotation_purchase_order"},
 	},
@@ -536,6 +539,8 @@ def _available_actions(meta, doc) -> list[dict]:
 				actions.append({"action": "create_pick_list", "label": _("Create Pick List"), "destructive": False, "mapping_target": "Pick List"})
 			if frappe.has_permission("Stock Entry", "create"):
 				actions.append({"action": "make_in_transit_stock_entry", "label": _("Create In-Transit Stock Entry"), "destructive": False, "mapping_target": "Stock Entry", "requires_parameters": ["in_transit_warehouse"]})
+	if doc.doctype == "Stock Entry" and doc.docstatus == 1 and doc.add_to_transit and doc.purpose == "Material Transfer" and flt(doc.per_transferred) < 100 and frappe.has_permission("Stock Entry", "create"):
+		actions.append({"action": "make_stock_in_entry", "label": _("End Transit"), "destructive": False, "mapping_target": "Stock Entry"})
 	if doc.doctype == "Purchase Order" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
 		if doc.status == "On Hold":
 			actions.append({"action": "resume", "label": _("Resume"), "destructive": False})
@@ -718,6 +723,9 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 			frappe.throw(_("A permitted Transit Warehouse is required."), frappe.ValidationError)
 		from erpnext.stock.doctype.material_request.material_request import make_in_transit_stock_entry
 		target = make_in_transit_stock_entry(doc.name, warehouse)
+	elif method == "stock_entry_end_transit":
+		from erpnext.stock.doctype.stock_entry.stock_entry import make_stock_in_entry
+		target = make_stock_in_entry(doc.name)
 	elif method == "purchase_invoice_debit_note":
 		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_debit_note
 		target = make_debit_note(doc.name)
