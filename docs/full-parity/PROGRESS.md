@@ -1,6 +1,34 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 5, financial report drill-down fixes)_
+_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 6, Priority 3 verification)_
+
+## Pass 6 — Priority 3: Budget and accounting setup — verification, no new code needed
+
+Checked the mission's Priority 3 list (Budget, Monthly Distribution,
+Accounting Dimensions, Cost Center tree, Account tree, Fiscal Year, Finance
+Book, Payment Terms, Payment Terms Template, Mode of Payment, Bank Account,
+Currency Exchange, Exchange Rate Revaluation) against
+`required_missing_latest.json`: **none of these doctypes themselves appear
+in `required_but_missing`** — all were already routed as `generated_provisional`
+in an earlier batch, and Account/Cost Center already have dedicated tree
+views (`TREE_CONFIG` in `priority_pages.py`). No new adapter work was needed
+or done here; this was a verification pass, not a build pass.
+
+What genuinely remains open under this priority (still `unavailable_with_reason`,
+real gaps, not fake-credited): a handful of **document actions** on these
+doctypes — `Account`/`Cost Center` tree mutations (`convert_to_group`,
+`convert_to_non_group`, `update_account_name_number`, `merge_account`,
+chart-of-accounts/chart-of-cost-centers shortcuts, cost-center `budget`
+shortcut), `Exchange Rate Revaluation`'s journal-entry-creation actions, and
+`Bank Account`'s `make_bank_account` action. Checked
+`PriorityTreePage.vue` (19 lines) — it is a read-only tree renderer with no
+mutation UI yet, so these are genuinely unbuilt, not a quick win; they need
+the same dedicated-adapter treatment as Bank Reconciliation Tool, not a
+five-minute credit. Left honestly `unavailable_with_reason`.
+
+`required_but_missing` unchanged at **312** (as expected — a verification
+pass with no new routes credits nothing new; the small action list above
+was already correctly counted as missing before this pass and remains so).
 
 ## Pass 5 — Priority 2: financial report drill-down verification + real bug fixes
 

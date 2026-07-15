@@ -35,6 +35,27 @@ the still-open items block anything else - each was left
 through every other batch, per the "do not stop because one feature is
 blocked" rule.
 
+### FINISH ACCOUNTING FIRST mission status (2026-07-15)
+
+| Priority | Scope | Status |
+|---|---|---|
+| 1 | Bank Reconciliation Tool | **DONE** (pass 4) — dedicated adapter built, see above |
+| 2 | Financial report drill-downs (GL/TB/P&L/BS/CF/AR/AP/Customer+Supplier+Payment Ledger) | **DONE** (pass 5) — already routed from an earlier batch; found and fixed 3 real bugs (wrong filter fieldnames on AR/AP/Customer Ledger Summary, missing cost_center/finance_book/project/currency filters, a MultiSelectList encoding bug) instead of assuming they worked. Bank Book/Cash Book don't exist as ERPNext reports — correctly left as "use General Ledger filtered by account" |
+| 3 | Budget/accounting setup (Budget, Monthly Distribution, Accounting Dimensions, Cost Center/Account tree, Fiscal Year, Finance Book, Payment Terms, Mode of Payment, Bank Account, Exchange Rate Revaluation) | **VERIFIED DONE** (pass 6) — all already routed; no new code needed. A handful of tree-mutation document actions (convert_to_group, merge_account, etc.) remain genuinely open — `PriorityTreePage.vue` is read-only, these need real adapter work, not a quick credit |
+| 4 | Period closing / year-end (Period Closing Voucher, Process Period Closing Voucher, Deferred Revenue/Expense, Journal Entry reversal, Credit/Debit Note, Difference Entry) | **NOT REACHED** this session — Period Closing Voucher doctype itself is already routed; `Process Period Closing Voucher`, `Process Deferred Accounting` (background-job wrapper doctypes) and their actions are genuinely unbuilt |
+| 5 | Payment/reconciliation remaining paths (Bank Transaction matching beyond Bank Reconciliation Tool, Bank Statement Import, Payment Request/Order, Payment Ledger view, advances, multi-currency) | **PARTIALLY DONE** — Bank Transaction matching is now served by the Bank Reconciliation Tool adapter (pass 4); Payment Ledger report is routed (pass 2 legacy batch); Bank Statement Import, Payment Request/Order actions, and dedicated advance/multi-currency UX remain genuinely unbuilt |
+| Stock / Purchasing / remaining actions / dashboard widgets | Everything after "continue automatically" in the mission brief | **NOT REACHED** this session |
+
+`required_but_missing`: 319 (frozen baseline) → 312 (after passes 4-6; passes
+5-6 were verification/bugfix passes that credited nothing new but made
+already-"implemented" reports actually work correctly). The remaining 312
+break down roughly as: ~99 Accounts-module items (mostly document actions on
+Account/Cost Center/Journal Entry/Bank-family doctypes, 2 Process-tool
+doctypes, dashboard charts/number cards), ~82 Stock, ~56 Buying, ~33 CRM,
+~18 Selling, ~13 Setup, plus small Contacts/Printing/Maintenance/Manufacturing
+counts — see `docs/full-parity/required_missing_latest.json` for the exact
+current list.
+
 ### Genuine scanner-noise duplicates found (not yet deduplicated)
 
 Pass 4 confirmed at least one real case: ERPNext's feature scanner records

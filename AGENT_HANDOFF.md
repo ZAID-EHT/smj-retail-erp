@@ -230,6 +230,56 @@ Full mission scope (Stock/Purchasing/remaining actions/dashboard widgets)
 was not reached this pass — see `docs/full-parity/required_missing_latest.json`
 for the current complete gap list.
 
+## 0f. Update — Priority 2/3 verification + real bug fixes, passes 5-6 (2026-07-15)
+
+Continued directly from 0e. **Priority 2 (financial report drill-downs)**:
+checked the mission's report list against the registry first rather than
+assuming new adapters were needed — all nine real reports (GL, Trial
+Balance, P&L, Balance Sheet, Cash Flow, AR, AP, Customer/Supplier Ledger
+Summary, Payment Ledger) were already routed `generated_provisional` from an
+earlier batch. Reading their real ERPNext filter definitions instead of
+trusting the existing config found **three real bugs**: AR/AP used the
+wrong filter fieldname (`posting_date` vs the real `report_date`, so the
+date filter was silently ignored), Customer Ledger Summary used `customer`
+instead of the real `party`, and none of them exposed cost_center/
+finance_book/project/currency filters at all despite the mission explicitly
+asking for them. Fixing the filter set surfaced a fourth, deeper bug found
+by reproducing it live: `cost_center`/`project`/`party`/`account` need a
+real Python **list**, not a JSON string, on the reports that use
+`erpnext...get_cost_centers_with_children` — confirmed by hitting the exact
+`ValidationError` against site1 with the first fix attempt, then corrected.
+All fixes verified behaviourally against real site1 data (General Ledger
+75/116/14 rows across filter variants, AR/TB/PL/BS/CF/SLS all ran clean).
+"Bank Book"/"Cash Book" from the mission's report list are not installed
+ERPNext v15 reports (confirmed via `frappe.db.exists`) — correctly left as
+"use General Ledger filtered by account", not faked into a route.
+
+**Priority 3 (Budget/accounting setup)**: verification-only pass — Budget,
+Monthly Distribution, Accounting Dimensions, Cost Center/Account tree,
+Fiscal Year, Finance Book, Payment Terms(+Template), Mode of Payment, Bank
+Account, Exchange Rate Revaluation were all already routed; no new code
+needed. A handful of tree-mutation document actions (`convert_to_group` /
+`merge_account` / etc.) remain genuinely open — `PriorityTreePage.vue` is
+read-only (19 lines), so these need real adapter work in a future session,
+not a quick credit.
+
+`required_but_missing`: 312 (unchanged by passes 5-6 — both were
+verification/correctness passes, not new-routing passes; the value was
+proving already-"implemented" reports actually work, and confirming
+Priority 3 needed no new routes).
+
+**Session status at handoff:** Priorities 1-3 of the mission are complete
+(1 genuinely built, 2-3 verified/fixed). Priorities 4-5 (period closing,
+remaining payment tools) and the entire post-accounting scope (Stock,
+Purchasing, remaining document actions, dashboard widgets) were not reached
+this session — continuing the mission means picking up at Priority 4
+(`Period Closing Voucher`/`Process Period Closing Voucher`/`Process
+Deferred Accounting`) using the same read-real-source-first, verify-against-
+live-site1 methodology established in passes 4-6. See `BLOCKERS.md` →
+"FINISH ACCOUNTING FIRST mission status" for the exact per-priority
+breakdown and `docs/full-parity/required_missing_latest.json` for the
+current complete 312-item gap list.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**
