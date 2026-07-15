@@ -49,6 +49,28 @@ blocked" rule.
 | Remaining document actions (CRM, Selling, Manufacturing, Assets) | Lead/Opportunity/Quotation conversions + set_as_lost done | **PARTIAL** — Prospect conversion, Campaign links, Communication-based Lead creation, remaining Sales Order/Selling actions, Manufacturing, Assets **NOT REACHED** |
 | Dashboard charts, number cards, dashboards (28 + 25 + 6 = 59 items) | — | **NOT REACHED** this session — needs real Vue chart/card components reading live data, a different kind of work than the document-action credits done so far |
 
+### Report/action correctness audit (self-audit pass — REAL REMAINING WORK)
+
+The self-audit drove 9 navigation actions end-to-end and found 3 broken
+(General Ledger `account`, Pick List → Reserved Stock, Gross Profit's
+`group_by`). All fixed. **But only the navigation actions I built this
+session were re-driven.** Two categories remain unaudited and are known to
+contain the same class of defect:
+
+1. **The ~180 routed reports** (`_GENERATED_REPORT_GROUPS`, from an earlier
+   session) — each declares a `REPORT_FILTERS` tuple that was derived from
+   discovered filter fieldnames, never validated by *running the report with
+   each declared filter*. Gross Profit was broken on **every** run and nobody
+   noticed because the route resolved and the report was marked
+   `generated_provisional`. There are very likely more. A loop that runs each
+   routed report once with defaults, then once per declared filter with a
+   real value, would find them cheaply — this is the single highest-value
+   piece of remaining verification work.
+2. **`MULTISELECT_REPORT_FILTER_FIELDS` coverage** — the scratch script at
+   `docs/full-parity/` (see D24) is a lead generator for this; it must be
+   re-run after any `REPORT_FILTERS` change, and each hit verified against
+   that report's own `.py` (it false-positives).
+
 ### Dead-credit audit (new, found this pass — see PROGRESS.md and DECISIONS.md D22)
 
 Found 4 instances where an EARLIER session's `DOCTYPE_SPECIFIC_ACTIONS`/

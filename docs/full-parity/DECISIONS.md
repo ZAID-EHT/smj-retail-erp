@@ -121,6 +121,35 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D23. A navigation action is only verified when the DESTINATION is driven, not the route string
+
+Self-audit finding. When I built the navigation actions (Account →
+General Ledger, Pick List → Reserved Stock, etc.) I verified them by
+calling `run_document_action(...)` and asserting the returned route string
+looked right. That is not verification — it only proves I can build a URL.
+Driving the full chain (action → route → *actually run the destination
+report with those exact filters*) found 3 real bugs the route-string check
+passed clean: General Ledger crashed on `account` (JSONDecodeError), Pick
+List → Reserved Stock crashed on missing mandatory `from_date`/`to_date`,
+and Gross Profit crashed on every run (`group_by` default missing). D19
+already said "always click through the whole chain" — I wrote that rule and
+then didn't follow it for the destination side. The rule now has teeth:
+**for any action returning a `route`, execute what that route resolves to.**
+
+## D24. Per-report filter semantics are never guessable from the fieldname
+
+`cost_center` is `frappe.parse_json`-ed (list) by Gross Profit, Trial
+Balance and the financial statements, but compared with plain `==` by Fixed
+Asset Register. A systematic script that flagged "is this fieldname
+list-parsed anywhere reachable from this module?" produced a false positive
+on Fixed Asset Register (it imports *other* helpers from
+`financial_statements.py`), and blindly applying its output would have
+BROKEN a working report by wrapping a scalar in a list. Every entry in
+`MULTISELECT_REPORT_FILTER_FIELDS` must be confirmed against that specific
+report's own `.py`, and the script is a *lead generator*, not an authority.
+Corollary: the script is still worth keeping/rerunning — it found 2 genuine
+gaps (Gross Profit `cost_center`/`project`) that manual review had missed.
+
 ## D22. "Dead credits" are a distinct bug class from "not yet built"
 
 Found 4 times in the "complete all pending tasks" continuation (RFQ,

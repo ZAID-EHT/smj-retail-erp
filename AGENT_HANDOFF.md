@@ -387,6 +387,40 @@ credits like the 4 found this pass (flagged as real, cheap remaining work
 in BLOCKERS.md). See `docs/full-parity/required_missing_latest.json` for
 the exact 222-item list with module/type breakdown.
 
+## 0i. Update — self-audit pass: 3 bugs found in my own work (2026-07-15, commit `821ac57`)
+
+Asked to audit this session's work and fix mistakes. Re-drove the navigation
+actions **end-to-end** (action → route → actually running the destination
+report) instead of only asserting the returned route string, which is all the
+original batches checked. Found and fixed **3 real bugs**:
+
+1. **General Ledger `account` → JSONDecodeError.** Broke the Account and
+   Warehouse "General Ledger" actions *and* any user picking an Account in the
+   GL filter form. Cause: GL `parse_json`s account/party/cost_center/project;
+   my drill-down batch fixed 3 of 4 and missed `account` — I half-fixed the bug
+   and declared it fixed. Now returns 4 real rows.
+2. **Pick List → Reserved Stock → ValidationError.** Omitted the mandatory
+   `from_date`/`to_date` that `reserved_stock.py` requires and erpnext's own JS
+   sends. Crashed on every click. Now runs clean.
+3. **Gross Profit → TypeError on every run** (pre-existing, from the earlier
+   generated-reports batch). `group_by` is reqd-with-default in erpnext and its
+   `execute()` indexes by it; no default was supplied. Now returns 16 real rows.
+
+Also replaced spot-checking with a systematic script cross-checking every
+`REPORT_FILTERS` entry against real erpnext source. It found 2 gaps manual
+review missed — **and one false positive** (Fixed Asset Register, which uses
+plain `==`); blindly applying its output would have broken a working report.
+See DECISIONS.md **D23** (verify the destination, not the route string) and
+**D24** (per-report filter semantics aren't guessable from the fieldname).
+
+`required_but_missing` unchanged at **222** — correctness fixes to features the
+metric already counted as done. **The honest implication: the 222 figure counts
+routes/adapters that exist, and at least 3 of them did not actually work until
+this audit.** Only the actions I built this session were re-driven; the ~180
+generated reports have never been run per-declared-filter and are the most
+likely place for more of the same. Flagged in BLOCKERS.md as the highest-value
+remaining verification work.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**

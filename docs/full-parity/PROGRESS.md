@@ -1,6 +1,40 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: "complete all pending tasks" — passes 13-21, session end at 222)_
+_Last updated: 2026-07-15 (batch: self-audit pass — 3 bugs found in my own work and fixed)_
+
+## Self-audit pass — auditing my own session's work (commit `821ac57`)
+
+Asked to audit this session's work and fix mistakes. Rather than re-reading
+the diffs, I re-tested the navigation actions **end-to-end** (action → route
+→ actually running the destination report with those filters), which is not
+what I did when I built them — I had only asserted the returned route string
+looked correct. That found **3 real bugs**:
+
+| Bug | Impact | Cause |
+|---|---|---|
+| General Ledger `account` filter → JSONDecodeError | Account/Warehouse "General Ledger" actions crashed; **any user picking an Account in the GL filter form also crashed** | GL `parse_json`s account/party/cost_center/project. My drill-down batch added the MultiSelect wrapper for 3 of the 4 and missed `account` — I half-fixed it and declared it fixed |
+| Pick List → Reserved Stock → ValidationError | Every click crashed | `reserved_stock.py::validate_filters` hard-requires from_date/to_date; erpnext's own pick_list.js passes them, I dropped them |
+| Gross Profit → TypeError on **every** run | Report completely broken (pre-existing, from the earlier generated-reports batch) | `group_by` is reqd-with-default in erpnext's .js and its `execute()` indexes `group_wise_columns` by it; `_report_defaults()` supplied no default → always None |
+
+All three now verified against real site1 data (GL+account → 4 rows, Gross
+Profit → 16 rows, Reserved Stock runs clean).
+
+**Process lesson:** I also replaced spot-checking with a systematic script
+cross-checking every `REPORT_FILTERS` entry against the real erpnext report
+source. It found **2 gaps my manual review had missed** (Gross Profit
+`cost_center`/`project`) — but also produced a **false positive** (Fixed
+Asset Register `cost_center`, which uses plain `==`, not a list). Blindly
+applying the script's output would have **broken a working report**. Verified
+each hit against source before acting; documented in DECISIONS.md D23/D24.
+
+`required_but_missing` unchanged at **222** — these are correctness fixes to
+features the metric already counted as implemented, which is precisely the
+class of gap the raw number cannot see (D15). The honest read: this session's
+"222" figure counts routes and adapters that exist, and at least three of them
+did not actually work until this audit. There may be more of the same in the
+~180 generated reports and the navigation actions I did not re-drive.
+
+## Passes 13-21 — Batch 11/12 substantially complete, CRM dedup sweep, session end
 
 ## Passes 13-21 — Batch 11/12 substantially complete, CRM dedup sweep, session end
 
@@ -361,6 +395,14 @@ including a real Cost Center (`SMJ (Demo) - Carpets toD`) and a real
 Customer (`Palmer Productions Ltd.`) filter value. `route_coverage.
 verify_generated_reports` and `verify_generated_routes` both still 0
 failures, registry tests 7/7 pass, `npm run build` passes.
+
+> **CORRECTION (added by the later self-audit pass, see below):** the
+> "verified" claim above was overstated. I tested each report with *some*
+> filter combinations, not *each declared filter*. General Ledger's
+> `account` filter was still broken (JSONDecodeError) after this batch and
+> stayed broken until the self-audit — I fixed `party`/`cost_center`/
+> `project`, saw those pass, and generalised to "the filters work." Testing
+> a sample of a filter set does not verify the filter set.
 `required_but_missing` unchanged at **312** — this was a correctness fix to
 already-"implemented" reports, not new routing (their status was already
 `generated_provisional`, which is why the report drill-down filters not
