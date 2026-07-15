@@ -552,6 +552,8 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "supplier_quotation_comparison", "label": _("Supplier Quotation Comparison"), "destructive": False})
 		if frappe.has_permission(meta.name, "write", doc=doc):
 			actions.append({"action": "send_emails_to_suppliers", "label": _("Send Emails to Suppliers"), "destructive": False})
+	if doc.doctype in {"Quotation", "Opportunity"} and doc.docstatus == 0 and doc.status not in {"Ordered", "Converted", "Lost"} and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "set_as_lost", "label": _("Set as Lost"), "destructive": True, "requires_parameters": ["lost_reasons"]})
 	if doc.doctype == "Purchase Invoice" and doc.docstatus == 1 and doc.update_stock and frappe.has_permission("Landed Cost Voucher", "create"):
 		actions.append({"action": "make_lcv", "label": _("Create Landed Cost Voucher"), "destructive": False, "mapping_target": "Landed Cost Voucher"})
 	if doc.doctype == "Supplier" and frappe.has_permission("GL Entry", "read"):
@@ -922,6 +924,20 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "accounts_payable" and doc.doctype == "Supplier":
 		params = urlencode({"party": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('Accounts Payable')}?{params}"}
+	elif action == "set_as_lost" and doc.doctype in {"Quotation", "Opportunity"}:
+		reasons_raw = str(parameters.get("lost_reasons") or "").strip()
+		reason_doctype = "Quotation Lost Reason" if doc.doctype == "Quotation" else "Opportunity Lost Reason"
+		lost_reasons_list = []
+		for name in (part.strip() for part in reasons_raw.split(",")):
+			if not name:
+				continue
+			if not frappe.db.exists(reason_doctype, name):
+				frappe.throw(_("Unknown lost reason: {0}").format(name), frappe.ValidationError)
+			lost_reasons_list.append({"lost_reason": name})
+		if not lost_reasons_list:
+			frappe.throw(_("At least one valid lost reason is required."), frappe.ValidationError)
+		doc.declare_enquiry_lost(lost_reasons_list, [])
+		doc.reload()
 	elif action == "view_ledgers" and doc.doctype == "Serial No":
 		params = urlencode({"item_code": doc.item_code, "serial_no": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('Serial No Ledger')}?{params}"}

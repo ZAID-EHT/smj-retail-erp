@@ -225,6 +225,7 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Opportunity": {
         "close", "reopen", "make_customer", "customer", "make_quotation", "quotation",
         "make_supplier_quotation", "supplier_quotation", "make_request_for_quotation", "request_for_quotation",
+        "set_as_lost",
     },
     "Supplier": {"hold", "resume"},
     # "re_open"/"update_status" are JS button labels (material_request.js)
@@ -264,7 +265,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # "make_quotation" is a real new action (Lead has its own make_quotation,
     # separate from Opportunity's).
     "Lead": {"make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation"},
-    "Quotation": {"make_sales_order", "make_sales_invoice"},
+    # "set_as_lost" is a real new action shared with Opportunity below -
+    # wraps the real declare_enquiry_lost() doc method (sales_common.js).
+    "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost"},
     # Bug fix: the internal action key "make_supplier_quotation" chosen for
     # this MAPPED_ACTIONS entry never matched either real scanner-detected
     # key for RFQ's "Supplier Quotation" button - the button label scrubs to
