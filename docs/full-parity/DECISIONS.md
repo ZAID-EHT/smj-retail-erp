@@ -121,6 +121,27 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D22. "Dead credits" are a distinct bug class from "not yet built"
+
+Found 4 times in the "complete all pending tasks" continuation (RFQ,
+Supplier Quotation, Lead, Opportunity): a `DOCTYPE_SPECIFIC_ACTIONS`/
+`MAPPED_ACTIONS` entry written in an *earlier* session chose an internal
+key (e.g. `make_supplier_quotation`) that never matched the real scanner-
+detected action key for that specific feature (which is derived from the
+JS button's *label*, not always the underlying method name - e.g.
+`supplier_quotation`). The code was correct and already working - calling
+the action via its real key would have functioned - but the registry
+credit computation matches on the literal scanner-detected string, so the
+capability was silently uncounted in `required_but_missing` since the
+credit was written. This is invisible in code review (the implementation
+looks complete) and invisible in `validate_parity_registry` (which checks
+internal consistency, not cross-references against the canonical
+inventory's actual per-feature `mapped_actions` values). The only way to
+find it is what this pass did: for each credited doctype, look up its real
+required_but_missing entries (if any survive) and check whether they're
+actually the same capability under a different key. Not systematically
+audited beyond the 4 found - flagged in BLOCKERS.md as real remaining work.
+
 ## D20. Shared generic-doctype methods should be named for what they do, not their first caller
 
 `get_payment_entry(dt, dn)` is doctype-agnostic in erpnext itself. The

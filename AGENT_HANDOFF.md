@@ -328,6 +328,65 @@ wiring). See `docs/full-parity/required_missing_latest.json` for the exact
 264-item list and `PROGRESS.md`/`BLOCKERS.md` for the module-by-module
 breakdown of what's left.
 
+## 0h. Update — "complete all pending tasks" continuation, session end at 222 (2026-07-15)
+
+Continued directly from 0g (commit `9567d72`) after being asked to work
+through every remaining pending task without pausing for approval. Nine
+more real, independently committed batches:
+
+- **Pick List** (`c6bf92c`): stock reservation controls (create/cancel_
+  stock_reservation_entries, update_current_stock, reserved_stock nav) -
+  real doc-bound whitelisted methods, never touching Bin/Stock Ledger Entry
+  directly, reproducing erpnext's own `enable_stock_reservation` +
+  `has_unreserved_stock()`/`has_reserved_stock()` gating exactly (verified
+  live: site1 has reservation disabled, so the gate correctly suppresses
+  the action).
+- **Material Request** (`d7ae13f`): 3 real MAPPED_ACTIONS (make_supplier_
+  quotation/create_pick_list/make_in_transit_stock_entry, type-gated to
+  match erpnext's per-`material_request_type` Desk buttons exactly) + 9
+  scanner-noise dedups.
+- **Stock Entry** (`fe665e1`): make_stock_in_entry ("End Transit").
+- **Request for Quotation** (`6104a36`) and **Supplier Quotation**
+  (`40a3e35`): found and fixed 2 **dead credits** - internal MAPPED_ACTIONS
+  keys chosen in earlier sessions that never matched the real scanner
+  action key, so the (already-correct) code was silently uncounted. Added
+  4 real new actions (supplier_quotation_comparison, send_emails_to_
+  suppliers, Supplier Quotation→Quotation).
+- **Supplier** (`3b49018`): accounting_ledger/accounts_payable navigation.
+- **Purchase Invoice** (`b46432e`): make_lcv (Landed Cost Voucher).
+- **Lead/Opportunity** (`7fbcbdc`): 2 more dead-credit fixes + 3 real new
+  actions (Lead.make_quotation, Opportunity.make_supplier_quotation/
+  make_request_for_quotation).
+- **Quotation/Opportunity** (`0842d88`): set_as_lost (shared
+  declare_enquiry_lost() doc method).
+
+`required_but_missing`: 258 → **222**. Registry tests 7/7 pass throughout,
+route verifier steady at 204 served/0 failed (action-only batches past
+Pick List), report verifier 183 served/0 failed, `npm run build` passes on
+every commit.
+
+**Full session arc (both continuations combined, starting from the mission
+brief's frozen baseline):** 319 → **222** (97 items resolved, ~30% of the
+frozen baseline) across **21 commits**, every one individually verified
+(registry tests, route/report verifiers, live site1 behavioural checks
+where safe test data existed, source-only with explicit source citations
+for write paths without safe test data). Zero fake routes, zero unsafe
+generic method execution, zero unjustified reclassifications. Found and
+fixed one real frontend bug (report/tree pages ignoring URL query strings),
+one encoding bug (`+` vs `%20`), and four "dead credit" bugs from earlier
+sessions (see DECISIONS.md D22) - all confirmed via source reading and
+before/after count verification, never assumed.
+
+**Not reached this session:** all 59 dashboard-chart/number-card/dashboard
+entries (needs real Vue chart components, a different kind of work than
+document-action wiring), the remainder of CRM/Selling (Prospect, Campaign,
+Communication-based Lead creation), Blanket Order/Drop Shipping/Supplier
+Scorecard, Bank Clearance/Pegged Currencies (Single doctypes needing the
+special-page pattern), and a genuine systematic audit for more dead
+credits like the 4 found this pass (flagged as real, cheap remaining work
+in BLOCKERS.md). See `docs/full-parity/required_missing_latest.json` for
+the exact 222-item list with module/type breakdown.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**

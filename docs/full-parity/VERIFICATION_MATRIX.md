@@ -4,6 +4,18 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
+## "Complete all pending tasks" continuation (2026-07-15, passes 13-21 — session end)
+
+| Item | Level | Evidence |
+|---|---|---|
+| Pick List reservation gating | behavioural (server) | Confirmed site1 has `enable_stock_reservation=0`, so `create_stock_reservation_entries`/`reserve` correctly never appear even though the code path exists - verified the gate itself works, not just that the action is absent |
+| 4 dead-credit bugs found and fixed | source_only, reproduced via required_missing diff | Each confirmed by checking the exact scanner-recorded `mapped_actions[0].action` string against the existing internal credit key, reading the real `.js` source to confirm the button calls the already-implemented server method, then verifying the specific `required_but_missing` entry disappeared after the fix (295→288-style before/after count matching for each individual batch) |
+| Purchase Invoice make_lcv | behavioural (server) | Verified against a real submitted Purchase Invoice with `update_stock=1` (ACC-PINV-2026-00010/11/12) - action correctly appears |
+| Supplier accounting_ledger/accounts_payable | behavioural (server) | Verified against a real Supplier (Zuckerman Security Ltd.) - both routes resolve with correctly percent-encoded party filter |
+| Material Request/RFQ/Supplier Quotation/Lead/Opportunity/Quotation write actions | source_only | No submitted/draft records of these types exist on site1 - all source-verified only (signatures matched against real erpnext controller/JS source) |
+| Registry tests / route+report verifiers / npm build | behavioural | 7/7 pass throughout all 9 batches; route verifier steady at 204 (no new routes past the Pick List batch); report verifier 183/0 failed; build passes on every commit |
+| Final inventory regeneration (session end) | behavioural (server) | fingerprint unchanged at `af61813f...` from the last route-adding batch, confirming everything since was action-only credits, not route changes needing inventory regen |
+
 ## CONTINUE FROM 2e4c314 (2026-07-15, passes 9-12 — Priority 5 + Batch 11/12 warm-up)
 
 | Item | Level | Evidence |

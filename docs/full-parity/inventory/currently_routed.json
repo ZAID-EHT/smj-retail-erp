@@ -1,5 +1,5 @@
 {
-  "captured_at": "2026-07-15 19:32",
+  "captured_at": "2026-07-15 20:12",
   "definition": "A feature is 'currently routed' iff the canonical audit assigned it a current_custom_route.",
   "routed_count": 791,
   "features": [

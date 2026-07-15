@@ -1,6 +1,113 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: CONTINUE FROM 2e4c314 — passes 9-12, Priority 5 + Batch 11/12 warm-up)_
+_Last updated: 2026-07-15 (batch: "complete all pending tasks" — passes 13-21, session end at 222)_
+
+## Passes 13-21 — Batch 11/12 substantially complete, CRM dedup sweep, session end
+
+Continued directly from pass 12 (commit `9567d72`) after the user asked to
+"complete all pending tasks" without pausing for approval. Nine more real,
+independently committed batches:
+
+- **Pick List** (`c6bf92c`): create_stock_reservation_entries/cancel_stock_
+  reservation_entries (real, standard-Stock-Reservation-Entry-only, never
+  touches Bin/Stock Ledger Entry - reproduces erpnext's own
+  enable_stock_reservation + has_unreserved_stock()/has_reserved_stock()
+  gating exactly). update_current_stock, reserved_stock navigation
+  (extended Reserved Stock report filters with from_voucher_type/
+  from_voucher_no). Dedupe reserve/unreserve.
+- **Material Request** (`d7ae13f`): make_supplier_quotation/create_pick_list/
+  make_in_transit_stock_entry (type-gated to match erpnext's Desk exactly,
+  since the generic MAPPED_ACTIONS loop has no per-type awareness). Deduped
+  9 button-label variants (re_open/update_status/purchase_order/request_
+  for_quotation/material_transfer/issue_material/material_receipt/etc, all
+  verified to call the exact same already-credited server methods).
+- **Stock Entry** (`fe665e1`): make_stock_in_entry ("End Transit").
+- **Request for Quotation** (`6104a36`): **found and fixed a real bug** -
+  the internal MAPPED_ACTIONS key "make_supplier_quotation" never matched
+  either real scanner key ("supplier_quotation" or "make_supplier_quotation_
+  from_rfq"), so this credit was silently inert since it was written. Fixed
+  by aliasing. Added supplier_quotation_comparison navigation and
+  send_emails_to_suppliers.
+- **Supplier Quotation** (`40a3e35`): same dead-credit bug class fixed for
+  "make_purchase_order"/"purchase_order". Added a real make_quotation
+  action (Supplier Quotation → selling Quotation).
+- **Supplier** (`3b49018`): accounting_ledger/accounts_payable navigation
+  shortcuts, verified live against a real Supplier record.
+- **Purchase Invoice** (`b46432e`): make_lcv (Landed Cost Voucher, gated by
+  update_stock=1) - reuses the exact same doctype-agnostic make_lcv(doctype,
+  docname) Purchase Receipt already used, confirmed via source that
+  erpnext's own JS passes frm.doc.doctype dynamically for this reason.
+  Verified live against a real update_stock=1 invoice.
+- **Lead/Opportunity** (`7fbcbdc`): same dead-credit bug class fixed again
+  ("make_customer"/"make_quotation" internal keys vs "customer"/"quotation"
+  scanner keys). Added 3 real new actions: Lead.make_quotation, Opportunity.
+  make_supplier_quotation, Opportunity.make_request_for_quotation.
+- **Quotation/Opportunity** (`0842d88`): set_as_lost (shared
+  declare_enquiry_lost() doc method, sales_common.js's shared dialog) -
+  accepts comma-separated lost-reason names, validated against the real
+  Lost Reason master before appending.
+
+`required_but_missing`: 258 → **222** across these nine batches (from
+this "complete all pending tasks" continuation alone; 264 → 222 including
+the Pick List batch that preceded the explicit instruction). Registry
+tests 7/7 pass throughout, route verifier steady at 204 served (only Pick
+List's batch and earlier ones added routes; everything from Material
+Request onward was action-only), report verifier 183/0 failed, `npm run
+build` passes on every commit.
+
+### The dead-credit bug pattern (D22 in DECISIONS.md)
+
+Found repeatedly in this stretch: several `MAPPED_ACTIONS` entries written
+in *earlier* sessions used an internal method-name key (e.g.
+`make_supplier_quotation`) that never actually matched the real scanner-
+detected action key for that specific button (which is often the JS
+button's *label*, scrubbed - e.g. `supplier_quotation`). These credits
+looked correct in the registry code and passed all tests, but were
+silently crediting nothing, because the actual required_but_missing
+computation matches on the literal scanner-detected `mapped_actions[0].
+action` string, not on any key I choose internally. Found and fixed 4
+instances (RFQ, Supplier Quotation, Lead, Opportunity) this pass by
+aliasing the real scanner key alongside the existing internal key. This is
+a distinct issue from a "genuine capability not yet built" - the code
+already existed and worked, it just wasn't counted. Worth a deliberate
+audit pass over the remaining `DOCTYPE_SPECIFIC_ACTIONS` table for more
+instances in a future session (see BLOCKERS.md).
+
+### What's left (222 items) — honest breakdown
+
+By module: Accounts 67, Stock 50, Buying 43, CRM 23, Selling 17, Setup 11,
+Contacts 4, Printing 4, Maintenance 2, Manufacturing 1.
+By type: 159 document-action, 28 dashboard-chart, 25 number-card,
+6 dashboard, 2 doctype (Bank Clearance, Pegged Currencies - Single
+doctypes), 2 page.
+
+**Genuinely unbuilt / not reached:**
+- **Dashboard charts, number cards, dashboards (59 items)** - not attempted
+  at all this session. Needs real Vue chart/card components reading live
+  ERPNext data (dashboard chart source functions, Number Card aggregate
+  queries) - a fundamentally different kind of work than the document-
+  action credits/routing done throughout this session.
+- **Remaining Accounts (67)**: Invoice Discounting's loan actions, Process
+  Statement Of Accounts download/send-emails (no Email Account configured),
+  Bank Clearance/Pegged Currencies (Single doctypes), Bank Statement
+  Import's actions, Unreconcile Payment's bulk creation action, Payment
+  Order/Payment Request creation flows (need dedicated forms), Share
+  Transfer/Shareholder actions, Account/Cost Center tree-mutation actions
+  beyond what's built, remaining dashboard-adjacent items.
+- **Remaining Stock (50)**: Stock Reconciliation's fetch-items action,
+  Quality Inspection creation, Alternate Item selection, Stock Entry's
+  "Get Items From" family, Serial and Batch Bundle's own document actions,
+  Delivery Trip actions, Warehouse capacity/tree actions.
+- **Remaining Buying (43)**: Blanket Order (doctype not yet routed),
+  Drop Shipping, Supplier Scorecard, remaining Purchase Order/Purchase
+  Invoice inter-company actions, Bank Account/Pricing Rule quick-create
+  from Supplier, Link with Customer, Get Supplier Group Details.
+- **CRM (23), Selling (17)**: Prospect conversion actions, Campaign links,
+  Communication-based Lead creation, remaining Quotation/Sales Order
+  actions - largely unexamined beyond the Lead/Opportunity/Quotation work
+  done this pass.
+- **Setup (11), Contacts (4), Printing (4), Maintenance (2),
+  Manufacturing (1)**: entirely unexamined.
 
 ## Passes 9-12 — Priority 5 complete, Batch 11/12 warm-up (session end)
 

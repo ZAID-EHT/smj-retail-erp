@@ -44,10 +44,24 @@ blocked" rule.
 | 3 | Budget/accounting setup (Budget, Monthly Distribution, Accounting Dimensions, Cost Center/Account tree, Fiscal Year, Finance Book, Payment Terms, Mode of Payment, Bank Account, Exchange Rate Revaluation) | **VERIFIED DONE** (pass 6) — all already routed; no new code needed. A handful of tree-mutation document actions (convert_to_group, merge_account, etc.) remain genuinely open — `PriorityTreePage.vue` is read-only, these need real adapter work, not a quick credit |
 | 4 | Period closing / year-end (Period Closing Voucher, Process Period Closing Voucher, Deferred Revenue/Expense, Journal Entry reversal, Credit/Debit Note, Difference Entry) | **DONE** (passes 7-8) — Process Period Closing Voucher/Process Deferred Accounting/Process Statement Of Accounts/Process Subscription/Unreconcile Payment routed (all regular doctypes, generic engine serves them); real actions added for Account/Cost Center/Company/Journal Entry/Exchange Rate Revaluation/Dunning/Process Period Closing Voucher. Still open: Invoice Discounting actions, Process Statement Of Accounts download/send-emails (no Email Account configured), Unreconcile Payment's bulk create action |
 | 5 | Payment/reconciliation remaining paths (Bank Transaction matching beyond Bank Reconciliation Tool, Bank Statement Import, Payment Request/Order, Payment Ledger view, advances, multi-currency) | **DONE for what's achievable without new UI** — Bank Transaction matching served by Bank Reconciliation Tool (pass 4); Payment Ledger report routed; Purchase Invoice/Purchase Order `payment` actions added (passes 9-12). Still open: Bank Statement Import actions, Payment Request/Order creation flows (need dedicated Vue forms, not just a document action), dedicated multi-currency UX |
-| Batch 11 (Stock) | Serial and Batch Bundle, Pick List, Stock Reconciliation, Material Transfer/Receipt/Issue | **PARTIALLY DONE** — Serial and Batch Bundle routed, Batch/Warehouse/Serial No ledger actions added, Purchase Receipt close/reopen + dedups done (passes 9-12). Pick List actions, Stock Reconciliation actions, Stock Entry purpose-specific actions, Material Request's 13 actions genuinely unexamined |
-| Batch 12 (Purchasing) | Purchase Order/Receipt/Invoice actions, Landed Cost Voucher, Supplier Quotation comparison, Blanket Order, Drop Shipping | **PARTIALLY DONE** — Purchase Order `payment` + dedups done. Request for Quotation, Supplier Quotation (beyond `make_purchase_order`), Landed Cost Voucher, Blanket Order, Drop Shipping, Supplier's ledger/pricing-rule shortcuts genuinely unexamined |
-| Remaining document actions (CRM, Selling, Manufacturing, Assets) | — | **NOT REACHED** this session |
+| Batch 11 (Stock) | Serial and Batch Bundle, Pick List, Stock Reconciliation, Material Transfer/Receipt/Issue | **SUBSTANTIALLY DONE** — Serial and Batch Bundle routed; Batch/Warehouse/Serial No ledger actions; Purchase Receipt close/reopen + dedups; Pick List stock reservation (create/cancel_stock_reservation_entries, update_current_stock, reserved_stock nav); Material Request's 13 actions (make_supplier_quotation/create_pick_list/make_in_transit_stock_entry + 9 dedups); Stock Entry end_transit. Still open: Stock Reconciliation's fetch-items, Quality Inspection creation, Alternate Item, Delivery Trip, Serial and Batch Bundle's own actions |
+| Batch 12 (Purchasing) | Purchase Order/Receipt/Invoice actions, Landed Cost Voucher, Supplier Quotation comparison, Blanket Order, Drop Shipping | **SUBSTANTIALLY DONE** — Purchase Order `payment` + dedups; RFQ tools (supplier_quotation_comparison, send_emails_to_suppliers) + 2 dead-credit fixes; Supplier Quotation make_quotation + dead-credit fix; Supplier ledger navigation; Purchase Invoice Landed Cost Voucher. Still open: Blanket Order (doctype not routed), Drop Shipping, Supplier Scorecard, inter-company actions, Bank Account/Pricing Rule quick-create from Supplier |
+| Remaining document actions (CRM, Selling, Manufacturing, Assets) | Lead/Opportunity/Quotation conversions + set_as_lost done | **PARTIAL** — Prospect conversion, Campaign links, Communication-based Lead creation, remaining Sales Order/Selling actions, Manufacturing, Assets **NOT REACHED** |
 | Dashboard charts, number cards, dashboards (28 + 25 + 6 = 59 items) | — | **NOT REACHED** this session — needs real Vue chart/card components reading live data, a different kind of work than the document-action credits done so far |
+
+### Dead-credit audit (new, found this pass — see PROGRESS.md and DECISIONS.md D22)
+
+Found 4 instances where an EARLIER session's `DOCTYPE_SPECIFIC_ACTIONS`/
+`MAPPED_ACTIONS` entry used an internal method-name key that never matched
+the real scanner-detected action key for that specific button (RFQ's and
+Supplier Quotation's `make_purchase_order`-family credits, Lead's and
+Opportunity's `make_customer`/`make_quotation` credits). All four were
+already-working code, silently uncounted since whenever they were written.
+Fixed this pass. **A systematic audit of the remaining `DOCTYPE_SPECIFIC_
+ACTIONS`/`MAPPED_ACTIONS` table against real scanner keys (not just the
+ones touched this session) is real, cheap, high-value remaining work** —
+likely several more "already built, just uncredited" items exist in
+modules not touched this pass (Selling, CRM's Prospect, Assets).
 
 `required_but_missing`: 319 (frozen baseline) → 312 (after passes 4-6; passes
 5-6 were verification/bugfix passes that credited nothing new but made
