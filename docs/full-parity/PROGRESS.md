@@ -1,6 +1,93 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-14 22:35 (batch: URGENT MAPPING MISSION — pass 3, Payment Reconciliation adapter)_
+_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 4, Bank Reconciliation Tool adapter)_
+
+## Pass 4 — real new feature: Bank Reconciliation Tool adapter (Batch 10 continued)
+
+Re-verified the starting state first: HEAD was `85e1e3c` (one commit ahead of the
+`25740f1` mentioned in the mission brief — an unrelated login-page CSS fix),
+worktree clean. Re-ran the live corrected audit: `required_but_missing = 319`,
+exactly matching the mission brief with zero drift. Froze the full 319-entry
+list (the corrected-audit JSON caps its list at 200) to
+`docs/full-parity/required_missing_before_accounting_completion.json`, tagged
+`pre-finish-accounting-and-319-20260715-1316` at that commit.
+
+Built **Bank Reconciliation Tool** end-to-end, following the exact template
+`BLOCKERS.md`/`PROGRESS.md` pass 3 called out: read the real ERPNext
+controller first (`erpnext.accounts.doctype.bank_reconciliation_tool.
+bank_reconciliation_tool` — confirmed it is a virtual doctype, `Document`
+subclass body is literally `pass`; all real behaviour lives in module-level
+`@frappe.whitelist()` functions with **no built-in permission checks** —
+ERPNext's own Desk-only page gates access purely via "Bank Reconciliation
+Tool" DocPerm read), then wrapped it with fixed-purpose whitelisted functions
+that add explicit company/bank-account/doctype permission checks the
+original module lacks:
+
+- **Backend** (`my_store_ui/wholesale/bank_reconciliation_api.py`): 14
+  whitelisted functions — `get_summary` / `get_matches` (read-only),
+  `update_transaction_reference` / `reconcile_transaction` /
+  `unreconcile_transaction` / `preview_payment_entry` /
+  `confirm_payment_entry` / `preview_journal_entry` / `confirm_journal_entry`
+  / `auto_reconcile` (writes, each delegating to the real erpnext
+  `create_payment_entry_bts` / `create_journal_entry_bts` /
+  `reconcile_vouchers` / `auto_reconcile_vouchers` / `Bank Transaction.
+  remove_payment_entries` — never a generic method-path RPC), plus
+  `search_bank_account` / `search_account` / `search_party` /
+  `search_mode_of_payment` filter-form helpers. Journal Entry type is
+  restricted to the exact allowlist ERPNext's own dialog offers (matched
+  against `bank_reconciliation_tool/dialog_manager.js`).
+- **Frontend** (`BankReconciliationPage.vue`): summary banner (ledger balance
+  / statement balance / difference), unreconciled-transaction table with
+  per-row Match / + Payment / + Journal / Unreconcile actions, a candidate-
+  match panel, and Payment/Journal Entry creation forms with a genuine
+  read-only preview step (calls the real controller with `allow_edit=1`,
+  which for Payment Entry also runs full `.validate()` before returning —
+  matches ERPNext's own tool behaviour, including its one real gap: Journal
+  Entry preview does *not* validate before returning, so debit/credit
+  balance errors only surface at confirm, exactly as in Desk).
+- **Verified:** all 14 new endpoints confirmed to reject Guest with
+  `AuthenticationError`. Route resolves (`/finance/bank-reconciliation` →
+  `component: bank_reconciliation`). Search helpers behaviourally exercised
+  against real site1 data (Account/Mode of Payment/Customer search all
+  returned real permission-filtered results). `get_summary` against a
+  non-existent bank account correctly raised `ValidationError` rather than
+  crashing. Write paths are source-verified against erpnext's own
+  controller signatures (matching the same rigor as Payment Reconciliation)
+  but not behaviourally exercised — site1 has zero `Bank Account` / `Bank
+  Transaction` records, so there is nothing to reconcile against without
+  creating test data.
+- **Registry:** `BUILT_ADAPTER_DOCTYPE_NAMES` extended with `Bank
+  Reconciliation Tool`; the old flat `BUILT_ADAPTER_ACTIONS` set was
+  refactored into `BUILT_ADAPTER_ACTIONS_BY_PARENT` (a doctype → allowed
+  action keys map) because this adapter serves two of Bank Transaction's
+  document actions (`create_bank_entries`, `unreconcile_transaction`) in
+  addition to Bank Reconciliation Tool's own five — a document_action's
+  parent doctype is not always the adapter's primary doctype.
+
+`required_but_missing`: 319 → **312** (1 doctype + 6 document actions
+credited). `implemented_unverified` 168→175, `special_adapter` (strategy)
+139→146. Registry tests 7/7 pass, `validate_parity_registry` passes,
+`verify_generated_routes`/`verify_generated_reports` both 0 failures,
+`npm run build` passes. Route-based `unmapped_user_facing` is unchanged at
+1699 — `/finance/bank-reconciliation` already had a route (it existed as
+`specialised_provisional`); this batch changed which component serves it,
+not whether it has a route, exactly like the Payment Reconciliation batch.
+
+**Not done in this pass** (left honestly `unavailable_with_reason`,
+different tools requiring separate adapters — see `BLOCKERS.md`):
+`Bank Statement Import` (upload_bank_statement action + its own actions),
+`Bank Clearance` (a separate, older parallel clearance doctype — not the
+same as Bank Reconciliation Tool), `Bank.refresh_plaid_link`,
+`Bank Account.make_bank_account`/`unlink_external_integrations`. The
+remaining ~106 Accounts-module `required_but_missing` entries (now ~99)
+are GL/Trial Balance/P&L/Balance Sheet drill-down, Budget/Accounting
+Dimension adapters, Period Closing/Process Statement Of Accounts/Process
+Subscription tools, dashboard charts/number cards, and a batch of
+document-action scanner-noise duplicates (e.g. Journal Entry's JS-observed
+`reverse_journal_entry` button name vs the already-credited Python
+`make_reverse_journal_entry` method it calls — confirmed via
+`journal_entry.js` source, candidate for a future dedup pass) — genuinely
+open, see `BLOCKERS.md` and `required_missing_latest.json`.
 
 ## Pass 3 — real new feature: Payment Reconciliation adapter (Batch 10)
 

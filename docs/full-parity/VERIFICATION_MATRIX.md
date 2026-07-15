@@ -4,6 +4,23 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
+## FINISH ACCOUNTING FIRST (2026-07-15, pass 4 — Bank Reconciliation Tool)
+
+| Item | Level | Evidence |
+|---|---|---|
+| Bank Reconciliation Tool controller reading | source_only | Read `erpnext/accounts/doctype/bank_reconciliation_tool/bank_reconciliation_tool.py` in full — confirmed virtual doctype (`Document` subclass body is `pass`), no built-in permission checks on any module-level whitelisted function |
+| Journal Entry Type allowlist | source_only | Matched exactly against `erpnext/public/js/bank_reconciliation_tool/dialog_manager.js:319` field options |
+| Route resolution (`/finance/bank-reconciliation` → `bank_reconciliation`) | behavioural (server) | `get_priority_route_definition` called directly against site1, returned correct component/doctype/permissions |
+| `search_bank_account` / `search_account` / `search_mode_of_payment` / `search_party` | behavioural (server) | Exercised against real site1 data as Administrator — Account search returned `Cash - Carpets to`, Mode of Payment returned `Credit Card`/`Cash`/`Cheque`, party search returned 3 real customers |
+| `get_summary` error path (nonexistent bank account) | behavioural (server) | Raised `ValidationError: Bank account does not belong to the selected company` — not a crash |
+| Guest blocked on all 14 new whitelisted endpoints | behavioural (server) | Each called directly with `frappe.session.user = "Guest"`; all raised `AuthenticationError` |
+| `get_summary`/`get_matches`/`reconcile_transaction`/`unreconcile_transaction`/`preview_*`/`confirm_*`/`auto_reconcile` write paths | source_only | site1 has zero `Bank Account`/`Bank Transaction` records — no data to reconcile against without creating test data; signatures matched against erpnext's real controller functions |
+| Registry crediting (`BUILT_ADAPTER_ACTIONS_BY_PARENT` refactor) | behavioural (script) | `required_but_missing` 319→312 (exactly 1 doctype + 6 document actions, as designed); `test_parity_registry.py` 7/7 PASS after the refactor |
+| `route_coverage.verify_generated_routes` / `verify_generated_reports` | behavioural (server) | served=196/failed=0, served=183/permission_denied=1(pre-existing)/failed=0 — unaffected by this batch (no ENTITY_ROUTES/REPORT_GROUPS change) |
+| Vue production build | behavioural | `npm run build` PASS, 111 modules |
+| `generate_complete_inventory` re-run (drift check) | behavioural (server) | fingerprint unchanged (`69a2005d...`), unmapped_user_facing unchanged at 1699 — confirms this batch changed component dispatch, not route presence |
+| Browser render of BankReconciliationPage.vue | not run | No browser automation installed (same GATE 5 blocker as always) |
+
 ## URGENT MAPPING MISSION (2026-07-14, final mapping pass 1)
 
 | Item | Level | Evidence |

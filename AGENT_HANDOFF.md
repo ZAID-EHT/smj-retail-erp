@@ -179,6 +179,57 @@ tools) — same template applies to each if continued.
 
 The audit below (Sections 1–25) remains valid as the production-readiness picture.
 
+## 0e. Update — FINISH ACCOUNTING FIRST, pass 4: Bank Reconciliation Tool adapter (2026-07-15)
+
+Resumed on branch `full-feature-parity`. Starting HEAD was `85e1e3c` (one
+commit ahead of the `25740f1` cited in the mission brief — an unrelated
+login-page CSS fix; worktree was clean either way). Re-ran the live corrected
+audit first: `required_but_missing = 319`, exactly matching the mission
+brief with zero drift. Froze the full 319-entry list to
+`docs/full-parity/required_missing_before_accounting_completion.json` and
+tagged `pre-finish-accounting-and-319-20260715-1316` before any change.
+
+Built **Bank Reconciliation Tool** (Priority 1 of the mission), the single
+largest specifically-requested adapter: `my_store_ui/wholesale/
+bank_reconciliation_api.py` (14 fixed-purpose whitelisted functions —
+summary/matches read paths, update-reference/reconcile/unreconcile/create-
+payment-entry/create-journal-entry/auto-reconcile write paths, all delegating
+to erpnext's real `bank_reconciliation_tool` controller functions and `Bank
+Transaction.remove_payment_entries`, never a generic method-path RPC) +
+`frontend/src/pages/priority/BankReconciliationPage.vue` (summary banner,
+transaction table, match panel, Payment/Journal Entry creation with a
+read-only preview step before posting). Wired through
+`priority_pages.py`/`PriorityRoutePage.vue` exactly like Payment
+Reconciliation. Registry crediting required refactoring the old flat
+`BUILT_ADAPTER_ACTIONS` set into a parent-doctype-keyed
+`BUILT_ADAPTER_ACTIONS_BY_PARENT` map, because this adapter also serves two
+of `Bank Transaction`'s own document actions (see `DECISIONS.md` D13).
+
+Verified: all 14 new endpoints reject Guest with `AuthenticationError`; the
+route resolves correctly; search helpers return real permission-filtered
+site1 data; the missing-bank-account error path fails safely. Write paths
+are source-verified against erpnext's own controller signatures but not
+behaviourally exercised — site1 has zero `Bank Account`/`Bank Transaction`
+records to reconcile against without creating test data (same category of
+gap as Payment Reconciliation's write path in pass 3).
+
+`required_but_missing`: 319 → **312**. Registry tests 7/7 pass,
+`validate_parity_registry` passes, route/report verifiers 0 failures,
+`npm run build` passes, `generate_complete_inventory` confirms zero drift
+(fingerprint unchanged, route-based `unmapped_user_facing` still 1699 — this
+batch changed which component serves an existing route, not route presence).
+
+**Not done this pass** (left honestly `unavailable_with_reason`): Bank
+Statement Import, Bank Clearance (a genuinely different, older doctype — see
+`DECISIONS.md` D14), Bank.refresh_plaid_link, Bank Account's
+make_bank_account/unlink_external_integrations actions, GL/Trial Balance/P&L/
+Balance Sheet/Budget/Accounting Dimension dedicated adapters (Priorities 2–3
+of the mission), period closing (Priority 4), and remaining payment tools
+(Priority 5). See `PROGRESS.md` pass 4 and `BLOCKERS.md` for the exact list.
+Full mission scope (Stock/Purchasing/remaining actions/dashboard widgets)
+was not reached this pass — see `docs/full-parity/required_missing_latest.json`
+for the current complete gap list.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**

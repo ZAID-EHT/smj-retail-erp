@@ -121,6 +121,33 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D13. A built adapter can credit document actions whose parent isn't its own doctype
+
+`Bank Reconciliation Tool` (pass 4) serves two of `Bank Transaction`'s document
+actions (`create_bank_entries`, `unreconcile_transaction`) in addition to its
+own five. The original `BUILT_ADAPTER_ACTIONS` was a single flat set shared
+across all built adapters, keyed only by "is the action's parent doctype in
+`BUILT_ADAPTER_DOCTYPE_NAMES`" — that check would have silently failed to
+credit Bank Transaction's actions (Bank Transaction is a normal routed
+doctype, not itself a virtual-tool entry in `BUILT_ADAPTER_DOCTYPE_NAMES`),
+and a flat action-name set risked crediting an unrelated action with the same
+name on a different, unbuilt doctype. Refactored to
+`BUILT_ADAPTER_ACTIONS_BY_PARENT: dict[str, set[str]]`, keyed by the actual
+document_action parent, with a matching `BUILT_ADAPTER_ACTION_ROUTE` map so
+each parent resolves to the correct adapter route in the credited evidence.
+No behaviour changed for Payment Reconciliation (same three actions, same
+route) — this is a scope-widening refactor, not a reclassification.
+
+## D14. "Bank Clearance" is a different doctype from "Bank Reconciliation Tool"
+
+`Bank Clearance` (`erpnext.accounts.doctype.bank_clearance`) is a separate,
+older ERPNext tool doctype with its own `get_payment_entries` /
+`update_clearance_date` actions — it is NOT superseded or served by the new
+`bank_reconciliation_api.py` adapter, despite the similar name and business
+domain. Left honestly `unavailable_with_reason`; building it (if still
+relevant alongside the newer Bank Reconciliation Tool) is separate future
+work, not silently folded into this pass's credit.
+
 ## D12. Document-action crediting extended beyond the 6 handcrafted DocTypes
 
 `my_store_ui/universal/api.py`'s action handler (`_available_actions`,

@@ -24,15 +24,32 @@ They are the entirety of `required_but_missing = 367` in
 | 8 | Accounts document actions | **DONE** (pass 2, commit c2f95fa) | Purchase Invoice→Debit Note, Journal Entry→Reverse Journal Entry added |
 | 13 | Platform administration | **DONE** (pass 2, commit 0dcc9a0) | 45 DocTypes → `internal`, 9 print formats credited via their routed report |
 | 14 | POS Awesome / external apps | **DONE** (pass 2, commits 393c45a, 6a3d661) | 23 entries classified: 2 `not_required` (Mpesa/Kenya), 18 `external_app_adapter` |
-| 10 | Special finance adapters | **Partially DONE** | Payment Reconciliation built (pass 3, commit 54f3859) - see below. Still open: Bank Reconciliation Tool, GL/Trial Balance/P&L/Balance Sheet interactive drill-down, Budgets, Accounting Dimensions, Process Period Closing Voucher, Process Statement Of Accounts, Process Subscription. Same template as Payment Reconciliation: read the real ERPNext controller, reproduce its exact call contract with fixed-purpose whitelisted wrappers (never a generic method-path RPC), build a dedicated Vue page |
+| 10 | Special finance adapters | **Partially DONE** | Payment Reconciliation built (pass 3, commit 54f3859); Bank Reconciliation Tool built (pass 4, see PROGRESS.md — `my_store_ui/wholesale/bank_reconciliation_api.py` + `BankReconciliationPage.vue`). Still open: GL/Trial Balance/P&L/Balance Sheet interactive drill-down (report routes already exist via REPORT_GROUPS.finance — needs verification these already satisfy "drill-down"; see Priority 2 of the mission brief), Budgets, Accounting Dimensions (routes exist as `generated_provisional`, not yet dedicated), Process Period Closing Voucher, Process Statement Of Accounts, Process Subscription, Bank Statement Import, Bank Clearance (a separate legacy tool, not the same doctype as Bank Reconciliation Tool). Same template as Payment Reconciliation/Bank Reconciliation Tool: read the real ERPNext controller, reproduce its exact call contract with fixed-purpose whitelisted wrappers (never a generic method-path RPC), build a dedicated Vue page |
 | 11 | Special stock adapters (Serial and Batch Bundle picker UI, barcode workflows, Stock Ledger/Ageing views, Transit Warehouse, reorder tools, Pick List→Delivery Note/Stock Entry) | **Still open** | Genuinely unbuilt. Pick List's `create_delivery_note`/`create_stock_entry` were investigated in pass 2 and deliberately NOT force-fit into the generic `MAPPED_ACTIONS` pattern — `create_delivery_note` can create multiple Delivery Notes per call and may save internally; `create_stock_entry` takes a JSON-serialized Pick List, not a docname. Both break the simple get_mapped_doc→insert() pattern; need a dedicated adapter, not a registry credit |
 | 12 | Purchasing/imports (Blanket Order, Drop Shipping, Supplier Statements/Performance, **Import Shipment**) | **Still open** | Genuinely unbuilt. Import Shipment likely needs a new Custom DocType field set for wholesale import tracking — stays `blocked` pending a schema-change approval gate identical to GATE 1-3 above; the rest is ordinary generic/special_adapter work |
 
-Remaining `required_but_missing = 327` (down from 367 after pass 1, 846 in
-the first buggy computation). None of the still-open items block anything
-else - each was left `unavailable_with_reason`
-with real evidence and the mission continued through every other batch, per the
-"do not stop because one feature is blocked" rule.
+Remaining `required_but_missing = 312` (327 after pass 2 → 319 after pass 3
+Payment Reconciliation → 312 after pass 4 Bank Reconciliation Tool). None of
+the still-open items block anything else - each was left
+`unavailable_with_reason` with real evidence and the mission continued
+through every other batch, per the "do not stop because one feature is
+blocked" rule.
+
+### Genuine scanner-noise duplicates found (not yet deduplicated)
+
+Pass 4 confirmed at least one real case: ERPNext's feature scanner records
+two separate `document_action` entries for the same underlying Journal Entry
+reversal capability — `make-reverse-journal-entry` (Python method name,
+already credited via `DOCTYPE_SPECIFIC_ACTIONS`) and `reverse-journal-entry`
+(the JS-side button handler name from `journal_entry.js`, which itself just
+calls `erpnext...journal_entry.make_reverse_journal_entry` via RPC — verified
+by reading the source, not assumed). This is exactly the "deduplicate
+scanner-noise entries by linking them to canonical actions" work the mission
+brief calls out under "Remaining document actions". A systematic pass across
+all `required_but_missing` document-action entries to find and alias these
+JS/Python duplicate pairs (verifying each against real erpnext source before
+aliasing — never assumed) is real remaining work, distinct from building new
+adapters.
 
 ---
 

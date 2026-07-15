@@ -5482,14 +5482,18 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk remains the source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "my_store_ui/wholesale/bank_reconciliation_api.py (get_summary/get_matches/update_transaction_reference/reconcile_transaction/unreconcile_transaction/preview_payment_entry/confirm_payment_entry/preview_journal_entry/confirm_journal_entry/auto_reconcile, calling the standard erpnext bank_reconciliation_tool controller functions and Bank Transaction.remove_payment_entries — never a generic method-path RPC)",
+        "frontend/src/pages/priority/BankReconciliationPage.vue",
+        "Source-verified against erpnext's own bank_reconciliation_tool.py and bank_reconciliation_tool.js (exact function signatures and the Journal Entry Type allowlist matched against the Desk dialog). Read paths (get_summary/get_matches) exercise real erpnext functions with no site mutation. Write paths (create_payment_entry_bts/create_journal_entry_bts/reconcile_vouchers/auto_reconcile_vouchers) were not behaviourally exercised — site1 has no unreconciled Bank Transaction to reconcile against without creating test data."
+      ],
+      "notes": "Dedicated Retail ERP adapter implemented at /retail-erp/finance/bank-reconciliation.",
       "blocking_reason": null
     },
     {
@@ -10988,14 +10992,16 @@
       "action_name": "Auto Reconcile",
       "parent_feature": "Bank Reconciliation Tool",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'auto_reconcile' on Bank Reconciliation Tool is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -11007,14 +11013,16 @@
       "action_name": "Create Journal Entry Bts",
       "parent_feature": "Bank Reconciliation Tool",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'create_journal_entry_bts' on Bank Reconciliation Tool is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -11026,14 +11034,16 @@
       "action_name": "Create Payment Entry Bts",
       "parent_feature": "Bank Reconciliation Tool",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'create_payment_entry_bts' on Bank Reconciliation Tool is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -11045,14 +11055,16 @@
       "action_name": "Get Unreconciled Entries",
       "parent_feature": "Bank Reconciliation Tool",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'get_unreconciled_entries' on Bank Reconciliation Tool is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -11159,14 +11171,16 @@
       "action_name": "Create Bank Entries",
       "parent_feature": "Bank Transaction",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'create_bank_entries' on Bank Transaction is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -11178,14 +11192,16 @@
       "action_name": "Unreconcile Transaction",
       "parent_feature": "Bank Transaction",
       "business_priority": "P1_required",
-      "implementation_strategy": "unavailable_with_reason",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Pending implementation (P1_required); standard Desk mapping remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Served by the /retail-erp/finance/bank-reconciliation adapter"
+      ],
+      "notes": "Allowlisted action 'unreconcile_transaction' on Bank Transaction is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -14882,7 +14898,7 @@
       "evidence": [
         "Served by the /retail-erp/finance/payment-reconciliation adapter"
       ],
-      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
+      "notes": "Allowlisted action 'allocate' on Payment Reconciliation is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -14903,7 +14919,7 @@
       "evidence": [
         "Served by the /retail-erp/finance/payment-reconciliation adapter"
       ],
-      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
+      "notes": "Allowlisted action 'get_unreconciled_entries' on Payment Reconciliation is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
@@ -14924,7 +14940,7 @@
       "evidence": [
         "Served by the /retail-erp/finance/payment-reconciliation adapter"
       ],
-      "notes": "Step of the dedicated Payment Reconciliation adapter flow.",
+      "notes": "Allowlisted action 'reconcile' on Payment Reconciliation is served by the dedicated Retail ERP adapter.",
       "blocking_reason": null
     },
     {
