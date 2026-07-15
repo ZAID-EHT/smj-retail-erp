@@ -42,7 +42,7 @@ Result: **FAIL**
 | Failure class | Count |
 |---|---:|
 | Unclassified User Facing | 0 |
-| Unmapped User Facing | 1694 |
+| Unmapped User Facing | 1691 |
 | Undocumented Actions | 0 |
 | Complete Without Tests | 0 |
 | Unhandled Active Workflows | 0 |
@@ -93,7 +93,7 @@ Result: **FAIL**
 
 ## Priority page expansion (2026-07-13)
 
-- Clean priority entity bases registered: **201**.
+- Clean priority entity bases registered: **204**.
 - Purpose-specific transaction forms registered: **3**.
 - Special/read/alias routes registered: **14**.
 - Priority report names allowlisted: **184** across **6** groups.

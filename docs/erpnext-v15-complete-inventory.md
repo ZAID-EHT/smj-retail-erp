@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4`
+Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16`
 
 ## Coverage summary
 
@@ -691,8 +691,8 @@ Inventory fingerprint: `abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f562
 | `erpnext:doctype:pricing-rule` | erpnext | Accounts | doctype | Pricing Rule | A | Yes | /finance/pricing-rule | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | Yes | /admin/print-heading | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | Yes | /finance/process-deferred-accounting | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
-| `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | Yes | /finance/process-payment-reconciliation | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | Yes | /finance/process-payment-reconciliation-log | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:process-period-closing-voucher` | erpnext | Accounts | doctype | Process Period Closing Voucher | A | Yes | /finance/process-period-closing-voucher | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | Yes | /finance/process-statement-of-accounts | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | Yes | /finance/process-subscription | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
@@ -739,7 +739,7 @@ Inventory fingerprint: `abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f562
 | `erpnext:doctype:sales-stage` | erpnext | CRM | doctype | Sales Stage | A | Yes | /crm/sales-stage | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:sales-taxes-and-charges-template` | erpnext | Accounts | doctype | Sales Taxes and Charges Template | A | Yes | /finance/sales-taxes-and-charges-template | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | Yes | /inventory/serial-and-batch-bundle | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:serial-no` | erpnext | Stock | doctype | Serial No | A | Yes | /inventory/serial-numbers | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:service-level-agreement` | erpnext | Support | doctype | Service Level Agreement | A | Yes | /operations/service-level-agreement | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:share-transfer` | erpnext | Accounts | doctype | Share Transfer | A | Yes | /finance/share-transfer | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |

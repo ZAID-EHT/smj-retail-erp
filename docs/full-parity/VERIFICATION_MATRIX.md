@@ -4,6 +4,19 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
+## CONTINUE FROM 2e4c314 (2026-07-15, passes 9-12 — Priority 5 + Batch 11/12 warm-up)
+
+| Item | Level | Evidence |
+|---|---|---|
+| Purchase Invoice block_invoice/unblock_invoice/change_release_date visibility | behavioural (server) | `_available_actions` against real submitted invoices with outstanding_amount=0 (actions correctly absent) and outstanding_amount=105000 (block_invoice correctly present) |
+| Serial and Batch Bundle / Process Payment Reconciliation(+Log) routes | behavioural (server) | `route_coverage.verify_generated_routes` 201→204 served, 0 failed; `is_virtual`/`issingle`/`istable` confirmed false against installed schema before routing |
+| Bank Clearance / Pegged Currencies superseded-by-BRT investigation | source_only, inconclusive by design | Read `bank_clearance.py` in full - confirmed it sets clearance_date on Payment/Journal Entries directly (no Bank Transaction dependency), a genuinely different input model from Bank Reconciliation Tool - deliberately left un-reclassified rather than force an unverified "superseded" label |
+| Warehouse stock_balance / Batch view_ledger navigation routes | behavioural (server) | Resolved against a real Warehouse record (`Goods In Transit - Carpets toD`) with correct `%20` encoding |
+| Purchase Receipt close/reopen dedup (debit_note/purchase_return/landed_cost_voucher) | source_only | purchase_receipt.js read in full; confirmed each button calls the exact already-credited server method |
+| Purchase Order payment / dedups (purchase_receipt/purchase_invoice/re_open) | behavioural (server) + source | `payment` action verified to appear on a real submitted PO (PUR-ORD-2026-00014); dedups verified via purchase_order.js source (`unclose_purchase_order()` → `update_status("Submitted")`, the same call the existing `reopen` action makes) |
+| Supplier Quotation `make-purchase-invoice` investigated, NOT credited | source_only, negative result | Read `supplier_quotation.js` in full - no button calling `make_purchase_invoice` was found; left honestly unavailable_with_reason rather than guess it's a duplicate (see DECISIONS.md D21) |
+| Registry tests / route+report verifiers / npm build | behavioural | 7/7 pass throughout; 204/183 served, 0 failed; build passes on every commit this session |
+
 ## FINISH ACCOUNTING FIRST (2026-07-15, passes 7-8 — Priority 4 period closing)
 
 | Item | Level | Evidence |

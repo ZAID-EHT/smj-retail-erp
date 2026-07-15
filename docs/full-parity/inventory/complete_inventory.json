@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-15 19:10",
+  "captured_at": "2026-07-15 19:32",
   "site": "site1.local",
   "schema_version": 1,
   "source": "docs/erpnext-v15-complete-inventory.json",
-  "inventory_fingerprint": "abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4",
+  "inventory_fingerprint": "af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16",
   "counts": {
     "active_workflows": 0,
     "child_doctypes": 335,
@@ -12872,11 +12872,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-payment-reconciliation",
       "standard_desk_route": "/app/process-payment-reconciliation",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -12891,11 +12891,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-payment-reconciliation-log",
       "standard_desk_route": "/app/process-payment-reconciliation-log",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -13784,11 +13784,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/serial-and-batch-bundle",
       "standard_desk_route": "/app/serial-and-batch-bundle",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {

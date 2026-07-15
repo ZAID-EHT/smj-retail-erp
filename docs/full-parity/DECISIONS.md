@@ -121,6 +121,36 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D20. Shared generic-doctype methods should be named for what they do, not their first caller
+
+`get_payment_entry(dt, dn)` is doctype-agnostic in erpnext itself. The
+first time this session wired it (Dunning's "payment" action) the internal
+dispatch method key was named `dunning_payment` — accurate at the time, but
+by the third doctype to reuse it (Purchase Order, after Purchase Invoice's
+pre-existing `purchase_invoice_payment`) the name was actively misleading.
+Renamed to `make_payment_entry_generic` before adding the third caller.
+Rule: when a second unrelated doctype reuses an internal method key, rename
+it to describe the shared behaviour, not the original caller — don't wait
+for a third.
+
+## D21. Scanner-noise dedup is now the dominant remaining pattern, not new adapters
+
+Across passes 4-12, roughly half of the ~50 required_but_missing items
+resolved per batch turned out to be the SAME underlying capability the
+scanner recorded twice under different action-key strings — a Python
+method name (`make_reverse_journal_entry`) vs. its JS button's local
+handler name (`reverse_journal_entry`), or a button label scrubbed
+differently depending on document state (`purchase_receipt`/`debit_note`
+both calling `make_purchase_invoice` on Purchase Receipt, shown under
+different labels depending on `is_return`). Every dedup credited this
+session was verified by reading the actual `.js` source and confirming the
+button's callback invokes the exact same server method/doc-method already
+wired — never assumed from name similarity alone (e.g. Supplier Quotation's
+`make-purchase-invoice` was investigated and left uncredited because no
+matching button was found in `supplier_quotation.js` at all — the scanner
+key's origin is unconfirmed, so aliasing it would have been a guess, not a
+verified dedup).
+
 ## D17. Route additions require re-running generate_complete_inventory before generate_corrected_audit
 
 `build_parity_registry()` reads the canonical `docs/erpnext-v15-complete-

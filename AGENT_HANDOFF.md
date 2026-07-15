@@ -280,6 +280,54 @@ live-site1 methodology established in passes 4-6. See `BLOCKERS.md` →
 breakdown and `docs/full-parity/required_missing_latest.json` for the
 current complete 312-item gap list.
 
+## 0g. Update — CONTINUE FROM 2e4c314: Priority 5 complete, Batch 11/12 warm-up (2026-07-15, session end)
+
+Continued directly from 0f (commit `2e4c314`). Four more real, independently
+committed batches, same methodology (read real erpnext source, verify
+against live site1, regenerate the canonical inventory before re-auditing
+whenever routes changed):
+
+- **Purchase Invoice** (`bd9ce0a`): block_invoice/unblock_invoice/
+  change_release_date (real controller methods) + 2 dedups.
+- **Serial and Batch Bundle + Process Payment Reconciliation(+Log)**
+  (`a498b70`): 3 more regular doctypes routed. Bank Clearance/Pegged
+  Currencies investigated and left open (Single doctypes; Bank Clearance
+  confirmed functionally different from Bank Reconciliation Tool, not
+  reclassified without stronger justification).
+- **Stock module** (`f0129f8`): Purchase Receipt close/reopen + 3 dedups;
+  Warehouse/Batch/Serial No ledger navigation actions; Stock Ledger's
+  filter set extended with `batch_no`; Batch.recalculate_batch_qty.
+- **Purchase Order** (`9567d72`): `payment` action (shared, renamed
+  `dunning_payment`→`make_payment_entry_generic`) + 3 dedups. Investigated
+  Supplier Quotation's `make-purchase-invoice` and found no matching
+  button in source — left honestly uncredited rather than guess.
+
+`required_but_missing`: 285 → **264**. Registry tests 7/7 pass throughout,
+route verifier steady at 204 served/0 failed, `npm run build` passes on
+every commit.
+
+**Full session arc from the mission's stated starting point:** 319 → 264
+(55 items resolved, ~17% of the frozen baseline) across 10 commits, all
+individually verified (registry tests, route/report verifiers, live site1
+behavioural checks where safe test data existed, source-only for write
+paths without safe test data) and documented with the reasoning, not just
+the count. Zero fake routes, zero unsafe generic method execution, zero
+reclassifications-to-hide-a-gap — every credited item has either real new
+code or a source-verified scanner-noise dedup explanation.
+
+**Genuinely unbuilt, not reached this session** (~264 remaining): Pick List
+actions (reserve/unreserve/reserved-stock — `create_delivery_note`/
+`create_stock_entry` were already ruled out in an earlier session), Stock
+Reconciliation and Stock Entry purpose-specific actions, Material Request's
+13 actions, Request for Quotation/Supplier Quotation's remaining actions,
+Landed Cost Voucher, Blanket Order, Drop Shipping, Supplier's ledger/
+pricing-rule shortcuts, the entire CRM (33) and Selling (18) modules, and
+all 59 dashboard-chart/number-card/dashboard entries (a different kind of
+work — real Vue chart components reading live data, not document-action
+wiring). See `docs/full-parity/required_missing_latest.json` for the exact
+264-item list and `PROGRESS.md`/`BLOCKERS.md` for the module-by-module
+breakdown of what's left.
+
 ## 1. Executive Summary
 
 **Final status: NOT YET PRODUCTION-READY.**

@@ -1,9 +1,9 @@
 # Full-Parity Inventory Summary (Stage 1)
 
-- Captured: 2026-07-15 19:10
+- Captured: 2026-07-15 19:32
 - Site: `site1.local`
 - Canonical source: `docs/erpnext-v15-complete-inventory.json`
-- Inventory fingerprint: `abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4`
+- Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16`
 
 ## Headline counts
 
@@ -12,9 +12,9 @@
 | Total atomic features | 2841 |
 | User-facing features | 2482 |
 | System-internal exclusions | 359 |
-| Currently mapped (has custom route) | 788 |
-| Unmapped user-facing | 1694 |
-| Strict route coverage | 31.75% |
+| Currently mapped (has custom route) | 791 |
+| Unmapped user-facing | 1691 |
+| Strict route coverage | 31.87% |
 | Generic engine candidates (class A) | 249 |
 | Specialised interfaces (class B+C) | 1481 |
 | Installed non-core app features | 244 |
@@ -72,8 +72,8 @@
 
 | Module | Unmapped |
 |---|---:|
-| Accounts | 414 |
-| Stock | 191 |
+| Accounts | 412 |
+| Stock | 190 |
 | Core | 153 |
 | Selling | 112 |
 | Manufacturing | 91 |

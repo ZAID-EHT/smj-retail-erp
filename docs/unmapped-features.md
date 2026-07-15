@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1694**.
+Total user-facing features without a registered custom route: **1691**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -312,8 +312,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | /app/pos-opening-entry | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | /app/pos-profile | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | /app/pos-settings | Required for ordinary-user parity |
-| `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | /app/process-payment-reconciliation | Required for ordinary-user parity |
-| `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | /app/process-payment-reconciliation-log | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | /app/projects-settings | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | /app/quick-stock-balance | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | /app/rename-tool | Required for ordinary-user parity |
@@ -323,7 +321,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:repost-payment-ledger` | erpnext | Accounts | doctype | Repost Payment Ledger | A | /app/repost-payment-ledger | Required for ordinary-user parity |
 | `erpnext:doctype:routing` | erpnext | Manufacturing | doctype | Routing | A | /app/routing | Required for ordinary-user parity |
 | `erpnext:doctype:selling-settings` | erpnext | Selling | doctype | Selling Settings | A | /app/selling-settings | Required for ordinary-user parity |
-| `erpnext:doctype:serial-and-batch-bundle` | erpnext | Stock | doctype | Serial and Batch Bundle | A | /app/serial-and-batch-bundle | Required for ordinary-user parity |
 | `erpnext:doctype:sms-center` | erpnext | Selling | doctype | SMS Center | A | /app/sms-center | Required for ordinary-user parity |
 | `erpnext:doctype:sms-log` | erpnext | Utilities | doctype | SMS Log | A | /app/sms-log | Required for ordinary-user parity |
 | `erpnext:doctype:south-africa-vat-settings` | erpnext | Regional | doctype | South Africa VAT Settings | A | /app/south-africa-vat-settings | Required for ordinary-user parity |

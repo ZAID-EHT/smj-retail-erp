@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "56a71460175676fecee775efa351e4b94520bf8d",
+      "git_commit": "9567d723e66dce936c4f3e0e5a415822a086e54d",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -421,7 +421,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1694
+      "unmapped_user_facing": 1691
     },
     "failures": {
       "complete_without_tests": [],
@@ -735,8 +735,6 @@
         "erpnext:doctype:pos-opening-entry",
         "erpnext:doctype:pos-profile",
         "erpnext:doctype:pos-settings",
-        "erpnext:doctype:process-payment-reconciliation",
-        "erpnext:doctype:process-payment-reconciliation-log",
         "erpnext:doctype:projects-settings",
         "erpnext:doctype:quick-stock-balance",
         "erpnext:doctype:rename-tool",
@@ -746,7 +744,6 @@
         "erpnext:doctype:repost-payment-ledger",
         "erpnext:doctype:routing",
         "erpnext:doctype:selling-settings",
-        "erpnext:doctype:serial-and-batch-bundle",
         "erpnext:doctype:sms-center",
         "erpnext:doctype:sms-log",
         "erpnext:doctype:south-africa-vat-settings",
@@ -183654,12 +183651,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessPaymentReconciliation"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-payment-reconciliation",
       "customizations": [],
       "delete": true,
       "doctype": "Process Payment Reconciliation",
@@ -184095,7 +184092,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -184114,7 +184111,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -184138,12 +184135,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessPaymentReconciliationLog"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-payment-reconciliation-log",
       "customizations": [],
       "delete": true,
       "doctype": "Process Payment Reconciliation Log",
@@ -184437,7 +184434,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -184455,7 +184452,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -219978,7 +219975,7 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "SerialNoExistsInFutureTransactionError",
         "BatchNegativeStockError",
@@ -219987,7 +219984,7 @@
         "SerialandBatchBundle"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/inventory/serial-and-batch-bundle",
       "customizations": [],
       "delete": true,
       "doctype": "Serial and Batch Bundle",
@@ -220710,7 +220707,7 @@
         "Stock User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -220734,7 +220731,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -469117,7 +469114,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4",
+  "inventory_fingerprint": "af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

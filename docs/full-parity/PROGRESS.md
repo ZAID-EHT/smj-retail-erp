@@ -1,6 +1,87 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 7-8, Priority 4 complete)_
+_Last updated: 2026-07-15 (batch: CONTINUE FROM 2e4c314 — passes 9-12, Priority 5 + Batch 11/12 warm-up)_
+
+## Passes 9-12 — Priority 5 complete, Batch 11/12 warm-up (session end)
+
+Continued directly from Priority 4 (commit `2e4c314`). Four more real,
+independently committed batches, all using the same read-source-first,
+verify-against-live-site1 methodology, plus one important process fix:
+
+- **Purchase Invoice** (commit `bd9ce0a`): `block_invoice`/`unblock_invoice`/
+  `change_release_date` (real `PurchaseInvoice.block_invoice()`/
+  `.unblock_invoice()` instance methods, gated by the same on_hold/
+  outstanding_amount conditions as erpnext's own Desk buttons). Deduped
+  `payment`/`return_debit_note` (JS button labels) as the same capabilities
+  already served by `make_payment_entry`/`make_debit_note`.
+- **Serial and Batch Bundle + Process Payment Reconciliation(+Log)**
+  (commit `a498b70`): 3 more regular doctypes routed (same
+  `is_virtual`/`issingle`/`istable`-check-first technique as Priority 4).
+  Left Bank Clearance/Pegged Currencies open — both are Single doctypes
+  (issingle=1), needing the special-page pattern, not the generic engine;
+  investigated whether Bank Clearance is superseded by the new Bank
+  Reconciliation Tool adapter but they use different input models (Bank
+  Clearance works directly against existing Payment/Journal Entries; Bank
+  Reconciliation Tool requires imported Bank Transaction records) - left
+  un-reclassified rather than risk an unjustified "superseded" label.
+- **Stock module actions** (commit `f0129f8`): Purchase Receipt
+  `close`/`reopen` (wraps `update_status()`); deduped `debit_note`/
+  `purchase_return`/`landed_cost_voucher` as the same capabilities already
+  served by `make_purchase_invoice`/`make_purchase_return`/`make_lcv`.
+  Added Warehouse/Batch/Serial No ledger navigation (`stock_balance`,
+  `view_ledger`, `view_ledgers`) using the same navigation-action pattern
+  established in Priority 4 — extended Stock Ledger's filter set with
+  `batch_no` (confirmed against the report's real `.js` filter definition)
+  so the drill-down actually pre-fills. Added `Batch.recalculate_batch_qty`.
+- **Purchase Order** (commit `9567d72`): `payment` action (real, reusing the
+  doctype-agnostic `get_payment_entry()` call — renamed the shared method
+  key from `dunning_payment` to `make_payment_entry_generic` now that 3
+  doctypes use it: Dunning, Purchase Invoice, Purchase Order). Deduped
+  `purchase_receipt`/`purchase_invoice`/`re_open` as the same capabilities
+  already served by `make_purchase_receipt`/`make_purchase_invoice`/`reopen`
+  (`re_open`'s button calls `unclose_purchase_order()` → the exact same
+  `update_status("Submitted")` the existing `reopen` action wraps).
+
+`required_but_missing`: 285 → **264** across the four batches. Registry
+tests 7/7 pass throughout, route verifier steady at 204 served (no new
+routes this round — action-only batches), report verifier 183 served/0
+failed, `npm run build` passes every time.
+
+### What's left (264 items) — honest breakdown by module
+
+Accounts ~59, Stock ~71, Buying ~52, CRM 33, Selling 18, Setup 11,
+Manufacturing 1, Maintenance 2, Contacts 4, Printing 4 (approximate —
+see `required_missing_latest.json` for the exact current list). By type:
+28 dashboard-chart, 25 number-card, 6 dashboard, 2 doctype (Bank Clearance,
+Pegged Currencies — Single doctypes needing special-page work), 2 page,
+and the remainder (~201) document-action entries.
+
+**Genuinely unbuilt, not yet attempted this session:**
+- **Pick List actions** (reserve/unreserve/reserved-stock/cancel-stock-
+  reservation-entries/create-delivery-note/create-stock-entry/create-dn-
+  for-pick-lists/get-items/update-current-stock) — `create_delivery_note`/
+  `create_stock_entry` were investigated in an earlier session and
+  deliberately not force-fit (see BLOCKERS.md); the rest (reserve/unreserve/
+  reserved-stock) are genuinely new and unexamined this session.
+- **Stock Reconciliation, Stock Entry purpose-specific actions** (transit-
+  entry, disassemble, alternate-item, etc.) — unexamined.
+- **Material Request's 13 required_but_missing actions** (create-pick-list,
+  material-transfer, work-order, subcontracted-purchase-order, etc.) —
+  unexamined; likely a mix of genuine MAPPED_ACTIONS candidates and
+  fetch-into-draft patterns similar to Dunning's `fetch_overdue_payments`.
+- **Buying module**: Request for Quotation and Supplier Quotation's
+  remaining actions (supplier-quotation-comparison, send-emails-to-
+  suppliers, etc.), Landed Cost Voucher, Blanket Order, Drop Shipping,
+  Supplier's ledger/pricing-rule shortcuts — unexamined.
+- **CRM (33), Selling (18)** — entirely unexamined this session.
+- **All 28 dashboard-chart + 25 number-card + 6 dashboard entries** —
+  entirely unexamined; these need real Vue chart/card components reading
+  live ERPNext data (dashboard chart source functions, `Number Card`
+  aggregate queries), a different kind of work than the document-action
+  credits/routing done so far.
+- **Bank Clearance, Pegged Currencies** — Single doctypes, need the
+  special-page pattern (`priority_pages.py::get_special_page`), not the
+  generic list/detail engine.
 
 ## Pass 7-8 — Priority 4: period closing and year-end accounting, complete
 
