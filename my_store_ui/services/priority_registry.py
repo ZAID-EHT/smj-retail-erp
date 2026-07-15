@@ -626,7 +626,7 @@ _GENERATED_REPORT_FILTERS = {
 	'Received Items To Be Billed': ('company', 'posting_date'),
 	'Requested Items To Be Transferred': ('company', 'from_date', 'to_date'),
 	'Requested Items to Order and Receive': ('company', 'from_date', 'item_code', 'to_date'),
-	'Reserved Stock': ('company', 'from_date', 'item_code', 'project', 'status', 'to_date', 'voucher_no', 'warehouse'),
+	'Reserved Stock': ('company', 'from_date', 'item_code', 'project', 'status', 'to_date', 'voucher_no', 'warehouse', 'from_voucher_type', 'from_voucher_no'),
 	'Review': ('company', 'from_date', 'to_date'),
 	'Sales Invoice Trends': ('company', 'from_date', 'to_date'),
 	'Sales Order Trends': ('company', 'from_date', 'to_date'),

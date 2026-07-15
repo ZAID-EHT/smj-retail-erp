@@ -265,6 +265,19 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Batch": {"view_ledger", "recalculate_batch_qty"},
     "Serial No": {"view_ledgers"},
     "Company": {"chart_of_accounts", "cost_centers"},
+    # Pick List stock-reservation controls (universal/api.py). "reserve"/
+    # "unreserve" are the JS button labels calling the exact same
+    # create_stock_reservation_entries/cancel_stock_reservation_entries doc
+    # methods - genuine scanner-noise duplicates, verified against
+    # pick_list.js source. "reserved_stock"/"update_current_stock" are real
+    # new actions (navigation + set_item_locations respectively). Reservation
+    # only ever calls the standard Stock Reservation Entry controller - never
+    # writes Bin or Stock Ledger Entry directly.
+    "Pick List": {
+        "create_stock_reservation_entries", "reserve",
+        "cancel_stock_reservation_entries", "unreserve",
+        "reserved_stock", "update_current_stock",
+    },
     # "journal_entries" is the JS button label; it calls the exact same
     # doc method as "make_jv_entries" (exchange_rate_revaluation.js:
     # frm.events.make_jv -> frm.call({method: "make_jv_entries"})) - genuine

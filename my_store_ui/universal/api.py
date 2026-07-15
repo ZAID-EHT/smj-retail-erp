@@ -578,6 +578,20 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "recalculate_batch_qty", "label": _("Recalculate Batch Qty"), "destructive": False})
 	if doc.doctype == "Serial No" and frappe.has_permission("Stock Ledger Entry", "read"):
 		actions.append({"action": "view_ledgers", "label": _("View Ledgers"), "destructive": False})
+	# Pick List stock-reservation controls (pick_list.js) - real doc-bound
+	# whitelisted methods (Stock Reservation Entry only, no Bin/Stock Ledger
+	# Entry writes; reservation never reduces physical stock). Reproduces the
+	# same enable_stock_reservation gate erpnext's own onload() applies.
+	if doc.doctype == "Pick List" and doc.docstatus == 1 and doc.status != "Completed":
+		if doc.purpose == "Delivery" and doc.status == "Open" and frappe.has_permission("Stock Reservation Entry", "write"):
+			reservation_enabled = bool(frappe.get_cached_value("Stock Settings", None, "enable_stock_reservation"))
+			if reservation_enabled and doc.has_unreserved_stock():
+				actions.append({"action": "create_stock_reservation_entries", "label": _("Reserve"), "destructive": False})
+			if doc.has_reserved_stock():
+				actions.append({"action": "cancel_stock_reservation_entries", "label": _("Unreserve"), "destructive": True})
+				actions.append({"action": "reserved_stock", "label": _("Reserved Stock"), "destructive": False})
+		if frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "update_current_stock", "label": _("Update Current Stock"), "destructive": False})
 	# Company-level shortcuts (company.js) - navigation to the already-routed
 	# Account/Cost Center trees, pre-filtered by this company.
 	if doc.doctype == "Company":
@@ -830,6 +844,18 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "view_ledgers" and doc.doctype == "Serial No":
 		params = urlencode({"item_code": doc.item_code, "serial_no": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('Serial No Ledger')}?{params}"}
+	elif action == "create_stock_reservation_entries" and doc.doctype == "Pick List":
+		doc.create_stock_reservation_entries(notify=True)
+		doc.reload()
+	elif action == "cancel_stock_reservation_entries" and doc.doctype == "Pick List":
+		doc.cancel_stock_reservation_entries(notify=True)
+		doc.reload()
+	elif action == "update_current_stock" and doc.doctype == "Pick List":
+		doc.set_item_locations(save=True)
+		doc.reload()
+	elif action == "reserved_stock" and doc.doctype == "Pick List":
+		params = urlencode({"company": doc.company, "from_voucher_type": "Pick List", "from_voucher_no": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Reserved Stock')}?{params}"}
 	elif action in {"convert_to_group", "convert_to_non_group"} and doc.doctype in {"Account", "Cost Center"}:
 		if action == "convert_to_group":
 			doc.convert_ledger_to_group()
