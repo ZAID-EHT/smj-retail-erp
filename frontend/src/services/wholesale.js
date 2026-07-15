@@ -51,3 +51,32 @@ export const searchReconciliationCompany = (txt, signal) =>
   call("payment_reconciliation_api.search_company", { txt }, { signal });
 export const searchReconciliationParty = (partyType, txt, signal) =>
   call("payment_reconciliation_api.search_party", { party_type: partyType, txt }, { signal });
+
+export const searchBankAccount = (txt, company, signal) =>
+  call("bank_reconciliation_api.search_bank_account", { txt, company }, { signal });
+export const searchBankReconciliationParty = (partyType, txt, signal) =>
+  call("bank_reconciliation_api.search_party", { party_type: partyType, txt }, { signal });
+export const searchAccount = (txt, company, signal) =>
+  call("bank_reconciliation_api.search_account", { txt, company }, { signal });
+export const searchModeOfPayment = (txt, signal) =>
+  call("bank_reconciliation_api.search_mode_of_payment", { txt }, { signal });
+export const getBankReconciliationSummary = (params, signal) =>
+  call("bank_reconciliation_api.get_summary", params, { signal, httpMethod: "POST" });
+export const getBankTransactionMatches = (params, signal) =>
+  call("bank_reconciliation_api.get_matches", params, { signal, httpMethod: "POST" });
+export const updateBankTransactionReference = (params, signal) =>
+  call("bank_reconciliation_api.update_transaction_reference", params, { signal, httpMethod: "POST" });
+export const reconcileBankTransaction = (params, signal) =>
+  call("bank_reconciliation_api.reconcile_transaction", params, { signal, httpMethod: "POST" });
+export const unreconcileBankTransaction = (params, signal) =>
+  call("bank_reconciliation_api.unreconcile_transaction", params, { signal, httpMethod: "POST" });
+export const previewBankPaymentEntry = (params, signal) =>
+  call("bank_reconciliation_api.preview_payment_entry", params, { signal, httpMethod: "POST" });
+export const confirmBankPaymentEntry = (params, signal) =>
+  call("bank_reconciliation_api.confirm_payment_entry", params, { signal, httpMethod: "POST" });
+export const previewBankJournalEntry = (params, signal) =>
+  call("bank_reconciliation_api.preview_journal_entry", params, { signal, httpMethod: "POST" });
+export const confirmBankJournalEntry = (params, signal) =>
+  call("bank_reconciliation_api.confirm_journal_entry", params, { signal, httpMethod: "POST" });
+export const autoReconcileBankTransactions = (params, signal) =>
+  call("bank_reconciliation_api.auto_reconcile", params, { signal, httpMethod: "POST" });

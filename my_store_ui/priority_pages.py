@@ -53,7 +53,13 @@ def get_priority_route_definition(path: str):
 	# read-only "specialised interface" placeholder.
 	if path == "/finance/payment-reconciliation":
 		component = "payment_reconciliation"
-	if component not in {"entity", "tree", "special", "report", "report_hub", "register", "payment_reconciliation"}:
+	# Bank Reconciliation Tool is a dedicated adapter (see
+	# my_store_ui.wholesale.bank_reconciliation_api) reproducing ERPNext's
+	# own Bank Reconciliation Tool controller functions, not the generic
+	# read-only "specialised interface" placeholder.
+	if path == "/finance/bank-reconciliation":
+		component = "bank_reconciliation"
+	if component not in {"entity", "tree", "special", "report", "report_hub", "register", "payment_reconciliation", "bank_reconciliation"}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {
 		"component": component, "mode": definition.get("mode"), "module": definition.get("module"),

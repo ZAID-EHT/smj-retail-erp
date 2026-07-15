@@ -281,8 +281,45 @@ BUILT_ADAPTER_DOCTYPE_NAMES = {
             "without creating test data.",
         ],
     ),
+    "Bank Reconciliation Tool": (
+        "/retail-erp/finance/bank-reconciliation",
+        [
+            "my_store_ui/wholesale/bank_reconciliation_api.py (get_summary/get_matches/"
+            "update_transaction_reference/reconcile_transaction/unreconcile_transaction/"
+            "preview_payment_entry/confirm_payment_entry/preview_journal_entry/"
+            "confirm_journal_entry/auto_reconcile, calling the standard erpnext "
+            "bank_reconciliation_tool controller functions and Bank Transaction."
+            "remove_payment_entries — never a generic method-path RPC)",
+            "frontend/src/pages/priority/BankReconciliationPage.vue",
+            "Source-verified against erpnext's own bank_reconciliation_tool.py and "
+            "bank_reconciliation_tool.js (exact function signatures and the Journal "
+            "Entry Type allowlist matched against the Desk dialog). Read paths "
+            "(get_summary/get_matches) exercise real erpnext functions with no site "
+            "mutation. Write paths (create_payment_entry_bts/create_journal_entry_bts/"
+            "reconcile_vouchers/auto_reconcile_vouchers) were not behaviourally "
+            "exercised — site1 has no unreconciled Bank Transaction to reconcile "
+            "against without creating test data.",
+        ],
+    ),
 }
-BUILT_ADAPTER_ACTIONS = {"allocate", "get_unreconciled_entries", "reconcile"}
+
+# Action keys served by each built adapter, keyed by the document_action's
+# *parent* doctype. A document_action's parent is not always the same as the
+# adapter's own primary doctype - e.g. Bank Transaction's create-bank-entries/
+# unreconcile-transaction actions are served by the Bank Reconciliation Tool
+# adapter, not by a dedicated Bank Transaction adapter.
+BUILT_ADAPTER_ACTIONS_BY_PARENT = {
+    "Payment Reconciliation": {"allocate", "get_unreconciled_entries", "reconcile"},
+    "Bank Reconciliation Tool": {
+        "auto_reconcile", "create_journal_entry_bts", "create_payment_entry_bts", "get_unreconciled_entries",
+    },
+    "Bank Transaction": {"create_bank_entries", "unreconcile_transaction"},
+}
+BUILT_ADAPTER_ACTION_ROUTE = {
+    "Payment Reconciliation": "/retail-erp/finance/payment-reconciliation",
+    "Bank Reconciliation Tool": "/retail-erp/finance/bank-reconciliation",
+    "Bank Transaction": "/retail-erp/finance/bank-reconciliation",
+}
 
 
 NOT_REQUIRED_REPORT_NAMES = {
@@ -408,16 +445,17 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         adapter_route, evidence = BUILT_ADAPTER_DOCTYPE_NAMES[doctype]
         return ("special_adapter", "implemented_unverified", "source_only", list(evidence),
                 f"Dedicated Retail ERP adapter implemented at {adapter_route}.")
-    if ftype == "document_action" and feature.get("parent_feature") in BUILT_ADAPTER_DOCTYPE_NAMES:
+    if ftype == "document_action" and feature.get("parent_feature") in BUILT_ADAPTER_ACTIONS_BY_PARENT:
         action_key = ""
         mapped = feature.get("mapped_actions") or []
         if mapped and isinstance(mapped, list):
             action_key = str(mapped[0].get("action") or "")
-        if action_key in BUILT_ADAPTER_ACTIONS:
-            adapter_route, _evidence = BUILT_ADAPTER_DOCTYPE_NAMES[feature.get("parent_feature")]
+        parent = feature.get("parent_feature")
+        if action_key in BUILT_ADAPTER_ACTIONS_BY_PARENT[parent]:
+            adapter_route = BUILT_ADAPTER_ACTION_ROUTE[parent]
             return ("special_adapter", "implemented_unverified", "source_only",
                     [f"Served by the {adapter_route} adapter"],
-                    "Step of the dedicated Payment Reconciliation adapter flow.")
+                    f"Allowlisted action '{action_key}' on {parent} is served by the dedicated Retail ERP adapter.")
 
     # 1. Any feature carrying a real Retail ERP route is implemented in some form
     # regardless of module/type — evaluate this before internal/priority rules.
