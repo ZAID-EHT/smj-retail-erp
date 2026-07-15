@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "44bd1510fa9a76a02cf979a3e545f394024411e4",
+      "git_commit": "56a71460175676fecee775efa351e4b94520bf8d",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -421,7 +421,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1699
+      "unmapped_user_facing": 1694
     },
     "failures": {
       "complete_without_tests": [],
@@ -735,12 +735,8 @@
         "erpnext:doctype:pos-opening-entry",
         "erpnext:doctype:pos-profile",
         "erpnext:doctype:pos-settings",
-        "erpnext:doctype:process-deferred-accounting",
         "erpnext:doctype:process-payment-reconciliation",
         "erpnext:doctype:process-payment-reconciliation-log",
-        "erpnext:doctype:process-period-closing-voucher",
-        "erpnext:doctype:process-statement-of-accounts",
-        "erpnext:doctype:process-subscription",
         "erpnext:doctype:projects-settings",
         "erpnext:doctype:quick-stock-balance",
         "erpnext:doctype:rename-tool",
@@ -763,7 +759,6 @@
         "erpnext:doctype:telephony-call-type",
         "erpnext:doctype:transaction-deletion-record",
         "erpnext:doctype:uae-vat-settings",
-        "erpnext:doctype:unreconcile-payment",
         "erpnext:doctype:video",
         "erpnext:doctype:video-settings",
         "erpnext:doctype:voice-call-settings",
@@ -183371,12 +183366,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessDeferredAccounting"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-deferred-accounting",
       "customizations": [],
       "delete": true,
       "doctype": "Process Deferred Accounting",
@@ -183624,7 +183619,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -183642,7 +183637,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -184496,12 +184491,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessPeriodClosingVoucher"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-period-closing-voucher",
       "customizations": [],
       "delete": true,
       "doctype": "Process Period Closing Voucher",
@@ -184716,7 +184711,7 @@
         "Accounts Manager",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -184740,7 +184735,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -184793,12 +184788,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessStatementOfAccounts"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-statement-of-accounts",
       "customizations": [],
       "delete": true,
       "doctype": "Process Statement Of Accounts",
@@ -185788,7 +185783,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -185806,7 +185801,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -185823,12 +185818,12 @@
       "child_tables": [],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "ProcessSubscription"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-subscription",
       "customizations": [],
       "delete": true,
       "doctype": "Process Subscription",
@@ -185996,7 +185991,7 @@
         "Accounts User",
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -186014,7 +186009,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -246287,12 +246282,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "UnreconcilePayment"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/unreconcile-payment",
       "customizations": [],
       "delete": true,
       "doctype": "Unreconcile Payment",
@@ -246502,7 +246497,7 @@
         "Accounts Manager",
         "Accounts User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -246520,7 +246515,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -469122,7 +469117,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957",
+  "inventory_fingerprint": "abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

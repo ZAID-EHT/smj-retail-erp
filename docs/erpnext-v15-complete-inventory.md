@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957`
+Inventory fingerprint: `abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4`
 
 ## Coverage summary
 
@@ -690,12 +690,12 @@ Inventory fingerprint: `69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da
 | `erpnext:doctype:price-list` | erpnext | Stock | doctype | Price List | A | Yes | /inventory/price-lists | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:pricing-rule` | erpnext | Accounts | doctype | Pricing Rule | A | Yes | /finance/pricing-rule | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:print-heading` | erpnext | Setup | doctype | Print Heading | E | Yes | /admin/print-heading | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
-| `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | Yes | /finance/process-deferred-accounting | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:process-period-closing-voucher` | erpnext | Accounts | doctype | Process Period Closing Voucher | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:process-period-closing-voucher` | erpnext | Accounts | doctype | Process Period Closing Voucher | A | Yes | /finance/process-period-closing-voucher | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | Yes | /finance/process-statement-of-accounts | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | Yes | /finance/process-subscription | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:product-bundle` | erpnext | Selling | doctype | Product Bundle | A | Yes | /sales/product-bundle | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:production-plan` | erpnext | Manufacturing | doctype | Production Plan | B | Yes | /operations/manufacturing/production-plans | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:project` | erpnext | Projects | doctype | Project | A | Yes | /operations/projects | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
@@ -784,7 +784,7 @@ Inventory fingerprint: `69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da
 | `erpnext:doctype:timesheet` | erpnext | Projects | doctype | Timesheet | A | Yes | /operations/timesheet | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | Yes | /finance/unreconcile-payment | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:uom` | erpnext | Setup | doctype | UOM | E | Yes | /inventory/uoms | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:uom-category` | erpnext | Stock | doctype | UOM Category | A | Yes | /inventory/uom-category | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:uom-conversion-factor` | erpnext | Setup | doctype | UOM Conversion Factor | E | Yes | /inventory/uom-conversion-factor | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |

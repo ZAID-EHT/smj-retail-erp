@@ -1,6 +1,90 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 6, Priority 3 verification)_
+_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 7-8, Priority 4 complete)_
+
+## Pass 7-8 — Priority 4: period closing and year-end accounting, complete
+
+Two sub-batches, both using a technique that turned out to be very high
+leverage for the rest of the mission: **check whether the underlying
+doctype is a regular (non-virtual, non-table, non-single) doctype before
+assuming a dedicated adapter is needed** — if it is, the generic universal
+engine already serves list/detail/form/submit/cancel for free, and only the
+*specific document actions* need real work.
+
+**Sub-batch A — Chart of Accounts + ledger navigation** (commit `56a7146`):
+real document actions on Account, Cost Center, Company, Journal Entry,
+Period Closing Voucher, Warehouse via the existing universal engine's
+action-execution path (`_available_actions`/`run_document_action`), not a
+new adapter:
+- Account: `chart_of_accounts`/`general_ledger` (navigation), `convert_to_group`/
+  `convert_to_non_group` (wrap `convert_ledger_to_group`/`convert_group_to_ledger`),
+  `merge_account` (wraps `erpnext...account.merge_account`),
+  `update_account_name_number` (wraps `erpnext...account.update_account_number`).
+- Cost Center: same convert-to-group pattern + `chart_of_cost_centers`/`budget`
+  navigation + `update_cost_center_name_number` (wraps `erpnext.accounts.utils.update_cost_center`).
+- Company: `chart_of_accounts`/`cost_centers` navigation, company-filtered.
+- Journal Entry/Period Closing Voucher: `ledger` navigation. Deduped
+  `reverse_journal_entry` (confirmed via source it's the same capability as
+  the already-credited `make_reverse_journal_entry`).
+- Warehouse: `general_ledger` navigation via the warehouse's linked account.
+
+**Found and fixed a real bug while wiring the navigation actions:** neither
+`PriorityReportPage.vue` nor `PriorityTreePage.vue` read the URL query
+string at all — a "Ledger"/"Chart of Accounts" click landed on the right
+page but showed an empty, unfiltered form instead of a genuine drill-down.
+Fixed both to read `route.query` (`PriorityReportPage` also auto-runs when a
+query-driven filter is present). Also fixed a `%20`-vs-`+` encoding mismatch:
+Python's `urlencode()` default `quote_plus` produces `+` for spaces, but Vue
+Router's `route.query` parsing uses `decodeURIComponent`, which does not
+decode `+` as space — switched to `quote_via=quote` for these routes.
+
+**Sub-batch B — remaining Priority 4 items** (commit `8c46d8e`): routed 5
+regular tool doctypes through the generic engine (confirmed
+`is_virtual`/`issingle`/`istable` all falsy against the installed schema
+before routing, per the mission's own verification requirement): `Process
+Period Closing Voucher`, `Process Deferred Accounting`, `Process Statement
+Of Accounts`, `Process Subscription`, `Unreconcile Payment`. Added real
+actions: Exchange Rate Revaluation's `make_jv_entries` (gated by its own
+`check_journal_entry_condition()` idempotency check, matching erpnext's own
+Desk button visibility exactly; deduped `journal_entries`), Dunning's
+`resolve`/`payment` (the latter reusing the same doctype-agnostic
+`get_payment_entry()` call already used by Purchase Invoice's
+`make_payment_entry`), Process Period Closing Voucher's
+`start`/`pause`/`resume_pcv_processing` (real background-job controls;
+deduped `cancel_pcv_processing` — read the source and confirmed it is
+erpnext's own `on_cancel()` hook, already triggered by the standard
+`cancel` lifecycle action now that the doctype is routed).
+
+**Important process note found this pass:** adding new `ENTITY_ROUTES`
+entries only changes what the code *would* report; `build_parity_registry()`
+reads from the canonical `docs/erpnext-v15-complete-inventory.json` snapshot,
+which is stale until `generate_complete_inventory()` re-runs. Running
+`generate_corrected_audit()` right after an `ENTITY_ROUTES` change (without
+first regenerating the canonical inventory) undercounts the drop —
+confirmed by watching 295→293 (only the non-route DOCTYPE_SPECIFIC_ACTIONS
+credits) instead of the expected 295→288 until the inventory was
+regenerated. **Rule for future batches: always run
+`generate_complete_inventory` before `generate_corrected_audit` whenever
+`ENTITY_ROUTES`/`REPORT_GROUPS` changed; registry-only changes (
+`DOCTYPE_SPECIFIC_ACTIONS`/`BUILT_ADAPTER_*`) don't need it.**
+
+**Left honestly open** (unavailable_with_reason, not forced): Invoice
+Discounting's loan-disbursement actions (niche trade-finance feature, lower
+priority than Stock/Purchasing for this business), Process Statement Of
+Accounts' `download`/`send_emails` (a file-download response and an email
+send respectively — don't fit the generic action-executor's JSON contract,
+and site1 has zero configured outgoing Email Accounts to test against),
+Unreconcile Payment's `create_unreconcile_doc_for_selection` (a bulk
+list-view action from the Payment Ledger report — the underlying capability
+IS already reachable via Unreconcile Payment's own generic create form, but
+the exact bulk-select UX is genuinely different, same "don't force-fit a
+different UX pattern" reasoning as Pick List's create_delivery_note in an
+earlier pass).
+
+`required_but_missing`: 312 → **285** across both sub-batches (293→285 net
+of the -2/-5 inventory-regen split noted above). Registry tests 7/7 pass
+throughout, route verifier climbed 196→201 served (the 5 new doctypes),
+`npm run build` passes.
 
 ## Pass 6 — Priority 3: Budget and accounting setup — verification, no new code needed
 

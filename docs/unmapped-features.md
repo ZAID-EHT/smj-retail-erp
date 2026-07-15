@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1699**.
+Total user-facing features without a registered custom route: **1694**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -312,12 +312,8 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:pos-opening-entry` | erpnext | Accounts | doctype | POS Opening Entry | A | /app/pos-opening-entry | Required for ordinary-user parity |
 | `erpnext:doctype:pos-profile` | erpnext | Accounts | doctype | POS Profile | A | /app/pos-profile | Required for ordinary-user parity |
 | `erpnext:doctype:pos-settings` | erpnext | Accounts | doctype | POS Settings | A | /app/pos-settings | Required for ordinary-user parity |
-| `erpnext:doctype:process-deferred-accounting` | erpnext | Accounts | doctype | Process Deferred Accounting | A | /app/process-deferred-accounting | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation` | erpnext | Accounts | doctype | Process Payment Reconciliation | A | /app/process-payment-reconciliation | Required for ordinary-user parity |
 | `erpnext:doctype:process-payment-reconciliation-log` | erpnext | Accounts | doctype | Process Payment Reconciliation Log | A | /app/process-payment-reconciliation-log | Required for ordinary-user parity |
-| `erpnext:doctype:process-period-closing-voucher` | erpnext | Accounts | doctype | Process Period Closing Voucher | A | /app/process-period-closing-voucher | Required for ordinary-user parity |
-| `erpnext:doctype:process-statement-of-accounts` | erpnext | Accounts | doctype | Process Statement Of Accounts | A | /app/process-statement-of-accounts | Required for ordinary-user parity |
-| `erpnext:doctype:process-subscription` | erpnext | Accounts | doctype | Process Subscription | A | /app/process-subscription | Required for ordinary-user parity |
 | `erpnext:doctype:projects-settings` | erpnext | Projects | doctype | Projects Settings | A | /app/projects-settings | Required for ordinary-user parity |
 | `erpnext:doctype:quick-stock-balance` | erpnext | Stock | doctype | Quick Stock Balance | A | /app/quick-stock-balance | Required for ordinary-user parity |
 | `erpnext:doctype:rename-tool` | erpnext | Utilities | doctype | Rename Tool | A | /app/rename-tool | Required for ordinary-user parity |
@@ -340,7 +336,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:telephony-call-type` | erpnext | Telephony | doctype | Telephony Call Type | A | /app/telephony-call-type | Required for ordinary-user parity |
 | `erpnext:doctype:transaction-deletion-record` | erpnext | Setup | doctype | Transaction Deletion Record | E | /app/transaction-deletion-record | Required for ordinary-user parity |
 | `erpnext:doctype:uae-vat-settings` | erpnext | Regional | doctype | UAE VAT Settings | A | /app/uae-vat-settings | Required for ordinary-user parity |
-| `erpnext:doctype:unreconcile-payment` | erpnext | Accounts | doctype | Unreconcile Payment | A | /app/unreconcile-payment | Required for ordinary-user parity |
 | `erpnext:doctype:video` | erpnext | Utilities | doctype | Video | A | /app/video | Required for ordinary-user parity |
 | `erpnext:doctype:video-settings` | erpnext | Utilities | doctype | Video Settings | A | /app/video-settings | Required for ordinary-user parity |
 | `erpnext:doctype:voice-call-settings` | erpnext | Telephony | doctype | Voice Call Settings | A | /app/voice-call-settings | Required for ordinary-user parity |

@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-15 13:55",
+  "captured_at": "2026-07-15 19:10",
   "site": "site1.local",
   "schema_version": 1,
   "source": "docs/erpnext-v15-complete-inventory.json",
-  "inventory_fingerprint": "69a2005dafbfe3f71691fd5c37d2b26739ef6f24e0c983c077d777da80be5957",
+  "inventory_fingerprint": "abc8d8130154fd6f75da36ff342915eb2d9050f53c7233de1052f56245395cc4",
   "counts": {
     "active_workflows": 0,
     "child_doctypes": 335,
@@ -12853,11 +12853,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-deferred-accounting",
       "standard_desk_route": "/app/process-deferred-accounting",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -12910,11 +12910,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-period-closing-voucher",
       "standard_desk_route": "/app/process-period-closing-voucher",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -12929,11 +12929,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-statement-of-accounts",
       "standard_desk_route": "/app/process-statement-of-accounts",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -12948,11 +12948,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/process-subscription",
       "standard_desk_route": "/app/process-subscription",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {
@@ -14639,11 +14639,11 @@
       "parent_feature": null,
       "classification": "A",
       "user_facing": true,
-      "current_custom_route": null,
+      "current_custom_route": "/finance/unreconcile-payment",
       "standard_desk_route": "/app/unreconcile-payment",
-      "completion_status": "Not implemented",
-      "test_status": "Not tested",
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
+      "test_status": "Priority route, permission and adapter regression tests",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "exclusion_reason": null
     },
     {

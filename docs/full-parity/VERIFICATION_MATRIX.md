@@ -4,6 +4,18 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
+## FINISH ACCOUNTING FIRST (2026-07-15, passes 7-8 — Priority 4 period closing)
+
+| Item | Level | Evidence |
+|---|---|---|
+| Account/Cost Center/Company/Journal Entry/Period Closing Voucher/Warehouse actions appear correctly | behavioural (server) | `_available_actions` called directly against real Account, Cost Center, Company records on site1 - exact expected action lists returned |
+| Navigation routes resolve with correct percent-encoding | behavioural (server, bug found+fixed) | `run_document_action("account", ..., "general_ledger")` first returned `+`-encoded values (broken for `route.query`), reproduced then fixed to `%20` via `quote_via=quote` |
+| PriorityReportPage.vue / PriorityTreePage.vue query-string bug | behavioural (source, bug found+fixed) | Neither component read `route.query` at all - confirmed by reading the full script blocks; fixed and rebuilt |
+| 5 new Process-tool doctype routes | behavioural (server) | `route_coverage.verify_generated_routes` 196→201 served, 0 failed; each doctype's `is_virtual`/`issingle`/`istable` checked false against the installed schema before routing |
+| Exchange Rate Revaluation/Dunning/Process Period Closing Voucher write actions | source_only | No submitted Exchange Rate Revaluation, Dunning, or Process Period Closing Voucher records exist on site1 - actions are source-verified (signatures matched, idempotency checks reproduced) but not behaviourally exercised |
+| Registry tests / route verifier / npm build | behavioural | 7/7 pass; 201 served / 0 failed; build passes across both sub-batches |
+| `generate_complete_inventory` re-run after route additions | behavioural (server) | fingerprint changed `69a2005d...`→`abc8d813...`, route-based `unmapped_user_facing` 1699→1694 (-5, matching the 5 new routes exactly) |
+
 ## FINISH ACCOUNTING FIRST (2026-07-15, pass 5 — financial report drill-down fixes)
 
 | Item | Level | Evidence |

@@ -121,6 +121,52 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D17. Route additions require re-running generate_complete_inventory before generate_corrected_audit
+
+`build_parity_registry()` reads the canonical `docs/erpnext-v15-complete-
+inventory.json` snapshot, not a live site query. Adding a new `ENTITY_ROUTES`/
+`REPORT_GROUPS` entry changes what the Python code *would* report for
+`current_custom_route`, but the corrected audit undercounts the drop until
+`generate_complete_inventory()` re-runs and refreshes that snapshot -
+observed directly in pass 8 (295→293 instead of the expected 295→288 until
+the inventory was regenerated). Registry-only changes (`DOCTYPE_SPECIFIC_
+ACTIONS`, `BUILT_ADAPTER_*`) don't need this since they only affect
+classification of already-present inventory rows, not `current_custom_route`
+itself. Rule: always regenerate the canonical inventory first whenever a
+batch touched `ENTITY_ROUTES`/`REPORT_GROUPS`.
+
+## D18. A regular, non-virtual, non-table, non-single doctype never needs a bespoke adapter
+
+Passes 7-8 routed 5 more "Process *"/"Unreconcile Payment" tool doctypes by
+checking their `is_virtual`/`issingle`/`istable` flags against the installed
+schema first (all falsy) and simply adding them to `ENTITY_ROUTES` -
+identical to how the ~141 other generic doctypes were routed in earlier
+batches. This is the same rule Bank Reconciliation Tool's own build (pass 4)
+established in the opposite direction: `Bank Reconciliation Tool`'s
+`Document` subclass body is literally `pass` (genuinely virtual), which is
+*why* it needed a dedicated adapter instead of a route. Checking this flag
+first is now the standing rule before spending adapter-building effort on
+any remaining "doctype" required_but_missing entry.
+
+## D19. Pure navigation actions (no document created or changed) are real, creditable work - if actually wired
+
+A JS button that only calls `frappe.set_route(...)` with prefilled
+`frappe.route_options` (Account's "General Ledger", Journal Entry's
+"Ledger", Company's "Chart of Accounts", etc.) creates or changes nothing -
+it is real functionality (a working drill-down), and the existing
+`run_document_action` response contract already supports it for free
+(returning `{"route": "..."}` triggers `router.push` in
+`UniversalDetailPage.vue`'s existing `act()` handler, no frontend action-menu
+changes needed). The catch, found while implementing this: it is *not*
+free if the destination page ignores its own query string (see D17's
+sibling bug fixed the same pass in `PriorityReportPage.vue`/
+`PriorityTreePage.vue`). Crediting a navigation action as `implemented_
+unverified` without verifying the destination actually consumes the passed
+filters would have been exactly the kind of "route exists but doesn't do
+what's claimed" gap the mission explicitly forbids - always click through
+the whole chain (action → route → destination reads the filter), not just
+confirm the route resolves.
+
 ## D15. "generated_provisional" reports can still hide real functional bugs
 
 Pass 5 found that `Accounts Receivable`/`Accounts Payable` (`posting_date`
