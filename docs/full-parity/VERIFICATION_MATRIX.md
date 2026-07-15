@@ -4,6 +4,18 @@ Verification levels: **behavioural** (driven end-to-end with evidence),
 **source_only** (code exists, read/reviewed), **route_only** (a route resolves),
 **none**. Nothing reaches `verified_complete` without behavioural evidence.
 
+## FINISH ACCOUNTING FIRST (2026-07-15, pass 5 — financial report drill-down fixes)
+
+| Item | Level | Evidence |
+|---|---|---|
+| AR/AP `report_date` fieldname bug | behavioural (source + server) | Confirmed real fieldname via `accounts_receivable.js`/`accounts_payable.js`; re-ran both reports live against site1 with `report_date` filter, returned results without error |
+| Customer Ledger Summary `party` fieldname bug | behavioural (source + server) | Confirmed via `customer_ledger_summary.js`; re-ran live with `party` filter |
+| MultiSelectList JSON-vs-list bug | behavioural (server, reproduced then fixed) | First attempt (`frappe.as_json([value])`) reproduced the exact `ValidationError: Cost Center: ["SMJ (Demo) - Carpets toD"] does not exist` against real site1 data; root-caused via `erpnext.accounts.report.financial_statements.get_cost_centers_with_children` source; fixed to a real list, re-verified clean run (75 rows) |
+| General Ledger with cost_center + party filters | behavioural (server) | 75 rows (cost_center), 14 rows (party=`Palmer Productions Ltd.`), 116 rows (no filter) — all against real site1 data |
+| Accounts Receivable / Trial Balance / P&L / Balance Sheet / Cash Flow / Supplier Ledger Summary | behavioural (server) | Each executed successfully against real site1 data with the new filter sets |
+| `route_coverage.verify_generated_reports` / `verify_generated_routes` | behavioural (server) | served=183/failed=0, served=196/failed=0 — unchanged, confirms no report route regressed |
+| Registry tests / `npm run build` | behavioural | 7/7 pass; build passes (backend-only change, frontend unaffected since `PriorityReportPage.vue` renders filters generically) |
+
 ## FINISH ACCOUNTING FIRST (2026-07-15, pass 4 — Bank Reconciliation Tool)
 
 | Item | Level | Evidence |

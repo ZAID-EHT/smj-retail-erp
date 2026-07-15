@@ -121,6 +121,38 @@ module priority was necessary as a result — see the bug found and fixed in
 commit 921448e (first version wrongly counted 846 "gaps" that included
 doctypes already correctly marked `internal`).
 
+## D15. "generated_provisional" reports can still hide real functional bugs
+
+Pass 5 found that `Accounts Receivable`/`Accounts Payable` (`posting_date`
+vs the real `report_date` fieldname) and `Customer Ledger Summary`
+(`customer` vs the real `party` fieldname) had wrong filter keys — the date/
+party filter was silently dropped by ERPNext rather than erroring, so the
+report still "ran" and looked implemented. This is why `required_but_missing`
+staying flat at 312 after pass 5 doesn't mean nothing happened: the registry
+metric tracks whether a route+strategy exists, not whether every filter on
+an already-routed report actually works. Established a rule for finishing
+the remaining report drill-down work: read the real `<report>.js` filter
+array (or the shared `financial_statements.js` for P&L/Balance Sheet/Cash
+Flow) before trusting an existing `REPORT_FILTERS` entry, even for reports
+already marked implemented.
+
+## D16. MultiSelectList report filters need a real Python list, not JSON text
+
+Reports whose Desk filter widget is `MultiSelectList` (General Ledger's
+account/project/cost_center/party, Trial Balance/P&L/Balance Sheet/Cash
+Flow's cost_center/project, AR/AP's party/cost_center/project) are read
+server-side as an actual Python `list`, not a JSON-encoded string — some
+call `frappe.parse_json()` on it defensively (harmless no-op when already a
+list), but `erpnext.accounts.report.financial_statements.
+get_cost_centers_with_children` explicitly does `isinstance(x, list)` and,
+if false, treats the whole value as one comma-separated string. Passing
+`frappe.as_json([value])` (a JSON string) through this path produced a
+garbled "Cost Center: [\n \"...\"\n] does not exist" error — reproduced
+against real site1 data before the fix. `MULTISELECT_REPORT_FILTER_FIELDS`
+in `priority_pages.py` now wraps a single chosen value into a real one-item
+list (`[value]`), matching what the Desk client's own array value looks like
+after Frappe's request-layer JSON decoding.
+
 ## D13. A built adapter can credit document actions whose parent isn't its own doctype
 
 `Bank Reconciliation Tool` (pass 4) serves two of `Bank Transaction`'s document

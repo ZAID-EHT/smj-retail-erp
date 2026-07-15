@@ -1,6 +1,70 @@
 # Full Feature Parity — Progress
 
-_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 4, Bank Reconciliation Tool adapter)_
+_Last updated: 2026-07-15 (batch: FINISH ACCOUNTING FIRST — pass 5, financial report drill-down fixes)_
+
+## Pass 5 — Priority 2: financial report drill-down verification + real bug fixes
+
+Checked the mission's Priority 2 list (GL, Trial Balance, P&L, Balance
+Sheet, Cash Flow, Accounts Receivable, Accounts Payable, Customer Ledger,
+Supplier Ledger, Payment Ledger, Bank Book, Cash Book) against the existing
+registry rather than assuming it needed new adapters — all nine real reports
+were **already routed and `generated_provisional`** from an earlier "+156
+generated reports" batch (`_GENERATED_REPORT_GROUPS` in
+`priority_registry.py`), so none of them appear in `required_but_missing`.
+"Bank Book" and "Cash Book" are not installed ERPNext reports at all (v15
+does not ship them as standalone reports — verified via `frappe.db.exists`);
+they are legitimately achieved through General Ledger filtered by a
+bank/cash account, not a fake route.
+
+Reading the real filter definitions (`erpnext/accounts/report/<name>/<name>.js`
+and the shared `erpnext/public/js/financial_statements.js` used by P&L/
+Balance Sheet/Cash Flow) instead of trusting the existing `REPORT_FILTERS`
+entries found **two real, pre-existing bugs** and one real gap:
+
+1. **Bug:** `Accounts Receivable`/`Accounts Payable` used filter key
+   `"posting_date"`, but the report's actual Python filter reads
+   `report_date` — the date filter was silently ignored by
+   `frappe.desk.query_report.run` (default date used instead).
+2. **Bug:** `Customer Ledger Summary` used filter key `"customer"`, but the
+   report reads `party` — same silent-ignore bug.
+3. **Gap:** none of GL/TB/P&L/Balance Sheet/Cash Flow/AR/AP had `cost_center`,
+   `finance_book`, `project`, or `presentation_currency` filters at all,
+   despite the mission explicitly asking for Cost Center/Accounting
+   Dimension/Finance Book/Currency filtering.
+
+Fixed both bugs and closed the gap: extended `REPORT_FILTERS` for all nine
+reports with their real filter fieldnames, extended `_filter_definition`/
+`REPORT_LINK_DOCTYPES` in `priority_pages.py` with the new Link fields
+(Cost Center, Project, Finance Book, Currency, Customer/Supplier Group,
+Territory, Sales Partner/Person, Payment Terms Template) and the
+`filter_based_on` Select (exact `["Fiscal Year", "Date Range"]` options
+matched against `financial_statements.js`).
+
+**Found and fixed a third, deeper bug while verifying behaviourally against
+site1:** General Ledger, Trial Balance, the financial-statements reports and
+AR/AP all read `cost_center`/`project`/`party`/`account` as a **native Python
+list** (the Desk client's MultiSelectList value survives outer JSON decoding
+as a list; `erpnext.accounts.report.financial_statements.
+get_cost_centers_with_children` explicitly checks `isinstance(x, list)` and
+falls back to splitting on commas otherwise). The first fix attempt
+JSON-encoded a single value as a string (`frappe.as_json([value])`), which
+`get_cost_centers_with_children`'s comma-split fallback mangled into one
+garbled "cost center" containing the literal JSON brackets — confirmed by
+reproducing the exact `ValidationError` against real site1 data, then
+corrected to pass a real one-item Python list instead.
+
+Verified behaviourally against real site1 data: General Ledger (75/116/14
+rows across cost_center/no-filter/party filter variants), Accounts
+Receivable, Trial Balance, Profit and Loss Statement, Balance Sheet, Cash
+Flow and Supplier Ledger Summary all ran successfully with the new filters,
+including a real Cost Center (`SMJ (Demo) - Carpets toD`) and a real
+Customer (`Palmer Productions Ltd.`) filter value. `route_coverage.
+verify_generated_reports` and `verify_generated_routes` both still 0
+failures, registry tests 7/7 pass, `npm run build` passes.
+`required_but_missing` unchanged at **312** — this was a correctness fix to
+already-"implemented" reports, not new routing (their status was already
+`generated_provisional`, which is why the report drill-down filters not
+actually working was a real, hidden gap the raw metric couldn't see).
 
 ## Pass 4 — real new feature: Bank Reconciliation Tool adapter (Batch 10 continued)
 
