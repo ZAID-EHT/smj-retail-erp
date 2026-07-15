@@ -541,6 +541,11 @@ def _available_actions(meta, doc) -> list[dict]:
 				actions.append({"action": "make_in_transit_stock_entry", "label": _("Create In-Transit Stock Entry"), "destructive": False, "mapping_target": "Stock Entry", "requires_parameters": ["in_transit_warehouse"]})
 	if doc.doctype == "Stock Entry" and doc.docstatus == 1 and doc.add_to_transit and doc.purpose == "Material Transfer" and flt(doc.per_transferred) < 100 and frappe.has_permission("Stock Entry", "create"):
 		actions.append({"action": "make_stock_in_entry", "label": _("End Transit"), "destructive": False, "mapping_target": "Stock Entry"})
+	# Request for Quotation tools (request_for_quotation.js).
+	if doc.doctype == "Request for Quotation" and doc.docstatus == 1:
+		actions.append({"action": "supplier_quotation_comparison", "label": _("Supplier Quotation Comparison"), "destructive": False})
+		if frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "send_emails_to_suppliers", "label": _("Send Emails to Suppliers"), "destructive": False})
 	if doc.doctype == "Purchase Order" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
 		if doc.status == "On Hold":
 			actions.append({"action": "resume", "label": _("Resume"), "destructive": False})
@@ -878,6 +883,15 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		return {"route": f"/retail-erp/reports/view/{quote('Stock Ledger')}?{params}"}
 	elif action == "recalculate_batch_qty" and doc.doctype == "Batch":
 		doc.recalculate_batch_qty()
+		doc.reload()
+	elif action == "supplier_quotation_comparison" and doc.doctype == "Request for Quotation":
+		params = urlencode({"company": doc.company, "from_date": str(doc.transaction_date), "to_date": getdate().isoformat(), "request_for_quotation": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Supplier Quotation Comparison')}?{params}"}
+	elif action == "send_emails_to_suppliers" and doc.doctype == "Request for Quotation":
+		if not frappe.has_permission("Supplier", "read"):
+			frappe.throw(_("Not permitted."), frappe.PermissionError)
+		from erpnext.buying.doctype.request_for_quotation.request_for_quotation import send_supplier_emails
+		send_supplier_emails(doc.name)
 		doc.reload()
 	elif action == "view_ledgers" and doc.doctype == "Serial No":
 		params = urlencode({"item_code": doc.item_code, "serial_no": doc.name}, quote_via=quote)

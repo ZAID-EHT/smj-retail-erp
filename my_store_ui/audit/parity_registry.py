@@ -252,7 +252,17 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     },
     "Lead": {"make_opportunity", "make_customer"},
     "Quotation": {"make_sales_order", "make_sales_invoice"},
-    "Request for Quotation": {"make_supplier_quotation"},
+    # Bug fix: the internal action key "make_supplier_quotation" chosen for
+    # this MAPPED_ACTIONS entry never matched either real scanner-detected
+    # key for RFQ's "Supplier Quotation" button - the button label scrubs to
+    # "supplier_quotation" and the server method is "make_supplier_quotation_
+    # from_rfq" (request_for_quotation.js/.py) - so this credit was silently
+    # inert until now. supplier_quotation_comparison/send_emails_to_suppliers
+    # are real new actions (universal/api.py).
+    "Request for Quotation": {
+        "make_supplier_quotation", "supplier_quotation", "make_supplier_quotation_from_rfq",
+        "supplier_quotation_comparison", "send_emails_to_suppliers",
+    },
     "Supplier Quotation": {"make_purchase_order"},
     # "debit_note" (JS label, shown only when is_return=1) calls the exact
     # same erpnext...purchase_receipt.make_purchase_invoice as make_purchase_invoice;

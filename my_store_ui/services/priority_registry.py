@@ -656,7 +656,7 @@ _GENERATED_REPORT_FILTERS = {
 	'Subcontract Order Summary': ('company', 'from_date', 'to_date'),
 	'Subcontracted Item To Be Received': ('from_date', 'supplier', 'to_date'),
 	'Subcontracted Raw Materials To Be Transferred': ('from_date', 'supplier', 'to_date'),
-	'Supplier Quotation Comparison': ('company', 'from_date', 'item_code', 'supplier', 'to_date'),
+	'Supplier Quotation Comparison': ('company', 'from_date', 'item_code', 'supplier', 'to_date', 'request_for_quotation'),
 	'Supplier-Wise Sales Analytics': ('from_date', 'supplier', 'to_date'),
 	'Support Hour Distribution': ('from_date', 'to_date'),
 	'TDS Computation Summary': ('company', 'from_date', 'party', 'party_type', 'to_date'),
