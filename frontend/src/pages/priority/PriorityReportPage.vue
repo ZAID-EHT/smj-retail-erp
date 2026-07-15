@@ -1,11 +1,13 @@
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { getPriorityReportDefinition, runPriorityReport } from "@/services/priority.js";
 import { formatUniversalValue } from "@/utils/universalFormat.js";
 
 const props = defineProps({ reportName: { type: String, required: true } });
+const route = useRoute();
 const definition = ref(null);
 const result = ref(null);
 const filters = reactive({});
@@ -28,6 +30,15 @@ async function load() {
     definition.value = await getPriorityReportDefinition(props.reportName, controller.signal);
     Object.keys(filters).forEach((key) => delete filters[key]);
     for (const field of definition.value.filters) if (field.default != null) filters[field.fieldname] = field.default;
+    // Drill-down links (e.g. an Account/Journal Entry's "Ledger" action) pass
+    // prefilled filters via the URL query string - apply any that match a
+    // real filter field for this report, then auto-run for a one-click view.
+    let hasQueryFilter = false;
+    for (const field of definition.value.filters) {
+      const value = route.query[field.fieldname];
+      if (value != null && value !== "") { filters[field.fieldname] = value; hasQueryFilter = true; }
+    }
+    if (hasQueryFilter) await run();
   } catch (caught) { if (caught.name !== "AbortError") error.value = caught; }
 }
 async function run() {

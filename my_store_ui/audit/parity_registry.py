@@ -226,7 +226,19 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Supplier Quotation": {"make_purchase_order"},
     "Purchase Receipt": {"make_purchase_invoice", "make_purchase_return", "make_lcv"},
     "Purchase Invoice": {"make_payment_entry", "make_debit_note"},
-    "Journal Entry": {"make_reverse_journal_entry"},
+    # "reverse_journal_entry" is the JS button handler name (journal_entry.js);
+    # it calls the exact same server method as "make_reverse_journal_entry"
+    # (journal_entry.py) - genuine scanner-noise duplicate, verified against
+    # source before aliasing (see DECISIONS.md).
+    "Journal Entry": {"make_reverse_journal_entry", "reverse_journal_entry", "ledger"},
+    # Chart of Accounts / Cost Center admin actions and ledger-navigation
+    # shortcuts (universal/api.py _available_actions / run_document_action) -
+    # real erpnext controller methods, matched by exact scanner action key.
+    "Account": {"chart_of_accounts", "general_ledger", "convert_to_group", "convert_to_non_group", "merge_account", "update_account_name_number"},
+    "Cost Center": {"chart_of_cost_centers", "budget", "convert_to_group", "convert_to_non_group", "update_cost_center_name_number"},
+    "Period Closing Voucher": {"ledger"},
+    "Warehouse": {"general_ledger"},
+    "Company": {"chart_of_accounts", "cost_centers"},
 }
 
 

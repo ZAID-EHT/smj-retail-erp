@@ -528,6 +528,46 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "make_opportunity", "label": _("Create Opportunity"), "destructive": False, "mapping_target": "Opportunity"})
 	if doc.doctype == "Opportunity" and frappe.has_permission("Customer", "create"):
 		actions.append({"action": "make_customer", "label": _("Create Customer"), "destructive": False, "mapping_target": "Customer"})
+	# Chart of Accounts admin actions (account.js) - real erpnext controller
+	# methods, matched by exact scanner action key.
+	if doc.doctype == "Account":
+		actions.append({"action": "chart_of_accounts", "label": _("Chart of Accounts"), "destructive": False})
+		if not cint(doc.is_group) and frappe.has_permission("GL Entry", "read"):
+			actions.append({"action": "general_ledger", "label": _("General Ledger"), "destructive": False})
+		if frappe.has_permission(meta.name, "write", doc=doc) and doc.parent_account:
+			if cint(doc.is_group):
+				actions.append({"action": "convert_to_non_group", "label": _("Convert to Non-Group"), "destructive": False})
+			else:
+				actions.append({"action": "convert_to_group", "label": _("Convert to Group"), "destructive": False})
+			actions.append({"action": "merge_account", "label": _("Merge Account"), "destructive": True, "requires_parameters": ["new_account"]})
+			actions.append({"action": "update_account_name_number", "label": _("Update Account Name / Number"), "destructive": False, "requires_parameters": ["account_name", "account_number"]})
+	if doc.doctype == "Cost Center":
+		actions.append({"action": "chart_of_cost_centers", "label": _("Chart of Cost Centers"), "destructive": False})
+		if frappe.has_permission("Budget", "read"):
+			actions.append({"action": "budget", "label": _("Budget"), "destructive": False})
+		if frappe.has_permission(meta.name, "write", doc=doc):
+			if cint(doc.is_group):
+				actions.append({"action": "convert_to_non_group", "label": _("Convert to Non-Group"), "destructive": False})
+			else:
+				actions.append({"action": "convert_to_group", "label": _("Convert to Group"), "destructive": False})
+			actions.append({"action": "update_cost_center_name_number", "label": _("Update Cost Center Name / Number"), "destructive": False, "requires_parameters": ["cost_center_name", "cost_center_number"]})
+	# Ledger navigation shortcuts (journal_entry.js / period_closing_voucher.js /
+	# warehouse.js) - pure navigation to the already-routed General Ledger
+	# report with prefilled filters; no document is created or changed.
+	if doc.doctype == "Journal Entry" and doc.docstatus > 0 and frappe.has_permission("GL Entry", "read"):
+		actions.append({"action": "ledger", "label": _("Ledger"), "destructive": False})
+	if doc.doctype == "Period Closing Voucher" and doc.docstatus > 0 and frappe.has_permission("GL Entry", "read"):
+		actions.append({"action": "ledger", "label": _("Ledger"), "destructive": False})
+	if doc.doctype == "Warehouse" and not cint(doc.is_group) and frappe.has_permission("GL Entry", "read"):
+		if frappe.db.exists("Account", {"warehouse": doc.name, "company": doc.company}):
+			actions.append({"action": "general_ledger", "label": _("General Ledger"), "destructive": False})
+	# Company-level shortcuts (company.js) - navigation to the already-routed
+	# Account/Cost Center trees, pre-filtered by this company.
+	if doc.doctype == "Company":
+		if frappe.has_permission("Cost Center", "read"):
+			actions.append({"action": "cost_centers", "label": _("Cost Centers"), "destructive": False})
+		if frappe.has_permission("Account", "read"):
+			actions.append({"action": "chart_of_accounts", "label": _("Chart of Accounts"), "destructive": False})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
@@ -704,6 +744,63 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		target = make_customer(doc.name)
 		target.insert()
 		return {"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus, "modified": target.modified, "route": f"/sales/customers/{quote(target.name, safe='')}"}
+	elif action == "chart_of_accounts" and doc.doctype == "Account":
+		return {"route": "/retail-erp/finance/chart-of-accounts"}
+	elif action == "chart_of_cost_centers" and doc.doctype == "Cost Center":
+		return {"route": "/retail-erp/finance/cost-centers"}
+	elif action == "budget" and doc.doctype == "Cost Center":
+		return {"route": "/retail-erp/finance/budget"}
+	elif action == "chart_of_accounts" and doc.doctype == "Company":
+		return {"route": f"/retail-erp/finance/chart-of-accounts?{urlencode({'company': doc.name}, quote_via=quote)}"}
+	elif action == "cost_centers" and doc.doctype == "Company":
+		return {"route": f"/retail-erp/finance/cost-centers?{urlencode({'company': doc.name}, quote_via=quote)}"}
+	elif action == "general_ledger" and doc.doctype in {"Account", "Warehouse"}:
+		account = doc.name if doc.doctype == "Account" else frappe.db.get_value("Account", {"warehouse": doc.name, "company": doc.company}, "name")
+		if not account:
+			frappe.throw(_("No linked account found for General Ledger."), frappe.ValidationError)
+		fiscal_year = frappe.defaults.get_user_default("fiscal_year") or frappe.defaults.get_global_default("fiscal_year")
+		fiscal_year_dates = frappe.db.get_value("Fiscal Year", fiscal_year, ["year_start_date", "year_end_date"]) if fiscal_year else None
+		from_date, to_date = fiscal_year_dates or (None, None)
+		# quote_via=quote (not the default quote_plus) so the frontend's
+		# route.query (decodeURIComponent-based, does not decode "+" as
+		# space) reads these values back correctly.
+		params = urlencode({k: v for k, v in {"account": account, "company": doc.company, "from_date": from_date, "to_date": to_date}.items() if v}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action == "ledger" and doc.doctype == "Journal Entry":
+		params = urlencode({"voucher_no": doc.name, "company": doc.company, "from_date": str(doc.posting_date), "to_date": getdate().isoformat()}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action == "ledger" and doc.doctype == "Period Closing Voucher":
+		params = urlencode({"voucher_no": doc.name, "company": doc.company, "from_date": str(doc.period_start_date), "to_date": str(doc.period_end_date)}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action in {"convert_to_group", "convert_to_non_group"} and doc.doctype in {"Account", "Cost Center"}:
+		if action == "convert_to_group":
+			doc.convert_ledger_to_group()
+		else:
+			doc.convert_group_to_ledger()
+		doc.reload()
+	elif action == "merge_account" and doc.doctype == "Account":
+		new_account = str(parameters.get("new_account") or "").strip()
+		if not new_account or not frappe.db.exists("Account", new_account) or not frappe.has_permission("Account", "write", doc=new_account):
+			frappe.throw(_("A valid target account is required."), frappe.ValidationError)
+		from erpnext.accounts.doctype.account.account import merge_account
+		new_name = merge_account(doc.name, new_account) or new_account
+		return {"name": new_name, "route": _record_route(record, new_name)}
+	elif action == "update_account_name_number" and doc.doctype == "Account":
+		account_name = str(parameters.get("account_name") or "").strip()
+		account_number = str(parameters.get("account_number") or "").strip()
+		if not account_name:
+			frappe.throw(_("Account name is required."), frappe.ValidationError)
+		from erpnext.accounts.doctype.account.account import update_account_number
+		new_name = update_account_number(doc.name, account_name, account_number) or doc.name
+		return {"name": new_name, "route": _record_route(record, new_name)}
+	elif action == "update_cost_center_name_number" and doc.doctype == "Cost Center":
+		cc_name = str(parameters.get("cost_center_name") or "").strip()
+		cc_number = str(parameters.get("cost_center_number") or "").strip()
+		if not cc_name:
+			frappe.throw(_("Cost center name is required."), frappe.ValidationError)
+		from erpnext.accounts.utils import update_cost_center
+		new_name = update_cost_center(doc.name, cc_name, cc_number, doc.company, 0) or doc.name
+		return {"name": new_name, "route": _record_route(record, new_name)}
 	elif action in MAPPED_ACTIONS.get(doc.doctype, {}):
 		return _run_mapped_action(doc, action, parameters)
 	return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": _record_route(record, doc.name)}
