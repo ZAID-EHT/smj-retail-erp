@@ -290,25 +290,39 @@ REPORT_GROUPS = {
 REPORT_FILTERS = {
 	"Sales Register": ("company", "from_date", "to_date", "customer"),
 	"Sales Order Analysis": ("company", "from_date", "to_date", "customer"),
-	"Customer Ledger Summary": ("company", "from_date", "to_date", "customer"),
+	# "party" (not "customer") is the real filter fieldname on this report
+	# (erpnext/accounts/report/customer_ledger_summary/customer_ledger_summary.js);
+	# fixed a pre-existing mismatch that meant the customer filter was silently
+	# ignored by frappe.desk.query_report.run.
+	"Customer Ledger Summary": ("company", "from_date", "to_date", "finance_book", "party", "customer_group", "payment_terms_template"),
 	"Item-wise Sales Register": ("company", "from_date", "to_date", "item_code"),
 	"Sales Analytics": ("company", "from_date", "to_date"),
 	"Purchase Register": ("company", "from_date", "to_date", "supplier"),
 	"Purchase Order Analysis": ("company", "from_date", "to_date", "supplier"),
-	"Supplier Ledger Summary": ("company", "from_date", "to_date", "supplier"),
 	"Item-wise Purchase Register": ("company", "from_date", "to_date", "item_code"),
 	"Stock Balance": ("company", "from_date", "to_date", "warehouse", "item_group", "item_code"),
 	"Stock Ledger": ("company", "from_date", "to_date", "warehouse", "item_code"),
 	"Stock Analytics": ("company", "from_date", "to_date", "warehouse"),
 	"Stock Projected Qty": ("company", "warehouse", "item_group", "item_code"),
-	"Accounts Receivable": ("company", "posting_date", "party", "ageing_based_on"),
-	"Accounts Payable": ("company", "posting_date", "party", "ageing_based_on"),
-	"General Ledger": ("company", "from_date", "to_date", "account", "party_type", "party"),
-	"Trial Balance": ("company", "fiscal_year", "period_start_date", "period_end_date"),
-	"Profit and Loss Statement": ("company", "from_fiscal_year", "to_fiscal_year", "periodicity"),
-	"Balance Sheet": ("company", "from_fiscal_year", "to_fiscal_year", "periodicity"),
-	"Cash Flow": ("company", "from_fiscal_year", "to_fiscal_year", "periodicity"),
+	# Filter fieldnames matched against each report's real Script Report .js
+	# filter definitions (erpnext/accounts/report/<report>/<report>.js, and
+	# the shared erpnext/public/js/financial_statements.js for P&L/Balance
+	# Sheet/Cash Flow) — never guessed. "posting_date" -> "report_date" for
+	# AR/AP corrects a pre-existing mismatch (the real filter fieldname on
+	# both reports is report_date; posting_date was silently ignored by
+	# frappe.desk.query_report.run).
+	"Accounts Receivable": ("company", "report_date", "finance_book", "cost_center", "project", "party", "party_account", "ageing_based_on"),
+	"Accounts Payable": ("company", "report_date", "finance_book", "cost_center", "project", "party", "party_account", "ageing_based_on"),
+	"General Ledger": ("company", "finance_book", "from_date", "to_date", "account", "voucher_no", "party_type", "party", "presentation_currency", "cost_center", "project"),
+	"Trial Balance": ("company", "fiscal_year", "period_start_date", "period_end_date", "cost_center", "project", "finance_book", "presentation_currency"),
+	"Profit and Loss Statement": ("company", "finance_book", "filter_based_on", "period_start_date", "period_end_date", "from_fiscal_year", "to_fiscal_year", "periodicity", "presentation_currency", "cost_center", "project"),
+	"Balance Sheet": ("company", "finance_book", "filter_based_on", "period_start_date", "period_end_date", "from_fiscal_year", "to_fiscal_year", "periodicity", "presentation_currency", "cost_center", "project"),
+	# Cash Flow reuses erpnext.financial_statements' filter set but removes
+	# presentation_currency (erpnext/accounts/report/cash_flow/cash_flow.js
+	# splices it out); cost_center/project remain.
+	"Cash Flow": ("company", "finance_book", "filter_based_on", "period_start_date", "period_end_date", "from_fiscal_year", "to_fiscal_year", "periodicity", "cost_center", "project"),
 	"Bank Reconciliation Statement": ("company", "bank_account", "from_date", "to_date"),
+	"Supplier Ledger Summary": ("company", "from_date", "to_date", "finance_book", "party", "supplier_group", "payment_terms_template"),
 }
 
 

@@ -163,13 +163,21 @@ def _filter_definition(fieldname: str) -> dict:
 		"item_code": "Item", "item_group": "Item Group", "account": "Account", "bank_account": "Bank Account",
 		"fiscal_year": "Fiscal Year", "from_fiscal_year": "Fiscal Year", "to_fiscal_year": "Fiscal Year",
 		"party": None,
+		# Financial-statement / ledger drill-down filters (General Ledger, Trial
+		# Balance, P&L, Balance Sheet, Cash Flow, AR/AP, Customer/Supplier Ledger).
+		"cost_center": "Cost Center", "project": "Project", "finance_book": "Finance Book",
+		"presentation_currency": "Currency", "party_account": "Account",
+		"customer_group": "Customer Group", "supplier_group": "Supplier Group", "territory": "Territory",
+		"sales_partner": "Sales Partner", "sales_person": "Sales Person",
+		"payment_terms_template": "Payment Terms Template",
 	}
-	if fieldname in {"from_date", "to_date", "posting_date", "period_start_date", "period_end_date"}:
+	if fieldname in {"from_date", "to_date", "posting_date", "period_start_date", "period_end_date", "report_date"}:
 		fieldtype, options = "Date", None
-	elif fieldname in {"periodicity", "ageing_based_on", "party_type"}:
+	elif fieldname in {"periodicity", "ageing_based_on", "party_type", "filter_based_on"}:
 		fieldtype, options = "Select", {
 			"periodicity": ["Yearly", "Half-Yearly", "Quarterly", "Monthly"],
 			"ageing_based_on": ["Due Date", "Posting Date"], "party_type": ["Customer", "Supplier"],
+			"filter_based_on": ["Fiscal Year", "Date Range"],
 		}[fieldname]
 	else:
 		fieldtype, options = ("Link", links.get(fieldname)) if fieldname in links else ("Data", None)
@@ -180,6 +188,37 @@ REPORT_LINK_DOCTYPES = {
 	"company": "Company", "customer": "Customer", "supplier": "Supplier", "warehouse": "Warehouse",
 	"item_code": "Item", "item_group": "Item Group", "account": "Account", "bank_account": "Bank Account",
 	"fiscal_year": "Fiscal Year", "from_fiscal_year": "Fiscal Year", "to_fiscal_year": "Fiscal Year",
+	"cost_center": "Cost Center", "project": "Project", "finance_book": "Finance Book",
+	"presentation_currency": "Currency", "party_account": "Account",
+	"customer_group": "Customer Group", "supplier_group": "Supplier Group", "territory": "Territory",
+	"sales_partner": "Sales Partner", "sales_person": "Sales Person",
+	"payment_terms_template": "Payment Terms Template",
+}
+
+# Reports whose party filter has an implicit, fixed party type (the report
+# itself only ever deals with one side of the ledger) rather than a
+# browser-suppliable party_type filter.
+REPORT_IMPLICIT_PARTY_TYPE = {
+	"Accounts Receivable": "Customer", "Accounts Payable": "Supplier",
+	"Customer Ledger Summary": "Customer", "Supplier Ledger Summary": "Supplier",
+}
+
+# Filter fieldnames that the report's own Python `execute()` expects as a
+# frappe.parse_json()-decoded list (its Desk filter widget is
+# "MultiSelectList", not a plain Link) — confirmed by reading each report's
+# .js filter definition and its execute()/validate_filters() source. Retail
+# ERP's filter form only offers single-value selection (no MultiSelectList
+# widget), so a single chosen value is wrapped into a one-item JSON array
+# before being passed to frappe.desk.query_report.run — never passed as a
+# bare string, which erpnext's own parse_json() call would reject.
+MULTISELECT_REPORT_FILTER_FIELDS = {
+	"General Ledger": {"party", "cost_center", "project"},
+	"Trial Balance": {"cost_center", "project"},
+	"Profit and Loss Statement": {"cost_center", "project"},
+	"Balance Sheet": {"cost_center", "project"},
+	"Cash Flow": {"cost_center", "project"},
+	"Accounts Receivable": {"party", "cost_center", "project"},
+	"Accounts Payable": {"party", "cost_center", "project"},
 }
 
 
@@ -230,9 +269,19 @@ def run_priority_report(report: str, filters=None):
 		if value and (not frappe.has_permission(doctype, "read") or not frappe.get_list(doctype, filters={"name": value}, pluck="name", limit_page_length=1)):
 			frappe.throw(_("A report filter is invalid or unavailable."), frappe.PermissionError)
 	if filters.get("party"):
-		party_type = filters.get("party_type") or ("Customer" if report == "Accounts Receivable" else "Supplier" if report == "Accounts Payable" else None)
+		party_type = filters.get("party_type") or REPORT_IMPLICIT_PARTY_TYPE.get(report)
 		if party_type not in {"Customer", "Supplier"} or not frappe.has_permission(party_type, "read") or not frappe.get_list(party_type, filters={"name": filters["party"]}, pluck="name", limit_page_length=1):
 			frappe.throw(_("A report filter is invalid or unavailable."), frappe.PermissionError)
+	for fieldname in MULTISELECT_REPORT_FILTER_FIELDS.get(report, ()):
+		# These reports read this filter as a real Python list (the Desk
+		# client's MultiSelectList value survives outer JSON decoding as a
+		# native list) — some call frappe.parse_json() on it defensively
+		# (a no-op on an already-a-list value), others check
+		# isinstance(x, list) directly (erpnext...get_cost_centers_with_children).
+		# A JSON-encoded *string* here breaks the isinstance check and is
+		# mis-parsed as a comma-separated value instead.
+		if filters.get(fieldname) and not isinstance(filters[fieldname], list):
+			filters[fieldname] = [filters[fieldname]]
 	from frappe.desk.query_report import run
 	result = run(report, filters=filters, ignore_prepared_report=False)
 	result["retail_links"] = _permission_filtered_report_links(result)
