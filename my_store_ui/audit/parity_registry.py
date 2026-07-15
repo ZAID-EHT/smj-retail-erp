@@ -224,7 +224,16 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Quotation": {"make_sales_order", "make_sales_invoice"},
     "Request for Quotation": {"make_supplier_quotation"},
     "Supplier Quotation": {"make_purchase_order"},
-    "Purchase Receipt": {"make_purchase_invoice", "make_purchase_return", "make_lcv"},
+    # "debit_note" (JS label, shown only when is_return=1) calls the exact
+    # same erpnext...purchase_receipt.make_purchase_invoice as make_purchase_invoice;
+    # "landed_cost_voucher" calls the exact same make_lcv; "purchase_return"
+    # calls the exact same make_purchase_return - genuine scanner-noise
+    # duplicates, verified against purchase_receipt.js source. close/reopen
+    # are real new actions (universal/api.py, wraps update_status()).
+    "Purchase Receipt": {
+        "make_purchase_invoice", "debit_note", "make_purchase_return", "purchase_return",
+        "make_lcv", "landed_cost_voucher", "close", "reopen",
+    },
     # "payment"/"return_debit_note" are the JS button labels (purchase_invoice.js);
     # "payment" calls the same shared make_payment_entry()->get_payment_entry()
     # path as the existing make_payment_entry action, "return_debit_note" calls
@@ -243,7 +252,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Account": {"chart_of_accounts", "general_ledger", "convert_to_group", "convert_to_non_group", "merge_account", "update_account_name_number"},
     "Cost Center": {"chart_of_cost_centers", "budget", "convert_to_group", "convert_to_non_group", "update_cost_center_name_number"},
     "Period Closing Voucher": {"ledger"},
-    "Warehouse": {"general_ledger"},
+    "Warehouse": {"general_ledger", "stock_balance"},
+    "Batch": {"view_ledger", "recalculate_batch_qty"},
+    "Serial No": {"view_ledgers"},
     "Company": {"chart_of_accounts", "cost_centers"},
     # "journal_entries" is the JS button label; it calls the exact same
     # doc method as "make_jv_entries" (exchange_rate_revaluation.js:

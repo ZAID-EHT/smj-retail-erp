@@ -527,6 +527,11 @@ def _available_actions(meta, doc) -> list[dict]:
 				{"action": "hold", "label": _("Hold"), "destructive": False, "requires_parameters": ["reason_for_hold"]},
 				{"action": "close", "label": _("Close"), "destructive": True},
 			])
+	if doc.doctype == "Purchase Receipt" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
+		if doc.status == "Closed":
+			actions.append({"action": "reopen", "label": _("Reopen"), "destructive": False})
+		elif doc.status != "Cancelled":
+			actions.append({"action": "close", "label": _("Close"), "destructive": True})
 	if doc.doctype == "Lead" and frappe.has_permission("Opportunity", "create"):
 		actions.append({"action": "make_opportunity", "label": _("Create Opportunity"), "destructive": False, "mapping_target": "Opportunity"})
 	if doc.doctype == "Opportunity" and frappe.has_permission("Customer", "create"):
@@ -561,9 +566,17 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "ledger", "label": _("Ledger"), "destructive": False})
 	if doc.doctype == "Period Closing Voucher" and doc.docstatus > 0 and frappe.has_permission("GL Entry", "read"):
 		actions.append({"action": "ledger", "label": _("Ledger"), "destructive": False})
-	if doc.doctype == "Warehouse" and not cint(doc.is_group) and frappe.has_permission("GL Entry", "read"):
-		if frappe.db.exists("Account", {"warehouse": doc.name, "company": doc.company}):
+	if doc.doctype == "Warehouse" and not cint(doc.is_group):
+		if frappe.has_permission("GL Entry", "read") and frappe.db.exists("Account", {"warehouse": doc.name, "company": doc.company}):
 			actions.append({"action": "general_ledger", "label": _("General Ledger"), "destructive": False})
+		if frappe.has_permission("Stock Ledger Entry", "read"):
+			actions.append({"action": "stock_balance", "label": _("Stock Balance"), "destructive": False})
+	if doc.doctype == "Batch" and frappe.has_permission("Stock Ledger Entry", "read"):
+		actions.append({"action": "view_ledger", "label": _("View Ledger"), "destructive": False})
+	if doc.doctype == "Batch" and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "recalculate_batch_qty", "label": _("Recalculate Batch Qty"), "destructive": False})
+	if doc.doctype == "Serial No" and frappe.has_permission("Stock Ledger Entry", "read"):
+		actions.append({"action": "view_ledgers", "label": _("View Ledgers"), "destructive": False})
 	# Company-level shortcuts (company.js) - navigation to the already-routed
 	# Account/Cost Center trees, pre-filtered by this company.
 	if doc.doctype == "Company":
@@ -804,6 +817,18 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "ledger" and doc.doctype == "Period Closing Voucher":
 		params = urlencode({"voucher_no": doc.name, "company": doc.company, "from_date": str(doc.period_start_date), "to_date": str(doc.period_end_date)}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action == "stock_balance" and doc.doctype == "Warehouse":
+		params = urlencode({"warehouse": doc.name, "company": doc.company}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Stock Balance')}?{params}"}
+	elif action == "view_ledger" and doc.doctype == "Batch":
+		params = urlencode({"batch_no": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Stock Ledger')}?{params}"}
+	elif action == "recalculate_batch_qty" and doc.doctype == "Batch":
+		doc.recalculate_batch_qty()
+		doc.reload()
+	elif action == "view_ledgers" and doc.doctype == "Serial No":
+		params = urlencode({"item_code": doc.item_code, "serial_no": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('Serial No Ledger')}?{params}"}
 	elif action in {"convert_to_group", "convert_to_non_group"} and doc.doctype in {"Account", "Cost Center"}:
 		if action == "convert_to_group":
 			doc.convert_ledger_to_group()
@@ -841,6 +866,9 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "resolve" and doc.doctype == "Dunning":
 		doc.status = "Resolved"
 		doc.save()
+	elif action in {"close", "reopen"} and doc.doctype == "Purchase Receipt":
+		doc.update_status("Closed" if action == "close" else "Submitted")
+		doc.reload()
 	elif action == "block_invoice" and doc.doctype == "Purchase Invoice":
 		release_date = str(parameters.get("release_date") or "").strip()
 		if not release_date:

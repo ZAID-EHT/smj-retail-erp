@@ -313,7 +313,7 @@ REPORT_FILTERS = {
 	"Purchase Order Analysis": ("company", "from_date", "to_date", "supplier"),
 	"Item-wise Purchase Register": ("company", "from_date", "to_date", "item_code"),
 	"Stock Balance": ("company", "from_date", "to_date", "warehouse", "item_group", "item_code"),
-	"Stock Ledger": ("company", "from_date", "to_date", "warehouse", "item_code"),
+	"Stock Ledger": ("company", "from_date", "to_date", "warehouse", "item_code", "batch_no"),
 	"Stock Analytics": ("company", "from_date", "to_date", "warehouse"),
 	"Stock Projected Qty": ("company", "warehouse", "item_group", "item_code"),
 	# Filter fieldnames matched against each report's real Script Report .js

@@ -170,6 +170,8 @@ def _filter_definition(fieldname: str) -> dict:
 		"customer_group": "Customer Group", "supplier_group": "Supplier Group", "territory": "Territory",
 		"sales_partner": "Sales Partner", "sales_person": "Sales Person",
 		"payment_terms_template": "Payment Terms Template",
+		# Stock ledger drill-down filters (Warehouse/Batch/Serial No navigation).
+		"batch_no": "Batch", "serial_no": "Serial No",
 	}
 	if fieldname in {"from_date", "to_date", "posting_date", "period_start_date", "period_end_date", "report_date"}:
 		fieldtype, options = "Date", None
@@ -193,6 +195,7 @@ REPORT_LINK_DOCTYPES = {
 	"customer_group": "Customer Group", "supplier_group": "Supplier Group", "territory": "Territory",
 	"sales_partner": "Sales Partner", "sales_person": "Sales Person",
 	"payment_terms_template": "Payment Terms Template",
+	"batch_no": "Batch", "serial_no": "Serial No",
 }
 
 # Reports whose party filter has an implicit, fixed party type (the report
