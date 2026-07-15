@@ -239,6 +239,17 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Period Closing Voucher": {"ledger"},
     "Warehouse": {"general_ledger"},
     "Company": {"chart_of_accounts", "cost_centers"},
+    # "journal_entries" is the JS button label; it calls the exact same
+    # doc method as "make_jv_entries" (exchange_rate_revaluation.js:
+    # frm.events.make_jv -> frm.call({method: "make_jv_entries"})) - genuine
+    # scanner-noise duplicate, verified against source before aliasing.
+    "Exchange Rate Revaluation": {"make_jv_entries", "journal_entries"},
+    "Dunning": {"payment", "resolve"},
+    # "cancel_pcv_processing" is erpnext's own on_cancel() hook (process_
+    # period_closing_voucher.py), not a separate button - already triggered
+    # by the standard "cancel" GENERIC_LIFECYCLE_ACTIONS entry now that this
+    # doctype is routed. start/pause/resume are real buttons, separately wired.
+    "Process Period Closing Voucher": {"cancel_pcv_processing", "start_pcv_processing", "pause_pcv_processing", "resume_pcv_processing"},
 }
 
 

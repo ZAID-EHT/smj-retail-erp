@@ -138,6 +138,15 @@ _GENERATED_ENTITY_ROUTES = {
 	"/finance/payment-term": {"doctype": "Payment Term", "module": "finance", "classification": "generated_provisional"},
 	"/finance/payment-terms-template": {"doctype": "Payment Terms Template", "module": "finance", "classification": "generated_provisional"},
 	"/finance/period-closing-voucher": {"doctype": "Period Closing Voucher", "module": "finance", "classification": "generated_provisional"},
+	# Bulk-processing "tool" doctypes (Process *) - regular submittable
+	# doctypes (is_virtual/issingle/istable all falsy, confirmed against the
+	# installed schema before routing), not virtual/single tools, so the
+	# generic engine serves them exactly like any other transaction doctype.
+	"/finance/process-period-closing-voucher": {"doctype": "Process Period Closing Voucher", "module": "finance", "classification": "generated_provisional"},
+	"/finance/process-deferred-accounting": {"doctype": "Process Deferred Accounting", "module": "finance", "classification": "generated_provisional"},
+	"/finance/process-statement-of-accounts": {"doctype": "Process Statement Of Accounts", "module": "finance", "classification": "generated_provisional"},
+	"/finance/process-subscription": {"doctype": "Process Subscription", "module": "finance", "classification": "generated_provisional"},
+	"/finance/unreconcile-payment": {"doctype": "Unreconcile Payment", "module": "finance", "classification": "generated_provisional"},
 	"/finance/pricing-rule": {"doctype": "Pricing Rule", "module": "finance", "classification": "generated_provisional"},
 	"/finance/promotional-scheme": {"doctype": "Promotional Scheme", "module": "finance", "classification": "generated_provisional"},
 	"/finance/purchase-taxes-and-charges-template": {"doctype": "Purchase Taxes and Charges Template", "module": "finance", "classification": "generated_provisional"},

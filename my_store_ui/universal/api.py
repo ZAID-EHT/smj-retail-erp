@@ -75,6 +75,9 @@ MAPPED_ACTIONS = {
 	"Lead": {
 		"make_customer": {"label": _("Create Customer"), "target": "Customer", "method": "lead_customer"},
 	},
+	"Dunning": {
+		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "dunning_payment"},
+	},
 }
 
 
@@ -568,6 +571,26 @@ def _available_actions(meta, doc) -> list[dict]:
 			actions.append({"action": "cost_centers", "label": _("Cost Centers"), "destructive": False})
 		if frappe.has_permission("Account", "read"):
 			actions.append({"action": "chart_of_accounts", "label": _("Chart of Accounts"), "destructive": False})
+	# Exchange Rate Revaluation's own idempotency check (check_journal_entry_condition)
+	# gates the button in erpnext's own Desk UI - reproduced here so the
+	# action is only offered when erpnext itself would offer it.
+	if doc.doctype == "Exchange Rate Revaluation" and doc.docstatus == 1 and frappe.has_permission("Journal Entry", "create"):
+		if doc.check_journal_entry_condition():
+			actions.append({"action": "make_jv_entries", "label": _("Journal Entries"), "destructive": False})
+	if doc.doctype == "Dunning" and doc.docstatus == 1 and doc.status == "Unresolved" and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "resolve", "label": _("Resolve"), "destructive": False})
+	# Process Period Closing Voucher background-job controls
+	# (process_period_closing_voucher.js Start/Pause/Resume buttons).
+	# "cancel_pcv_processing" is not a separate button - it is erpnext's own
+	# on_cancel() hook, already triggered by the standard "cancel" lifecycle
+	# action (GENERIC_LIFECYCLE_ACTIONS) once this doctype is routed.
+	if doc.doctype == "Process Period Closing Voucher" and doc.docstatus == 1 and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.status == "Queued":
+			actions.append({"action": "start_pcv_processing", "label": _("Start"), "destructive": False})
+		elif doc.status == "Running":
+			actions.append({"action": "pause_pcv_processing", "label": _("Pause"), "destructive": False})
+		elif doc.status == "Paused":
+			actions.append({"action": "resume_pcv_processing", "label": _("Resume"), "destructive": False})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
@@ -638,6 +661,9 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 		from erpnext.accounts.doctype.journal_entry.journal_entry import make_reverse_journal_entry
 		target = make_reverse_journal_entry(doc.name)
 	elif method == "purchase_invoice_payment":
+		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+		target = get_payment_entry(doc.doctype, doc.name)
+	elif method == "dunning_payment":
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 		target = get_payment_entry(doc.doctype, doc.name)
 	elif method == "opportunity_quotation":
@@ -801,6 +827,18 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		from erpnext.accounts.utils import update_cost_center
 		new_name = update_cost_center(doc.name, cc_name, cc_number, doc.company, 0) or doc.name
 		return {"name": new_name, "route": _record_route(record, new_name)}
+	elif action == "make_jv_entries" and doc.doctype == "Exchange Rate Revaluation":
+		if not doc.check_journal_entry_condition():
+			frappe.throw(_("Journal entries are already up to date for this revaluation."), frappe.ValidationError)
+		result = doc.make_jv_entries()
+		return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": _record_route(record, doc.name), "created": result}
+	elif action == "resolve" and doc.doctype == "Dunning":
+		doc.status = "Resolved"
+		doc.save()
+	elif action in {"start_pcv_processing", "pause_pcv_processing", "resume_pcv_processing"} and doc.doctype == "Process Period Closing Voucher":
+		from erpnext.accounts.doctype.process_period_closing_voucher import process_period_closing_voucher as pcv_module
+		getattr(pcv_module, action)(doc.name)
+		doc.reload()
 	elif action in MAPPED_ACTIONS.get(doc.doctype, {}):
 		return _run_mapped_action(doc, action, parameters)
 	return {"name": doc.name, "docstatus": doc.docstatus, "modified": doc.modified, "route": _record_route(record, doc.name)}
