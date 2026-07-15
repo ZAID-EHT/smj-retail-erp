@@ -46,6 +46,12 @@ MAPPED_ACTIONS = {
 		"make_request_for_quotation": {"label": _("Create Request for Quotation"), "target": "Request for Quotation", "method": "material_request_rfq"},
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "material_request_purchase_order"},
 		"make_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "material_request_stock_entry"},
+		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "material_request_supplier_quotation"},
+		"create_pick_list": {"label": _("Create Pick List"), "target": "Pick List", "method": "material_request_pick_list"},
+		"make_in_transit_stock_entry": {
+			"label": _("Create In-Transit Stock Entry"), "target": "Stock Entry",
+			"method": "material_request_in_transit_stock_entry", "requires_parameters": ["in_transit_warehouse"],
+		},
 	},
 	"Request for Quotation": {
 		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "rfq_supplier_quotation", "requires_parameters": ["supplier"]},
@@ -518,6 +524,18 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "resume" if doc.on_hold else "hold", "label": _("Resume") if doc.on_hold else _("Hold"), "destructive": False})
 	if doc.doctype == "Material Request" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
 		actions.append({"action": "reopen" if doc.status == "Stopped" else "stop", "label": _("Reopen") if doc.status == "Stopped" else _("Stop"), "destructive": doc.status != "Stopped"})
+	# material_request_type-gated mapped actions (material_request.js) - the
+	# generic MAPPED_ACTIONS loop below has no per-type awareness, so these
+	# are pre-populated here (per-type, matching erpnext's own Desk buttons
+	# exactly) and the loop skips keys already present in `actions`.
+	if doc.doctype == "Material Request" and doc.docstatus == 1 and doc.status != "Stopped" and flt(doc.per_ordered) < 100:
+		if doc.material_request_type == "Purchase" and frappe.has_permission("Supplier Quotation", "create"):
+			actions.append({"action": "make_supplier_quotation", "label": _("Create Supplier Quotation"), "destructive": False, "mapping_target": "Supplier Quotation"})
+		if doc.material_request_type == "Material Transfer":
+			if frappe.has_permission("Pick List", "create"):
+				actions.append({"action": "create_pick_list", "label": _("Create Pick List"), "destructive": False, "mapping_target": "Pick List"})
+			if frappe.has_permission("Stock Entry", "create"):
+				actions.append({"action": "make_in_transit_stock_entry", "label": _("Create In-Transit Stock Entry"), "destructive": False, "mapping_target": "Stock Entry", "requires_parameters": ["in_transit_warehouse"]})
 	if doc.doctype == "Purchase Order" and doc.docstatus == 1 and frappe.has_permission(meta.name, "submit", doc=doc):
 		if doc.status == "On Hold":
 			actions.append({"action": "resume", "label": _("Resume"), "destructive": False})
@@ -688,6 +706,18 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "material_request_stock_entry":
 		from erpnext.stock.doctype.material_request.material_request import make_stock_entry
 		target = make_stock_entry(doc.name)
+	elif method == "material_request_supplier_quotation":
+		from erpnext.stock.doctype.material_request.material_request import make_supplier_quotation
+		target = make_supplier_quotation(doc.name)
+	elif method == "material_request_pick_list":
+		from erpnext.stock.doctype.material_request.material_request import create_pick_list
+		target = create_pick_list(doc.name)
+	elif method == "material_request_in_transit_stock_entry":
+		warehouse = str(parameters.get("in_transit_warehouse") or "").strip()
+		if not warehouse or not frappe.has_permission("Warehouse", "read", doc=warehouse) or not frappe.get_list("Warehouse", filters={"name": warehouse, "warehouse_type": "Transit", "is_group": 0}, pluck="name", limit_page_length=1):
+			frappe.throw(_("A permitted Transit Warehouse is required."), frappe.ValidationError)
+		from erpnext.stock.doctype.material_request.material_request import make_in_transit_stock_entry
+		target = make_in_transit_stock_entry(doc.name, warehouse)
 	elif method == "purchase_invoice_debit_note":
 		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_debit_note
 		target = make_debit_note(doc.name)

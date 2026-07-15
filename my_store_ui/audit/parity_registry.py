@@ -218,7 +218,25 @@ GENERIC_LIFECYCLE_ACTIONS = {"submit", "cancel", "amend", "delete", "duplicate",
 DOCTYPE_SPECIFIC_ACTIONS = {
     "Opportunity": {"close", "reopen", "make_customer", "make_quotation"},
     "Supplier": {"hold", "resume"},
-    "Material Request": {"stop", "reopen", "make_request_for_quotation", "make_purchase_order", "make_stock_entry"},
+    # "re_open"/"update_status" are JS button labels (material_request.js)
+    # calling the exact same update_status() the stop/reopen actions wrap;
+    # "purchase_order"/"request_for_quotation" are button labels calling the
+    # exact same make_purchase_order/make_request_for_quotation already
+    # credited; "material_transfer"/"issue_material"/"material_receipt" are
+    # ALL the same make_stock_entry call, shown under different labels
+    # depending on material_request_type - verified against source.
+    # "supplier_quotation"/"pick_list"/"material_transfer_in_transit" are
+    # button labels for the new make_supplier_quotation/create_pick_list/
+    # make_in_transit_stock_entry actions (universal/api.py, type-gated).
+    "Material Request": {
+        "stop", "reopen", "re_open", "update_status",
+        "make_request_for_quotation", "request_for_quotation",
+        "make_purchase_order", "purchase_order",
+        "make_stock_entry", "material_transfer", "issue_material", "material_receipt",
+        "make_supplier_quotation", "supplier_quotation",
+        "create_pick_list", "pick_list",
+        "make_in_transit_stock_entry", "material_transfer_in_transit",
+    },
     # "purchase_receipt"/"purchase_invoice"/"re_open" are JS button labels
     # (purchase_order.js) calling the exact same make_purchase_receipt/
     # make_purchase_invoice/update_status("Submitted") already credited -
