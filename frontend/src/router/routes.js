@@ -1,4 +1,5 @@
 import ModuleDashboardPage from "@/pages/priority/ModuleDashboardPage.vue";
+import HomeDashboardPage from "@/pages/priority/HomeDashboardPage.vue";
 import PriorityReportHubPage from "@/pages/priority/PriorityReportHubPage.vue";
 import SmartSalesPage from "@/pages/priority/SmartSalesPage.vue";
 import EntityDetailPage from "@/pages/entities/EntityDetailPage.vue";
@@ -13,7 +14,7 @@ export const moduleRoutes = [
   {
     path: "/home",
     name: "home",
-    component: ModuleDashboardPage,
+    component: HomeDashboardPage,
     meta: { title: "Home", description: "Dashboard, metrics, alerts and quick actions.", accent: "blue", icon: "home" },
   },
   {
@@ -26,25 +27,25 @@ export const moduleRoutes = [
     path: "/sales",
     name: "sales",
     component: ModuleDashboardPage,
-    meta: { title: "Sales", description: "Customers, quotations, orders, delivery notes and invoices.", accent: "blue", icon: "sales" },
+    meta: { title: "Sales", description: "Customers, quotations, orders, delivery notes and invoices.", accent: "green", icon: "sales" },
   },
   {
     path: "/purchases",
     name: "purchases",
     component: ModuleDashboardPage,
-    meta: { title: "Purchases", description: "Suppliers, requests, orders, receipts and purchase invoices.", accent: "orange", icon: "bag" },
+    meta: { title: "Purchases", description: "Suppliers, requests, orders, receipts and purchase invoices.", accent: "purple", icon: "bag" },
   },
   {
     path: "/inventory",
     name: "inventory",
     component: ModuleDashboardPage,
-    meta: { title: "Inventory", description: "Products, warehouses, transfers, stock levels and traceability.", accent: "green", icon: "box" },
+    meta: { title: "Inventory", description: "Products, warehouses, transfers, stock levels and traceability.", accent: "orange", icon: "box" },
   },
   {
     path: "/finance",
     name: "finance",
     component: ModuleDashboardPage,
-    meta: { title: "Finance", description: "Accounting, payments, receivables, payables and financial reports.", accent: "purple", icon: "finance" },
+    meta: { title: "Finance", description: "Accounting, payments, receivables, payables and financial reports.", accent: "gold", icon: "finance" },
   },
   {
     path: "/operations",
@@ -80,73 +81,73 @@ export const entityRoutes = [
     path: "/sales/customers",
     name: "customer-list",
     component: EntityListPage,
-    meta: { title: "Customers", entityKey: "customers", accent: "blue" },
+    meta: { title: "Customers", entityKey: "customers", accent: "green" },
   },
   {
     path: "/sales/customers/new",
     name: "customer-new",
     component: EntityFormPage,
-    meta: { title: "New Customer", entityKey: "customers", accent: "blue" },
+    meta: { title: "New Customer", entityKey: "customers", accent: "green" },
   },
   {
     path: "/sales/customers/:name/edit",
     name: "customer-edit",
     component: EntityFormPage,
-    meta: { title: "Edit Customer", entityKey: "customers", accent: "blue" },
+    meta: { title: "Edit Customer", entityKey: "customers", accent: "green" },
   },
   {
     path: "/sales/customers/:name",
     name: "customer-detail",
     component: EntityDetailPage,
-    meta: { title: "Customer", entityKey: "customers", backRoute: "/sales/customers", accent: "blue" },
+    meta: { title: "Customer", entityKey: "customers", backRoute: "/sales/customers", accent: "green" },
   },
   {
     path: "/inventory/products",
     name: "item-list",
     component: EntityListPage,
-    meta: { title: "Products", entityKey: "items", accent: "green" },
+    meta: { title: "Products", entityKey: "items", accent: "orange" },
   },
   {
     path: "/inventory/products/new",
     name: "item-new",
     component: EntityFormPage,
-    meta: { title: "New Product", entityKey: "items", accent: "green" },
+    meta: { title: "New Product", entityKey: "items", accent: "orange" },
   },
   {
     path: "/inventory/products/:name/edit",
     name: "item-edit",
     component: EntityFormPage,
-    meta: { title: "Edit Product", entityKey: "items", accent: "green" },
+    meta: { title: "Edit Product", entityKey: "items", accent: "orange" },
   },
   {
     path: "/inventory/products/:name",
     name: "item-detail",
     component: EntityDetailPage,
-    meta: { title: "Product", entityKey: "items", backRoute: "/inventory/products", accent: "green" },
+    meta: { title: "Product", entityKey: "items", backRoute: "/inventory/products", accent: "orange" },
   },
   {
     path: "/sales/delivery-notes",
     name: "delivery-note-list",
     component: EntityListPage,
-    meta: { title: "Delivery Notes", entityKey: "delivery_notes", accent: "blue" },
+    meta: { title: "Delivery Notes", entityKey: "delivery_notes", accent: "green" },
   },
   {
     path: "/sales/delivery-notes/new",
     name: "delivery-note-new",
     component: EntityFormPage,
-    meta: { title: "New Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+    meta: { title: "New Delivery Note", entityKey: "delivery_notes", accent: "green" },
   },
   {
     path: "/sales/delivery-notes/:name/edit",
     name: "delivery-note-edit",
     component: EntityFormPage,
-    meta: { title: "Edit Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+    meta: { title: "Edit Delivery Note", entityKey: "delivery_notes", accent: "green" },
   },
   {
     path: "/sales/delivery-notes/:name",
     name: "delivery-note-detail",
     component: MappedDocumentDetailPage,
-    meta: { title: "Delivery Note", entityKey: "delivery_notes", accent: "blue" },
+    meta: { title: "Delivery Note", entityKey: "delivery_notes", accent: "green" },
   },
   {
     path: "/sales/invoices",
@@ -176,49 +177,49 @@ export const entityRoutes = [
     path: "/finance/payments",
     name: "payment-entry-list",
     component: EntityListPage,
-    meta: { title: "Payment Entries", entityKey: "payment_entries", accent: "purple" },
+    meta: { title: "Payment Entries", entityKey: "payment_entries", accent: "gold" },
   },
   {
     path: "/finance/payments/new",
     name: "payment-entry-new",
     component: EntityFormPage,
-    meta: { title: "New Payment Entry", entityKey: "payment_entries", accent: "purple" },
+    meta: { title: "New Payment Entry", entityKey: "payment_entries", accent: "gold" },
   },
   {
     path: "/finance/payments/:name/edit",
     name: "payment-entry-edit",
     component: EntityFormPage,
-    meta: { title: "Edit Payment Entry", entityKey: "payment_entries", accent: "purple" },
+    meta: { title: "Edit Payment Entry", entityKey: "payment_entries", accent: "gold" },
   },
   {
     path: "/finance/payments/:name",
     name: "payment-entry-detail",
     component: MappedDocumentDetailPage,
-    meta: { title: "Payment Entry", entityKey: "payment_entries", accent: "purple" },
+    meta: { title: "Payment Entry", entityKey: "payment_entries", accent: "gold" },
   },
   {
     path: "/sales/orders",
     name: "sales-order-list",
     component: EntityListPage,
-    meta: { title: "Sales Orders", entityKey: "sales_orders", accent: "blue" },
+    meta: { title: "Sales Orders", entityKey: "sales_orders", accent: "green" },
   },
   {
     path: "/sales/orders/new",
     name: "sales-order-new",
     component: EntityFormPage,
-    meta: { title: "New Sales Order", entityKey: "sales_orders", accent: "blue" },
+    meta: { title: "New Sales Order", entityKey: "sales_orders", accent: "green" },
   },
   {
     path: "/sales/orders/:name/edit",
     name: "sales-order-edit",
     component: EntityFormPage,
-    meta: { title: "Edit Sales Order", entityKey: "sales_orders", accent: "blue" },
+    meta: { title: "Edit Sales Order", entityKey: "sales_orders", accent: "green" },
   },
   {
     path: "/sales/orders/:name",
     name: "sales-order-detail",
     component: EntityDetailPage,
-    meta: { title: "Sales Order", entityKey: "sales_orders", backRoute: "/sales/orders", accent: "blue" },
+    meta: { title: "Sales Order", entityKey: "sales_orders", backRoute: "/sales/orders", accent: "green" },
   },
 ];
 

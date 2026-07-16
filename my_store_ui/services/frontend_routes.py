@@ -70,7 +70,7 @@ NAVIGATION = (
 		{"label": "Products", "path": "/inventory/products", "doctype": "Item"},
 		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 	)},
-	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "blue", "icon": "sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice"), "links": (
+	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "green", "icon": "sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice"), "links": (
 		{"label": "Sales Dashboard", "path": "/sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice")},
 		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"},
 		{"label": "Quotations", "path": "/sales/quotations", "doctype": "Quotation"},
@@ -80,7 +80,7 @@ NAVIGATION = (
 		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
 		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
-	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "orange", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
+	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
 		{"label": "Purchases Dashboard", "path": "/purchases", "any_read": ("Supplier", "Purchase Order", "Purchase Invoice")},
 		{"label": "Suppliers", "path": "/purchases/suppliers", "doctype": "Supplier"},
 		{"label": "Supplier Groups", "path": "/purchases/supplier-groups", "doctype": "Supplier Group"},
@@ -92,7 +92,7 @@ NAVIGATION = (
 		{"label": "Purchase Invoices", "path": "/purchases/invoices", "doctype": "Purchase Invoice"},
 		{"label": "Purchase Reports", "path": "/reports/purchases", "report": "Purchase Register"},
 	)},
-	{"name": "inventory", "label": "Inventory", "path": "/inventory", "accent": "green", "icon": "box", "any_read": ("Item", "Item Group", "Brand", "Warehouse", "Stock Entry"), "links": (
+	{"name": "inventory", "label": "Inventory", "path": "/inventory", "accent": "orange", "icon": "box", "any_read": ("Item", "Item Group", "Brand", "Warehouse", "Stock Entry"), "links": (
 		{"label": "Inventory Dashboard", "path": "/inventory", "any_read": ("Item", "Warehouse", "Stock Entry")},
 		{"label": "Products", "path": "/inventory/products", "doctype": "Item"}, {"label": "New Product", "path": "/inventory/products/new", "doctype": "Item", "permission": "create"},
 		{"label": "Item Groups", "path": "/inventory/item-groups", "doctype": "Item Group"}, {"label": "Brands", "path": "/inventory/brands", "doctype": "Brand"},
@@ -104,7 +104,7 @@ NAVIGATION = (
 		{"label": "Batch Numbers", "path": "/inventory/batches", "doctype": "Batch"}, {"label": "Reorder Alerts", "path": "/inventory/reorder-alerts", "report": "Stock Projected Qty"},
 		{"label": "Stock Reports", "path": "/reports/inventory", "report": "Stock Balance"},
 	)},
-	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "purple", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account"), "links": (
+	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "gold", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account"), "links": (
 		{"label": "Finance Dashboard", "path": "/finance"},
 		{"label": "Chart of Accounts", "path": "/finance/chart-of-accounts", "doctype": "Account"},
 		{"label": "Journal Entries", "path": "/finance/journal-entries", "doctype": "Journal Entry"}, {"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
