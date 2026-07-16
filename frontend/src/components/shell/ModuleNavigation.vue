@@ -62,17 +62,25 @@ onBeforeUnmount(() => {
       :class="{ 'is-active': isActiveModule(module) }"
       :data-accent="module.accent"
     >
-      <button
+      <RouterLink
+        :to="module.path"
         class="ref-module-button"
-        type="button"
-        :aria-expanded="activeMenu === module.name"
         :aria-current="isActiveModule(module) ? 'page' : undefined"
-        @click="toggleMenu(module.name, $event)"
+        @click="closeMenu"
       >
         <span class="ref-module-button__icon" aria-hidden="true">
           <component :is="moduleIcon(module.icon)" size="15" decorative />
         </span>
         {{ module.label }}
+      </RouterLink>
+      <button
+        v-if="module.links?.length"
+        type="button"
+        class="ref-module-button__toggle"
+        :aria-expanded="activeMenu === module.name"
+        :aria-label="`${module.label} submenu`"
+        @click="toggleMenu(module.name, $event)"
+      >
         <SmjChevronDown class="ref-module-button__chevron" size="13" decorative />
       </button>
       <div v-if="activeMenu === module.name" class="ref-module-dropdown" role="menu">
