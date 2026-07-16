@@ -165,11 +165,25 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 	def test_link_search_is_server_allowlisted(self):
 		result = get_link_options("supplier", "supplier_group", "")
 		self.assertLessEqual(len(result["results"]), 20)
+		all_roles = get_link_options("user", "role", "", parent_fieldname="roles")
+		self.assertEqual(len(all_roles["results"]), min(100, frappe.db.count("Role")))
+		self.assertTrue(any(row["value"] == "Customer" for row in all_roles["results"]))
 		roles = get_link_options("user", "role", "Sales", parent_fieldname="roles")
 		self.assertTrue(roles["results"])
 		self.assertTrue(all("sales" in row["value"].lower() for row in roles["results"]))
+		customer = get_link_options("user", "role", "Customer", parent_fieldname="roles")
+		self.assertEqual([row["value"] for row in customer["results"]], ["Customer"])
 		with self.assertRaises(frappe.PermissionError):
 			get_link_options("supplier", "owner", "Administrator")
+
+	def test_generated_user_role_controls_are_searchable_and_explained(self):
+		metadata = get_doctype_metadata("user")
+		fields = {field["fieldname"]: field for field in metadata["fields"]}
+		self.assertEqual(fields["role_profile_name"]["label"], "Role Profile (optional)")
+		self.assertIn("individual roles", fields["role_profile_name"]["description"])
+		self.assertEqual(fields["roles"]["label"], "Roles Assigned")
+		self.assertFalse(fields["roles"]["read_only"])
+		self.assertEqual(fields["roles"]["child_fields"][0]["options"], "Role")
 
 	def test_guest_cannot_read_registry_or_metadata(self):
 		original = frappe.session.user
@@ -206,6 +220,11 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertNotIn("/app/", service)
 		self.assertNotIn("ignore_permissions", (APP_PATH / "my_store_ui/universal/api.py").read_text())
 		self.assertIn(':read-only="table.read_only"', (APP_PATH / "frontend/src/pages/generated/UniversalFormPage.vue").read_text())
+		link_field = (APP_PATH / "frontend/src/components/generated/UniversalField.vue").read_text()
+		self.assertIn('aria-autocomplete="list"', link_field)
+		self.assertIn("function openLink()", link_field)
+		self.assertIn("No matching Role Profiles", link_field)
+		self.assertIn("ArrowDown", link_field)
 
 
 if __name__ == "__main__":
