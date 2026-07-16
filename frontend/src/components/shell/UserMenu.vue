@@ -10,6 +10,11 @@ const shortcutsOpen = ref(false);
 const fullName = computed(() => session?.state?.displayName || window.frappe?.session?.user_fullname || window.frappe?.session?.user || "User");
 const userId = computed(() => session?.state?.user || window.frappe?.session?.user || "");
 const company = computed(() => session?.state?.company || window.frappe?.boot?.sysdefaults?.company || "");
+const primaryRole = computed(() => {
+  if (userId.value === "Administrator") return "Administrator";
+  const precedence = ["System Manager", "Sales Manager", "Sales User", "Stock Manager", "Stock User", "Purchase Manager", "Purchase User", "Accounts Manager", "Accounts User"];
+  return precedence.find((role) => session?.state?.roles?.includes(role)) || session?.state?.roles?.[0] || "ERPNext User";
+});
 const initials = computed(() =>
   fullName.value.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "U",
 );
@@ -57,7 +62,10 @@ async function logout() {
   <div ref="root" class="ref-user-menu-wrap">
     <button ref="trigger" class="ref-user-menu" type="button" aria-label="User menu" :aria-expanded="open" @click="open = !open; shortcutsOpen = false">
       <span class="ref-user-menu__avatar">{{ initials }}</span>
-      <span class="ref-user-menu__name">{{ fullName }}</span>
+      <span class="ref-user-menu__copy">
+        <strong class="ref-user-menu__name">{{ fullName }}</strong>
+        <small>{{ primaryRole }}</small>
+      </span>
       <SmjChevronDown size="14" decorative />
     </button>
     <div v-if="open" class="ref-user-dropdown" role="menu">

@@ -1,5 +1,5 @@
 <script setup>
-import { SmjMenu } from "@/components/icons";
+import { SmjMenu, SmjMessage, SmjNotification } from "@/components/icons";
 import CompanyBrand from "./CompanyBrand.vue";
 import GlobalSearch from "./GlobalSearch.vue";
 import HeaderPageActions from "./HeaderPageActions.vue";
@@ -25,6 +25,22 @@ defineEmits(["toggle-mobile-navigation"]);
       <ModuleNavigation class="ref-header__navigation" />
       <GlobalSearch class="ref-header__search" />
       <div class="ref-header__actions">
+        <RouterLink
+          class="ref-header-utility"
+          to="/feature-unavailable?feature=Notifications"
+          aria-label="Notifications"
+          title="Notifications"
+        >
+          <SmjNotification size="19" decorative />
+        </RouterLink>
+        <RouterLink
+          class="ref-header-utility"
+          to="/feature-unavailable?feature=Messages"
+          aria-label="Messages"
+          title="Messages"
+        >
+          <SmjMessage size="19" decorative />
+        </RouterLink>
         <UserMenu />
       </div>
     </div>

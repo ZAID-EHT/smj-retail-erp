@@ -4,6 +4,7 @@ import { SmjHomeBuilding } from "@/components/icons";
 
 const session = inject("retailSession", null);
 const branding = inject("retailBranding", {});
+const hasCompanyLogo = computed(() => Boolean(branding.logo && !String(branding.logo).includes("product-placeholder")));
 
 const companyName = computed(() => {
   const frappe = window.frappe;
@@ -17,11 +18,11 @@ const companyName = computed(() => {
 
 <template>
   <RouterLink class="ref-brand" to="/home" aria-label="Retail ERP home">
-    <img v-if="branding.logo" class="ref-brand__logo" :src="branding.logo" alt="" />
+    <img v-if="hasCompanyLogo" class="ref-brand__logo" :src="branding.logo" alt="" />
     <span v-else class="ref-brand__logo" aria-hidden="true"><SmjHomeBuilding size="22" decorative /></span>
     <span class="ref-brand__copy">
-      <strong>{{ companyName }}</strong>
-      <small>SMJ Retail ERP · ERPNext v15</small>
+      <strong>SMJ Retail ERP</strong>
+      <small>ERPNext v15<template v-if="companyName && companyName !== 'Retail ERP'"> · {{ companyName }}</template></small>
     </span>
   </RouterLink>
 </template>
