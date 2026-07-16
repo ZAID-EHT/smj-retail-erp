@@ -67,11 +67,16 @@ MAPPED_ACTIONS = {
 	},
 	"Supplier Quotation": {
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "supplier_quotation_purchase_order"},
+		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "supplier_quotation_purchase_invoice"},
 		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "supplier_quotation_quotation"},
 	},
 	"Purchase Order": {
 		"make_purchase_receipt": {"label": _("Create Purchase Receipt"), "target": "Purchase Receipt", "method": "purchase_order_receipt"},
 		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_order_invoice"},
+		"make_inter_company_sales_order": {"label": _("Create Inter Company Sales Order"), "target": "Sales Order", "method": "purchase_order_inter_company_sales_order"},
+		"make_subcontracting_order": {"label": _("Create Subcontracting Order"), "target": "Subcontracting Order", "method": "purchase_order_subcontracting_order"},
+		"material_to_supplier": {"label": _("Material to Supplier"), "target": "Stock Entry", "method": "purchase_order_material_to_supplier"},
+		"return_of_components": {"label": _("Return of Components"), "target": "Stock Entry", "method": "purchase_order_return_components"},
 		"payment": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "make_payment_entry_generic"},
 	},
 	"Purchase Receipt": {
@@ -702,6 +707,38 @@ def _available_actions(meta, doc) -> list[dict]:
 			actions.append({"action": "pause_pcv_processing", "label": _("Pause"), "destructive": False})
 		elif doc.status == "Paused":
 			actions.append({"action": "resume_pcv_processing", "label": _("Resume"), "destructive": False})
+	# Buying document tools. Each symbolic key below maps to a fixed ERPNext
+	# controller call in run_document_action; no method path comes from Vue.
+	if doc.doctype == "Purchase Order" and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.docstatus == 0:
+			actions.extend([
+				{"action": "link_to_material_request", "label": _("Link to Material Request"), "destructive": False},
+				{"action": "update_rate_as_per_last_purchase", "label": _("Update Rate as per Last Purchase"), "destructive": False},
+			])
+		elif doc.docstatus == 1:
+			if any(cint(row.delivered_by_supplier) for row in doc.get("items") or []) and doc.status != "Delivered":
+				actions.append({"action": "delivered", "label": _("Mark Delivered"), "destructive": False})
+			if doc.status not in {"Closed", "Delivered"} and flt(doc.per_received) < 100 and flt(doc.per_billed) < 100 and doc.can_update_items():
+				actions.append({"action": "update_items", "label": _("Update Items"), "destructive": False, "requires_parameters": ["items_json"]})
+	if doc.doctype == "Request for Quotation" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.extend([
+			{"action": "material_request", "label": _("Get Items from Material Request"), "destructive": False, "requires_parameters": ["source_name"]},
+			{"action": "opportunity", "label": _("Get Items from Opportunity"), "destructive": False, "requires_parameters": ["source_name"]},
+			{"action": "possible_supplier", "label": _("Get Items for Possible Supplier"), "destructive": False, "requires_parameters": ["supplier"]},
+			{"action": "link_to_material_requests", "label": _("Link to Material Requests"), "destructive": False},
+			{"action": "get_suppliers", "label": _("Get Suppliers"), "destructive": False, "requires_parameters": ["search_type", "filter_value"]},
+		])
+	if doc.doctype == "Request for Quotation" and doc.docstatus == 1 and doc.get("suppliers"):
+		actions.append({"action": "download_pdf", "label": _("Download Supplier PDF"), "destructive": False, "requires_parameters": ["supplier"]})
+	if doc.doctype == "Supplier Quotation" and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.docstatus == 0:
+			actions.append({"action": "link_to_material_requests", "label": _("Link to Material Requests"), "destructive": False})
+		elif doc.docstatus == 1:
+			actions.append({"action": "update_items", "label": _("Update Items"), "destructive": False, "requires_parameters": ["items_json"]})
+	if doc.doctype == "Supplier" and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "get_supplier_group_details", "label": _("Get Supplier Group Details"), "destructive": False})
+		if cint(frappe.db.get_single_value("Accounts Settings", "enable_common_party_accounting")) and frappe.has_permission("Party Link", "create") and frappe.has_permission("Customer", "read"):
+			actions.append({"action": "link_with_customer", "label": _("Link with Customer"), "destructive": False, "requires_parameters": ["customer"]})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
@@ -709,6 +746,26 @@ def _available_actions(meta, doc) -> list[dict]:
 		# CRM conversions operate on their normal saved draft state.
 		if doc.doctype not in {"Lead", "Opportunity"} and doc.docstatus != 1:
 			continue
+		if doc.doctype == "Purchase Order":
+			if key == "make_inter_company_sales_order" and (not cint(doc.is_internal_supplier) or doc.inter_company_order_reference):
+				continue
+			if key == "make_subcontracting_order" and (
+				not cint(doc.is_subcontracted)
+				or cint(doc.is_old_subcontracting_flow)
+				or all(flt(row.qty) == flt(row.subcontracted_quantity) for row in doc.get("items") or [])
+			):
+				continue
+			if key == "material_to_supplier" and (
+				not cint(doc.is_subcontracted)
+				or not cint(doc.is_old_subcontracting_flow)
+				or not any(flt(row.required_qty) > flt(row.supplied_qty) for row in doc.get("supplied_items") or [])
+			):
+				continue
+			if key == "return_of_components" and (
+				(flt(doc.per_received) != 100 and doc.status != "Closed")
+				or not any(flt(row.total_supplied_qty) and flt(row.total_supplied_qty) != flt(row.consumed_qty) for row in doc.get("supplied_items") or [])
+			):
+				continue
 		if frappe.has_permission(mapping["target"], "create"):
 			actions.append({
 				"action": key, "label": mapping["label"], "destructive": False,
@@ -747,6 +804,9 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "supplier_quotation_purchase_order":
 		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_purchase_order
 		target = make_purchase_order(doc.name)
+	elif method == "supplier_quotation_purchase_invoice":
+		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_purchase_invoice
+		target = make_purchase_invoice(doc.name)
 	elif method == "supplier_quotation_quotation":
 		from erpnext.buying.doctype.supplier_quotation.supplier_quotation import make_quotation
 		target = make_quotation(doc.name)
@@ -756,6 +816,22 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "purchase_order_invoice":
 		from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_invoice
 		target = make_purchase_invoice(doc.name)
+	elif method == "purchase_order_inter_company_sales_order":
+		from erpnext.buying.doctype.purchase_order.purchase_order import make_inter_company_sales_order
+		target = make_inter_company_sales_order(doc.name)
+	elif method == "purchase_order_subcontracting_order":
+		from erpnext.buying.doctype.purchase_order.purchase_order import make_subcontracting_order
+		target = make_subcontracting_order(doc.name)
+	elif method == "purchase_order_material_to_supplier":
+		from erpnext.controllers.subcontracting_controller import make_rm_stock_entry
+		target = frappe.get_doc(make_rm_stock_entry(doc.name, order_doctype="Purchase Order"))
+	elif method == "purchase_order_return_components":
+		rm_details = [
+			row.name for row in doc.get("supplied_items") or []
+			if flt(row.total_supplied_qty) and flt(row.total_supplied_qty) != flt(row.consumed_qty)
+		]
+		from erpnext.controllers.subcontracting_controller import get_materials_from_supplier
+		target = frappe.get_doc(get_materials_from_supplier(doc.name, rm_details, "Purchase Order"))
 	elif method == "purchase_receipt_invoice":
 		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_purchase_invoice
 		target = make_purchase_invoice(doc.name)
@@ -818,6 +894,123 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 		"name": target.name, "doctype": target.doctype, "docstatus": target.docstatus,
 		"modified": target.modified, "route": _record_route(target_record, target.name, "edit"),
 	}
+
+
+def _permitted_source(doctype: str, name: str):
+	name = str(name or "").strip()
+	if not name or not frappe.has_permission(doctype, "read"):
+		frappe.throw(_("Source record is not available."), frappe.PermissionError)
+	if not frappe.get_list(doctype, filters={"name": name}, pluck="name", limit_page_length=1):
+		frappe.throw(_("Source record is not available."), frappe.PermissionError)
+	return name
+
+
+def _copy_child_values(row) -> dict:
+	values = row.as_dict(no_nulls=False)
+	for key in {"name", "parent", "parenttype", "parentfield", "idx", "docstatus", "doctype", "creation", "modified", "owner", "modified_by"}:
+		values.pop(key, None)
+	return values
+
+
+def _link_pending_material_requests(doc) -> None:
+	item_codes = sorted({row.item_code for row in doc.get("items") or [] if row.item_code})
+	if not item_codes:
+		frappe.throw(_("Add items before linking Material Requests."), frappe.ValidationError)
+	parents = frappe.get_list(
+		"Material Request",
+		filters={
+			"material_request_type": "Purchase", "docstatus": 1, "status": ["!=", "Stopped"],
+			"per_ordered": ["<", 99.99], "company": doc.company,
+		},
+		pluck="name",
+		limit_page_length=MAX_PAGE_SIZE,
+	)
+	if not parents:
+		frappe.throw(_("No permitted pending Material Requests were found."), frappe.ValidationError)
+	request_items = frappe.get_all(
+		"Material Request Item",
+		filters={"parent": ["in", parents], "item_code": ["in", item_codes]},
+		fields=["name", "parent", "item_code", "qty", "ordered_qty"],
+		order_by="parent asc, idx asc",
+	)
+	available: dict[str, list[dict]] = {}
+	for row in request_items:
+		remaining = max(flt(row.qty) - flt(row.ordered_qty), 0)
+		if remaining:
+			available.setdefault(row.item_code, []).append({"name": row.name, "parent": row.parent, "qty": remaining})
+	linked = 0
+	for row in list(doc.get("items") or []):
+		if row.material_request_item or not row.item_code or not available.get(row.item_code):
+			continue
+		remaining = flt(row.qty)
+		base = _copy_child_values(row)
+		first = True
+		for request in available[row.item_code]:
+			if remaining <= 0:
+				break
+			allocated = min(remaining, request["qty"])
+			if allocated <= 0:
+				continue
+			target = row if first else doc.append("items", base)
+			target.qty = allocated
+			target.stock_qty = allocated * flt(target.conversion_factor or 1)
+			target.material_request = request["parent"]
+			target.material_request_item = request["name"]
+			request["qty"] -= allocated
+			remaining -= allocated
+			linked += 1
+			first = False
+		if remaining > 0 and not first:
+			target = doc.append("items", base)
+			target.qty = remaining
+			target.stock_qty = remaining * flt(target.conversion_factor or 1)
+			target.material_request = None
+			target.material_request_item = None
+	if not linked:
+		frappe.throw(_("No pending Material Request quantities match these items."), frappe.ValidationError)
+	doc.save()
+
+
+def _update_transaction_items(doc, items_json) -> None:
+	items = _parse(items_json, list, "Items")
+	allowed = {
+		"docname", "item_code", "item_name", "qty", "rate", "uom", "conversion_factor",
+		"schedule_date", "fg_item", "fg_item_qty", "idx",
+	}
+	clean = []
+	for row in items:
+		if not isinstance(row, dict) or set(row) - allowed:
+			frappe.throw(_("Unsupported item update field."), frappe.ValidationError)
+		clean.append({key: value for key, value in row.items() if key in allowed})
+	from erpnext.controllers.accounts_controller import update_child_qty_rate
+	update_child_qty_rate(doc.doctype, json.dumps(clean), doc.name)
+
+
+def _get_rfq_suppliers(doc, search_type: str, filter_value: str) -> None:
+	if search_type not in {"Supplier Group", "Tag"} or not filter_value:
+		frappe.throw(_("Choose Supplier Group or Tag and provide a value."), frappe.ValidationError)
+	if search_type == "Supplier Group":
+		_permitted_source("Supplier Group", filter_value)
+		names = frappe.get_list(
+			"Supplier", filters={"supplier_group": filter_value, "disabled": 0},
+			pluck="name", order_by="name asc", limit_page_length=MAX_PAGE_SIZE,
+		)
+	else:
+		links = frappe.get_all(
+			"Tag Link", filters={"document_type": "Supplier", "tag": filter_value},
+			pluck="document_name", limit_page_length=MAX_PAGE_SIZE,
+		)
+		names = frappe.get_list(
+			"Supplier", filters={"name": ["in", links], "disabled": 0},
+			pluck="name", order_by="name asc", limit_page_length=MAX_PAGE_SIZE,
+		) if links else []
+	existing = {row.supplier for row in doc.get("suppliers") or [] if row.supplier}
+	for name in names:
+		if name not in existing:
+			doc.append("suppliers", {"supplier": name})
+	if not names:
+		frappe.throw(_("No permitted suppliers match that filter."), frappe.ValidationError)
+	doc.save()
 
 
 def _available_workflow_actions(doc) -> list[dict]:
@@ -954,6 +1147,63 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		from erpnext.buying.doctype.request_for_quotation.request_for_quotation import send_supplier_emails
 		send_supplier_emails(doc.name)
 		doc.reload()
+	elif action == "delivered" and doc.doctype == "Purchase Order":
+		from erpnext.buying.doctype.purchase_order.purchase_order import update_status
+		update_status("Delivered", doc.name)
+		doc.reload()
+	elif action == "link_to_material_request" and doc.doctype == "Purchase Order":
+		_link_pending_material_requests(doc)
+		doc.reload()
+	elif action == "update_rate_as_per_last_purchase" and doc.doctype == "Purchase Order":
+		doc.get_last_purchase_rate()
+		doc.save()
+	elif action == "update_items" and doc.doctype in {"Purchase Order", "Supplier Quotation"}:
+		_update_transaction_items(doc, parameters.get("items_json"))
+		doc.reload()
+	elif action in {"material_request", "opportunity", "possible_supplier"} and doc.doctype == "Request for Quotation":
+		if action == "material_request":
+			source = _permitted_source("Material Request", parameters.get("source_name"))
+			from erpnext.stock.doctype.material_request.material_request import make_request_for_quotation
+			target = make_request_for_quotation(source, target_doc=doc)
+		elif action == "opportunity":
+			source = _permitted_source("Opportunity", parameters.get("source_name"))
+			from erpnext.crm.doctype.opportunity.opportunity import make_request_for_quotation
+			target = make_request_for_quotation(source, target_doc=doc)
+		else:
+			supplier = _permitted_source("Supplier", parameters.get("supplier"))
+			from erpnext.buying.doctype.request_for_quotation.request_for_quotation import get_item_from_material_requests_based_on_supplier
+			target = get_item_from_material_requests_based_on_supplier(supplier, target_doc=doc)
+			linked = {row.material_request for row in target.get("items") or [] if row.material_request}
+			visible = set(frappe.get_list("Material Request", filters={"name": ["in", sorted(linked)]}, pluck="name", limit_page_length=MAX_PAGE_SIZE)) if linked else set()
+			if linked - visible:
+				frappe.throw(_("One or more source records are not available."), frappe.PermissionError)
+		target.save()
+		doc = target
+	elif action == "link_to_material_requests" and doc.doctype in {"Request for Quotation", "Supplier Quotation"}:
+		_link_pending_material_requests(doc)
+		doc.reload()
+	elif action == "get_suppliers" and doc.doctype == "Request for Quotation":
+		_get_rfq_suppliers(
+			doc,
+			str(parameters.get("search_type") or "").strip(),
+			str(parameters.get("filter_value") or "").strip(),
+		)
+		doc.reload()
+	elif action == "download_pdf" and doc.doctype == "Request for Quotation":
+		supplier = _permitted_source("Supplier", parameters.get("supplier"))
+		if supplier not in {row.supplier for row in doc.get("suppliers") or [] if row.supplier}:
+			frappe.throw(_("Supplier is not registered on this request."), frappe.ValidationError)
+		query = urlencode({"name": doc.name, "supplier": supplier}, quote_via=quote)
+		return {"download_url": f"/api/method/erpnext.buying.doctype.request_for_quotation.request_for_quotation.get_pdf?{query}"}
+	elif action == "get_supplier_group_details" and doc.doctype == "Supplier":
+		doc.get_supplier_group_details()
+		doc.reload()
+	elif action == "link_with_customer" and doc.doctype == "Supplier":
+		customer = _permitted_source("Customer", parameters.get("customer"))
+		from erpnext.accounts.doctype.party_link.party_link import create_party_link
+		target = create_party_link("Supplier", doc.name, customer)
+		target_record = get_generated_feature("party-link")
+		return {"name": target.name, "doctype": target.doctype, "route": _record_route(target_record, target.name)}
 	elif action == "accounting_ledger" and doc.doctype == "Supplier":
 		params = urlencode({"party_type": "Supplier", "party": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}

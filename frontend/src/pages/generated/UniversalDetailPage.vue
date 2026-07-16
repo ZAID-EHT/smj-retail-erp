@@ -87,7 +87,22 @@ async function load() {
 function actionParameters(action) {
   const parameters = {};
   for (const field of action.requires_parameters || []) {
-    const value = window.prompt(`Enter ${field.replaceAll("_", " ")}`);
+    const defaultValue = field === "items_json"
+      ? JSON.stringify((detail.value?.document?.items || []).map((row) => ({
+        docname: row.name,
+        item_code: row.item_code,
+        item_name: row.item_name,
+        qty: row.qty,
+        rate: row.rate,
+        uom: row.uom,
+        conversion_factor: row.conversion_factor,
+        schedule_date: row.schedule_date,
+        fg_item: row.fg_item,
+        fg_item_qty: row.fg_item_qty,
+        idx: row.idx,
+      })), null, 2)
+      : "";
+    const value = window.prompt(`Enter ${field.replaceAll("_", " ")}`, defaultValue);
     if (!value) return null;
     parameters[field] = value;
   }
@@ -118,7 +133,8 @@ async function act(action) {
       ? await runWorkflowAction(feature.value, name.value, action.action, detail.value.document.modified)
       : await runDocumentAction(feature.value, name.value, action.action, detail.value.document.modified, parameters);
     toast.success(`${action.label} complete`, `${name.value} was updated.`);
-    if (result.route && result.route !== route.path) await router.push(result.route);
+    if (result.download_url) window.location.assign(result.download_url);
+    else if (result.route && result.route !== route.path) await router.push(result.route);
     else await load();
   } catch (caught) {
     error.value = caught;

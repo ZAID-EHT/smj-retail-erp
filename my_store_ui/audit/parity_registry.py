@@ -235,7 +235,10 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # standard supplier.js dashboard "Connections" tiles, served by the new
     # generic get_dashboard_connections() adapter (universal/api.py),
     # verified against this exact doctype's *_dashboard.py transactions.
-    "Supplier": {"hold", "resume", "accounting_ledger", "accounts_payable", "bank_account", "pricing_rule"},
+    "Supplier": {
+        "hold", "resume", "accounting_ledger", "accounts_payable", "bank_account", "pricing_rule",
+        "get_supplier_group_details", "link_with_customer",
+    },
     # "re_open"/"update_status" are JS button labels (material_request.js)
     # calling the exact same update_status() the stop/reopen actions wrap;
     # "purchase_order"/"request_for_quotation" are button labels calling the
@@ -274,6 +277,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Order": {
         "hold", "close", "resume", "reopen", "re_open",
         "make_purchase_receipt", "purchase_receipt", "make_purchase_invoice", "purchase_invoice", "payment",
+        "delivered", "link_to_material_request", "make_inter_company_sales_order",
+        "make_subcontracting_order", "material_to_supplier", "return_of_components",
+        "update_items", "update_rate_as_per_last_purchase", "update_status",
         # purchase_order_dashboard.py Reference/Payment/Sub-contracting group
         # connections (Material Request, Supplier Quotation, Payment Request,
         # Subcontracting Order), served by get_dashboard_connections().
@@ -301,6 +307,8 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Request for Quotation": {
         "make_supplier_quotation", "supplier_quotation", "make_supplier_quotation_from_rfq",
         "supplier_quotation_comparison", "send_emails_to_suppliers",
+        "download_pdf", "get_suppliers", "link_to_material_requests", "material_request",
+        "opportunity", "possible_supplier",
     },
     # Bug fix: "make_purchase_order" alone never matched the real scanner key
     # "purchase_order" (the "Purchase Order" button label) - same class of
@@ -313,7 +321,8 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # dashboard.py Reference connections, served by get_dashboard_connections().
     "Supplier Quotation": {
         "make_purchase_order", "purchase_order", "make_quotation", "quotation",
-        "material_request", "request_for_quotation",
+        "material_request", "request_for_quotation", "make_purchase_invoice",
+        "link_to_material_requests", "update_items",
     },
     # Real new action: Payment Order batches Payment Entries — dashboard
     # connection (payment_order_dashboard.py), served by get_dashboard_connections().
@@ -631,6 +640,24 @@ POS_EXTERNAL_LAUNCHER_ACTIONS = {
     "make_closing_shift_from_opening", "submit_closing_shift", "add_edit_coupon_conditions",
 }
 
+# Source-verified actions that intentionally remain in their standard portal or
+# controller lifecycle instead of being exposed as a second staff-facing button.
+# These outcomes prevent false "missing" credits without inventing UI routes.
+DOCUMENT_ACTION_OVERRIDES = {
+    ("Purchase Order", "make_purchase_invoice_from_portal"): (
+        "external_app_adapter", "implemented_unverified", "/purchase-orders",
+        "Supplier web-portal action; the ERPNext handler enforces supplier ownership and is not a staff Desk action.",
+    ),
+    ("Request for Quotation", "create_supplier_quotation"): (
+        "external_app_adapter", "implemented_unverified", "/supplier-quotations",
+        "Supplier web-portal response action; standard ERPNext portal ownership checks remain authoritative.",
+    ),
+    ("Supplier Scorecard", "make_all_scorecards"): (
+        "internal", "internal", None,
+        "Controller maintenance helper invoked by on_update/scheduled processing; no ERPNext Desk button exists.",
+    ),
+}
+
 # Audit correction: print formats attached to a Report (doc_type is empty in
 # ERPNext for these) rather than a DocType. feature_inventory.py's print
 # format route resolver only checks doc_type, so these never get a route even
@@ -808,6 +835,11 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         mapped = feature.get("mapped_actions") or []
         if mapped and isinstance(mapped, list):
             action_key = str(mapped[0].get("action") or "")
+        override = DOCUMENT_ACTION_OVERRIDES.get((parent, action_key))
+        if override:
+            strategy, status, destination, reason = override
+            evidence = [f"Served by standard ERPNext surface {destination}"] if destination else []
+            return (strategy, status, "source_only" if destination else "n/a", evidence, reason)
         if action_key in POS_EXTERNAL_LAUNCHER_ACTIONS:
             return ("external_app_adapter", "implemented_unverified", "source_only",
                     ["Reachable via the /pos external launcher"],
