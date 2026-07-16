@@ -1,6 +1,6 @@
 # Unmapped Retail ERP features
 
-Total user-facing features without a registered custom route: **1691**.
+Total user-facing features without a registered custom route: **1683**.
 
 The priority page sprint registers clean routes for important daily DocTypes and selected reports. Generated transactions and specialised tools remain provisional even when their parent DocType is no longer counted as route-unmapped; unresolved actions, views, dashboards, customisations and per-feature tests remain listed below.
 
@@ -268,7 +268,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | /app/bin | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-accounting-statements` | erpnext | Accounts | doctype | Bisect Accounting Statements | A | /app/bisect-accounting-statements | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-nodes` | erpnext | Accounts | doctype | Bisect Nodes | A | /app/bisect-nodes | Required for ordinary-user parity |
-| `erpnext:doctype:blanket-order` | erpnext | Manufacturing | doctype | Blanket Order | A | /app/blanket-order | Required for ordinary-user parity |
 | `erpnext:doctype:bom-creator` | erpnext | Manufacturing | doctype | BOM Creator | A | /app/bom-creator | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | /app/bom-update-log | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-tool` | erpnext | Manufacturing | doctype | BOM Update Tool | A | /app/bom-update-tool | Required for ordinary-user parity |
@@ -297,8 +296,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:doctype:ledger-health-monitor` | erpnext | Accounts | doctype | Ledger Health Monitor | A | /app/ledger-health-monitor | Required for ordinary-user parity |
 | `erpnext:doctype:ledger-merge` | erpnext | Accounts | doctype | Ledger Merge | A | /app/ledger-merge | Required for ordinary-user parity |
 | `erpnext:doctype:loyalty-point-entry` | erpnext | Accounts | doctype | Loyalty Point Entry | A | /app/loyalty-point-entry | Required for ordinary-user parity |
-| `erpnext:doctype:maintenance-schedule` | erpnext | Maintenance | doctype | Maintenance Schedule | A | /app/maintenance-schedule | Required for ordinary-user parity |
-| `erpnext:doctype:maintenance-visit` | erpnext | Maintenance | doctype | Maintenance Visit | A | /app/maintenance-visit | Required for ordinary-user parity |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | /app/manufacturing-settings | Required for ordinary-user parity |
 | `erpnext:doctype:opening-invoice-creation-tool` | erpnext | Accounts | doctype | Opening Invoice Creation Tool | A | /app/opening-invoice-creation-tool | Required for ordinary-user parity |
 | `erpnext:doctype:payment-ledger-entry` | erpnext | Accounts | doctype | Payment Ledger Entry | A | /app/payment-ledger-entry | Required for ordinary-user parity |
@@ -927,8 +924,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:crm:doctype-communication` | erpnext | CRM | workspace_target | Communication | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-crm-settings` | erpnext | CRM | workspace_target | CRM Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-email-group` | erpnext | CRM | workspace_target | Email Group | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-maintenance-schedule` | erpnext | CRM | workspace_target | Maintenance Schedule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-maintenance-visit` | erpnext | CRM | workspace_target | Maintenance Visit | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-newsletter` | erpnext | CRM | workspace_target | Newsletter | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-sms-center` | erpnext | CRM | workspace_target | SMS Center | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-sms-log` | erpnext | CRM | workspace_target | SMS Log | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1016,7 +1011,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:receivables:doctype-pos-invoice` | erpnext | Accounts | workspace_target | POS Invoice | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:chart-sales-order-trends` | erpnext | Selling | workspace_target | Sales Order Trends | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:dashboard-selling` | erpnext | Selling | workspace_target | Dashboard | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:selling:doctype-blanket-order` | erpnext | Selling | workspace_target | Blanket Order | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-loyalty-point-entry` | erpnext | Selling | workspace_target | Loyalty Point Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-closing-entry` | erpnext | Selling | workspace_target | POS Closing Entry | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-pos-opening-entry` | erpnext | Selling | workspace_target | POS Opening Entry | C | — | Target must resolve to a classified Retail ERP feature |
@@ -1039,8 +1033,6 @@ The priority page sprint registers clean routes for important daily DocTypes and
 | `erpnext:workspace-target:subcontracting:number-card-active-subcontracted-items` | erpnext | Subcontracting | workspace_target | Active Subcontracted Items | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:number-card-subcontracting-inward-order-count` | erpnext | Subcontracting | workspace_target | Subcontracting Inward Order Count | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:subcontracting:number-card-subcontracting-outward-order-count` | erpnext | Subcontracting | workspace_target | Subcontracting Outward Order Count | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-maintenance-schedule` | erpnext | Support | workspace_target | Maintenance Schedule | C | — | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-maintenance-visit` | erpnext | Support | workspace_target | Maintenance Visit | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:support:doctype-support-settings` | erpnext | Support | workspace_target | Support Settings | C | — | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace:accounting` | erpnext | Accounts | workspace | Accounting | C | /app/accounting | Workspace targets require Retail ERP launchers/routes |
 | `erpnext:workspace:assets` | erpnext | Assets | workspace | Assets | C | /app/assets | Workspace targets require Retail ERP launchers/routes |

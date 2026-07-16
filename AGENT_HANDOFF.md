@@ -1539,3 +1539,32 @@ writes, no `ignore_permissions`. Browser/UI rendering remains unverified
 (no Chrome/Playwright in this environment, unchanged from every prior
 session's diagnosis) — every new capability is `implemented_unverified` or
 `special_adapter`, never falsely `verified_complete`.
+
+## 30. Required-222 Mission Completion (2026-07-16)
+
+Section 29 is historical and is superseded by this section. The remaining 144
+items were completed in six further source-verified batches:
+
+- `8201749`: Bank Clearance and Pegged Currencies Single tools.
+- `264a151`: Sales Funnel and Warehouse Capacity pages.
+- `c3973ac`: Buying action adapters.
+- `3bbbedf`: Accounts action adapters.
+- `b64aecc`: Stock action adapters.
+- `325527b`: CRM, Selling, Setup, Contacts, Printing and Maintenance adapters.
+
+Final generated audit fingerprint:
+`029f8e0d2a940f071d20a66010f820fbd8083401ae4eae6f906f0a909b0562d0`.
+Final corrected values are `required_but_missing = 0` and `unclassified = 0`.
+The broad inventory audit is still red (`unmapped_user_facing = 1683`), and
+browser verification remains unavailable. Consequently the registry correctly
+reports `verified_complete = 0`, `implemented_unverified = 469`, and
+`generated_provisional = 805`; this is corrected required-scope completion,
+not a claim of full ERPNext parity or production readiness.
+
+The authoritative final evidence is:
+
+- `docs/full-parity/REQUIRED_222_COMPLETION_REPORT.md`
+- `docs/full-parity/REQUIRED_222_BATCH_LOG.md`
+- `docs/full-parity/required_missing_latest.json`
+- `docs/full-parity/corrected_production_parity_audit.json`
+- `docs/full-parity/REMAINING_APPROVAL_BLOCKERS.md`

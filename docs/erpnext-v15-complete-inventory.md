@@ -2,7 +2,7 @@
 
 > Machine-generated from `site1.local` database metadata and installed source. Do not edit generated tables manually.
 
-Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16`
+Inventory fingerprint: `029f8e0d2a940f071d20a66010f820fbd8083401ae4eae6f906f0a909b0562d0`
 
 ## Coverage summary
 
@@ -565,7 +565,7 @@ Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000
 | `erpnext:doctype:bin` | erpnext | Stock | doctype | Bin | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-accounting-statements` | erpnext | Accounts | doctype | Bisect Accounting Statements | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bisect-nodes` | erpnext | Accounts | doctype | Bisect Nodes | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:blanket-order` | erpnext | Manufacturing | doctype | Blanket Order | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:blanket-order` | erpnext | Manufacturing | doctype | Blanket Order | A | Yes | /sales/blanket-orders | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:bom` | erpnext | Manufacturing | doctype | BOM | B | Yes | /operations/manufacturing/boms | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:bom-creator` | erpnext | Manufacturing | doctype | BOM Creator | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:bom-update-log` | erpnext | Manufacturing | doctype | BOM Update Log | A | Yes | — | Not implemented | Required for ordinary-user parity |
@@ -650,8 +650,8 @@ Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000
 | `erpnext:doctype:lower-deduction-certificate` | erpnext | Regional | doctype | Lower Deduction Certificate | A | Yes | /finance/lower-deduction-certificate | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:loyalty-point-entry` | erpnext | Accounts | doctype | Loyalty Point Entry | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:loyalty-program` | erpnext | Accounts | doctype | Loyalty Program | A | Yes | /finance/loyalty-program | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
-| `erpnext:doctype:maintenance-schedule` | erpnext | Maintenance | doctype | Maintenance Schedule | A | Yes | — | Not implemented | Required for ordinary-user parity |
-| `erpnext:doctype:maintenance-visit` | erpnext | Maintenance | doctype | Maintenance Visit | A | Yes | — | Not implemented | Required for ordinary-user parity |
+| `erpnext:doctype:maintenance-schedule` | erpnext | Maintenance | doctype | Maintenance Schedule | A | Yes | /operations/maintenance-schedules | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
+| `erpnext:doctype:maintenance-visit` | erpnext | Maintenance | doctype | Maintenance Visit | A | Yes | /operations/maintenance-visits | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:manufacturer` | erpnext | Stock | doctype | Manufacturer | A | Yes | /inventory/manufacturer | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
 | `erpnext:doctype:manufacturing-settings` | erpnext | Manufacturing | doctype | Manufacturing Settings | A | Yes | — | Not implemented | Required for ordinary-user parity |
 | `erpnext:doctype:market-segment` | erpnext | CRM | doctype | Market Segment | A | Yes | /crm/market-segment | Generated provisional list/detail/form and allowlisted action coverage | Per-feature transaction, collaboration and interactive browser graduation remains |
@@ -1701,8 +1701,8 @@ Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000
 | `erpnext:workspace-target:crm:doctype-email-group` | erpnext | CRM | workspace_target | Email Group | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-lead` | erpnext | CRM | workspace_target | Lead | C | Yes | /crm/leads | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:crm:doctype-lead-source` | erpnext | CRM | workspace_target | Lead Source | C | Yes | /crm/lead-source | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
-| `erpnext:workspace-target:crm:doctype-maintenance-schedule` | erpnext | CRM | workspace_target | Maintenance Schedule | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:crm:doctype-maintenance-visit` | erpnext | CRM | workspace_target | Maintenance Visit | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
+| `erpnext:workspace-target:crm:doctype-maintenance-schedule` | erpnext | CRM | workspace_target | Maintenance Schedule | C | Yes | /operations/maintenance-schedules | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
+| `erpnext:workspace-target:crm:doctype-maintenance-visit` | erpnext | CRM | workspace_target | Maintenance Visit | C | Yes | /operations/maintenance-visits | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:crm:doctype-newsletter` | erpnext | CRM | workspace_target | Newsletter | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:crm:doctype-opportunity` | erpnext | CRM | workspace_target | Opportunity | C | Yes | /crm/opportunities | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:crm:doctype-prospect` | erpnext | CRM | workspace_target | Prospect | C | Yes | /crm/prospect | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
@@ -1942,7 +1942,7 @@ Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000
 | `erpnext:workspace-target:selling:chart-sales-order-trends` | erpnext | Selling | workspace_target | Sales Order Trends | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:dashboard-selling` | erpnext | Selling | workspace_target | Dashboard | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
 | `erpnext:workspace-target:selling:doctype-address` | erpnext | Selling | workspace_target | Address | C | Yes | /crm/addresses | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
-| `erpnext:workspace-target:selling:doctype-blanket-order` | erpnext | Selling | workspace_target | Blanket Order | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
+| `erpnext:workspace-target:selling:doctype-blanket-order` | erpnext | Selling | workspace_target | Blanket Order | C | Yes | /sales/blanket-orders | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:selling:doctype-campaign` | erpnext | Selling | workspace_target | Campaign | C | Yes | /crm/campaigns | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:selling:doctype-contact` | erpnext | Selling | workspace_target | Contact | C | Yes | /crm/contacts | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:selling:doctype-coupon-code` | erpnext | Selling | workspace_target | Coupon Code | C | Yes | /finance/coupon-code | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
@@ -2070,8 +2070,8 @@ Inventory fingerprint: `af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000
 | `erpnext:workspace-target:support:doctype-issue` | erpnext | Support | workspace_target | Issue | C | Yes | /operations/support/issues | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:support:doctype-issue-priority` | erpnext | Support | workspace_target | Issue Priority | C | Yes | /operations/issue-priority | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:support:doctype-issue-type` | erpnext | Support | workspace_target | Issue Type | C | Yes | /operations/issue-type | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
-| `erpnext:workspace-target:support:doctype-maintenance-schedule` | erpnext | Support | workspace_target | Maintenance Schedule | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
-| `erpnext:workspace-target:support:doctype-maintenance-visit` | erpnext | Support | workspace_target | Maintenance Visit | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |
+| `erpnext:workspace-target:support:doctype-maintenance-schedule` | erpnext | Support | workspace_target | Maintenance Schedule | C | Yes | /operations/maintenance-schedules | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
+| `erpnext:workspace-target:support:doctype-maintenance-visit` | erpnext | Support | workspace_target | Maintenance Visit | C | Yes | /operations/maintenance-visits | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:support:doctype-serial-no` | erpnext | Support | workspace_target | Serial No | C | Yes | /inventory/serial-numbers | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:support:doctype-service-level-agreement` | erpnext | Support | workspace_target | Service Level Agreement | C | Yes | /operations/service-level-agreement | Reachable via mapped Retail ERP destination | Target resolves to a Retail ERP route; interactive workspace card verification remains |
 | `erpnext:workspace-target:support:doctype-support-settings` | erpnext | Support | workspace_target | Support Settings | C | Yes | — | Not implemented | Target must resolve to a classified Retail ERP feature |

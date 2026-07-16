@@ -378,7 +378,7 @@
     },
     {
       "application": "my_store_ui",
-      "git_commit": "a85735583b546febdd533647345d5f498beab08e",
+      "git_commit": "325527bddbbb3c37e31f186d449bcc73fe592da1",
       "hooks": {
         "declared_names": [
           "app_description",
@@ -421,7 +421,7 @@
       "unclassified_user_facing": 0,
       "undocumented_actions": 0,
       "unhandled_active_workflows": 0,
-      "unmapped_user_facing": 1691
+      "unmapped_user_facing": 1683
     },
     "failures": {
       "complete_without_tests": [],
@@ -691,7 +691,6 @@
         "erpnext:doctype:bin",
         "erpnext:doctype:bisect-accounting-statements",
         "erpnext:doctype:bisect-nodes",
-        "erpnext:doctype:blanket-order",
         "erpnext:doctype:bom-creator",
         "erpnext:doctype:bom-update-log",
         "erpnext:doctype:bom-update-tool",
@@ -720,8 +719,6 @@
         "erpnext:doctype:ledger-health-monitor",
         "erpnext:doctype:ledger-merge",
         "erpnext:doctype:loyalty-point-entry",
-        "erpnext:doctype:maintenance-schedule",
-        "erpnext:doctype:maintenance-visit",
         "erpnext:doctype:manufacturing-settings",
         "erpnext:doctype:opening-invoice-creation-tool",
         "erpnext:doctype:payment-ledger-entry",
@@ -1350,8 +1347,6 @@
         "erpnext:workspace-target:crm:doctype-communication",
         "erpnext:workspace-target:crm:doctype-crm-settings",
         "erpnext:workspace-target:crm:doctype-email-group",
-        "erpnext:workspace-target:crm:doctype-maintenance-schedule",
-        "erpnext:workspace-target:crm:doctype-maintenance-visit",
         "erpnext:workspace-target:crm:doctype-newsletter",
         "erpnext:workspace-target:crm:doctype-sms-center",
         "erpnext:workspace-target:crm:doctype-sms-log",
@@ -1439,7 +1434,6 @@
         "erpnext:workspace-target:receivables:doctype-pos-invoice",
         "erpnext:workspace-target:selling:chart-sales-order-trends",
         "erpnext:workspace-target:selling:dashboard-selling",
-        "erpnext:workspace-target:selling:doctype-blanket-order",
         "erpnext:workspace-target:selling:doctype-loyalty-point-entry",
         "erpnext:workspace-target:selling:doctype-pos-closing-entry",
         "erpnext:workspace-target:selling:doctype-pos-opening-entry",
@@ -1462,8 +1456,6 @@
         "erpnext:workspace-target:subcontracting:number-card-active-subcontracted-items",
         "erpnext:workspace-target:subcontracting:number-card-subcontracting-inward-order-count",
         "erpnext:workspace-target:subcontracting:number-card-subcontracting-outward-order-count",
-        "erpnext:workspace-target:support:doctype-maintenance-schedule",
-        "erpnext:workspace-target:support:doctype-maintenance-visit",
         "erpnext:workspace-target:support:doctype-support-settings",
         "erpnext:workspace:accounting",
         "erpnext:workspace:assets",
@@ -111679,12 +111671,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "BlanketOrder"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/blanket-orders",
       "customizations": [],
       "delete": true,
       "doctype": "Blanket Order",
@@ -112079,7 +112071,7 @@
       "relevant_roles": [
         "System Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -112119,7 +112111,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -157542,12 +157534,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MaintenanceSchedule"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-schedules",
       "customizations": [],
       "delete": true,
       "doctype": "Maintenance Schedule",
@@ -158040,7 +158032,7 @@
       "relevant_roles": [
         "Maintenance Manager"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -158074,7 +158066,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -158114,12 +158106,12 @@
       ],
       "classification": "A",
       "comment": true,
-      "completion_status": "Not implemented",
+      "completion_status": "Generated provisional list/detail/form and allowlisted action coverage",
       "controller_class": [
         "MaintenanceVisit"
       ],
       "create": true,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-visits",
       "customizations": [],
       "delete": true,
       "doctype": "Maintenance Visit",
@@ -158735,7 +158727,7 @@
       "relevant_roles": [
         "Maintenance User"
       ],
-      "remaining_desk_dependency": "Required for ordinary-user parity",
+      "remaining_desk_dependency": "Per-feature transaction, collaboration and interactive browser graduation remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -158769,7 +158761,7 @@
         "Form",
         "List"
       ],
-      "test_status": "Not tested",
+      "test_status": "Priority route, permission and adapter regression tests",
       "tool": null,
       "user_facing": true,
       "write": true
@@ -321803,10 +321795,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-schedules",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -321827,7 +321819,7 @@
       "notes": [
         "target_type=DocType",
         "target=Maintenance Schedule",
-        "target_route="
+        "target_route=/operations/maintenance-schedules"
       ],
       "page": null,
       "page_permissions": [],
@@ -321837,7 +321829,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -321867,10 +321859,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-visits",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -321891,7 +321883,7 @@
       "notes": [
         "target_type=DocType",
         "target=Maintenance Visit",
-        "target_route="
+        "target_route=/operations/maintenance-visits"
       ],
       "page": null,
       "page_permissions": [],
@@ -321901,7 +321893,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -337227,10 +337219,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/sales/blanket-orders",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -337251,7 +337243,7 @@
       "notes": [
         "target_type=DocType",
         "target=Blanket Order",
-        "target_route="
+        "target_route=/sales/blanket-orders"
       ],
       "page": null,
       "page_permissions": [],
@@ -337261,7 +337253,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -345419,10 +345411,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-schedules",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -345443,7 +345435,7 @@
       "notes": [
         "target_type=DocType",
         "target=Maintenance Schedule",
-        "target_route="
+        "target_route=/operations/maintenance-schedules"
       ],
       "page": null,
       "page_permissions": [],
@@ -345453,7 +345445,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -345483,10 +345475,10 @@
       "child_tables": [],
       "classification": "C",
       "comment": false,
-      "completion_status": "Not implemented",
+      "completion_status": "Reachable via mapped Retail ERP destination",
       "controller_class": null,
       "create": false,
-      "current_custom_route": null,
+      "current_custom_route": "/operations/maintenance-visits",
       "customizations": [],
       "delete": false,
       "doctype": null,
@@ -345507,7 +345499,7 @@
       "notes": [
         "target_type=DocType",
         "target=Maintenance Visit",
-        "target_route="
+        "target_route=/operations/maintenance-visits"
       ],
       "page": null,
       "page_permissions": [],
@@ -345517,7 +345509,7 @@
       "read": true,
       "related_documents": [],
       "relevant_roles": [],
-      "remaining_desk_dependency": "Target must resolve to a classified Retail ERP feature",
+      "remaining_desk_dependency": "Target resolves to a Retail ERP route; interactive workspace card verification remains",
       "report": null,
       "report_permissions": [],
       "represented_in_previous_matrix": false,
@@ -469114,7 +469106,7 @@
       "write": false
     }
   ],
-  "inventory_fingerprint": "af61813ff2455317d028f519a23fb301cf3c711b430b7e7cf2bf1000e7b1ac16",
+  "inventory_fingerprint": "029f8e0d2a940f071d20a66010f820fbd8083401ae4eae6f906f0a909b0562d0",
   "reconciliation": {
     "by_feature_type": {
       "child_doctype": {

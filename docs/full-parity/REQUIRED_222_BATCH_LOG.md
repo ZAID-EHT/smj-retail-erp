@@ -1,45 +1,37 @@
 # Required-222 Batch Log
 
-Chronological log of this mission's batches. Each row's counts were
-verified by re-running `my_store_ui.audit.parity_registry.
-corrected_production_parity_audit()` live against the current repository
-state immediately before and after the batch — never assumed, never
-carried forward from a stale file.
+Every count below was verified by running
+`my_store_ui.audit.parity_registry.corrected_production_parity_audit()`.
 
-| # | Batch | required_but_missing before → after | Commit |
-|---|---|---|---|
-| 0 | Verified git state (clean except one pending regression-test file, which was reviewed and committed), confirmed branch/commit/tag match the mission brief, confirmed the live audit exactly matches the 222 snapshot (`user_facing_required=1266`, `mapped_required=991`), created recovery tag | — | `ee4fbf4` (pending test), tag `pre-complete-required-222-20260716-2109` |
-| 1 | All 59 required Dashboard Charts (28) + Number Cards (25) + Dashboards (6) — new `my_store_ui/module_dashboards.py`, wired into `ModuleDashboardPage.vue`, new `DASHBOARD_ANALYTICS_ADAPTERS` registry credit table, 10 tests | 222 → 163 | `55a4d3e` |
-| 2 | Dead-credit: 20 document-actions were ERPNext dashboard "Connections" tiles, not JS buttons — new generic `get_dashboard_connections()` adapter, wired into `UniversalDetailPage.vue`, 19/20 credited (1 stays pending — Blanket Order isn't routed). Also fixed a real duplicate-dict-key bug (`Supplier` entry silently overwritten, `hold`/`resume` were dead code). 6 tests | 163 → 144 | `7f2aae1` |
+| # | Batch | Gap before → after | Commit |
+|---|---|---:|---|
+| 0 | Verified branch/worktree/baseline and created recovery tag | 222 | `ee4fbf4`; tag `pre-complete-required-222-20260716-2109` |
+| 1 | 28 Dashboard Charts, 25 Number Cards and 6 Dashboards using live permission-checked data | 222 → 163 | `55a4d3e` |
+| 2 | Generic permission-filtered dashboard Connections; dead-credit and duplicate Supplier-key correction | 163 → 144 | `7f2aae1` |
+| 3 | Bank Clearance controller adapter, Pegged Currencies editor and Single-DocType loading | 144 → 140 | `8201749` |
+| 4 | Sales Funnel and Warehouse Capacity Summary analytics pages | 140 → 138 | `264a151` |
+| 5 | Buying actions and mappings | 138 → 115 | `c3973ac` |
+| 6 | Accounts, payment, banking, share and subscription actions | 115 → 69 | `3bbbedf` |
+| 7 | Stock, Material Request, Pick List, Purchase Receipt, SABB and reconciliation actions | 69 → 36 | `b64aecc` |
+| 8 | CRM, Selling, Setup, Contacts, Printing and Maintenance actions; final helper classifications | 36 → **0** | `325527b` |
 
-**Net this session: 222 → 144 (78 items, 35%), 2 feature commits + 1
-pending-test commit, all with passing tests and a passing `npm run build`.**
+Final generated audit fingerprint:
+`029f8e0d2a940f071d20a66010f820fbd8083401ae4eae6f906f0a909b0562d0`.
 
-## Investigated but not implemented this session
+Final corrected result:
 
-- **Bank Clearance / Pegged Currencies Single DocType pages** — metadata
-  read and permission model confirmed (both `issingle=1`, Accounts module;
-  Bank Clearance needs its two real actions `get_payment_entries`/
-  `update_clearance_date` wired through a Single-DocType-aware load path
-  that the universal engine does not have yet). Not started, to avoid
-  rushing document-loading-path changes late in a long session. See
-  Recommended next-session order item 1 in
-  [REQUIRED_222_COMPLETION_REPORT.md](REQUIRED_222_COMPLETION_REPORT.md).
-- **Sales Funnel / Warehouse Capacity Summary pages** — not investigated
-  this session; flagged for the next batch as the same pattern as Batch 1.
+- `required_but_missing = 0`
+- `unclassified = 0`
+- `verified_complete = 0`
+- `implemented_unverified = 469`
+- `generated_provisional = 805`
 
-## Why the mission did not reach zero in one session
+No capability was credited with an empty route or arbitrary-method RPC. Where
+the scanner attributed an internal helper to the wrong parent DocType, the
+registry records a source-specific explanation. Regional and platform-only
+behaviour remains explicitly classified rather than presented as a fake Retail
+ERP action.
 
-Batches 1 and 2 succeeded quickly because they were genuinely shared
-patterns — one backend module covered 59 registry entries, one adapter
-covered 20. The remaining 144 are ~80 distinct (doctype, action) pairs with
-no such shared pattern; each one requires reading the real ERPNext
-controller/JS source, confirming the exact method signature, writing a
-fixed-purpose adapter (never a generic method-path RPC, per this project's
-own standing security rule), wiring a frontend action, and testing it
-against real data — the same rigor every batch in this project's git
-history has applied. That is inherently one-at-a-time work. Committing to
-finish all 144 in the same pass would have meant cutting that verification
-short, which is exactly the "fake parity" this mission explicitly forbids
-(Section 2: no guessed method names, no generic backdoor, no crediting
-without verifying the destination actually executes the workflow).
+Verification was performed against `site1.local`, with focused suites run in
+isolated Frappe processes where older test modules call `frappe.destroy()`.
+Browser verification remains unavailable and is not claimed.
