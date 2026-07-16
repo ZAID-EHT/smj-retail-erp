@@ -786,3 +786,18 @@ registry + validation tests), Stage 12 tracking docs, Stage 6 approval proposals
 Independent, non-gated implementation (generic-engine hardening for in-scope
 masters/reports) can proceed in parallel but cannot be marked `verified_complete`
 until a test/browser environment exists.
+
+---
+
+## Required-222 mission batches 1–2 (2026-07-16)
+
+Full detail: `REQUIRED_222_COMPLETION_REPORT.md`, `REQUIRED_222_BATCH_LOG.md`.
+
+`required_but_missing` (the corrected registry gap, this doc's `Corrected
+required_but_missing` metric above) moved **222 → 144** this session:
+Batch 1 credited all 59 required Dashboard Charts/Number Cards/Dashboards
+via a new live-data `module_dashboards.py`; Batch 2's dead-credit pass
+found and credited 19 of 20 required document-actions that were actually
+ERPNext's standard "Connections" sidebar tiles, plus fixed a real duplicate
+dict-key bug (`Supplier` entry silently overwritten). 144 items remain,
+none newly blocked — see `REMAINING_APPROVAL_BLOCKERS.md`.

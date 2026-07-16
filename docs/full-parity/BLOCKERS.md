@@ -283,3 +283,15 @@ snapshot + Smart Sales display, credit status + all 7 gate rules, transaction
 register on real data, route HTTP 200, transaction-id hooks safe no-op, Bin-lock
 query validity, Vue build. What needs staging: applying custom fields, enabling
 reservation, and running the reservation/concurrency/integration + browser tests.
+
+---
+
+## Required-222 mission update (2026-07-16)
+
+No new blockers were found or created while working the required-222
+registry gap (222 → 144 this session). The 144 remaining items are
+ordinary unstarted implementation work, not approval- or
+environment-blocked — see `REMAINING_APPROVAL_BLOCKERS.md` for the
+explicit confirmation and reasoning. The four gates above (GATE 1–5)
+remain the only real blockers in this project and were not re-attempted
+this session since none of them were required for Batches 1–2.

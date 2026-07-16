@@ -319,3 +319,44 @@ document_action is only credited when both (a) its action key matches a real
 handler and (b) its parent doctype genuinely has a route. This is server-code
 truth, not a registry guess — verified against the actual Python source of
 `universal/api.py` before writing the tables.
+
+---
+
+## Required-222 mission decisions (2026-07-16)
+
+1. **Dashboard/chart/number-card crediting needed a new mechanism.**
+   `feature_inventory.py`'s `_visual_features()` never sets
+   `current_custom_route` for `dashboard`/`dashboard_chart`/`number_card`
+   features (confirmed by reading the source, not assumed), so no route-based
+   credit path existed for these 59 items even with a fully real
+   implementation. Added `DASHBOARD_ANALYTICS_ADAPTERS`, a per-feature-name
+   credit table analogous to the existing `BUILT_ADAPTER_DOCTYPE_NAMES`
+   pattern, rather than inventing a route or editing the read-only inventory
+   scanner.
+
+2. **Ageing charts compute buckets from `outstanding_amount`, not from
+   re-deriving accounting totals.** Considered reusing ERPNext's
+   "Accounts Receivable"/"Accounts Payable" reports for ageing (as was done
+   for Profit and Loss and Budget Variance), but their exact column-key
+   shape could not be verified live without creating test data in a way
+   that risked being wrong silently. Bucketing the already-ERPNext-computed
+   `outstanding_amount` field by `(today - due_date)` is presentational
+   arithmetic, not duplicated accounting logic — consistent with this
+   project's existing `_percent_change`/`_monthly_series` helpers in
+   `dashboard_analytics.py`.
+
+3. **`get_dashboard_connections()` is a new generic adapter, not a
+   route-by-route fix**, because the underlying pattern (ERPNext's
+   Connections sidebar) is shared by dozens of doctypes — matches this
+   project's own standing rule (mission Section 13) to extend the shared
+   universal engine rather than write repeated page-specific code when a
+   behaviour is shared across many doctypes.
+
+4. **`get_dashboard_connections()` deliberately does not call the standard
+   `frappe.desk.notifications.get_open_count`**, even though that function
+   already exists and does the same job, because it uses `frappe.get_all()`
+   (not permission-filtered) for linked-doctype counts — this project's own
+   stricter security rule requires every action to recheck permissions on
+   the backend. The new adapter reads the same `get_dashboard_data()`
+   config but performs its own `frappe.has_permission()` check per linked
+   doctype before returning anything.

@@ -139,3 +139,24 @@ Run in Chrome and Edge on an approved staging site with single-role users:
    vertical scroll, no horizontal overflow, dialog focus, keyboard/touch.
 7. Collaboration: comments/files/assign/share/tags/version/email; inaccessible-record non-disclosure.
 8. Capture screenshots, console/network logs, created document chain, ledger/stock reconciliation.
+
+---
+
+## Required-222 mission verification (2026-07-16)
+
+16 new automated tests added this session, all passing against live site1
+data via `bench execute` (standalone `unittest`, not `bench run-tests` —
+`allow_tests` still disabled, GATE 4 unchanged):
+
+- `my_store_ui/tests/test_module_dashboards.py` (10 tests) — all 6 module
+  dashboards return every required card/chart key with real computed
+  values; internal cross-checks against `frappe.db.count()`; guest denied;
+  no raw SQL/`ignore_permissions`; frontend wiring present.
+- `my_store_ui/tests/test_dashboard_connections.py` (6 tests) — real linked
+  documents returned for Purchase Invoice/Supplier with working routes;
+  only app-routed, permission-checked doctypes surfaced; guest denied;
+  registry credits all 19 connection actions and the duplicate-key fix;
+  frontend wiring present.
+
+Not verified: browser/UI rendering (GATE 5, unchanged), `bench run-tests`
+execution (GATE 4, unchanged). See `REQUIRED_222_COMPLETION_REPORT.md`.

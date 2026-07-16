@@ -1465,3 +1465,77 @@ verification matrix across all 9 pages was not built (see
 **Parity status unchanged**: `required_but_missing = 222`,
 `unclassified = 0`. No routes were remapped; only accent metadata and one
 route's component (`/home`) changed.
+
+## 29. Required-222 Mission: Dashboards + Dead-Credit (2026-07-16)
+
+Full completion attempt at driving `required_but_missing` (the corrected
+production-parity registry gap, not the raw route count) to zero. Recovery
+tag: `pre-complete-required-222-20260716-2109`. Result:
+**`required_but_missing` 222 → 144** (78 items, 35%), in 2 feature commits.
+The mission was **not completed** — this is reported honestly, not spun.
+Full detail: `docs/full-parity/REQUIRED_222_COMPLETION_REPORT.md`,
+`docs/full-parity/REQUIRED_222_BATCH_LOG.md`,
+`docs/full-parity/DEAD_CREDIT_FINAL_AUDIT.md`,
+`docs/full-parity/REMAINING_APPROVAL_BLOCKERS.md`.
+
+**Batch 1 (222 → 163)**: all 59 required Dashboard Charts/Number
+Cards/Dashboards. New `my_store_ui/module_dashboards.py` — six real,
+permission-checked, live-data endpoints (Accounts, Payments, Buying, CRM,
+Selling, Stock), reusing the standard "Profit and Loss Statement"/"Budget
+Variance Report" query reports for accounting math rather than
+reimplementing it (same pattern as the existing Gross Profit reuse in
+`dashboard_analytics.py`). Wired into `ModuleDashboardPage.vue` via a new
+`moduleDashboards.js` service, rendered through the existing SMJ chart
+framework. Verified against real site1 data via `bench execute`. New
+`DASHBOARD_ANALYTICS_ADAPTERS` registry credit table, matched by exact
+scanner `(feature_type, name)` key. 10 new tests
+(`test_module_dashboards.py`), all passing.
+
+**Batch 2 (163 → 144)**: dead-credit pass found 20 of the remaining items
+were ERPNext's standard "Connections" sidebar tiles (Purchase Invoice → its
+source PO, Supplier → its POs/PIs, etc.), not distinct buttons — verified
+precisely by loading each doctype's real `get_dashboard_data()` and
+checking the scanner's action key against its linked-doctype names, not
+guessed from labels. New generic `get_dashboard_connections()` adapter
+(`my_store_ui/universal/api.py`) reuses each doctype's own dashboard config
+(the same source Desk's Connections panel reads), permission-rechecks every
+linked doctype (stricter than the standard `frappe.desk.notifications.
+get_open_count`, which doesn't), and only surfaces app-routed doctypes.
+19/20 credited (the 20th, Blanket Order, stays pending until that doctype
+itself gets a route). Wired into `UniversalDetailPage.vue` as a new "Linked
+documents" section — confirmed via the router that this is the actual page
+serving Purchase Order/Invoice/Receipt/RFQ/Supplier Quotation/Material
+Request/Blanket Order/Payment Order/Quotation/Lead/Supplier, not the
+separate `EntityDetailPage.vue` (which only serves 3 handcrafted entities).
+
+**Real bug found and fixed while reading the registry code** (not a
+scanner-classification issue — an actual Python bug): `DOCTYPE_SPECIFIC_
+ACTIONS` had two `"Supplier"` dict-literal keys; the later one silently
+overwrote the earlier one, so `Supplier.hold`/`Supplier.resume` — real,
+working, already-implemented actions — were never actually being checked
+by the registry despite the code's clear intent. Merged into one entry.
+Full detail in `DEAD_CREDIT_FINAL_AUDIT.md`.
+
+**What remains (144 items, honestly not blocked, just not yet reached)**:
+140 individual document-actions across Accounts (50), Stock (35), Buying
+(23), Setup (11), CRM (10), Selling (4), Contacts (4), Printing (4),
+Maintenance (2), Manufacturing (1) — each requires its own real ERPNext
+source verification before a fixed-purpose adapter can be written, so this
+is inherently one-at-a-time work, unlike Batches 1–2's shared patterns. Plus
+2 Single DocType pages (Bank Clearance, Pegged Currencies — investigated,
+not implemented; the universal engine has no Single-DocType load path yet)
+and 2 standalone analytics pages (Sales Funnel, Warehouse Capacity
+Summary — same pattern as Batch 1, not yet reached). See
+`REMAINING_APPROVAL_BLOCKERS.md` for confirmation that essentially none of
+these 144 are actually approval- or environment-blocked — they are
+ordinary backlog.
+
+**Verification this session**: `npm run build` passed 4 times, `py_compile`
+passed on every changed file, 16 new tests all passing against live site1
+data via `bench execute`, `validate_parity_registry()` 0 errors both times,
+`corrected_production_parity_audit()` re-run live (not cached) to confirm
+every delta. No fake routes, no permission bypasses, no direct ledger/Bin
+writes, no `ignore_permissions`. Browser/UI rendering remains unverified
+(no Chrome/Playwright in this environment, unchanged from every prior
+session's diagnosis) — every new capability is `implemented_unverified` or
+`special_adapter`, never falsely `verified_complete`.
