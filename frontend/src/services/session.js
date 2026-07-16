@@ -1,7 +1,9 @@
 import { reactive } from "vue";
+import { useToast } from "@/composables/toast.js";
 
 const BOOTSTRAP_URL = "/api/method/my_store_ui.standalone.get_session_bootstrap";
 const AUTHORIZE_URL = "/api/method/my_store_ui.standalone.authorize_frontend_route";
+const AUTHORIZE_TIMEOUT_MS = 6000;
 
 function safeServerMessage(payload, fallback) {
   try {
@@ -92,7 +94,23 @@ export function createSessionStore() {
   async function authorize(path) {
     if (!state.authenticated) return { outcome: "authentication_required", route: "/" };
     const url = `${AUTHORIZE_URL}?${new URLSearchParams({ path })}`;
-    const response = await fetch(url, { method: "GET", credentials: "same-origin", cache: "no-store" });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), AUTHORIZE_TIMEOUT_MS);
+    let response;
+    try {
+      response = await fetch(url, { method: "GET", credentials: "same-origin", cache: "no-store", signal: controller.signal });
+    } catch (error) {
+      // Fail closed: the navigation is blocked, same as a denial, rather
+      // than silently hanging forever (the bug this fixes — a stalled
+      // fetch with no timeout left router.beforeEach's await unresolved
+      // indefinitely, so clicks did nothing with no error and no
+      // feedback). Surface it so the user knows to retry instead of
+      // wondering why the click did nothing.
+      useToast().error("Couldn't verify page permissions", "The request timed out. Check your connection and try again.");
+      return { outcome: "denied", route: "/retail-erp/permission-denied" };
+    } finally {
+      clearTimeout(timer);
+    }
     const payload = await response.json().catch(() => ({}));
     if (response.status === 401 || payload.exc_type === "AuthenticationError") {
       clear(true);
