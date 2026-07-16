@@ -186,7 +186,8 @@ class TestPriorityPageCoverage(unittest.TestCase):
 		self.assertIn("searchRetailERP", search)
 		self.assertIn("@media(max-width:560px)", styles)
 		self.assertIn("containsRequiredInput", form)
-		self.assertNotIn("Notifications", header)
+		self.assertIn("SmjNotification", header)
+		self.assertIn('/feature-unavailable?feature=Notifications', header)
 
 
 if __name__ == "__main__":

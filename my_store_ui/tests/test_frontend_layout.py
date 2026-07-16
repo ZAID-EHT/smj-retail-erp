@@ -16,3 +16,62 @@ class TestRetailERPScrolling(unittest.TestCase):
 		self.assertIn("max-height: min(760px,calc(100vh - 40px)); overflow: auto", css)
 		self.assertNotIn("body.modal-open", css)
 		self.assertNotIn("body.scroll-lock", css)
+
+	def test_smj_page_system_is_shared_and_loaded_last(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		main = (frontend / "main.js").read_text()
+		styles = (frontend / "design" / "smj-page-system.css").read_text()
+		container = (frontend / "components" / "layout" / "PageContainer.vue").read_text()
+		self.assertIn('import "./design/smj-page-system.css";', main)
+		self.assertGreater(main.index("smj-page-system.css"), main.index("priority-pages.css"))
+		for selector in (
+			".ref-entity-page__header",
+			".ref-detail-header",
+			".rug-banner",
+			".ref-form-section",
+			".rug-table-region",
+			".smj-sales-kpis",
+		):
+			self.assertIn(selector, styles)
+		self.assertIn(':data-accent="accent"', container)
+		self.assertIn(':data-module="moduleName"', container)
+
+	def test_smart_sales_keeps_live_workflow_and_reference_stock_triplet(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		source = (frontend / "pages" / "priority" / "SmartSalesPage.vue").read_text()
+		for marker in (
+			"getSmartSales",
+			"getCustomerCreditStatus",
+			"createSmartOrder",
+			"Actual stock shown",
+			"Reserved stock",
+			"Available to sell",
+			"Create Draft Sales Order",
+		):
+			self.assertIn(marker, source)
+		self.assertNotIn("ignore_permissions", source)
+
+	def test_header_uses_compact_permission_filtered_module_menus(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		navigation = (frontend / "components" / "shell" / "ModuleNavigation.vue").read_text()
+		header = (frontend / "components" / "shell" / "AppHeader.vue").read_text()
+		styles = (frontend / "design" / "smj-page-system.css").read_text()
+		for marker in (
+			"primaryModuleNames",
+			"linksFor(module)",
+			"visibleLinks(module)",
+			"showAllLinks",
+			"Show fewer links",
+			"Show all ${linksFor(module).length} links",
+		):
+			self.assertIn(marker, navigation)
+		self.assertIn("SmjNotification", header)
+		self.assertIn("SmjMessage", header)
+		self.assertIn(".ref-module-dropdown__more", styles)
+		self.assertIn(".ref-user-menu__copy", styles)
+
+	def test_standalone_asset_error_remains_hidden_until_a_real_load_failure(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		styles = (frontend / "design" / "standalone.css").read_text()
+		self.assertIn("#retail-erp-asset-error[hidden]", styles)
+		self.assertIn("display: none !important", styles)

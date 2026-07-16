@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
+import { SmjDeliveryTruckArrow, SmjFinanceWalletLedger, SmjPaymentWalletCheck, SmjTransactionDocumentChain } from "@/components/icons";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { getWholesaleTransactions } from "@/services/wholesale.js";
 
@@ -28,6 +29,14 @@ const totals = computed(() => {
     { grand_total: 0, paid_amount: 0, outstanding_amount: 0 },
   );
 });
+
+const registerSummary = computed(() => ({
+  transactions: pagination.value.total || 0,
+  delivered: rows.value.filter((row) => /delivered|completed/i.test(String(row.delivery_status || ""))).length,
+  paid: rows.value.filter((row) => /paid|completed/i.test(String(row.payment_status || ""))).length,
+  pageValue: totals.value?.grand_total || 0,
+  outstanding: totals.value?.outstanding_amount || 0,
+}));
 
 async function load() {
   controller?.abort();
@@ -109,6 +118,14 @@ onBeforeUnmount(() => controller?.abort());
           <button type="button" class="rug-primary" :disabled="!rows.length" @click="exportCsv">Export CSV</button>
         </div>
       </header>
+
+      <section class="smj-register-kpis" aria-label="Transaction register summary">
+        <article><span><SmjTransactionDocumentChain size="20" decorative /></span><div><small>Total transactions</small><strong>{{ registerSummary.transactions.toLocaleString() }}</strong><em>All matching records</em></div></article>
+        <article><span><SmjDeliveryTruckArrow size="20" decorative /></span><div><small>Delivered</small><strong>{{ registerSummary.delivered.toLocaleString() }}</strong><em>Current page</em></div></article>
+        <article><span><SmjPaymentWalletCheck size="20" decorative /></span><div><small>Paid</small><strong>{{ registerSummary.paid.toLocaleString() }}</strong><em>Current page</em></div></article>
+        <article v-if="data?.shows_financials"><span><SmjFinanceWalletLedger size="20" decorative /></span><div><small>Page value</small><strong>{{ registerSummary.pageValue.toLocaleString() }}</strong><em>ERPNext totals</em></div></article>
+        <article v-if="data?.shows_financials"><span><SmjFinanceWalletLedger size="20" decorative /></span><div><small>Outstanding</small><strong>{{ registerSummary.outstanding.toLocaleString() }}</strong><em>Current page</em></div></article>
+      </section>
 
       <section class="rug-section-card">
         <div class="rug-form-grid">
