@@ -1134,6 +1134,63 @@ def get_related_documents(feature: str, name: str):
 
 
 @frappe.whitelist(methods=["GET"])
+def get_dashboard_connections(feature: str, name: str):
+	"""Generic "Connections" panel (the standard ERPNext Desk sidebar showing
+	linked Purchase Orders / Sales Orders / Payment Entries / etc.), reusing
+	each doctype's own `<doctype>_dashboard.py:get_data()` config — the exact
+	same source frappe.desk.notifications.get_open_count reads — instead of
+	hardcoding per-doctype link logic. Counts and record lists are computed
+	here directly (not by calling get_open_count) so every linked doctype can
+	be permission-rechecked and filtered down to only doctypes this app
+	actually routes to, before any count or name is returned."""
+	_require_login()
+	record = get_generated_feature(feature)
+	doc = _get_permitted_doc(record["doctype"], name)
+	meta = frappe.get_meta(doc.doctype)
+	dashboard = meta.get_dashboard_data()
+	non_standard = dashboard.get("non_standard_fieldnames") or {}
+	internal_links = dashboard.get("internal_links") or {}
+	default_fieldname = dashboard.get("fieldname") or frappe.scrub(doc.doctype)
+
+	groups = []
+	for group in dashboard.get("transactions") or []:
+		items = []
+		for linked_doctype in group.get("items") or []:
+			if linked_doctype not in ALL_GENERATED_DOCTYPES or not frappe.has_permission(linked_doctype, "read"):
+				continue
+			linked_meta = frappe.get_meta(linked_doctype)
+			names: list[str] = []
+			if linked_doctype in internal_links:
+				child_fieldname, link_fieldname = internal_links[linked_doctype]
+				for row in doc.get(child_fieldname) or []:
+					value = row.get(link_fieldname)
+					if value and value not in names:
+						names.append(value)
+			else:
+				fieldname = non_standard.get(linked_doctype) or default_fieldname
+				if not linked_meta.has_field(fieldname):
+					continue
+				names = frappe.get_list(linked_doctype, filters={fieldname: doc.name}, pluck="name", limit_page_length=20)
+			if not names:
+				continue
+			# Defend against stale/renamed references: only surface names that
+			# still exist and are still readable.
+			existing = set(frappe.get_list(linked_doctype, filters={"name": ["in", names]}, pluck="name", limit_page_length=len(names)))
+			names = [n for n in names if n in existing]
+			if not names:
+				continue
+			target = get_feature(frappe.scrub(linked_doctype).replace("_", "-"))
+			items.append({
+				"doctype": linked_doctype,
+				"count": len(names),
+				"records": [{"name": n, "route": _record_route(target, n)} for n in names[:5]],
+			})
+		if items:
+			groups.append({"label": group.get("label"), "items": items})
+	return {"groups": groups}
+
+
+@frappe.whitelist(methods=["GET"])
 def get_document_timeline(feature: str, name: str):
 	_require_login()
 	record = get_generated_feature(feature)

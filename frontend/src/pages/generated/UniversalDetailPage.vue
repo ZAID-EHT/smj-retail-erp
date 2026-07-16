@@ -8,7 +8,7 @@ import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
 import RecordNotFound from "@/components/feedback/RecordNotFound.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
-import { getDocumentDetail, getPrintFormats, getRelated, getTimeline, runDocumentAction, runWorkflowAction } from "@/services/universal.js";
+import { getDashboardConnections, getDocumentDetail, getPrintFormats, getRelated, getTimeline, runDocumentAction, runWorkflowAction } from "@/services/universal.js";
 import { formatUniversalValue } from "@/utils/universalFormat.js";
 import { confirmAction } from "@/composables/confirm.js";
 import { useToast } from "@/composables/toast.js";
@@ -23,6 +23,7 @@ const error = ref(null);
 const detail = ref(null);
 const timeline = ref([]);
 const related = ref([]);
+const connections = ref([]);
 const printOptions = ref({});
 const printOpen = ref(false);
 const acting = ref(false);
@@ -66,13 +67,15 @@ async function load() {
   error.value = null;
   try {
     detail.value = await getDocumentDetail(feature.value, name.value, controller.signal);
-    const [activity, links, printing] = await Promise.allSettled([
+    const [activity, links, connected, printing] = await Promise.allSettled([
       getTimeline(feature.value, name.value, controller.signal),
       getRelated(feature.value, name.value, controller.signal),
+      getDashboardConnections(feature.value, name.value, controller.signal),
       detail.value.permissions.can_print ? getPrintFormats(feature.value, name.value, controller.signal) : Promise.resolve({}),
     ]);
     timeline.value = activity.value?.records || [];
     related.value = links.value?.records || [];
+    connections.value = connected.value?.groups || [];
     printOptions.value = printing.value || {};
   } catch (caught) {
     if (caught.name !== "AbortError") error.value = caught;
@@ -145,6 +148,15 @@ onBeforeUnmount(() => controller?.abort());
       <template v-for="(section, index) in sections.filter((item, position) => !advanced(item, position))" :key="section.key"><section v-if="section.fields.length" class="rug-section-card"><header><h2>{{ section.title }}</h2></header><dl class="rug-detail-grid"><div v-for="field in section.fields" :key="field.fieldname"><dt>{{ field.label }}</dt><dd>{{ formatUniversalValue(detail.document[field.fieldname], field, detail.document.currency) }}</dd></div></dl></section><UniversalChildTable v-for="table in section.tables" :key="table.fieldname" :model-value="detail.document[table.fieldname] || []" :field="table" :feature="feature" read-only /></template>
       <details v-if="sections.some(advanced)" class="rug-advanced"><summary>Advanced information</summary><template v-for="(section, index) in sections" :key="section.key"><section v-if="advanced(section, index) && section.fields.length" class="rug-section-card"><header><h2>{{ section.title }}</h2></header><dl class="rug-detail-grid"><div v-for="field in section.fields" :key="field.fieldname"><dt>{{ field.label }}</dt><dd>{{ formatUniversalValue(detail.document[field.fieldname], field, detail.document.currency) }}</dd></div></dl></section><UniversalChildTable v-for="table in advanced(section, index) ? section.tables : []" :key="table.fieldname" :model-value="detail.document[table.fieldname] || []" :field="table" :feature="feature" read-only /></template></details>
       <section class="rug-section-card"><header><h2>Related records</h2></header><div v-if="!related.length" class="rug-muted">No permitted related records.</div><RouterLink v-for="record in related" :key="`${record.doctype}-${record.name}`" :to="record.route" class="rug-related">{{ record.doctype }}<strong>{{ record.name }}</strong></RouterLink></section>
+      <section v-if="connections.length" class="rug-section-card"><header><h2>Linked documents</h2><p>Documents connected to this record through standard ERPNext links.</p></header>
+        <div v-for="group in connections" :key="group.label" class="rug-connection-group">
+          <h3>{{ group.label }}</h3>
+          <div v-for="item in group.items" :key="item.doctype" class="rug-connection-item">
+            <span>{{ item.doctype }}<small>{{ item.count }} linked</small></span>
+            <RouterLink v-for="linked in item.records" :key="linked.name" :to="linked.route" class="rug-related">{{ linked.name }}</RouterLink>
+          </div>
+        </div>
+      </section>
       <UniversalCollaborationPanel :feature="feature" :name="name" :print-options="printOptions" />
       <section class="rug-section-card"><header><h2>Timeline</h2><button type="button" @click="load">Refresh</button></header><div v-if="!timeline.length" class="rug-muted">No recent activity.</div><article v-for="event in timeline" :key="event.name" class="rug-timeline"><span class="rug-timeline__dot" /><div><strong>{{ event.comment_type }}</strong><p>{{ event.content }}</p><small>{{ event.owner }} · {{ event.creation }}</small></div></article></section>
       <UniversalPrintDialog :open="printOpen" :options="printOptions" :document="detail.document" @close="printOpen = false" />

@@ -50,6 +50,7 @@ export const runWorkflowAction = (feature, name, action, modified) => callUniver
 export const getLinkOptions = (feature, fieldname, search, parentFieldname, signal, dynamicDoctype) => callUniversal("get_link_options", { feature, fieldname, search, parent_fieldname: parentFieldname, dynamic_doctype: dynamicDoctype }, { signal, httpMethod: "GET" });
 export const getTimeline = (feature, name, signal) => callUniversal("get_document_timeline", { feature, name }, { signal, httpMethod: "GET" });
 export const getRelated = (feature, name, signal) => callUniversal("get_related_documents", { feature, name }, { signal, httpMethod: "GET" });
+export const getDashboardConnections = (feature, name, signal) => callUniversal("get_dashboard_connections", { feature, name }, { signal, httpMethod: "GET" });
 export const getPrintFormats = (feature, name, signal) => callUniversal("get_print_formats", { feature, name }, { signal, httpMethod: "GET" });
 export const getReportDefinition = (feature, signal) => callUniversal("get_report_definition", { feature: `report:${feature}` }, { signal, httpMethod: "GET" });
 export const runReport = (feature, filters) => callUniversal("run_report", { feature: `report:${feature}`, filters });

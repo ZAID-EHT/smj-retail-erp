@@ -227,7 +227,15 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "make_supplier_quotation", "supplier_quotation", "make_request_for_quotation", "request_for_quotation",
         "set_as_lost",
     },
-    "Supplier": {"hold", "resume"},
+    # Dead-credit fix: this doctype's entry was previously duplicated further
+    # below in this same dict literal ("Supplier": {"accounting_ledger",
+    # "accounts_payable"}) — Python dict literals silently let a later
+    # duplicate key win, so "hold"/"resume" were never actually being
+    # checked. Merged into one entry; "bank_account"/"pricing_rule" are the
+    # standard supplier.js dashboard "Connections" tiles, served by the new
+    # generic get_dashboard_connections() adapter (universal/api.py),
+    # verified against this exact doctype's *_dashboard.py transactions.
+    "Supplier": {"hold", "resume", "accounting_ledger", "accounts_payable", "bank_account", "pricing_rule"},
     # "re_open"/"update_status" are JS button labels (material_request.js)
     # calling the exact same update_status() the stop/reopen actions wrap;
     # "purchase_order"/"request_for_quotation" are button labels calling the
@@ -246,7 +254,14 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "make_supplier_quotation", "supplier_quotation",
         "create_pick_list", "pick_list",
         "make_in_transit_stock_entry", "material_transfer_in_transit",
+        # "sales_order"/"work_order" are material_request_dashboard.py
+        # Manufacturing-group connections, served by get_dashboard_connections().
+        "sales_order", "work_order",
     },
+    # Dashboard "Connections" tile (blanket_order_dashboard.py), served by
+    # get_dashboard_connections() — Blanket Order does not itself create a
+    # Sales Order, this is the reverse-linked list of SOs referencing it.
+    "Blanket Order": {"sales_order"},
     # "End Transit" button calls the exact same make_stock_in_entry() -
     # verified against stock_entry.js source.
     "Stock Entry": {"make_stock_in_entry", "end_transit"},
@@ -259,15 +274,23 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Order": {
         "hold", "close", "resume", "reopen", "re_open",
         "make_purchase_receipt", "purchase_receipt", "make_purchase_invoice", "purchase_invoice", "payment",
+        # purchase_order_dashboard.py Reference/Payment/Sub-contracting group
+        # connections (Material Request, Supplier Quotation, Payment Request,
+        # Subcontracting Order), served by get_dashboard_connections().
+        "material_request", "supplier_quotation", "payment_request", "subcontracting_order",
     },
     # "customer"/"opportunity"/"quotation" are the JS button labels
     # (lead.js) - same dead-credit-then-fixed pattern as Opportunity above.
     # "make_quotation" is a real new action (Lead has its own make_quotation,
-    # separate from Opportunity's).
-    "Lead": {"make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation"},
+    # separate from Opportunity's). "prospect" is the lead_dashboard.py
+    # Reference connection, served by get_dashboard_connections().
+    "Lead": {"make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation", "prospect"},
     # "set_as_lost" is a real new action shared with Opportunity below -
     # wraps the real declare_enquiry_lost() doc method (sales_common.js).
-    "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost"},
+    # "sales_order" (bare, no verb) is the quotation_dashboard.py Reference
+    # connection — distinct from the "make_sales_order" conversion button
+    # above — served by get_dashboard_connections().
+    "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost", "sales_order"},
     # Bug fix: the internal action key "make_supplier_quotation" chosen for
     # this MAPPED_ACTIONS entry never matched either real scanner-detected
     # key for RFQ's "Supplier Quotation" button - the button label scrubs to
@@ -286,10 +309,15 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # can convert into a (selling) Quotation - verified against
     # supplier_quotation.js source (make_quotation() -> erpnext...
     # supplier_quotation.make_quotation, a standard get_mapped_doc call).
-    "Supplier Quotation": {"make_purchase_order", "purchase_order", "make_quotation", "quotation"},
-    # Supplier ledger navigation shortcuts (supplier.js) - real new actions,
-    # same navigation-action pattern as Account/Warehouse.
-    "Supplier": {"accounting_ledger", "accounts_payable"},
+    # "material_request"/"request_for_quotation" are supplier_quotation_
+    # dashboard.py Reference connections, served by get_dashboard_connections().
+    "Supplier Quotation": {
+        "make_purchase_order", "purchase_order", "make_quotation", "quotation",
+        "material_request", "request_for_quotation",
+    },
+    # Real new action: Payment Order batches Payment Entries — dashboard
+    # connection (payment_order_dashboard.py), served by get_dashboard_connections().
+    "Payment Order": {"payment_entry"},
     # "debit_note" (JS label, shown only when is_return=1) calls the exact
     # same erpnext...purchase_receipt.make_purchase_invoice as make_purchase_invoice;
     # "landed_cost_voucher" calls the exact same make_lcv; "purchase_return"
@@ -299,6 +327,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Receipt": {
         "make_purchase_invoice", "debit_note", "make_purchase_return", "purchase_return",
         "make_lcv", "landed_cost_voucher", "close", "reopen",
+        # purchase_receipt_dashboard.py Reference/Sub-contracting/Assets group
+        # connections, served by get_dashboard_connections().
+        "purchase_order", "purchase_invoice", "asset",
     },
     # "payment"/"return_debit_note" are the JS button labels (purchase_invoice.js);
     # "payment" calls the same shared make_payment_entry()->get_payment_entry()
@@ -312,6 +343,9 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Invoice": {
         "make_payment_entry", "payment", "make_debit_note", "return_debit_note",
         "block_invoice", "unblock_invoice", "change_release_date", "make_lcv", "landed_cost_voucher",
+        # purchase_invoice_dashboard.py Reference/Payment group connections,
+        # served by get_dashboard_connections().
+        "purchase_order", "purchase_receipt", "payment_request",
     },
     # "reverse_journal_entry" is the JS button handler name (journal_entry.js);
     # it calls the exact same server method as "make_reverse_journal_entry"
@@ -752,9 +786,10 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         if served and parent in routed_doctypes:
             return ("special_adapter", "implemented_unverified", "source_only",
                     [f"Allowlisted action '{action_key}' served by the universal engine on routed {parent}"],
-                    "Generic lifecycle action or MAPPED_ACTIONS conversion via my_store_ui/universal/api.py "
-                    "(standard erpnext.*.make_* controller, permission re-checked); "
-                    "state/role/browser verification pending.")
+                    "Generic lifecycle action, MAPPED_ACTIONS conversion, or dashboard-connection "
+                    "navigation tile via my_store_ui/universal/api.py (standard erpnext.*.make_* "
+                    "controller or get_dashboard_connections() reading the doctype's own "
+                    "*_dashboard.py config, permission re-checked); state/role/browser verification pending.")
         return ("unavailable_with_reason", "unavailable_with_reason", "n/a", [],
                 f"Pending implementation ({priority}); standard Desk mapping remains source of truth.")
 
