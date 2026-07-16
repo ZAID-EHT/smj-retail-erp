@@ -1,33 +1,143 @@
+/*
+ * SMJ Retail ERP design tokens.
+ * Values sourced from 03_design_specs/COLOR_PALETTE.json and DESIGN_TOKENS.css
+ * in the SMJ_Retail_ERP_UI_Design_Pack reference. Existing --ref-* names are kept
+ * so every current template keeps working unmodified; --smj-* aliases are added
+ * for new design-system code and documentation traceability.
+ */
 .ref-app-shell {
-  --ref-primary-blue: #1463e6;
-  --ref-dark-blue: #1239b8;
-  --ref-purple: #7038d4;
-  --ref-pink: #df2d88;
-  --ref-green: #14a85a;
-  --ref-orange: #ff7a18;
-  --ref-turquoise: #09afc4;
-  --ref-page-background: #f5f7fb;
+  /* Header + brand */
+  --ref-header-start: #07369d;
+  --ref-header-end: #071b72;
+  --ref-primary-blue: #0b63f6;
+  --ref-dark-blue: #0644c4;
+  --ref-focus-colour: #8bb8ff;
+
+  /* Legacy accent keys, remapped 1:1 onto the SMJ module palette so every
+     existing route's meta.accent value (blue/dark-blue/purple/pink/green/
+     orange/turquoise) renders the exact SMJ colour without touching the
+     route registry. */
+  --ref-purple: #7b4be8;      /* purchases / admin family */
+  --ref-pink: #f0447d;        /* crm family */
+  --ref-green: #18b66b;       /* sales family */
+  --ref-orange: #ff7a18;      /* inventory family */
+  --ref-turquoise: #0db6b2;   /* operations family */
+
+  /* True SMJ module tokens, for new design-system components */
+  --ref-module-home: #0b73f6;
+  --ref-module-sales: #18b66b;
+  --ref-module-purchases: #7b4be8;
+  --ref-module-inventory: #ff7a1a;
+  --ref-module-finance: #f6a500;
+  --ref-module-operations: #0db6b2;
+  --ref-module-crm: #f0447d;
+  --ref-module-reports: #2f6fed;
+  --ref-module-admin: #6b50d8;
+
+  /* Semantic */
+  --ref-success: #18a96b;
+  --ref-warning: #f59e0b;
+  --ref-danger: #ef4444;
+  --ref-info: #3b82f6;
+  --ref-semantic-purple: #8b5cf6;
+  --ref-semantic-teal: #14b8a6;
+
+  /* Surfaces */
+  --ref-page-background: #f7f9fc;
   --ref-card-background: #ffffff;
-  --ref-primary-text: #172033;
-  --ref-secondary-text: #667085;
-  --ref-border-colour: #e2e8f0;
-  --ref-success-background: #ecfdf3;
-  --ref-warning-background: #fff7e8;
-  --ref-blue-background: #edf4ff;
-  --ref-card-radius: 12px;
-  --ref-input-radius: 8px;
-  --ref-button-radius: 8px;
-  --ref-card-shadow: 0 4px 18px rgba(30, 41, 59, 0.08);
+  --ref-border-colour: #e4eaf3;
+  --ref-divider-colour: #edf1f7;
+
+  /* Soft tinted backgrounds */
+  --ref-success-background: #eaf9f1;
+  --ref-warning-background: #fff4e8;
+  --ref-blue-background: #eef5ff;
+  --ref-purple-background: #f4eeff;
+  --ref-pink-background: #fff0f5;
+  --ref-teal-background: #eafbfa;
+
+  /* Text */
+  --ref-primary-text: #12203a;
+  --ref-secondary-text: #475569;
+  --ref-muted-text: #718096;
+  --ref-disabled-text: #a6b0c0;
+
+  /* Radii */
+  --ref-card-radius: 16px;
+  --ref-panel-radius: 20px;
+  --ref-input-radius: 10px;
+  --ref-button-radius: 10px;
+
+  /* Shadows */
+  --ref-card-shadow: 0 1px 2px rgba(17, 34, 68, .04), 0 8px 24px rgba(32, 54, 92, .06);
+  --ref-float-shadow: 0 18px 45px rgba(12, 42, 105, .16);
+
+  /* Spacing scale (4px base) */
+  --ref-space-1: 4px;
+  --ref-space-2: 8px;
+  --ref-space-3: 12px;
+  --ref-space-4: 16px;
+  --ref-space-5: 20px;
+  --ref-space-6: 24px;
+  --ref-space-8: 32px;
+  --ref-space-10: 40px;
+
+  /* Sizing */
   --ref-header-height: 64px;
-  --ref-focus-ring: 0 0 0 3px rgba(20, 99, 230, 0.28);
+  --ref-module-nav-height: 46px;
   --ref-content-width: 1680px;
+  --ref-control-height: 44px;
+  --ref-touch-target: 44px;
+  --ref-table-row-height: 48px;
+
+  /* Typography */
   --ref-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ref-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ref-text-page-title: 700 28px/1.15 var(--ref-font);
+  --ref-text-section-title: 700 17px/1.3 var(--ref-font);
+  --ref-text-body: 400 14px/1.5 var(--ref-font);
+  --ref-text-table: 400 13px/1.4 var(--ref-font);
+  --ref-text-kpi: 700 26px/1.1 var(--ref-font);
+
+  /* Motion */
+  --ref-transition-fast: 120ms ease;
+  --ref-transition-base: 180ms ease;
+
+  --ref-focus-ring: 0 0 0 3px rgba(139, 184, 255, .55);
 }
 
 .ref-app-shell [data-accent="blue"] { --ref-accent: var(--ref-primary-blue); }
-.ref-app-shell [data-accent="dark-blue"] { --ref-accent: var(--ref-dark-blue); }
+.ref-app-shell [data-accent="dark-blue"] { --ref-accent: var(--ref-module-reports); }
 .ref-app-shell [data-accent="purple"] { --ref-accent: var(--ref-purple); }
 .ref-app-shell [data-accent="pink"] { --ref-accent: var(--ref-pink); }
 .ref-app-shell [data-accent="green"] { --ref-accent: var(--ref-green); }
 .ref-app-shell [data-accent="orange"] { --ref-accent: var(--ref-orange); }
 .ref-app-shell [data-accent="turquoise"] { --ref-accent: var(--ref-turquoise); }
+
+/* SMJ-named aliases (documentation + new components only; same values as above) */
+.ref-app-shell {
+  --smj-header-start: var(--ref-header-start);
+  --smj-header-end: var(--ref-header-end);
+  --smj-brand-blue: var(--ref-primary-blue);
+  --smj-brand-blue-dark: var(--ref-dark-blue);
+  --smj-focus: var(--ref-focus-colour);
+  --smj-home: var(--ref-module-home);
+  --smj-sales: var(--ref-module-sales);
+  --smj-purchases: var(--ref-module-purchases);
+  --smj-inventory: var(--ref-module-inventory);
+  --smj-finance: var(--ref-module-finance);
+  --smj-operations: var(--ref-module-operations);
+  --smj-crm: var(--ref-module-crm);
+  --smj-reports: var(--ref-module-reports);
+  --smj-admin: var(--ref-module-admin);
+  --smj-success: var(--ref-success);
+  --smj-warning: var(--ref-warning);
+  --smj-danger: var(--ref-danger);
+  --smj-info: var(--ref-info);
+  --smj-page: var(--ref-page-background);
+  --smj-card: var(--ref-card-background);
+  --smj-border: var(--ref-border-colour);
+  --smj-text: var(--ref-primary-text);
+  --smj-text-secondary: var(--ref-secondary-text);
+  --smj-text-muted: var(--ref-muted-text);
+}
