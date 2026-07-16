@@ -416,6 +416,17 @@ def _visible_doc(doc, meta, readable: list) -> dict:
 
 
 def _get_permitted_doc(doctype: str, name: str, permission: str = "read"):
+	# Single DocTypes (frappe.get_meta(doctype).issingle) live in the
+	# key-value `tabSingles` table, not a normal doctype table — frappe.get_list
+	# raises ProgrammingError against them. There is always exactly one
+	# record, named after the doctype itself, so "existence" reduces to a
+	# straight permission check; frappe.get_doc(doctype, doctype) never fails
+	# for a real Single DocType.
+	if frappe.get_meta(doctype).issingle:
+		doc = frappe.get_doc(doctype, doctype)
+		if not frappe.has_permission(doctype, permission, doc=doc):
+			frappe.throw(_("Record was not found or is unavailable."), frappe.PermissionError)
+		return doc
 	# get_list applies match conditions first, avoiding an existence oracle.
 	visible = frappe.get_list(doctype, filters={"name": name}, pluck="name", limit_page_length=1)
 	if not visible:

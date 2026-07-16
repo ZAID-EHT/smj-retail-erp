@@ -59,7 +59,19 @@ def get_priority_route_definition(path: str):
 	# read-only "specialised interface" placeholder.
 	if path == "/finance/bank-reconciliation":
 		component = "bank_reconciliation"
-	if component not in {"entity", "tree", "special", "report", "report_hub", "register", "payment_reconciliation", "bank_reconciliation"}:
+	# Bank Clearance and Pegged Currencies are Single DocTypes (frappe.get_meta
+	# .issingle) — always exactly one record, no list/new mode. Dedicated
+	# pages instead of forcing them through the generic list-oriented engine.
+	# Pegged Currencies uses universal/api.py's permission-aware Single
+	# load/save branch; Bank Clearance uses its controller-specific adapter.
+	if path == "/finance/bank-clearance":
+		component = "bank_clearance"
+	if path == "/finance/pegged-currencies":
+		component = "pegged_currencies"
+	if component not in {
+		"entity", "tree", "special", "report", "report_hub", "register",
+		"payment_reconciliation", "bank_reconciliation", "bank_clearance", "pegged_currencies",
+	}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {
 		"component": component, "mode": definition.get("mode"), "module": definition.get("module"),

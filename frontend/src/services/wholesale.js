@@ -80,3 +80,12 @@ export const confirmBankJournalEntry = (params, signal) =>
   call("bank_reconciliation_api.confirm_journal_entry", params, { signal, httpMethod: "POST" });
 export const autoReconcileBankTransactions = (params, signal) =>
   call("bank_reconciliation_api.auto_reconcile", params, { signal, httpMethod: "POST" });
+
+export const searchBankClearanceAccounts = (txt, signal) =>
+  call("bank_clearance_api.search_accounts", { txt }, { signal });
+export const searchBankClearanceBankAccounts = (txt, account, signal) =>
+  call("bank_clearance_api.search_bank_accounts", { txt, account }, { signal });
+export const getBankClearanceEntries = (filters, signal) =>
+  call("bank_clearance_api.get_payment_entries", { filters }, { signal, httpMethod: "POST" });
+export const updateBankClearanceDates = (filters, paymentEntries, signal) =>
+  call("bank_clearance_api.update_clearance_dates", { filters, payment_entries: paymentEntries }, { signal, httpMethod: "POST" });

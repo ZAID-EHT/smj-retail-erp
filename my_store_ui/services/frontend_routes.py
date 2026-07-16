@@ -110,6 +110,8 @@ NAVIGATION = (
 		{"label": "Journal Entries", "path": "/finance/journal-entries", "doctype": "Journal Entry"}, {"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
 		{"label": "Payment Requests", "path": "/finance/payment-requests", "doctype": "Payment Request"}, {"label": "Payment Reconciliation", "path": "/finance/payment-reconciliation", "doctype": "Payment Reconciliation"},
 		{"label": "Bank Reconciliation", "path": "/finance/bank-reconciliation", "doctype": "Bank Reconciliation Tool"},
+		{"label": "Bank Clearance", "path": "/finance/bank-clearance", "doctype": "Bank Clearance"},
+		{"label": "Pegged Currencies", "path": "/finance/pegged-currencies", "doctype": "Pegged Currencies"},
 		{"label": "Cost Centers", "path": "/finance/cost-centers", "doctype": "Cost Center"}, {"label": "Modes of Payment", "path": "/finance/modes-of-payment", "doctype": "Mode of Payment"},
 		{"label": "Financial Reports", "path": "/reports/finance", "report": "General Ledger"},
 	)},

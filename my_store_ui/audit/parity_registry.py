@@ -425,6 +425,26 @@ PAGE_OVERRIDES = {
 # form). The route lives outside ENTITY_ROUTES (which drives the generic
 # engine only), so it is credited here with real evidence.
 BUILT_ADAPTER_DOCTYPE_NAMES = {
+    "Bank Clearance": (
+        "/retail-erp/finance/bank-clearance",
+        [
+            "my_store_ui/wholesale/bank_clearance_api.py "
+            "(get_payment_entries/update_clearance_dates, calling the standard "
+            "Bank Clearance Single DocType controller methods without saving the tool document)",
+            "frontend/src/pages/priority/BankClearancePage.vue",
+            "Permission-filtered preview and voucher update adapter; write behaviour is "
+            "source-verified and requires an eligible site voucher for non-destructive testing.",
+        ],
+    ),
+    "Pegged Currencies": (
+        "/retail-erp/finance/pegged-currencies",
+        [
+            "frontend/src/pages/priority/PeggedCurrenciesPage.vue",
+            "my_store_ui/universal/api.py (permission-aware Single DocType detail/update support)",
+            "frontend/src/components/generated/UniversalChildTable.vue "
+            "(editable Pegged Currency Details rows with allowlisted Currency links)",
+        ],
+    ),
     "Payment Reconciliation": (
         "/retail-erp/finance/payment-reconciliation",
         [
@@ -468,6 +488,7 @@ BUILT_ADAPTER_DOCTYPE_NAMES = {
 # unreconcile-transaction actions are served by the Bank Reconciliation Tool
 # adapter, not by a dedicated Bank Transaction adapter.
 BUILT_ADAPTER_ACTIONS_BY_PARENT = {
+    "Bank Clearance": {"get_payment_entries", "update_clearance_date"},
     "Payment Reconciliation": {"allocate", "get_unreconciled_entries", "reconcile"},
     "Bank Reconciliation Tool": {
         "auto_reconcile", "create_journal_entry_bts", "create_payment_entry_bts", "get_unreconciled_entries",
@@ -475,6 +496,7 @@ BUILT_ADAPTER_ACTIONS_BY_PARENT = {
     "Bank Transaction": {"create_bank_entries", "unreconcile_transaction"},
 }
 BUILT_ADAPTER_ACTION_ROUTE = {
+    "Bank Clearance": "/retail-erp/finance/bank-clearance",
     "Payment Reconciliation": "/retail-erp/finance/payment-reconciliation",
     "Bank Reconciliation Tool": "/retail-erp/finance/bank-reconciliation",
     "Bank Transaction": "/retail-erp/finance/bank-reconciliation",
