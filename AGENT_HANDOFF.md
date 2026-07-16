@@ -1288,3 +1288,47 @@ Historical documents dated 2026-07-13 that say wkhtmltopdf is missing are now st
 The project has a strong reusable frontend/security foundation and meaningful handcrafted sales/payment code. The current build and standalone delivery work, server PDF is repaired, feature classification is complete, and the parity guard is doing its job. However, the intended wholesale operating model is not present: reservation is disabled, available-to-sell is wrong/incomplete, customer credit controls are missing, transaction tracking is missing, purchasing/import/landed cost and warehouse execution are provisional, and current regression/browser/concurrency/accounting/restore evidence is absent.
 
 Auditable coverage is **86/2,482 = 3.46% registered user-facing feature coverage**, with only six handcrafted DocTypes and all 52 generated DocTypes still provisional. A planning estimate of 15–20% maturity reflects reusable foundations, not production completeness. Production approval must wait for all Section 21 conditions, especially reservation/credit correctness, complete stock/accounting reconciliation, staging role/concurrency tests, backup restore, UAT and accountant sign-off.
+
+## 26. SMJ Global UI Theme Rebuild (2026-07-16)
+
+A UI-only pass applied the SMJ Retail ERP design system (colours,
+typography, spacing, a real custom icon pack) across the entire existing
+frontend, without remapping any routes or changing the parity registry.
+Recovery tag: `pre-global-ui-theme-rebuild-20260716-0832`.
+
+**What changed:**
+- `frontend/src/design/tokens.css` rewritten to the exact SMJ palette from
+  `SMJ_Retail_ERP_UI_Design_Pack/03_design_specs/`. Every existing route's
+  `meta.accent` value keeps working unchanged — the legacy accent keys
+  (`blue`, `dark-blue`, `purple`, `pink`, `green`, `orange`, `turquoise`)
+  now resolve to the matching SMJ module colour.
+- 54 new custom SVG icon components in `frontend/src/components/icons/`
+  (25 required by `ICON_PACK_SPEC.md` + utility icons), replacing every
+  placeholder glyph (`☰ ⌕ ◆ ◇ ⌄ ×`) across the header, module nav, mobile
+  nav, search, user menu, and several list/empty-state views.
+- Header restyled to the exact `90deg #07369D → #071B72` gradient; buttons/
+  inputs/icon-buttons bumped to the 44px touch-target/control-height spec.
+- `frontend/src/composables/pageActions.js` +
+  `frontend/src/components/shell/HeaderPageActions.vue` added as the shared
+  mechanism for pages to push actions into the header — infrastructure only,
+  no page wired to it yet (see `docs/ui/SMJ_HEADER_NAVIGATION.md`).
+- All hardcoded hex colours in `frontend/src/design/*.css` (base, universal,
+  generated-ux, priority-pages, standalone) that carried semantic meaning
+  (danger/warning/module-accent gradients) were replaced with the new
+  semantic/module tokens. A full-repo grep confirmed zero hardcoded hex
+  colours inside any `.vue` page template, before or after — every page
+  already delegated colour to these shared stylesheets, which is why this
+  cascades to every handcrafted and universal page without per-page edits.
+- `npm run build` passes after every batch (111 → 171 modules once icons
+  were wired in).
+
+**Explicitly not done / known gaps:** page-level action bars were not
+relocated into the header (infrastructure exists, adoption doesn't yet); no
+notification bell (no backend exists — see `SMJ_HEADER_NAVIGATION.md`); no
+browser screenshots (Playwright not installed, not installed without
+approval — see `SMJ_VISUAL_REGRESSION.md`); pixel-level layout matching
+against the 9 reference preview images was not attempted, only the token
+values were matched. Full detail in `docs/ui/*.md`.
+
+**Parity status unchanged**: `required_but_missing = 222`,
+`unclassified = 0`. This was a visual-layer pass only.
