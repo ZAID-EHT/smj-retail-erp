@@ -2,10 +2,29 @@
 import { onBeforeUnmount, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { createMappedDocument, executeSalesOrderAction, getMappedPreview, getSalesOrderActions } from "@/services/salesOrderActions.js";
-const props = defineProps({ document: { type: Object, required: true } }); const emit = defineEmits(["refresh"]); const router = useRouter(); const data = ref(null); const error = ref(null); const busy = ref(false); const preview = ref(null); let controller;
+import { confirmAction } from "@/composables/confirm.js";
+import { useToast } from "@/composables/toast.js";
+const props = defineProps({ document: { type: Object, required: true } }); const emit = defineEmits(["refresh"]); const router = useRouter(); const toast = useToast(); const data = ref(null); const error = ref(null); const busy = ref(false); const preview = ref(null); let controller;
 async function load() { controller?.abort(); controller = new AbortController(); try { data.value = await getSalesOrderActions(props.document.name, controller.signal); } catch (requestError) { if (requestError.name !== "AbortError") error.value = requestError; } }
 watch(() => props.document.modified, load, { immediate: true }); onBeforeUnmount(() => controller?.abort());
-async function action(key) { if (busy.value) return; const labels = { submit: "Submit this Sales Order?", cancel: "Cancel this Sales Order?", amend: "Create an amendment draft?" }; if (!window.confirm(labels[key])) return; let params = {}; if (key === "cancel") { const reason = window.prompt("Optional cancellation reason:"); if (reason === null) return; params.reason = reason; } busy.value = true; error.value = null; try { const result = await executeSalesOrderAction(props.document.name, key, props.document.modified, params); await router.push(result.route); emit("refresh"); } catch (requestError) { error.value = requestError; } finally { busy.value = false; } }
+async function action(key) {
+  if (busy.value) return;
+  const labels = { submit: "Submit this Sales Order?", cancel: "Cancel this Sales Order?", amend: "Create an amendment draft?" };
+  const confirmed = await confirmAction({ title: labels[key] || "Confirm action", confirmLabel: key === "cancel" ? "Cancel Order" : "Confirm", danger: key === "cancel" });
+  if (!confirmed) return;
+  let params = {};
+  if (key === "cancel") { const reason = window.prompt("Optional cancellation reason:"); if (reason === null) return; params.reason = reason; }
+  busy.value = true; error.value = null;
+  try {
+    const result = await executeSalesOrderAction(props.document.name, key, props.document.modified, params);
+    toast.success("Sales Order updated", labels[key]?.replace("?", "") || "Action completed.");
+    await router.push(result.route);
+    emit("refresh");
+  } catch (requestError) {
+    error.value = requestError;
+    toast.error("Action failed", requestError.message);
+  } finally { busy.value = false; }
+}
 async function map(target) { if (busy.value) return; busy.value = true; error.value = null; try { preview.value = await getMappedPreview(props.document.name, target, null, props.document.modified); } catch (requestError) { error.value = requestError; } finally { busy.value = false; } }
 async function createMap() { busy.value = true; try { const selected = preview.value.items.map((item) => ({ name: item.source_row, qty: Number(item.transfer_qty) })); const result = await createMappedDocument(props.document.name, preview.value.target, selected, props.document.modified); preview.value = null; await router.push(result.route); } catch (requestError) { error.value = requestError; } finally { busy.value = false; } }
 function print(format, pdf = false) { const query = new URLSearchParams({ doctype: "Sales Order", name: props.document.name, format, no_letterhead: "0" }); window.open(pdf ? `/api/method/frappe.utils.print_format.download_pdf?${query}` : `/printview?${query}`, "_blank", "noopener"); }

@@ -10,6 +10,10 @@ import RecordNotFound from "@/components/feedback/RecordNotFound.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { getDocumentDetail, getPrintFormats, getRelated, getTimeline, runDocumentAction, runWorkflowAction } from "@/services/universal.js";
 import { formatUniversalValue } from "@/utils/universalFormat.js";
+import { confirmAction } from "@/composables/confirm.js";
+import { useToast } from "@/composables/toast.js";
+
+const toast = useToast();
 
 const props = defineProps({ featureKey: { type: String, default: "" }, basePath: { type: String, default: "" }, recordName: { type: String, default: "" } });
 const route = useRoute();
@@ -96,17 +100,26 @@ async function act(action) {
   if (acting.value) return;
   const parameters = actionParameters(action);
   if (parameters === null) return;
-  if (action.action !== "rename" && !window.confirm(`${action.label} ${name.value}?`)) return;
+  if (action.action !== "rename") {
+    const confirmed = await confirmAction({
+      title: `${action.label} ${name.value}?`,
+      confirmLabel: action.label,
+      danger: ["cancel", "delete"].includes(action.action),
+    });
+    if (!confirmed) return;
+  }
   acting.value = true;
   error.value = null;
   try {
     const result = action.kind === "workflow"
       ? await runWorkflowAction(feature.value, name.value, action.action, detail.value.document.modified)
       : await runDocumentAction(feature.value, name.value, action.action, detail.value.document.modified, parameters);
+    toast.success(`${action.label} complete`, `${name.value} was updated.`);
     if (result.route && result.route !== route.path) await router.push(result.route);
     else await load();
   } catch (caught) {
     error.value = caught;
+    toast.error("Action failed", caught.message);
   } finally {
     acting.value = false;
   }

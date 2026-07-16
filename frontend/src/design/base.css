@@ -140,8 +140,27 @@ img.ref-brand__logo { object-fit: contain; padding: 3px; }
 .ref-button:disabled { cursor: not-allowed; opacity: .58; }
 .ref-button svg { width: 16px; height: 16px; flex: 0 0 auto; }
 .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
-.ref-toast-host { position: fixed; z-index: 1300; right: 18px; bottom: 18px; display: grid; gap: 8px; pointer-events: none; }
+.ref-toast-host { position: fixed; z-index: 1300; right: 18px; bottom: 18px; display: grid; gap: 8px; width: min(360px, calc(100vw - 36px)); pointer-events: none; }
+.ref-toast { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 10px; padding: 13px 14px; border-radius: var(--ref-card-radius); background: #fff; box-shadow: var(--ref-float-shadow); color: var(--ref-primary-text); pointer-events: auto; animation: ref-toast-in .18s ease; }
+.ref-toast--success { border-left: 4px solid var(--ref-success); color: var(--ref-success); }
+.ref-toast--error { border-left: 4px solid var(--ref-danger); color: var(--ref-danger); }
+.ref-toast--warning { border-left: 4px solid var(--ref-warning); color: #9a4b0b; }
+.ref-toast--info { border-left: 4px solid var(--ref-primary-blue); color: var(--ref-primary-blue); }
+.ref-toast strong { display: block; color: var(--ref-primary-text); font-size: 13px; font-weight: 750; }
+.ref-toast p { margin: 2px 0 0; color: var(--ref-secondary-text); font-size: 12px; line-height: 1.4; }
+.ref-toast__action { margin-top: 6px; border: 0; background: transparent; color: var(--ref-primary-blue); font-size: 12px; font-weight: 700; cursor: pointer; }
+.ref-toast__close { display: grid; place-items: center; width: 22px; height: 22px; border: 0; border-radius: 6px; background: transparent; color: var(--ref-secondary-text); cursor: pointer; }
+.ref-toast__close:hover { background: var(--ref-page-background); }
+@keyframes ref-toast-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
 .ref-confirm-dialog-host { position: fixed; z-index: 1350; inset: 0; pointer-events: none; }
+.ref-confirm-backdrop { position: fixed; inset: 0; display: grid; place-items: center; padding: 18px; background: rgba(15, 23, 42, .5); pointer-events: auto; }
+.ref-confirm-dialog { width: min(420px, 100%); padding: 24px; border-radius: var(--ref-panel-radius); background: #fff; box-shadow: var(--ref-float-shadow); }
+.ref-confirm-dialog h2 { margin: 0 0 8px !important; color: var(--ref-primary-text) !important; font: var(--ref-text-section-title) !important; font-weight: 750 !important; }
+.ref-confirm-dialog p { margin: 0; color: var(--ref-secondary-text); font-size: 13px; line-height: 1.5; }
+.ref-confirm-dialog__actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.ref-button--danger { border: 0; background: var(--ref-danger); color: #fff !important; }
+.ref-button--danger:hover:not(:disabled) { background: color-mix(in srgb, var(--ref-danger), black 12%); }
 
 .ref-mobile-navigation { position: fixed; z-index: 1400; inset: 0; display: flex; }
 .ref-mobile-navigation__backdrop { position: absolute; inset: 0; border: 0; background: rgba(15,23,42,.48); }

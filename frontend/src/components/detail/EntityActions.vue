@@ -2,13 +2,32 @@
 import { onBeforeUnmount, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { createMappedEntity, executeEntityAction, getEntityActions, getMappedEntityPreview } from "@/services/entityActions.js";
+import { confirmAction } from "@/composables/confirm.js";
+import { useToast } from "@/composables/toast.js";
 const props = defineProps({ entityKey: { type: String, required: true }, document: { type: Object, required: true } });
-const emit = defineEmits(["refresh"]); const route = useRoute(); const router = useRouter();
+const emit = defineEmits(["refresh"]); const route = useRoute(); const router = useRouter(); const toast = useToast();
 const data = ref(null); const error = ref(null); const busy = ref(false); const preview = ref(null); let controller;
 const labels = { sales_invoice: "Sales Invoice", payment_entry: "Payment Entry", return: "Return" };
 async function load() { controller?.abort(); controller = new AbortController(); error.value = null; try { data.value = await getEntityActions(props.entityKey, props.document.name, controller.signal); } catch (e) { if (e.name !== "AbortError") error.value = e; } }
 watch(() => props.document.modified, load, { immediate: true }); onBeforeUnmount(() => controller?.abort());
-async function action(key) { if (busy.value) return; const text = key.replaceAll("_", " "); if (!window.confirm(`${text[0].toUpperCase()}${text.slice(1)} this document?`)) return; busy.value = true; try { const result = await executeEntityAction(props.entityKey, props.document.name, key, props.document.modified, {}); if (result.route && result.route !== route.path) await router.push(result.route); emit("refresh"); await load(); } catch (e) { error.value = e; } finally { busy.value = false; } }
+async function action(key) {
+  if (busy.value) return;
+  const text = key.replaceAll("_", " ");
+  const label = `${text[0].toUpperCase()}${text.slice(1)}`;
+  const confirmed = await confirmAction({ title: `${label} this document?`, confirmLabel: label, danger: key === "cancel" || key === "delete" });
+  if (!confirmed) return;
+  busy.value = true;
+  try {
+    const result = await executeEntityAction(props.entityKey, props.document.name, key, props.document.modified, {});
+    toast.success(`${label} complete`, "The document was updated.");
+    if (result.route && result.route !== route.path) await router.push(result.route);
+    emit("refresh");
+    await load();
+  } catch (e) {
+    error.value = e;
+    toast.error("Action failed", e.message);
+  } finally { busy.value = false; }
+}
 async function map(target) { if (busy.value) return; busy.value = true; try { preview.value = await getMappedEntityPreview(props.entityKey, props.document.name, target, null, props.document.modified); } catch (e) { error.value = e; } finally { busy.value = false; } }
 async function createMap() { if (busy.value || !preview.value) return; busy.value = true; try { const selected = preview.value.items.map((item) => ({ name: item.source_row, qty: Number(item.transfer_qty) })); const result = await createMappedEntity(props.entityKey, props.document.name, preview.value.target, selected, props.document.modified, crypto.randomUUID()); preview.value = null; await router.push(result.route); } catch (e) { error.value = e; } finally { busy.value = false; } }
 function print(format, pdf = false) { const query = new URLSearchParams({ doctype: data.value.doctype, name: props.document.name, format, no_letterhead: "0" }); window.open(pdf ? `/api/method/frappe.utils.print_format.download_pdf?${query}` : `/printview?${query}`, "_blank", "noopener"); }
