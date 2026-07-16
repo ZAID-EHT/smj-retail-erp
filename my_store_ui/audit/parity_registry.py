@@ -352,6 +352,7 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Invoice": {
         "make_payment_entry", "payment", "make_debit_note", "return_debit_note",
         "block_invoice", "unblock_invoice", "change_release_date", "make_lcv", "landed_cost_voucher",
+        "inter_company_invoice", "make_inter_company_sales_invoice", "make_purchase_receipt", "make_stock_entry",
         # purchase_invoice_dashboard.py Reference/Payment group connections,
         # served by get_dashboard_connections().
         "purchase_order", "purchase_receipt", "payment_request",
@@ -360,7 +361,10 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # it calls the exact same server method as "make_reverse_journal_entry"
     # (journal_entry.py) - genuine scanner-noise duplicate, verified against
     # source before aliasing (see DECISIONS.md).
-    "Journal Entry": {"make_reverse_journal_entry", "reverse_journal_entry", "ledger"},
+    "Journal Entry": {
+        "make_reverse_journal_entry", "reverse_journal_entry", "ledger",
+        "create_inter_company_journal_entry", "make_inter_company_journal_entry",
+    },
     # Chart of Accounts / Cost Center admin actions and ledger-navigation
     # shortcuts (universal/api.py _available_actions / run_document_action) -
     # real erpnext controller methods, matched by exact scanner action key.
@@ -389,7 +393,23 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # frm.events.make_jv -> frm.call({method: "make_jv_entries"})) - genuine
     # scanner-noise duplicate, verified against source before aliasing.
     "Exchange Rate Revaluation": {"make_jv_entries", "journal_entries"},
-    "Dunning": {"payment", "resolve"},
+    "Dunning": {"payment", "resolve", "fetch_overdue_payments"},
+    "Accounting Dimension": {"show_0"},
+    "Bank Account": {"unlink_external_integrations"},
+    "Bank Reconciliation Tool": {"upload_bank_statement"},
+    "Bank Statement Import": {"export_errored_rows", "export_import_log", "go_to_0_list"},
+    "Cheque Print Template": {"create_or_update_cheque_print_format"},
+    "Invoice Discounting": {
+        "accounting_ledger", "close_loan", "create_disbursement_entry", "disburse_loan", "get_invoices",
+    },
+    "Payment Order": {"create_journal_entries", "make_payment_records", "payment_request", "payment_entry"},
+    "Payment Request": {"create_payment_entry", "make_payment_entry", "resend_payment_email"},
+    "Share Transfer": {"create_journal_entry", "make_jv_entry"},
+    "Shareholder": {"share_balance", "share_ledger"},
+    "Process Statement Of Accounts": {"download", "send_emails"},
+    "Subscription": {
+        "cancel_subscription", "fetch_subscription_updates", "force_fetch_subscription_updates", "restart_subscription",
+    },
     # "cancel_pcv_processing" is erpnext's own on_cancel() hook (process_
     # period_closing_voucher.py), not a separate button - already triggered
     # by the standard "cancel" GENERIC_LIFECYCLE_ACTIONS entry now that this
@@ -508,7 +528,7 @@ BUILT_ADAPTER_ACTIONS_BY_PARENT = {
     "Bank Clearance": {"get_payment_entries", "update_clearance_date"},
     "Payment Reconciliation": {"allocate", "get_unreconciled_entries", "reconcile"},
     "Bank Reconciliation Tool": {
-        "auto_reconcile", "create_journal_entry_bts", "create_payment_entry_bts", "get_unreconciled_entries",
+        "auto_reconcile", "create_journal_entry_bts", "create_payment_entry_bts", "get_unreconciled_entries", "upload_bank_statement",
     },
     "Bank Transaction": {"create_bank_entries", "unreconcile_transaction"},
 }
@@ -655,6 +675,50 @@ DOCUMENT_ACTION_OVERRIDES = {
     ("Supplier Scorecard", "make_all_scorecards"): (
         "internal", "internal", None,
         "Controller maintenance helper invoked by on_update/scheduled processing; no ERPNext Desk button exists.",
+    ),
+    ("Bank Account", "make_bank_account"): (
+        "generated_doctype", "generated_provisional", "/retail-erp/finance/bank-account/new",
+        "Source helper creates a prefilled Bank Account from another party form; the permission-aware generated Bank Account form provides the same destination.",
+    ),
+    ("Bank", "refresh_plaid_link"): (
+        "external_app_adapter", "implemented_unverified", "/retail-erp/admin/integrations",
+        "Plaid Link is an external browser-SDK flow and remains owned by the configured Plaid integration launcher.",
+    ),
+    ("Bank Statement Import", "report_error"): (
+        "internal", "internal", None,
+        "Developer error-reporting popup built from Error Log traceback data; intentionally not exposed as a wholesale business action.",
+    ),
+    ("Journal Entry", "get_payment_entry_against_invoice"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/finance/payments/new",
+        "Controller helper is invoked from invoice payment creation, not from a Journal Entry form; Retail ERP serves invoice-to-Payment-Entry creation directly.",
+    ),
+    ("Journal Entry", "get_payment_entry_against_order"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/finance/payments/new",
+        "Controller helper is invoked from order payment creation, not from a Journal Entry form; Retail ERP serves order-to-Payment-Entry creation directly.",
+    ),
+    ("Journal Entry", "quick_entry"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/finance/journal-entries/new",
+        "Desk's client-only shortcut opens a reduced Journal Entry dialog; Retail ERP's permission-aware Journal Entry form exposes the complete entry fields.",
+    ),
+    ("Party Link", "create_party_link"): (
+        "generated_doctype", "generated_provisional", "/retail-erp/finance/party-link/new",
+        "Source helper creates a Party Link from Customer/Supplier; the generated Party Link form and Supplier link action use the fixed standard controller.",
+    ),
+    ("Payment Request", "make_payment_request"): (
+        "generated_doctype", "generated_provisional", "/retail-erp/finance/payment-requests/new",
+        "Source helper creates a Payment Request from an invoice/order; the routed generated form remains the direct creation destination.",
+    ),
+    ("Payment Request", "make_payment_order"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/finance/payment-order/new",
+        "Source mapper is consumed by Payment Order's permission-aware Get Payment Request action; it is not a Payment Request form button.",
+    ),
+    ("Pricing Rule", "make_pricing_rule"): (
+        "generated_doctype", "generated_provisional", "/retail-erp/finance/pricing-rule/new",
+        "Source helper pre-fills a Pricing Rule from another record; the permission-aware generated Pricing Rule form provides the complete destination.",
+    ),
+    ("Unreconcile Payment", "create_unreconcile_doc_for_selection"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/finance/unreconcile-payment",
+        "List-selection helper submits standard Unreconcile Payment documents; the routed permission-aware Unreconcile Payment feature is the controlled destination.",
     ),
 }
 

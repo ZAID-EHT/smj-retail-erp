@@ -297,6 +297,12 @@ async function autoReconcile() {
           <label>Bank statement closing balance<input v-model.number="filters.bank_statement_closing_balance" type="number" step="0.01" /></label>
         </div>
         <div class="rug-banner-actions">
+          <RouterLink
+            class="rug-secondary"
+            :to="{ path: '/finance/bank-statement-import/new', query: { company: filters.company || undefined, bank_account: filters.bank_account || undefined } }"
+          >
+            Upload bank statement
+          </RouterLink>
           <button type="button" class="rug-primary" :disabled="!filters.company || !filters.bank_account || loading" @click="fetchSummary">
             {{ loading && !expandedRow ? "Loading…" : loaded ? "Refresh" : "Fetch" }}
           </button>

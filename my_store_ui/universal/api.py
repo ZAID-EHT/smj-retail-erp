@@ -87,11 +87,25 @@ MAPPED_ACTIONS = {
 	"Purchase Invoice": {
 		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "purchase_invoice_payment"},
 		"make_debit_note": {"label": _("Create Debit Note"), "target": "Purchase Invoice", "method": "purchase_invoice_debit_note"},
+		"make_inter_company_sales_invoice": {"label": _("Create Inter Company Sales Invoice"), "target": "Sales Invoice", "method": "purchase_invoice_inter_company_sales_invoice"},
+		"make_purchase_receipt": {"label": _("Create Purchase Receipt"), "target": "Purchase Receipt", "method": "purchase_invoice_purchase_receipt"},
+		"make_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "purchase_invoice_stock_entry"},
 		# Same doctype-agnostic make_lcv(doctype, docname) Purchase Receipt uses.
 		"make_lcv": {"label": _("Create Landed Cost Voucher"), "target": "Landed Cost Voucher", "method": "purchase_receipt_lcv"},
 	},
 	"Journal Entry": {
 		"make_reverse_journal_entry": {"label": _("Reverse Journal Entry"), "target": "Journal Entry", "method": "journal_entry_reverse"},
+		"make_inter_company_journal_entry": {"label": _("Create Inter Company Journal Entry"), "target": "Journal Entry", "method": "journal_entry_inter_company", "requires_parameters": ["company"]},
+	},
+	"Invoice Discounting": {
+		"create_disbursement_entry": {"label": _("Disburse Loan"), "target": "Journal Entry", "method": "invoice_discounting_disbursement"},
+		"close_loan": {"label": _("Close Loan"), "target": "Journal Entry", "method": "invoice_discounting_close_loan"},
+	},
+	"Payment Request": {
+		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "payment_request_payment_entry"},
+	},
+	"Share Transfer": {
+		"make_jv_entry": {"label": _("Create Journal Entry"), "target": "Journal Entry", "method": "share_transfer_journal_entry"},
 	},
 	"Opportunity": {
 		"make_quotation": {"label": _("Create Quotation"), "target": "Quotation", "method": "opportunity_quotation"},
@@ -739,6 +753,64 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "get_supplier_group_details", "label": _("Get Supplier Group Details"), "destructive": False})
 		if cint(frappe.db.get_single_value("Accounts Settings", "enable_common_party_accounting")) and frappe.has_permission("Party Link", "create") and frappe.has_permission("Customer", "read"):
 			actions.append({"action": "link_with_customer", "label": _("Link with Customer"), "destructive": False, "requires_parameters": ["customer"]})
+	# Accounts tools discovered in the standard form scripts. The client receives
+	# only symbolic action keys; every branch is fixed below and permission checked.
+	if doc.doctype == "Accounting Dimension" and doc.get("document_type") and frappe.has_permission(doc.document_type, "read"):
+		actions.append({"action": "show_0", "label": _("Show {0}").format(doc.document_type), "destructive": False})
+	if doc.doctype == "Bank Account" and doc.get("integration_id") and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "unlink_external_integrations", "label": _("Unlink External Integrations"), "destructive": True})
+	if doc.doctype == "Bank Reconciliation Tool" and frappe.has_permission("Bank Statement Import", "create"):
+		actions.append({"action": "upload_bank_statement", "label": _("Upload Bank Statement"), "destructive": False})
+	if doc.doctype == "Bank Statement Import":
+		if doc.get("status") == "Partial Success":
+			actions.append({"action": "export_errored_rows", "label": _("Export Errored Rows"), "destructive": False})
+		if "Success" in str(doc.get("status") or "") and doc.get("reference_doctype") and frappe.has_permission(doc.reference_doctype, "read"):
+			actions.append({"action": "go_to_0_list", "label": _("Open Imported Records"), "destructive": False})
+		if doc.get("status"):
+			actions.append({"action": "export_import_log", "label": _("Export Import Log"), "destructive": False})
+	if doc.doctype == "Cheque Print Template":
+		existing_format = frappe.db.exists("Print Format", doc.name)
+		can_update_format = existing_format and frappe.has_permission("Print Format", "write", doc=existing_format)
+		if can_update_format or (not existing_format and frappe.has_permission("Print Format", "create")):
+			actions.append({"action": "create_or_update_cheque_print_format", "label": _("Create or Update Cheque Print Format"), "destructive": False})
+	if doc.doctype == "Dunning" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "fetch_overdue_payments", "label": _("Fetch Overdue Payment"), "destructive": False, "requires_parameters": ["source_name"]})
+	if doc.doctype == "Invoice Discounting":
+		if doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "get_invoices", "label": _("Get Invoices"), "destructive": False, "requires_parameters": ["filters_json"]})
+		if doc.docstatus > 0:
+			actions.append({"action": "accounting_ledger", "label": _("Accounting Ledger"), "destructive": False})
+	if doc.doctype == "Payment Order" and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.docstatus == 0:
+			actions.append({"action": "payment_request", "label": _("Get Payment Request"), "destructive": False, "requires_parameters": ["source_name"]})
+		elif doc.docstatus == 1 and doc.get("payment_order_type") == "Payment Request" and frappe.has_permission("Journal Entry", "create"):
+			actions.append({"action": "make_payment_records", "label": _("Create Journal Entries"), "destructive": True, "requires_parameters": ["supplier"]})
+	if doc.doctype == "Payment Request" and doc.docstatus == 1 and frappe.has_permission(meta.name, "write", doc=doc):
+		if (
+			doc.payment_request_type == "Inward"
+			and doc.payment_channel != "Phone"
+			and doc.status not in {"Initiated", "Paid"}
+			and frappe.has_permission(meta.name, "email", doc=doc)
+		):
+			actions.append({"action": "resend_payment_email", "label": _("Resend Payment Email"), "destructive": False})
+	if doc.doctype == "Subscription" and frappe.has_permission(meta.name, "write", doc=doc):
+		if doc.get("status") == "Cancelled":
+			actions.append({"action": "restart_subscription", "label": _("Restart Subscription"), "destructive": True})
+		else:
+			actions.extend([
+				{"action": "fetch_subscription_updates", "label": _("Fetch Subscription Updates"), "destructive": False},
+				{"action": "force_fetch_subscription_updates", "label": _("Force-Fetch Subscription Updates"), "destructive": False},
+				{"action": "cancel_subscription", "label": _("Cancel Subscription"), "destructive": True},
+			])
+	if doc.doctype == "Shareholder" and doc.get("folio_no"):
+		if frappe.db.exists("Report", "Share Balance") and frappe.has_permission("Report", "read", doc="Share Balance"):
+			actions.append({"action": "share_balance", "label": _("Share Balance"), "destructive": False})
+		if frappe.db.exists("Report", "Share Ledger") and frappe.has_permission("Report", "read", doc="Share Ledger"):
+			actions.append({"action": "share_ledger", "label": _("Share Ledger"), "destructive": False})
+	if doc.doctype == "Process Statement Of Accounts":
+		actions.append({"action": "download", "label": _("Download Statements"), "destructive": False})
+		if frappe.has_permission(meta.name, "email", doc=doc) and frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "send_emails", "label": _("Send Statement Emails"), "destructive": False})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
@@ -766,6 +838,19 @@ def _available_actions(meta, doc) -> list[dict]:
 				or not any(flt(row.total_supplied_qty) and flt(row.total_supplied_qty) != flt(row.consumed_qty) for row in doc.get("supplied_items") or [])
 			):
 				continue
+		if doc.doctype == "Invoice Discounting":
+			if key == "create_disbursement_entry" and doc.status != "Sanctioned":
+				continue
+			if key == "close_loan" and doc.status != "Disbursed":
+				continue
+		if doc.doctype == "Journal Entry" and key == "make_inter_company_journal_entry" and (
+			doc.voucher_type != "Inter Company Journal Entry" or doc.inter_company_journal_entry_reference
+		):
+			continue
+		if doc.doctype == "Payment Request" and key == "make_payment_entry" and not (
+			doc.payment_request_type == "Outward" and doc.status in {"Initiated", "Partially Paid"}
+		):
+			continue
 		if frappe.has_permission(mapping["target"], "create"):
 			actions.append({
 				"action": key, "label": mapping["label"], "destructive": False,
@@ -862,9 +947,47 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "purchase_invoice_debit_note":
 		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_debit_note
 		target = make_debit_note(doc.name)
+	elif method == "purchase_invoice_inter_company_sales_invoice":
+		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_inter_company_sales_invoice
+		target = make_inter_company_sales_invoice(doc.name)
+	elif method == "purchase_invoice_purchase_receipt":
+		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_purchase_receipt
+		target = make_purchase_receipt(doc.name)
+	elif method == "purchase_invoice_stock_entry":
+		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_stock_entry
+		target = make_stock_entry(doc.name)
 	elif method == "journal_entry_reverse":
 		from erpnext.accounts.doctype.journal_entry.journal_entry import make_reverse_journal_entry
 		target = make_reverse_journal_entry(doc.name)
+	elif method == "journal_entry_inter_company":
+		company = _permitted_source("Company", parameters.get("company"))
+		if company == doc.company:
+			frappe.throw(_("Choose another permitted Company."), frappe.ValidationError)
+		from erpnext.accounts.doctype.journal_entry.journal_entry import make_inter_company_journal_entry
+		target = frappe.get_doc(make_inter_company_journal_entry(doc.name, doc.voucher_type, company))
+	elif method == "invoice_discounting_disbursement":
+		target = doc.create_disbursement_entry()
+	elif method == "invoice_discounting_close_loan":
+		target = doc.close_loan()
+	elif method == "payment_request_payment_entry":
+		from erpnext.accounts.doctype.payment_request.payment_request import make_payment_entry
+		target = frappe.get_doc(make_payment_entry(doc.name))
+	elif method == "share_transfer_journal_entry":
+		if doc.transfer_type == "Transfer":
+			account = payment_account = doc.equity_or_liability_account
+			credit_type, credit_party = "Shareholder", doc.to_shareholder
+			debit_type, debit_party = "Shareholder", doc.from_shareholder
+		elif doc.transfer_type == "Issue":
+			account, payment_account = doc.asset_account, doc.equity_or_liability_account
+			credit_type, credit_party, debit_type, debit_party = "Shareholder", doc.to_shareholder, "", ""
+		else:
+			account, payment_account = doc.equity_or_liability_account, doc.asset_account
+			credit_type, credit_party, debit_type, debit_party = "", "", "Shareholder", doc.from_shareholder
+		from erpnext.accounts.doctype.share_transfer.share_transfer import make_jv_entry
+		target = frappe.get_doc(make_jv_entry(
+			doc.company, account, doc.amount, payment_account,
+			credit_type, credit_party, debit_type, debit_party,
+		))
 	elif method == "purchase_invoice_payment":
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 		target = get_payment_entry(doc.doctype, doc.name)
@@ -1011,6 +1134,47 @@ def _get_rfq_suppliers(doc, search_type: str, filter_value: str) -> None:
 	if not names:
 		frappe.throw(_("No permitted suppliers match that filter."), frappe.ValidationError)
 	doc.save()
+
+
+def _populate_invoice_discounting(doc, filters_json) -> None:
+	filters = _parse(filters_json, dict, "Invoice filters")
+	allowed = {"customer", "from_date", "to_date", "min_amount", "max_amount"}
+	if set(filters) - allowed:
+		frappe.throw(_("Unsupported invoice filter."), frappe.ValidationError)
+	from erpnext.accounts.doctype.invoice_discounting.invoice_discounting import get_invoices
+	rows = get_invoices(json.dumps({key: value for key, value in filters.items() if key in allowed}))[:MAX_PAGE_SIZE]
+	names = [row.get("sales_invoice") for row in rows if row.get("sales_invoice")]
+	visible = set(frappe.get_list(
+		"Sales Invoice", filters={"name": ["in", names]}, pluck="name",
+		limit_page_length=MAX_PAGE_SIZE,
+	)) if names else set()
+	existing = {row.sales_invoice for row in doc.get("invoices") or [] if row.sales_invoice}
+	for row in rows:
+		if row.get("sales_invoice") in visible and row.get("sales_invoice") not in existing:
+			doc.append("invoices", row)
+	doc.save()
+
+
+@frappe.whitelist()
+def download_bank_statement_import_file(name: str, kind: str):
+	_require_login()
+	doc = _get_permitted_doc("Bank Statement Import", name)
+	if kind == "errors":
+		if doc.status != "Partial Success":
+			frappe.throw(_("No errored rows are available."), frappe.ValidationError)
+		doc.export_errored_rows()
+		return None
+	if kind == "log":
+		return doc.download_import_log()
+	frappe.throw(_("Unsupported export type."), frappe.ValidationError)
+
+
+@frappe.whitelist(methods=["GET"])
+def download_process_statement(name: str):
+	_require_login()
+	_get_permitted_doc("Process Statement Of Accounts", name)
+	from erpnext.accounts.doctype.process_statement_of_accounts.process_statement_of_accounts import download_statements
+	return download_statements(name)
 
 
 def _available_workflow_actions(doc) -> list[dict]:
@@ -1204,6 +1368,78 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		target = create_party_link("Supplier", doc.name, customer)
 		target_record = get_generated_feature("party-link")
 		return {"name": target.name, "doctype": target.doctype, "route": _record_route(target_record, target.name)}
+	elif action == "show_0" and doc.doctype == "Accounting Dimension":
+		target_record = get_feature(frappe.scrub(doc.document_type).replace("_", "-"))
+		return {"route": _record_route(target_record)}
+	elif action == "unlink_external_integrations" and doc.doctype == "Bank Account":
+		doc.integration_id = None
+		doc.save()
+	elif action == "upload_bank_statement" and doc.doctype == "Bank Reconciliation Tool":
+		from erpnext.accounts.doctype.bank_statement_import.bank_statement_import import upload_bank_statement
+		target = upload_bank_statement(company=doc.company, bank_account=doc.bank_account)
+		target.insert()
+		target_record = get_generated_feature("bank-statement-import")
+		return {"name": target.name, "doctype": target.doctype, "route": _record_route(target_record, target.name, "edit")}
+	elif action in {"export_errored_rows", "export_import_log"} and doc.doctype == "Bank Statement Import":
+		query = urlencode({"name": doc.name, "kind": "errors" if action == "export_errored_rows" else "log"}, quote_via=quote)
+		return {"download_url": f"/api/method/my_store_ui.universal.api.download_bank_statement_import_file?{query}"}
+	elif action == "go_to_0_list" and doc.doctype == "Bank Statement Import":
+		target_record = get_feature(frappe.scrub(doc.reference_doctype).replace("_", "-"))
+		return {"route": _record_route(target_record)}
+	elif action == "create_or_update_cheque_print_format" and doc.doctype == "Cheque Print Template":
+		from erpnext.accounts.doctype.cheque_print_template.cheque_print_template import create_or_update_cheque_print_format
+		target = create_or_update_cheque_print_format(doc.name)
+		target_record = get_generated_feature("print-format")
+		return {"name": target.name, "doctype": target.doctype, "route": _record_route(target_record, target.name, "edit")}
+	elif action == "fetch_overdue_payments" and doc.doctype == "Dunning":
+		source = _permitted_source("Sales Invoice", parameters.get("source_name"))
+		from erpnext.accounts.doctype.sales_invoice.sales_invoice import create_dunning
+		target = create_dunning(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "get_invoices" and doc.doctype == "Invoice Discounting":
+		_populate_invoice_discounting(doc, parameters.get("filters_json"))
+		doc.reload()
+	elif action == "accounting_ledger" and doc.doctype == "Invoice Discounting":
+		params = urlencode({"voucher_no": doc.name, "from_date": doc.posting_date, "to_date": getdate().isoformat(), "company": doc.company}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
+	elif action == "payment_request" and doc.doctype == "Payment Order":
+		source = _permitted_source("Payment Request", parameters.get("source_name"))
+		from erpnext.accounts.doctype.payment_request.payment_request import make_payment_order
+		target = make_payment_order(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "make_payment_records" and doc.doctype == "Payment Order":
+		supplier = _permitted_source("Supplier", parameters.get("supplier"))
+		if supplier not in {row.supplier for row in doc.get("references") or [] if row.supplier}:
+			frappe.throw(_("Supplier is not present in this Payment Order."), frappe.ValidationError)
+		from erpnext.accounts.doctype.payment_order.payment_order import make_payment_records
+		make_payment_records(doc.name, supplier, parameters.get("mode_of_payment") or None)
+		doc.reload()
+	elif action == "resend_payment_email" and doc.doctype == "Payment Request":
+		doc.send_email()
+		doc.reload()
+	elif action in {"cancel_subscription", "restart_subscription", "fetch_subscription_updates", "force_fetch_subscription_updates"} and doc.doctype == "Subscription":
+		if action == "cancel_subscription":
+			doc.cancel_subscription()
+		elif action == "restart_subscription":
+			doc.restart_subscription()
+		elif action == "force_fetch_subscription_updates":
+			doc.force_fetch_subscription_updates()
+		else:
+			doc.process()
+		doc.reload()
+	elif action in {"share_balance", "share_ledger"} and doc.doctype == "Shareholder":
+		report = "Share Balance" if action == "share_balance" else "Share Ledger"
+		params = urlencode({"shareholder": doc.name}, quote_via=quote)
+		return {"route": f"/retail-erp/reports/view/{quote(report)}?{params}"}
+	elif action == "download" and doc.doctype == "Process Statement Of Accounts":
+		query = urlencode({"name": doc.name}, quote_via=quote)
+		return {"download_url": f"/api/method/my_store_ui.universal.api.download_process_statement?{query}"}
+	elif action == "send_emails" and doc.doctype == "Process Statement Of Accounts":
+		from erpnext.accounts.doctype.process_statement_of_accounts.process_statement_of_accounts import send_emails
+		queued = send_emails(doc.name)
+		return {"name": doc.name, "doctype": doc.doctype, "queued": bool(queued)}
 	elif action == "accounting_ledger" and doc.doctype == "Supplier":
 		params = urlencode({"party_type": "Supplier", "party": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}
