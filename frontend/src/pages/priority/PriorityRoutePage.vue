@@ -13,6 +13,8 @@ import PaymentReconciliationPage from "@/pages/priority/PaymentReconciliationPag
 import BankReconciliationPage from "@/pages/priority/BankReconciliationPage.vue";
 import BankClearancePage from "@/pages/priority/BankClearancePage.vue";
 import PeggedCurrenciesPage from "@/pages/priority/PeggedCurrenciesPage.vue";
+import SalesFunnelPage from "@/pages/priority/SalesFunnelPage.vue";
+import WarehouseCapacityPage from "@/pages/priority/WarehouseCapacityPage.vue";
 import PriorityReportHubPage from "@/pages/priority/PriorityReportHubPage.vue";
 import PrioritySpecialPage from "@/pages/priority/PrioritySpecialPage.vue";
 import PriorityTreePage from "@/pages/priority/PriorityTreePage.vue";
@@ -58,6 +60,8 @@ onBeforeUnmount(() => controller?.abort());
   <BankReconciliationPage v-else-if="definition?.component === 'bank_reconciliation'" />
   <BankClearancePage v-else-if="definition?.component === 'bank_clearance'" />
   <PeggedCurrenciesPage v-else-if="definition?.component === 'pegged_currencies'" />
+  <SalesFunnelPage v-else-if="definition?.component === 'sales_funnel'" />
+  <WarehouseCapacityPage v-else-if="definition?.component === 'warehouse_capacity'" />
   <PriorityReportHubPage v-else-if="definition?.component === 'report_hub'" :group="definition.group" />
   <PriorityReportPage v-else-if="definition?.component === 'report'" :report-name="definition.report" />
   <PrioritySpecialPage v-else-if="definition?.component === 'special'" :definition="definition" />

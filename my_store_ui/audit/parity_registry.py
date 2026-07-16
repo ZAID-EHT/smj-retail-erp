@@ -393,6 +393,14 @@ DOCTYPE_SPECIFIC_ACTIONS = {
 # stale/legacy stub superseded by the real Retail ERP Vue route, superseded
 # by an already-routed destination, or genuine internal admin tooling.
 PAGE_OVERRIDES = {
+    "sales-funnel": (
+        "special_adapter", "implemented_unverified", "/retail-erp/sales/funnel",
+        "Permission-aware Retail ERP analytics page uses live Lead, Opportunity, Quotation and Customer data.",
+    ),
+    "warehouse-capacity-summary": (
+        "special_adapter", "implemented_unverified", "/retail-erp/inventory/warehouse-capacity",
+        "Permission-aware Retail ERP capacity page calls ERPNext's warehouse capacity dashboard adapter.",
+    ),
     # Legacy Frappe "Page" doctype stub (my_store_ui/page/smart_sales/) from
     # before the app moved to the Vue SPA shell. Smart Sales is a preserved
     # handcrafted page, genuinely implemented at the real SPA route below —

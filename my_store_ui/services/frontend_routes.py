@@ -78,6 +78,7 @@ NAVIGATION = (
 		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},
 		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
 		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
+		{"label": "Sales Funnel", "path": "/sales/funnel", "page": "sales-funnel"},
 		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
 	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
@@ -102,6 +103,7 @@ NAVIGATION = (
 		{"label": "Stock Receipt", "path": "/inventory/receipts/new", "doctype": "Stock Entry", "permission": "create"}, {"label": "Stock Issue", "path": "/inventory/issues/new", "doctype": "Stock Entry", "permission": "create"},
 		{"label": "Stock Reconciliation", "path": "/inventory/reconciliations", "doctype": "Stock Reconciliation"}, {"label": "Serial Numbers", "path": "/inventory/serial-numbers", "doctype": "Serial No"},
 		{"label": "Batch Numbers", "path": "/inventory/batches", "doctype": "Batch"}, {"label": "Reorder Alerts", "path": "/inventory/reorder-alerts", "report": "Stock Projected Qty"},
+		{"label": "Warehouse Capacity", "path": "/inventory/warehouse-capacity", "page": "warehouse-capacity-summary"},
 		{"label": "Stock Reports", "path": "/reports/inventory", "report": "Stock Balance"},
 	)},
 	{"name": "finance", "label": "Finance", "path": "/finance", "accent": "gold", "icon": "finance", "any_read": ("Payment Entry", "Journal Entry", "Account"), "links": (

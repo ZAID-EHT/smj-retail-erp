@@ -149,11 +149,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .bank-clearance-page label { display: grid; gap: .4rem; color: var(--ref-primary-text); font-weight: 700; }
-.bank-clearance-page label input:not([type="checkbox"]) { min-height: 44px; border: 1px solid var(--ref-border); border-radius: .75rem; padding: 0 .8rem; background: var(--ref-surface); color: var(--ref-primary-text); }
+.bank-clearance-page label input:not([type="checkbox"]) { min-height: 44px; border: 1px solid var(--ref-border-colour); border-radius: .75rem; padding: 0 .8rem; background: var(--ref-card-background); color: var(--ref-primary-text); }
 .bank-clearance-check { display: flex !important; align-items: center; align-self: end; min-height: 44px; }
 .bank-clearance-check input { width: 1.1rem; height: 1.1rem; }
 .bank-clearance-page td small { display: block; color: var(--ref-secondary-text); margin-top: .2rem; }
-.bank-clearance-page td input { min-width: 9rem; min-height: 38px; border: 1px solid var(--ref-border); border-radius: .6rem; padding: 0 .5rem; }
+.bank-clearance-page td input { min-width: 9rem; min-height: 38px; border: 1px solid var(--ref-border-colour); border-radius: .6rem; padding: 0 .5rem; }
 .rug-success { border: 1px solid var(--ref-success); border-radius: .75rem; padding: .8rem 1rem; background: var(--ref-success-background); color: var(--ref-primary-text); }
 @media (max-width: 720px) { .rug-banner-actions { width: 100%; } .rug-banner-actions button { flex: 1; } }
 </style>

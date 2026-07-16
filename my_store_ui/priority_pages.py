@@ -68,9 +68,14 @@ def get_priority_route_definition(path: str):
 		component = "bank_clearance"
 	if path == "/finance/pegged-currencies":
 		component = "pegged_currencies"
+	if path == "/sales/funnel":
+		component = "sales_funnel"
+	if path == "/inventory/warehouse-capacity":
+		component = "warehouse_capacity"
 	if component not in {
 		"entity", "tree", "special", "report", "report_hub", "register",
 		"payment_reconciliation", "bank_reconciliation", "bank_clearance", "pegged_currencies",
+		"sales_funnel", "warehouse_capacity",
 	}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {
