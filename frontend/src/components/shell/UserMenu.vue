@@ -4,6 +4,7 @@ import { SmjChevronDown, SmjHelp, SmjLogout, SmjProfile } from "@/components/ico
 
 const session = inject("retailSession", null);
 const root = ref(null);
+const trigger = ref(null);
 const open = ref(false);
 const shortcutsOpen = ref(false);
 const fullName = computed(() => session?.state?.displayName || window.frappe?.session?.user_fullname || window.frappe?.session?.user || "User");
@@ -13,11 +14,31 @@ const initials = computed(() =>
   fullName.value.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("") || "U",
 );
 
-function closeOnOutsideClick(event) {
-  if (!root.value?.contains(event.target)) { open.value = false; shortcutsOpen.value = false; }
+function closeMenu() {
+  open.value = false;
+  shortcutsOpen.value = false;
 }
-onMounted(() => document.addEventListener("click", closeOnOutsideClick));
-onBeforeUnmount(() => document.removeEventListener("click", closeOnOutsideClick));
+
+function closeOnOutsideClick(event) {
+  if (!root.value?.contains(event.target)) closeMenu();
+}
+
+function onKeydown(event) {
+  if (event.key === "Escape" && open.value) {
+    event.preventDefault();
+    closeMenu();
+    trigger.value?.focus();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener("click", closeOnOutsideClick);
+  document.addEventListener("keydown", onKeydown);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener("click", closeOnOutsideClick);
+  document.removeEventListener("keydown", onKeydown);
+});
 
 function openProfile() {
   open.value = false;
@@ -34,7 +55,7 @@ async function logout() {
 
 <template>
   <div ref="root" class="ref-user-menu-wrap">
-    <button class="ref-user-menu" type="button" aria-label="User menu" :aria-expanded="open" @click="open = !open; shortcutsOpen = false">
+    <button ref="trigger" class="ref-user-menu" type="button" aria-label="User menu" :aria-expanded="open" @click="open = !open; shortcutsOpen = false">
       <span class="ref-user-menu__avatar">{{ initials }}</span>
       <span class="ref-user-menu__name">{{ fullName }}</span>
       <SmjChevronDown size="14" decorative />
