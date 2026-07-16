@@ -2601,14 +2601,17 @@
       "action_name": null,
       "parent_feature": "Accounts Payable",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Accounts Payable Ageing is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2620,14 +2623,17 @@
       "action_name": null,
       "parent_feature": "Accounts Receivable",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Accounts Receivable Ageing is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2658,14 +2664,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_payments_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Bank Balance is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2677,14 +2686,17 @@
       "action_name": null,
       "parent_feature": "Budget Variance Report",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Budget Variance is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2753,14 +2765,17 @@
       "action_name": null,
       "parent_feature": "Delivery Note",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Delivery Trends is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2772,14 +2787,17 @@
       "action_name": null,
       "parent_feature": "Purchase Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Incoming Bills (Purchase Invoice) is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2791,14 +2809,17 @@
       "action_name": null,
       "parent_feature": "Lead",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Incoming Leads is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2810,14 +2831,17 @@
       "action_name": null,
       "parent_feature": "Item Shortage Report",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Item Shortage Summary is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2829,14 +2853,17 @@
       "action_name": null,
       "parent_feature": "Item-wise Sales History",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Item-wise Annual Sales is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2886,14 +2913,17 @@
       "action_name": null,
       "parent_feature": "Lead",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Lead Source is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2924,14 +2954,17 @@
       "action_name": null,
       "parent_feature": "Material Request",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Material Request Analysis is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2943,14 +2976,17 @@
       "action_name": null,
       "parent_feature": "Stock Ageing",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Oldest Items is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2962,14 +2998,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Opportunities via Campaigns is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -2981,14 +3020,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Opportunity Trends is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3000,14 +3042,17 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Outgoing Bills (Sales Invoice) is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3057,14 +3102,17 @@
       "action_name": null,
       "parent_feature": "Profit and Loss Statement",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Profit and Loss is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3095,14 +3143,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order Analysis",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Purchase Order Analysis is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3114,14 +3165,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order Trends",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Purchase Order Trends is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3133,14 +3187,17 @@
       "action_name": null,
       "parent_feature": "Purchase Receipt",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Purchase Receipt Trends is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3190,14 +3247,17 @@
       "action_name": null,
       "parent_feature": "Sales Order Analysis",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Sales Order Analysis is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3209,14 +3269,17 @@
       "action_name": null,
       "parent_feature": "Sales Order Trends",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Sales Order Trends is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3228,14 +3291,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Stock Value by Item Group is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3266,14 +3332,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Territory Wise Opportunity Count is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3285,14 +3354,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Territory Wise Sales is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3304,14 +3376,17 @@
       "action_name": null,
       "parent_feature": "Delivery Note Trends",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Top Customers is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3323,14 +3398,17 @@
       "action_name": null,
       "parent_feature": "Purchase Receipt Trends",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Top Suppliers is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3342,14 +3420,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Warehouse wise Stock Value is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -3361,14 +3442,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Won Opportunities is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4653,14 +4737,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Accounts is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4691,14 +4778,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Buying is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4710,14 +4800,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "CRM is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4748,14 +4841,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_payments_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Payments is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4786,14 +4882,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Selling is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -4805,14 +4904,17 @@
       "action_name": null,
       "parent_feature": null,
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Stock is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20326,14 +20428,17 @@
       "action_name": null,
       "parent_feature": "Customer",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Active Customers is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20364,14 +20469,17 @@
       "action_name": null,
       "parent_feature": "Supplier",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Active Suppliers is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20383,14 +20491,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Annual Purchase is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20402,14 +20513,17 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Annual Sales is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20440,14 +20554,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Average Order Values is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20459,14 +20576,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Average Sales Order Value is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20573,14 +20693,17 @@
       "action_name": null,
       "parent_feature": "Lead",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "New Lead (Last 1 Month) is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20592,14 +20715,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "New Opportunity (Last 1 Month) is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20649,14 +20775,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Open Opportunity is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20706,14 +20835,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Purchase Orders Count is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20725,14 +20857,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Purchase Orders to Bill is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20744,14 +20879,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Purchase Orders to Receive is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20763,14 +20901,17 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Sales Orders Count is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20782,14 +20923,17 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Sales Orders to Bill is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20801,14 +20945,17 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Sales Orders to Deliver is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20877,14 +21024,17 @@
       "action_name": null,
       "parent_feature": "Item",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Total Active Items is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20915,14 +21065,17 @@
       "action_name": null,
       "parent_feature": "Purchase Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Total Incoming Bills is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20934,14 +21087,17 @@
       "action_name": null,
       "parent_feature": "Payment Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_payments_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Total Incoming Payment is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20953,14 +21109,17 @@
       "action_name": null,
       "parent_feature": "Sales Invoice",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_accounts_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Total Outgoing Bills is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20972,14 +21131,17 @@
       "action_name": null,
       "parent_feature": "Payment Entry",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_payments_dashboard",
+        "Wired into ModuleDashboardPage.vue at /finance"
+      ],
+      "notes": "Total Outgoing Payment is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -20991,14 +21153,17 @@
       "action_name": null,
       "parent_feature": "Purchase Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_buying_dashboard",
+        "Wired into ModuleDashboardPage.vue at /purchases"
+      ],
+      "notes": "Total Purchase Amount is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -21010,14 +21175,17 @@
       "action_name": null,
       "parent_feature": "Sales Order",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_selling_dashboard",
+        "Wired into ModuleDashboardPage.vue at /sales"
+      ],
+      "notes": "Total Sales Amount is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -21029,14 +21197,17 @@
       "action_name": null,
       "parent_feature": "Bin",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Total Stock Value is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -21048,14 +21219,17 @@
       "action_name": null,
       "parent_feature": "Warehouse",
       "business_priority": "P1_required",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P1_required); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_stock_dashboard",
+        "Wired into ModuleDashboardPage.vue at /inventory"
+      ],
+      "notes": "Total Warehouses is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {
@@ -21086,14 +21260,17 @@
       "action_name": null,
       "parent_feature": "Opportunity",
       "business_priority": "P2_important",
-      "implementation_strategy": "generated_dashboard",
+      "implementation_strategy": "special_adapter",
       "retail_erp_route": null,
       "backend_handler": null,
       "permission_rule": "standard_frappe_document_permissions",
-      "status": "unavailable_with_reason",
-      "verification_level": "n/a",
-      "evidence": [],
-      "notes": "Not yet adapted (P2_important); Desk workspace/dashboard remains source of truth.",
+      "status": "implemented_unverified",
+      "verification_level": "source_only",
+      "evidence": [
+        "Real permission-checked live-data adapter: my_store_ui/module_dashboards.py:get_crm_dashboard",
+        "Wired into ModuleDashboardPage.vue at /crm"
+      ],
+      "notes": "Won Opportunity (Last 1 Month) is computed live from ERPNext data (never hardcoded), gated by frappe.has_permission(); data-layer verified via `bench execute` against site1 real records. Browser/UI rendering verification pending (no browser automation).",
       "blocking_reason": null
     },
     {

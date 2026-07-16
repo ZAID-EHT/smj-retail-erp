@@ -447,6 +447,86 @@ BUILT_ADAPTER_ACTION_ROUTE = {
 }
 
 
+# Real, live-data module dashboards (my_store_ui/module_dashboards.py, wired
+# into ModuleDashboardPage.vue via frontend/src/services/moduleDashboards.js).
+# Every native ERPNext Dashboard/Dashboard Chart/Number Card feature here has
+# a genuine permission-checked backend function computing that exact metric
+# from real ERPNext data (never a hardcoded preview value) — see the module's
+# own docstring and DASHBOARD_ANALYTICS_EVIDENCE for the query each one runs.
+# feature_type/name is the scanner's own key (dashboard_chart.chart_name /
+# number_card.label / dashboard.name), matched exactly, not aliased.
+DASHBOARD_ANALYTICS_ROUTE = {
+    "Accounts": "/finance", "Payments": "/finance", "Buying": "/purchases",
+    "CRM": "/crm", "Selling": "/sales", "Stock": "/inventory",
+}
+DASHBOARD_ANALYTICS_BACKEND = {
+    "Accounts": "my_store_ui/module_dashboards.py:get_accounts_dashboard",
+    "Payments": "my_store_ui/module_dashboards.py:get_payments_dashboard",
+    "Buying": "my_store_ui/module_dashboards.py:get_buying_dashboard",
+    "CRM": "my_store_ui/module_dashboards.py:get_crm_dashboard",
+    "Selling": "my_store_ui/module_dashboards.py:get_selling_dashboard",
+    "Stock": "my_store_ui/module_dashboards.py:get_stock_dashboard",
+}
+DASHBOARD_ANALYTICS_ADAPTERS = {
+    ("dashboard", "Accounts"): "Accounts", ("dashboard", "Buying"): "Buying",
+    ("dashboard", "CRM"): "CRM", ("dashboard", "Payments"): "Payments",
+    ("dashboard", "Selling"): "Selling", ("dashboard", "Stock"): "Stock",
+    ("dashboard_chart", "Accounts Payable Ageing"): "Accounts",
+    ("dashboard_chart", "Accounts Receivable Ageing"): "Accounts",
+    ("dashboard_chart", "Budget Variance"): "Accounts",
+    ("dashboard_chart", "Incoming Bills (Purchase Invoice)"): "Accounts",
+    ("dashboard_chart", "Outgoing Bills (Sales Invoice)"): "Accounts",
+    ("dashboard_chart", "Profit and Loss"): "Accounts",
+    ("dashboard_chart", "Bank Balance"): "Payments",
+    ("dashboard_chart", "Material Request Analysis"): "Buying",
+    ("dashboard_chart", "Purchase Order Analysis"): "Buying",
+    ("dashboard_chart", "Purchase Order Trends"): "Buying",
+    ("dashboard_chart", "Top Suppliers"): "Buying",
+    ("dashboard_chart", "Incoming Leads"): "CRM",
+    ("dashboard_chart", "Lead Source"): "CRM",
+    ("dashboard_chart", "Opportunities via Campaigns"): "CRM",
+    ("dashboard_chart", "Opportunity Trends"): "CRM",
+    ("dashboard_chart", "Territory Wise Opportunity Count"): "CRM",
+    ("dashboard_chart", "Territory Wise Sales"): "CRM",
+    ("dashboard_chart", "Won Opportunities"): "CRM",
+    ("dashboard_chart", "Item-wise Annual Sales"): "Selling",
+    ("dashboard_chart", "Sales Order Analysis"): "Selling",
+    ("dashboard_chart", "Sales Order Trends"): "Selling",
+    ("dashboard_chart", "Top Customers"): "Selling",
+    ("dashboard_chart", "Delivery Trends"): "Stock",
+    ("dashboard_chart", "Item Shortage Summary"): "Stock",
+    ("dashboard_chart", "Oldest Items"): "Stock",
+    ("dashboard_chart", "Purchase Receipt Trends"): "Stock",
+    ("dashboard_chart", "Stock Value by Item Group"): "Stock",
+    ("dashboard_chart", "Warehouse wise Stock Value"): "Stock",
+    ("number_card", "Total Incoming Bills"): "Accounts",
+    ("number_card", "Total Outgoing Bills"): "Accounts",
+    ("number_card", "Total Incoming Payment"): "Payments",
+    ("number_card", "Total Outgoing Payment"): "Payments",
+    ("number_card", "Active Suppliers"): "Buying",
+    ("number_card", "Annual Purchase"): "Buying",
+    ("number_card", "Average Order Values"): "Buying",
+    ("number_card", "Purchase Orders Count"): "Buying",
+    ("number_card", "Purchase Orders to Bill"): "Buying",
+    ("number_card", "Purchase Orders to Receive"): "Buying",
+    ("number_card", "Total Purchase Amount"): "Buying",
+    ("number_card", "New Lead (Last 1 Month)"): "CRM",
+    ("number_card", "New Opportunity (Last 1 Month)"): "CRM",
+    ("number_card", "Open Opportunity"): "CRM",
+    ("number_card", "Won Opportunity (Last 1 Month)"): "CRM",
+    ("number_card", "Active Customers"): "Selling",
+    ("number_card", "Annual Sales"): "Selling",
+    ("number_card", "Average Sales Order Value"): "Selling",
+    ("number_card", "Sales Orders Count"): "Selling",
+    ("number_card", "Sales Orders to Bill"): "Selling",
+    ("number_card", "Sales Orders to Deliver"): "Selling",
+    ("number_card", "Total Sales Amount"): "Selling",
+    ("number_card", "Total Active Items"): "Stock",
+    ("number_card", "Total Stock Value"): "Stock",
+    ("number_card", "Total Warehouses"): "Stock",
+}
+
+
 NOT_REQUIRED_REPORT_NAMES = {
     "IRS 1099": "US IRS 1099 contractor tax report; not applicable outside the United States.",
     "UAE VAT 201": "UAE Federal Tax Authority VAT return; not applicable outside the UAE.",
@@ -716,7 +796,19 @@ def _strategy_and_status(feature: dict, priority: str, routed_doctypes: frozense
         return ("generated_report", "unavailable_with_reason", "n/a", [],
                 f"Not yet adapted ({priority}); runs in Desk. Candidate for the report engine.")
 
-    # 8. Visual (workspace/dashboard/chart/number card).
+    # 7b. Real, live-data module dashboards (Batch: dashboard/chart/number-card
+    # completion). Matched by the scanner's own (feature_type, name) key.
+    if ftype in {"dashboard", "dashboard_chart", "number_card"} and (ftype, feature.get("name")) in DASHBOARD_ANALYTICS_ADAPTERS:
+        adapter = DASHBOARD_ANALYTICS_ADAPTERS[(ftype, feature.get("name"))]
+        route_dest = DASHBOARD_ANALYTICS_ROUTE[adapter]
+        backend = DASHBOARD_ANALYTICS_BACKEND[adapter]
+        return ("special_adapter", "implemented_unverified", "source_only",
+                [f"Real permission-checked live-data adapter: {backend}", f"Wired into ModuleDashboardPage.vue at {route_dest}"],
+                f"{feature.get('name')} is computed live from ERPNext data (never hardcoded), "
+                "gated by frappe.has_permission(); data-layer verified via `bench execute` against "
+                "site1 real records. Browser/UI rendering verification pending (no browser automation).")
+
+    # 8. Visual (workspace/dashboard/chart/number card) with no dedicated adapter yet.
     if ftype in VISUAL_TYPES:
         return ("generated_dashboard", "unavailable_with_reason", "n/a", [],
                 f"Not yet adapted ({priority}); Desk workspace/dashboard remains source of truth.")
