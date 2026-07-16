@@ -1,6 +1,8 @@
 <script setup>
 import { computed, inject, onBeforeUnmount, onMounted, ref } from "vue";
 
+import { SmjChevronDown } from "@/components/icons";
+import { moduleIcon } from "@/components/icons/moduleIconMap.js";
 import { navigationModules } from "@/router/routes.js";
 
 const activeMenu = ref(null);
@@ -36,9 +38,11 @@ onBeforeUnmount(() => document.removeEventListener("click", closeMenus));
         :aria-expanded="activeMenu === module.name"
         @click="toggleMenu(module.name)"
       >
-        <span class="ref-module-button__icon" aria-hidden="true">◆</span>
+        <span class="ref-module-button__icon" aria-hidden="true">
+          <component :is="moduleIcon(module.icon)" size="15" decorative />
+        </span>
         {{ module.label }}
-        <span class="ref-module-button__chevron" aria-hidden="true">⌄</span>
+        <SmjChevronDown class="ref-module-button__chevron" size="13" decorative />
       </button>
       <div v-if="activeMenu === module.name" class="ref-module-dropdown" role="menu">
         <RouterLink
@@ -48,7 +52,9 @@ onBeforeUnmount(() => document.removeEventListener("click", closeMenus));
           role="menuitem"
           @click="activeMenu = null"
         >
-          <span class="ref-module-dropdown__icon" aria-hidden="true">◇</span>
+          <span class="ref-module-dropdown__icon" aria-hidden="true">
+            <component :is="moduleIcon(module.icon)" size="13" decorative />
+          </span>
           <span>
             <strong>{{ link.label }}</strong>
             <small>{{ link.implemented ? `Open ${link.label}` : 'Opens safely inside Retail ERP' }}</small>

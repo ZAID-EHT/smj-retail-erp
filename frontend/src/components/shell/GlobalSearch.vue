@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import { SmjSearch } from "@/components/icons";
 import { searchRetailERP } from "@/services/globalSearch.js";
 
 const router = useRouter();
@@ -94,7 +95,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="root" class="ref-global-search" role="search" :class="{ 'is-open': open }">
-    <span class="ref-global-search__icon" aria-hidden="true">⌕</span>
+    <SmjSearch class="ref-global-search__icon" size="18" decorative />
     <input
       ref="input"
       v-model="query"
