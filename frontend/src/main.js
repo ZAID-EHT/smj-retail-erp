@@ -12,6 +12,7 @@ import "./design/standalone.css";
 import "./design/universal.css";
 import "./design/generated-ux.css";
 import "./design/priority-pages.css";
+import "./design/smj-page-system.css";
 
 let activeInstance = null;
 
