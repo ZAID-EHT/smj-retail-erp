@@ -58,12 +58,25 @@ MAPPED_ACTIONS = {
 			"label": _("Create In-Transit Stock Entry"), "target": "Stock Entry",
 			"method": "material_request_in_transit_stock_entry", "requires_parameters": ["in_transit_warehouse"],
 		},
+		"make_purchase_order_based_on_supplier": {
+			"label": _("Create Purchase Order for Supplier"), "target": "Purchase Order",
+			"method": "material_request_supplier_purchase_order", "requires_parameters": ["supplier"],
+		},
 	},
 	"Request for Quotation": {
 		"make_supplier_quotation": {"label": _("Create Supplier Quotation"), "target": "Supplier Quotation", "method": "rfq_supplier_quotation", "requires_parameters": ["supplier"]},
 	},
 	"Stock Entry": {
 		"make_stock_in_entry": {"label": _("End Transit"), "target": "Stock Entry", "method": "stock_entry_end_transit"},
+		"create_sample_retention_stock_entry": {"label": _("Create Sample Retention Stock Entry"), "target": "Stock Entry", "method": "stock_entry_sample_retention"},
+		"disassemble": {"label": _("Disassemble"), "target": "Stock Entry", "method": "stock_entry_disassemble", "requires_parameters": ["qty"]},
+	},
+	"BOM": {
+		"make_quality_inspection": {"label": _("Create Quality Inspection"), "target": "Quality Inspection", "method": "bom_quality_inspection"},
+	},
+	"Pick List": {
+		"create_delivery_note": {"label": _("Create Delivery Note"), "target": "Delivery Note", "method": "pick_list_delivery_note"},
+		"create_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "pick_list_stock_entry"},
 	},
 	"Supplier Quotation": {
 		"make_purchase_order": {"label": _("Create Purchase Order"), "target": "Purchase Order", "method": "supplier_quotation_purchase_order"},
@@ -83,6 +96,9 @@ MAPPED_ACTIONS = {
 		"make_purchase_invoice": {"label": _("Create Purchase Invoice"), "target": "Purchase Invoice", "method": "purchase_receipt_invoice"},
 		"make_purchase_return": {"label": _("Create Purchase Return"), "target": "Purchase Receipt", "method": "purchase_receipt_return"},
 		"make_lcv": {"label": _("Create Landed Cost Voucher"), "target": "Landed Cost Voucher", "method": "purchase_receipt_lcv"},
+		"make_inter_company_delivery_note": {"label": _("Create Inter Company Delivery Note"), "target": "Delivery Note", "method": "purchase_receipt_inter_company_delivery_note"},
+		"make_purchase_return_against_rejected_warehouse": {"label": _("Return Rejected Items"), "target": "Purchase Receipt", "method": "purchase_receipt_rejected_return"},
+		"make_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "purchase_receipt_stock_entry"},
 	},
 	"Purchase Invoice": {
 		"make_payment_entry": {"label": _("Create Payment Entry"), "target": "Payment Entry", "method": "purchase_invoice_payment"},
@@ -811,6 +827,54 @@ def _available_actions(meta, doc) -> list[dict]:
 		actions.append({"action": "download", "label": _("Download Statements"), "destructive": False})
 		if frappe.has_permission(meta.name, "email", doc=doc) and frappe.has_permission(meta.name, "write", doc=doc):
 			actions.append({"action": "send_emails", "label": _("Send Statement Emails"), "destructive": False})
+	if doc.doctype == "Material Request" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "bill_of_materials", "label": _("Get Items from Bill of Materials"), "destructive": False, "requires_parameters": ["bom", "warehouse", "qty", "fetch_exploded"]})
+	if doc.doctype == "Pick List":
+		if doc.docstatus == 0 and doc.purpose == "Delivery" and frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "get_items", "label": _("Get Items from Sales Order"), "destructive": False, "requires_parameters": ["source_name"]})
+	if (
+		doc.doctype == "Purchase Receipt" and doc.docstatus == 1 and doc.status != "Closed"
+		and any(flt(row.sample_quantity) for row in doc.get("items") or [])
+		and frappe.has_permission("Stock Entry", "create")
+	):
+		actions.append({"action": "retention_stock_entry", "label": _("Create Retention Stock Entry"), "destructive": False})
+	if doc.doctype == "Purchase Receipt" and doc.docstatus > 0 and frappe.has_permission("Asset Movement", "read"):
+		actions.append({"action": "asset_movement", "label": _("Asset Movements"), "destructive": False})
+	if doc.doctype == "Inventory Dimension" and frappe.has_permission(meta.name, "delete", doc=doc):
+		actions.append({"action": "delete_dimension", "label": _("Delete Dimension"), "destructive": True})
+	if doc.doctype == "Item Group":
+		actions.append({"action": "item_group_tree", "label": _("Item Group Tree"), "destructive": False})
+		if frappe.has_permission("Item", "read"):
+			actions.append({"action": "items", "label": _("Items"), "destructive": False})
+	if doc.doctype == "Price List" and frappe.has_permission("Item Price", "read"):
+		actions.append({"action": "add_edit_prices", "label": _("Add / Edit Prices"), "destructive": False})
+	if (
+		doc.doctype == "Serial and Batch Bundle" and doc.docstatus == 0 and doc.item_code
+		and doc.type_of_transaction == "Inward" and frappe.has_permission(meta.name, "write", doc=doc)
+		and (not cint(doc.has_serial_no) or frappe.has_permission("Serial No", "create"))
+		and (not cint(doc.has_batch_no) or frappe.has_permission("Batch", "create"))
+	):
+		required = ["csv_file"] if cint(doc.has_batch_no) else ["serial_nos"]
+		actions.append({"action": "make_0", "label": _("Add Serial / Batch Numbers"), "destructive": False, "requires_parameters": required})
+	if doc.doctype == "Stock Reconciliation" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "fetch_items_from_warehouse", "label": _("Fetch Items from Warehouse"), "destructive": False, "requires_parameters": ["warehouse"]})
+	if doc.doctype == "Stock Entry":
+		if doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc):
+			if any(cint(row.allow_alternative_item) for row in doc.get("items") or []):
+				actions.append({"action": "alternate_item", "label": _("Select Alternate Items"), "destructive": False, "requires_parameters": ["items_json"]})
+			if doc.purpose in {"Material Issue", "Material Receipt", "Material Transfer", "Send to Subcontractor"}:
+				actions.append({"action": "bill_of_materials", "label": _("Get Items from Bill of Materials"), "destructive": False, "requires_parameters": ["bom", "source_warehouse", "target_warehouse", "qty", "fetch_exploded"]})
+			if doc.purpose == "Material Issue":
+				actions.append({"action": "expired_batches", "label": _("Get Expired Batches"), "destructive": False})
+			actions.extend([
+				{"action": "material_request", "label": _("Get Items from Material Request"), "destructive": False, "requires_parameters": ["source_name"]},
+				{"action": "purchase_invoice", "label": _("Get Items from Purchase Invoice"), "destructive": False, "requires_parameters": ["source_name"]},
+				{"action": "transit_entry", "label": _("Get Items from Transit Entry"), "destructive": False, "requires_parameters": ["source_name"]},
+			])
+			if cint(doc.inspection_required) and frappe.has_permission("Quality Inspection", "create"):
+				actions.append({"action": "quality_inspection_s", "label": _("Create Quality Inspections"), "destructive": False, "requires_parameters": ["items_json"]})
+		if doc.docstatus == 1 and flt(doc.per_transferred) > 0:
+			actions.append({"action": "received_stock_entries", "label": _("Received Stock Entries"), "destructive": False})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
@@ -851,6 +915,24 @@ def _available_actions(meta, doc) -> list[dict]:
 			doc.payment_request_type == "Outward" and doc.status in {"Initiated", "Partially Paid"}
 		):
 			continue
+		if doc.doctype == "Pick List":
+			if (
+				doc.status == "Completed"
+				or (key == "create_delivery_note" and doc.purpose != "Delivery")
+				or (key == "create_stock_entry" and (doc.purpose == "Delivery" or frappe.db.exists("Stock Entry", {"pick_list": doc.name})))
+			):
+				continue
+		if doc.doctype == "Material Request" and key == "make_purchase_order_based_on_supplier" and doc.material_request_type not in {"Purchase", "Subcontracting"}:
+			continue
+		if doc.doctype == "Purchase Receipt" and key == "make_inter_company_delivery_note" and (not cint(doc.is_internal_supplier) or doc.inter_company_reference):
+			continue
+		if doc.doctype == "BOM" and key == "make_quality_inspection" and doc.docstatus != 1:
+			continue
+		if doc.doctype == "Stock Entry":
+			if key == "create_sample_retention_stock_entry" and not (doc.purpose == "Material Receipt" and any(flt(row.sample_quantity) for row in doc.get("items") or [])):
+				continue
+			if key == "disassemble" and doc.purpose != "Manufacture":
+				continue
 		if frappe.has_permission(mapping["target"], "create"):
 			actions.append({
 				"action": key, "label": mapping["label"], "destructive": False,
@@ -877,6 +959,10 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "material_request_purchase_order":
 		from erpnext.stock.doctype.material_request.material_request import make_purchase_order
 		target = make_purchase_order(doc.name)
+	elif method == "material_request_supplier_purchase_order":
+		supplier = _permitted_source("Supplier", parameters.get("supplier"))
+		from erpnext.stock.doctype.material_request.material_request import make_purchase_order_based_on_supplier
+		target = make_purchase_order_based_on_supplier(doc.name, args={"supplier": supplier})
 	elif method == "rfq_supplier_quotation":
 		supplier = str(parameters.get("supplier") or "").strip()
 		if not supplier or not frappe.has_permission("Supplier", "read") or not frappe.get_list("Supplier", filters={"name": supplier}, pluck="name", limit_page_length=1):
@@ -926,6 +1012,15 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "purchase_receipt_lcv":
 		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_lcv
 		target = frappe.get_doc(make_lcv(doc.doctype, doc.name))
+	elif method == "purchase_receipt_inter_company_delivery_note":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_inter_company_delivery_note
+		target = make_inter_company_delivery_note(doc.name)
+	elif method == "purchase_receipt_rejected_return":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_purchase_return_against_rejected_warehouse
+		target = make_purchase_return_against_rejected_warehouse(doc.name)
+	elif method == "purchase_receipt_stock_entry":
+		from erpnext.stock.doctype.purchase_receipt.purchase_receipt import make_stock_entry
+		target = make_stock_entry(doc.name)
 	elif method == "material_request_stock_entry":
 		from erpnext.stock.doctype.material_request.material_request import make_stock_entry
 		target = make_stock_entry(doc.name)
@@ -944,6 +1039,36 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "stock_entry_end_transit":
 		from erpnext.stock.doctype.stock_entry.stock_entry import make_stock_in_entry
 		target = make_stock_in_entry(doc.name)
+	elif method == "stock_entry_sample_retention":
+		from erpnext.stock.doctype.stock_entry.stock_entry import move_sample_to_retention_warehouse
+		target = move_sample_to_retention_warehouse(doc.company, [row.as_dict() for row in doc.get("items") or []])
+		if not target:
+			frappe.throw(_("No item has a sample quantity available for retention."), frappe.ValidationError)
+		target = frappe.get_doc(target)
+	elif method == "stock_entry_disassemble":
+		qty = flt(parameters.get("qty"))
+		if qty <= 0:
+			frappe.throw(_("Quantity to disassemble must be greater than zero."), frappe.ValidationError)
+		if doc.work_order:
+			from erpnext.manufacturing.doctype.work_order.work_order import make_stock_entry
+			target = frappe.get_doc(make_stock_entry(doc.work_order, "Disassemble", qty, source_stock_entry=doc.name))
+		else:
+			target = frappe.new_doc("Stock Entry")
+			target.update({
+				"company": doc.company, "stock_entry_type": "Disassemble", "purpose": "Disassemble",
+				"source_stock_entry": doc.name, "from_bom": doc.from_bom,
+				"bom_no": doc.bom_no, "fg_completed_qty": qty,
+			})
+			target.get_items()
+	elif method == "pick_list_delivery_note":
+		from erpnext.stock.doctype.pick_list.pick_list import create_delivery_note
+		target = create_delivery_note(doc.name)
+	elif method == "pick_list_stock_entry":
+		from erpnext.stock.doctype.pick_list.pick_list import create_stock_entry
+		target = frappe.get_doc(create_stock_entry(doc.as_dict()))
+	elif method == "bom_quality_inspection":
+		from erpnext.stock.doctype.quality_inspection.quality_inspection import make_quality_inspection
+		target = make_quality_inspection(doc.name)
 	elif method == "purchase_invoice_debit_note":
 		from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_debit_note
 		target = make_debit_note(doc.name)
@@ -1152,6 +1277,74 @@ def _populate_invoice_discounting(doc, filters_json) -> None:
 	for row in rows:
 		if row.get("sales_invoice") in visible and row.get("sales_invoice") not in existing:
 			doc.append("invoices", row)
+	doc.save()
+
+
+def _populate_from_bom(doc, parameters: dict) -> None:
+	bom = _permitted_source("BOM", parameters.get("bom"))
+	qty = flt(parameters.get("qty"))
+	if qty <= 0:
+		frappe.throw(_("BOM quantity must be greater than zero."), frappe.ValidationError)
+	warehouse_key = "warehouse" if doc.doctype == "Material Request" else "source_warehouse"
+	warehouse = _permitted_source("Warehouse", parameters.get(warehouse_key)) if parameters.get(warehouse_key) else None
+	target_warehouse = _permitted_source("Warehouse", parameters.get("target_warehouse")) if parameters.get("target_warehouse") else None
+	from erpnext.manufacturing.doctype.bom.bom import get_bom_items
+	rows = get_bom_items(bom=bom, company=doc.company, qty=qty, fetch_exploded=cint(parameters.get("fetch_exploded")))
+	if not rows:
+		frappe.throw(_("BOM does not contain any stock item."), frappe.ValidationError)
+	for row in rows[:MAX_PAGE_SIZE]:
+		if doc.doctype == "Material Request":
+			doc.append("items", {
+				"item_code": row.item_code, "item_name": row.item_name, "description": row.get("description"),
+				"warehouse": warehouse, "uom": row.stock_uom, "stock_uom": row.stock_uom,
+				"conversion_factor": 1, "qty": row.qty, "project": row.get("project"),
+			})
+		else:
+			doc.append("items", {
+				"item_code": row.item_code, "item_name": row.item_name, "item_group": row.item_group,
+				"s_warehouse": warehouse, "t_warehouse": target_warehouse, "uom": row.stock_uom,
+				"stock_uom": row.stock_uom, "conversion_factor": row.conversion_factor or 1,
+				"qty": row.qty, "expense_account": row.get("expense_account"), "project": row.get("project"),
+			})
+	doc.save()
+
+
+def _replace_stock_entry_alternatives(doc, items_json) -> None:
+	requested = _parse(items_json, list, "Alternate items")
+	children = {row.name: row for row in doc.get("items") or []}
+	for values in requested:
+		if not isinstance(values, dict) or set(values) - {"docname", "alternate_item"}:
+			frappe.throw(_("Unsupported alternate-item field."), frappe.ValidationError)
+		row = children.get(str(values.get("docname") or ""))
+		alternate = str(values.get("alternate_item") or "").strip()
+		if not row or not alternate or not cint(row.allow_alternative_item):
+			frappe.throw(_("Alternate item selection is not valid."), frappe.ValidationError)
+		_permitted_source("Item", alternate)
+		direct = frappe.db.exists("Item Alternative", {"item_code": row.item_code, "alternative_item_code": alternate})
+		reverse = frappe.db.exists("Item Alternative", {"item_code": alternate, "alternative_item_code": row.item_code, "two_way": 1})
+		if not direct and not reverse:
+			frappe.throw(_("Selected item is not an approved alternative."), frappe.ValidationError)
+		row.original_item = row.item_code
+		row.item_code = alternate
+	doc.save()
+
+
+def _populate_stock_reconciliation(doc, parameters: dict) -> None:
+	warehouse = _permitted_source("Warehouse", parameters.get("warehouse"))
+	item_code = _permitted_source("Item", parameters.get("item_code")) if parameters.get("item_code") else None
+	from erpnext.stock.doctype.stock_reconciliation.stock_reconciliation import get_items
+	rows = get_items(
+		warehouse, doc.posting_date, doc.posting_time, doc.company,
+		item_code=item_code, ignore_empty_stock=cint(parameters.get("ignore_empty_stock")),
+	)
+	if not rows:
+		frappe.throw(_("No permitted stock rows were found."), frappe.ValidationError)
+	doc.set("items", [])
+	for row in rows[:MAX_PAGE_SIZE]:
+		row = frappe._dict(row)
+		row.qty = row.qty or 0
+		row.valuation_rate = row.valuation_rate or 0
+		doc.append("items", row)
 	doc.save()
 
 
@@ -1440,6 +1633,115 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 		from erpnext.accounts.doctype.process_statement_of_accounts.process_statement_of_accounts import send_emails
 		queued = send_emails(doc.name)
 		return {"name": doc.name, "doctype": doc.doctype, "queued": bool(queued)}
+	elif action == "bill_of_materials" and doc.doctype in {"Material Request", "Stock Entry"}:
+		_populate_from_bom(doc, parameters)
+		doc.reload()
+	elif action == "get_items" and doc.doctype == "Pick List":
+		source = _permitted_source("Sales Order", parameters.get("source_name"))
+		from erpnext.selling.doctype.sales_order.sales_order import create_pick_list
+		target = create_pick_list(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "retention_stock_entry" and doc.doctype == "Purchase Receipt":
+		from erpnext.stock.doctype.stock_entry.stock_entry import move_sample_to_retention_warehouse
+		target = move_sample_to_retention_warehouse(doc.company, [row.as_dict() for row in doc.get("items") or []])
+		if not target:
+			frappe.throw(_("No item has a sample quantity available for retention."), frappe.ValidationError)
+		target = frappe.get_doc(target)
+		target.insert()
+		target_record = get_generated_feature("stock-entry")
+		return {"name": target.name, "doctype": target.doctype, "route": _record_route(target_record, target.name, "edit")}
+	elif action == "asset_movement" and doc.doctype == "Purchase Receipt":
+		return {"route": f"/retail-erp/operations/asset-movements?{urlencode({'reference_name': doc.name}, quote_via=quote)}"}
+	elif action == "delete_dimension" and doc.doctype == "Inventory Dimension":
+		from erpnext.stock.doctype.inventory_dimension.inventory_dimension import delete_dimension
+		delete_dimension(doc.name)
+		return {"deleted": True, "route": "/retail-erp/inventory/inventory-dimensions"}
+	elif action == "item_group_tree" and doc.doctype == "Item Group":
+		return {"route": "/retail-erp/inventory/item-groups"}
+	elif action == "items" and doc.doctype == "Item Group":
+		return {"route": f"/retail-erp/inventory/products?{urlencode({'item_group': doc.name}, quote_via=quote)}"}
+	elif action == "add_edit_prices" and doc.doctype == "Price List":
+		return {"route": f"/retail-erp/inventory/item-prices?{urlencode({'price_list': doc.name}, quote_via=quote)}"}
+	elif action == "make_0" and doc.doctype == "Serial and Batch Bundle":
+		data = {"using_csv_file": 0}
+		if cint(doc.has_batch_no):
+			file_url = str(parameters.get("csv_file") or "").strip()
+			files = frappe.get_list(
+				"File", filters={"file_url": file_url}, fields=["name", "file_url"], limit_page_length=1,
+			)
+			if not files:
+				frappe.throw(_("A permitted Serial / Batch CSV attachment is required."), frappe.ValidationError)
+			data = {"using_csv_file": 1, "csv_file": files[0].file_url}
+		else:
+			serial_nos = str(parameters.get("serial_nos") or "").strip()
+			if not serial_nos:
+				frappe.throw(_("Serial numbers are required."), frappe.ValidationError)
+			data["serial_nos"] = serial_nos
+		doc.add_serial_batch(data)
+		doc.save()
+	elif action == "fetch_items_from_warehouse" and doc.doctype == "Stock Reconciliation":
+		_populate_stock_reconciliation(doc, parameters)
+		doc.reload()
+	elif action == "alternate_item" and doc.doctype == "Stock Entry":
+		_replace_stock_entry_alternatives(doc, parameters.get("items_json"))
+		doc.reload()
+	elif action == "expired_batches" and doc.doctype == "Stock Entry":
+		from erpnext.stock.doctype.stock_entry.stock_entry import get_expired_batch_items
+		rows = get_expired_batch_items() or []
+		doc.set("items", [])
+		for row in rows[:MAX_PAGE_SIZE]:
+			row = frappe._dict(row)
+			if not frappe.get_list("Item", filters={"name": row.item}, pluck="name", limit_page_length=1):
+				continue
+			if not frappe.get_list("Warehouse", filters={"name": row.warehouse}, pluck="name", limit_page_length=1):
+				continue
+			doc.append("items", {
+				"item_code": row.item, "s_warehouse": row.warehouse, "qty": row.qty,
+				"uom": row.stock_uom, "conversion_factor": 1, "batch_no": row.batch_no,
+				"transfer_qty": row.qty,
+			})
+		if not doc.get("items"):
+			frappe.throw(_("No permitted expired-batch stock was found."), frappe.ValidationError)
+		doc.save()
+	elif action in {"material_request", "purchase_invoice", "transit_entry"} and doc.doctype == "Stock Entry":
+		if action == "material_request":
+			source = _permitted_source("Material Request", parameters.get("source_name"))
+			from erpnext.stock.doctype.material_request.material_request import make_stock_entry
+			target = make_stock_entry(source, target_doc=doc)
+		elif action == "purchase_invoice":
+			source = _permitted_source("Purchase Invoice", parameters.get("source_name"))
+			from erpnext.accounts.doctype.purchase_invoice.purchase_invoice import make_stock_entry
+			target = make_stock_entry(source, target_doc=doc)
+		else:
+			source = _permitted_source("Stock Entry", parameters.get("source_name"))
+			from erpnext.stock.doctype.stock_entry.stock_entry import make_stock_in_entry
+			target = make_stock_in_entry(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "quality_inspection_s" and doc.doctype == "Stock Entry":
+		requested = _parse(parameters.get("items_json"), list, "Inspection items")
+		selected = {str(row.get("docname") or ""): row for row in requested if isinstance(row, dict)}
+		items = []
+		for row in doc.get("items") or []:
+			values = selected.get(row.name)
+			if not values:
+				continue
+			items.append({
+				"child_row_reference": row.name, "item_code": row.item_code, "item_name": row.item_name,
+				"description": row.description, "qty": row.qty, "sample_size": flt(values.get("sample_size") or row.get("sample_quantity") or row.qty),
+				"serial_no": row.get("serial_no"), "batch_no": row.get("batch_no"),
+			})
+		if not items:
+			frappe.throw(_("Select at least one current item row."), frappe.ValidationError)
+		from erpnext.controllers.stock_controller import make_quality_inspections
+		names = make_quality_inspections(doc.company, doc.doctype, doc.name, items)
+		if len(names) == 1:
+			target_record = get_generated_feature("quality-inspection")
+			return {"name": names[0], "doctype": "Quality Inspection", "route": _record_route(target_record, names[0])}
+		return {"route": f"/retail-erp/operations/quality-inspections?{urlencode({'reference_name': doc.name}, quote_via=quote)}", "created": names}
+	elif action == "received_stock_entries" and doc.doctype == "Stock Entry":
+		return {"route": f"/retail-erp/inventory/stock-entries?{urlencode({'outgoing_stock_entry': doc.name}, quote_via=quote)}"}
 	elif action == "accounting_ledger" and doc.doctype == "Supplier":
 		params = urlencode({"party_type": "Supplier", "party": doc.name}, quote_via=quote)
 		return {"route": f"/retail-erp/reports/view/{quote('General Ledger')}?{params}"}

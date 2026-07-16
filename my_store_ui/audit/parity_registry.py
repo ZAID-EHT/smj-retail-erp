@@ -257,6 +257,7 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "make_supplier_quotation", "supplier_quotation",
         "create_pick_list", "pick_list",
         "make_in_transit_stock_entry", "material_transfer_in_transit",
+        "bill_of_materials", "make_purchase_order_based_on_supplier", "subcontracted_purchase_order",
         # "sales_order"/"work_order" are material_request_dashboard.py
         # Manufacturing-group connections, served by get_dashboard_connections().
         "sales_order", "work_order",
@@ -267,7 +268,12 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Blanket Order": {"sales_order"},
     # "End Transit" button calls the exact same make_stock_in_entry() -
     # verified against stock_entry.js source.
-    "Stock Entry": {"make_stock_in_entry", "end_transit"},
+    "Stock Entry": {
+        "make_stock_in_entry", "end_transit", "alternate_item", "bill_of_materials",
+        "create_sample_retention_stock_entry", "disassemble", "expired_batches",
+        "material_request", "purchase_invoice", "quality_inspection_s",
+        "received_stock_entries", "transit_entry",
+    },
     # "purchase_receipt"/"purchase_invoice"/"re_open" are JS button labels
     # (purchase_order.js) calling the exact same make_purchase_receipt/
     # make_purchase_invoice/update_status("Submitted") already credited -
@@ -338,7 +344,10 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "make_lcv", "landed_cost_voucher", "close", "reopen",
         # purchase_receipt_dashboard.py Reference/Sub-contracting/Assets group
         # connections, served by get_dashboard_connections().
-        "purchase_order", "purchase_invoice", "asset",
+        "purchase_order", "purchase_invoice", "asset", "asset_movement",
+        "delivery_note", "make_inter_company_delivery_note",
+        "make_purchase_return_against_rejected_warehouse", "make_stock_entry",
+        "retention_stock_entry",
     },
     # "payment"/"return_debit_note" are the JS button labels (purchase_invoice.js);
     # "payment" calls the same shared make_payment_entry()->get_payment_entry()
@@ -386,8 +395,14 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Pick List": {
         "create_stock_reservation_entries", "reserve",
         "cancel_stock_reservation_entries", "unreserve",
-        "reserved_stock", "update_current_stock",
+        "reserved_stock", "update_current_stock", "create_delivery_note",
+        "create_dn_for_pick_lists", "create_stock_entry", "get_items",
     },
+    "Inventory Dimension": {"delete_dimension"},
+    "Item Group": {"item_group_tree", "items"},
+    "Price List": {"add_edit_prices"},
+    "Serial and Batch Bundle": {"create_serial_nos", "make_0"},
+    "Stock Reconciliation": {"fetch_items_from_warehouse"},
     # "journal_entries" is the JS button label; it calls the exact same
     # doc method as "make_jv_entries" (exchange_rate_revaluation.js:
     # frm.events.make_jv -> frm.call({method: "make_jv_entries"})) - genuine
@@ -664,6 +679,18 @@ POS_EXTERNAL_LAUNCHER_ACTIONS = {
 # controller lifecycle instead of being exposed as a second staff-facing button.
 # These outcomes prevent false "missing" credits without inventing UI routes.
 DOCUMENT_ACTION_OVERRIDES = {
+    ("Stock Entry", "excise_invoice"): (
+        "not_required", "not_required", None,
+        "India-only e-invoice action guarded by ERPNext regional code; the installed site company country is Sri Lanka.",
+    ),
+    ("Stock Entry", "make_stock_entry"): (
+        "internal", "internal", None,
+        "Scanner helper from stock_entry_utils.py used to construct Stock Entry test/integration data; it is not a Stock Entry form action.",
+    ),
+    ("Quality Inspection", "make_quality_inspection"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/operations/manufacturing/boms",
+        "ERPNext defines this mapper in the Quality Inspection module but exposes it on submitted BOMs; Retail ERP's allowlisted BOM action calls that exact mapper.",
+    ),
     ("Purchase Order", "make_purchase_invoice_from_portal"): (
         "external_app_adapter", "implemented_unverified", "/purchase-orders",
         "Supplier web-portal action; the ERPNext handler enforces supplier ownership and is not a staff Desk action.",
