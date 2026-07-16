@@ -9,7 +9,7 @@ function duplicate(index) { emit("update:modelValue", [...props.modelValue.slice
 function move(index, offset) { const target = index + offset; if (target < 0 || target >= props.modelValue.length) return; const rows = [...props.modelValue]; [rows[index], rows[target]] = [rows[target], rows[index]]; emit("update:modelValue", rows); }
 </script>
 <template>
-  <section class="ru-child"><header><div><h2>{{ field.label }}</h2><small>{{ modelValue.length }} row{{ modelValue.length === 1 ? '' : 's' }}</small></div><button v-if="!readOnly" class="ref-button ref-button--secondary" type="button" @click="add">+ Add row</button></header>
+  <section class="ru-child"><header><div><h2>{{ field.label }}</h2><p v-if="field.description" class="ru-child__description">{{ field.description }}</p><small>{{ modelValue.length }} row{{ modelValue.length === 1 ? '' : 's' }}</small></div><button v-if="!readOnly" class="ref-button ref-button--secondary" type="button" @click="add">+ Add {{ field.options === 'Has Role' ? 'role' : 'row' }}</button></header>
     <div v-if="!modelValue.length" class="ru-empty">No rows yet.</div>
     <article v-for="(row, index) in modelValue" :key="row.name || index" class="ru-child__row">
       <div class="ru-child__fields"><UniversalField v-for="child in field.child_fields" :key="child.fieldname" :model-value="row[child.fieldname]" :field="{ ...child, read_only: readOnly || child.read_only }" :feature="feature" :parent-fieldname="field.fieldname" :context="row" @update:model-value="update(index, child.fieldname, $event)" /></div>

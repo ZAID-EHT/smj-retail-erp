@@ -743,6 +743,45 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ref-accent), transparent 84%) !important;
 }
 
+.ru-link ul {
+  z-index: 80;
+  max-height: min(320px, 46vh);
+  padding: 6px;
+  border-radius: 11px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, .2);
+}
+
+.ru-link li {
+  gap: 2px;
+  min-height: 42px;
+  justify-content: center;
+  border-radius: 7px;
+}
+
+.ru-link li:hover,
+.ru-link li.is-active {
+  background: color-mix(in srgb, var(--ref-accent), white 92%);
+  color: var(--ref-accent);
+}
+
+.ru-link li small { color: var(--ref-secondary-text); }
+
+.ru-link .ru-link__message {
+  min-height: 54px;
+  color: var(--ref-secondary-text);
+  font-size: 10px;
+  line-height: 1.45;
+  cursor: default;
+}
+
+.ru-child__description {
+  max-width: 760px;
+  margin: 4px 0 5px;
+  color: var(--ref-secondary-text);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .rug-section-nav {
   top: calc(var(--ref-header-height) + 8px);
   border-radius: 12px;

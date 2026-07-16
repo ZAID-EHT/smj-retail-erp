@@ -30,6 +30,7 @@ from my_store_ui.universal.registry import (
 DEFAULT_PAGE_SIZE = 20
 MAX_PAGE_SIZE = 100
 MAX_LINK_RESULTS = 20
+LINK_RESULT_LIMITS = {"Role": 100, "Role Profile": 100}
 MAX_TIMELINE_ROWS = 30
 SAFE_FILTER_OPERATORS = {"=", "!=", ">", ">=", "<", "<=", "like", "not like", "in", "not in", "between", "is"}
 LAYOUT_FIELDS = {"Section Break", "Column Break", "Tab Break"}
@@ -184,6 +185,12 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 		for key in ("depends_on", "mandatory_depends_on", "read_only_depends_on")
 	):
 		definition["unsupported_client_behavior"] = True
+	if field.parent == "User" and field.fieldname == "role_profile_name":
+		definition["label"] = _("Role Profile (optional)")
+		definition["description"] = _("Choose a saved Role Profile bundle, or assign individual roles in the Roles Assigned table below.")
+	if field.parent == "User" and field.fieldname == "roles":
+		definition["label"] = _("Roles Assigned")
+		definition["description"] = _("Add individual permitted roles for this user. Role Profile selections may replace these roles during standard User validation.")
 	if field.fieldtype in {"Table", "Table MultiSelect"} and field.options and depth == 0:
 		child_meta = frappe.get_meta(field.options)
 		# Child DocTypes do not carry standalone DocPerm rows. Their fields
@@ -1104,7 +1111,10 @@ def get_link_options(feature: str, fieldname: str, search: str = "", parent_fiel
 		if name and (name == "name" or meta_target.has_field(name))
 	] if search else []
 	fields = ["name"] + ([meta_target.title_field] if meta_target.title_field and meta_target.has_field(meta_target.title_field) else [])
-	rows = frappe.get_list(target_doctype, fields=fields, or_filters=or_filters, order_by="modified desc", limit_page_length=MAX_LINK_RESULTS)
+	rows = frappe.get_list(
+		target_doctype, fields=fields, or_filters=or_filters, order_by="modified desc",
+		limit_page_length=LINK_RESULT_LIMITS.get(target_doctype, MAX_LINK_RESULTS),
+	)
 	return {"results": [{"value": row.name, "label": row.get(meta_target.title_field) or row.name} for row in rows]}
 
 
