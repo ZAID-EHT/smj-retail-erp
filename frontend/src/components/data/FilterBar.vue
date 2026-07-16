@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
+import { SmjSearch } from "@/components/icons";
 import FilterChip from "./FilterChip.vue";
 
 const props = defineProps({
@@ -43,7 +44,7 @@ const activeFilters = computed(() => {
   <section class="ref-filter-panel" aria-label="List filters">
     <div class="ref-filter-panel__primary">
       <label class="ref-list-search">
-        <span aria-hidden="true">⌕</span>
+        <SmjSearch size="16" decorative />
         <input v-model="searchText" type="search" placeholder="Search records" autocomplete="off" />
       </label>
 

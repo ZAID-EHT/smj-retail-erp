@@ -17,8 +17,8 @@
 .ref-password-field { position: relative; }
 .ref-password-field input { padding-right: 62px; }
 .ref-password-field button { position: absolute; top: 5px; right: 5px; min-height: 35px; padding: 0 9px; border: 0; border-radius: 6px; background: var(--ref-blue-background); color: var(--ref-primary-blue); font-size: 10px; font-weight: 750; }
-.ref-login-error,.ref-login-warning { margin: 7px 0 0; padding: 10px 12px; border-radius: 7px; background: #fff0f5; color: #ae1d64; font-size: 11px; }
-.ref-login-warning { background: var(--ref-warning-background); color: #9a4b10; }
+.ref-login-error,.ref-login-warning { margin: 7px 0 0; padding: 10px 12px; border-radius: 7px; background: color-mix(in srgb, var(--ref-danger), white 92%); color: var(--ref-danger); font-size: 11px; }
+.ref-login-warning { background: var(--ref-warning-background); color: #9a4b0b; }
 .ref-login-submit { width: 100%; min-height: 45px; margin-top: 9px; font-family: var(--ref-font); cursor: pointer; }
 .ref-login-forgot,.ref-login-secondary { justify-self: center; margin-top: 5px; border: 0; background: transparent; color: var(--ref-primary-blue); font: 700 11px var(--ref-font); text-decoration: none; cursor: pointer; }
 

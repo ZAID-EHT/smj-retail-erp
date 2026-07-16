@@ -8,6 +8,7 @@ import MobileRecordCard from "@/components/data/MobileRecordCard.vue";
 import Pagination from "@/components/data/Pagination.vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
+import { SmjSearch } from "@/components/icons";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { canCreate } from "@/services/permissions.js";
 import { useEntityList } from "@/stores/entityList.js";
@@ -82,7 +83,7 @@ function openRecord(record) {
         <span v-for="index in 7" :key="index"></span>
       </div>
       <div v-else-if="!state.records.length" class="ref-empty-state">
-        <span aria-hidden="true">⌕</span><h2>No records found</h2><p>Try changing your search or filters.</p>
+        <SmjSearch size="20" decorative /><h2>No records found</h2><p>Try changing your search or filters.</p>
         <button type="button" @click="state.clearFilters">Clear filters</button>
       </div>
       <template v-else>
