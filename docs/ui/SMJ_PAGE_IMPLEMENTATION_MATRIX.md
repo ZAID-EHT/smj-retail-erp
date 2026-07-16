@@ -28,6 +28,25 @@ both before and after this pass, confirming every page already delegated
 colour to the shared CSS files that were rewritten). What changed for those
 pages is entirely inside `frontend/src/design/*.css`.
 
+## 2026-07-16 — HTTP-level backend verification (not rendering)
+
+A follow-up pass exercised the real backend APIs behind several of these
+pages with an authenticated session (see `SMJ_BROWSER_VERIFICATION.md` for
+the full harness). This is not the same as browser verification (no
+rendering was observed), but it does confirm the data layer works, not just
+that the frontend compiles:
+
+- Home dashboard: real, non-hardcoded counts returned
+- All 9 module dashboards: consistent 200 + correct shape
+- Global search: real record found for a real query, correct route shape
+- Universal engine (generated doctype `asset`): list configuration, column
+  metadata and document list all correct, including a genuine empty state
+  (0 records exist in the demo data — not an error)
+- Tree (Chart of Accounts): real account hierarchy returned
+- Report viewer (Sales Register): executed end-to-end with real filters,
+  returned 2 real rows plus columns/chart/summary
+- Universal engine missing-record handling: clean 404 with a safe message
+
 ## Explicitly not attempted
 
 Pixel-for-pixel layout matching against the 9 reference preview images

@@ -1332,3 +1332,61 @@ values were matched. Full detail in `docs/ui/*.md`.
 
 **Parity status unchanged**: `required_but_missing = 222`,
 `unclassified = 0`. This was a visual-layer pass only.
+
+## 27. Browser Verification & UI Correction Pass (2026-07-16)
+
+A follow-up to Section 26 that tried to prove the UI theme actually works,
+not just that it builds. Recovery tag:
+`pre-ui-browser-verification-20260716-0903`.
+
+**Browser automation status: blocked, not skipped.** Playwright was
+attempted with explicit user approval (`npm install -D @playwright/test`,
+including `NODE_OPTIONS=--use-system-ca`) and fails at the network layer —
+`UNABLE_TO_VERIFY_LEAF_SIGNATURE` against the standard CA bundle, and a
+plain-HTTP request to the same host returns `403`. This points at a
+sandbox egress proxy, not a fixable local config issue. `--insecure` was
+deliberately not attempted. Full detail in `docs/ui/SMJ_VISUAL_REGRESSION.md`.
+
+**What ran instead:** an authenticated HTTP verification harness
+(committed at `frontend/e2e/http_verify.py`) against the live `bench serve`
+instance, plus a focused code audit of the application shell. The
+Administrator password was rotated for this session at the user's explicit
+instruction; it is not recorded anywhere in this repo. This is a local dev
+site with no other test accounts.
+
+**Genuinely verified (not just "built"):** login, session bootstrap,
+navigation payload (all 11 modules' icon keys match the frontend's icon
+map), global search returning real records, all 9 module dashboards, the
+universal engine's list config/document list/missing-record handling for a
+real generated doctype, the tree page (Chart of Accounts, real nodes), a
+report executed end-to-end with real filtered data (Sales Register, 2
+rows), and logout genuinely terminating the server-side session. Full
+results in `docs/ui/SMJ_BROWSER_VERIFICATION.md`.
+
+**Defects found and fixed** (`docs/ui/SMJ_BROWSER_ISSUES_FIXED.md`):
+1. `ModuleNavigation` and `UserMenu` dropdowns didn't close on Escape —
+   fixed, now matches `GlobalSearch`/`MobileNavigation`'s existing behaviour.
+2. No active-module indication on desktop (mobile had it, desktop's plain
+   `<button>`-based module toggles didn't) — fixed with `aria-current` +
+   `.is-active` styling.
+3. `.ref-module-navigation` had no overflow-x handling for the 11 modules
+   now in the live navigation payload at the 1181–1450px range — added the
+   horizontal-scroll fallback the mission itself endorses.
+
+**False alarm, corrected:** the skip-to-content link was briefly flagged as
+missing (a `.vue`-only grep missed it) and briefly re-added, creating a
+duplicate; found it already existed correctly in
+`my_store_ui/www/retail_erp.html` and reverted the duplicate. Net change:
+none. Documented so the mistake doesn't get repeated.
+
+**Found, documented, not fixed** (scope/proportionality call): `ToastHost`
+and `ConfirmDialogHost` are both empty, completely unwired shell elements —
+no service anywhere pushes content into them, and destructive actions use
+native `window.confirm()` instead. Pre-existing, not introduced by the UI
+work. Building a real toast/confirm system and rewiring call sites across
+the app is a feature addition, not a correction — flagged as follow-up work
+rather than attempted under this mission's scope.
+
+**Parity status unchanged**: `required_but_missing = 222` (confirmed by
+re-reading `docs/full-parity/required_missing_latest.json` directly, not
+assumed), `unclassified = 0`. No routes were remapped.
