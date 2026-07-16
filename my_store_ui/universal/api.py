@@ -74,6 +74,10 @@ MAPPED_ACTIONS = {
 	"BOM": {
 		"make_quality_inspection": {"label": _("Create Quality Inspection"), "target": "Quality Inspection", "method": "bom_quality_inspection"},
 	},
+	"Prospect": {
+		"make_customer": {"label": _("Create Customer"), "target": "Customer", "method": "prospect_customer"},
+		"make_opportunity": {"label": _("Create Opportunity"), "target": "Opportunity", "method": "prospect_opportunity"},
+	},
 	"Pick List": {
 		"create_delivery_note": {"label": _("Create Delivery Note"), "target": "Delivery Note", "method": "pick_list_delivery_note"},
 		"create_stock_entry": {"label": _("Create Stock Entry"), "target": "Stock Entry", "method": "pick_list_stock_entry"},
@@ -875,12 +879,77 @@ def _available_actions(meta, doc) -> list[dict]:
 				actions.append({"action": "quality_inspection_s", "label": _("Create Quality Inspections"), "destructive": False, "requires_parameters": ["items_json"]})
 		if doc.docstatus == 1 and flt(doc.per_transferred) > 0:
 			actions.append({"action": "received_stock_entries", "label": _("Received Stock Entries"), "destructive": False})
+	if doc.doctype == "Campaign" and frappe.has_permission("Lead", "read"):
+		actions.append({"action": "view_leads", "label": _("View Leads"), "destructive": False})
+	if doc.doctype == "Delivery Trip":
+		if doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("Delivery Note", "read"):
+			actions.append({"action": "delivery_note", "label": _("Get Stops from Delivery Note"), "destructive": False, "requires_parameters": ["source_name"]})
+		if frappe.has_permission("Delivery Note", "read"):
+			actions.append({"action": "delivery_notes", "label": _("View Delivery Notes"), "destructive": False})
+		can_notify = (
+			doc.docstatus == 1 and bool(doc.get("delivery_stops"))
+			and frappe.has_permission(meta.name, "email", doc=doc)
+			and all(not row.delivery_note or frappe.has_permission("Delivery Note", "read", doc=row.delivery_note) for row in doc.get("delivery_stops") or [])
+		)
+		if can_notify:
+			actions.append({"action": "notify_customers_via_email", "label": _("Notify Customers via Email"), "destructive": True})
+	if doc.doctype == "Installation Note" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("Delivery Note", "read"):
+		actions.append({"action": "from_delivery_note", "label": _("Get Items from Delivery Note"), "destructive": False, "requires_parameters": ["source_name"]})
+	if doc.doctype == "Lead" and frappe.has_permission(meta.name, "write", doc=doc):
+		if frappe.has_permission("Prospect", "write"):
+			actions.append({"action": "add_to_prospect", "label": _("Add to Prospect"), "destructive": False, "requires_parameters": ["prospect"]})
+		if frappe.has_permission("Prospect", "create") or frappe.has_permission("Contact", "create"):
+			actions.append({"action": "create_prospect_and_contact", "label": _("Create Prospect / Contact"), "destructive": False, "requires_parameters": ["options_json"]})
+	if doc.doctype == "Opportunity" and doc.docstatus == 0 and doc.currency and doc.company and frappe.has_permission(meta.name, "write", doc=doc):
+		from erpnext import get_company_currency
+		if get_company_currency(doc.company) != doc.currency:
+			actions.append({"action": "fetch_latest_exchange_rate", "label": _("Fetch Latest Exchange Rate"), "destructive": False})
+	if doc.doctype == "Quotation" and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("Opportunity", "read"):
+		actions.append({"action": "opportunity", "label": _("Get Items from Opportunity"), "destructive": False, "requires_parameters": ["source_name"]})
+	if doc.doctype == "Quotation" and doc.docstatus == 1 and doc.status not in {"Lost", "Ordered"} and frappe.has_permission(meta.name, "write", doc=doc):
+		actions.append({"action": "update_items", "label": _("Update Items"), "destructive": False, "requires_parameters": ["items_json"]})
+	if doc.doctype in {"Maintenance Schedule", "Maintenance Visit"} and doc.docstatus == 0 and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("Sales Order", "read"):
+		actions.append({"action": "sales_order", "label": _("Get Items from Sales Order"), "destructive": False, "requires_parameters": ["source_name"]})
+	is_system_manager = frappe.session.user == "Administrator" or "System Manager" in frappe.get_roles()
+	if doc.doctype == "Company":
+		if frappe.has_permission("Sales Taxes and Charges Template", "read"):
+			actions.append({"action": "sales_tax_template", "label": _("Sales Tax Templates"), "destructive": False})
+		if frappe.has_permission("Purchase Taxes and Charges Template", "read"):
+			actions.append({"action": "purchase_tax_template", "label": _("Purchase Tax Templates"), "destructive": False})
+		if frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "create_tax_template", "label": _("Create Default Tax Templates"), "destructive": False})
+		if is_system_manager and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("Transaction Deletion Record", "create"):
+			actions.append({
+				"action": "delete_transactions", "label": _("Delete Company Transactions"), "destructive": True,
+				"requires_parameters": ["company_name", "current_password"],
+			})
+	if doc.doctype == "Email Digest" and is_system_manager:
+		actions.append({"action": "view_now", "label": _("Preview Digest"), "destructive": False})
+		if frappe.has_permission(meta.name, "email", doc=doc):
+			actions.append({"action": "send_now", "label": _("Send Now"), "destructive": True})
+	if (
+		doc.doctype == "Employee" and not doc.user_id and doc.prefered_email
+		and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("User", "create")
+	):
+		actions.append({"action": "create_user", "label": _("Create User"), "destructive": False})
+	if doc.doctype == "Contact":
+		if doc.get("phone_nos"):
+			actions.append({"action": "call", "label": _("Call"), "destructive": False})
+		if not doc.user and doc.email_id and frappe.has_permission(meta.name, "write", doc=doc) and frappe.has_permission("User", "create"):
+			actions.append({"action": "invite_as_user", "label": _("Invite as User"), "destructive": False})
+	if doc.doctype == "Print Format":
+		if doc.print_format_for == "DocType" and not cint(doc.custom_format) and frappe.has_permission(meta.name, "write", doc=doc):
+			actions.append({"action": "edit_format", "label": _("Edit Format"), "destructive": False})
+		if doc.print_format_for == "DocType" and doc.doc_type and frappe.has_permission("Customize Form", "write"):
+			actions.append({"action": "set_as_default", "label": _("Set as Default"), "destructive": False})
+	if doc.doctype == "Print Style" and is_system_manager:
+		actions.append({"action": "print_settings", "label": _("Print Settings"), "destructive": False})
 	for key, mapping in MAPPED_ACTIONS.get(doc.doctype, {}).items():
 		if key in {item["action"] for item in actions}:
 			continue
 		# ERPNext mapped transaction methods require submitted source documents;
 		# CRM conversions operate on their normal saved draft state.
-		if doc.doctype not in {"Lead", "Opportunity"} and doc.docstatus != 1:
+		if doc.doctype not in {"Lead", "Opportunity", "Prospect"} and doc.docstatus != 1:
 			continue
 		if doc.doctype == "Purchase Order":
 			if key == "make_inter_company_sales_order" and (not cint(doc.is_internal_supplier) or doc.inter_company_order_reference):
@@ -1134,6 +1203,12 @@ def _run_mapped_action(doc, action: str, parameters: dict):
 	elif method == "lead_quotation":
 		from erpnext.crm.doctype.lead.lead import make_quotation
 		target = make_quotation(doc.name)
+	elif method == "prospect_customer":
+		from erpnext.crm.doctype.prospect.prospect import make_customer
+		target = make_customer(doc.name)
+	elif method == "prospect_opportunity":
+		from erpnext.crm.doctype.prospect.prospect import make_opportunity
+		target = make_opportunity(doc.name)
 	else:
 		frappe.throw(_("Mapped action is not available."), frappe.PermissionError)
 	target.insert()
@@ -1514,9 +1589,136 @@ def run_document_action(feature: str, name: str, action: str, modified: str | No
 	elif action == "update_rate_as_per_last_purchase" and doc.doctype == "Purchase Order":
 		doc.get_last_purchase_rate()
 		doc.save()
-	elif action == "update_items" and doc.doctype in {"Purchase Order", "Supplier Quotation"}:
+	elif action == "update_items" and doc.doctype in {"Purchase Order", "Supplier Quotation", "Quotation"}:
 		_update_transaction_items(doc, parameters.get("items_json"))
 		doc.reload()
+	elif action == "view_leads" and doc.doctype == "Campaign":
+		return {"route": f"/retail-erp/crm/leads?{urlencode({'campaign_name': doc.name}, quote_via=quote)}"}
+	elif action == "delivery_note" and doc.doctype == "Delivery Trip":
+		source = _permitted_source("Delivery Note", parameters.get("source_name"))
+		from erpnext.stock.doctype.delivery_note.delivery_note import make_delivery_trip
+		target = make_delivery_trip(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "delivery_notes" and doc.doctype == "Delivery Trip":
+		names = [row.delivery_note for row in doc.get("delivery_stops") or [] if row.delivery_note]
+		visible = frappe.get_list("Delivery Note", filters={"name": ["in", names]}, pluck="name", limit_page_length=MAX_PAGE_SIZE) if names else []
+		return {"route": f"/retail-erp/sales/delivery-notes?{urlencode({'name': ','.join(visible)}, quote_via=quote)}"}
+	elif action == "notify_customers_via_email" and doc.doctype == "Delivery Trip":
+		from erpnext.stock.doctype.delivery_trip.delivery_trip import notify_customers
+		notify_customers(doc.name)
+		doc.reload()
+	elif action == "from_delivery_note" and doc.doctype == "Installation Note":
+		source = _permitted_source("Delivery Note", parameters.get("source_name"))
+		from erpnext.stock.doctype.delivery_note.delivery_note import make_installation_note
+		target = make_installation_note(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "add_to_prospect" and doc.doctype == "Lead":
+		prospect = _permitted_source("Prospect", parameters.get("prospect"))
+		if not frappe.has_permission("Prospect", "write", doc=prospect):
+			frappe.throw(_("You cannot update this Prospect."), frappe.PermissionError)
+		if frappe.db.exists("Prospect Lead", {"parent": prospect, "lead": doc.name}):
+			frappe.throw(_("This Lead is already linked to the Prospect."), frappe.ValidationError)
+		from erpnext.crm.doctype.lead.lead import add_lead_to_prospect
+		add_lead_to_prospect(doc.name, prospect)
+		doc.reload()
+	elif action == "create_prospect_and_contact" and doc.doctype == "Lead":
+		options = _parse(parameters.get("options_json"), dict, "Prospect and Contact options")
+		if set(options) - {"create_contact", "create_prospect", "prospect_name"}:
+			frappe.throw(_("Unsupported Prospect or Contact option."), frappe.ValidationError)
+		create_contact = cint(options.get("create_contact"))
+		create_prospect = cint(options.get("create_prospect"))
+		if not create_contact and not create_prospect:
+			frappe.throw(_("Select Prospect, Contact, or both."), frappe.ValidationError)
+		if create_contact and not frappe.has_permission("Contact", "create"):
+			frappe.throw(_("You cannot create Contacts."), frappe.PermissionError)
+		if create_prospect and not frappe.has_permission("Prospect", "create"):
+			frappe.throw(_("You cannot create Prospects."), frappe.PermissionError)
+		if create_prospect and not str(options.get("prospect_name") or doc.company_name or "").strip():
+			frappe.throw(_("Prospect name is required."), frappe.ValidationError)
+		doc.create_prospect_and_contact({
+			"create_contact": create_contact, "create_prospect": create_prospect,
+			"prospect_name": str(options.get("prospect_name") or "").strip(),
+		})
+		doc.reload()
+	elif action == "fetch_latest_exchange_rate" and doc.doctype == "Opportunity":
+		from erpnext import get_company_currency
+		from erpnext.setup.utils import get_exchange_rate
+		rate = get_exchange_rate(doc.currency, get_company_currency(doc.company), doc.transaction_date)
+		if not rate:
+			frappe.throw(_("No exchange rate is available for this date."), frappe.ValidationError)
+		doc.conversion_rate = rate
+		doc.save()
+	elif action == "opportunity" and doc.doctype == "Quotation":
+		source = _permitted_source("Opportunity", parameters.get("source_name"))
+		from erpnext.crm.doctype.opportunity.opportunity import make_quotation
+		target = make_quotation(source, target_doc=doc)
+		target.save()
+		doc = target
+	elif action == "sales_order" and doc.doctype in {"Maintenance Schedule", "Maintenance Visit"}:
+		source = _permitted_source("Sales Order", parameters.get("source_name"))
+		if doc.doctype == "Maintenance Schedule":
+			from erpnext.selling.doctype.sales_order.sales_order import make_maintenance_schedule
+			target = make_maintenance_schedule(source, target_doc=doc)
+		else:
+			from erpnext.selling.doctype.sales_order.sales_order import make_maintenance_visit
+			target = make_maintenance_visit(source, target_doc=doc)
+		if not target:
+			frappe.throw(_("A completed maintenance document already exists for this Sales Order."), frappe.ValidationError)
+		target.save()
+		doc = target
+	elif action in {"sales_tax_template", "purchase_tax_template"} and doc.doctype == "Company":
+		destination = "sales-taxes-and-charges-template" if action == "sales_tax_template" else "purchase-taxes-and-charges-template"
+		return {"route": f"/retail-erp/finance/{destination}?{urlencode({'company': doc.name}, quote_via=quote)}"}
+	elif action == "create_tax_template" and doc.doctype == "Company":
+		doc.create_default_tax_template()
+		doc.reload()
+	elif action == "delete_transactions" and doc.doctype == "Company":
+		company_name = str(parameters.get("company_name") or "").strip()
+		password = str(parameters.get("current_password") or "")
+		if company_name != doc.name:
+			frappe.throw(_("Enter the exact Company name to confirm deletion."), frappe.ValidationError)
+		if not password:
+			frappe.throw(_("Your current password is required."), frappe.AuthenticationError)
+		from frappe.core.doctype.user.user import verify_password
+		verify_password(password)
+		from erpnext.setup.doctype.company.company import create_transaction_deletion_request
+		create_transaction_deletion_request(doc.name)
+		return {"route": "/retail-erp/admin/companies", "queued": True}
+	elif action == "view_now" and doc.doctype == "Email Digest":
+		from frappe.utils import strip_html
+		message = strip_html(doc.get_msg_html() or "")
+		return {"message": message[:12000] or _("The digest contains no content.")}
+	elif action == "send_now" and doc.doctype == "Email Digest":
+		doc.send()
+		return {"name": doc.name, "sent": True}
+	elif action == "create_user" and doc.doctype == "Employee":
+		from erpnext.setup.doctype.employee.employee import create_user
+		user = create_user(doc.name, email=doc.prefered_email)
+		doc.reload()
+		return {"name": doc.name, "created": user, "route": f"/retail-erp/admin/users/{quote(user, safe='')}"}
+	elif action == "call" and doc.doctype == "Contact":
+		phones = sorted(
+			(row for row in doc.get("phone_nos") or [] if row.phone),
+			key=lambda row: (cint(row.is_primary_mobile_no), cint(row.is_primary_phone)), reverse=True,
+		)
+		if not phones:
+			frappe.throw(_("This Contact has no phone number."), frappe.ValidationError)
+		return {"external_url": f"tel:{quote(str(phones[0].phone), safe='+*#()- ')}"}
+	elif action == "invite_as_user" and doc.doctype == "Contact":
+		from frappe.contacts.doctype.contact.contact import invite_user
+		user = invite_user(doc.name)
+		doc.reload()
+		return {"name": doc.name, "created": user, "route": f"/retail-erp/admin/users/{quote(user, safe='')}"}
+	elif action == "edit_format" and doc.doctype == "Print Format":
+		return {"route": _record_route(record, doc.name, "edit")}
+	elif action == "set_as_default" and doc.doctype == "Print Format":
+		from frappe.printing.doctype.print_format.print_format import make_default
+		make_default(doc.name)
+		doc.reload()
+	elif action == "print_settings" and doc.doctype == "Print Style":
+		return {"route": "/retail-erp/admin/print-settings"}
 	elif action in {"material_request", "opportunity", "possible_supplier"} and doc.doctype == "Request for Quotation":
 		if action == "material_request":
 			source = _permitted_source("Material Request", parameters.get("source_name"))
@@ -1925,10 +2127,26 @@ def get_related_documents(feature: str, name: str):
 	# The generic foundation exposes only permission-filtered Dynamic Link records.
 	rows = frappe.get_list("Dynamic Link", filters={"link_doctype": doc.doctype, "link_name": doc.name}, fields=["parenttype", "parent"], limit_page_length=50)
 	result = []
+	seen = set()
 	for row in rows:
 		if row.parenttype in ALL_GENERATED_DOCTYPES and frappe.has_permission(row.parenttype, "read") and frappe.get_list(row.parenttype, filters={"name": row.parent}, pluck="name", limit_page_length=1):
 			target = get_feature(frappe.scrub(row.parenttype).replace("_", "-"))
 			result.append({"doctype": row.parenttype, "name": row.parent, "route": _record_route(target, row.parent)})
+			seen.add((row.parenttype, row.parent))
+	# Address and Contact store their outward links in their own Dynamic Link
+	# child table.  Expose those same standard "Links" buttons only when the
+	# target type is routed and the target document remains readable.
+	for link in doc.get("links") or []:
+		key = (link.link_doctype, link.link_name)
+		if key in seen or link.link_doctype not in ALL_GENERATED_DOCTYPES:
+			continue
+		if not frappe.has_permission(link.link_doctype, "read") or not frappe.get_list(
+			link.link_doctype, filters={"name": link.link_name}, pluck="name", limit_page_length=1,
+		):
+			continue
+		target = get_feature(frappe.scrub(link.link_doctype).replace("_", "-"))
+		result.append({"doctype": link.link_doctype, "name": link.link_name, "route": _record_route(target, link.link_name)})
+		seen.add(key)
 	return {"records": result}
 
 

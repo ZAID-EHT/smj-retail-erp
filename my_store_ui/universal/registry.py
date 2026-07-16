@@ -23,7 +23,7 @@ CUSTOM_OVERRIDES = {
 GENERATED_ALLOWLIST = {
 	"Supplier", "Warehouse", "Lead", "Opportunity", "Project", "Asset", "Address", "Contact",
 	"Territory", "Customer Group", "Supplier Group", "Item Group", "Brand", "UOM", "Sales Person",
-	"Price List", "Mode of Payment", "Cost Center", "Department", "Designation", "Pegged Currencies",
+	"Price List", "Mode of Payment", "Cost Center", "Department", "Designation", "Pegged Currencies", "Print Settings",
 }
 
 ALL_GENERATED_DOCTYPES = frozenset(GENERATED_ALLOWLIST | ALL_PRIORITY_DOCTYPES)

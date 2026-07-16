@@ -84,7 +84,38 @@ async function load() {
   }
 }
 
-function actionParameters(action) {
+function securePasswordPrompt(label) {
+  return new Promise((resolve) => {
+    const dialog = document.createElement("dialog");
+    const form = document.createElement("form");
+    const heading = document.createElement("h2");
+    const input = document.createElement("input");
+    const cancel = document.createElement("button");
+    const submit = document.createElement("button");
+    form.method = "dialog";
+    heading.textContent = label;
+    input.type = "password";
+    input.name = "current_password";
+    input.autocomplete = "current-password";
+    input.required = true;
+    input.setAttribute("aria-label", label);
+    cancel.type = "button";
+    cancel.textContent = "Cancel";
+    submit.type = "submit";
+    submit.textContent = "Continue";
+    form.append(heading, input, cancel, submit);
+    dialog.append(form);
+    document.body.append(dialog);
+    const finish = (value) => { dialog.close(); dialog.remove(); resolve(value); };
+    cancel.addEventListener("click", () => finish(null), { once: true });
+    form.addEventListener("submit", (event) => { event.preventDefault(); finish(input.value || null); }, { once: true });
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); finish(null); }, { once: true });
+    dialog.showModal();
+    input.focus();
+  });
+}
+
+async function actionParameters(action) {
   const parameters = {};
   for (const field of action.requires_parameters || []) {
     const defaultValue = field === "items_json"
@@ -102,7 +133,9 @@ function actionParameters(action) {
         idx: row.idx,
       })), null, 2)
       : "";
-    const value = window.prompt(`Enter ${field.replaceAll("_", " ")}`, defaultValue);
+    const value = field === "current_password"
+      ? await securePasswordPrompt("Enter your current password")
+      : window.prompt(`Enter ${field.replaceAll("_", " ")}`, defaultValue);
     if (!value) return null;
     parameters[field] = value;
   }
@@ -116,7 +149,7 @@ function actionParameters(action) {
 
 async function act(action) {
   if (acting.value) return;
-  const parameters = actionParameters(action);
+  const parameters = await actionParameters(action);
   if (parameters === null) return;
   if (action.action !== "rename") {
     const confirmed = await confirmAction({
@@ -134,6 +167,8 @@ async function act(action) {
       : await runDocumentAction(feature.value, name.value, action.action, detail.value.document.modified, parameters);
     toast.success(`${action.label} complete`, `${name.value} was updated.`);
     if (result.download_url) window.location.assign(result.download_url);
+		else if (result.external_url) window.location.assign(result.external_url);
+		else if (result.message) window.alert(result.message);
     else if (result.route && result.route !== route.path) await router.push(result.route);
     else await load();
   } catch (caught) {

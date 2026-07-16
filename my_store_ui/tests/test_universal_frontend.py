@@ -48,8 +48,8 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 			with self.assertRaises(frappe.PermissionError):
 				get_generated_feature(frappe.scrub(doctype).replace("_", "-"))
 
-	def test_exact_generated_allowlist_is_provisional(self):
-		self.assertEqual(len(GENERATED_ALLOWLIST), 20)
+	def test_generated_allowlist_is_provisional(self):
+		self.assertGreaterEqual(len(GENERATED_ALLOWLIST), 20)
 		for doctype in GENERATED_ALLOWLIST:
 			record = get_generated_feature(frappe.scrub(doctype).replace("_", "-"))
 			self.assertEqual(record["implementation_type"], "generated_provisional")

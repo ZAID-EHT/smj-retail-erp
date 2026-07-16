@@ -26,7 +26,8 @@ MODULES = {
 # route registry resolves them before consulting this table.
 ENTITY_ROUTES = {
 	# Sales
-	"/sales/quotations": {"doctype": "Quotation", "module": "sales", "classification": "transaction_provisional"},
+"/sales/quotations": {"doctype": "Quotation", "module": "sales", "classification": "transaction_provisional"},
+	"/sales/blanket-orders": {"doctype": "Blanket Order", "module": "sales", "classification": "transaction_provisional"},
 	# Purchases
 	"/purchases/suppliers": {"doctype": "Supplier", "module": "purchases"},
 	"/purchases/material-requests": {"doctype": "Material Request", "module": "purchases", "classification": "transaction_provisional"},
@@ -212,7 +213,9 @@ _GENERATED_ENTITY_ROUTES = {
 	"/operations/service-level-agreement": {"doctype": "Service Level Agreement", "module": "operations", "classification": "generated_provisional"},
 	"/operations/task-type": {"doctype": "Task Type", "module": "operations", "classification": "generated_provisional"},
 	"/operations/timesheet": {"doctype": "Timesheet", "module": "operations", "classification": "generated_provisional"},
-	"/operations/warranty-claim": {"doctype": "Warranty Claim", "module": "operations", "classification": "generated_provisional"},
+"/operations/warranty-claim": {"doctype": "Warranty Claim", "module": "operations", "classification": "generated_provisional"},
+	"/operations/maintenance-schedules": {"doctype": "Maintenance Schedule", "module": "operations", "classification": "transaction_provisional"},
+	"/operations/maintenance-visits": {"doctype": "Maintenance Visit", "module": "operations", "classification": "transaction_provisional"},
 	"/purchases/supplier-scorecard": {"doctype": "Supplier Scorecard", "module": "purchases", "classification": "generated_provisional"},
 	"/purchases/supplier-scorecard-criteria": {"doctype": "Supplier Scorecard Criteria", "module": "purchases", "classification": "generated_provisional"},
 	"/purchases/supplier-scorecard-period": {"doctype": "Supplier Scorecard Period", "module": "purchases", "classification": "generated_provisional"},
@@ -290,6 +293,7 @@ SPECIAL_ROUTES = {
 	"/admin/website": {"module": "admin", "label": "Website", "doctypes": ("Website Settings", "Web Page"), "roles": ("System Manager",)},
 	"/admin/system-health": {"module": "admin", "label": "System Health", "roles": ("System Manager",), "classification": "read_only"},
 	"/admin/background-jobs": {"module": "admin", "label": "Background Jobs", "roles": ("System Manager",), "classification": "read_only"},
+	"/admin/print-settings": {"module": "admin", "label": "Print Settings", "doctype": "Print Settings", "roles": ("System Manager",), "classification": "specialised_provisional"},
 }
 
 

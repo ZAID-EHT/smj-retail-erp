@@ -60,6 +60,7 @@ onBeforeUnmount(() => controller?.abort());
   <BankReconciliationPage v-else-if="definition?.component === 'bank_reconciliation'" />
   <BankClearancePage v-else-if="definition?.component === 'bank_clearance'" />
   <PeggedCurrenciesPage v-else-if="definition?.component === 'pegged_currencies'" />
+	<UniversalFormPage v-else-if="definition?.component === 'single'" :feature-key="definition.feature" :base-path="route.path" :record-name="definition.doctype" stay-on-save />
   <SalesFunnelPage v-else-if="definition?.component === 'sales_funnel'" />
   <WarehouseCapacityPage v-else-if="definition?.component === 'warehouse_capacity'" />
   <PriorityReportHubPage v-else-if="definition?.component === 'report_hub'" :group="definition.group" />

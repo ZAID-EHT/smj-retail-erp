@@ -37,8 +37,10 @@ class TestUniversalGeneratedExperience(unittest.TestCase):
 	def tearDownClass(cls):
 		frappe.destroy()
 
-	def test_all_twenty_features_have_safe_presentation_and_list_configuration(self):
-		for doctype in sorted(GENERATED_ALLOWLIST):
+	def test_list_features_have_safe_presentation_and_list_configuration(self):
+		# Single DocTypes have dedicated one-record pages and intentionally do
+		# not expose list/new semantics.
+		for doctype in sorted(GENERATED_ALLOWLIST - {"Pegged Currencies", "Print Settings"}):
 			feature = frappe.scrub(doctype).replace("_", "-")
 			configuration = get_list_configuration(feature)
 			self.assertLessEqual(len(configuration["main_filters"]), 5, doctype)

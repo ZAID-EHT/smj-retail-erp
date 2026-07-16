@@ -13,6 +13,7 @@ const props = defineProps({
   basePath: { type: String, default: "" },
   recordName: { type: String, default: "" },
   defaults: { type: Object, default: () => ({}) },
+	stayOnSave: { type: Boolean, default: false },
 });
 const route = useRoute();
 const router = useRouter();
@@ -115,6 +116,10 @@ async function save(continueEditing = false) {
       ? await updateDocument(feature.value, name.value, payload(), values.modified)
       : await createDocument(feature.value, payload());
     dirty.value = false;
+		if (props.stayOnSave) {
+			values.modified = result.modified;
+			return;
+		}
     if (continueEditing) await router.replace(`${listPath.value}/${encodeURIComponent(result.name)}/edit`);
     else await router.push(result.route);
   } catch (caught) {

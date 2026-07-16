@@ -225,7 +225,7 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Opportunity": {
         "close", "reopen", "make_customer", "customer", "make_quotation", "quotation",
         "make_supplier_quotation", "supplier_quotation", "make_request_for_quotation", "request_for_quotation",
-        "set_as_lost",
+        "set_as_lost", "fetch_latest_exchange_rate",
     },
     # Dead-credit fix: this doctype's entry was previously duplicated further
     # below in this same dict literal ("Supplier": {"accounting_ledger",
@@ -296,13 +296,16 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # "make_quotation" is a real new action (Lead has its own make_quotation,
     # separate from Opportunity's). "prospect" is the lead_dashboard.py
     # Reference connection, served by get_dashboard_connections().
-    "Lead": {"make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation", "prospect"},
+    "Lead": {
+        "make_opportunity", "opportunity", "make_customer", "customer", "make_quotation", "quotation", "prospect",
+        "add_to_prospect", "create_prospect_and_contact",
+    },
     # "set_as_lost" is a real new action shared with Opportunity below -
     # wraps the real declare_enquiry_lost() doc method (sales_common.js).
     # "sales_order" (bare, no verb) is the quotation_dashboard.py Reference
     # connection — distinct from the "make_sales_order" conversion button
     # above — served by get_dashboard_connections().
-    "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost", "sales_order"},
+    "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost", "sales_order", "opportunity", "update_items"},
     # Bug fix: the internal action key "make_supplier_quotation" chosen for
     # this MAPPED_ACTIONS entry never matched either real scanner-detected
     # key for RFQ's "Supplier Quotation" button - the button label scrubs to
@@ -383,7 +386,6 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Warehouse": {"general_ledger", "stock_balance"},
     "Batch": {"view_ledger", "recalculate_batch_qty"},
     "Serial No": {"view_ledgers"},
-    "Company": {"chart_of_accounts", "cost_centers"},
     # Pick List stock-reservation controls (universal/api.py). "reserve"/
     # "unreserve" are the JS button labels calling the exact same
     # create_stock_reservation_entries/cancel_stock_reservation_entries doc
@@ -430,6 +432,22 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # by the standard "cancel" GENERIC_LIFECYCLE_ACTIONS entry now that this
     # doctype is routed. start/pause/resume are real buttons, separately wired.
     "Process Period Closing Voucher": {"cancel_pcv_processing", "start_pcv_processing", "pause_pcv_processing", "resume_pcv_processing"},
+    "Campaign": {"view_leads"},
+    "Delivery Trip": {"delivery_note", "delivery_notes", "notify_customers_via_email"},
+    "Installation Note": {"from_delivery_note"},
+    "Maintenance Schedule": {"sales_order"},
+    "Maintenance Visit": {"sales_order"},
+    "Prospect": {"customer", "make_customer", "make_opportunity", "opportunity"},
+    "Company": {
+        "chart_of_accounts", "cost_centers", "create_default_tax_template", "create_tax_template",
+        "create_transaction_deletion_request", "delete_transactions", "purchase_tax_template", "sales_tax_template",
+    },
+    "Email Digest": {"send_now", "view_now"},
+    "Employee": {"create_user"},
+    "Address": {"0_1"},
+    "Contact": {"0_1", "call", "invite_as_user"},
+    "Print Format": {"edit_format", "make_default", "set_as_default"},
+    "Print Style": {"print_settings"},
 }
 
 
@@ -679,6 +697,26 @@ POS_EXTERNAL_LAUNCHER_ACTIONS = {
 # controller lifecycle instead of being exposed as a second staff-facing button.
 # These outcomes prevent false "missing" credits without inventing UI routes.
 DOCUMENT_ACTION_OVERRIDES = {
+    ("Blanket Order", "sales_order"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/sales/blanket-orders",
+        "Dashboard connection is served by the universal connection panel on the routed Blanket Order page.",
+    ),
+    ("Maintenance Schedule", "sales_order"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/operations/maintenance-schedules",
+        "Permission-aware draft source action calls ERPNext's Sales Order to Maintenance Schedule mapper.",
+    ),
+    ("Maintenance Visit", "sales_order"): (
+        "special_adapter", "implemented_unverified", "/retail-erp/operations/maintenance-visits",
+        "Permission-aware draft source action calls ERPNext's Sales Order to Maintenance Visit mapper.",
+    ),
+    ("Lead", "make_lead_from_communication"): (
+        "internal", "internal", None,
+        "Source helper is exposed on Communication, not on a Lead document; it creates the Lead as part of the standard inbound-communication workflow.",
+    ),
+    ("Opportunity", "make_opportunity_from_communication"): (
+        "internal", "internal", None,
+        "Source helper is exposed on Communication, not on an Opportunity document; it is part of the standard inbound-communication conversion flow.",
+    ),
     ("Stock Entry", "excise_invoice"): (
         "not_required", "not_required", None,
         "India-only e-invoice action guarded by ERPNext regional code; the installed site company country is Sri Lanka.",
