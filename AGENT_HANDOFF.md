@@ -1390,3 +1390,78 @@ rather than attempted under this mission's scope.
 **Parity status unchanged**: `required_but_missing = 222` (confirmed by
 re-reading `docs/full-parity/required_missing_latest.json` directly, not
 assumed), `unclassified = 0`. No routes were remapped.
+
+## 28. Strict Visual Parity, Charts, Real Buttons, Real Browser (2026-07-16)
+
+Follow-up to Section 27. Recovery tag:
+`pre-strict-visual-parity-rebuild-20260716-0957`.
+
+**Real browser screenshots achieved.** Found Chrome/Edge on the Windows
+host reachable from WSL (`/mnt/c/Program Files/Google/Chrome/Application/chrome.exe`).
+Got authenticated headless screenshots working (session cookie written
+into an ephemeral, user-approved Chrome profile under `C:\Windows\Temp\`,
+deleted at session end). This is the first session in this project able to
+show real rendered pages rather than only HTTP responses or code review.
+Full detail: `docs/ui/SMJ_BROWSER_VERIFICATION.md`.
+
+**Real defect found via screenshot, not guesswork:** module header pill
+colours didn't match the SMJ reference — Purchases showed orange (should
+be purple), Inventory showed green (should be orange), Finance showed
+purple (should be gold), Sales showed blue (should be green). Root cause:
+the previous session's "remap legacy 7-color accent keys onto SMJ hex
+values" fix never checked whether each *route* was assigned the *correct*
+accent key in the first place. Fixed in both `frontend/src/router/routes.js`
+and the server-side navigation payload
+(`my_store_ui/services/frontend_routes.py`) — every Sales/Inventory/Finance
+handcrafted route's accent was corrected, not just the module dashboards.
+
+**Home dashboard rebuilt** (`frontend/src/pages/priority/HomeDashboardPage.vue`,
+wired into `/home`) — previously the generic metadata-driven
+`ModuleDashboardPage` (permitted-record counts, no charts), now a real
+KPI/chart dashboard matching `01_home_dashboard.png`'s structure: 6 live
+KPI cards with trend%/sparkline, a Sales Trend line chart, Payment
+Collection donut, Top Selling Categories bar chart, Recent Transactions
+table, Stock Overview, Low Stock Alerts, Top Customers/Products. All data
+is real (`my_store_ui/dashboard_analytics.py`, 8 new permission-checked,
+zero-raw-SQL endpoints) — confirmed via direct API testing, not assumed.
+One real Frappe gotcha found and fixed while building it: `get_list()` on
+a child doctype (`Sales Invoice Item`) silently filters out rows that
+`get_all()` correctly returns — see `docs/ui/SMJ_DASHBOARD_DATA_SOURCES.md`.
+
+**New chart framework** (`frontend/src/components/charts/`) — hand-rolled
+SVG (`SmjSparkline`, `SmjLineChart`, `SmjDonutChart`, `SmjBarChart`,
+`SmjKpiCard`, `SmjChartCard`), zero new npm dependencies, because `npm
+install` is still network-blocked in this environment (confirmed
+unchanged from the previous session's diagnosis).
+
+**ToastHost and ConfirmDialogHost are now real**, not empty shells (see
+Section 27's finding). `composables/toast.js` and `composables/confirm.js`
+back them with real reactive queues; migrated the three highest-traffic
+shared action components (`SalesOrderActions.vue`, `EntityActions.vue`,
+`UniversalDetailPage.vue`'s action handler) off `window.confirm` onto the
+real dialog. Several lower-traffic `window.confirm` sites (Bank/Payment
+Reconciliation, unsaved-changes guards) were left as-is under time
+pressure — documented in `docs/ui/SMJ_BUTTON_ACTION_MATRIX.md`.
+
+**Mobile responsive**: found and fixed a real horizontal-overflow bug in
+the new Home dashboard via screenshot (KPI grid + CSS Grid's `min-width:
+auto` default on `.rug-page`'s children — the general fix,
+`.rug-page > * { min-width: 0; }`, applies to every page using this shared
+pattern, not just Home). One residual mobile issue (two small text
+elements slightly clipped in a chart card) was not conclusively resolved
+despite several rounds of fixes that were confirmed correctly compiled but
+showed no visible change across screenshots — flagged honestly as
+"source-fix applied, not conclusively visually verified" rather than
+claimed fixed. Full detail: `docs/ui/SMJ_RESPONSIVE_RESULTS.md`.
+
+**Not attempted this pass**: the other 8 reference pages (Smart Sales,
+Sales Orders, Products, Customer Credit, Purchases, Finance, Transaction
+Register, Reports) were not rebuilt to the reference's KPI-sidebar+chart
+depth — they inherited the accent-colour fix and have the new chart
+framework available, but their layouts are unchanged. A full per-button
+verification matrix across all 9 pages was not built (see
+`docs/ui/SMJ_BUTTON_ACTION_MATRIX.md` for what was and wasn't covered).
+
+**Parity status unchanged**: `required_but_missing = 222`,
+`unclassified = 0`. No routes were remapped; only accent metadata and one
+route's component (`/home`) changed.

@@ -1,6 +1,29 @@
-# SMJ Retail ERP — Browser Verification Results (2026-07-16)
+# SMJ Retail ERP — Browser Verification Results
 
-## Method
+## 2026-07-16 (later session) — real browser screenshots achieved
+
+Everything below this line describes the *first* 2026-07-16 session, where
+Playwright could not be installed and only HTTP-level verification ran. A
+follow-up session the same day found real Chrome/Edge binaries on the
+Windows host, reachable from WSL at
+`/mnt/c/Program Files/Google/Chrome/Application/chrome.exe` (and Edge at
+`/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`), and
+got headless screenshots working end-to-end, including authenticated
+pages. See `SMJ_STRICT_VISUAL_PARITY.md` and `SMJ_RESPONSIVE_RESULTS.md`
+for what was actually verified with real renders this way. Authentication
+was handled by logging in through the real `/api/method/login` endpoint
+and writing the resulting session cookie into an ephemeral Chrome profile
+under `C:\Windows\Temp\claude-shots-<random>\` — approved by the user
+after an earlier attempt to keep the profile on the WSL side failed
+(Chrome's sandbox can't write its cookie/cache databases over the
+`\\wsl.localhost\` network path; profiles need a genuine local disk path).
+The profile is deleted at the end of that session.
+
+This means Playwright/`npm install` is *still* blocked (unchanged — see
+the network diagnosis below), but that stopped being the only path to a
+real browser in this environment.
+
+## First 2026-07-16 session (HTTP-only) — method
 
 **No real browser automation ran.** Playwright is not installed; installing
 it was attempted (with explicit user approval) and failed at the network
