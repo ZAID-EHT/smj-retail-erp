@@ -26,7 +26,7 @@ from my_store_ui.universal.api import (
 	run_document_action,
 	update_document,
 )
-from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES, CUSTOM_OVERRIDES, GENERATED_ALLOWLIST, get_feature, get_generated_feature
+from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES, CUSTOM_OVERRIDES, GENERATED_ALLOWLIST, feature_is_permitted, get_feature, get_generated_feature
 
 
 class TestUniversalFrontendFoundation(unittest.TestCase):
@@ -77,6 +77,38 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertTrue(result["fields"])
 		self.assertTrue(all(field["fieldtype"] != "Password" for field in result["fields"]))
 		self.assertTrue(all("permlevel" in field for field in result["fields"]))
+
+	def test_user_and_role_forms_expose_only_controlled_administration_fields(self):
+		user = get_doctype_metadata("user")
+		roles = next(field for field in user["fields"] if field["fieldname"] == "roles")
+		self.assertFalse(roles["hidden"])
+		self.assertFalse(roles["read_only"])
+		self.assertEqual([field["fieldname"] for field in roles["child_fields"]], ["role"])
+		self.assertFalse(any(field["fieldtype"] == "Password" for field in user["fields"]))
+		clean = _clean_payload(
+			frappe.get_meta("User"),
+			{"email": "dry-run@example.invalid", "first_name": "Dry Run", "roles": [{"role": "Sales User"}]},
+		)
+		self.assertEqual(clean["roles"], [{"role": "Sales User"}])
+		self.assertFalse(frappe.db.exists("User", "dry-run@example.invalid"))
+
+		role = get_doctype_metadata("role")
+		role_name = next(field for field in role["fields"] if field["fieldname"] == "role_name")
+		self.assertTrue(role_name["required"])
+		self.assertFalse(role_name["read_only"])
+
+	def test_user_and_role_generated_aliases_keep_system_manager_boundary(self):
+		original = frappe.session.user
+		try:
+			frappe.session.user = "ordinary@example.com"
+			with (
+				patch("my_store_ui.universal.registry.frappe.get_roles", return_value=["Sales User"]),
+				patch("my_store_ui.universal.registry.frappe.has_permission", return_value=True),
+			):
+				self.assertFalse(feature_is_permitted(get_feature("user")))
+				self.assertFalse(feature_is_permitted(get_feature("role")))
+		finally:
+			frappe.session.user = original
 
 	def test_list_pagination_search_filter_and_sort(self):
 		configuration = get_list_configuration("supplier")
@@ -133,6 +165,9 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 	def test_link_search_is_server_allowlisted(self):
 		result = get_link_options("supplier", "supplier_group", "")
 		self.assertLessEqual(len(result["results"]), 20)
+		roles = get_link_options("user", "role", "Sales", parent_fieldname="roles")
+		self.assertTrue(roles["results"])
+		self.assertTrue(all("sales" in row["value"].lower() for row in roles["results"]))
 		with self.assertRaises(frappe.PermissionError):
 			get_link_options("supplier", "owner", "Administrator")
 
@@ -170,6 +205,7 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertIn('import("@/pages/generated/UniversalListPage.vue")', routes)
 		self.assertNotIn("/app/", service)
 		self.assertNotIn("ignore_permissions", (APP_PATH / "my_store_ui/universal/api.py").read_text())
+		self.assertIn(':read-only="table.read_only"', (APP_PATH / "frontend/src/pages/generated/UniversalFormPage.vue").read_text())
 
 
 if __name__ == "__main__":

@@ -35,6 +35,11 @@ SAFE_FILTER_OPERATORS = {"=", "!=", ">", ">=", "<", "<=", "like", "not like", "i
 LAYOUT_FIELDS = {"Section Break", "Column Break", "Tab Break"}
 NUMERIC_FIELDS = {"Currency", "Float", "Int", "Percent", "Duration", "Rating"}
 
+# Frappe's Desk User form hides the raw roles table and replaces it with its
+# JavaScript RoleEditor. Vue never executes Desk client scripts, so this one
+# server-owned adapter exposes only that table to authorised user managers.
+SPECIAL_WRITABLE_FIELDS = {"User": {"roles"}}
+
 # Fixed server-owned mappings. The browser sends only these symbolic action
 # keys; dotted Python methods are never accepted from a request.
 MAPPED_ACTIONS = {
@@ -120,18 +125,22 @@ def _permlevels(meta, permission: str) -> set[int]:
 		return {0}
 
 
-def _readable_fields(meta) -> list:
-	levels = _permlevels(meta, "read")
+def _readable_fields(meta, levels: set[int] | None = None) -> list:
+	levels = _permlevels(meta, "read") if levels is None else levels
 	return [field for field in meta.fields if field.fieldtype in SUPPORTED_FIELD_TYPES and cint(field.permlevel) in levels]
 
 
-def _writable_fields(meta) -> list:
-	levels = _permlevels(meta, "write")
+def _writable_fields(meta, levels: set[int] | None = None) -> list:
+	levels = _permlevels(meta, "write") if levels is None else levels
+	special = SPECIAL_WRITABLE_FIELDS.get(meta.name, set()) if (
+		frappe.session.user == "Administrator" or "System Manager" in frappe.get_roles()
+	) else set()
 	return [
 		field for field in meta.fields
 		if field.fieldtype in SUPPORTED_FIELD_TYPES
 		and field.fieldtype not in LAYOUT_FIELDS | {"HTML", "Button"}
-		and not field.read_only and not field.hidden and cint(field.permlevel) in levels
+		and (field.fieldname in special or (not field.read_only and not field.hidden))
+		and cint(field.permlevel) in levels
 	]
 
 
@@ -160,7 +169,8 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 	definition = {
 		"fieldname": field.fieldname, "label": field.label or field.fieldname,
 		"fieldtype": field.fieldtype, "required": bool(field.reqd),
-		"read_only": bool(field.read_only or field.fieldname not in writable), "hidden": bool(field.hidden),
+		"read_only": bool(field.fieldname not in writable),
+		"hidden": bool(field.hidden and field.fieldname not in writable),
 		"default": field.default, "options": _safe_options(field), "description": field.description,
 		"precision": field.precision, "length": field.length, "permlevel": cint(field.permlevel),
 		"depends_on": field.depends_on, "mandatory_depends_on": field.mandatory_depends_on,
@@ -176,10 +186,15 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 		definition["unsupported_client_behavior"] = True
 	if field.fieldtype in {"Table", "Table MultiSelect"} and field.options and depth == 0:
 		child_meta = frappe.get_meta(field.options)
-		child_write = {item.fieldname for item in _writable_fields(child_meta)}
+		# Child DocTypes do not carry standalone DocPerm rows. Their fields
+		# inherit the current user's parent DocType permlevel access.
+		parent_meta = frappe.get_meta(field.parent)
+		child_read_levels = _permlevels(parent_meta, "read")
+		child_write_levels = _permlevels(parent_meta, "write")
+		child_write = {item.fieldname for item in _writable_fields(child_meta, child_write_levels)}
 		definition["child_fields"] = [
 			_field_definition(item, writable=child_write, depth=1)
-			for item in _readable_fields(child_meta)
+			for item in _readable_fields(child_meta, child_read_levels)
 			if item.fieldtype not in LAYOUT_FIELDS | {"Table", "Table MultiSelect", "Button", "HTML"}
 		]
 	return definition
@@ -458,7 +473,10 @@ def _clean_payload(meta, payload: Any, existing=None) -> dict:
 			if not isinstance(value, list):
 				frappe.throw(_("{0} must contain rows.").format(field.label), frappe.ValidationError)
 			child_meta = frappe.get_meta(field.options)
-			child_write = {child.fieldname: child for child in _writable_fields(child_meta)}
+			child_write = {
+				child.fieldname: child
+				for child in _writable_fields(child_meta, _permlevels(meta, "write"))
+			}
 			rows = []
 			for row in value:
 				if not isinstance(row, dict) or set(row) - set(child_write) - {"name", "idx"}:
@@ -1059,7 +1077,11 @@ def get_link_options(feature: str, fieldname: str, search: str = "", parent_fiel
 	field = meta.get_field(fieldname)
 	if parent_fieldname:
 		parent = meta.get_field(parent_fieldname)
-		field = frappe.get_meta(parent.options).get_field(fieldname) if parent and parent.fieldtype in {"Table", "Table MultiSelect"} else None
+		child_meta = frappe.get_meta(parent.options) if parent and parent.fieldtype in {"Table", "Table MultiSelect"} else None
+		child_readable = {
+			item.fieldname for item in _readable_fields(child_meta, _permlevels(meta, "read"))
+		} if child_meta else set()
+		field = child_meta.get_field(fieldname) if child_meta and fieldname in child_readable else None
 	readable_names = {item.fieldname for item in readable}
 	if not field or (not parent_fieldname and fieldname not in readable_names) or field.fieldtype not in {"Link", "Dynamic Link"} or not field.options:
 		frappe.throw(_("Link field is not available."), frappe.PermissionError)
@@ -1076,7 +1098,11 @@ def get_link_options(feature: str, fieldname: str, search: str = "", parent_fiel
 	meta_target = frappe.get_meta(target_doctype)
 	search = (search or "").strip()[:140]
 	search_fields = ["name", meta_target.title_field] + [value.strip() for value in (meta_target.search_fields or "").split(",") if value.strip()]
-	or_filters = [[name, "like", f"%{search}%"] for name in dict.fromkeys(search_fields) if name and meta_target.has_field(name)] if search else []
+	or_filters = [
+		[name, "like", f"%{search}%"]
+		for name in dict.fromkeys(search_fields)
+		if name and (name == "name" or meta_target.has_field(name))
+	] if search else []
 	fields = ["name"] + ([meta_target.title_field] if meta_target.title_field and meta_target.has_field(meta_target.title_field) else [])
 	rows = frappe.get_list(target_doctype, fields=fields, or_filters=or_filters, order_by="modified desc", limit_page_length=MAX_LINK_RESULTS)
 	return {"results": [{"value": row.name, "label": row.get(meta_target.title_field) or row.name} for row in rows]}

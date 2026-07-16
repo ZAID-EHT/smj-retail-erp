@@ -28,6 +28,14 @@ GENERATED_ALLOWLIST = {
 
 ALL_GENERATED_DOCTYPES = frozenset(GENERATED_ALLOWLIST | ALL_PRIORITY_DOCTYPES)
 
+# These account-security records remain restricted even through the legacy
+# /generated compatibility aliases.  The DocType permission check below is
+# still mandatory; this is an additional administration boundary.
+ADMIN_FEATURE_ROLES = {
+	"User": {"System Manager"},
+	"Role": {"System Manager"},
+}
+
 MODULE_PRESENTATION = {
 	"Buying": "orange", "Stock": "green", "CRM": "pink", "Projects": "turquoise",
 	"Assets": "purple", "Setup": "blue", "Selling": "blue", "Accounts": "purple",
@@ -157,6 +165,9 @@ def feature_is_permitted(record: dict, permission: str = "read") -> bool:
 	if record.get("implementation_type") in {"internal", "unavailable"}:
 		return False
 	if record.get("doctype"):
+		required_roles = ADMIN_FEATURE_ROLES.get(record["doctype"])
+		if required_roles and frappe.session.user != "Administrator" and not required_roles.intersection(frappe.get_roles()):
+			return False
 		return frappe.has_permission(record["doctype"], permission)
 	if record.get("feature_id") == "my_store_ui:page:smart-sales":
 		return any(frappe.has_permission(doctype, "read") for doctype in ("Customer", "Item", "Sales Order"))
