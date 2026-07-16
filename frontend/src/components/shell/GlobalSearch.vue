@@ -26,6 +26,10 @@ const groups = computed(() => {
   return [...grouped.entries()].map(([label, records]) => ({ label, records }));
 });
 
+function resultKey(result) {
+  return `${result.kind || "document"}-${result.doctype}-${result.name}-${result.route}`;
+}
+
 async function runSearch(text) {
   controller?.abort();
   if (text.length < 2) { results.value = []; loading.value = false; return; }
@@ -101,11 +105,11 @@ onBeforeUnmount(() => {
       v-model="query"
       type="search"
       role="combobox"
-      aria-label="Global search"
+      aria-label="Search permitted pages, functions, reports and ERPNext records"
       aria-controls="retail-global-search-results"
       :aria-expanded="open"
       aria-autocomplete="list"
-      placeholder="Search permitted records"
+      placeholder="Search pages, documents, reports or functions…"
       autocomplete="off"
       @focus="focused = true"
       @keydown="onKeydown"
@@ -113,15 +117,18 @@ onBeforeUnmount(() => {
     <span v-if="loading" class="ref-search-spinner" aria-label="Searching"></span>
     <kbd v-else>Ctrl G</kbd>
     <div v-if="open" id="retail-global-search-results" class="ref-search-results" role="listbox">
-      <p v-if="loading" class="ref-search-message">Searching permitted records…</p>
+      <p v-if="loading" class="ref-search-message">Searching permitted pages, documents and reports…</p>
       <p v-else-if="error" class="ref-search-message ref-search-message--error">{{ error }}</p>
-      <p v-else-if="!results.length" class="ref-search-message">No permitted records found.</p>
+      <div v-else-if="!results.length" class="ref-search-message">
+        <strong>No permitted results found</strong>
+        <span>Try “Sales Orders”, “purchase receipt”, “Smart Sales” or a report name.</span>
+      </div>
       <template v-else>
         <section v-for="group in groups" :key="group.label">
-          <h2>{{ group.label }}</h2>
+          <h2><span>{{ group.label }}</span><small>{{ group.records.length }}</small></h2>
           <button
             v-for="result in group.records"
-            :key="`${result.doctype}-${result.name}`"
+            :key="resultKey(result)"
             type="button"
             role="option"
             :aria-selected="results[activeIndex] === result"
@@ -129,8 +136,11 @@ onBeforeUnmount(() => {
             @mousemove="activeIndex = results.indexOf(result)"
             @click="choose(result)"
           >
-            <span><strong>{{ result.title }}</strong><small>{{ result.name }}</small></span>
-            <small>{{ result.subtitle }}</small>
+            <span class="ref-search-result__main">
+              <span class="ref-search-result__title"><strong>{{ result.title }}</strong><em>{{ result.type_label || result.doctype }}</em></span>
+              <small v-if="result.kind === 'document'">{{ result.name }}</small>
+            </span>
+            <small class="ref-search-result__description">{{ result.subtitle }}</small>
           </button>
         </section>
       </template>

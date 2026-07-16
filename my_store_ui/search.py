@@ -1,12 +1,25 @@
-"""Permission-aware global search for the Retail ERP shell."""
+"""Permission-aware command and record search for the Retail ERP shell.
+
+The browser supplies only text.  Searchable pages, reports and DocTypes are
+owned by server registries, and every result is permission checked before it
+is returned.
+"""
 
 from __future__ import annotations
 
+import re
 from urllib.parse import quote
 
 import frappe
 from frappe import _
 from frappe.utils import cint, strip_html_tags
+
+from my_store_ui.services.frontend_routes import (
+	get_permitted_navigation,
+	resolve_frontend_route,
+	route_is_permitted,
+)
+from my_store_ui.services.priority_registry import ENTITY_ROUTES, REPORT_GROUPS
 
 
 SEARCH_REGISTRY = (
@@ -42,6 +55,185 @@ SEARCH_REGISTRY = (
 )
 
 
+# Friendly vocabulary for tasks people search for rather than ERPNext's exact
+# page label.  Values only enhance matching; routes still come exclusively
+# from the server-owned navigation/route registries below.
+PAGE_SEARCH_ALIASES = {
+	"/smart-sales": "smart sale wholesale catalogue catalog cart checkout order taking pos",
+	"/sales/orders": "sales order customer order reserve order booking",
+	"/sales/delivery-notes": "delivery receipt dispatch shipment goods delivery",
+	"/sales/invoices": "sales invoice customer bill billing",
+	"/purchases/orders": "purchase order supplier order procurement",
+	"/purchases/receipts": "purchase receipt goods receipt grn received goods",
+	"/purchases/invoices": "purchase invoice supplier bill payable",
+	"/inventory/receipts/new": "stock receipt material receipt receive stock goods in",
+	"/inventory/issues/new": "stock issue material issue goods out",
+	"/inventory/transfers/new": "stock transfer material transfer warehouse transfer",
+	"/finance/payments": "payment receipt cash receipt receive payment pay supplier collect customer",
+	"/finance/journal-entries": "petty cash cash expense cash book journal general journal",
+	"/finance/chart-of-accounts": "accounts ledger chart account cash bank",
+	"/reports": "reports analytics statements insights",
+}
+
+
+def _normalise(value: str) -> str:
+	return " ".join(re.findall(r"[a-z0-9]+", str(value or "").casefold()))
+
+
+def _match_score(text: str, *values: str) -> int:
+	query = _normalise(text)
+	haystack = " ".join(_normalise(value) for value in values if value)
+	if not query or not haystack:
+		return 0
+	if query == haystack:
+		return 100
+	if haystack.startswith(query):
+		return 90
+	if query in haystack:
+		return 80
+	tokens = query.split()
+	if tokens and all(token in haystack for token in tokens):
+		return 65
+	matched = sum(1 for token in tokens if len(token) >= 4 and token in haystack)
+	if len(tokens) >= 3 and matched >= 2:
+		return 25 + round(20 * matched / len(tokens))
+	return 0
+
+
+def _page_results(text: str, limit: int) -> list[dict]:
+	"""Return permitted navigation and generated entity launchers."""
+	candidates: dict[str, dict] = {}
+	for module in get_permitted_navigation():
+		module_label = module.get("label") or module.get("name", "").title()
+		if module.get("path"):
+			candidates[module["path"]] = {
+				"title": module_label,
+				"module": module_label,
+				"route": module["path"],
+				"keywords": PAGE_SEARCH_ALIASES.get(module["path"], ""),
+			}
+		for link in module.get("links", ()):
+			path = link.get("path")
+			if not path:
+				continue
+			if path == module.get("path"):
+				continue
+			candidates[path] = {
+				"title": link.get("label") or module_label,
+				"module": module_label,
+				"route": path,
+				"keywords": PAGE_SEARCH_ALIASES.get(path, ""),
+			}
+
+	# ENTITY_ROUTES contains the larger allowlisted generated surface.  Text is
+	# matched before any permission call so a search does not enumerate or load
+	# the entire metadata inventory.
+	for path, definition in ENTITY_ROUTES.items():
+		doctype = definition.get("doctype")
+		if path in candidates or not doctype:
+			continue
+		score = _match_score(text, doctype, path, PAGE_SEARCH_ALIASES.get(path, ""))
+		if not score or not frappe.has_permission(doctype, "read"):
+			continue
+		candidates[path] = {
+			"title": doctype,
+			"module": str(definition.get("module") or "ERPNext").title(),
+			"route": path,
+			"keywords": PAGE_SEARCH_ALIASES.get(path, ""),
+			"score": score,
+		}
+
+	results = []
+	for candidate in candidates.values():
+		score = candidate.get("score") or _match_score(
+			text, candidate["title"], candidate["module"], candidate["route"], candidate["keywords"]
+		)
+		if not score:
+			continue
+		definition, _params = resolve_frontend_route(candidate["route"])
+		if not definition or not route_is_permitted(definition):
+			continue
+		results.append({
+			"kind": "page",
+			"type_label": "Page",
+			"doctype": "Retail ERP Page",
+			"group": "Pages & Functions",
+			"name": candidate["route"],
+			"title": candidate["title"],
+			"subtitle": f"{candidate['module']} · Open page",
+			"route": candidate["route"],
+			"score": score,
+		})
+	return sorted(results, key=lambda row: (-row["score"], row["title"]))[:limit]
+
+
+def _report_results(text: str, limit: int) -> list[dict]:
+	results = []
+	for group, report_names in REPORT_GROUPS.items():
+		for name in report_names:
+			score = _match_score(text, name, group, "report analytics statement")
+			if not score:
+				continue
+			if not frappe.db.exists("Report", {"name": name, "disabled": 0}):
+				continue
+			if not frappe.has_permission("Report", "read", doc=name):
+				continue
+			results.append({
+				"kind": "report",
+				"type_label": "Report",
+				"doctype": "Report",
+				"group": "Reports",
+				"name": name,
+				"title": name,
+				"subtitle": f"{group.title()} reports · Run report",
+				"route": f"/reports/view/{quote(name, safe='')}",
+				"score": score,
+			})
+	return sorted(results, key=lambda row: (-row["score"], row["title"]))[:limit]
+
+
+def _document_results(text: str, limit: int) -> list[dict]:
+	results = []
+	for definition in SEARCH_REGISTRY:
+		if len(results) >= limit or not frappe.has_permission(definition["doctype"], "read"):
+			continue
+		fields = _approved_fields(definition)
+		meta = frappe.get_meta(definition["doctype"])
+		search_fields = ["name"] + [
+			field for field in fields[1:]
+			if meta.get_field(field) and meta.get_field(field).fieldtype in {"Data", "Link", "Dynamic Link", "Select", "Text", "Small Text", "Read Only"}
+		]
+		or_filters = [[definition["doctype"], field, "like", f"%{text}%"] for field in search_fields]
+		or_filters.extend([[doctype, field, "like", f"%{text}%"] for doctype, field in definition.get("child_search", ())])
+		rows = frappe.get_list(
+			definition["doctype"], fields=fields, or_filters=or_filters,
+			order_by=f"`tab{definition['doctype']}`.`modified` desc",
+			limit_page_length=min(4, limit - len(results)),
+		)
+		for row in rows:
+			# get_list already applies permission query conditions and User
+			# Permissions.  The explicit document check also covers shares,
+			# ownership rules and controller-level has_permission hooks.
+			if not frappe.has_permission(definition["doctype"], "read", doc=row.name):
+				continue
+			subtitle_values = []
+			for fieldname in fields[1:]:
+				value = row.get(fieldname)
+				if value not in (None, "", 0):
+					subtitle_values.append(strip_html_tags(str(value)).strip())
+			results.append({
+				"kind": "document",
+				"type_label": definition["doctype"],
+				"doctype": definition["doctype"],
+				"group": "Documents",
+				"name": row.name,
+				"title": str(row.get(fields[1]) or row.name) if len(fields) > 1 else row.name,
+				"subtitle": " · ".join(subtitle_values[:3]),
+				"route": _result_route(definition, row.name),
+			})
+	return results[:limit]
+
+
 def _require_login():
 	if frappe.session.user == "Guest":
 		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
@@ -66,43 +258,17 @@ def _result_route(definition: dict, name: str) -> str:
 
 @frappe.whitelist(methods=["GET"])
 def global_search(text: str, limit: int = 20):
-	"""Search only allowlisted DocTypes and return only permission-filtered fields."""
+	"""Search permitted pages/functions, reports and allowlisted records."""
 	_require_login()
 	text = str(text or "").strip()[:80].replace("%", "").replace("_", "").strip()
 	if len(text) < 2:
 		return {"results": [], "minimum_length": 2}
 	limit = max(1, min(cint(limit) or 20, 30))
-	results = []
-	for definition in SEARCH_REGISTRY:
-		if len(results) >= limit or not frappe.has_permission(definition["doctype"], "read"):
-			continue
-		fields = _approved_fields(definition)
-		meta = frappe.get_meta(definition["doctype"])
-		search_fields = ["name"] + [
-			field for field in fields[1:]
-			if meta.get_field(field) and meta.get_field(field).fieldtype in {"Data", "Link", "Dynamic Link", "Select", "Text", "Small Text", "Read Only"}
-		]
-		or_filters = [[definition["doctype"], field, "like", f"%{text}%"] for field in search_fields]
-		or_filters.extend([[doctype, field, "like", f"%{text}%"] for doctype, field in definition.get("child_search", ())])
-		rows = frappe.get_list(
-			definition["doctype"],
-			fields=fields,
-			or_filters=or_filters,
-			order_by=f"`tab{definition['doctype']}`.`modified` desc",
-			limit_page_length=min(4, limit - len(results)),
-		)
-		for row in rows:
-			subtitle_values = []
-			for fieldname in fields[1:]:
-				value = row.get(fieldname)
-				if value not in (None, "", 0):
-					subtitle_values.append(strip_html_tags(str(value)).strip())
-			results.append({
-				"doctype": definition["doctype"],
-				"group": definition["label"],
-				"name": row.name,
-				"title": str(row.get(fields[1]) or row.name) if len(fields) > 1 else row.name,
-				"subtitle": " · ".join(subtitle_values[:3]),
-				"route": _result_route(definition, row.name),
-			})
+	pages = _page_results(text, min(8, limit))
+	reports = _report_results(text, min(5, max(0, limit - len(pages))))
+	remaining = max(0, limit - len(pages) - len(reports))
+	documents = _document_results(text, remaining)
+	results = pages + reports + documents
+	for result in results:
+		result.pop("score", None)
 	return {"results": results, "minimum_length": 2}
