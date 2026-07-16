@@ -49,18 +49,19 @@ gold, Sales showed blue instead of green) — a real, confirmed, screenshot-driv
 defect, not a guess. Fixed in both `routes.js` and the server-side
 `frontend_routes.py` navigation payload; see `SMJ_BROWSER_ISSUES_FIXED.md`.
 
-## Other 8 reference pages
+## Other reference pages
 
-Not rebuilt to the same structural depth this pass — Smart Sales, Sales
-Orders, Products, Customer Credit, Purchases, Finance, Transaction
-Register and Reports still use their existing (functional, previously
-themed) layouts, which do **not** yet have the reference's KPI-sidebar +
-chart treatment. What they did inherit automatically from this pass: the
-corrected module accent colours (all of them use `meta.accent`, which was
-fixed globally) and the new `SmjKpiCard`/`SmjChartCard`/chart family is
-available for reuse — see `SMJ_CHART_IMPLEMENTATION.md`. Rebuilding these
-8 pages to full reference fidelity (KPI sidebars, drill-in master-detail
-panels, per-page charts) is real remaining work, not started.
+Smart Sales has since received a dedicated reference-style workspace:
+customer and credit context, actual/reserved/available stock KPIs, catalogue
+cards, and a responsive sticky cart, all backed by the pre-existing live
+ERPNext APIs. The Wholesale Transaction Register also gained a live KPI strip.
+
+Sales Orders, Products, Customer Credit, Purchases, Finance and Reports still
+use their functional shared layouts and do **not** yet have every specialised
+KPI/sidebar/chart composition shown in their individual previews. They now
+share the final `smj-page-system.css` composition (module headings, cards,
+tables, forms and responsive rules), but exact preview-specific analytics and
+right rails remain real page-specific follow-up work.
 
 ## Screenshots
 

@@ -7,15 +7,15 @@ each page family receives the new theme, not a parity/feature audit — see
 
 | Page family | Files | Theme source | Status |
 |---|---|---|---|
-| Universal list (metadata-driven) | `pages/generated/UniversalListPage.vue` | `generated-ux.css` | Tokens applied, empty-state icon added, banner gradients fixed to use SMJ module colours |
-| Universal detail/form/report | `pages/generated/Universal{Detail,Form,Report}Page.vue` | `generated-ux.css` | Tokens applied (shared stylesheet) |
+| Universal list (metadata-driven) | `pages/generated/UniversalListPage.vue` | `generated-ux.css`, `smj-page-system.css` | Shared SMJ work surface, module-accent heading, filters, sticky table header, internal table overflow and mobile layout |
+| Universal detail/form/report | `pages/generated/Universal{Detail,Form,Report}Page.vue` | `generated-ux.css`, `smj-page-system.css` | Shared module heading, section cards, focus states, responsive form/detail composition and sticky actions |
 | Universal special (kanban/calendar placeholder) | `pages/generated/UniversalSpecialPage.vue` | `universal.css` | Honest placeholder, unchanged — no kanban/calendar implementation exists yet, so nothing to theme beyond the shared tokens it already inherits |
-| Entity list/detail/form (second universal implementation) | `pages/entities/Entity{List,Detail,Form}Page.vue` | `base.css` | Tokens applied, empty-state icon added |
+| Entity list/detail/form (handcrafted workflow implementation) | `pages/entities/Entity{List,Detail,Form}Page.vue` | `base.css`, `smj-page-system.css` | Shared SMJ module heading, work cards, tables, forms and mobile rules; document APIs/actions unchanged |
 | Tree | `pages/priority/PriorityTreePage.vue`, `components/priority/PriorityTreeNode.vue` | `priority-pages.css` | Tokens applied via shared stylesheet |
 | Report hub / report viewer | `pages/priority/PriorityReportHubPage.vue`, `PriorityReportPage.vue` | `priority-pages.css` | Tokens applied |
 | Home / module dashboard | `pages/priority/ModuleDashboardPage.vue` | `priority-pages.css` | Tokens applied, glyph icons replaced with SMJ icons |
-| Smart Sales | `pages/priority/SmartSalesPage.vue` | `priority-pages.css` | Tokens applied, product placeholder + cart remove glyphs replaced with SMJ icons |
-| Wholesale Transaction Register | `pages/priority/WholesaleTransactionsPage.vue` | `priority-pages.css` | Tokens applied via shared stylesheet |
+| Smart Sales | `pages/priority/SmartSalesPage.vue` | `priority-pages.css`, `smj-page-system.css` | Rebuilt as reference-style customer/credit + actual/reserved/available stock + catalogue + sticky cart workspace using the existing live APIs |
+| Wholesale Transaction Register | `pages/priority/WholesaleTransactionsPage.vue` | `priority-pages.css`, `smj-page-system.css` | Shared register layout plus live record/delivery/payment/page-value KPI strip; existing permission-filtered register retained |
 | Bank Reconciliation | `pages/priority/BankReconciliationPage.vue` | `priority-pages.css` | Tokens applied via shared stylesheet |
 | Payment Reconciliation | `pages/priority/PaymentReconciliationPage.vue` | `priority-pages.css` | Tokens applied via shared stylesheet |
 | Special adapters | `pages/priority/PrioritySpecialPage.vue`, `pages/priority/PriorityRoutePage.vue` | `priority-pages.css` / `generated-ux.css` | Tokens applied via shared stylesheet |
@@ -47,13 +47,18 @@ that the frontend compiles:
   returned 2 real rows plus columns/chart/summary
 - Universal engine missing-record handling: clean 404 with a safe message
 
-## Explicitly not attempted
+## 2026-07-16 shared page-system pass
 
-Pixel-for-pixel layout matching against the 9 reference preview images
-(`01_home_dashboard.png` … `09_reports_analytics.png`) was not done. That
-requires visual iteration against a running, authenticated app, which needs
-either a human eyeballing the pages or browser automation — Playwright is
-not installed in this environment and installing it was out of scope
-("do not install system packages without approval"). What was verified is
-structural: the same token values, spacing scale and icon set the previews
-were generated from are now the values driving the real app.
+`frontend/src/design/smj-page-system.css` is loaded last and now composes all
+current page families around the same reference vocabulary: calm white page
+headings with module accents, compact KPI cards, rounded work surfaces,
+44px controls, 48px table rows, internal table overflow, responsive forms and
+mobile cards. `PageContainer.vue` publishes the current module/accent to this
+layer, so this applies to handcrafted and generated routes without changing
+their APIs or permissions.
+
+This is a shared-system and Smart Sales structural pass, not a claim that all
+nine previews are pixel-for-pixel replicas. Home and Smart Sales have the
+deepest dedicated reference composition. The specialised Sales Orders,
+Products/Credit, Purchases, Finance and Reports dashboards still require
+page-specific chart/right-rail work if exact preview parity is required.
