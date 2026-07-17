@@ -2,31 +2,30 @@
   "mission_start_time": "2026-07-18T00:33:00+05:30",
   "branch": "full-feature-parity",
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
-  "current_commit": "980c150",
+  "current_commit": "PENDING_PHASE6_COMMIT",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
-  "current_phase": "Phases 8, 9, 10 all complete. Remaining: Phase 6 visual layer (blocked), Phase 7 (mostly moot), final documentation/scorecard.",
-  "current_batch": "phase10-load-backup-concurrency",
+  "current_phase": "Phase 6 fully complete. Remaining: Phase 1 formal writeup (low priority), Phase 7 mechanical re-count, final documentation/scorecard.",
+  "current_batch": "phase6-visual-audit-and-test-fixes",
   "completed_phases": [
     "Phase 0 - preflight and recovery baseline",
     "Phase 2 - regenerate true project baseline (docs/execution/SMJ_MASTER_BASELINE.md)",
     "Phase 3 - audit staging demo data vs mission checklist (1 data gap fixed: Royal Home Decor invoice; 1 environment bug fixed: missing Fiscal Year 2026-2027)",
     "Phase 4 - wholesale workflow verification + concurrency reservation test (all 6 Section 11 acceptance scenarios PASS; 1 honestly-documented UX gap, not a safety gap)",
     "Phase 5 - 11-role security/permission matrix (594 has_permission checks + 6 real write-attempt tests, zero unauthorized access found; 2 ERPNext-default role-scoping choices flagged as business decisions, not bugs)",
-    "Phase 6 (backend/data layer only) - all 6 module dashboard APIs verified live, all 18 workspaces' backing data confirmed non-empty, all frontend routes confirmed registered. Visual/interactive/responsive layer BLOCKED on missing headless Chrome (BLOCKER-003), confirmed by direct attempt.",
+    "Phase 6 (FULLY complete, including visual/interactive/responsive layer) - real Linux-native Playwright Chromium used throughout (BLOCKER-003 resolved). Full 108-point sweep (18 workspaces x 6 viewports): 0 overflow, 0 console errors, 0 failed requests. Found and fixed a real routing bug (6 workspaces had guessed-wrong URLs). Deep interaction verification on Home + all 3 component engines (EntityListPage, UniversalListPage, PriorityRoutePage), each with real row-click->detail->back confirmed. First-ever browser-level permission-denied test in this project. Resolved a 2026-07-16 session's unresolved uncertainty about 2 mobile CSS issues (confirmed genuinely fixed). Backend test suite run to completion: found and fixed a systemic 13-file frappe.destroy()/site1.local test-infrastructure bug (also closed a real site1.local-safety gap), 1 fixture-data test bug, 1 account-selection test bug, 5 dead registry entries. Final: 201 tests, 198 passed, 3 skipped, 0 failures, 0 errors. npm run build clean.",
     "Phase 8 (fully complete) - 14 reports run through the real Report API (GL, Trial Balance, P&L, Balance Sheet, Cash Flow, AR, AP, Gross Profit, Stock Balance, Stock/Payment/Customer/Supplier Ledger, Bank Reconciliation Statement, Bank Clearance Summary). GL and Trial Balance balance exactly. MAJOR FINDING (confirmed via two independent reports -- P&L and Balance Sheet): 'Profit for the year' (15,858,706) is inflated ~11.8M by opening-stock postings routed through an Expense account instead of a Balance-Sheet-only account. Documented with exact correction path, not fixed live (risky given a year of downstream dependents).",
     "Phase 9 (complete) - import/purchasing workflow verified via live document tracing: full domestic MR->RFQ->SQ->PO->PR->PI->Payment chain (7 real documents, invoice fully paid, payment matches exactly) and import/landed-cost chain (PO->Goods-in-Transit PR->Landed Cost Voucher, verified 8% customs charge produced exactly 8.00% valuation increase on both affected items, no rounding drift).",
     "Phase 10 (complete) - backup/restore round-trip verified with exact data match (25 customers, 67 POs, 100 SIs, 102 SOs, GL debit sum all matched exactly) plus working application layer and clean migration on the restored site. Load test: 20 concurrent reads + 15 concurrent GL aggregate reads both 100% successful and consistent. Write concurrency: 10 simultaneous writes to the same naming-series counter -> 1/10 succeeded immediately, 9/10 clean deadlock with ZERO data corruption, all 9 recovered successfully on sequential retry -- confirms Phase 4's reservation-deadlock finding is a general framework characteristic, not isolated."
   ],
   "partially_completed_phases": [
-    "Phase 1 - stabilise bench and local environment (bench stabilised in prior conversation turns this session; no formal separate re-verification batch written, but every phase since has depended on a working bench with zero incident)"
+    "Phase 1 - stabilise bench and local environment (bench stabilised in prior conversation turns this session; no formal separate re-verification batch written, but every phase since -- including Phase 6's heavy browser automation load -- has depended on a working bench with zero incident)"
   ],
   "remaining_phases": [
-    "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable)",
-    "Phase 6 visual/interactive/responsive layer -- BLOCKED on tooling (BLOCKER-003)",
-    "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work of converting implemented_unverified/generated_provisional to verified_complete has been substantially advanced by Phases 4/5/8/9/10's real tests -- a formal re-run of the parity audit counter against this new evidence is the only remaining mechanical step)",
-    "Browser and responsive verification (6 breakpoints) -- SAME BLOCKER as Phase 6's visual layer, needs Playwright-class tooling or a manual QA pass",
+    "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable across 10 phases of real load)",
+    "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work of converting implemented_unverified/generated_provisional to verified_complete has been substantially advanced by Phases 4/5/6/8/9/10's real tests -- a formal re-run of the parity audit counter against this new evidence, and against the 5 dead registry entries removed in Phase 6, is the only remaining mechanical step)",
     "Data-quality correction (optional, flagged not auto-applied) - reclassify the ~11.8M opening-stock postings out of the P&L-affecting Stock Adjustment account",
     "UX hardening (optional, flagged not auto-applied) - bounded retry-on-deadlock wrapper for high-contention insert/reserve call sites, recommended by both SMJ_WHOLESALE_CONCURRENCY_REPORT.md and SMJ_CONCURRENCY_REPORT.md",
+    "Deeper interaction coverage (optional) - only Home + one representative page per component engine got full click-through; the remaining 15 workspaces got surface-level (real render, zero errors, zero overflow) verification only -- named honestly in SMJ_PHASE6_WORKSPACE_AUDIT_SUMMARY.md, not overclaimed",
     "Final documentation and scorecard (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md updates + SMJ_MASTER_FINAL_REPORT.md + SMJ_MASTER_COMMIT_INDEX.md + SMJ_REMAINING_EXTERNAL_ACTIONS.md + SMJ_PRODUCTION_READINESS_SCORECARD.md)"
   ],
   "starting_capability_counts": {
@@ -39,8 +38,8 @@
     "note": "These are the LAST RECORDED numbers from before this mission. Phase 2 re-ran the audit live and got IDENTICAL numbers -- confirmed no drift, not re-copied blindly. See SMJ_MASTER_BASELINE.md."
   },
   "current_capability_counts": {
-    "note": "Unchanged from starting counts as of end of Phase 4 -- Phases 5/6/8/10 are what convert implemented_unverified/generated_provisional into verified_complete, not yet run to completion.",
-    "verified_complete_incremental_evidence": "Phase 4 live-verified (not just code-read) the wholesale credit gate, transaction ID propagation, transaction register, and concurrency-safe reservation -- these specific features now have real test evidence backing them even though the aggregate JSON counter has not been re-run to reflect it yet."
+    "note": "Aggregate JSON counter not yet mechanically re-run (Phase 7 remaining item), but substantial real verified_complete evidence now exists that was not present at mission start.",
+    "verified_complete_incremental_evidence": "Phase 4: wholesale credit gate, transaction ID propagation, transaction register, concurrency-safe reservation. Phase 5: 11-role permission matrix, real write-attempt boundary tests. Phase 6: full 108-point browser/responsive sweep, 3 component engines interaction-tested, browser-level permission-denied. Phase 8: 14 accounting/stock reports via real Report API. Phase 9: both procurement chains, Landed Cost Voucher math. Phase 10: backup/restore, load, concurrency. All of these have real test evidence backing them even though the aggregate JSON counter has not been mechanically re-run to reflect it yet -- that re-run is the one remaining Phase 7 item."
   },
   "tests_passed": [
     "Phase 4: concurrency reservation test (10 units, two 8-unit races, never exceeded 10 reserved)",
@@ -48,12 +47,15 @@
     "Phase 4: wholesale transaction register live API call, 102/102 rows matched",
     "Phase 4: transaction ID coverage/format/uniqueness across 102 Sales Orders + 100 Delivery Notes + 100 Sales Invoices + 77/78 Payment Entries",
     "Phase 5: 594 has_permission() checks across 10 roles x 9 doctypes x 6 permission types",
-    "Phase 5: 6 real .insert() write-attempt tests across role boundaries, all 6 matched expected outcome (5 blocked, 1 allowed)"
+    "Phase 5: 6 real .insert() write-attempt tests across role boundaries, all 6 matched expected outcome (5 blocked, 1 allowed)",
+    "Phase 6: 108-point browser sweep (18 workspaces x 6 viewports), 0 overflow/console-errors/failed-requests",
+    "Phase 6: deep interaction tests (Home's dropdown/search/user-menu/KPI-click, keyboard focus, Sales Orders row-click/back/pagination, Suppliers and Purchase Orders engines' row-click/back)",
+    "Phase 6: browser-level permission-denied test with a real restricted account",
+    "Phase 6: full backend test suite -- 201 tests, 198 passed, 3 skipped, 0 failures, 0 errors",
+    "Phase 6: npm run build -- clean, 199 modules, no errors"
   ],
   "tests_failed": [],
-  "tests_unavailable": [
-    "bench run-tests for my_store_ui/tests/ -- allow_tests not yet enabled on staging.local (GATE 4, named in SMJ_MASTER_BASELINE.md as next action, not yet performed)"
-  ],
+  "tests_unavailable": [],
   "commits_created": [
     "c21136f chore: SMJ mission Phase 3+4 -- data fixes, Fiscal Year fix, wholesale concurrency verification",
     "5d0f4f0 chore: SMJ mission Phase 5 -- 11-role backend permission matrix and enforcement tests",
@@ -61,22 +63,34 @@
     "59202fa chore: SMJ mission Phase 8 -- report reconciliation via real Report API, P&L inflation finding",
     "cb34c6c chore: SMJ mission Phase 8 completion -- Balance Sheet re-balance, Cash Flow, bank reconciliation",
     "b8d5c3e chore: SMJ mission Phase 9 -- import/purchasing workflow verification",
-    "980c150 chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification"
+    "980c150 chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification",
+    "2f27e6a docs: update mission state commit pointers after Phase 10",
+    "1f92e0e docs: record WSL2 network-isolation diagnosis for BLOCKER-003 and the taskkill incident",
+    "PENDING: chore: SMJ mission Phase 6 completion -- full browser audit + 13-file test-infrastructure fix"
   ],
   "files_changed": [
     "docs/execution/SMJ_MASTER_MISSION_STATE.md",
     "docs/execution/SMJ_MASTER_MISSION_STATE.json",
     "docs/execution/SMJ_MASTER_BATCH_LOG.md",
     "docs/execution/SMJ_MASTER_BLOCKERS.md",
-    "docs/execution/SMJ_MASTER_BASELINE.md (new, Phase 2)",
-    "docs/workflows/SMJ_WHOLESALE_CONCURRENCY_REPORT.md (new, Phase 4)",
-    "docs/workflows/SMJ_WHOLESALE_TRANSACTION_MODEL.md (new, Phase 4)",
-    "docs/workflows/SMJ_WHOLESALE_ACCEPTANCE_REPORT.md (new, Phase 4)",
-    "my_store_ui/dev_scripts/wholesale_concurrency_test.py (new, Phase 4)",
-    "docs/security/SMJ_ROLE_PERMISSION_MATRIX.md (new, Phase 5)",
-    "docs/security/SMJ_BACKEND_PERMISSION_TESTS.md (new, Phase 5)",
-    "docs/security/SMJ_SECURITY_BLOCKERS.md (new, Phase 5)",
-    "my_store_ui/dev_scripts/security_matrix_test.py (new, Phase 5)"
+    "docs/ui/SMJ_BROWSER_VERIFICATION.md (rewritten, Phase 6)",
+    "docs/ui/SMJ_RESPONSIVE_RESULTS.md (rewritten, Phase 6)",
+    "docs/ui/SMJ_HOME_BROWSER_EVIDENCE.md (new, Phase 6)",
+    "docs/ui/audits/SMJ_PHASE6_WORKSPACE_AUDIT_SUMMARY.md (new, Phase 6)",
+    "my_store_ui/tests/test_entity_api.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_navigation_search.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_universal_frontend.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_form_api.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_priority_page_coverage.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_universal_generated_ux.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_standalone_frontend.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_sales_order_actions.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_analytics_pages.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_dashboard_connections.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_single_finance_tools.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_module_dashboards.py (fixed, Phase 6)",
+    "my_store_ui/tests/test_payment_entry.py (fixed, Phase 6)",
+    "my_store_ui/services/priority_registry.py (fixed, Phase 6 -- removed 5 dead registry entries)"
   ],
   "external_blockers": [
     {
@@ -90,13 +104,13 @@
       "id": "rq-version-drift",
       "description": "Installed rq==1.15.1, Frappe pyproject.toml declares rq (2.10.0). Root cause of datetime.utcnow() deprecation warnings. Upgrading affects the whole bench's job queue -- not performed without explicit approval per 'no uncontrolled upgrades' rule.",
       "status": "documented, non-blocking (deprecation warning only, does not stop scheduler/worker)"
-    },
+    }
+  ],
+  "resolved_blockers": [
     {
-      "id": "no-headless-chrome",
-      "description": "accesslint MCP's audit_live cannot launch a debuggable Chrome in this container (CDP discovery never answers on 127.0.0.1:9222) -- confirmed by direct attempt against the app's own reachable shell URL. Blocks Phase 6's visual/interactive layer and the mission's 6-breakpoint browser verification requirement. Does not block any backend/API verification, which was completed for all 18 workspaces.",
-      "exact_command": "apt-get install -y libnss3 libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 (requires sudo)",
-      "who_must_perform": "zaidh (has interactive sudo password), OR enable a Playwright-class browser tool for this session, OR perform manual QA with a real browser",
-      "status": "documented, confirmed via direct attempt, genuinely blocking the visual-QA portion of Phase 6 and the standalone browser-verification requirement"
+      "id": "no-headless-chrome (BLOCKER-003)",
+      "resolution": "Resolved 2026-07-18. The accesslint MCP's bundled Chrome launcher could not become CDP-debuggable in this container, but Linux-native Playwright Chromium (installed fresh via npx playwright install chromium) worked cleanly on first attempt -- no environment changes needed. Root cause was specific to that one launcher, not a fundamental container limitation.",
+      "resolved_by_commit": "PENDING_PHASE6_COMMIT"
     }
   ],
   "known_hardening_items_not_fixed_in_this_mission": [
@@ -107,7 +121,15 @@
       "why_not_fixed_now": "Out of scope for a verification mission to silently modify core reservation call-site behavior; flagged for a deliberate future hardening pass."
     }
   ],
-  "last_successful_action": "Phases 8, 9, and 10 all completed in full this batch. Phase 8: 14 reports run via real Report API, P&L inflation finding confirmed by a second independent report (Balance Sheet). Phase 9: both procurement chains traced live via real document foreign keys, Landed Cost Voucher math verified precise (exactly 8.00% valuation increase from an 8% charge). Phase 10: backup-restore round-trip verified with exact data match; load test confirmed 100% read concurrency success and zero write-concurrency data corruption (with a real, honestly-documented naming-series contention characteristic under true simultaneous writes, fully recoverable on retry).",
-  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification). All of Phases 0, 2, 3, 4, 5, 8, 9, 10 are now complete, plus Phase 6's backend/data layer. Only remaining work: Phase 6's visual/responsive layer and the standalone browser-verification requirement (both blocked on BLOCKER-003 -- no working headless Chrome in this container), Phase 7's formal parity-counter re-run (mechanical, low-value given the real evidence already gathered), Phase 1's formal writeup (low priority), and the final documentation/scorecard pass. This is a genuine, substantial completion point -- report status to the user honestly rather than fabricating a full mission-complete claim, since the browser-dependent work remains genuinely blocked and the final 110-point report and AGENT_HANDOFF.md/scorecard updates have not yet been written.",
-  "last_updated": "2026-07-18T03:20:00+05:30"
+  "incidents": [
+    {
+      "id": "taskkill-wildcard-incident",
+      "description": "During BLOCKER-003 investigation (before this Phase 6 batch), a cleanup step used `taskkill /F /IM chrome.exe` (by image name) instead of a specific PID, closing all of the user's real Chrome windows on the Windows host.",
+      "disclosure": "Told to the user immediately in the same turn it happened, with an apology and a stop on further Windows process actions.",
+      "corrective_action": "This Phase 6 batch's explicit rules forbade Windows Chrome, /mnt/c/, and any wildcard process kill entirely -- followed throughout with zero incidents. All browser PIDs this batch were Linux-native Playwright processes, closed via .close()/.close() and verified gone via `ps -p`."
+    }
+  ],
+  "last_successful_action": "Phase 6 fully completed: full 108-point browser/responsive sweep with 0 defects at the surface level, 1 real routing bug found and fixed, deep interaction verification across all 3 component engines, first-ever browser-level permission-denied test, both 2026-07-16 mobile CSS uncertainties resolved as genuinely fixed, backend test suite taken from 36 errors to 0 (fixing a systemic 13-file test-infrastructure bug that also closed a real site1.local-safety gap, plus 3 smaller test defects), npm build clean. All required Phase 6 docs written/updated.",
+  "next_automatic_action": "Commit this batch, then proceed to Phase 7's mechanical parity-counter re-run and the final documentation/scorecard pass (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md, SMJ_MASTER_FINAL_REPORT.md, SMJ_MASTER_COMMIT_INDEX.md, SMJ_REMAINING_EXTERNAL_ACTIONS.md, SMJ_PRODUCTION_READINESS_SCORECARD.md) -- this is now genuinely the last remaining major body of work in the mission.",
+  "last_updated": "2026-07-18T04:00:00+05:30"
 }

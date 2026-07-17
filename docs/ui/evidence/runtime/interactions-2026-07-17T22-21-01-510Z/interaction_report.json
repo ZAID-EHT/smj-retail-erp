@@ -1,0 +1,92 @@
+{
+  "cssResidualCheck": {
+    "viewReportLink": {
+      "found": true,
+      "right": 123,
+      "viewportWidth": 390,
+      "clipped": false,
+      "textOverflow": "clip",
+      "whiteSpace": "normal",
+      "visibleText": "View Report"
+    },
+    "donutLegend": {
+      "found": true,
+      "itemCount": 3,
+      "items": [
+        {
+          "right": 349,
+          "clipped": false,
+          "amountRight": 319,
+          "amountClipped": false,
+          "text": "Collected64% (LKR 5,684,024)"
+        },
+        {
+          "right": 349,
+          "clipped": false,
+          "amountRight": 257,
+          "amountClipped": false,
+          "text": "Pending0% (LKR 0)"
+        },
+        {
+          "right": 349,
+          "clipped": false,
+          "amountRight": 319,
+          "amountClipped": false,
+          "text": "Overdue36% (LKR 3,263,136)"
+        }
+      ]
+    }
+  },
+  "homeInteractions": {
+    "moduleDropdown": {
+      "clicked": true,
+      "dropdownVisible": true
+    },
+    "globalSearch": {
+      "typed": true,
+      "resultsVisible": true
+    },
+    "userMenu": {
+      "clicked": true,
+      "menuVisible": true
+    },
+    "kpiCardClick": {
+      "clicked": true,
+      "urlBefore": "http://127.0.0.1:8000/retail-erp/home",
+      "urlAfter": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+      "navigated": true
+    }
+  },
+  "keyboardFocus": {
+    "hasFocus": true,
+    "tag": "A",
+    "outlineStyle": "none",
+    "outlineWidth": "3px",
+    "boxShadow": "rgba(139, 184, 255, 0.55) 0px 0px 0px 3px",
+    "visiblyFocused": true
+  },
+  "salesOrdersListInteractions": {
+    "rowClickToDetail": {
+      "clicked": true,
+      "urlBefore": "http://127.0.0.1:8000/retail-erp/sales/orders",
+      "urlAfter": "http://127.0.0.1:8000/retail-erp/sales/orders/SAL-ORD-2026-00102",
+      "navigated": true
+    },
+    "backNavigation": {
+      "urlAfterBack": "http://127.0.0.1:8000/retail-erp/sales/orders",
+      "returnedToList": true
+    },
+    "paginationControlsFound": 2,
+    "filterControlsFound": 1
+  },
+  "invalidRecordErrorBehavior": {
+    "url": "http://127.0.0.1:8000/retail-erp/sales/orders/SAL-ORD-9999-99999",
+    "bodyText": "Skip to content\nSMJ Retail ERP\nERPNext v15 · SMJ Retail ERP\nHome\nSales\nPurchases\nInventory\nFinance\nOperations\nCRM\nReports\nAdmin\nCtrl G\nA\nAdministrator\nAdministrator\nRetail ERP\n›\nSales Order\n?\nRecord not found\n\nSAL-ORD-9999-99999 does not exist or is not available to your account.\n\nBack to list",
+    "title": "Retail ERP"
+  },
+  "restrictedLoginVerified": true,
+  "restrictedAdminAccess": {
+    "bodyText": "Skip to content\nSMJ Retail ERP\nERPNext v15 · SMJ Retail ERP\nHome\nSales\nInventory\nFinance\nCRM\nReports\nCtrl G\nBR\nBrowser Restricted Test\nSales User\nRetail ERP\n›\nPermission Denied\n⌾\nPermission denied\n\nYou do not have permission to use this Retail ERP feature.\n\nNo record details or counts were loaded.",
+    "url": "http://127.0.0.1:8000/retail-erp/permission-denied"
+  }
+}

@@ -7,8 +7,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.audit.parity_registry import (
 	BUILT_ADAPTER_ACTION_ROUTE,

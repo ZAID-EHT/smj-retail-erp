@@ -10,8 +10,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.universal.api import (
 	get_document_actions,
@@ -28,14 +26,9 @@ from my_store_ui.universal.registry import CUSTOM_OVERRIDES, GENERATED_ALLOWLIST
 class TestUniversalGeneratedExperience(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_list_features_have_safe_presentation_and_list_configuration(self):
 		# Single DocTypes have dedicated one-record pages and intentionally do

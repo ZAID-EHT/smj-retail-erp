@@ -1,14 +1,10 @@
 from __future__ import annotations
 
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 
 import frappe
 
-BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.entity_api import get_entity_detail, get_entity_list
 from my_store_ui.services.entity_schemas import DETAIL_SCHEMAS, ENTITY_SCHEMAS, validate_registry_against_metadata
@@ -17,14 +13,9 @@ from my_store_ui.services.entity_schemas import DETAIL_SCHEMAS, ENTITY_SCHEMAS, 
 class TestEntityListApi(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_registry_is_metadata_safe(self):
 		validate_registry_against_metadata()
@@ -65,9 +56,9 @@ class TestEntityListApi(unittest.TestCase):
 
 	def test_real_detail_records_use_approved_fields_and_children(self):
 		fixtures = {
-			"customers": "Grant Plastics Ltd.",
-			"items": "SKU008",
-			"sales_orders": "SAL-ORD-2026-00006",
+			"customers": frappe.get_list("Customer", filters={"disabled": 0}, pluck="name", limit_page_length=1)[0],
+			"items": frappe.get_list("Item", filters={"disabled": 0}, pluck="name", limit_page_length=1)[0],
+			"sales_orders": frappe.get_list("Sales Order", filters={"docstatus": 1}, pluck="name", limit_page_length=1)[0],
 		}
 		for entity_key, name in fixtures.items():
 			with self.subTest(entity_key=entity_key):
@@ -81,7 +72,8 @@ class TestEntityListApi(unittest.TestCase):
 						self.assertLessEqual(set(row), approved_children[table["fieldname"]])
 
 	def test_sales_order_detail_returns_items_read_only(self):
-		result = get_entity_detail("sales_orders", "SAL-ORD-2026-00006")
+		so_name = frappe.get_list("Sales Order", filters={"docstatus": 1}, pluck="name", limit_page_length=1)[0]
+		result = get_entity_detail("sales_orders", so_name)
 		items = next(table for table in result["child_tables"] if table["fieldname"] == "items")
 		self.assertGreater(items["count"], 0)
 		self.assertIn("item_code", items["rows"][0])
@@ -111,7 +103,8 @@ class TestEntityListApi(unittest.TestCase):
 
 	@patch("my_store_ui.entity_api.can_open_standard_desk", return_value=False)
 	def test_standard_desk_urls_are_omitted_for_ordinary_users(self, _allow_desk):
-		result = get_entity_detail("customers", "Grant Plastics Ltd.")
+		customer = frappe.get_list("Customer", filters={"disabled": 0}, pluck="name", limit_page_length=1)[0]
+		result = get_entity_detail("customers", customer)
 		self.assertIsNone(result["entity"]["desk_route"])
 		self.assertTrue(all("desk_route" not in row for group in result["related"] for row in group["records"]))
 
@@ -123,8 +116,9 @@ class TestEntityListApi(unittest.TestCase):
 				return False
 			return original(doctype, *args, **kwargs)
 
+		customer = frappe.get_list("Customer", filters={"disabled": 0}, pluck="name", limit_page_length=1)[0]
 		with patch("my_store_ui.entity_api.frappe.has_permission", side_effect=permission):
-			result = get_entity_detail("customers", "Grant Plastics Ltd.")
+			result = get_entity_detail("customers", customer)
 		self.assertNotIn("Sales Invoice", {group["doctype"] for group in result["related"]})
 
 

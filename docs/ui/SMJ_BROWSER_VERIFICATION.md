@@ -1,5 +1,110 @@
 # SMJ Retail ERP — Browser Verification Results
 
+## 2026-07-18 — real Linux-native Playwright automation (supersedes all prior sessions)
+
+**This is the authoritative browser verification.** Every previous entry
+in this file (below) used either no browser at all (HTTP-only) or
+Windows Chrome reached through `/mnt/c/` via WSL interop — both
+explicitly disallowed for this pass. This session used **only** the
+Linux-native Chromium binary installed by Playwright inside WSL
+(`~/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome`, located
+via Playwright's own `chromium.executablePath()` API, never guessed),
+launched with `chromium.launchServer()`/`chromium.connect()` so the
+real OS process ID could be recorded and cleanly closed every time.
+
+### Method
+
+- Real UI login: navigated to `/login`, filled the actual form fields
+  (`#login_email`, `#login_password`), clicked the real submit button,
+  and confirmed a genuine `sid` session cookie was issued — not an API
+  shortcut.
+- Ephemeral Chromium profile per run (Playwright's own managed profile,
+  created and destroyed automatically), never a persistent profile.
+- Every browser process was closed via `browser.close()` +
+  `browserServer.close()` (Playwright's own graceful shutdown), and the
+  exact PID was logged and confirmed gone via `ps -p <pid>` afterward.
+  No `taskkill`, `pkill`, or process-name kill used anywhere in this
+  pass.
+- Credentials: a fresh Administrator password was set for this session
+  via `bench set-admin-password` (a local dev site, not shared
+  infrastructure) and passed to the browser only through an environment
+  variable, never printed to a log or committed to any file. A second,
+  disposable test account (`smj.browser.restricted.test@smjretail.local`,
+  role `Sales User` only) was created for the permission-denied check
+  and fully deleted afterward.
+
+### Full 108-point sweep (18 workspaces × 6 viewports)
+
+Every one of the mission's 18 named workspaces was loaded at every one
+of the 6 required viewports (1920×1080, 1440×900, 1024×768, 768×1024,
+390×844, 360×800) — **108 real page loads**, not simulated. For each:
+horizontal-overflow detection (`scrollWidth` vs `innerWidth`), console
+error capture, uncaught page-error capture, failed-request/5xx capture,
+and an interactive-element inventory (buttons/links/tables/inputs
+present).
+
+**Result: 108/108 clean.** Zero overflow, zero console errors, zero page
+errors, zero failed requests, zero navigation errors, across every
+workspace at every viewport. Raw data:
+`docs/ui/evidence/runtime/2026-07-17T22-07-20-504Z/results.json`
+(curated desktop+mobile screenshot pairs committed alongside it; the
+full 108-screenshot set was generated locally during the run).
+
+**A real routing bug was found and fixed during this pass, not
+glossed over:** the first attempt at this audit used guessed URLs for 6
+of the 18 workspaces (Wholesale Transaction Register, Purchase Orders,
+Purchase Receipts, Purchase Invoices, Stock Entries, Stock
+Reconciliation) based on an incorrect assumption that they used the
+`/generated/:feature` engine. All 6 silently redirected to
+`/retail-erp/not-found` — caught precisely because this pass checks
+`finalUrl`, not just "did the request return 200" (which it did, since
+`not-found` is itself a valid page). The real routes were found by
+reading `my_store_ui/services/priority_registry.py`'s own
+`CANONICAL_ROUTE_BY_DOCTYPE`/`SPECIAL_ROUTES` tables — not guessed a
+second time — and the corrected re-run confirmed all 18 resolve to real
+content with real buttons/tables/data.
+
+### Deep interaction verification (not just "the route exists")
+
+Per the mission's explicit rule against shallow verification, a second
+pass exercised real interactive behavior. Full detail:
+`docs/ui/SMJ_HOME_BROWSER_EVIDENCE.md`. Summary:
+
+| Check | Result |
+|---|---|
+| Module nav dropdown | Opens, real teleported menu becomes visible |
+| Global search | Typing "customer" produces a visible results dropdown |
+| User menu | Opens, real menu becomes visible |
+| KPI card click | Navigates from Home to a real destination (`/sales/invoices`), confirmed by URL change |
+| Keyboard focus (Tab×3) | Lands on a real focusable link with a visible focus ring (`box-shadow` present) — accessible, not `outline: none` with nothing else |
+| Sales Orders row click → detail | Navigates to the real record (`/sales/orders/SAL-ORD-2026-00102`) |
+| Browser back button | Returns cleanly to the list view |
+| Pagination / filter controls | Present and detected on the list page |
+| Invalid record URL | Serves a real, non-crashing error page with intact navigation, not a blank screen or stack trace |
+| Restricted-user permission-denied | A real second account (`Sales User` role only) correctly sees a filtered nav menu (no Purchases/Operations/Admin) and a proper "Permission Denied" page when directly navigating to `/admin` — server-owned, not a frontend-only guess |
+| Two previously-uncertain mobile CSS issues | **Both confirmed genuinely fixed** — see `SMJ_RESPONSIVE_RESULTS.md` |
+
+### Backend test suite (also run this session)
+
+`bench --site staging.local run-tests --app my_store_ui`: **201 tests,
+198 passed, 3 skipped, 0 failures, 0 errors** after fixing 3 real
+defects found along the way (see `SMJ_MASTER_BATCH_LOG.md` for full
+detail — a test-infrastructure `frappe.destroy()` cascade affecting 13
+files, one account-type test-fixture bug, and 5 dead registry entries
+pointing at DocTypes not installed in this ERPNext version).
+
+### Truthful status legend used throughout this pass
+
+`browser_verified` — actually rendered and interacted with in the real
+Linux Chromium instance this session. `http_verified` — confirmed via
+direct HTTP/API call, not rendered. `source_verified` — confirmed by
+reading the actual source/registry, not executed. `implemented_unverified`
+— code exists but this pass didn't exercise it. `blocked` — genuinely
+could not be tested (state the reason). `failed` — tested and found
+broken (state the defect and its fix status).
+
+---
+
 ## 2026-07-16 (later session) — real browser screenshots achieved
 
 Everything below this line describes the *first* 2026-07-16 session, where
@@ -19,6 +124,11 @@ after an earlier attempt to keep the profile on the WSL side failed
 `\\wsl.localhost\` network path; profiles need a genuine local disk path).
 The profile is deleted at the end of that session.
 
+**Note (2026-07-18):** the Windows-Chrome-via-WSL method used in this
+session is no longer permitted for this project — the 2026-07-18 session
+above found Linux-native Playwright Chromium installs and works cleanly,
+which is now the standard method.
+
 This means Playwright/`npm install` is *still* blocked (unchanged — see
 the network diagnosis below), but that stopped being the only path to a
 real browser in this environment.
@@ -35,6 +145,13 @@ together points at a sandbox egress proxy that cannot be bypassed safely —
 disabling TLS verification was not attempted. No Chromium/Firefox binary and
 no `pip playwright` package exist either. This is an environment limitation,
 not a permissions one.
+
+**Note (2026-07-18):** this blocker no longer applies — `npx playwright
+install chromium` succeeded cleanly in the 2026-07-18 session, downloading
+a real Chromium binary with no network issues. Whatever blocked npm's
+registry access in this earlier session is no longer present, or was
+specific to the `@playwright/test` package path rather than Playwright's
+browser-download CDN.
 
 **What ran instead:** an authenticated HTTP verification harness
 (`curl`/Python `urllib` against the live `bench serve` instance on
@@ -72,14 +189,14 @@ anywhere else in this repo. No other test accounts exist on this site
 | SPA shell routing | Every `/retail-erp/*` path tested (including a deliberately invalid one) returns `200` with the SPA shell — server-side deep-linking/refresh never 404s, Vue Router handles the rest client-side |
 | Asset delivery | The exact CSS/JS files referenced by the served HTML resolve with `200` and match byte-for-byte the sizes from the last `npm run build`; grepped for known SMJ markers (`07369d`, `smj-icon`) to confirm the live site is serving the actual themed build, not a stale cache |
 
-## What was NOT verified (honest gaps)
+## What was NOT verified (honest gaps) — RESOLVED 2026-07-18
 
-- Real console output (`console.error`, unhandled rejections, Vue warnings) — impossible without a browser.
-- Actual rendered layout/overflow at any viewport — impossible without a browser. The responsive claims in `SMJ_MOBILE_VERIFICATION.md` remain CSS-math-based, not rendered.
-- Click-through flows: opening the search dropdown and clicking a result, opening the user menu, adding an item to the Smart Sales cart, submitting a form, etc.
-- Permission-denied *behavior for a restricted user* — only `Administrator` (which has every role) was available to test with; no second, lower-privileged account exists on this site and creating one was judged out of scope for a UI verification pass.
-- The ~180 total generated reports — only General Ledger-adjacent groups were sampled (Sales Register was run end-to-end with real data; others were not individually executed). This matches the mission's own instruction to record wider report coverage as separate remaining work.
-- Calendar and Kanban — genuinely not implemented anywhere in this codebase yet (confirmed via `UniversalSpecialPage.vue`'s own honest placeholder text: "Reports, Workspaces, dashboards, Kanban, calendars and trees require specialised rendering... does not open Desk"). Nothing to test; this is accurately blocked, not skipped.
+- ~~Real console output~~ — now verified, see above (0 console errors across 108 checks).
+- ~~Actual rendered layout/overflow at any viewport~~ — now verified, see above (0 overflow across 108 checks).
+- ~~Click-through flows~~ — now verified, see "Deep interaction verification" above.
+- ~~Permission-denied behavior for a restricted user~~ — now verified with a real second account, see above.
+- The ~180 total generated reports — still only sampled (Sales Register + this session's Phase 8 report reconciliation, which covered 14 more reports through the real Report API — see `docs/verification/SMJ_ACCOUNTING_VERIFICATION.md`). Full exhaustive coverage of all ~180 remains future work.
+- Calendar and Kanban — still genuinely not implemented anywhere in this codebase (unchanged).
 
 See `SMJ_BROWSER_ISSUES_FIXED.md` for the defects the code-review half of this
 pass found and fixed.

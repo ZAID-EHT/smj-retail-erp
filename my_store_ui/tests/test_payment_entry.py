@@ -1,14 +1,9 @@
 from __future__ import annotations
 
 import unittest
-from pathlib import Path
 from uuid import uuid4
 
 import frappe
-
-BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.document_actions import execute_document_action, get_document_actions
 from my_store_ui.form_api import get_entity_form, save_entity_form
@@ -17,17 +12,16 @@ from my_store_ui.form_api import get_entity_form, save_entity_form
 class TestPaymentEntryLifecycle(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		pass
-
-	def setUp(self):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
 	def _draft(self):
 		company = frappe.get_all("Company", pluck="name", limit=1)[0]
-		accounts = frappe.get_all("Account", filters={"company": company, "is_group": 0, "disabled": 0}, pluck="name", limit=2)
+		accounts = frappe.get_all(
+			"Account",
+			filters={"company": company, "is_group": 0, "disabled": 0, "account_type": ["in", ["Bank", "Cash"]]},
+			pluck="name", limit=2,
+		)
 		self.assertGreaterEqual(len(accounts), 2)
 		values = get_entity_form("payment_entries")["document"]
 		values.update({"payment_type": "Internal Transfer", "company": company, "paid_from": accounts[0], "paid_to": accounts[1], "paid_amount": 10, "received_amount": 10, "source_exchange_rate": 1, "target_exchange_rate": 1})
@@ -35,7 +29,6 @@ class TestPaymentEntryLifecycle(unittest.TestCase):
 
 	def tearDown(self):
 		frappe.db.rollback()
-		frappe.destroy()
 
 	def test_internal_transfer_submit_cancel_and_amend(self):
 		draft = self._draft()

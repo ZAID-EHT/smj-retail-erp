@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 from uuid import uuid4
 
 import frappe
 
-BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.form_api import get_entity_form, save_entity_form
 from my_store_ui.sales_order_actions import (
@@ -23,14 +19,9 @@ from my_store_ui.sales_order_actions import (
 class TestSalesOrderLifecycle(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def _draft_order(self):
 		customer = frappe.get_list("Customer", filters={"disabled": 0}, pluck="name", limit_page_length=1)[0]

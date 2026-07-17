@@ -8,8 +8,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.services.frontend_routes import get_permitted_navigation, resolve_frontend_route
 from my_store_ui.standalone import authorize_frontend_route
@@ -32,14 +30,9 @@ from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES, CUSTOM_OVERRI
 class TestUniversalFrontendFoundation(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_custom_overrides_always_win(self):
 		for doctype in CUSTOM_OVERRIDES:

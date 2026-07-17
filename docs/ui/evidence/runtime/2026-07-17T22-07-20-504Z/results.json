@@ -1,0 +1,2599 @@
+{
+  "runId": "2026-07-17T22-07-20-504Z",
+  "browserPid": 85246,
+  "loginVerified": true,
+  "workspaces": {
+    "home": {
+      "label": "Home",
+      "path": "/home",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/home",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/home",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 15,
+            "links": 41,
+            "tables": 1,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "home__360x800.png"
+        }
+      }
+    },
+    "smart-sales": {
+      "label": "Smart Sales",
+      "path": "/smart-sales",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/smart-sales",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 54,
+            "links": 15,
+            "tables": 0,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "smart-sales__360x800.png"
+        }
+      }
+    },
+    "customers": {
+      "label": "Customers",
+      "path": "/sales/customers",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/customers",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "customers__360x800.png"
+        }
+      }
+    },
+    "items": {
+      "label": "Items",
+      "path": "/inventory/products",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/products",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "items__360x800.png"
+        }
+      }
+    },
+    "sales-orders": {
+      "label": "Sales Orders",
+      "path": "/sales/orders",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 8,
+            "headerPresent": true
+          },
+          "screenshot": "sales-orders__360x800.png"
+        }
+      }
+    },
+    "delivery-notes": {
+      "label": "Delivery Notes",
+      "path": "/sales/delivery-notes",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/delivery-notes",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 61,
+            "links": 14,
+            "tables": 1,
+            "inputs": 9,
+            "headerPresent": true
+          },
+          "screenshot": "delivery-notes__360x800.png"
+        }
+      }
+    },
+    "sales-invoices": {
+      "label": "Sales Invoices",
+      "path": "/sales/invoices",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 60,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "sales-invoices__360x800.png"
+        }
+      }
+    },
+    "payment-entries": {
+      "label": "Payment Entries",
+      "path": "/finance/payments",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance/payments",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 59,
+            "links": 14,
+            "tables": 1,
+            "inputs": 10,
+            "headerPresent": true
+          },
+          "screenshot": "payment-entries__360x800.png"
+        }
+      }
+    },
+    "wholesale-register": {
+      "label": "Wholesale Transaction Register",
+      "path": "/sales/transactions",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/sales/transactions",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 28,
+            "links": 92,
+            "tables": 1,
+            "inputs": 5,
+            "headerPresent": true
+          },
+          "screenshot": "wholesale-register__360x800.png"
+        }
+      }
+    },
+    "suppliers": {
+      "label": "Suppliers",
+      "path": "/generated/supplier",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 6,
+            "headerPresent": true
+          },
+          "screenshot": "suppliers__360x800.png"
+        }
+      }
+    },
+    "purchase-orders": {
+      "label": "Purchase Orders",
+      "path": "/purchases/orders",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-orders__360x800.png"
+        }
+      }
+    },
+    "purchase-receipts": {
+      "label": "Purchase Receipts",
+      "path": "/purchases/receipts",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/receipts",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-receipts__360x800.png"
+        }
+      }
+    },
+    "purchase-invoices": {
+      "label": "Purchase Invoices",
+      "path": "/purchases/invoices",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/purchases/invoices",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 26,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "purchase-invoices__360x800.png"
+        }
+      }
+    },
+    "stock-entries": {
+      "label": "Stock Entries",
+      "path": "/inventory/stock-entries",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/stock-entries",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 24,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-entries__360x800.png"
+        }
+      }
+    },
+    "stock-reconciliation": {
+      "label": "Stock Reconciliation",
+      "path": "/inventory/reconciliations",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/inventory/reconciliations",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 25,
+            "links": 16,
+            "tables": 1,
+            "inputs": 7,
+            "headerPresent": true
+          },
+          "screenshot": "stock-reconciliation__360x800.png"
+        }
+      }
+    },
+    "accounts-banking": {
+      "label": "Accounts and Banking",
+      "path": "/finance",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/finance",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/finance",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 21,
+            "links": 59,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "accounts-banking__360x800.png"
+        }
+      }
+    },
+    "reports": {
+      "label": "Reports",
+      "path": "/reports",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/reports",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/reports",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 12,
+            "links": 191,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "reports__360x800.png"
+        }
+      }
+    },
+    "administration": {
+      "label": "Administration",
+      "path": "/admin",
+      "viewports": {
+        "1920x1080": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1920,
+            "viewWidth": 1920,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__1920x1080.png"
+        },
+        "1440x900": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1440,
+            "viewWidth": 1440,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__1440x900.png"
+        },
+        "1024x768": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 1024,
+            "viewWidth": 1024,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__1024x768.png"
+        },
+        "768x1024": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 768,
+            "viewWidth": 768,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__768x1024.png"
+        },
+        "390x844": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 390,
+            "viewWidth": 390,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__390x844.png"
+        },
+        "360x800": {
+          "url": "http://127.0.0.1:8000/retail-erp/admin",
+          "finalUrl": "http://127.0.0.1:8000/retail-erp/admin",
+          "navError": null,
+          "httpTitle": "Retail ERP",
+          "consoleErrors": [],
+          "pageErrors": [],
+          "failedRequests": [],
+          "overflowInfo": {
+            "docWidth": 360,
+            "viewWidth": 360,
+            "hasOverflow": false,
+            "overflowing": []
+          },
+          "elementCounts": {
+            "buttons": 19,
+            "links": 54,
+            "tables": 0,
+            "inputs": 1,
+            "headerPresent": true
+          },
+          "screenshot": "administration__360x800.png"
+        }
+      }
+    }
+  }
+}

@@ -9,8 +9,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.route_guard import _mapped_desk_route
 from my_store_ui.services.frontend_routes import resolve_frontend_route
@@ -21,14 +19,9 @@ from my_store_ui.standalone import authorize_frontend_route, get_landing_route, 
 class TestStandaloneRetailERP(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_registered_clean_routes_resolve_without_double_slashes(self):
 		for route in (

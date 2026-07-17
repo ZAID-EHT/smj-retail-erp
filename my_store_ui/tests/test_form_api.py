@@ -2,14 +2,10 @@ from __future__ import annotations
 
 import unittest
 from uuid import uuid4
-from pathlib import Path
 from unittest.mock import patch
 
 import frappe
 
-BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.form_api import _apply_item_pricing, _validate_items, _validate_payload, get_entity_form, get_mapped_draft_detail, save_entity_form, search_link_options
 from my_store_ui.services.form_schemas import FORM_SCHEMAS, validate_form_registry_against_metadata
@@ -18,14 +14,9 @@ from my_store_ui.services.form_schemas import FORM_SCHEMAS, validate_form_regist
 class TestRetailEntityForms(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_form_registry_matches_site_metadata_and_custom_fields(self):
 		validate_form_registry_against_metadata()

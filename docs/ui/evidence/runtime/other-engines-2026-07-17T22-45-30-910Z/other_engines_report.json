@@ -1,0 +1,26 @@
+{
+  "suppliersInteractions": {
+    "rowClickToDetail": {
+      "urlBefore": "http://127.0.0.1:8000/retail-erp/generated/supplier",
+      "urlAfter": "http://127.0.0.1:8000/retail-erp/generated/supplier/Island%20Cleaning%20Supplies%20Co",
+      "navigated": true
+    },
+    "backNavigation": {
+      "urlAfterBack": "http://127.0.0.1:8000/retail-erp/generated/supplier"
+    },
+    "paginationControlsFound": 0,
+    "filterControlsFound": 6
+  },
+  "purchaseOrdersInteractions": {
+    "rowClickToDetail": {
+      "urlBefore": "http://127.0.0.1:8000/retail-erp/purchases/orders",
+      "urlAfter": "http://127.0.0.1:8000/retail-erp/purchases/orders/PUR-ORD-2026-00067",
+      "navigated": true
+    },
+    "backNavigation": {
+      "urlAfterBack": "http://127.0.0.1:8000/retail-erp/purchases/orders"
+    },
+    "paginationControlsFound": 2,
+    "filterControlsFound": 4
+  }
+}

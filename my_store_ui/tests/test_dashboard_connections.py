@@ -7,8 +7,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.universal.api import get_dashboard_connections
 from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES

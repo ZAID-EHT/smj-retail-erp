@@ -7,8 +7,6 @@ from unittest.mock import patch
 import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.search import (
 	SEARCH_REGISTRY,
@@ -23,14 +21,9 @@ from my_store_ui.services.frontend_routes import get_permitted_navigation
 class TestRetailNavigationAndSearch(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-		frappe.connect()
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
-	@classmethod
-	def tearDownClass(cls):
-		frappe.destroy()
 
 	def test_navigation_contains_real_permission_filtered_links(self):
 		navigation = get_permitted_navigation()

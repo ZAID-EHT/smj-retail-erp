@@ -7,8 +7,6 @@ import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.analytics_pages import get_sales_funnel, get_warehouse_capacity, search_link
 from my_store_ui.audit.parity_registry import PAGE_OVERRIDES

@@ -257,11 +257,6 @@ _GENERATED_ENTITY_ROUTES_2 = {
 	"/sales/quotation-lost-reason": {"doctype": "Quotation Lost Reason", "module": "sales", "classification": "generated_provisional"},
 	"/sales/sales-partner": {"doctype": "Sales Partner", "module": "sales", "classification": "generated_provisional"},
 	"/sales/terms-and-conditions": {"doctype": "Terms and Conditions", "module": "sales", "classification": "generated_provisional"},
-	"/sales/pos-coupon": {"doctype": "POS Coupon", "module": "sales", "classification": "generated_provisional"},
-	"/sales/pos-gift-card": {"doctype": "POS Gift Card", "module": "sales", "classification": "generated_provisional"},
-	"/sales/pos-offer": {"doctype": "POS Offer", "module": "sales", "classification": "generated_provisional"},
-	"/sales/delivery-charges": {"doctype": "Delivery Charges", "module": "sales", "classification": "generated_provisional"},
-	"/sales/referral-code": {"doctype": "Referral Code", "module": "sales", "classification": "generated_provisional"},
 	"/inventory/uom-conversion-factor": {"doctype": "UOM Conversion Factor", "module": "inventory", "classification": "generated_provisional"},
 }
 ENTITY_ROUTES.update(_GENERATED_ENTITY_ROUTES_2)

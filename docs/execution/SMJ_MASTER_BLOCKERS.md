@@ -43,7 +43,28 @@ listed here has already had all safe local work completed around it.
   remain alive despite the warning, confirmed across multiple observed
   bench restarts this session).
 
-## BLOCKER-003: No working headless Chrome in this container (blocks Phase 6 visual layer + browser/responsive verification)
+## BLOCKER-003: RESOLVED 2026-07-18 — Linux-native Playwright Chromium works
+
+**Status: RESOLVED.** The `accesslint` MCP's bundled Chrome launcher
+could not become CDP-debuggable in this container (see the original
+diagnosis below, kept for history). The fix was not to work around that
+launcher, but to use a different, correctly-installed browser: Playwright
+was installed fresh (`cd frontend && npx playwright install chromium`),
+which downloaded a genuine Linux ELF Chromium binary
+(`~/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome`, located
+via Playwright's own `chromium.executablePath()` API, never guessed) that
+launches and becomes CDP-debuggable cleanly via
+`chromium.launchServer()`/`chromium.connect()` — no Windows Chrome, no
+`/mnt/c/`, no network/firewall/WSL configuration changes needed at all.
+Verified with a minimal launch-and-close test (real PID recorded,
+confirmed gone via `ps -p` after `.close()`), then used for the full
+Phase 6 audit — see `docs/ui/SMJ_BROWSER_VERIFICATION.md`.
+**Root cause of the original failure was specific to the
+`accesslint` MCP's bundled launcher, not a fundamental environment
+limitation** — a different, standard tool (Playwright) worked on the
+first real attempt.
+
+### Original diagnosis (2026-07-18, superseded above)
 
 - **Type:** Environment/tooling gap, confirmed by direct attempt (not
   assumed).

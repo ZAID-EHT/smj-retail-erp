@@ -6,13 +6,13 @@ from pathlib import Path
 import frappe
 
 BENCH_PATH = Path(__file__).resolve().parents[4]
-frappe.init(site="site1.local", sites_path=str(BENCH_PATH / "sites"))
-frappe.connect()
 
 from my_store_ui.module_dashboards import (
 	get_accounts_dashboard,
+	get_admin_dashboard,
 	get_buying_dashboard,
 	get_crm_dashboard,
+	get_operations_dashboard,
 	get_payments_dashboard,
 	get_selling_dashboard,
 	get_stock_dashboard,
@@ -20,7 +20,10 @@ from my_store_ui.module_dashboards import (
 
 APP_PATH = BENCH_PATH / "apps" / "my_store_ui"
 
-ACCOUNTS_CARD_KEYS = {"total-incoming-bills", "total-outgoing-bills"}
+ACCOUNTS_CARD_KEYS = {
+	"outstanding-receivables", "outstanding-payables", "overdue-receivables",
+	"total-incoming-bills", "total-outgoing-bills",
+}
 ACCOUNTS_CHART_KEYS = {
 	"accounts-payable-ageing", "accounts-receivable-ageing", "budget-variance",
 	"incoming-bills-purchase-invoice", "outgoing-bills-sales-invoice", "profit-and-loss",
@@ -32,7 +35,7 @@ BUYING_CARD_KEYS = {
 	"purchase-orders-to-bill", "purchase-orders-to-receive", "total-purchase-amount",
 }
 BUYING_CHART_KEYS = {"material-request-analysis", "purchase-order-analysis", "purchase-order-trends", "top-suppliers"}
-CRM_CARD_KEYS = {"new-lead-last-1-month", "new-opportunity-last-1-month", "open-opportunity", "won-opportunity-last-1-month"}
+CRM_CARD_KEYS = {"open-pipeline-value", "new-lead-last-1-month", "new-opportunity-last-1-month", "open-opportunity", "won-opportunity-last-1-month"}
 CRM_CHART_KEYS = {
 	"incoming-leads", "lead-source", "opportunities-via-campaigns", "opportunity-trends",
 	"territory-wise-opportunity-count", "territory-wise-sales", "won-opportunities",
@@ -46,6 +49,13 @@ STOCK_CARD_KEYS = {"total-active-items", "total-stock-value", "total-warehouses"
 STOCK_CHART_KEYS = {
 	"delivery-trends", "item-shortage-summary", "oldest-items", "purchase-receipt-trends",
 	"stock-value-by-item-group", "warehouse-wise-stock-value",
+}
+OPERATIONS_CARD_KEYS = {"open-projects", "open-tasks", "overdue-tasks", "open-issues", "active-work-orders", "active-assets"}
+OPERATIONS_CHART_KEYS = {"project-status", "task-status", "tasks-created-trend", "issue-priority", "work-order-status", "asset-status"}
+ADMIN_CARD_KEYS = {"enabled-users", "disabled-users", "roles", "companies", "active-warehouses", "recent-errors"}
+ADMIN_CHART_KEYS = {"user-growth", "user-types", "role-assignment", "error-activity", "scheduler-status"}
+CUSTOM_CARD_KEYS = {
+	"outstanding-receivables", "outstanding-payables", "overdue-receivables", "open-pipeline-value",
 }
 
 
@@ -107,6 +117,20 @@ class TestModuleDashboards(unittest.TestCase):
 		self.assertAlmostEqual(total_card["value"], sum(s["value"] for s in by_group["segments"]), delta=1)
 		self.assertAlmostEqual(total_card["value"], sum(b["value"] for b in by_warehouse["bars"]), delta=1)
 
+	def test_operations_dashboard_uses_real_permitted_workload(self):
+		result = get_operations_dashboard()
+		self.assertEqual(_keys(result["cards"]), OPERATIONS_CARD_KEYS)
+		self.assertEqual(_keys(result["charts"]), OPERATIONS_CHART_KEYS)
+		for card in result["cards"]:
+			self.assertIsInstance(card["value"], (int, float))
+
+	def test_admin_dashboard_exposes_safe_aggregate_signals_only(self):
+		result = get_admin_dashboard()
+		self.assertEqual(_keys(result["cards"]), ADMIN_CARD_KEYS)
+		self.assertEqual(_keys(result["charts"]), ADMIN_CHART_KEYS)
+		self.assertNotIn("password", str(result).lower())
+		self.assertNotIn("secret", str(result).lower())
+
 	def test_guest_cannot_read_module_dashboards(self):
 		frappe.set_user("Guest")
 		try:
@@ -114,6 +138,10 @@ class TestModuleDashboards(unittest.TestCase):
 				get_accounts_dashboard()
 			with self.assertRaises(frappe.AuthenticationError):
 				get_stock_dashboard()
+			with self.assertRaises(frappe.AuthenticationError):
+				get_operations_dashboard()
+			with self.assertRaises(frappe.AuthenticationError):
+				get_admin_dashboard()
 		finally:
 			frappe.set_user("Administrator")
 
@@ -121,13 +149,18 @@ class TestModuleDashboards(unittest.TestCase):
 		source = (APP_PATH / "my_store_ui" / "module_dashboards.py").read_text()
 		self.assertNotIn("ignore_permissions=True", source)
 		self.assertNotIn("frappe.db.sql", source)
+		self.assertNotIn("frappe.db.count", source)
+		self.assertNotIn("frappe.db.get_value", source)
 
-	def test_frontend_wires_all_six_module_dashboards(self):
+	def test_frontend_wires_standard_and_custom_module_dashboards(self):
 		service = (APP_PATH / "frontend/src/services/moduleDashboards.js").read_text()
 		page = (APP_PATH / "frontend/src/pages/priority/ModuleDashboardPage.vue").read_text()
-		for loader in ("getAccountsDashboard", "getPaymentsDashboard", "getBuyingDashboard", "getCrmDashboard", "getSellingDashboard", "getStockDashboard"):
+		for loader in ("getAccountsDashboard", "getPaymentsDashboard", "getBuyingDashboard", "getCrmDashboard", "getSellingDashboard", "getStockDashboard", "getOperationsDashboard", "getAdminDashboard"):
 			self.assertIn(loader, service)
 		self.assertIn("MODULE_DASHBOARD_LOADERS", page)
+		self.assertIn("MODULE_PRESENTATIONS", page)
+		for module in ("sales", "purchases", "finance", "crm", "operations", "admin"):
+			self.assertIn(f"{module}:", page)
 		self.assertIn("SmjChartCard", page)
 		self.assertIn("SmjKpiCard", page)
 
@@ -135,7 +168,7 @@ class TestModuleDashboards(unittest.TestCase):
 		from my_store_ui.audit.parity_registry import DASHBOARD_ANALYTICS_ADAPTERS
 
 		expected_charts = ACCOUNTS_CHART_KEYS | PAYMENTS_CHART_KEYS | BUYING_CHART_KEYS | CRM_CHART_KEYS | SELLING_CHART_KEYS | STOCK_CHART_KEYS
-		expected_cards = ACCOUNTS_CARD_KEYS | PAYMENTS_CARD_KEYS | BUYING_CARD_KEYS | CRM_CARD_KEYS | SELLING_CARD_KEYS | STOCK_CARD_KEYS
+		expected_cards = (ACCOUNTS_CARD_KEYS | PAYMENTS_CARD_KEYS | BUYING_CARD_KEYS | CRM_CARD_KEYS | SELLING_CARD_KEYS | STOCK_CARD_KEYS) - CUSTOM_CARD_KEYS
 		self.assertEqual(len(expected_charts), 28)
 		self.assertEqual(len(expected_cards), 25)
 		credited_dashboards = {name for (ftype, name) in DASHBOARD_ANALYTICS_ADAPTERS if ftype == "dashboard"}

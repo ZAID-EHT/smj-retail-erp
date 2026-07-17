@@ -34,8 +34,13 @@ building" instruction in Phase 7, applied proactively.
 
 ## Current phase
 
-Phase 2 — regenerate the true project baseline. See the JSON file for the
-exact `current_batch` pointer.
+Phases 0, 2, 3, 4, 5, 6, 8, 9, and 10 are all complete (Phase 6 completed
+2026-07-18 including its full browser/visual/responsive/interaction
+layer, using real Linux-native Playwright Chromium — see
+`docs/ui/SMJ_BROWSER_VERIFICATION.md`). Remaining: Phase 1's formal
+writeup (low priority), Phase 7's mechanical parity-counter re-run, and
+the final documentation/scorecard pass. See the JSON file for the exact
+`current_batch` pointer and `next_automatic_action`.
 
 ## How to resume this mission after an interruption
 
