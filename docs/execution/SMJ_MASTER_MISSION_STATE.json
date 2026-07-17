@@ -4,18 +4,18 @@
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
   "current_commit": "59202fa",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
-  "current_phase": "Phase 8 - accounting/stock report reconciliation (substantially advanced)",
-  "current_batch": "phase8-report-reconciliation",
+  "current_phase": "Phases 8, 9, 10 all complete. Remaining: Phase 6 visual layer (blocked), Phase 7 (mostly moot), final documentation/scorecard.",
+  "current_batch": "phase10-load-backup-concurrency",
   "completed_phases": [
     "Phase 0 - preflight and recovery baseline",
     "Phase 2 - regenerate true project baseline (docs/execution/SMJ_MASTER_BASELINE.md)",
     "Phase 3 - audit staging demo data vs mission checklist (1 data gap fixed: Royal Home Decor invoice; 1 environment bug fixed: missing Fiscal Year 2026-2027)",
     "Phase 4 - wholesale workflow verification + concurrency reservation test (all 6 Section 11 acceptance scenarios PASS; 1 honestly-documented UX gap, not a safety gap)",
     "Phase 5 - 11-role security/permission matrix (594 has_permission checks + 6 real write-attempt tests, zero unauthorized access found; 2 ERPNext-default role-scoping choices flagged as business decisions, not bugs)",
-    "Phase 6 (backend/data layer only) - all 6 module dashboard APIs verified live, all 18 workspaces' backing data confirmed non-empty, all frontend routes confirmed registered. Visual/interactive/responsive layer BLOCKED on missing headless Chrome (BLOCKER-003), confirmed by direct attempt."
-  ],
-  "partially_completed_phases_detail": [
-    "Phase 8 - 12 of the mission's named reports run through the real Report API (General Ledger, Trial Balance, P&L, Balance Sheet, AR, AP, Gross Profit, Stock Balance, Stock Ledger, Payment Ledger, Customer/Supplier Ledger Summary). GL and Trial Balance both balance exactly. MAJOR FINDING: P&L 'Profit for the year' (15,858,706) is inflated ~11.8M by opening-stock postings routed through an Expense account (Stock Adjustment) instead of a Balance-Sheet-only account -- fully root-caused with GL Entry evidence and cross-validated against two independent profit estimates. Not fixed (would require risky cancellation of Stock Entries with a year of downstream dependents) -- documented for a deliberate future correction. Remaining for Phase 8: independently re-balance the Balance Sheet (Assets = Liabilities + Equity), run Cash Flow Statement, run bank/payment reconciliation reports."
+    "Phase 6 (backend/data layer only) - all 6 module dashboard APIs verified live, all 18 workspaces' backing data confirmed non-empty, all frontend routes confirmed registered. Visual/interactive/responsive layer BLOCKED on missing headless Chrome (BLOCKER-003), confirmed by direct attempt.",
+    "Phase 8 (fully complete) - 14 reports run through the real Report API (GL, Trial Balance, P&L, Balance Sheet, Cash Flow, AR, AP, Gross Profit, Stock Balance, Stock/Payment/Customer/Supplier Ledger, Bank Reconciliation Statement, Bank Clearance Summary). GL and Trial Balance balance exactly. MAJOR FINDING (confirmed via two independent reports -- P&L and Balance Sheet): 'Profit for the year' (15,858,706) is inflated ~11.8M by opening-stock postings routed through an Expense account instead of a Balance-Sheet-only account. Documented with exact correction path, not fixed live (risky given a year of downstream dependents).",
+    "Phase 9 (complete) - import/purchasing workflow verified via live document tracing: full domestic MR->RFQ->SQ->PO->PR->PI->Payment chain (7 real documents, invoice fully paid, payment matches exactly) and import/landed-cost chain (PO->Goods-in-Transit PR->Landed Cost Voucher, verified 8% customs charge produced exactly 8.00% valuation increase on both affected items, no rounding drift).",
+    "Phase 10 (complete) - backup/restore round-trip verified with exact data match (25 customers, 67 POs, 100 SIs, 102 SOs, GL debit sum all matched exactly) plus working application layer and clean migration on the restored site. Load test: 20 concurrent reads + 15 concurrent GL aggregate reads both 100% successful and consistent. Write concurrency: 10 simultaneous writes to the same naming-series counter -> 1/10 succeeded immediately, 9/10 clean deadlock with ZERO data corruption, all 9 recovered successfully on sequential retry -- confirms Phase 4's reservation-deadlock finding is a general framework characteristic, not isolated."
   ],
   "partially_completed_phases": [
     "Phase 1 - stabilise bench and local environment (bench stabilised in prior conversation turns this session; no formal separate re-verification batch written, but every phase since has depended on a working bench with zero incident)"
@@ -23,12 +23,10 @@
   "remaining_phases": [
     "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable)",
     "Phase 6 visual/interactive/responsive layer -- BLOCKED on tooling (BLOCKER-003)",
-    "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work is converting implemented_unverified/generated_provisional to verified_complete via Phases 5/6/8/10)",
-    "Phase 8 remainder - Balance Sheet re-balance, Cash Flow Statement, bank/payment reconciliation reports",
-    "Phase 9 - import/purchasing workflow formal writeup (purchase_scenario_g already built, needs Landed Cost Voucher verification writeup)",
-    "Phase 10 - load/concurrency/backup-restore testing",
+    "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work of converting implemented_unverified/generated_provisional to verified_complete has been substantially advanced by Phases 4/5/8/9/10's real tests -- a formal re-run of the parity audit counter against this new evidence is the only remaining mechanical step)",
     "Browser and responsive verification (6 breakpoints) -- SAME BLOCKER as Phase 6's visual layer, needs Playwright-class tooling or a manual QA pass",
     "Data-quality correction (optional, flagged not auto-applied) - reclassify the ~11.8M opening-stock postings out of the P&L-affecting Stock Adjustment account",
+    "UX hardening (optional, flagged not auto-applied) - bounded retry-on-deadlock wrapper for high-contention insert/reserve call sites, recommended by both SMJ_WHOLESALE_CONCURRENCY_REPORT.md and SMJ_CONCURRENCY_REPORT.md",
     "Final documentation and scorecard (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md updates + SMJ_MASTER_FINAL_REPORT.md + SMJ_MASTER_COMMIT_INDEX.md + SMJ_REMAINING_EXTERNAL_ACTIONS.md + SMJ_PRODUCTION_READINESS_SCORECARD.md)"
   ],
   "starting_capability_counts": {
@@ -106,7 +104,7 @@
       "why_not_fixed_now": "Out of scope for a verification mission to silently modify core reservation call-site behavior; flagged for a deliberate future hardening pass."
     }
   ],
-  "last_successful_action": "Phase 8 batch complete: ran 12 standard reports through the real Report API, confirmed GL and Trial Balance both balance exactly, found and fully root-caused a real P&L inflation issue (~11.8M from opening-stock postings hitting an Expense account), cross-validated the corrected profit figure against two independent prior estimates, wrote SMJ_ACCOUNTING_VERIFICATION.md, did not attempt a risky live fix",
-  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 8 -- report reconciliation via real Report API, P&L inflation finding), then continue with Phase 8's remainder (Balance Sheet re-balance check, Cash Flow Statement, bank/payment reconciliation reports) and Phase 9 (import/purchasing workflow writeup using the existing purchase_scenario_g Landed Cost Voucher chain) -- both achievable without a browser. Defer Phase 6's visual layer and the standalone browser-verification requirement until BLOCKER-003 is resolved. This is a natural, honest checkpoint given the substantial genuine progress made (Phases 0/2/3/4/5 complete, Phase 6 backend complete, Phase 8 substantially advanced) -- report interim status to the user rather than continuing to compress the remaining very large phases (7 partial, 8 remainder, 9, 10, browser verification, 110-point final report) without a natural pause point.",
-  "last_updated": "2026-07-18T02:45:00+05:30"
+  "last_successful_action": "Phases 8, 9, and 10 all completed in full this batch. Phase 8: 14 reports run via real Report API, P&L inflation finding confirmed by a second independent report (Balance Sheet). Phase 9: both procurement chains traced live via real document foreign keys, Landed Cost Voucher math verified precise (exactly 8.00% valuation increase from an 8% charge). Phase 10: backup-restore round-trip verified with exact data match; load test confirmed 100% read concurrency success and zero write-concurrency data corruption (with a real, honestly-documented naming-series contention characteristic under true simultaneous writes, fully recoverable on retry).",
+  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification). All of Phases 0, 2, 3, 4, 5, 8, 9, 10 are now complete, plus Phase 6's backend/data layer. Only remaining work: Phase 6's visual/responsive layer and the standalone browser-verification requirement (both blocked on BLOCKER-003 -- no working headless Chrome in this container), Phase 7's formal parity-counter re-run (mechanical, low-value given the real evidence already gathered), Phase 1's formal writeup (low priority), and the final documentation/scorecard pass. This is a genuine, substantial completion point -- report status to the user honestly rather than fabricating a full mission-complete claim, since the browser-dependent work remains genuinely blocked and the final 110-point report and AGENT_HANDOFF.md/scorecard updates have not yet been written.",
+  "last_updated": "2026-07-18T03:20:00+05:30"
 }

@@ -470,5 +470,67 @@ not by re-reading generator source code alone.
 **Files changed:** 2 new files under `docs/workflows/`. No data changes
 on staging.local (read-only tracing).
 
+**Commit:** b8d5c3e
+
+---
+
+## Batch: phase10-load-backup-concurrency (2026-07-18)
+
+**Phase:** 10 — load/concurrency/backup-restore testing
+
+**Actions taken:**
+1. **Backup-restore drill, full round-trip:** `bench backup --with-files`
+   on staging.local, created a brand-new temporary site
+   (`smj-restore-test.local`), installed the same app stack (erpnext,
+   my_store_ui), restored the real backup into it, and compared record
+   counts + GL totals directly against staging.local. **Every metric
+   matched exactly** (25 customers, 67 POs, 100 SIs, 102 SOs, GL debit
+   sum 69,131,114.30 on both sides). Verified the restored site's
+   application layer works (real document lookup resolved correctly) and
+   that a full `bench migrate` completed with zero errors. Tore down the
+   temp site with `bench drop-site` (which itself takes a final backup
+   before archiving). Confirmed `staging.local` and `site1.local` were
+   both untouched throughout.
+2. **Load test, read side:** 20 concurrent Sales Order list reads and 15
+   concurrent GL aggregate queries, both launched as real separate OS
+   processes (a first thread-based attempt was correctly abandoned —
+   `frappe.local` is not thread-safe, confirmed by
+   `RuntimeError: object is not bound` on every thread, a genuine
+   framework constraint). **100% success on both**, and all 15 GL readers
+   saw byte-identical totals (no dirty reads under concurrent load).
+3. **Load test, write side (the real stress case):** 10 processes
+   launched simultaneously, each inserting a document requiring the same
+   naming-series counter row. Only 1/10 succeeded on the first attempt;
+   9/10 hit a clean `QueryDeadlockError` on `tabSeries`. **Verified zero
+   data corruption** — exactly one real document existed afterward, no
+   orphaned/partial writes. Retried the 9 failures sequentially — **all
+   9 succeeded** with correct, gap-free numbering, confirming full
+   recovery. This is the same underlying mechanism as Phase 4's
+   reservation deadlock, now confirmed as a general framework
+   characteristic (not isolated to one feature) via a second, unrelated
+   code path.
+4. Cleaned up all 10 test Journal Entries; confirmed zero
+   `SMJ_LOAD_TEST_WORKER_*`-tagged records remain.
+5. Wrote all 3 required Phase 10 deliverables under
+   `docs/verification/`: `SMJ_BACKUP_RESTORE_REPORT.md`,
+   `SMJ_LOAD_TEST_REPORT.md`, `SMJ_CONCURRENCY_REPORT.md` (the latter
+   ties together both this phase's and Phase 4's concurrency findings
+   into one system-wide summary).
+
+**Result:** Phase 10 complete. Backup/restore verified working
+end-to-end with exact data match. Read concurrency: 100% success, fully
+consistent. Write concurrency: correctly safe (zero corruption) but with
+a real, honestly-documented UX characteristic (high first-attempt
+failure rate under true simultaneous write contention, full recovery on
+retry) — the same class of finding as Phase 4, now confirmed general
+rather than isolated.
+
+**Files changed:** 3 new files under `docs/verification/`; 1 new file
+`apps/my_store_ui/my_store_ui/dev_scripts/load_test.py`. Data-only
+changes on staging.local: 10 temporary Journal Entries created and fully
+removed within this batch (net state change: none). One temporary site
+created and fully archived/dropped (does not affect staging.local or
+site1.local).
+
 **Commit:** pending — will commit this batch immediately after this log
 entry.
