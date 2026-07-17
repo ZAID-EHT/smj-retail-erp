@@ -183,5 +183,72 @@ Data-only changes on staging.local: 1 new Item (`CONC-TEST-001`, a
 reusable test fixture, 10 units on hand, 0 reserved, no live Sales Orders
 or Stock Reservation Entries referencing it).
 
+**Commit:** c21136f
+
+---
+
+## Batch: phase5-security-matrix (2026-07-18)
+
+**Phase:** 5 — role and security matrix (11 roles: Administrator, System
+Manager, Sales User, Sales Manager, Purchase User, Purchase Manager,
+Stock User, Stock Manager, Accounts User, Accounts Manager, Restricted
+normal user)
+
+**Actions taken:**
+1. Confirmed all 9 named standard roles already exist on staging.local
+   (shipped with ERPNext) — no role creation needed.
+2. Created 10 dedicated test users
+   (`smj.<role>.test@smjretail.local`), each with **exactly one** relevant
+   role (or zero roles for "Restricted"), via a real
+   `frappe.get_doc({"doctype":"User",...}).insert(ignore_permissions=True)`
+   as Administrator (the only account allowed to create users — the one
+   legitimate use of `ignore_permissions` in this batch, since it's setup,
+   not the measurement).
+3. Ran `frappe.has_permission()` (the real function every ERPNext
+   controller/API uses) for every (role × doctype × permission-type)
+   combination across 9 representative doctypes (Sales/Purchase
+   Order/Invoice/Receipt, Stock Entry, Payment Entry, Journal Entry, GL
+   Entry, User, Role) and 6 permission types (read/write/create/submit/
+   cancel/delete) — 594 individual checks via `frappe.set_user()`
+   impersonation.
+4. Ran 6 **real write-attempt** tests (not just permission-config
+   reads): actual `.insert()` calls (no `ignore_permissions`) across role
+   boundaries — restricted user creating a Sales Order, Sales User
+   creating a Purchase Order, Sales User creating their own Sales Order,
+   Purchase User creating a Payment Entry, restricted user creating a
+   User, Stock User creating a Journal Entry. **All 6 outcomes matched
+   the expected boundary exactly** (5 correctly blocked with
+   `PermissionError`, 1 correctly allowed).
+5. Cross-checked two surprising matrix results directly against
+   `tabDocPerm` (not assumed): confirmed `Purchase Manager` genuinely has
+   zero `DocPerm` rows for Purchase Receipt/Purchase Invoice in stock
+   ERPNext (receiving/invoicing belong to other roles by design), and
+   confirmed `System Manager` alone grants almost no transactional access
+   (by design — scoped to system administration). Both are real ERPNext
+   defaults, not project misconfigurations — documented as business
+   decisions for the client, not silently patched.
+6. Cleaned up: deleted all 10 test users
+   (`cleanup_users()` → `USERS_REMOVED` listing all 10), confirmed via a
+   direct `tabUser` query that only `Administrator` remains. Removed the
+   temporary copy from `apps/erpnext/erpnext/`; `git status` on the
+   erpnext app confirmed clean.
+7. Wrote all 3 required Phase 5 deliverables under `docs/security/`:
+   `SMJ_ROLE_PERMISSION_MATRIX.md` (full matrix + 5 honest findings),
+   `SMJ_BACKEND_PERMISSION_TESTS.md` (the 6 real write-attempt tests with
+   raw output), `SMJ_SECURITY_BLOCKERS.md` (zero genuine security
+   blockers found; 3 business-decision items flagged, not treated as
+   bugs).
+
+**Result:** Phase 5 complete. Real backend enforcement confirmed —
+config (`has_permission()`) and actual ORM behavior (`.insert()`) agree
+in every one of the 6 boundary tests. No unauthorized access found. No
+code changes needed; two ERPNext-default role-scoping choices flagged for
+the client's business decision, not silently altered.
+
+**Files changed:** 3 new files under `docs/security/`; 1 new file
+`apps/my_store_ui/my_store_ui/dev_scripts/security_matrix_test.py`.
+Data-only changes on staging.local: 10 temporary test users created and
+fully removed again within this batch (net state change: none).
+
 **Commit:** pending — will commit this batch immediately after this log
 entry.
