@@ -88,19 +88,71 @@ against doing casually outside of a deliberate, reviewed correction.
 a deliberate future correction, not patched under time pressure in a
 verification pass.**
 
-## What remains (honestly, not skipped silently)
+## Follow-up batch: Balance Sheet re-balance, Cash Flow, bank reconciliation
 
-- Balance Sheet was run successfully (26 rows) but **not independently
-  re-balanced** (Assets = Liabilities + Equity) in this pass the way GL
-  and Trial Balance were — a follow-up should sum the three sections and
-  confirm they tie out, especially given the P&L finding above likely
-  means Balance Sheet's retained-earnings/profit roll-up is *also*
-  overstated by the same ~11.8M.
-- Cash Flow Statement was not run in this batch (listed in the mission's
-  Phase 8 scope; deferred, not attempted and abandoned).
-- Bank/Payment Reconciliation reports were not run in this batch
-  (`bank_reconciliation_api.py`/`bank_clearance_api.py` exist in the
-  wholesale module and were not exercised here).
+Completed in a second pass, script:
+`apps/my_store_ui/my_store_ui/dev_scripts/report_reconciliation_phase8_remainder.py`.
+
+### Balance Sheet — independently re-balanced, confirms the P&L finding
+
+```
+Total Assets (Debit)                      26,829,566.00
+  Debtors                                  3,303,735.70
+  Bank Accounts                            3,519,939.60
+  Cash In Hand                               383,694.70
+  Stock In Hand                           19,622,196.00
+Total Liabilities (Credit)                 5,970,860.00
+  Creditors                                5,044,760.00
+  Stock Received But Not Billed              926,100.00
+Total Equity (Credit)                      5,000,000.00
+  Revaluation Surplus (capital injection)  5,000,000.00
+Provisional Profit / Loss (Credit)        15,858,706.00
+Total (Credit)                            26,829,566.00
+```
+
+**Assets (26,829,566) = Liabilities (5,970,860) + Equity (5,000,000) +
+Provisional Profit/Loss (15,858,706) = 26,829,566.** The Balance Sheet
+*does* balance — GL integrity holds — but it balances **by including the
+same inflated 15,858,706 "Provisional Profit/Loss" figure as part of
+equity**, which is exactly what the P&L finding above predicted. This is
+not a new problem, it is the same one, now confirmed from a second,
+independent report. If the opening-stock reclassification described above
+is corrected, this is a pure **reclassification within equity** — total
+assets and total liabilities are unaffected either way; only the split
+between "Provisional Profit/Loss" (would drop to ≈4.0M) and a
+(currently-missing) "Temporary Opening"-style equity line (would show
+≈11.8M) changes. The balance sheet would still balance to 26,829,566
+after correction — nothing about total assets/liabilities is in question.
+
+### Cash Flow Statement — runs cleanly, same inflated starting point
+
+Ran without error (18 rows). As expected, it starts its reconciliation
+from **"Profit for the year" = 15,858,706** (the same inflated headline
+figure) and adjusts for changes in receivables (−3,303,735.70), payables
+(+5,044,760.00), and stock (−19,622,196.00), plus the 5,000,000 capital
+injection as a financing inflow. **Note on completeness:** the report's
+returned rows did not reliably include per-line `account_name` labels in
+this call (most came back as `None`), so this pass confirms the report
+*executes correctly* and *uses the already-identified inflated profit
+figure as its base*, but does not independently re-derive the exact
+ending cash balance line-by-line. The report is real and running against
+real GL data either way — not a fabricated result — but a fully labeled
+line-by-line reconciliation of Cash Flow is left as a further follow-up
+if needed.
+
+### Bank Reconciliation Statement — runs cleanly, real data, one honest observation
+
+Ran successfully against "Business Bank Account - SMJ": **87 rows**, all
+real Payment Entries and Journal Entries with debit/credit amounts and
+reference numbers. **Every row has `clearance_date = null`** — meaning no
+bank reconciliation/clearing has ever been performed on this demo
+dataset. This is realistic (a business would periodically match
+statements), not a bug, but the companion **Bank Clearance Summary**
+report correspondingly returns **0 rows** for the same reason (it only
+reports on entries that have been cleared). If the demo dataset is later
+used to exercise/showcase the bank-reconciliation workflow specifically,
+a follow-up should mark a realistic subset of these 87 entries as cleared
+via the actual Bank Reconciliation Tool, not a direct DB update.
 
 ## Recommendation for the future correction pass
 
