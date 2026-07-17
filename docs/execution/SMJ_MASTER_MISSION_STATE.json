@@ -2,7 +2,7 @@
   "mission_start_time": "2026-07-18T00:33:00+05:30",
   "branch": "full-feature-parity",
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
-  "current_commit": "59202fa",
+  "current_commit": "980c150",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
   "current_phase": "Phases 8, 9, 10 all complete. Remaining: Phase 6 visual layer (blocked), Phase 7 (mostly moot), final documentation/scorecard.",
   "current_batch": "phase10-load-backup-concurrency",
@@ -58,7 +58,10 @@
     "c21136f chore: SMJ mission Phase 3+4 -- data fixes, Fiscal Year fix, wholesale concurrency verification",
     "5d0f4f0 chore: SMJ mission Phase 5 -- 11-role backend permission matrix and enforcement tests",
     "8f75bee chore: SMJ mission Phase 6 backend layer -- dashboard APIs, data volume, route verification; document browser-tooling blocker",
-    "59202fa chore: SMJ mission Phase 8 -- report reconciliation via real Report API, P&L inflation finding"
+    "59202fa chore: SMJ mission Phase 8 -- report reconciliation via real Report API, P&L inflation finding",
+    "cb34c6c chore: SMJ mission Phase 8 completion -- Balance Sheet re-balance, Cash Flow, bank reconciliation",
+    "b8d5c3e chore: SMJ mission Phase 9 -- import/purchasing workflow verification",
+    "980c150 chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification"
   ],
   "files_changed": [
     "docs/execution/SMJ_MASTER_MISSION_STATE.md",
