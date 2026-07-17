@@ -1,0 +1,66 @@
+{
+  "mission_start_time": "2026-07-18T00:33:00+05:30",
+  "branch": "full-feature-parity",
+  "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
+  "current_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
+  "recovery_tag": "pre-smj-master-mission-20260718-0033",
+  "current_phase": "Phase 2 - regenerate true project baseline",
+  "current_batch": "baseline-audit-1",
+  "completed_phases": [
+    "Phase 0 - preflight and recovery baseline"
+  ],
+  "partially_completed_phases": [
+    "Phase 1 - stabilise bench and local environment (bench already stabilised in prior conversation turns this session; formal re-verification pending)"
+  ],
+  "remaining_phases": [
+    "Phase 1 (re-verify)",
+    "Phase 2",
+    "Phase 3",
+    "Phase 4",
+    "Phase 5",
+    "Phase 6",
+    "Phase 7",
+    "Phase 8",
+    "Phase 9",
+    "Phase 10",
+    "Browser and responsive verification",
+    "Final documentation and scorecard"
+  ],
+  "starting_capability_counts": {
+    "source": "docs/full-parity/corrected_production_parity_audit.json (from prior session, 2026-07-16)",
+    "required_but_missing": 0,
+    "unclassified": 0,
+    "verified_complete": 0,
+    "implemented_unverified": 469,
+    "generated_provisional": 805,
+    "note": "These are the LAST RECORDED numbers from before this mission. Phase 2 will regenerate and confirm/refute them -- do not trust until re-verified."
+  },
+  "current_capability_counts": null,
+  "tests_passed": [],
+  "tests_failed": [],
+  "tests_unavailable": [],
+  "commits_created": [],
+  "files_changed": [
+    "docs/execution/SMJ_MASTER_MISSION_STATE.md (new)",
+    "docs/execution/SMJ_MASTER_MISSION_STATE.json (new)",
+    "docs/execution/SMJ_MASTER_BATCH_LOG.md (new)",
+    "docs/execution/SMJ_MASTER_BLOCKERS.md (new)"
+  ],
+  "external_blockers": [
+    {
+      "id": "sudo-overcommit",
+      "description": "vm.overcommit_memory=0, requires sudo (no passwordless sudo available)",
+      "exact_command": "sudo sysctl -w vm.overcommit_memory=1 && echo 'vm.overcommit_memory = 1' | sudo tee /etc/sysctl.d/99-redis-overcommit.conf && sudo sysctl --system",
+      "who_must_perform": "zaidh (has interactive sudo password)",
+      "status": "documented, non-blocking (cosmetic warning only)"
+    },
+    {
+      "id": "rq-version-drift",
+      "description": "Installed rq==1.15.1, Frappe pyproject.toml declares rq (2.10.0). Root cause of datetime.utcnow() deprecation warnings. Upgrading affects the whole bench's job queue -- not performed without explicit approval per 'no uncontrolled upgrades' rule.",
+      "status": "documented, non-blocking (deprecation warning only, does not stop scheduler/worker)"
+    }
+  ],
+  "last_successful_action": "Created recovery tag pre-smj-master-mission-20260718-0033 and mission state files",
+  "next_automatic_action": "Phase 1 re-verification (bench process health check), then Phase 2 baseline regeneration (read full-parity docs, run corrected_production_parity_audit if callable)",
+  "last_updated": "2026-07-18T00:33:00+05:30"
+}
