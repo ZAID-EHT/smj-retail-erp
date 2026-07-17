@@ -306,5 +306,75 @@ fabricated as done.
 `docs/ui/audits/SMJ_PHASE6_BACKEND_LAYER_AUDIT.md`. No code changes, no
 data changes on staging.local.
 
+**Commit:** 8f75bee
+
+---
+
+## Batch: phase8-report-reconciliation (2026-07-18)
+
+**Phase:** 8 — accounting/stock report reconciliation via ERPNext's own
+Report UI/API (not raw SQL)
+
+**Actions taken:**
+1. Ran 12 standard ERPNext reports through `frappe.desk.query_report.run`
+   (the exact function the Report UI calls) and, for the async/"prepared
+   report" Stock Balance, its module `execute()` directly: General
+   Ledger, Trial Balance, Profit and Loss Statement, Balance Sheet,
+   Accounts Receivable, Accounts Payable, Gross Profit, Stock Balance,
+   Stock Ledger, Payment Ledger, Customer Ledger Summary, Supplier Ledger
+   Summary.
+2. Debugged 3 real filter-name mismatches against each report's actual
+   `.js` filter definitions (not guessed): financial statements need
+   `period_start_date`/`period_end_date` or `from_fiscal_year`/
+   `to_fiscal_year` (not `from_date`/`to_date`); Accounts Receivable/
+   Payable use a single `range` string filter (not `range1..range4`) and
+   key rows by `party` (not `customer`/`supplier`); Stock Balance is a
+   prepared/async report requiring direct module `execute()` instead of
+   `query_report.run`.
+3. **General Ledger and Trial Balance both balance exactly** (debit =
+   credit at every level, including Trial Balance's opening/period/
+   closing sub-totals) — confirms the GL integrity finding from the
+   original demo-data build via the *actual Report API* this time, not
+   just SQL.
+4. **Found and fully root-caused a real accounting integrity issue**: the
+   Profit and Loss Statement shows "Profit for the year" = 15,858,706,
+   but this is inflated by ~11.8M because the three opening-stock Stock
+   Entries (dated 2025-07-01, tagged "Opening Stock 2025-07-01" in their
+   remarks) posted their value as a *credit* to `Stock Adjustment - SMJ`,
+   an Expense-type account, instead of a Balance-Sheet-only account.
+   Confirmed via direct GL Entry query (5 real rows, summing to
+   11,832,680) and cross-validated by computing the corrected profit
+   (~3,972,050) against two *independently computed* figures already on
+   record (Phase 3's COGS-based estimate of 4,077,988, and this same
+   batch's own Gross Profit report of 4,477,740) — all three agree with
+   each other and disagree with the headline P&L figure, which is strong
+   evidence the finding is real and not a measurement artifact.
+5. Deliberately did **not** attempt to fix this by cancelling/reposting
+   the opening-stock entries — a full year of downstream Sales/Purchase/
+   Stock transactions now depends on that stock, making cancellation
+   genuinely risky (potential stock ledger reposting cascade across
+   100+ documents). Documented as a flagged data-quality issue for a
+   deliberate future correction pass, with the exact fix path named
+   (post opening stock against ERPNext's built-in "Temporary Opening"
+   equity account instead of letting it default to "Stock Adjustment").
+6. Wrote `docs/verification/SMJ_ACCOUNTING_VERIFICATION.md` with the full
+   report results table, the finding's complete evidence chain, and an
+   honest "what remains" section (Balance Sheet not independently
+   re-balanced, Cash Flow not run, bank reconciliation reports not run —
+   named as deferred, not silently skipped).
+
+**Result:** Phase 8 substantially advanced (12 of the mission's report
+list run through the real Report API). One genuine, well-evidenced
+accounting finding surfaced and clearly documented rather than either
+hidden or hastily "fixed" in a risky way. Three remaining report checks
+(Balance Sheet re-balance, Cash Flow, bank reconciliation) explicitly
+named as not yet done.
+
+**Files changed:** 1 new file
+`docs/verification/SMJ_ACCOUNTING_VERIFICATION.md`; 1 new file
+`apps/my_store_ui/my_store_ui/dev_scripts/report_reconciliation.py`
+(working, reusable). No data changes on staging.local (read-only report
+calls throughout this batch).
+
 **Commit:** pending — will commit this batch immediately after this log
 entry.

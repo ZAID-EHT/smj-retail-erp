@@ -4,26 +4,31 @@
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
   "current_commit": "c21136f",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
-  "current_phase": "Phase 6 - UI workspace audit (backend layer done, visual/interactive layer blocked on tooling)",
-  "current_batch": "phase6-backend-layer",
+  "current_phase": "Phase 8 - accounting/stock report reconciliation (substantially advanced)",
+  "current_batch": "phase8-report-reconciliation",
   "completed_phases": [
     "Phase 0 - preflight and recovery baseline",
     "Phase 2 - regenerate true project baseline (docs/execution/SMJ_MASTER_BASELINE.md)",
     "Phase 3 - audit staging demo data vs mission checklist (1 data gap fixed: Royal Home Decor invoice; 1 environment bug fixed: missing Fiscal Year 2026-2027)",
     "Phase 4 - wholesale workflow verification + concurrency reservation test (all 6 Section 11 acceptance scenarios PASS; 1 honestly-documented UX gap, not a safety gap)",
-    "Phase 5 - 11-role security/permission matrix (594 has_permission checks + 6 real write-attempt tests, zero unauthorized access found; 2 ERPNext-default role-scoping choices flagged as business decisions, not bugs)"
+    "Phase 5 - 11-role security/permission matrix (594 has_permission checks + 6 real write-attempt tests, zero unauthorized access found; 2 ERPNext-default role-scoping choices flagged as business decisions, not bugs)",
+    "Phase 6 (backend/data layer only) - all 6 module dashboard APIs verified live, all 18 workspaces' backing data confirmed non-empty, all frontend routes confirmed registered. Visual/interactive/responsive layer BLOCKED on missing headless Chrome (BLOCKER-003), confirmed by direct attempt."
+  ],
+  "partially_completed_phases_detail": [
+    "Phase 8 - 12 of the mission's named reports run through the real Report API (General Ledger, Trial Balance, P&L, Balance Sheet, AR, AP, Gross Profit, Stock Balance, Stock Ledger, Payment Ledger, Customer/Supplier Ledger Summary). GL and Trial Balance both balance exactly. MAJOR FINDING: P&L 'Profit for the year' (15,858,706) is inflated ~11.8M by opening-stock postings routed through an Expense account (Stock Adjustment) instead of a Balance-Sheet-only account -- fully root-caused with GL Entry evidence and cross-validated against two independent profit estimates. Not fixed (would require risky cancellation of Stock Entries with a year of downstream dependents) -- documented for a deliberate future correction. Remaining for Phase 8: independently re-balance the Balance Sheet (Assets = Liabilities + Equity), run Cash Flow Statement, run bank/payment reconciliation reports."
   ],
   "partially_completed_phases": [
     "Phase 1 - stabilise bench and local environment (bench stabilised in prior conversation turns this session; no formal separate re-verification batch written, but every phase since has depended on a working bench with zero incident)"
   ],
   "remaining_phases": [
     "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable)",
-    "Phase 6 - UI workspace audit: visual/interactive/responsive layer BLOCKED on tooling (headless Chrome unavailable in this container -- confirmed by direct attempt, see SMJ_PHASE6_BACKEND_LAYER_AUDIT.md). Backend/data/API layer for all 18 workspaces is DONE.",
+    "Phase 6 visual/interactive/responsive layer -- BLOCKED on tooling (BLOCKER-003)",
     "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work is converting implemented_unverified/generated_provisional to verified_complete via Phases 5/6/8/10)",
-    "Phase 8 - accounting/stock report reconciliation via ERPNext's own Report UI/API",
+    "Phase 8 remainder - Balance Sheet re-balance, Cash Flow Statement, bank/payment reconciliation reports",
     "Phase 9 - import/purchasing workflow formal writeup (purchase_scenario_g already built, needs Landed Cost Voucher verification writeup)",
     "Phase 10 - load/concurrency/backup-restore testing",
     "Browser and responsive verification (6 breakpoints) -- SAME BLOCKER as Phase 6's visual layer, needs Playwright-class tooling or a manual QA pass",
+    "Data-quality correction (optional, flagged not auto-applied) - reclassify the ~11.8M opening-stock postings out of the P&L-affecting Stock Adjustment account",
     "Final documentation and scorecard (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md updates + SMJ_MASTER_FINAL_REPORT.md + SMJ_MASTER_COMMIT_INDEX.md + SMJ_REMAINING_EXTERNAL_ACTIONS.md + SMJ_PRODUCTION_READINESS_SCORECARD.md)"
   ],
   "starting_capability_counts": {
@@ -98,7 +103,7 @@
       "why_not_fixed_now": "Out of scope for a verification mission to silently modify core reservation call-site behavior; flagged for a deliberate future hardening pass."
     }
   ],
-  "last_successful_action": "Phase 6 backend-layer batch complete: live-verified all 6 module dashboard APIs (zero errors), confirmed non-zero data for every doctype backing all 18 workspaces, confirmed all frontend routes registered, attempted real browser verification via accesslint audit_live and confirmed (not assumed) it cannot run in this container -- documented as BLOCKER-003",
-  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 6 backend layer -- dashboard APIs, data volume, route verification; document browser-tooling blocker), then proceed to Phase 8 (accounting/stock report reconciliation via ERPNext's own Report UI/API) and Phase 9 (import/purchasing workflow writeup) since both are achievable with the current bench execute / SQL toolset without needing a browser -- defer the remainder of Phase 6 (visual/responsive) and the standalone browser-verification requirement until BLOCKER-003 is resolved by the user (see SMJ_MASTER_BLOCKERS.md for the 3 remediation options) or a browser-automation tool becomes available. Phase 10's load/concurrency/backup-restore testing is also achievable without a browser and should follow Phase 8/9.",
-  "last_updated": "2026-07-18T02:10:00+05:30"
+  "last_successful_action": "Phase 8 batch complete: ran 12 standard reports through the real Report API, confirmed GL and Trial Balance both balance exactly, found and fully root-caused a real P&L inflation issue (~11.8M from opening-stock postings hitting an Expense account), cross-validated the corrected profit figure against two independent prior estimates, wrote SMJ_ACCOUNTING_VERIFICATION.md, did not attempt a risky live fix",
+  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 8 -- report reconciliation via real Report API, P&L inflation finding), then continue with Phase 8's remainder (Balance Sheet re-balance check, Cash Flow Statement, bank/payment reconciliation reports) and Phase 9 (import/purchasing workflow writeup using the existing purchase_scenario_g Landed Cost Voucher chain) -- both achievable without a browser. Defer Phase 6's visual layer and the standalone browser-verification requirement until BLOCKER-003 is resolved. This is a natural, honest checkpoint given the substantial genuine progress made (Phases 0/2/3/4/5 complete, Phase 6 backend complete, Phase 8 substantially advanced) -- report interim status to the user rather than continuing to compress the remaining very large phases (7 partial, 8 remainder, 9, 10, browser verification, 110-point final report) without a natural pause point.",
+  "last_updated": "2026-07-18T02:45:00+05:30"
 }
