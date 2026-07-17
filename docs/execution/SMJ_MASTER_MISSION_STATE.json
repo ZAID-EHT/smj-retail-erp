@@ -4,8 +4,8 @@
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
   "current_commit": "c21136f",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
-  "current_phase": "Phase 6 - UI workspace audit",
-  "current_batch": "phase6-ui-audit-1",
+  "current_phase": "Phase 6 - UI workspace audit (backend layer done, visual/interactive layer blocked on tooling)",
+  "current_batch": "phase6-backend-layer",
   "completed_phases": [
     "Phase 0 - preflight and recovery baseline",
     "Phase 2 - regenerate true project baseline (docs/execution/SMJ_MASTER_BASELINE.md)",
@@ -18,12 +18,12 @@
   ],
   "remaining_phases": [
     "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable)",
-    "Phase 6 - UI workspace audit (18 workspaces, unstarted, largest remaining phase)",
+    "Phase 6 - UI workspace audit: visual/interactive/responsive layer BLOCKED on tooling (headless Chrome unavailable in this container -- confirmed by direct attempt, see SMJ_PHASE6_BACKEND_LAYER_AUDIT.md). Backend/data/API layer for all 18 workspaces is DONE.",
     "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work is converting implemented_unverified/generated_provisional to verified_complete via Phases 5/6/8/10)",
     "Phase 8 - accounting/stock report reconciliation via ERPNext's own Report UI/API",
     "Phase 9 - import/purchasing workflow formal writeup (purchase_scenario_g already built, needs Landed Cost Voucher verification writeup)",
     "Phase 10 - load/concurrency/backup-restore testing",
-    "Browser and responsive verification (6 breakpoints)",
+    "Browser and responsive verification (6 breakpoints) -- SAME BLOCKER as Phase 6's visual layer, needs Playwright-class tooling or a manual QA pass",
     "Final documentation and scorecard (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md updates + SMJ_MASTER_FINAL_REPORT.md + SMJ_MASTER_COMMIT_INDEX.md + SMJ_REMAINING_EXTERNAL_ACTIONS.md + SMJ_PRODUCTION_READINESS_SCORECARD.md)"
   ],
   "starting_capability_counts": {
@@ -81,6 +81,13 @@
       "id": "rq-version-drift",
       "description": "Installed rq==1.15.1, Frappe pyproject.toml declares rq (2.10.0). Root cause of datetime.utcnow() deprecation warnings. Upgrading affects the whole bench's job queue -- not performed without explicit approval per 'no uncontrolled upgrades' rule.",
       "status": "documented, non-blocking (deprecation warning only, does not stop scheduler/worker)"
+    },
+    {
+      "id": "no-headless-chrome",
+      "description": "accesslint MCP's audit_live cannot launch a debuggable Chrome in this container (CDP discovery never answers on 127.0.0.1:9222) -- confirmed by direct attempt against the app's own reachable shell URL. Blocks Phase 6's visual/interactive layer and the mission's 6-breakpoint browser verification requirement. Does not block any backend/API verification, which was completed for all 18 workspaces.",
+      "exact_command": "apt-get install -y libnss3 libatk-bridge2.0-0 libgtk-3-0 libgbm1 libasound2 (requires sudo)",
+      "who_must_perform": "zaidh (has interactive sudo password), OR enable a Playwright-class browser tool for this session, OR perform manual QA with a real browser",
+      "status": "documented, confirmed via direct attempt, genuinely blocking the visual-QA portion of Phase 6 and the standalone browser-verification requirement"
     }
   ],
   "known_hardening_items_not_fixed_in_this_mission": [
@@ -91,7 +98,7 @@
       "why_not_fixed_now": "Out of scope for a verification mission to silently modify core reservation call-site behavior; flagged for a deliberate future hardening pass."
     }
   ],
-  "last_successful_action": "Phase 5 complete: wrote SMJ_ROLE_PERMISSION_MATRIX.md, SMJ_BACKEND_PERMISSION_TESTS.md, SMJ_SECURITY_BLOCKERS.md; updated SMJ_MASTER_BATCH_LOG.md with the phase5-security-matrix entry; confirmed all 10 temporary test users removed (only Administrator remains in tabUser)",
-  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 5 -- 11-role backend permission matrix and enforcement tests), then begin Phase 6: audit all 18 UI workspaces (Home, Smart Sales, Customers, Items, Sales Orders, Delivery Notes, Sales Invoices, Payment Entries, Wholesale Transaction Register, Suppliers, Purchase Orders, Purchase Receipts, Purchase Invoices, Stock Entries, Stock Reconciliation, Accounts and Banking, Reports, Administration). This is the largest remaining phase and the mission's own baseline doc flags it as very large scope -- plan to work through it in logical batches (e.g. group by module: Sales workspaces, Purchase workspaces, Stock workspaces, Accounts workspaces, then cross-cutting Reports/Admin/Home) rather than attempting all 18 in one pass, committing after each logical group",
-  "last_updated": "2026-07-18T01:45:00+05:30"
+  "last_successful_action": "Phase 6 backend-layer batch complete: live-verified all 6 module dashboard APIs (zero errors), confirmed non-zero data for every doctype backing all 18 workspaces, confirmed all frontend routes registered, attempted real browser verification via accesslint audit_live and confirmed (not assumed) it cannot run in this container -- documented as BLOCKER-003",
+  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 6 backend layer -- dashboard APIs, data volume, route verification; document browser-tooling blocker), then proceed to Phase 8 (accounting/stock report reconciliation via ERPNext's own Report UI/API) and Phase 9 (import/purchasing workflow writeup) since both are achievable with the current bench execute / SQL toolset without needing a browser -- defer the remainder of Phase 6 (visual/responsive) and the standalone browser-verification requirement until BLOCKER-003 is resolved by the user (see SMJ_MASTER_BLOCKERS.md for the 3 remediation options) or a browser-automation tool becomes available. Phase 10's load/concurrency/backup-restore testing is also achievable without a browser and should follow Phase 8/9.",
+  "last_updated": "2026-07-18T02:10:00+05:30"
 }

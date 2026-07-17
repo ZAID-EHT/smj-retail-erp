@@ -43,6 +43,40 @@ listed here has already had all safe local work completed around it.
   remain alive despite the warning, confirmed across multiple observed
   bench restarts this session).
 
+## BLOCKER-003: No working headless Chrome in this container (blocks Phase 6 visual layer + browser/responsive verification)
+
+- **Type:** Environment/tooling gap, confirmed by direct attempt (not
+  assumed).
+- **Detail:** The `accesslint` MCP server's `audit_live` tool attempts to
+  auto-launch a headless Chrome via `@accesslint/chrome` when none is
+  reachable. Attempted against the app's own reachable shell URL
+  (`http://127.0.0.1:8000/retail_erp`, confirmed separately to return
+  `200` with real HTML). Result: `Could not start a debuggable Chrome:
+  Launched Chrome (pid 67142) but discovery never answered on
+  127.0.0.1:9222` — Chrome starts but never becomes CDP-debuggable,
+  consistent with a minimal WSL container missing sandbox/GPU
+  dependencies Chrome needs even in headless mode.
+- **Impact:** Blocks the visual/interactive/responsive portion of Phase
+  6 (18 workspace UI audit) and the mission's separate 6-breakpoint
+  browser verification requirement. Does **not** block any backend/API/
+  data verification — all of that was completed for all 18 workspaces
+  (see `docs/ui/audits/SMJ_PHASE6_BACKEND_LAYER_AUDIT.md`).
+- **Exact remediation options for the user:**
+  1. Install Chrome's headless dependencies in this container
+     (`apt-get install -y libnss3 libatk-bridge2.0-0 libgtk-3-0
+     libgbm1 libasound2` — the typical missing set on minimal Debian/
+     Ubuntu images; requires sudo, not attempted automatically per the
+     "no sudo" mission rule), then retry `audit_live`.
+  2. Enable a Playwright-based browser-automation tool for this session
+     (if available in the harness) instead of `accesslint`.
+  3. Perform a manual QA pass with a real browser (the method a prior
+     session in this project used: a Windows-host Chrome via WSL
+     interop) against the 18 workspaces × 6 breakpoints, using the
+     project's existing E2E test file structure convention
+     (`FRONTEND.md`) as the checklist.
+- **Status:** Documented, confirmed via direct attempt, not silently
+  worked around.
+
 ## Production-readiness external blockers (anticipated, not yet reached)
 
 These are named in the mission prompt itself as things that cannot be
