@@ -4,27 +4,27 @@
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
   "current_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
-  "current_phase": "Phase 2 - regenerate true project baseline",
-  "current_batch": "baseline-audit-1",
+  "current_phase": "Phase 5 - role and security matrix",
+  "current_batch": "phase5-security-matrix-1",
   "completed_phases": [
-    "Phase 0 - preflight and recovery baseline"
+    "Phase 0 - preflight and recovery baseline",
+    "Phase 2 - regenerate true project baseline (docs/execution/SMJ_MASTER_BASELINE.md)",
+    "Phase 3 - audit staging demo data vs mission checklist (1 data gap fixed: Royal Home Decor invoice; 1 environment bug fixed: missing Fiscal Year 2026-2027)",
+    "Phase 4 - wholesale workflow verification + concurrency reservation test (all 6 Section 11 acceptance scenarios PASS; 1 honestly-documented UX gap, not a safety gap)"
   ],
   "partially_completed_phases": [
-    "Phase 1 - stabilise bench and local environment (bench already stabilised in prior conversation turns this session; formal re-verification pending)"
+    "Phase 1 - stabilise bench and local environment (bench stabilised in prior conversation turns this session; no formal separate re-verification batch written, but every phase since has depended on a working bench with zero incident)"
   ],
   "remaining_phases": [
-    "Phase 1 (re-verify)",
-    "Phase 2",
-    "Phase 3",
-    "Phase 4",
-    "Phase 5",
-    "Phase 6",
-    "Phase 7",
-    "Phase 8",
-    "Phase 9",
-    "Phase 10",
-    "Browser and responsive verification",
-    "Final documentation and scorecard"
+    "Phase 1 (formal re-verification writeup -- low priority, environment already proven stable)",
+    "Phase 5 (in progress)",
+    "Phase 6 - UI workspace audit (18 workspaces, unstarted, largest remaining phase)",
+    "Phase 7 - capability-gap closure (mostly moot: required_but_missing=0 already; real work is converting implemented_unverified/generated_provisional to verified_complete via Phases 5/6/8/10)",
+    "Phase 8 - accounting/stock report reconciliation via ERPNext's own Report UI/API",
+    "Phase 9 - import/purchasing workflow formal writeup (purchase_scenario_g already built, needs Landed Cost Voucher verification writeup)",
+    "Phase 10 - load/concurrency/backup-restore testing",
+    "Browser and responsive verification (6 breakpoints)",
+    "Final documentation and scorecard (AGENT_HANDOFF.md, PROGRESS.md, BLOCKERS.md, VERIFICATION_MATRIX.md, DECISIONS.md updates + SMJ_MASTER_FINAL_REPORT.md + SMJ_MASTER_COMMIT_INDEX.md + SMJ_REMAINING_EXTERNAL_ACTIONS.md + SMJ_PRODUCTION_READINESS_SCORECARD.md)"
   ],
   "starting_capability_counts": {
     "source": "docs/full-parity/corrected_production_parity_audit.json (from prior session, 2026-07-16)",
@@ -33,18 +33,33 @@
     "verified_complete": 0,
     "implemented_unverified": 469,
     "generated_provisional": 805,
-    "note": "These are the LAST RECORDED numbers from before this mission. Phase 2 will regenerate and confirm/refute them -- do not trust until re-verified."
+    "note": "These are the LAST RECORDED numbers from before this mission. Phase 2 re-ran the audit live and got IDENTICAL numbers -- confirmed no drift, not re-copied blindly. See SMJ_MASTER_BASELINE.md."
   },
-  "current_capability_counts": null,
-  "tests_passed": [],
+  "current_capability_counts": {
+    "note": "Unchanged from starting counts as of end of Phase 4 -- Phases 5/6/8/10 are what convert implemented_unverified/generated_provisional into verified_complete, not yet run to completion.",
+    "verified_complete_incremental_evidence": "Phase 4 live-verified (not just code-read) the wholesale credit gate, transaction ID propagation, transaction register, and concurrency-safe reservation -- these specific features now have real test evidence backing them even though the aggregate JSON counter has not been re-run to reflect it yet."
+  },
+  "tests_passed": [
+    "Phase 4: concurrency reservation test (10 units, two 8-unit races, never exceeded 10 reserved)",
+    "Phase 4: credit delivery gate, 4 real customers covering all 4 decision branches",
+    "Phase 4: wholesale transaction register live API call, 102/102 rows matched",
+    "Phase 4: transaction ID coverage/format/uniqueness across 102 Sales Orders + 100 Delivery Notes + 100 Sales Invoices + 77/78 Payment Entries"
+  ],
   "tests_failed": [],
-  "tests_unavailable": [],
+  "tests_unavailable": [
+    "bench run-tests for my_store_ui/tests/ -- allow_tests not yet enabled on staging.local (GATE 4, named in SMJ_MASTER_BASELINE.md as next action, not yet performed)"
+  ],
   "commits_created": [],
   "files_changed": [
-    "docs/execution/SMJ_MASTER_MISSION_STATE.md (new)",
-    "docs/execution/SMJ_MASTER_MISSION_STATE.json (new)",
-    "docs/execution/SMJ_MASTER_BATCH_LOG.md (new)",
-    "docs/execution/SMJ_MASTER_BLOCKERS.md (new)"
+    "docs/execution/SMJ_MASTER_MISSION_STATE.md",
+    "docs/execution/SMJ_MASTER_MISSION_STATE.json",
+    "docs/execution/SMJ_MASTER_BATCH_LOG.md",
+    "docs/execution/SMJ_MASTER_BLOCKERS.md",
+    "docs/execution/SMJ_MASTER_BASELINE.md (new, Phase 2)",
+    "docs/workflows/SMJ_WHOLESALE_CONCURRENCY_REPORT.md (new, Phase 4)",
+    "docs/workflows/SMJ_WHOLESALE_TRANSACTION_MODEL.md (new, Phase 4)",
+    "docs/workflows/SMJ_WHOLESALE_ACCEPTANCE_REPORT.md (new, Phase 4)",
+    "my_store_ui/dev_scripts/wholesale_concurrency_test.py (new, Phase 4)"
   ],
   "external_blockers": [
     {
@@ -60,7 +75,15 @@
       "status": "documented, non-blocking (deprecation warning only, does not stop scheduler/worker)"
     }
   ],
-  "last_successful_action": "Created recovery tag pre-smj-master-mission-20260718-0033 and mission state files",
-  "next_automatic_action": "Phase 1 re-verification (bench process health check), then Phase 2 baseline regeneration (read full-parity docs, run corrected_production_parity_audit if callable)",
-  "last_updated": "2026-07-18T00:33:00+05:30"
+  "known_hardening_items_not_fixed_in_this_mission": [
+    {
+      "id": "reservation-race-raw-deadlock-error",
+      "description": "Losing side of a concurrent stock reservation race gets a raw QueryDeadlockError (500-class) on first attempt instead of a friendly 'N units remain, retry?' message. A retry succeeds correctly with the true remaining quantity. Data-safety guarantee (never over-reserve) holds regardless.",
+      "recommendation": "Wrap create_stock_reservation_entries() call site with a bounded retry-on-deadlock loop (catch pymysql error 1213, retry once with short backoff).",
+      "why_not_fixed_now": "Out of scope for a verification mission to silently modify core reservation call-site behavior; flagged for a deliberate future hardening pass."
+    }
+  ],
+  "last_successful_action": "Phase 4 complete: wrote SMJ_WHOLESALE_CONCURRENCY_REPORT.md, SMJ_WHOLESALE_TRANSACTION_MODEL.md, SMJ_WHOLESALE_ACCEPTANCE_REPORT.md; updated SMJ_MASTER_BATCH_LOG.md with the phase4-wholesale-concurrency entry; test fixture CONC-TEST-001 confirmed clean (10 on hand, 0 reserved, no lingering SOs/SREs)",
+  "next_automatic_action": "Commit this batch (chore: SMJ mission Phase 3+4 -- data fixes, Fiscal Year fix, wholesale concurrency test and verification docs), then begin Phase 5: enumerate the 11-role security matrix (Administrator, System Manager, Sales User, Sales Manager, Purchase User, Purchase Manager, Stock User, Stock Manager, Accounts User, Accounts Manager, Restricted normal user) against real ERPNext permission checks on staging.local -- start with role creation/confirmation, then systematically test doctype-level and workflow-level access per role using bench execute with frappe.set_user() impersonation (not just reading Role Permission Manager config, which only shows intent -- must prove actual enforcement)",
+  "last_updated": "2026-07-18T01:15:00+05:30"
 }
