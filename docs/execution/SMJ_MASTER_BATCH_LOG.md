@@ -431,5 +431,44 @@ confidence it is real.
 `apps/my_store_ui/my_store_ui/dev_scripts/report_reconciliation_phase8_remainder.py`.
 No data changes on staging.local (read-only).
 
+**Commit:** cb34c6c
+
+---
+
+## Batch: phase9-import-purchasing (2026-07-18)
+
+**Phase:** 9 — import/purchasing workflow verification
+(MR→RFQ→SQ→PO→Goods-in-Transit→PR→LCV→PI→Payment)
+
+**Actions taken:**
+1. Traced Scenario A's full domestic procurement chain live via each
+   document's real foreign-key field (not name-guessing):
+   `MAT-MR-2026-00001` → `PUR-RFQ-2026-00001`
+   (`Request for Quotation Item.material_request`) → `PUR-SQTN-2026-00001`
+   (`Supplier Quotation Item.request_for_quotation`) → `PUR-ORD-2026-00001`
+   (`Purchase Order Item.supplier_quotation`) → `MAT-PRE-2026-00001` →
+   `ACC-PINV-2026-00001` (grand_total 263,200.00, status=Paid) →
+   `ACC-PAY-2026-00020` (paid_amount 263,200.00, matches exactly).
+   All 7 documents real, submitted, correctly linked end-to-end.
+2. Traced Scenario G's import/landed-cost chain: `PUR-ORD-2026-00006`
+   (supplier "Indus Prayer Mats Trading") → `MAT-PRE-2026-00006` →
+   `MAT-LCV-2026-00001` (confirmed as the only Landed Cost Voucher in the
+   dataset — no duplicates).
+3. Verified the Landed Cost Voucher's actual math: an 8% "Customs Duty
+   and Freight" charge produced **exactly** an 8.00% valuation-rate
+   increase on both affected items (PM-003: 2,100.00→2,268.00; CAR-002:
+   55,000.00→59,400.00) — precise, checkable, no rounding drift.
+4. Wrote `docs/workflows/SMJ_IMPORT_PURCHASING_REPORT.md` (both chains,
+   full evidence tables) and `docs/workflows/SMJ_LANDED_COST_VERIFICATION.md`
+   (the LCV math in detail).
+
+**Result:** Phase 9 complete. Both required procurement chains verified
+present, correctly linked, and financially accurate using real ERPNext
+controllers throughout — confirmed by tracing live document relationships,
+not by re-reading generator source code alone.
+
+**Files changed:** 2 new files under `docs/workflows/`. No data changes
+on staging.local (read-only tracing).
+
 **Commit:** pending — will commit this batch immediately after this log
 entry.
