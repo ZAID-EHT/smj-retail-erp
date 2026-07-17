@@ -295,3 +295,26 @@ environment-blocked — see `REMAINING_APPROVAL_BLOCKERS.md` for the
 explicit confirmation and reasoning. The four gates above (GATE 1–5)
 remain the only real blockers in this project and were not re-attempted
 this session since none of them were required for Batches 1–2.
+
+---
+
+## SMJ Master Mission update (2026-07-18)
+
+**GATE 4 and GATE 5 are both now closed** — see
+`VERIFICATION_MATRIX.md`'s matching entry and
+`docs/execution/SMJ_MASTER_BATCH_LOG.md` for full detail. In the course
+of closing them, one real, previously-undocumented risk was found and
+fixed: 13 test files were hardcoding `site1.local` and executing real
+(rolled-back) test writes against it regardless of which site
+`bench run-tests` targeted — a genuine conflict with this project's
+"never touch site1.local" rule. Fixed at the root, not worked around.
+
+One accounting data-quality issue was found and documented but
+deliberately **not** fixed live:
+`docs/verification/SMJ_ACCOUNTING_VERIFICATION.md` — the demo dataset's
+Profit and Loss Statement overstates profit by ~11.8M LKR because
+opening-stock postings were routed through an Expense account instead
+of a Balance-Sheet-only account. The exact correction path is documented
+there; not applied because reversing those entries now risks a stock
+ledger reposting cascade across the 100+ documents already built on top
+of them this mission.

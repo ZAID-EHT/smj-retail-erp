@@ -160,3 +160,28 @@ data via `bench execute` (standalone `unittest`, not `bench run-tests` —
 
 Not verified: browser/UI rendering (GATE 5, unchanged), `bench run-tests`
 execution (GATE 4, unchanged). See `REQUIRED_222_COMPLETION_REPORT.md`.
+
+---
+
+## SMJ Master Mission — GATE 4 and GATE 5 both closed (2026-07-18)
+
+Full detail: `docs/execution/SMJ_MASTER_BATCH_LOG.md`,
+`docs/ui/SMJ_BROWSER_VERIFICATION.md`.
+
+**GATE 4 (`bench run-tests` execution) — closed.** `allow_tests` enabled
+on `staging.local`. First real run surfaced 36 errors, all traced to a
+systemic 13-file test-infrastructure bug (hardcoded
+`frappe.init(site="site1.local")` + `frappe.destroy()` in test
+lifecycle hooks, corrupting shared process state and separately writing
+test data against `site1.local` regardless of the target site — fixed
+at the root in all 13 files) plus 3 smaller test-fixture defects. Final:
+**201 tests, 198 passed, 3 skipped, 0 failures, 0 errors.**
+
+**GATE 5 (browser/UI rendering) — closed.** Real Linux-native Playwright
+Chromium (not Windows Chrome, not headless-screenshot-only) verified all
+18 named workspaces at all 6 required viewports: 108/108 clean (0
+overflow, 0 console errors, 0 failed requests). Deep interaction
+testing (real clicks, not just presence) covered Home's full interactive
+surface and one representative page per each of the app's 3 distinct
+list/detail component engines. First-ever browser-level
+permission-denied test in this project's history.

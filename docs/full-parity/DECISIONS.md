@@ -360,3 +360,33 @@ truth, not a registry guess — verified against the actual Python source of
    the backend. The new adapter reads the same `get_dashboard_data()`
    config but performs its own `frappe.has_permission()` check per linked
    doctype before returning anything.
+
+5. **The 5 dead `priority_registry.py` entries pointing at DocTypes not
+   installed in this ERPNext version (POS Coupon, POS Gift Card, POS
+   Offer, Delivery Charges, Referral Code) were removed, not stubbed or
+   worked around**, because a route that can never resolve on this
+   installation is not "provisional," it's incorrect metadata — keeping
+   it would mislead future audits into thinking a real feature gap
+   exists where none does. Confirmed via `frappe.db.exists` and a full
+   source search before removing, not assumed.
+
+6. **The Payment Entry test fixture (`test_payment_entry.py`) was fixed
+   by filtering account selection to `account_type in [Bank, Cash]`
+   rather than by picking a different company/dataset**, because the
+   original bug (picking "any 2 accounts") was a genuine test-fixture
+   defect that would recur on any chart of accounts where a Receivable
+   account happened to sort first — the fix matches what a real
+   Internal Transfer payment actually requires, not a workaround
+   specific to this dataset.
+
+7. **The 13-file `frappe.destroy()`/`site1.local` test-infrastructure
+   bug was fixed by removing the hardcoded site-lifecycle calls
+   entirely, not by pointing them at `staging.local` instead** — because
+   `bench run-tests` already establishes the correct site context for
+   whichever `--site` flag was passed; re-adding a hardcoded site name
+   (even the "right" one today) would reintroduce the same class of bug
+   the moment this project needs to test against a different site again.
+   This also directly closes a real, previously-undocumented risk: these
+   tests were executing real (rolled-back) writes against `site1.local`
+   regardless of which site was targeted, in direct tension with this
+   project's "never touch site1.local" rule.

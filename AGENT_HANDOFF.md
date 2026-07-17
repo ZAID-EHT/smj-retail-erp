@@ -1568,3 +1568,63 @@ The authoritative final evidence is:
 - `docs/full-parity/required_missing_latest.json`
 - `docs/full-parity/corrected_production_parity_audit.json`
 - `docs/full-parity/REMAINING_APPROVAL_BLOCKERS.md`
+
+## 31. SMJ Retail ERP — Autonomous Pre-Production Completion Mission (2026-07-18)
+
+A separate, later autonomous mission (fully logged in
+`docs/execution/SMJ_MASTER_*`) picked up from here to close the
+*verification* gap Section 30 explicitly named (`verified_complete = 0`
+against 1,274 `implemented_unverified`/`generated_provisional` features).
+Ten phases were run; full detail, real command output, and every
+commit hash are in `docs/execution/SMJ_MASTER_BATCH_LOG.md`. Summary:
+
+- **Demo data & environment**: built a full year of realistic demo data
+  on `staging.local` (26 customers, 12 suppliers, 40 items, 102 Sales
+  Orders, 100 Delivery Notes, 100 Sales Invoices, 124 Payment Entries,
+  67 Purchase Orders, all 10 named sales scenarios and 7 purchase
+  scenarios), found and fixed a missing-Fiscal-Year bug that would have
+  silently blocked all future-dated transactions.
+- **Wholesale workflow + concurrency** (`docs/workflows/SMJ_WHOLESALE_*`):
+  built a real two-process race for the last units of stock — confirmed
+  no over-reservation is ever possible. All 6 of the mission's
+  acceptance scenarios verified against live data.
+- **Security** (`docs/security/SMJ_*`): 594 real permission checks + 6
+  genuine cross-role write-attempt tests across 10 roles. Zero
+  unauthorized access found.
+- **Browser/visual/responsive** (`docs/ui/SMJ_BROWSER_VERIFICATION.md`,
+  `docs/ui/SMJ_RESPONSIVE_RESULTS.md`): the first real browser
+  verification in this project's history using Linux-native Playwright
+  Chromium — a 108-point sweep (18 workspaces × 6 viewports) with zero
+  defects, plus deep click-through interaction testing and the
+  first-ever browser-level permission-denied test. Resolved a
+  2026-07-16-session mobile-CSS uncertainty as genuinely fixed. Also
+  fixed a systemic 13-file test-infrastructure bug that was corrupting
+  the backend test suite and separately writing test data against
+  `site1.local` regardless of which site was targeted — backend suite
+  now 201 tests, 0 failures, 0 errors (was 36 errors).
+- **Accounting verification** (`docs/verification/SMJ_ACCOUNTING_VERIFICATION.md`):
+  ran 14 standard reports through ERPNext's real Report API. Found and
+  fully root-caused a real P&L overstatement (~11.8M LKR) caused by
+  opening-stock postings hitting the wrong account type — documented
+  with an exact fix, not patched live (a year of transactions now
+  depends on those entries).
+- **Import/purchasing** (`docs/workflows/SMJ_IMPORT_PURCHASING_REPORT.md`):
+  verified both real procurement chains end-to-end with exact document
+  links; Landed Cost Voucher math confirmed precise to the decimal.
+- **Load/concurrency/backup-restore** (`docs/verification/SMJ_*`): a
+  full backup-restore drill with exact data match; concurrent reads
+  100% consistent; concurrent writes confirmed safe (zero corruption)
+  under contention, with a documented UX hardening recommendation.
+
+**Parity audit re-run (2026-07-18):** fingerprint
+`029f8e0d2a940f071d20a66010f820fbd8083401ae4eae6f906f0a909b0562d0` —
+**identical** to Section 30's, confirming zero structural drift across
+this entire mission. `required_but_missing = 0` and `unclassified = 0`
+remain true. `verified_complete` in the aggregate registry counter is
+still mechanically `0`, because that counter requires an explicit
+per-feature reclassification pass this mission did not build — but the
+real, evidenced verification work above exists and is fully documented
+per-feature in the `docs/execution/`, `docs/workflows/`,
+`docs/security/`, `docs/verification/`, and `docs/ui/` reports, which
+are the authoritative record of what was actually tested, how, and with
+what result.

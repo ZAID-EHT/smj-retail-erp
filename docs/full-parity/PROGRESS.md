@@ -801,3 +801,20 @@ found and credited 19 of 20 required document-actions that were actually
 ERPNext's standard "Connections" sidebar tiles, plus fixed a real duplicate
 dict-key bug (`Supplier` entry silently overwritten). 144 items remain,
 none newly blocked — see `REMAINING_APPROVAL_BLOCKERS.md`.
+
+---
+
+## SMJ Master Mission (2026-07-18)
+
+A later, separate autonomous mission closed the verification gap this
+doc's numbers don't capture (`verified_complete = 0` in the aggregate
+registry counter, unchanged by this mission — see `AGENT_HANDOFF.md`
+Section 31 for why that counter needs a dedicated reclassification pass
+this mission didn't build). What it did do: ran real tests against real
+data across 10 phases — demo data build, wholesale workflow +
+concurrency, an 11-role security matrix, a full browser/responsive
+audit (the first in this project's history, closing GATE 5), 14
+accounting reports via the real Report API (finding a real P&L
+overstatement bug), both import/purchasing chains, and a full
+backup-restore/load/concurrency drill (closing GATE 4 along the way).
+Full detail: `docs/execution/SMJ_MASTER_BATCH_LOG.md`.
