@@ -2,7 +2,7 @@
   "mission_start_time": "2026-07-18T00:33:00+05:30",
   "branch": "full-feature-parity",
   "starting_commit": "1d2d36abdfba010fec4c25f1b29960c6b4c2bc94",
-  "current_commit": "PENDING_PHASE6_COMMIT",
+  "current_commit": "f8a6397",
   "recovery_tag": "pre-smj-master-mission-20260718-0033",
   "current_phase": "Phase 6 fully complete. Remaining: Phase 1 formal writeup (low priority), Phase 7 mechanical re-count, final documentation/scorecard.",
   "current_batch": "phase6-visual-audit-and-test-fixes",
@@ -66,7 +66,7 @@
     "980c150 chore: SMJ mission Phase 10 -- backup/restore, load, concurrency verification",
     "2f27e6a docs: update mission state commit pointers after Phase 10",
     "1f92e0e docs: record WSL2 network-isolation diagnosis for BLOCKER-003 and the taskkill incident",
-    "PENDING: chore: SMJ mission Phase 6 completion -- full browser audit + 13-file test-infrastructure fix"
+    "f8a6397 chore: SMJ mission Phase 6 completion -- full browser audit + 13-file test-infrastructure fix"
   ],
   "files_changed": [
     "docs/execution/SMJ_MASTER_MISSION_STATE.md",
@@ -110,7 +110,7 @@
     {
       "id": "no-headless-chrome (BLOCKER-003)",
       "resolution": "Resolved 2026-07-18. The accesslint MCP's bundled Chrome launcher could not become CDP-debuggable in this container, but Linux-native Playwright Chromium (installed fresh via npx playwright install chromium) worked cleanly on first attempt -- no environment changes needed. Root cause was specific to that one launcher, not a fundamental container limitation.",
-      "resolved_by_commit": "PENDING_PHASE6_COMMIT"
+      "resolved_by_commit": "f8a6397"
     }
   ],
   "known_hardening_items_not_fixed_in_this_mission": [
