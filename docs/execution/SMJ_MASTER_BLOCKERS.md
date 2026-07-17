@@ -76,6 +76,35 @@ listed here has already had all safe local work completed around it.
      (`FRONTEND.md`) as the checklist.
 - **Status:** Documented, confirmed via direct attempt, not silently
   worked around.
+- **Follow-up investigation (2026-07-18):** tried the Windows-host Chrome
+  via the WSL interop path (`/mnt/c/Program Files/Google/Chrome/
+  Application/chrome.exe`, launched headless with
+  `--remote-debugging-port=9222 --remote-debugging-address=0.0.0.0
+  --remote-allow-origins=*`). Chrome launches successfully and its own
+  log confirms `DevTools listening on ws://...:9222/...`, but the CDP
+  port is **not reachable from the WSL/Linux side** under any of 127.0.0.1,
+  the WSL resolv.conf nameserver IP, the default-route gateway IP, or
+  `::1` — all four gave `Connection refused`. Root cause: this WSL
+  installation has no `.wslconfig` (default NAT networking mode, not
+  mirrored), so Windows-bound ports are not visible to WSL by default.
+  **This confirms BLOCKER-003 is a genuine, unavoidable network-namespace
+  issue, not a missing flag.** Fixing it requires a Windows-side change
+  (add `[wsl2]\nnetworkingMode=mirrored` to `%UserProfile%\.wslconfig`
+  then `wsl --shutdown` from PowerShell — which would terminate this
+  session — or a `netsh interface portproxy` rule / firewall exception on
+  Windows) — not something this agent should attempt unilaterally after
+  the incident noted below.
+- **Incident during this investigation:** a cleanup step used
+  `taskkill /F /IM chrome.exe` (kill by image name) instead of the
+  specific test PID, which terminated **all** of the user's actual Chrome
+  windows, not just the test instance. This was a real mistake — the
+  user was informed immediately. Subsequent cleanup was corrected to
+  target only the specific new PIDs from that one test launch (verified
+  by diffing the process list before/after launch), and no further
+  Windows process or network changes should be made without the user's
+  explicit go-ahead, given both this incident and this exact class of
+  action (`taskkill /IM`) being exactly what the "no wildcard process
+  kills" rule exists to prevent.
 
 ## Production-readiness external blockers (anticipated, not yet reached)
 
