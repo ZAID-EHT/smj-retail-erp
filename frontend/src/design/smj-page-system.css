@@ -1443,3 +1443,25 @@
 @media (max-width: 370px) {
   .smj-register-kpis { grid-template-columns: 1fr; }
 }
+
+/* Quick Create ( + Create ) header menu */
+.smj-quick-create { display: inline-flex; }
+.smj-quick-create__trigger { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 1px solid var(--ref-primary-blue); border-radius: 8px; background: var(--ref-primary-blue); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; }
+.smj-quick-create__trigger:hover { filter: brightness(1.05); }
+.smj-quick-create__plus { font-size: 16px; line-height: 1; font-weight: 700; }
+.smj-quick-create__panel { position: fixed; z-index: 1200; width: min(520px, calc(100vw - 24px)); max-height: min(70vh, 560px); overflow: auto; background: #fff; border: 1px solid var(--ref-border-colour); border-radius: 12px; box-shadow: var(--ref-card-shadow, 0 12px 40px rgba(15, 30, 60, .18)); padding: 8px; }
+.smj-quick-create__panel-header { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 8px; }
+.smj-quick-create__panel-header strong { font-size: 13px; }
+.smj-quick-create__search { padding: 0 4px 8px; position: sticky; top: 0; background: #fff; }
+.smj-quick-create__search input { width: 100%; height: 34px; padding: 0 10px; border: 1px solid var(--ref-border-colour); border-radius: 8px; font-size: 12px; }
+.smj-quick-create__status { padding: 10px; font-size: 12px; color: var(--ref-secondary-text); }
+.smj-quick-create__status.is-error { color: var(--ref-danger, #c0392b); }
+.smj-quick-create__groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 4px 12px; padding: 0 4px 4px; }
+.smj-quick-create__groups h4 { margin: 8px 4px 4px; font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--ref-secondary-text); }
+.smj-quick-create__item { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 8px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--ref-primary-text); font-size: 12px; text-align: left; cursor: pointer; }
+.smj-quick-create__item:hover, .smj-quick-create__item.is-active { background: #eef4ff; border-color: var(--ref-primary-blue); }
+.smj-quick-create__item-plus { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 6px; background: var(--ref-primary-blue); color: #fff; font-size: 13px; font-weight: 700; }
+@media (max-width: 560px) {
+  .smj-quick-create__label { display: none; }
+  .smj-quick-create__groups { grid-template-columns: 1fr; }
+}

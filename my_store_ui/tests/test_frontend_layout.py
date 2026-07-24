@@ -79,6 +79,17 @@ class TestRetailERPScrolling(unittest.TestCase):
 		service = (frontend / "services" / "smartSales.js").read_text()
 		self.assertIn("get_cart_pricing", service)
 
+	def test_header_mounts_permission_aware_quick_create_menu(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		header = (frontend / "components" / "shell" / "AppHeader.vue").read_text()
+		self.assertIn("QuickCreateMenu", header)
+		menu = (frontend / "components" / "shell" / "QuickCreateMenu.vue").read_text()
+		# Keyboard + dismissal behaviours are wired.
+		for marker in ("getQuickCreateActions", "Escape", "ArrowDown", "ArrowUp", "role=\"menu\"", "Teleport"):
+			self.assertIn(marker, menu)
+		service = (frontend / "services" / "quickCreate.js").read_text()
+		self.assertIn("get_quick_create_actions", service)
+
 	def test_header_uses_compact_permission_filtered_module_menus(self):
 		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
 		navigation = (frontend / "components" / "shell" / "ModuleNavigation.vue").read_text()

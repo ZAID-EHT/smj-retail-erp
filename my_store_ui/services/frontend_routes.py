@@ -323,3 +323,49 @@ def get_permitted_navigation() -> list[dict]:
 		public["links"] = links
 		result.append(public)
 	return result
+
+
+# Curated, permission-aware Quick Create ("+ Create") menu. Only doctypes that
+# resolve to a REAL create route in the universal registry and for which the user
+# holds create permission are offered — never a guessed URL or a dead action.
+QUICK_CREATE_GROUPS = (
+	("Sales", ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry")),
+	("Purchasing", ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice")),
+	("Inventory", ("Item", "Stock Entry", "Stock Reconciliation", "Warehouse")),
+	("Administration", ("User", "Role", "Role Profile")),
+	("More", ("Journal Entry", "Contact", "Address")),
+)
+
+
+@frappe.whitelist(methods=["GET"])
+def get_quick_create_actions() -> dict:
+	if frappe.session.user == "Guest":
+		frappe.throw(frappe._("Authentication is required."), frappe.AuthenticationError)
+	from my_store_ui.universal.registry import feature_is_permitted, get_registry_records
+
+	by_doctype: dict[str, dict] = {}
+	for record in get_registry_records():
+		doctype = record.get("doctype")
+		if doctype and record.get("create_route") and doctype not in by_doctype:
+			by_doctype[doctype] = record
+
+	groups = []
+	for group_label, doctypes in QUICK_CREATE_GROUPS:
+		items = []
+		for doctype in doctypes:
+			record = by_doctype.get(doctype)
+			if not record:
+				continue
+			# Registry-level role/permission gate AND an explicit create check.
+			if not feature_is_permitted(record, "create") or not frappe.has_permission(doctype, "create"):
+				continue
+			items.append({
+				"label": frappe._(doctype),
+				"doctype": doctype,
+				"path": record["create_route"],
+				"feature": record.get("route_key"),
+				"group": group_label,
+			})
+		if items:
+			groups.append({"group": group_label, "items": items})
+	return {"groups": groups}

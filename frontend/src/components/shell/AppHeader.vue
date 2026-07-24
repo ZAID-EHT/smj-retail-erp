@@ -4,6 +4,7 @@ import CompanyBrand from "./CompanyBrand.vue";
 import GlobalSearch from "./GlobalSearch.vue";
 import HeaderPageActions from "./HeaderPageActions.vue";
 import ModuleNavigation from "./ModuleNavigation.vue";
+import QuickCreateMenu from "./QuickCreateMenu.vue";
 import UserMenu from "./UserMenu.vue";
 
 defineEmits(["toggle-mobile-navigation"]);
@@ -25,6 +26,7 @@ defineEmits(["toggle-mobile-navigation"]);
       <ModuleNavigation class="ref-header__navigation" />
       <GlobalSearch class="ref-header__search" />
       <div class="ref-header__actions">
+        <QuickCreateMenu />
         <RouterLink
           class="ref-header-utility"
           to="/feature-unavailable?feature=Notifications"
