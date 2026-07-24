@@ -3,42 +3,62 @@
   "mission_start": "2026-07-24T11:40:00+05:30",
   "starting_branch": "full-feature-parity",
   "starting_commit": "e15c37e787e47a6d33d4efb7282fd574301ee897",
-  "current_commit": "e15c37e",
+  "current_commit": "9d4dbdc",
   "recovery_tag": "pre-smj-core-workflow-20260724-1140",
   "test_site": "staging.local",
   "dev_site_readonly": "site1.local",
   "staging_backup": "sites/staging.local/private/backups/20260724_114030-staging_local-database.sql.gz (+ files/private-files tar, site_config json)",
-  "existing_uncommitted_files": "none at mission start (previous batch committed as 0d10f34 + e15c37e)",
-  "current_phase": "Phase 0 complete (preflight + backup + recovery tag). Audit + core-spine implementation in progress.",
-  "current_batch": "audit-and-core-spine",
-  "requirements_completed": [],
-  "requirements_in_progress": [
-    "Phase 1 customer-first Smart Sales",
-    "Phase 2 customer-specific pricing",
-    "Phase 3 stock validation + concurrency friendly error"
+  "existing_uncommitted_files": "none",
+  "current_phase": "Core security/correctness spine (Phases 1-3) + FIFO (Phase 4) implemented and verified on staging. Phases 5-8, acceptance scenarios and browser matrix are remaining scope for subsequent sessions.",
+  "current_batch": "core-spine-and-fifo-complete",
+  "requirements_completed_verified": [
+    "Req 1,11,12 customer-first: catalogue/add/qty/submit gated on selected customer; out-of-stock badge blocks add (frontend) — regression test in test_frontend_layout",
+    "Req 2-6 customer pricing: get_bootstrap prices against Customer.default_price_list; get_cart_pricing uses ERPNext get_item_details (Item Price + customer-scoped Pricing Rules) to reprice cart on customer change/add — verified by test_smart_sales_core (5 tests, staging)",
+    "Req 13 backend stock recheck: create_draft_sales_order rejects lines exceeding Available-to-Sell (Actual - Reserved) with friendly error — verified test_smart_sales_core.test_out_of_stock_item_reports_status_and_blocks_order",
+    "Req 14 concurrency friendly UX: reserve_sales_order bounded retry-on-deadlock (1213/1205) + rollback + friendly message — fixes prior raw-deadlock hardening item",
+    "Req 15-17 FIFO: 10@1000 + 2@1200 issue = 12,400 outgoing exact, remaining 8 @ 9,600 exact, standard controllers — SMJ_FIFO_VERIFICATION.md"
   ],
   "requirements_remaining": [
-    "Phase 4 FIFO verification",
-    "Phase 5 Purchase Order data audit + end-to-end purchase workflow",
-    "Phase 6 + Create header menu",
-    "Phase 7 simplified entry forms (customer/supplier/product/transactions)",
-    "Phase 8 user/role/access management completion",
-    "End-to-end acceptance scenarios 1-11 on staging",
-    "Full 6-viewport Playwright browser matrix",
-    "All workflow/verification/security docs"
+    "Phase 3 positive-path stock success + live 2-process concurrency demo on staging (reservation friendly-retry has unit-level coverage; a live parallel demo is not yet re-run this mission)",
+    "Phase 4 sale-path FIFO->COGS->Gross Profit trace (layer valuation verified; COGS-on-sale trace deferred)",
+    "Phase 5 Purchase Order field-level data audit doc + end-to-end purchase acceptance doc",
+    "Phase 6 + Create header menu (blocked on missing create routes for Supplier/PO/MR/RFQ/SQ/PR/PI/User/Role — only 6 doctypes + 3 Stock Entry variants have real /new routes today; adding the rest is required first to avoid dead actions)",
+    "Phase 7 simplified entry forms for Supplier/Product/transactions (Customer/User curated add already exist from prior batch 0d10f34)",
+    "Phase 8 remaining access management (Role Profile surface, User Permission company/warehouse surface, effective-access view, session revocation, welcome/reset email)",
+    "End-to-end acceptance scenarios 1-11 executed as a scripted staging suite",
+    "Full 6-viewport Linux-native Playwright browser matrix for the new Smart Sales UI"
   ],
-  "tests_passed": [],
+  "tests_passed": [
+    "test_smart_sales_core: 5 (staging) — customer price list resolution, customer-aware bootstrap pricing, Pricing Rule application, cross-customer isolation, out-of-stock rejection",
+    "test_frontend_layout: 8 (staging) — incl. new customer-first + stock-gating regression",
+    "test_wholesale_credit: 7 (staging)",
+    "test_stock_action_parity: 7 (staging)",
+    "FIFO dev-script: outgoing 12,400 exact + remaining 9,600 exact (staging)",
+    "frontend npm run build: clean, 199 modules"
+  ],
   "tests_failed": [],
-  "tests_blocked": [],
-  "defects_found": [
-    "Smart Sales does not enforce customer-first (Add to cart works with no customer selected)",
-    "get_bootstrap pricing is not customer-specific (ignores Customer.default_price_list and Pricing Rules)",
-    "create_draft_sales_order performs no available-to-sell recheck / insufficient-stock rejection",
-    "Reservation losing side surfaces a raw QueryDeadlockError instead of a friendly retryable message"
+  "tests_blocked": [
+    "test_navigation_search.test_document_level_denial_and_report_denial_omit_results — pre-existing staging-data error in search.py (get_meta(None) on a misconfigured registered doctype); search.py NOT modified by this mission; documented in SMJ_CORE_WORKFLOW_BLOCKERS.md"
   ],
-  "defects_fixed": [],
-  "commits_created": [],
-  "last_completed_action": "Preflight + staging backup + recovery tag + core-architecture audit of Smart Sales, pricing, reservation and credit.",
-  "next_automatic_action": "Write existing-feature audit doc, then implement customer-aware pricing engine endpoint + customer-first enforcement + order-placement stock validation + reservation friendly-retry, each with staging tests.",
-  "last_updated": "2026-07-24T11:45:00+05:30"
+  "defects_found": [
+    "customer-first not enforced (fixed)",
+    "catalogue pricing not customer-specific (fixed)",
+    "no available-to-sell recheck on draft SO creation (fixed)",
+    "reservation losing side raw QueryDeadlockError (fixed)",
+    "pre-existing: global search errors on a staging doctype with a None child-table option (documented, not fixed — outside spine scope)"
+  ],
+  "defects_fixed": [
+    "customer-first enforcement",
+    "customer-specific pricing",
+    "server-side stock recheck on order placement",
+    "reservation friendly bounded retry"
+  ],
+  "commits_created": [
+    "9fc727b chore: audit SMJ core wholesale workflow + resumable mission state",
+    "524d01f feat: customer-first Smart Sales with customer pricing, stock gating and reservation retry",
+    "9d4dbdc test: verify FIFO valuation on staging (10@1000 + 2@1200 = 12,400 exact)"
+  ],
+  "last_completed_action": "FIFO valuation verified exactly on staging via standard controllers; verification doc written and committed.",
+  "next_automatic_action": "Phase 5 Purchase Order field audit, then Phase 6 create-route additions + Quick Create menu, then Phase 7/8 and the scripted acceptance + browser matrix.",
+  "last_updated": "2026-07-24T12:30:00+05:30"
 }
