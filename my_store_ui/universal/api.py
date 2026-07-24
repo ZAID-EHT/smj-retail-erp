@@ -39,7 +39,31 @@ NUMERIC_FIELDS = {"Currency", "Float", "Int", "Percent", "Duration", "Rating"}
 # Frappe's Desk User form hides the raw roles table and replaces it with its
 # JavaScript RoleEditor. Vue never executes Desk client scripts, so this one
 # server-owned adapter exposes only that table to authorised user managers.
-SPECIAL_WRITABLE_FIELDS = {"User": {"roles"}}
+# "enabled" is read-only in Desk (toggled by Desk JS); we re-expose it so user
+# managers can deactivate/reactivate accounts. Frappe's own User.validate still
+# blocks disabling Administrator or the last System Manager.
+SPECIAL_WRITABLE_FIELDS = {"User": {"roles", "enabled"}}
+
+# Privileged, doctype-scoped fields surfaced as write-only inputs on the form:
+# accepted on create/update but never read back into detail views. "new_password"
+# lets a user manager set or reset a login password directly (essential when no
+# outgoing email account is configured to deliver welcome/reset links).
+WRITE_ONLY_INPUT_FIELDS = {"User": ("new_password",)}
+
+# Curated "essentials only" field order for the CREATE form of noisy doctypes.
+# The full field set is still returned for editing; the frontend applies this
+# subset (in order) only when adding a new record, to keep onboarding simple.
+SIMPLE_CREATE_FIELDS = {
+	"User": ("username", "new_password", "roles", "role_profile_name", "email", "first_name", "last_name", "enabled"),
+}
+
+# Fields that are mandatory ON THE ADD FORM, overriding the DocType's own reqd
+# flags (applied by the frontend only when adding). For User we want username +
+# password + role to be the only required inputs; email/first_name are optional
+# and synthesised server-side from the username when left blank.
+SIMPLE_CREATE_REQUIRED = {
+	"User": ("username", "new_password", "roles"),
+}
 
 # Fixed server-owned mappings. The browser sends only these symbolic action
 # keys; dotted Python methods are never accepted from a request.
@@ -170,18 +194,37 @@ def _readable_fields(meta, levels: set[int] | None = None) -> list:
 	return [field for field in meta.fields if field.fieldtype in SUPPORTED_FIELD_TYPES and cint(field.permlevel) in levels]
 
 
+def _is_privileged_user_manager() -> bool:
+	return frappe.session.user == "Administrator" or "System Manager" in frappe.get_roles()
+
+
+def _write_only_inputs(meta) -> list:
+	"""Write-only inputs (e.g. a password) exposed to privileged user managers.
+
+	These bypass the SUPPORTED_FIELD_TYPES / read-only gating precisely because
+	they are never surfaced on read paths — only accepted on create/update.
+	"""
+	if not _is_privileged_user_manager():
+		return []
+	return [field for name in WRITE_ONLY_INPUT_FIELDS.get(meta.name, ()) if (field := meta.get_field(name))]
+
+
 def _writable_fields(meta, levels: set[int] | None = None) -> list:
 	levels = _permlevels(meta, "write") if levels is None else levels
-	special = SPECIAL_WRITABLE_FIELDS.get(meta.name, set()) if (
-		frappe.session.user == "Administrator" or "System Manager" in frappe.get_roles()
-	) else set()
-	return [
+	special = SPECIAL_WRITABLE_FIELDS.get(meta.name, set()) if _is_privileged_user_manager() else set()
+	fields = [
 		field for field in meta.fields
 		if field.fieldtype in SUPPORTED_FIELD_TYPES
 		and field.fieldtype not in LAYOUT_FIELDS | {"HTML", "Button"}
 		and (field.fieldname in special or (not field.read_only and not field.hidden))
 		and cint(field.permlevel) in levels
 	]
+	seen = {field.fieldname for field in fields}
+	for field in _write_only_inputs(meta):
+		if field.fieldname not in seen:
+			fields.append(field)
+			seen.add(field.fieldname)
+	return fields
 
 
 def _permissions(doctype: str, doc=None) -> dict:
@@ -230,6 +273,12 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 	if field.parent == "User" and field.fieldname == "roles":
 		definition["label"] = _("Roles Assigned")
 		definition["description"] = _("Add individual permitted roles for this user. Role Profile selections may replace these roles during standard User validation.")
+	if field.parent == "User" and field.fieldname == "enabled":
+		definition["label"] = _("Account Enabled")
+		definition["description"] = _("Turn off to immediately revoke this user's access. Re-enable to restore it.")
+	if field.parent == "User" and field.fieldname == "new_password":
+		definition["label"] = _("Set Password (optional)")
+		definition["description"] = _("Set or reset this user's login password directly. Leave blank to keep the current password or rely on the welcome email.")
 	if field.fieldtype in {"Table", "Table MultiSelect"} and field.options and depth == 0:
 		child_meta = frappe.get_meta(field.options)
 		# Child DocTypes do not carry standalone DocPerm rows. Their fields
@@ -298,6 +347,15 @@ def get_feature_definition(feature: str):
 def get_doctype_metadata(feature: str):
 	_require_login()
 	record, meta, readable, writable = _metadata(feature)
+	# Write-only inputs (e.g. a password) never appear on read paths, so append
+	# them to the rendered form fields explicitly. They carry no default value.
+	readable_names = {field.fieldname for field in readable}
+	form_fields = readable + [field for field in _write_only_inputs(meta) if field.fieldname not in readable_names]
+	# Essentials-only ordering the frontend applies when ADDING a record. Only
+	# includes fields the user can actually see/write on this form.
+	form_field_names = {field.fieldname for field in form_fields}
+	simple_create_fields = [name for name in SIMPLE_CREATE_FIELDS.get(meta.name, ()) if name in form_field_names]
+	simple_create_required = [name for name in SIMPLE_CREATE_REQUIRED.get(meta.name, ()) if name in form_field_names]
 	defaults = {}
 	if frappe.has_permission(meta.name, "create"):
 		new_doc = frappe.new_doc(meta.name)
@@ -309,7 +367,9 @@ def get_doctype_metadata(feature: str):
 		"title_field": meta.title_field or "name", "image_field": meta.image_field,
 		"is_submittable": bool(meta.is_submittable), "is_tree": bool(meta.is_tree), "is_single": bool(meta.issingle),
 		"track_changes": bool(meta.track_changes), "search_fields": [value.strip() for value in (meta.search_fields or "").split(",") if value.strip()],
-		"fields": [_field_definition(field, writable=writable) for field in readable],
+		"fields": [_field_definition(field, writable=writable) for field in form_fields],
+		"simple_create_fields": simple_create_fields,
+		"simple_create_required": simple_create_required,
 		"defaults": defaults,
 		"permissions": _permissions(meta.name),
 		"client_script_policy": "not_executed",
@@ -548,6 +608,23 @@ def _clean_payload(meta, payload: Any, existing=None) -> dict:
 	return clean
 
 
+def _apply_user_create_defaults(doc) -> None:
+	"""Let user managers create accounts by username alone.
+
+	Frappe requires email (the User's unique id) and first_name, but the Add User
+	form treats those as optional. When left blank we synthesise them from the
+	username so username + password + role are the only mandatory inputs.
+	"""
+	username = (doc.get("username") or "").strip()
+	if not doc.get("email"):
+		if not username:
+			frappe.throw(_("A username or an email is required."), frappe.ValidationError)
+		domain = frappe.conf.get("user_default_email_domain") or frappe.local.site or "example.com"
+		doc.email = f"{username}@{domain}"
+	if not (doc.get("first_name") or "").strip():
+		doc.first_name = username or (doc.email or "").split("@", 1)[0]
+
+
 @frappe.whitelist(methods=["POST"])
 def create_document(feature: str, values: Any):
 	_require_login()
@@ -557,6 +634,8 @@ def create_document(feature: str, values: Any):
 		frappe.throw(_("You cannot create this record."), frappe.PermissionError)
 	doc = frappe.new_doc(meta.name)
 	doc.update(_clean_payload(meta, values))
+	if meta.name == "User":
+		_apply_user_create_defaults(doc)
 	doc.insert()
 	return {"name": doc.name, "route": _record_route(record, doc.name), "modified": doc.modified}
 

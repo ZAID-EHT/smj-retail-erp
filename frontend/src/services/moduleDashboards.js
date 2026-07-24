@@ -28,6 +28,8 @@ export const getBuyingDashboard = (signal) => call("get_buying_dashboard", {}, s
 export const getCrmDashboard = (signal) => call("get_crm_dashboard", {}, signal);
 export const getSellingDashboard = (signal) => call("get_selling_dashboard", {}, signal);
 export const getStockDashboard = (signal) => call("get_stock_dashboard", {}, signal);
+export const getOperationsDashboard = (signal) => call("get_operations_dashboard", {}, signal);
+export const getAdminDashboard = (signal) => call("get_admin_dashboard", {}, signal);
 
 export const MODULE_DASHBOARD_LOADERS = {
   finance: [getAccountsDashboard, getPaymentsDashboard],
@@ -35,4 +37,6 @@ export const MODULE_DASHBOARD_LOADERS = {
   crm: [getCrmDashboard],
   sales: [getSellingDashboard],
   inventory: [getStockDashboard],
+  operations: [getOperationsDashboard],
+  admin: [getAdminDashboard],
 };

@@ -77,7 +77,12 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertFalse(roles["hidden"])
 		self.assertFalse(roles["read_only"])
 		self.assertEqual([field["fieldname"] for field in roles["child_fields"]], ["role"])
-		self.assertFalse(any(field["fieldtype"] == "Password" for field in user["fields"]))
+		# The only Password input exposed is the controlled, write-only new_password;
+		# no other sensitive password field is surfaced on the User form.
+		password_fields = [field["fieldname"] for field in user["fields"] if field["fieldtype"] == "Password"]
+		self.assertEqual(password_fields, ["new_password"])
+		new_password = next(field for field in user["fields"] if field["fieldname"] == "new_password")
+		self.assertFalse(new_password["read_only"])
 		clean = _clean_payload(
 			frappe.get_meta("User"),
 			{"email": "dry-run@example.invalid", "first_name": "Dry Run", "roles": [{"role": "Sales User"}]},
@@ -177,6 +182,105 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertEqual(fields["roles"]["label"], "Roles Assigned")
 		self.assertFalse(fields["roles"]["read_only"])
 		self.assertEqual(fields["roles"]["child_fields"][0]["options"], "Role")
+
+	def test_user_manager_can_set_password_create_disabled_and_reset(self):
+		from frappe.utils.password import check_password
+
+		metadata = get_doctype_metadata("user")
+		fields = {field["fieldname"]: field for field in metadata["fields"]}
+		# new_password is surfaced as a write-only Password input on the form.
+		self.assertIn("new_password", fields)
+		self.assertEqual(fields["new_password"]["fieldtype"], "Password")
+		self.assertFalse(fields["new_password"]["read_only"])
+		# enabled is re-exposed as writable so managers can revoke/restore access.
+		self.assertFalse(fields["enabled"]["read_only"])
+
+		frappe.db.savepoint("user_password_test")
+		try:
+			email = f"universal_pw_{frappe.generate_hash(length=8)}@example.com"
+			password = "Xq7!vTn2@Lp9zK"
+			created = create_document("user", {
+				"email": email, "first_name": "Universal Password",
+				"send_welcome_email": 0, "enabled": 0,
+				"new_password": password, "roles": [{"role": "Sales User"}],
+			})
+			# The password set on create yields working login credentials.
+			self.assertEqual(check_password(email, password), email)
+			# ...and the account was created disabled, as requested.
+			self.assertEqual(frappe.db.get_value("User", email, "enabled"), 0)
+			# The password is never echoed back on the read path.
+			detail = get_document_detail("user", created["name"])
+			self.assertNotIn("new_password", detail["document"])
+
+			doc = frappe.get_doc("User", email)
+			reset = "Zt3#Mw8&Qr1yB"
+			update_document("user", email, {"enabled": 1, "new_password": reset}, str(doc.modified))
+			self.assertEqual(check_password(email, reset), email)
+			self.assertEqual(frappe.db.get_value("User", email, "enabled"), 1)
+		finally:
+			frappe.db.rollback(save_point="user_password_test")
+
+	def test_password_and_enable_overrides_require_privilege(self):
+		from my_store_ui.universal.api import _writable_fields, _write_only_inputs
+
+		meta = frappe.get_meta("User")
+		frappe.db.savepoint("user_priv_test")
+		try:
+			email = f"universal_restricted_{frappe.generate_hash(length=8)}@example.com"
+			frappe.get_doc({
+				"doctype": "User", "email": email, "first_name": "Restricted",
+				"send_welcome_email": 0, "roles": [{"role": "Sales User"}],
+			}).insert(ignore_permissions=True)
+			original = frappe.session.user
+			try:
+				frappe.set_user(email)
+				writable = {field.fieldname for field in _writable_fields(meta)}
+				self.assertEqual(_write_only_inputs(meta), [])
+				self.assertNotIn("new_password", writable)
+				self.assertNotIn("enabled", writable)
+			finally:
+				frappe.set_user(original)
+		finally:
+			frappe.db.rollback(save_point="user_priv_test")
+
+	def test_add_user_form_is_curated_to_essentials(self):
+		metadata = get_doctype_metadata("user")
+		self.assertEqual(
+			metadata["simple_create_fields"],
+			["username", "new_password", "roles", "role_profile_name", "email", "first_name", "last_name", "enabled"],
+		)
+		# Username, password and role are the only mandatory inputs on the add form.
+		self.assertEqual(metadata["simple_create_required"], ["username", "new_password", "roles"])
+		# The full field set is still returned so the edit form stays complete.
+		all_names = {field["fieldname"] for field in metadata["fields"]}
+		self.assertTrue(set(metadata["simple_create_fields"]).issubset(all_names))
+		self.assertGreater(len(metadata["fields"]), len(metadata["simple_create_fields"]))
+		# Simplification is opt-in per doctype; ordinary doctypes are unaffected.
+		self.assertEqual(get_doctype_metadata("supplier")["simple_create_fields"], [])
+		self.assertEqual(get_doctype_metadata("supplier")["simple_create_required"], [])
+
+	def test_add_user_by_username_synthesises_optional_email_and_name(self):
+		from frappe.utils.password import check_password
+
+		frappe.db.savepoint("user_username_test")
+		try:
+			username = f"universal_uname_{frappe.generate_hash(length=8)}"
+			password = "Xq7!vTn2@Lp9zK"
+			created = create_document("user", {
+				"username": username, "new_password": password, "roles": [{"role": "Sales User"}],
+			})
+			doc = frappe.get_doc("User", created["name"])
+			# Email is synthesised from the username; first_name defaults to it too.
+			self.assertEqual(doc.email, f"{username}@{frappe.local.site}")
+			self.assertEqual(created["name"], doc.email)
+			self.assertEqual(doc.first_name, username)
+			self.assertEqual(frappe.db.get_value("User", {"username": username}, "name"), created["name"])
+			self.assertEqual(check_password(doc.email, password), doc.name)
+			# Creating with neither a username nor an email is rejected clearly.
+			with self.assertRaises(frappe.ValidationError):
+				create_document("user", {"new_password": password, "roles": [{"role": "Sales User"}]})
+		finally:
+			frappe.db.rollback(save_point="user_username_test")
 
 	def test_guest_cannot_read_registry_or_metadata(self):
 		original = frappe.session.user

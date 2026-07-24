@@ -16,7 +16,10 @@ const modules = computed(() => session ? session.state.navigation : navigationMo
       <button class="ref-mobile-navigation__backdrop" tabindex="-1" aria-label="Close navigation" @click="$emit('close')"></button>
       <aside class="ref-mobile-navigation__drawer">
         <div class="ref-mobile-navigation__header">
-          <strong>Retail ERP</strong>
+          <span class="ref-mobile-navigation__brand">
+            <span aria-hidden="true">R</span>
+            <span><strong>Retail ERP</strong><small>Menu</small></span>
+          </span>
           <button class="ref-icon-button" type="button" data-dialog-close aria-label="Close navigation" @click="$emit('close')">
             <SmjClose size="18" decorative />
           </button>
@@ -24,15 +27,24 @@ const modules = computed(() => session ? session.state.navigation : navigationMo
         <nav aria-label="Mobile modules">
           <section v-for="module in modules" :key="module.name" :data-accent="module.accent">
             <RouterLink class="ref-mobile-navigation__module" :to="module.path" @click="$emit('close')">
-              <component :is="moduleIcon(module.icon)" size="16" decorative />{{ module.label }}
+              <span class="ref-mobile-navigation__module-icon" aria-hidden="true">
+                <component :is="moduleIcon(module.icon)" size="17" decorative />
+              </span>
+              <span class="ref-mobile-navigation__module-copy">
+                <strong>{{ module.label }}</strong>
+                <small>{{ module.links?.length || 0 }} permitted pages</small>
+              </span>
+              <span class="ref-mobile-navigation__module-arrow" aria-hidden="true">→</span>
             </RouterLink>
-            <RouterLink
-              v-for="link in module.links"
-              :key="`${module.name}-${link.label}`"
-              class="ref-mobile-navigation__link"
-              :to="link.path"
-              @click="$emit('close')"
-            >{{ link.label }}</RouterLink>
+            <div v-if="module.links?.length" class="ref-mobile-navigation__links">
+              <RouterLink
+                v-for="link in module.links"
+                :key="`${module.name}-${link.label}`"
+                class="ref-mobile-navigation__link"
+                :to="link.path"
+                @click="$emit('close')"
+              ><span aria-hidden="true"></span>{{ link.label }}</RouterLink>
+            </div>
           </section>
         </nav>
       </aside>

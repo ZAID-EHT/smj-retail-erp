@@ -36,6 +36,15 @@ class TestRetailERPScrolling(unittest.TestCase):
 		self.assertIn(':data-accent="accent"', container)
 		self.assertIn(':data-module="moduleName"', container)
 
+	def test_shared_table_headers_start_at_the_top_of_the_table_region(self):
+		styles = (Path(__file__).resolve().parents[2] / "frontend" / "src" / "design" / "smj-page-system.css").read_text()
+		start = styles.index(".ref-data-table thead,")
+		end = styles.index("\n}", start)
+		table_header_rule = styles[start:end]
+		self.assertIn("position: sticky", table_header_rule)
+		self.assertIn("top: 0", table_header_rule)
+		self.assertNotIn("var(--ref-header-height)", table_header_rule)
+
 	def test_smart_sales_keeps_live_workflow_and_reference_stock_triplet(self):
 		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
 		source = (frontend / "pages" / "priority" / "SmartSalesPage.vue").read_text()
@@ -60,14 +69,20 @@ class TestRetailERPScrolling(unittest.TestCase):
 			"primaryModuleNames",
 			"linksFor(module)",
 			"visibleLinks(module)",
+			"linkSummary(link, module)",
 			"showAllLinks",
 			"Show fewer links",
 			"Show all ${linksFor(module).length} links",
+			"ref-module-dropdown__copy",
+			"Only pages permitted for your account are shown",
 		):
 			self.assertIn(marker, navigation)
+		self.assertNotIn("Ready to open", navigation)
 		self.assertIn("SmjNotification", header)
 		self.assertIn("SmjMessage", header)
 		self.assertIn(".ref-module-dropdown__more", styles)
+		self.assertIn(".ref-module-dropdown__copy", styles)
+		self.assertIn(".ref-mobile-navigation__links", styles)
 		self.assertIn(".ref-user-menu__copy", styles)
 
 	def test_standalone_asset_error_remains_hidden_until_a_real_load_failure(self):

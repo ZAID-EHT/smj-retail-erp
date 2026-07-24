@@ -31,10 +31,13 @@ def _require_login() -> None:
 
 def _company(company: str | None = None) -> str | None:
 	if company:
-		if not frappe.db.exists("Company", company):
-			frappe.throw(_("Invalid company."), frappe.ValidationError)
+		if not frappe.db.exists("Company", company) or not frappe.has_permission("Company", "read", doc=company):
+			frappe.throw(_("Company is not available."), frappe.PermissionError)
 		return company
-	return frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company")
+	default = frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company")
+	if default and frappe.has_permission("Company", "read", doc=default):
+		return default
+	return None
 
 
 def _can(doctype: str) -> bool:
@@ -49,10 +52,16 @@ def _top_n(limit) -> int:
 	return max(1, min(int(limit or TOP_N_DEFAULT), MAX_TOP_N))
 
 
+def _require_system_manager() -> None:
+	if frappe.session.user != "Administrator" and "System Manager" not in frappe.get_roles():
+		frappe.throw(_("System Manager access is required."), frappe.PermissionError)
+
+
 def _count(doctype: str, filters: dict) -> int:
 	if not _can(doctype):
 		return 0
-	return frappe.db.count(doctype, filters=filters)
+	rows = frappe.get_list(doctype, filters=filters, fields=["count(name) as total"], limit_page_length=1)
+	return int(rows[0].total) if rows else 0
 
 
 def _sum(doctype: str, field: str, filters: dict) -> float:
@@ -60,6 +69,18 @@ def _sum(doctype: str, field: str, filters: dict) -> float:
 		return 0.0
 	rows = frappe.get_list(doctype, filters=filters, fields=[f"sum({field}) as total"], limit_page_length=1)
 	return flt(rows[0].total) if rows else 0.0
+
+
+def _permitted_value(doctype: str, name: str | None, field: str):
+	if not name or not _can(doctype):
+		return None
+	rows = frappe.get_list(
+		doctype,
+		filters={"name": name},
+		fields=[field],
+		limit_page_length=1,
+	)
+	return rows[0].get(field) if rows else None
 
 
 def _monthly_trend(doctype: str, amount_field: str, date_field: str, months: int, company: str | None) -> dict:
@@ -105,7 +126,9 @@ def _ageing(doctype: str, company: str | None) -> list[dict]:
 def _status_breakdown(doctype: str, field: str, company: str | None, extra: dict | None = None) -> list[dict]:
 	if not _can(doctype):
 		return []
-	filters = {"docstatus": 1, **(extra or {})}
+	filters = {**(extra or {})}
+	if frappe.get_meta(doctype).is_submittable and "docstatus" not in filters:
+		filters["docstatus"] = 1
 	if company and frappe.get_meta(doctype).has_field("company"):
 		filters["company"] = company
 	rows = frappe.get_list(
@@ -149,6 +172,9 @@ def get_accounts_dashboard(company: str | None = None, months: int = MONTHS_DEFA
 	months = _months(months)
 
 	cards = [
+		{"key": "outstanding-receivables", "label": _("Outstanding Receivables"), "value": _sum("Sales Invoice", "outstanding_amount", {"docstatus": 1, "outstanding_amount": [">", 0], **({"company": company} if company else {})}), "accent": "blue", "to": "/reports/view/Accounts%20Receivable"},
+		{"key": "outstanding-payables", "label": _("Outstanding Payables"), "value": _sum("Purchase Invoice", "outstanding_amount", {"docstatus": 1, "outstanding_amount": [">", 0], **({"company": company} if company else {})}), "accent": "orange", "to": "/reports/view/Accounts%20Payable"},
+		{"key": "overdue-receivables", "label": _("Overdue Receivables"), "value": _sum("Sales Invoice", "outstanding_amount", {"docstatus": 1, "outstanding_amount": [">", 0], "due_date": ["<", nowdate()], **({"company": company} if company else {})}), "accent": "red", "to": "/reports/view/Accounts%20Receivable"},
 		{"key": "total-incoming-bills", "label": _("Total Incoming Bills"), "value": _count("Purchase Invoice", {"docstatus": 1, **({"company": company} if company else {})}), "accent": "orange", "to": "/purchases/invoices"},
 		{"key": "total-outgoing-bills", "label": _("Total Outgoing Bills"), "value": _count("Sales Invoice", {"docstatus": 1, **({"company": company} if company else {})}), "accent": "green", "to": "/sales/invoices"},
 	]
@@ -175,9 +201,15 @@ def get_accounts_dashboard(company: str | None = None, months: int = MONTHS_DEFA
 
 
 def _budget_variance(company: str | None) -> list[dict]:
-	if not company or not _can("Budget"):
+	if not company or not _can("Budget") or not _can("Fiscal Year"):
 		return []
-	fiscal_year = frappe.db.get_value("Fiscal Year", {"year_start_date": ["<=", nowdate()], "year_end_date": [">=", nowdate()]}, "name")
+	fiscal_years = frappe.get_list(
+		"Fiscal Year",
+		filters={"year_start_date": ["<=", nowdate()], "year_end_date": [">=", nowdate()]},
+		pluck="name",
+		limit_page_length=1,
+	)
+	fiscal_year = fiscal_years[0] if fiscal_years else None
 	if not fiscal_year:
 		return []
 	rows = _run_report_safely("Budget Variance Report", {
@@ -211,7 +243,7 @@ def get_payments_dashboard(company: str | None = None):
 		accounts = frappe.get_list("Bank Account", filters={"is_company_account": 1, **({"company": company} if company else {})}, fields=["name", "account_name", "account"], limit_page_length=20)
 		colors = ["var(--ref-primary-blue)", "var(--ref-success)", "var(--ref-warning)", "#7038d4"]
 		for i, account in enumerate(accounts):
-			balance = frappe.db.get_value("Account", account.account, "balance") if account.account and _can("Account") else None
+			balance = _permitted_value("Account", account.account, "balance")
 			bank_bars.append({"label": account.account_name or account.name, "value": flt(balance), "color": colors[i % len(colors)]})
 
 	charts = [{"key": "bank-balance", "title": _("Bank Balance"), "type": "bar", "bars": bank_bars, "report_link": "/reports/view/General%20Ledger"}]
@@ -260,13 +292,14 @@ def get_crm_dashboard(company: str | None = None, months: int = MONTHS_DEFAULT):
 	since = str(add_days(nowdate(), -30))
 
 	cards = [
+		{"key": "open-pipeline-value", "label": _("Open Pipeline Value"), "value": _sum("Opportunity", "opportunity_amount", {"status": "Open", **({"company": company} if company else {})}), "accent": "pink", "to": "/crm/opportunities"},
 		{"key": "new-lead-last-1-month", "label": _("New Leads (30d)"), "value": _count("Lead", {"creation": [">=", since]}), "accent": "blue", "to": "/crm/leads"},
 		{"key": "new-opportunity-last-1-month", "label": _("New Opportunities (30d)"), "value": _count("Opportunity", {"creation": [">=", since]}), "accent": "purple", "to": "/crm/opportunities"},
 		{"key": "open-opportunity", "label": _("Open Opportunities"), "value": _count("Opportunity", {"status": "Open"}), "accent": "gold", "to": "/crm/opportunities"},
 		{"key": "won-opportunity-last-1-month", "label": _("Won Opportunities (30d)"), "value": _count("Opportunity", {"status": "Converted", "modified": [">=", since]}), "accent": "green", "to": "/crm/opportunities"},
 	]
 	charts = [
-		{"key": "incoming-leads", "title": _("Incoming Leads"), "type": "line", **_monthly_trend("Lead", "name", "creation", months, None), "report_link": "/crm/leads"},
+		{"key": "incoming-leads", "title": _("Incoming Leads"), "type": "line", **_monthly_trend_count("Lead", "creation", months), "report_link": "/crm/leads"},
 		{"key": "lead-source", "title": _("Lead Source"), "type": "donut", "segments": _status_breakdown("Lead", "source", None), "report_link": "/crm/leads"},
 		{"key": "opportunities-via-campaigns", "title": _("Opportunities via Campaigns"), "type": "bar", "bars": _status_breakdown("Opportunity", "campaign", None, {"campaign": ["is", "set"]}), "report_link": "/crm/opportunities"},
 		{"key": "opportunity-trends", "title": _("Opportunity Trends"), "type": "line", **_monthly_trend("Opportunity", "opportunity_amount", "transaction_date", months, None), "report_link": "/crm/opportunities"},
@@ -274,7 +307,7 @@ def get_crm_dashboard(company: str | None = None, months: int = MONTHS_DEFAULT):
 		{"key": "territory-wise-sales", "title": _("Territory Wise Sales"), "type": "bar", "bars": _top_ranked("Sales Invoice", "territory", "territory", "base_grand_total", company, _top_n(TOP_N_DEFAULT)), "report_link": "/sales/invoices"},
 		{"key": "won-opportunities", "title": _("Won Opportunities"), "type": "line", **_monthly_trend_count("Opportunity", "modified", months, {"status": "Converted"}), "report_link": "/crm/opportunities"},
 	]
-	return {"company": company, "cards": cards, "charts": charts}
+	return {"company": company, "currency": frappe.get_cached_value("Company", company, "default_currency") if company else "", "cards": cards, "charts": charts}
 
 
 def _monthly_trend_count(doctype: str, date_field: str, months: int, extra: dict | None = None) -> dict:
@@ -414,3 +447,92 @@ def _warehouse_wise_stock_value() -> list[dict]:
 	)
 	colors = ["var(--ref-primary-blue)", "var(--ref-success)", "var(--ref-warning)", "#7038d4"]
 	return [{"label": row.warehouse, "value": flt(row.total), "color": colors[i % len(colors)]} for i, row in enumerate(rows)]
+
+
+# ---------------------------------------------------------------------------
+# Operations dashboard: projects, support, assets and production workload
+# ---------------------------------------------------------------------------
+@frappe.whitelist(methods=["GET"])
+def get_operations_dashboard(months: int = MONTHS_DEFAULT):
+	_require_login()
+	months = _months(months)
+
+	cards = [
+		{"key": "open-projects", "label": _("Open Projects"), "value": _count("Project", {"status": "Open"}), "accent": "blue", "to": "/operations/projects"},
+		{"key": "open-tasks", "label": _("Open Tasks"), "value": _count("Task", {"status": ["not in", ["Completed", "Cancelled"]]}), "accent": "turquoise", "to": "/operations/tasks"},
+		{"key": "overdue-tasks", "label": _("Overdue Tasks"), "value": _count("Task", {"status": ["not in", ["Completed", "Cancelled"]], "exp_end_date": ["<", nowdate()]}), "accent": "orange", "to": "/operations/tasks"},
+		{"key": "open-issues", "label": _("Open Support Issues"), "value": _count("Issue", {"status": ["not in", ["Closed", "Resolved"]]}), "accent": "purple", "to": "/operations/support/issues"},
+		{"key": "active-work-orders", "label": _("Active Work Orders"), "value": _count("Work Order", {"docstatus": 1, "status": ["not in", ["Completed", "Stopped", "Closed"]]}), "accent": "green", "to": "/operations/manufacturing/work-orders"},
+		{"key": "active-assets", "label": _("Active Assets"), "value": _count("Asset", {"docstatus": 1, "status": ["not in", ["Sold", "Scrapped"]]}), "accent": "gold", "to": "/operations/assets"},
+	]
+	charts = [
+		{"key": "project-status", "title": _("Project Portfolio"), "type": "donut", "segments": _status_breakdown("Project", "status", None), "report_link": "/operations/projects"},
+		{"key": "task-status", "title": _("Task Workload"), "type": "bar", "bars": _status_breakdown("Task", "status", None), "report_link": "/operations/tasks"},
+		{"key": "tasks-created-trend", "title": _("Tasks Created"), "type": "line", **_monthly_trend_count("Task", "creation", months), "report_link": "/operations/tasks"},
+		{"key": "issue-priority", "title": _("Support Issues by Priority"), "type": "bar", "bars": _status_breakdown("Issue", "priority", None), "report_link": "/operations/support/issues"},
+		{"key": "work-order-status", "title": _("Production Work Orders"), "type": "donut", "segments": _status_breakdown("Work Order", "status", None), "report_link": "/operations/manufacturing/work-orders"},
+		{"key": "asset-status", "title": _("Asset Status"), "type": "bar", "bars": _status_breakdown("Asset", "status", None), "report_link": "/operations/assets"},
+	]
+	return {"cards": cards, "charts": charts}
+
+
+def _daily_trend_count(doctype: str, date_field: str, days: int, extra: dict | None = None) -> dict:
+	labels, values = [], []
+	for offset in range(-(days - 1), 1):
+		day = getdate(add_days(nowdate(), offset))
+		labels.append(day.strftime("%d %b"))
+		filters = {date_field: ["between", [f"{day} 00:00:00", f"{day} 23:59:59"]], **(extra or {})}
+		values.append(_count(doctype, filters))
+	return {"labels": labels, "series": [{"name": doctype, "color": "var(--ref-danger)", "values": values}]}
+
+
+def _top_user_roles(limit: int = TOP_N_DEFAULT) -> list[dict]:
+	if not (_can("User") and _can("Role")):
+		return []
+	users = frappe.get_list("User", filters={"enabled": 1}, pluck="name", limit_page_length=5000)
+	if not users:
+		return []
+	rows = frappe.get_all(
+		"Has Role",
+		filters={"parent": ["in", users], "role": ["not in", ["All", "Guest"]]},
+		fields=["role", "count(parent) as total"],
+		group_by="role", order_by="total desc", limit_page_length=limit,
+	)
+	return [{"label": row.role, "value": row.total} for row in rows if row.role]
+
+
+def _scheduler_breakdown() -> list[dict]:
+	if not _can("Scheduled Job Type"):
+		return []
+	return [
+		{"label": _("Enabled"), "value": _count("Scheduled Job Type", {"stopped": 0}), "color": "var(--ref-success)"},
+		{"label": _("Stopped"), "value": _count("Scheduled Job Type", {"stopped": 1}), "color": "var(--ref-warning)"},
+	]
+
+
+# ---------------------------------------------------------------------------
+# Admin dashboard: access, setup and safe operational health signals
+# ---------------------------------------------------------------------------
+@frappe.whitelist(methods=["GET"])
+def get_admin_dashboard(months: int = MONTHS_DEFAULT):
+	_require_login()
+	_require_system_manager()
+	months = _months(months)
+	since = str(add_days(nowdate(), -1))
+
+	cards = [
+		{"key": "enabled-users", "label": _("Enabled Users"), "value": _count("User", {"enabled": 1}), "accent": "blue", "to": "/admin/users"},
+		{"key": "disabled-users", "label": _("Disabled Users"), "value": _count("User", {"enabled": 0}), "accent": "orange", "to": "/admin/users"},
+		{"key": "roles", "label": _("Configured Roles"), "value": _count("Role", {"disabled": 0}), "accent": "purple", "to": "/admin/roles"},
+		{"key": "companies", "label": _("Companies"), "value": _count("Company", {}), "accent": "green", "to": "/admin/companies"},
+		{"key": "active-warehouses", "label": _("Active Warehouses"), "value": _count("Warehouse", {"disabled": 0, "is_group": 0}), "accent": "turquoise", "to": "/admin/warehouses"},
+		{"key": "recent-errors", "label": _("Errors (24h)"), "value": _count("Error Log", {"creation": [">=", since]}), "accent": "red", "to": "/admin/system-health"},
+	]
+	charts = [
+		{"key": "user-growth", "title": _("New Users"), "type": "line", **_monthly_trend_count("User", "creation", months), "report_link": "/admin/users"},
+		{"key": "user-types", "title": _("Enabled Users by Type"), "type": "donut", "segments": _status_breakdown("User", "user_type", None, {"enabled": 1}), "report_link": "/admin/users"},
+		{"key": "role-assignment", "title": _("Most Assigned Roles"), "type": "bar", "bars": _top_user_roles(), "report_link": "/admin/roles"},
+		{"key": "error-activity", "title": _("Error Activity"), "type": "line", **_daily_trend_count("Error Log", "creation", 7), "report_link": "/admin/system-health"},
+		{"key": "scheduler-status", "title": _("Scheduled Jobs"), "type": "donut", "segments": _scheduler_breakdown(), "report_link": "/admin/background-jobs"},
+	]
+	return {"cards": cards, "charts": charts}

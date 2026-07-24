@@ -68,6 +68,17 @@ async function load() {
   Object.keys(values).forEach((key) => delete values[key]);
   try {
     metadata.value = await getMetadata(feature.value, controller.signal);
+    if (!editing.value && metadata.value.simple_create_fields?.length) {
+      // Adding a record shows a curated essentials-only form; editing keeps the full field set.
+      // simple_create_required overrides which of those are mandatory on the add form.
+      const requiredSet = new Set(metadata.value.simple_create_required || []);
+      const bySpec = new Map((metadata.value.fields || []).map((field) => [field.fieldname, field]));
+      const simpleFields = metadata.value.simple_create_fields
+        .map((name) => bySpec.get(name))
+        .filter(Boolean)
+        .map((field) => ({ ...field, required: requiredSet.has(field.fieldname) }));
+      metadata.value = { ...metadata.value, fields: simpleFields };
+    }
     if (editing.value) {
       const result = await getDocumentDetail(feature.value, name.value, controller.signal);
       Object.assign(values, result.document);

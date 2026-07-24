@@ -114,6 +114,7 @@
 .ref-app-shell [data-accent="orange"] { --ref-accent: var(--ref-orange); }
 .ref-app-shell [data-accent="turquoise"] { --ref-accent: var(--ref-turquoise); }
 .ref-app-shell [data-accent="gold"] { --ref-accent: var(--ref-module-finance); }
+.ref-app-shell [data-accent="red"] { --ref-accent: var(--ref-danger); }
 
 /* SMJ-named aliases (documentation + new components only; same values as above) */
 .ref-app-shell {

@@ -37,6 +37,20 @@ function visibleLinks(module) {
   return showAllLinks.value ? links : links.slice(0, 7);
 }
 
+function linkSummary(link, module) {
+  if (!link.implemented) return "Available safely inside Retail ERP";
+  const value = `${link.label} ${link.path}`.toLowerCase();
+  if (value.endsWith("/new")) return `Create a new ${link.label.toLowerCase()} record`;
+  if (value.includes("dashboard") || value.includes("home")) return "Key metrics, alerts and recent activity";
+  if (value.includes("report")) return "Reports, analysis and business insights";
+  if (value.includes("customer") || value.includes("supplier")) return "Profiles, contacts and account activity";
+  if (value.includes("order") || value.includes("quotation")) return "Create, review and manage documents";
+  if (value.includes("invoice") || value.includes("payment")) return "Billing, balances and payment activity";
+  if (value.includes("stock") || value.includes("warehouse") || value.includes("inventory")) return "Stock levels, movements and availability";
+  if (value.includes("setting") || value.includes("permission") || value.includes("role")) return "Configuration and access controls";
+  return `Open ${module.label} · ${link.label}`;
+}
+
 // The dropdown is teleported to <body> so it can never be clipped by an
 // ancestor's overflow (the module row needs overflow-x: auto for
 // horizontal scrolling on narrow desktops, and per the CSS overflow spec
@@ -64,9 +78,9 @@ function toggleMenu(name, event) {
   const anchor = trigger?.closest(".ref-module-navigation__item") || trigger;
   if (!anchor) return;
   const rect = anchor.getBoundingClientRect();
-  const dropdownWidth = Math.min(410, window.innerWidth - 24);
+  const dropdownWidth = Math.min(560, window.innerWidth - 24);
   const overflowsRight = rect.left + dropdownWidth > window.innerWidth - 12;
-  dropdownStyle.top = `${rect.bottom}px`;
+  dropdownStyle.top = `${rect.bottom + 8}px`;
   if (overflowsRight) {
     dropdownStyle.left = "auto";
     dropdownStyle.right = `${Math.max(12, window.innerWidth - rect.right)}px`;
@@ -154,14 +168,20 @@ onBeforeUnmount(() => {
         >
           <header class="ref-module-dropdown__header">
             <span class="ref-module-dropdown__hero-icon" aria-hidden="true">
-              <component :is="moduleIcon(module.icon)" size="20" decorative />
+              <component :is="moduleIcon(module.icon)" size="22" decorative />
             </span>
-            <span>
+            <span class="ref-module-dropdown__heading">
               <strong>{{ module.label }}</strong>
-              <small>{{ linksFor(module).length }} permitted pages</small>
+              <small>{{ linksFor(module).length }} pages available to you</small>
             </span>
-            <RouterLink :to="module.path" role="menuitem" @click="closeMenu">Overview</RouterLink>
+            <RouterLink class="ref-module-dropdown__overview" :to="module.path" role="menuitem" @click="closeMenu">
+              Overview <span aria-hidden="true">→</span>
+            </RouterLink>
           </header>
+          <div class="ref-module-dropdown__section-title">
+            <span>Quick access</span>
+            <small>Only pages permitted for your account are shown</small>
+          </div>
           <div class="ref-module-dropdown__links">
           <RouterLink
             v-for="link in visibleLinks(module)"
@@ -171,13 +191,13 @@ onBeforeUnmount(() => {
             @click="activeMenu = null"
           >
             <span class="ref-module-dropdown__icon" aria-hidden="true">
-              <component :is="moduleIcon(module.icon)" size="13" decorative />
+              <component :is="moduleIcon(module.icon)" size="15" decorative />
             </span>
-            <span>
+            <span class="ref-module-dropdown__copy">
               <strong>{{ link.label }}</strong>
-              <small>{{ link.implemented ? 'Ready to open' : 'Opens safely inside Retail ERP' }}</small>
+              <small>{{ linkSummary(link, module) }}</small>
             </span>
-            <span class="ref-module-dropdown__arrow" aria-hidden="true">›</span>
+            <span class="ref-module-dropdown__arrow" aria-hidden="true">→</span>
           </RouterLink>
           </div>
           <button
