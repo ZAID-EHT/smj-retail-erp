@@ -5,6 +5,16 @@ Truthful list of anything that blocks a requirement. Empty is good.
 ## Active blockers
 - None blocking the core wholesale spine.
 
+## Confirmed defect — item pricing stored only in custom fields (needs business decision)
+- `form_api._apply_item_pricing` writes computed retail/wholesale prices to
+  `custom_retail_price` / `custom_wholesale_price` only — it does **not** create
+  standard `Item Price` records, so those prices are invisible to ERPNext's pricing
+  engine (and therefore to Smart Sales customer pricing). The fix (upsert Item Price
+  on the retail/wholesale price lists) needs a **price-list mapping decision**:
+  staging has `Retail Price List` + `Preferred Customer Price List` but no
+  `Wholesale Price List`. Not auto-fixed to avoid guessing the mapping. See
+  `docs/ui/SMJ_SIMPLIFIED_ENTRY_FORMS.md` for the recommended implementation.
+
 ## Pre-existing issues found (not introduced by this mission)
 - **`test_navigation_search.test_document_level_denial_and_report_denial_omit_results`
   errors on `staging.local`** with `DoesNotExistError: DocType None not found`.

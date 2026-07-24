@@ -55,6 +55,14 @@ WRITE_ONLY_INPUT_FIELDS = {"User": ("new_password",)}
 # subset (in order) only when adding a new record, to keep onboarding simple.
 SIMPLE_CREATE_FIELDS = {
 	"User": ("username", "new_password", "roles", "role_profile_name", "email", "first_name", "last_name", "enabled"),
+	# Supplier flows through the universal generated engine, so its curated add
+	# form lives here. Customer and Item use the custom entity forms
+	# (services/entity_schemas.py + form_schemas.py), which are already curated and
+	# sectioned, so they are intentionally not configured here.
+	"Supplier": (
+		"supplier_name", "supplier_group", "supplier_type", "default_currency", "default_price_list",
+		"payment_terms", "tax_id", "tax_category", "image",
+	),
 }
 
 # Fields that are mandatory ON THE ADD FORM, overriding the DocType's own reqd
@@ -63,6 +71,8 @@ SIMPLE_CREATE_FIELDS = {
 # and synthesised server-side from the username when left blank.
 SIMPLE_CREATE_REQUIRED = {
 	"User": ("username", "new_password", "roles"),
+	# Keep the genuinely ERPNext-required fields required on the add form.
+	"Supplier": ("supplier_name", "supplier_group"),
 }
 
 # Fixed server-owned mappings. The browser sends only these symbolic action

@@ -255,9 +255,43 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		all_names = {field["fieldname"] for field in metadata["fields"]}
 		self.assertTrue(set(metadata["simple_create_fields"]).issubset(all_names))
 		self.assertGreater(len(metadata["fields"]), len(metadata["simple_create_fields"]))
-		# Simplification is opt-in per doctype; ordinary doctypes are unaffected.
-		self.assertEqual(get_doctype_metadata("supplier")["simple_create_fields"], [])
-		self.assertEqual(get_doctype_metadata("supplier")["simple_create_required"], [])
+		# A doctype with no curated config is unaffected (falls through to []).
+		self.assertEqual(get_doctype_metadata("warehouse")["simple_create_fields"], [])
+		self.assertEqual(get_doctype_metadata("warehouse")["simple_create_required"], [])
+
+	def test_supplier_has_a_curated_universal_add_form(self):
+		# Supplier flows through the universal generated engine.
+		metadata = get_doctype_metadata("supplier")
+		simple = metadata["simple_create_fields"]
+		all_names = {field["fieldname"] for field in metadata["fields"]}
+		self.assertIn("supplier_name", simple)
+		self.assertTrue(set(simple).issubset(all_names))
+		self.assertGreater(len(metadata["fields"]), len(simple))
+		# ERPNext-required fields stay required on the add form.
+		for field in ("supplier_name", "supplier_group"):
+			self.assertIn(field, metadata["simple_create_required"])
+			self.assertIn(field, simple)
+
+	def test_custom_entry_forms_are_curated_into_progressive_sections(self):
+		# Customer and Item use the custom form engine, already curated + sectioned.
+		from my_store_ui.services.form_schemas import FORM_SCHEMAS
+
+		customer = FORM_SCHEMAS["customers"]
+		customer_sections = {key for key, _label in customer["sections"]}
+		self.assertTrue({"basic", "contact", "sales"}.issubset(customer_sections))
+		customer_fields = {f["fieldname"]: f for f in customer["fields"]}
+		for field in ("customer_name", "customer_group", "territory"):
+			self.assertIn(field, customer_fields)
+			self.assertTrue(customer_fields[field]["required"], field)
+		# Less-used fields sit outside Basic Information (progressive disclosure).
+		self.assertEqual(customer_fields["default_price_list"]["section"], "sales")
+
+		item = FORM_SCHEMAS["items"]
+		item_sections = {key for key, _label in item["sections"]}
+		self.assertTrue({"basic", "pricing"}.issubset(item_sections))
+		item_fields = {f["fieldname"]: f for f in item["fields"]}
+		for field in ("item_code", "item_group", "stock_uom"):
+			self.assertIn(field, item_fields)
 
 	def test_add_user_by_username_synthesises_optional_email_and_name(self):
 		from frappe.utils.password import check_password
