@@ -9,4 +9,5 @@ async function call(method, params = {}, httpMethod = "GET", signal) {
 }
 export const getSmartSales = (params, signal) => call("get_bootstrap", params, "GET", signal);
 export const searchSmartCustomers = (txt, signal) => call("search_customers", { txt }, "GET", signal);
+export const getCartPricing = (payload, signal) => call("get_cart_pricing", payload, "POST", signal);
 export const createSmartOrder = (payload) => call("create_draft_sales_order", { payload }, "POST");

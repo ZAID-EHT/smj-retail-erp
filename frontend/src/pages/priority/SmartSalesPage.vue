@@ -13,7 +13,7 @@ import {
   SmjSalesCartPulse,
 } from "@/components/icons";
 import PageContainer from "@/components/layout/PageContainer.vue";
-import { createSmartOrder, getSmartSales, searchSmartCustomers } from "@/services/smartSales.js";
+import { createSmartOrder, getCartPricing, getSmartSales, searchSmartCustomers } from "@/services/smartSales.js";
 import { getCustomerCreditStatus } from "@/services/wholesale.js";
 
 const router = useRouter();
@@ -21,6 +21,7 @@ const data = ref(null);
 const error = ref(null);
 const loading = ref(false);
 const saving = ref(false);
+const repricing = ref(false);
 const search = ref("");
 const group = ref("");
 const warehouse = ref("");
@@ -29,9 +30,22 @@ const customerSearch = ref("");
 const customers = ref([]);
 const customer = ref("");
 const credit = ref(null);
+const notice = ref("");
 const cart = reactive({});
 let controller;
 let timer;
+
+const customerSelected = computed(() => Boolean(customer.value));
+
+function availabilityOf(item) {
+  return Number(item.available_to_sell ?? item.actual_qty ?? 0);
+}
+function isStockItem(item) {
+  return item.is_stock_item !== 0; // undefined or 1 => treat as stock item
+}
+function outOfStock(item) {
+  return isStockItem(item) && availabilityOf(item) <= 0;
+}
 
 async function loadCredit() {
   credit.value = null;
@@ -69,9 +83,10 @@ async function load() {
       item_group: group.value,
       warehouse: warehouse.value,
       price_list: priceList.value,
+      customer: customer.value,
     }, controller.signal);
     warehouse.value ||= data.value.warehouses?.[0] || "";
-    priceList.value ||= data.value.price_list || "";
+    priceList.value = data.value.price_list || priceList.value || "";
   } catch (caught) {
     if (caught.name !== "AbortError") error.value = caught;
   } finally {
@@ -96,12 +111,80 @@ async function findCustomers() {
   }
 }
 
+// Authoritative repricing + stock re-check through the backend pricing engine.
+// Called when the customer changes or a line is added, so the cart never keeps a
+// previous customer's prices and never holds an unavailable line.
+async function repriceCart() {
+  if (!customerSelected.value || !cartRows.value.length) return;
+  repricing.value = true;
+  try {
+    const result = await getCartPricing({
+      customer: customer.value,
+      company: data.value?.company || "",
+      warehouse: warehouse.value,
+      price_list: priceList.value,
+      items: cartRows.value.map(({ item_code, qty }) => ({ item_code, qty })),
+    });
+    const byCode = new Map((result.lines || []).map((line) => [line.item_code, line]));
+    for (const row of cartRows.value) {
+      const line = byCode.get(row.item_code);
+      if (!line) {
+        delete cart[row.item_code];
+        continue;
+      }
+      row.rate = line.rate;
+      row.price_list_rate = line.price_list_rate;
+      row.source = line.source;
+      row.available_to_sell = line.available_to_sell;
+      row.stock_status = line.stock_status;
+      if (line.stock_status === "out_of_stock") {
+        delete cart[row.item_code];
+        notice.value = `${row.item_name} was removed — no available stock.`;
+      } else if (line.max_qty != null && row.qty > line.max_qty) {
+        row.qty = line.max_qty;
+        notice.value = `${row.item_name} quantity reduced to the available ${line.max_qty}.`;
+      }
+    }
+  } catch (caught) {
+    if (caught.name !== "AbortError") error.value = caught;
+  } finally {
+    repricing.value = false;
+  }
+}
+
 function add(item) {
+  error.value = null;
+  if (!customerSelected.value) {
+    notice.value = "Select a customer to begin the order.";
+    return;
+  }
+  if (outOfStock(item)) {
+    notice.value = `${item.item_name} is out of stock.`;
+    return;
+  }
+  notice.value = "";
   if (!cart[item.item_code]) {
-    cart[item.item_code] = { item_code: item.item_code, item_name: item.item_name, rate: item.rate, qty: 1 };
+    cart[item.item_code] = {
+      item_code: item.item_code,
+      item_name: item.item_name,
+      rate: item.rate,
+      price_list_rate: item.rate,
+      qty: 1,
+      source: null,
+      available_to_sell: availabilityOf(item),
+    };
   } else {
     cart[item.item_code].qty += 1;
   }
+  repriceCart();
+}
+
+async function onCustomerChange() {
+  notice.value = cartRows.value.length ? "Repricing the cart for the selected customer…" : "";
+  await loadCredit();
+  await load();
+  await repriceCart();
+  if (cartRows.value.length) notice.value = "Cart prices updated for the selected customer.";
 }
 
 async function save() {
@@ -129,12 +212,19 @@ async function save() {
   }
 }
 
+const sourceLabels = {
+  pricing_rule: "Pricing Rule",
+  customer_price_list: "Customer price list",
+  price_list: "Price list",
+  unpriced: "No price set",
+};
+
 watch([group, warehouse, priceList], load);
 watch(customerSearch, () => {
   clearTimeout(timer);
   timer = setTimeout(findCustomers, 300);
 });
-watch(customer, loadCredit);
+watch(customer, onCustomerChange);
 load();
 onBeforeUnmount(() => {
   clearTimeout(timer);
@@ -164,7 +254,7 @@ onBeforeUnmount(() => {
         <button
           class="rug-primary"
           type="button"
-          :disabled="saving || !data?.can_create_sales_order"
+          :disabled="saving || !customerSelected || !data?.can_create_sales_order || !cartRows.length"
           @click="save"
         >
           {{ saving ? "Creating order…" : "Create Draft Order" }}
@@ -172,6 +262,7 @@ onBeforeUnmount(() => {
       </header>
 
       <div v-if="error" class="rug-inline-error" role="alert">{{ error.message }}</div>
+      <div v-else-if="notice" class="smj-sales-notice" role="status">{{ notice }}</div>
 
       <section class="smj-sales-kpis" aria-label="Current sale summary">
         <article>
@@ -215,9 +306,14 @@ onBeforeUnmount(() => {
           </label>
           <label>
             <span>Price List</span>
-            <select v-model="priceList"><option v-for="value in data?.price_lists || []" :key="value">{{ value }}</option></select>
+            <select v-model="priceList" :disabled="Boolean(data?.customer_price_list)">
+              <option v-for="value in data?.price_lists || []" :key="value">{{ value }}</option>
+            </select>
           </label>
         </div>
+        <p v-if="data?.customer_price_list" class="smj-sale-context__pricelist">
+          Pricing this order against <strong>{{ data.customer_price_list }}</strong> (this customer's price list).
+        </p>
 
         <div
           v-if="credit"
@@ -238,6 +334,11 @@ onBeforeUnmount(() => {
             <div><h2>Product catalogue</h2><p>Live ERPNext prices and warehouse availability.</p></div>
             <span class="rug-value-badge">{{ data?.items?.length || 0 }} results</span>
           </header>
+          <div v-if="!customerSelected" class="smj-catalogue-lock" role="status">
+            <SmjSalesCartPulse size="22" decorative />
+            <strong>Select a customer to begin the order</strong>
+            <span>Products, prices and the cart unlock once a customer is chosen.</span>
+          </div>
           <div class="priority-sales-controls smj-catalogue-filters">
             <label><span>Search products</span><input v-model="search" type="search" placeholder="Item code, name, group or brand…" @input="schedule" /></label>
             <label><span>Item Group</span><select v-model="group"><option value="">All groups</option><option v-for="value in data?.item_groups || []" :key="value">{{ value }}</option></select></label>
@@ -245,7 +346,16 @@ onBeforeUnmount(() => {
           <div v-if="loading" class="rug-skeleton"><i v-for="n in 8" :key="n" /></div>
           <div v-else-if="!data?.items?.length" class="rug-empty"><SmjInventoryCubeLayers size="28" decorative /><h2>No products found</h2><p>Change the search, group or warehouse.</p></div>
           <div v-else class="priority-product-grid">
-            <button v-for="item in data.items" :key="item.item_code" type="button" @click="add(item)">
+            <button
+              v-for="item in data.items"
+              :key="item.item_code"
+              type="button"
+              class="smj-product-card"
+              :class="{ 'is-out': outOfStock(item), 'is-locked': !customerSelected }"
+              :disabled="!customerSelected || outOfStock(item)"
+              @click="add(item)"
+            >
+              <span v-if="outOfStock(item)" class="smj-stock-badge smj-stock-badge--out">Out of Stock</span>
               <img v-if="item.image" :src="item.image" :alt="item.item_name" />
               <span v-else class="priority-product-placeholder"><SmjInventoryCubeLayers size="26" decorative /></span>
               <strong>{{ item.item_name }}</strong>
@@ -256,31 +366,36 @@ onBeforeUnmount(() => {
                 <small>Actual <b>{{ Number(item.actual_qty ?? 0) }}</b></small>
                 <small>Reserved <b>{{ Number(item.reserved_qty ?? 0) }}</b></small>
               </span>
-              <span class="smj-product-add">+ Add to cart</span>
+              <span class="smj-product-add">{{ outOfStock(item) ? "Unavailable" : "+ Add to cart" }}</span>
             </button>
           </div>
         </section>
 
         <aside class="rug-section-card priority-cart">
           <header>
-            <div><h2>Cart</h2><p>{{ cartRows.length }} product lines · {{ cartQuantity }} units</p></div>
+            <div><h2>Cart</h2><p>{{ cartRows.length }} product lines · {{ cartQuantity }} units{{ repricing ? " · repricing…" : "" }}</p></div>
             <SmjSalesCartPulse size="22" decorative />
           </header>
           <div v-if="!cartRows.length" class="smj-cart-empty">
             <SmjSalesCartPulse size="30" decorative />
             <strong>Your cart is empty</strong>
-            <span>Select products from the catalogue.</span>
+            <span>{{ customerSelected ? "Select products from the catalogue." : "Select a customer first." }}</span>
           </div>
           <article v-for="row in cartRows" :key="row.item_code">
-            <div><strong>{{ row.item_name }}</strong><small>{{ row.item_code }}</small><b>{{ data?.currency }} {{ Number(row.rate || 0).toFixed(2) }}</b></div>
-            <label><span class="sr-only">Quantity for {{ row.item_name }}</span><input v-model.number="row.qty" type="number" min="0.001" step="0.001" /></label>
+            <div>
+              <strong>{{ row.item_name }}</strong>
+              <small>{{ row.item_code }}</small>
+              <b>{{ data?.currency }} {{ Number(row.rate || 0).toFixed(2) }}</b>
+              <em v-if="row.source" class="smj-cart-source">{{ sourceLabels[row.source] || row.source }}</em>
+            </div>
+            <label><span class="sr-only">Quantity for {{ row.item_name }}</span><input v-model.number="row.qty" type="number" min="0.001" step="0.001" @change="repriceCart" /></label>
             <button type="button" :aria-label="`Remove ${row.item_name}`" @click="delete cart[row.item_code]"><SmjClose size="14" decorative /></button>
           </article>
           <footer>
             <span>Estimated total</span>
             <strong>{{ data?.currency }} {{ total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</strong>
           </footer>
-          <button class="smj-cart-submit" type="button" :disabled="saving || !data?.can_create_sales_order || !cartRows.length" @click="save">
+          <button class="smj-cart-submit" type="button" :disabled="saving || !customerSelected || !data?.can_create_sales_order || !cartRows.length" @click="save">
             {{ saving ? "Creating order…" : "Create Draft Sales Order" }}
           </button>
         </aside>

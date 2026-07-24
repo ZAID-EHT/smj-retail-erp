@@ -82,3 +82,15 @@
 @media (max-width:520px){
   .smj-home-kpis{grid-template-columns:1fr}
 }
+
+/* SMJ core wholesale workflow: customer-first + stock gating */
+.smj-sales-notice{margin:6px 0 2px;padding:8px 12px;border-radius:8px;background:#eef4ff;border:1px solid var(--ref-primary-blue);color:var(--ref-primary-text);font-size:12px}
+.smj-sale-context__pricelist{margin:6px 0 0;font-size:11px;color:var(--ref-secondary-text)}
+.smj-catalogue-lock{display:grid;justify-items:center;gap:4px;text-align:center;padding:18px;margin-top:12px;border:1px dashed var(--ref-primary-blue);border-radius:10px;background:#f7faff;color:var(--ref-primary-text)}
+.smj-catalogue-lock strong{font-size:13px}.smj-catalogue-lock span{font-size:11px;color:var(--ref-secondary-text)}
+.priority-product-grid>button.smj-product-card{position:relative}
+.priority-product-grid>button.is-out,.priority-product-grid>button:disabled{opacity:.62;cursor:not-allowed}
+.priority-product-grid>button.is-out:hover,.priority-product-grid>button:disabled:hover{border-color:var(--ref-border-colour);box-shadow:none}
+.smj-stock-badge{position:absolute;top:8px;right:8px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.02em}
+.smj-stock-badge--out{background:var(--ref-danger,#c0392b);color:#fff}
+.smj-cart-source{display:block;color:var(--ref-success,#14a85a);font-size:9px;font-style:normal;margin-top:2px}

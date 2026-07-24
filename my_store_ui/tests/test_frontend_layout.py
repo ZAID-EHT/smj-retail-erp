@@ -60,6 +60,25 @@ class TestRetailERPScrolling(unittest.TestCase):
 			self.assertIn(marker, source)
 		self.assertNotIn("ignore_permissions", source)
 
+	def test_smart_sales_enforces_customer_first_and_stock_gating(self):
+		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
+		source = (frontend / "pages" / "priority" / "SmartSalesPage.vue").read_text()
+		# Customer-first: cart/add/submit gate on a selected customer.
+		self.assertIn("customerSelected", source)
+		self.assertIn("Select a customer to begin the order", source)
+		# Add-to-cart and the submit button are disabled until a customer is chosen.
+		self.assertIn(":disabled=\"!customerSelected || outOfStock(item)\"", source)
+		# Zero-available stock is surfaced and blocked, not silently added.
+		self.assertIn("Out of Stock", source)
+		self.assertIn("outOfStock", source)
+		# Cart reprices through the backend engine on customer change / add.
+		self.assertIn("getCartPricing", source)
+		self.assertIn("repriceCart", source)
+		# The catalogue is priced against the customer's own price list.
+		self.assertIn("customer_price_list", source)
+		service = (frontend / "services" / "smartSales.js").read_text()
+		self.assertIn("get_cart_pricing", service)
+
 	def test_header_uses_compact_permission_filtered_module_menus(self):
 		frontend = Path(__file__).resolve().parents[2] / "frontend" / "src"
 		navigation = (frontend / "components" / "shell" / "ModuleNavigation.vue").read_text()

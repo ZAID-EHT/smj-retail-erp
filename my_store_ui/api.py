@@ -43,16 +43,62 @@ def _validate_link(doctype: str, name: str | None, filters: dict | None = None) 
 		frappe.throw(_("You do not have permission to use {0} {1}.").format(doctype, name), frappe.PermissionError)
 
 
+def _customer_price_list(customer: str | None) -> str | None:
+	"""The selling Price List that applies to a customer.
+
+	Standard ERPNext resolution: the customer's own default_price_list, else the
+	customer group's default. Returns None when the customer has no specific list
+	(caller falls back to the site default).
+	"""
+	if not customer:
+		return None
+	try:
+		from erpnext.accounts.party import get_default_price_list
+
+		party = frappe.get_cached_doc("Customer", customer)
+		resolved = get_default_price_list(party)
+	except Exception:
+		resolved = frappe.db.get_value("Customer", customer, "default_price_list")
+	if resolved and frappe.db.exists("Price List", {"name": resolved, "enabled": 1, "selling": 1}):
+		return resolved
+	return None
+
+
+def _available_to_sell(item_code: str, warehouse: str | None) -> dict:
+	"""Actual / Reserved / Available-to-Sell for one item (+warehouse). Permission-safe."""
+	actual = reserved = 0.0
+	if frappe.has_permission("Bin", "read"):
+		filters = {"item_code": item_code}
+		if warehouse:
+			filters["warehouse"] = warehouse
+		for row in frappe.get_all("Bin", filters=filters, fields=["actual_qty", "reserved_stock"]):
+			actual += flt(row.actual_qty)
+			reserved += flt(row.reserved_stock)
+	return {"actual_qty": actual, "reserved_qty": reserved, "available_to_sell": actual - reserved}
+
+
 @frappe.whitelist()
-def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_group: str = "", warehouse: str = "", price_list: str = ""):
-	"""Return a permission-filtered, paginated catalogue and selector options."""
+def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_group: str = "", warehouse: str = "", price_list: str = "", customer: str = ""):
+	"""Return a permission-filtered, paginated catalogue and selector options.
+
+	When a customer is supplied the catalogue is priced against that customer's
+	own selling Price List (their default_price_list / customer-group default),
+	so different customers see different prices. Full Pricing-Rule resolution for
+	a specific quantity is applied authoritatively by ``get_cart_pricing`` and by
+	ERPNext on Sales Order insert.
+	"""
 	_require_login()
 	_require_permission("Item")
 
 	page = max(cint(page), 1)
 	page_length = min(max(cint(page_length), 1), 48)
 	company = _default_company()
-	price_list = price_list or _default_price_list() or "Standard Selling"
+	customer = (customer or "").strip()
+	if customer:
+		_validate_link("Customer", customer, {"disabled": 0})
+	# Customer's price list wins over an explicitly passed one so switching
+	# customer reprices; fall back to the passed list, then the site default.
+	price_list = _customer_price_list(customer) or price_list or _default_price_list() or "Standard Selling"
 	_validate_link("Company", company)
 	_validate_link("Price List", price_list, {"enabled": 1, "selling": 1})
 	if warehouse:
@@ -78,7 +124,7 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		"Item",
 		filters=filters,
 		or_filters=or_filters,
-		fields=["name", "item_code", "item_name", "image", "brand", "item_group", "description", "stock_uom"],
+		fields=["name", "item_code", "item_name", "image", "brand", "item_group", "description", "stock_uom", "is_stock_item"],
 		order_by="modified desc",
 		limit_start=(page - 1) * page_length,
 		limit_page_length=page_length,
@@ -151,6 +197,8 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		"company": company,
 		"currency": frappe.get_cached_value("Company", company, "default_currency") if company else None,
 		"price_list": price_list,
+		"customer": customer or None,
+		"customer_price_list": _customer_price_list(customer) if customer else None,
 		"item_groups": groups,
 		"warehouses": warehouses,
 		"price_lists": price_lists,
@@ -174,6 +222,123 @@ def search_customers(txt: str = "", page_length: int = 20):
 		order_by="customer_name",
 		limit_page_length=min(max(cint(page_length), 1), 50),
 	)
+
+
+def _stock_status(available: float, qty: float, is_stock_item: bool) -> str:
+	if not is_stock_item:
+		return "not_stock_item"
+	if available <= 0:
+		return "out_of_stock"
+	if qty and qty > available:
+		return "insufficient"
+	if available <= 5:
+		return "low_stock"
+	return "in_stock"
+
+
+@frappe.whitelist()
+def get_cart_pricing(customer: str, items: str | list, warehouse: str = "", price_list: str = "", company: str = ""):
+	"""Authoritative per-line pricing + availability for the current customer.
+
+	Uses ERPNext's own pricing engine (``get_item_details``) so customer-specific
+	Item Prices and Pricing Rules are honoured — no pricing logic is duplicated in
+	Vue. Returns, per line, the final rate, the base price-list rate, discount, the
+	pricing source, and Actual/Reserved/Available with a stock status. This is what
+	the frontend calls when the customer changes or a product is added, to reprice
+	the whole cart and re-check stock.
+	"""
+	_require_login()
+	_require_permission("Item")
+	customer = (customer or "").strip()
+	_validate_link("Customer", customer, {"disabled": 0})
+	company = (company or _default_company() or "").strip()
+	_validate_link("Company", company)
+	warehouse = (warehouse or "").strip()
+	if warehouse:
+		_validate_link("Warehouse", warehouse, {"disabled": 0, "is_group": 0})
+	price_list = _customer_price_list(customer) or price_list or _default_price_list() or "Standard Selling"
+	_validate_link("Price List", price_list, {"enabled": 1, "selling": 1})
+
+	rows = json.loads(items) if isinstance(items, str) else items
+	if not isinstance(rows, list):
+		frappe.throw(_("Invalid cart."))
+	if len(rows) > 100:
+		frappe.throw(_("A cart cannot contain more than 100 lines."))
+
+	currency = frappe.get_cached_value("Company", company, "default_currency") if company else None
+	from erpnext.stock.get_item_details import get_item_details
+
+	out = []
+	seen: set[str] = set()
+	for row in rows:
+		item_code = str((row or {}).get("item_code") or "").strip()
+		if not item_code or item_code in seen:
+			continue
+		seen.add(item_code)
+		if not frappe.db.exists("Item", {"name": item_code, "disabled": 0, "is_sales_item": 1}):
+			continue
+		if not frappe.has_permission("Item", "read", doc=item_code):
+			continue
+		qty = flt((row or {}).get("qty")) or 1
+		item = frappe.get_cached_doc("Item", item_code)
+		args = {
+			"item_code": item_code, "customer": customer, "company": company,
+			"selling_price_list": price_list, "price_list": price_list,
+			"currency": currency, "price_list_currency": currency,
+			"plc_conversion_rate": 1.0, "conversion_rate": 1.0, "qty": qty,
+			"doctype": "Sales Order", "transaction_type": "selling",
+			"warehouse": warehouse or None, "transaction_date": nowdate(),
+		}
+		price_list_rate = rate = discount = 0.0
+		pricing_rule = None
+		try:
+			detail = get_item_details(args)
+			price_list_rate = flt(detail.get("price_list_rate"))
+			discount = flt(detail.get("discount_percentage"))
+			discount_amount = flt(detail.get("discount_amount"))
+			# get_item_details returns the discount separately and leaves `rate` for
+			# the transaction to compute — derive the effective selling rate here.
+			rate = flt(detail.get("rate"))
+			if not rate:
+				if discount_amount:
+					rate = price_list_rate - discount_amount
+				elif discount:
+					rate = price_list_rate * (1 - discount / 100)
+				else:
+					rate = price_list_rate
+			rules = detail.get("pricing_rules")
+			if rules:
+				parsed = json.loads(rules) if isinstance(rules, str) else rules
+				if parsed:
+					pricing_rule = parsed[0] if isinstance(parsed, list) else str(parsed)
+			elif detail.get("has_pricing_rule"):
+				pricing_rule = _("Pricing Rule")
+		except Exception:
+			frappe.log_error(title="Smart Sales cart pricing failed", message=frappe.get_traceback())
+			price_list_rate = flt(frappe.db.get_value(
+				"Item Price", {"item_code": item_code, "price_list": price_list, "selling": 1}, "price_list_rate"
+			))
+			rate = price_list_rate
+		if pricing_rule:
+			source = "pricing_rule"
+		elif _customer_price_list(customer):
+			source = "customer_price_list"
+		elif price_list_rate:
+			source = "price_list"
+		else:
+			source = "unpriced"
+		stock = _available_to_sell(item_code, warehouse)
+		available = stock["available_to_sell"]
+		out.append({
+			"item_code": item_code, "item_name": item.item_name, "stock_uom": item.stock_uom,
+			"qty": qty, "rate": rate, "price_list_rate": price_list_rate,
+			"discount_percentage": discount, "currency": currency,
+			"pricing_rule": pricing_rule, "source": source, "price_list": price_list,
+			"actual_qty": stock["actual_qty"], "reserved_qty": stock["reserved_qty"],
+			"available_to_sell": available, "max_qty": available if item.is_stock_item else None,
+			"stock_status": _stock_status(available, qty, bool(item.is_stock_item)),
+		})
+	return {"customer": customer, "company": company, "warehouse": warehouse, "price_list": price_list, "currency": currency, "lines": out}
 
 
 @frappe.whitelist()
@@ -217,6 +382,7 @@ def create_draft_sales_order(payload: str | dict):
 	order.delivery_date = delivery_date
 
 	seen: set[str] = set()
+	shortfalls: list[dict] = []
 	for row in rows:
 		item_code = str(row.get("item_code") or "").strip()
 		qty = flt(row.get("qty"))
@@ -226,7 +392,28 @@ def create_draft_sales_order(payload: str | dict):
 			frappe.throw(_("Quantity for {0} must be greater than zero.").format(item_code))
 		_validate_link("Item", item_code, {"disabled": 0, "is_sales_item": 1})
 		seen.add(item_code)
+		# Server-side stock recheck: never trust the browser's availability. Stock
+		# items may not be ordered beyond Available-to-Sell (Actual - Reserved).
+		if frappe.db.get_value("Item", item_code, "is_stock_item"):
+			available = _available_to_sell(item_code, warehouse)["available_to_sell"]
+			if qty > available:
+				shortfalls.append({
+					"item_code": item_code,
+					"requested": qty,
+					"available": available,
+					"stock_uom": frappe.db.get_value("Item", item_code, "stock_uom"),
+				})
 		order.append("items", {"item_code": item_code, "qty": qty, "warehouse": warehouse, "delivery_date": delivery_date})
+
+	if shortfalls:
+		lines = ", ".join(
+			_("{0} (requested {1}, available {2})").format(s["item_code"], s["requested"], s["available"])
+			for s in shortfalls
+		)
+		frappe.throw(
+			_("Insufficient stock in {0}: {1}. Reduce the quantity and try again.").format(warehouse, lines),
+			frappe.ValidationError,
+		)
 
 	# ERPNext fetches item defaults, rates, taxes and totals during insertion.
 	order.insert()

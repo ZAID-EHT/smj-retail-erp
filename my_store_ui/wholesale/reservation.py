@@ -16,11 +16,23 @@ still open are released by a scheduled job. The window is read from site config
 """
 from __future__ import annotations
 
+import time
+
 import frappe
 from frappe import _
 from frappe.utils import add_days, flt, now_datetime, get_datetime
 
 DEFAULT_EXPIRY_DAYS = 3
+RESERVE_MAX_ATTEMPTS = 3
+RESERVE_BACKOFF_SECONDS = 0.15
+
+
+def _is_lock_conflict(exc: Exception) -> bool:
+	"""True for a MariaDB deadlock (1213) or lock-wait timeout (1205)."""
+	if isinstance(exc, (getattr(frappe, "QueryDeadlockError", ()), getattr(frappe, "QueryTimeoutError", ()))):
+		return True
+	code = getattr(exc, "args", [None])[0]
+	return code in (1213, 1205)
 
 
 def reservation_expiry_days() -> int:
@@ -81,12 +93,35 @@ def reserve_sales_order(sales_order: str):
         frappe.throw(_("Not permitted."), frappe.PermissionError)
     if doc.docstatus != 1:
         frappe.throw(_("Only a submitted Sales Order can reserve stock."), frappe.ValidationError)
-    # Lock the affected bins so concurrent reservations serialise.
-    _lock_bins([(row.item_code, row.warehouse) for row in doc.items if row.get("warehouse")])
-    # Standard ERPNext reservation; it validates available qty and never over-reserves.
-    doc.create_stock_reservation_entries()
-    frappe.db.commit()
-    return {"sales_order": sales_order, "reserved": True, "reservations": _reservations_for(sales_order)}
+
+    # Concurrency: lock the affected bins so parallel reservations serialise, then
+    # let the standard engine validate available qty (it never over-reserves). A
+    # lock conflict (deadlock / lock-wait timeout) is retried a bounded number of
+    # times with a short backoff; a persistent conflict returns a friendly message
+    # instead of a raw 500 database traceback.
+    bins = [(row.item_code, row.warehouse) for row in doc.items if row.get("warehouse")]
+    last_error: Exception | None = None
+    for attempt in range(RESERVE_MAX_ATTEMPTS):
+        try:
+            _lock_bins(bins)
+            doc.create_stock_reservation_entries()
+            frappe.db.commit()
+            return {"sales_order": sales_order, "reserved": True, "attempts": attempt + 1,
+                    "reservations": _reservations_for(sales_order)}
+        except Exception as exc:  # noqa: BLE001 - classified below; non-lock errors re-raised
+            frappe.db.rollback()
+            if not _is_lock_conflict(exc):
+                raise
+            last_error = exc
+            doc.reload()
+            if attempt < RESERVE_MAX_ATTEMPTS - 1:
+                time.sleep(RESERVE_BACKOFF_SECONDS * (attempt + 1))
+
+    frappe.log_error(title="Stock reservation lock conflict", message=str(last_error))
+    frappe.throw(
+        _("This stock is being reserved by another order right now. Please try again in a moment."),
+        frappe.ValidationError,
+    )
 
 
 @frappe.whitelist(methods=["POST"])
