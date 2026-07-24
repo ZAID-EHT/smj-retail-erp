@@ -1,0 +1,44 @@
+{
+  "mission": "SMJ Core Wholesale Workflow (customer-first sales, pricing, stock, FIFO, purchasing, quick-create, simplified entry, access management)",
+  "mission_start": "2026-07-24T11:40:00+05:30",
+  "starting_branch": "full-feature-parity",
+  "starting_commit": "e15c37e787e47a6d33d4efb7282fd574301ee897",
+  "current_commit": "e15c37e",
+  "recovery_tag": "pre-smj-core-workflow-20260724-1140",
+  "test_site": "staging.local",
+  "dev_site_readonly": "site1.local",
+  "staging_backup": "sites/staging.local/private/backups/20260724_114030-staging_local-database.sql.gz (+ files/private-files tar, site_config json)",
+  "existing_uncommitted_files": "none at mission start (previous batch committed as 0d10f34 + e15c37e)",
+  "current_phase": "Phase 0 complete (preflight + backup + recovery tag). Audit + core-spine implementation in progress.",
+  "current_batch": "audit-and-core-spine",
+  "requirements_completed": [],
+  "requirements_in_progress": [
+    "Phase 1 customer-first Smart Sales",
+    "Phase 2 customer-specific pricing",
+    "Phase 3 stock validation + concurrency friendly error"
+  ],
+  "requirements_remaining": [
+    "Phase 4 FIFO verification",
+    "Phase 5 Purchase Order data audit + end-to-end purchase workflow",
+    "Phase 6 + Create header menu",
+    "Phase 7 simplified entry forms (customer/supplier/product/transactions)",
+    "Phase 8 user/role/access management completion",
+    "End-to-end acceptance scenarios 1-11 on staging",
+    "Full 6-viewport Playwright browser matrix",
+    "All workflow/verification/security docs"
+  ],
+  "tests_passed": [],
+  "tests_failed": [],
+  "tests_blocked": [],
+  "defects_found": [
+    "Smart Sales does not enforce customer-first (Add to cart works with no customer selected)",
+    "get_bootstrap pricing is not customer-specific (ignores Customer.default_price_list and Pricing Rules)",
+    "create_draft_sales_order performs no available-to-sell recheck / insufficient-stock rejection",
+    "Reservation losing side surfaces a raw QueryDeadlockError instead of a friendly retryable message"
+  ],
+  "defects_fixed": [],
+  "commits_created": [],
+  "last_completed_action": "Preflight + staging backup + recovery tag + core-architecture audit of Smart Sales, pricing, reservation and credit.",
+  "next_automatic_action": "Write existing-feature audit doc, then implement customer-aware pricing engine endpoint + customer-first enforcement + order-placement stock validation + reservation friendly-retry, each with staging tests.",
+  "last_updated": "2026-07-24T11:45:00+05:30"
+}
