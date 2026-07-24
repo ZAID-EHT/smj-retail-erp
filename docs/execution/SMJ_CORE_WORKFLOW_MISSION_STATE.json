@@ -3,14 +3,14 @@
   "mission_start": "2026-07-24T11:40:00+05:30",
   "starting_branch": "full-feature-parity",
   "starting_commit": "e15c37e787e47a6d33d4efb7282fd574301ee897",
-  "current_commit": "9d4dbdc",
+  "current_commit": "5a67ec2",
   "recovery_tag": "pre-smj-core-workflow-20260724-1140",
   "test_site": "staging.local",
   "dev_site_readonly": "site1.local",
   "staging_backup": "sites/staging.local/private/backups/20260724_114030-staging_local-database.sql.gz (+ files/private-files tar, site_config json)",
   "existing_uncommitted_files": "none",
-  "current_phase": "Core security/correctness spine (Phases 1-3) + FIFO (Phase 4) implemented and verified on staging. Phases 5-8, acceptance scenarios and browser matrix are remaining scope for subsequent sessions.",
-  "current_batch": "core-spine-and-fifo-complete",
+  "current_phase": "Phases 1-3 (core spine), 4 (FIFO), 6 (Quick Create menu), reservation friendly-retry, and Phase 7 (Supplier curated add + Customer/Item already-curated verification) implemented and verified on staging. Phase 5 (PO field audit), Phase 8 (remaining access mgmt), live 2-process concurrency demo, sale-path FIFO->COGS, full acceptance suite and 6-viewport browser matrix remain.",
+  "current_batch": "spine-fifo-quickcreate-forms-reservation-complete",
   "requirements_completed_verified": [
     "Req 1,11,12 customer-first: catalogue/add/qty/submit gated on selected customer; out-of-stock badge blocks add (frontend) — regression test in test_frontend_layout",
     "Req 2-6 customer pricing: get_bootstrap prices against Customer.default_price_list; get_cart_pricing uses ERPNext get_item_details (Item Price + customer-scoped Pricing Rules) to reprice cart on customer change/add — verified by test_smart_sales_core (5 tests, staging)",
@@ -56,9 +56,14 @@
   "commits_created": [
     "9fc727b chore: audit SMJ core wholesale workflow + resumable mission state",
     "524d01f feat: customer-first Smart Sales with customer pricing, stock gating and reservation retry",
-    "9d4dbdc test: verify FIFO valuation on staging (10@1000 + 2@1200 = 12,400 exact)"
+    "9d4dbdc test: verify FIFO valuation on staging",
+    "b47c880 docs: mission state + interim final report",
+    "8811341 feat: permission-aware Quick Create (+ Create) header menu",
+    "07e3447 feat: curated Supplier add form + simplified-entry state (Phase 7)",
+    "5a67ec2 test: verify reservation bounded retry-on-deadlock + friendly message"
   ],
-  "last_completed_action": "FIFO valuation verified exactly on staging via standard controllers; verification doc written and committed.",
-  "next_automatic_action": "Phase 5 Purchase Order field audit, then Phase 6 create-route additions + Quick Create menu, then Phase 7/8 and the scripted acceptance + browser matrix.",
-  "last_updated": "2026-07-24T12:30:00+05:30"
+  "verified_test_totals": "59 backend tests green across test_smart_sales_core (5), test_frontend_layout (9), test_quick_create (4), test_universal_frontend (24), test_reservation_retry (3), test_wholesale_credit (7), test_stock_action_parity (7); FIFO dev-script exact; frontend build clean (201 modules).",
+  "last_completed_action": "Reservation friendly bounded-retry verified; Quick Create menu and Supplier curated add form shipped; broad regression 59 green.",
+  "next_automatic_action": "Phase 5 PO field audit doc; Phase 8 remaining access mgmt (Role Profile / User Permission surfaces, effective access, session revocation); item-price->Item Price sync (needs price-list mapping decision); live 2-process concurrency demo; 6-viewport browser matrix.",
+  "last_updated": "2026-07-24T13:15:00+05:30"
 }

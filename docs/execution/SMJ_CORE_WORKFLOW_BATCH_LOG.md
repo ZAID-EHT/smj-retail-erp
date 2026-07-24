@@ -29,3 +29,20 @@ Append-only log of logical batches. Newest at the bottom.
 ## Batch 2 — FIFO verification (Phase 4), commit 9d4dbdc (2026-07-24)
 - Controlled FIFO test on staging via standard Stock Entries: outgoing 12,400 exact,
   remaining 8 @ 9,600 exact. Doc: SMJ_FIFO_VERIFICATION.md. Fixtures cleaned up.
+
+## Batch 3 — Quick Create menu (Phase 6), commit 8811341 (2026-07-24)
+- get_quick_create_actions: 22 real create routes from the universal registry,
+  permission-filtered, grouped; QuickCreateMenu.vue (teleport, search, keyboard,
+  focus return, mobile). test_quick_create (4) PASS incl. no-dead-route check.
+
+## Batch 4 — Simplified entry (Phase 7), commit 07e3447 (2026-07-24)
+- Supplier curated add form via universal engine; verified Customer/Item already
+  sectioned in form_schemas.py. Recorded item-pricing-in-custom-fields defect.
+  test_universal_frontend (24) PASS.
+
+## Batch 5 — Reservation retry (Phase 3 / Scenario 5), commit 5a67ec2 (2026-07-24)
+- Deterministic verification of bounded retry-on-deadlock + friendly message.
+  test_reservation_retry (3) PASS. Doc SMJ_RESERVATION_CONCURRENCY_RESULT.md.
+
+## Final regression (2026-07-24): 59 backend tests green across 7 modules; FIFO
+## dev-script exact; frontend build clean (201 modules).
