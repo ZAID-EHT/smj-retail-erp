@@ -242,6 +242,9 @@ _GENERATED_ENTITY_ROUTES_2 = {
 	"/operations/holiday-list": {"doctype": "Holiday List", "module": "operations", "classification": "generated_provisional"},
 	"/operations/driver": {"doctype": "Driver", "module": "operations", "classification": "generated_provisional"},
 	"/operations/vehicle": {"doctype": "Vehicle", "module": "operations", "classification": "generated_provisional"},
+	# Role Profile bundles roles, so it stays System Manager gated in
+	# universal.registry.ADMIN_FEATURE_ROLES alongside User and Role.
+	"/admin/role-profiles": {"doctype": "Role Profile", "module": "admin", "roles": ("System Manager",), "classification": "generated_provisional"},
 	"/admin/branch": {"doctype": "Branch", "module": "admin", "classification": "generated_provisional"},
 	"/admin/print-heading": {"doctype": "Print Heading", "module": "admin", "classification": "generated_provisional"},
 	"/admin/authorization-rule": {"doctype": "Authorization Rule", "module": "admin", "classification": "generated_provisional"},
@@ -266,6 +269,12 @@ FORM_VARIANTS = {
 	"/inventory/transfers/new": {"doctype": "Stock Entry", "module": "inventory", "base_path": "/inventory/stock-entries", "defaults": {"stock_entry_type": "Material Transfer"}},
 	"/inventory/receipts/new": {"doctype": "Stock Entry", "module": "inventory", "base_path": "/inventory/stock-entries", "defaults": {"stock_entry_type": "Material Receipt"}},
 	"/inventory/issues/new": {"doctype": "Stock Entry", "module": "inventory", "base_path": "/inventory/stock-entries", "defaults": {"stock_entry_type": "Material Issue"}},
+	# Payment Entry is one DocType with three very different jobs. Presetting
+	# payment_type keeps "Receive Payment" / "Pay Supplier" / "Internal Transfer"
+	# as distinct, self-explanatory entry points on one shared form.
+	"/finance/payments/receive/new": {"doctype": "Payment Entry", "module": "finance", "base_path": "/finance/payments", "defaults": {"payment_type": "Receive"}},
+	"/finance/payments/pay/new": {"doctype": "Payment Entry", "module": "finance", "base_path": "/finance/payments", "defaults": {"payment_type": "Pay"}},
+	"/finance/payments/internal-transfer/new": {"doctype": "Payment Entry", "module": "finance", "base_path": "/finance/payments", "defaults": {"payment_type": "Internal Transfer"}},
 }
 
 

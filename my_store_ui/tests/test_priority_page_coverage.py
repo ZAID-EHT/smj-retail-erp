@@ -46,11 +46,42 @@ class TestPriorityPageCoverage(unittest.TestCase):
 				if suffix.startswith("/TEST"):
 					self.assertEqual(params["name"], "TEST-NAME")
 
-	def test_stock_purpose_variants_are_server_owned(self):
+	def test_purpose_variants_are_server_owned(self):
+		"""Every preset create form takes its doctype and defaults from the server."""
 		for path, spec in FORM_VARIANTS.items():
-			definition = get_priority_route_definition(f"/retail-erp{path}")
-			self.assertEqual(definition["doctype"], "Stock Entry")
-			self.assertEqual(definition["defaults"], spec["defaults"])
+			with self.subTest(path=path):
+				definition = get_priority_route_definition(f"/retail-erp{path}")
+				self.assertEqual(definition["doctype"], spec["doctype"])
+				self.assertEqual(definition["defaults"], spec["defaults"])
+				self.assertEqual(definition["mode"], "new")
+				self.assertEqual(definition["base_path"], spec["base_path"])
+				self.assertTrue(definition["defaults"], f"{path} must preset at least one field")
+
+		stock_variants = {path: spec for path, spec in FORM_VARIANTS.items() if spec["doctype"] == "Stock Entry"}
+		payment_variants = {path: spec for path, spec in FORM_VARIANTS.items() if spec["doctype"] == "Payment Entry"}
+
+		self.assertEqual(
+			{spec["defaults"]["stock_entry_type"] for spec in stock_variants.values()},
+			{"Material Transfer", "Material Receipt", "Material Issue"},
+		)
+		self.assertEqual(
+			{spec["defaults"]["payment_type"] for spec in payment_variants.values()},
+			{"Receive", "Pay", "Internal Transfer"},
+		)
+
+	def test_variant_presets_are_valid_doctype_options(self):
+		"""A preset that is not a real Select option would break on save."""
+		for path, spec in FORM_VARIANTS.items():
+			meta = frappe.get_meta(spec["doctype"])
+			for fieldname, value in spec["defaults"].items():
+				with self.subTest(path=path, field=fieldname):
+					field = meta.get_field(fieldname)
+					self.assertIsNotNone(field, f"{spec['doctype']}.{fieldname} does not exist")
+					if field.fieldtype == "Select":
+						options = [line for line in (field.options or "").splitlines() if line]
+						self.assertIn(value, options)
+					elif field.fieldtype == "Link":
+						self.assertTrue(frappe.db.exists(field.options, value))
 
 	def test_handcrafted_routes_win_and_generated_aliases_remain(self):
 		custom, _ = resolve_frontend_route("/retail-erp/sales/orders")

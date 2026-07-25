@@ -328,12 +328,26 @@ def get_permitted_navigation() -> list[dict]:
 # Curated, permission-aware Quick Create ("+ Create") menu. Only doctypes that
 # resolve to a REAL create route in the universal registry and for which the user
 # holds create permission are offered — never a guessed URL or a dead action.
+# A menu entry is either a plain DocType (create route taken from the registry) or
+# a dict that overrides the label and/or pins a preset FORM_VARIANTS path.
 QUICK_CREATE_GROUPS = (
-	("Sales", ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry")),
-	("Purchasing", ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice")),
-	("Inventory", ("Item", "Stock Entry", "Stock Reconciliation", "Warehouse")),
+	("Sales", (
+		"Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice",
+		{"doctype": "Payment Entry", "label": "Receive Payment", "path": "/finance/payments/receive/new"},
+	)),
+	("Purchasing", (
+		"Supplier", "Material Request", "Request for Quotation", "Supplier Quotation",
+		"Purchase Order", "Purchase Receipt", "Purchase Invoice",
+		{"doctype": "Payment Entry", "label": "Pay Supplier", "path": "/finance/payments/pay/new"},
+	)),
+	("Inventory", (
+		{"doctype": "Item", "label": "Product"}, "Stock Entry", "Stock Reconciliation", "Warehouse",
+	)),
 	("Administration", ("User", "Role", "Role Profile")),
-	("More", ("Journal Entry", "Contact", "Address")),
+	("More", (
+		"Journal Entry", "Contact", "Address",
+		{"doctype": "Payment Entry", "label": "Internal Transfer", "path": "/finance/payments/internal-transfer/new"},
+	)),
 )
 
 
@@ -350,19 +364,27 @@ def get_quick_create_actions() -> dict:
 			by_doctype[doctype] = record
 
 	groups = []
-	for group_label, doctypes in QUICK_CREATE_GROUPS:
+	for group_label, entries in QUICK_CREATE_GROUPS:
 		items = []
-		for doctype in doctypes:
+		for entry in entries:
+			spec = {"doctype": entry} if isinstance(entry, str) else dict(entry)
+			doctype = spec["doctype"]
 			record = by_doctype.get(doctype)
 			if not record:
 				continue
 			# Registry-level role/permission gate AND an explicit create check.
 			if not feature_is_permitted(record, "create") or not frappe.has_permission(doctype, "create"):
 				continue
+			path = spec.get("path") or record["create_route"]
+			# Never offer an action whose route does not resolve or is not
+			# permitted -- a dead menu entry is worse than a missing one.
+			definition, _params = resolve_frontend_route(path)
+			if not definition or not route_is_permitted(definition):
+				continue
 			items.append({
-				"label": frappe._(doctype),
+				"label": frappe._(spec.get("label") or doctype),
 				"doctype": doctype,
-				"path": record["create_route"],
+				"path": path,
 				"feature": record.get("route_key"),
 				"group": group_label,
 			})

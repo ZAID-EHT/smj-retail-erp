@@ -184,11 +184,11 @@ onBeforeUnmount(() => {
             <h4>{{ group.group }}</h4>
             <button
               v-for="item in group.items"
-              :key="item.doctype"
+              :key="item.path"
               type="button"
               role="menuitem"
               class="smj-quick-create__item"
-              :class="{ 'is-active': flatItems[activeIndex]?.doctype === item.doctype }"
+              :class="{ 'is-active': flatItems[activeIndex]?.path === item.path }"
               @click="navigate(item)"
             >
               <span class="smj-quick-create__item-plus" aria-hidden="true">+</span>

@@ -34,6 +34,9 @@ ALL_GENERATED_DOCTYPES = frozenset(GENERATED_ALLOWLIST | ALL_PRIORITY_DOCTYPES)
 ADMIN_FEATURE_ROLES = {
 	"User": {"System Manager"},
 	"Role": {"System Manager"},
+	# A Role Profile grants a whole bundle of roles, so it is at least as
+	# sensitive as Role itself.
+	"Role Profile": {"System Manager"},
 }
 
 MODULE_PRESENTATION = {
@@ -64,6 +67,7 @@ PRESENTATION_OVERRIDES = {
 	"Cost Center": {"plural": "Cost Centers", "description": "Maintain the accounting cost-center hierarchy for permitted companies.", "primary_fields": ["cost_center_name", "company", "parent_cost_center", "is_group"], "default_columns": ["name", "cost_center_name", "company", "parent_cost_center", "is_group", "disabled", "modified"], "main_filters": ["company", "parent_cost_center", "is_group", "disabled"]},
 	"Department": {"plural": "Departments", "description": "Maintain organisation departments and company assignments.", "primary_fields": ["department_name", "company", "parent_department", "is_group"], "default_columns": ["name", "department_name", "company", "parent_department", "is_group", "disabled", "modified"], "main_filters": ["company", "parent_department", "is_group", "disabled"]},
 	"Designation": {"plural": "Designations", "description": "Maintain employee designation names and descriptions.", "primary_fields": ["designation_name"], "default_columns": ["name", "designation_name", "description", "modified"], "main_filters": []},
+	"Role Profile": {"plural": "Role Profiles", "description": "Bundle roles into a reusable profile that can be assigned to users in one step.", "primary_fields": ["role_profile", "roles"], "default_columns": ["name", "role_profile", "modified"], "main_filters": []},
 }
 
 SUPPORTED_FIELD_TYPES = {

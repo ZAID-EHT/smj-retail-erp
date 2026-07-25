@@ -42,7 +42,13 @@ NUMERIC_FIELDS = {"Currency", "Float", "Int", "Percent", "Duration", "Rating"}
 # "enabled" is read-only in Desk (toggled by Desk JS); we re-expose it so user
 # managers can deactivate/reactivate accounts. Frappe's own User.validate still
 # blocks disabling Administrator or the last System Manager.
-SPECIAL_WRITABLE_FIELDS = {"User": {"roles", "enabled"}}
+# Role Profile has the identical shape -- its "roles" table is read_only+hidden
+# behind a "roles_html" RoleEditor widget -- so without this a Role Profile could
+# be created but never given any roles.
+SPECIAL_WRITABLE_FIELDS = {
+	"User": {"roles", "enabled"},
+	"Role Profile": {"roles"},
+}
 
 # Privileged, doctype-scoped fields surfaced as write-only inputs on the form:
 # accepted on create/update but never read back into detail views. "new_password"
@@ -63,6 +69,7 @@ SIMPLE_CREATE_FIELDS = {
 		"supplier_name", "supplier_group", "supplier_type", "default_currency", "default_price_list",
 		"payment_terms", "tax_id", "tax_category", "image",
 	),
+	"Role Profile": ("role_profile", "roles"),
 }
 
 # Fields that are mandatory ON THE ADD FORM, overriding the DocType's own reqd
@@ -73,6 +80,8 @@ SIMPLE_CREATE_REQUIRED = {
 	"User": ("username", "new_password", "roles"),
 	# Keep the genuinely ERPNext-required fields required on the add form.
 	"Supplier": ("supplier_name", "supplier_group"),
+	# A Role Profile with no roles is useless, so require at least the table.
+	"Role Profile": ("role_profile", "roles"),
 }
 
 # Fixed server-owned mappings. The browser sends only these symbolic action
@@ -286,6 +295,9 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 	if field.parent == "User" and field.fieldname == "enabled":
 		definition["label"] = _("Account Enabled")
 		definition["description"] = _("Turn off to immediately revoke this user's access. Re-enable to restore it.")
+	if field.parent == "Role Profile" and field.fieldname == "roles":
+		definition["label"] = _("Roles In This Profile")
+		definition["description"] = _("Every user assigned this profile receives these roles.")
 	if field.parent == "User" and field.fieldname == "new_password":
 		definition["label"] = _("Set Password (optional)")
 		definition["description"] = _("Set or reset this user's login password directly. Leave blank to keep the current password or rely on the welcome email.")
