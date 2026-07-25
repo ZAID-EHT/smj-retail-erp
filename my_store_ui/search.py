@@ -8,6 +8,7 @@ is returned.
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 from urllib.parse import quote
 
 import frappe
@@ -20,6 +21,9 @@ from my_store_ui.services.frontend_routes import (
 	route_is_permitted,
 )
 from my_store_ui.services.priority_registry import ENTITY_ROUTES, REPORT_GROUPS
+
+if TYPE_CHECKING:
+	from frappe.model.meta import Meta
 
 
 SEARCH_REGISTRY = (
@@ -192,13 +196,46 @@ def _report_results(text: str, limit: int) -> list[dict]:
 	return sorted(results, key=lambda row: (-row["score"], row["title"]))[:limit]
 
 
+def _searchable_meta(doctype) -> Meta | None:
+	"""Meta for a registered search entry, or ``None`` when the entry is unusable.
+
+	A registry entry can go stale — the DocType is renamed, removed, or owned by
+	an app that is no longer installed — and ``frappe.get_meta`` raises
+	``DoesNotExistError`` for those (including the ``None``/empty case).  One bad
+	entry must never take global search down for every other entry, so the entry
+	is skipped and reported as unavailable.
+
+	Nothing is widened here: the DocType is never substituted, and callers still
+	permission-check whatever this returns.  Anything other than a missing
+	DocType is left to propagate — a genuinely broken install should be loud.
+	"""
+	if not doctype or not isinstance(doctype, str):
+		frappe.logger("my_store_ui").warning(
+			f"global search: registry entry has no usable doctype ({doctype!r}); skipped"
+		)
+		return None
+	try:
+		return frappe.get_meta(doctype)
+	except frappe.DoesNotExistError:
+		# get_meta throws, which also queues a user-facing message; drop it so a
+		# stale registry entry cannot leak into an unrelated search response.
+		frappe.clear_last_message()
+		frappe.logger("my_store_ui").warning(
+			f"global search: registry doctype {doctype!r} is unavailable; entry skipped"
+		)
+		return None
+
+
 def _document_results(text: str, limit: int) -> list[dict]:
 	results = []
 	for definition in SEARCH_REGISTRY:
-		if len(results) >= limit or not frappe.has_permission(definition["doctype"], "read"):
+		if len(results) >= limit:
+			break
+		doctype = definition.get("doctype")
+		meta = _searchable_meta(doctype)
+		if meta is None or not frappe.has_permission(doctype, "read"):
 			continue
-		fields = _approved_fields(definition)
-		meta = frappe.get_meta(definition["doctype"])
+		fields = _approved_fields(definition, meta=meta)
 		search_fields = ["name"] + [
 			field for field in fields[1:]
 			if meta.get_field(field) and meta.get_field(field).fieldtype in {"Data", "Link", "Dynamic Link", "Select", "Text", "Small Text", "Read Only"}
@@ -239,8 +276,10 @@ def _require_login():
 		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
 
 
-def _approved_fields(definition: dict) -> list[str]:
-	meta = frappe.get_meta(definition["doctype"])
+def _approved_fields(definition: dict, meta=None) -> list[str]:
+	meta = meta if meta is not None else _searchable_meta(definition.get("doctype"))
+	if meta is None:
+		return ["name"]
 	approved = ["name"]
 	for fieldname in definition["fields"]:
 		field = meta.get_field(fieldname)

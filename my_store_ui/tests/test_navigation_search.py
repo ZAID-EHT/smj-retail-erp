@@ -10,9 +10,11 @@ BENCH_PATH = Path(__file__).resolve().parents[4]
 
 from my_store_ui.search import (
 	SEARCH_REGISTRY,
+	_approved_fields,
 	_document_results,
 	_page_results,
 	_report_results,
+	_searchable_meta,
 	global_search,
 )
 from my_store_ui.services.frontend_routes import get_permitted_navigation
@@ -89,15 +91,78 @@ class TestRetailNavigationAndSearch(unittest.TestCase):
 		def document_permission(_doctype, _permission, doc=None, **_kwargs):
 			return doc is None
 
+		# `my_store_ui.search.frappe` is the frappe module itself, so patching
+		# `get_list` here replaces it process-wide -- including the `get_all`
+		# that `Meta.set_custom_permissions` uses while loading metadata.  Only
+		# stub the searched doctype and delegate everything else to the real
+		# implementation, or frappe's own internals receive these fake rows.
+		real_get_list = frappe.get_list
+
+		def only_stub_searched_doctype(doctype, *args, **kwargs):
+			if doctype == SEARCH_REGISTRY[0]["doctype"]:
+				return [customer]
+			return real_get_list(doctype, *args, **kwargs)
+
 		with (
 			patch("my_store_ui.search.SEARCH_REGISTRY", (SEARCH_REGISTRY[0],)),
-			patch("my_store_ui.search.frappe.get_list", return_value=[customer]),
+			patch("my_store_ui.search.frappe.get_list", side_effect=only_stub_searched_doctype),
 			patch("my_store_ui.search.frappe.has_permission", side_effect=document_permission),
 		):
 			self.assertEqual(_document_results("Restricted", 5), [])
 
 		with patch("my_store_ui.search.frappe.has_permission", return_value=False):
 			self.assertEqual(_report_results("General Ledger", 5), [])
+
+	def test_unusable_registry_doctype_is_skipped_without_breaking_search(self):
+		"""Regression: one stale registry entry must not take global search down.
+
+		`frappe.get_meta` raises `DoesNotExistError` for a removed, renamed or
+		`None` doctype.  Before the fix that exception escaped `_document_results`
+		and failed the whole request instead of skipping the single bad entry.
+		"""
+		valid = SEARCH_REGISTRY[0]
+		broken = (
+			{**valid, "doctype": "Zzz Removed Doctype"},
+			{**valid, "doctype": None},
+			{**valid, "doctype": ""},
+		)
+
+		# Each bad entry on its own: skipped, no exception, no results.
+		for entry in broken:
+			with self.subTest(doctype=entry["doctype"]):
+				with patch("my_store_ui.search.SEARCH_REGISTRY", (entry,)):
+					self.assertEqual(_document_results("Restricted", 5), [])
+				self.assertEqual(_searchable_meta(entry["doctype"]), None)
+
+		# A bad entry must not stop a following valid entry from being searched.
+		with patch("my_store_ui.search.SEARCH_REGISTRY", (broken[0], valid)):
+			searched = []
+			real_get_list = frappe.get_list
+
+			def record_get_list(doctype, *args, **kwargs):
+				searched.append(doctype)
+				return real_get_list(doctype, *args, **kwargs)
+
+			with patch("my_store_ui.search.frappe.get_list", side_effect=record_get_list):
+				_document_results("Restricted", 5)
+			self.assertIn(valid["doctype"], searched)
+			self.assertNotIn("Zzz Removed Doctype", searched)
+
+		# global_search stays healthy end to end with a stale entry present.
+		with patch("my_store_ui.search.SEARCH_REGISTRY", (broken[0], valid)):
+			result = global_search("Restricted", limit=10)
+		self.assertEqual(result["minimum_length"], 2)
+		self.assertTrue(all(row["doctype"] != "Zzz Removed Doctype" for row in result["results"]))
+
+	def test_unusable_registry_entry_does_not_bypass_permissions(self):
+		"""A skipped entry must not become an unchecked read of another doctype."""
+		entry = {**SEARCH_REGISTRY[0], "doctype": "Zzz Removed Doctype"}
+		with (
+			patch("my_store_ui.search.SEARCH_REGISTRY", (entry,)),
+			patch("my_store_ui.search.frappe.has_permission", return_value=True),
+		):
+			self.assertEqual(_document_results("Restricted", 5), [])
+		self.assertEqual(_approved_fields(entry), ["name"])
 
 	def test_minimum_length_and_permission_filtering(self):
 		self.assertEqual(global_search("A")["results"], [])
