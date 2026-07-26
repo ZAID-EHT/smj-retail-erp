@@ -28,6 +28,11 @@ ROUTE_REGISTRY = (
 	{"name": "crm", "pattern": r"^/crm/?$", "module": "CRM", "feature_id": "retail.crm", "implemented": True, "any_read": ("Lead", "Opportunity", "Customer")},
 	{"name": "reports", "pattern": r"^/reports/?$", "module": "Reports", "feature_id": "retail.reports", "implemented": True},
 	{"name": "admin", "pattern": r"^/admin/?$", "module": "Admin", "feature_id": "retail.admin", "implemented": True, "roles": ("System Manager",)},
+	# Access Control reports effective permissions and edits User Permissions, so it
+	# is gated exactly like the rest of /admin. Every endpoint behind it re-checks
+	# System Manager server-side; this registration only stops the SPA's own route
+	# guard from treating a real page as not-found.
+	{"name": "access-control", "pattern": r"^/admin/access-control(?:/(?P<tab>access|restrictions|roles|profiles|email))?/?$", "module": "Admin", "feature_id": "retail.admin.access_control", "implemented": True, "roles": ("System Manager",)},
 	{"name": "feature-unavailable", "pattern": r"^/feature-unavailable/?$", "module": "System", "feature_id": "retail.feature_unavailable", "implemented": True},
 	{"name": "permission-denied", "pattern": r"^/permission-denied/?$", "module": "System", "feature_id": "retail.permission_denied", "implemented": True},
 	{"name": "not-found", "pattern": r"^/not-found/?$", "module": "System", "feature_id": "retail.not_found", "implemented": True},
@@ -209,7 +214,14 @@ def resolve_frontend_route(path: str) -> tuple[dict | None, dict]:
 	relative = _safe_relative_path(path)
 	for definition in ROUTE_REGISTRY:
 		if match := re.fullmatch(definition["pattern"], relative):
-			params = {key: unquote(value) for key, value in match.groupdict().items()}
+			# An optional group that did not participate yields None, and
+			# unquote(None) raises -- a 500 on a perfectly valid URL. A group that
+			# did not match is simply an absent parameter.
+			params = {
+				key: unquote(value)
+				for key, value in match.groupdict().items()
+				if value is not None
+			}
 			if any(not value or len(value) > 140 or "\x00" in value or "/" in value for value in params.values()):
 				return None, {}
 			return definition, params

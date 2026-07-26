@@ -34,6 +34,27 @@ class TestStandaloneRetailERP(unittest.TestCase):
 			self.assertIsNotNone(definition, route)
 			self.assertNotIn("//", route)
 
+	def test_access_control_resolves_with_and_without_a_tab(self):
+		"""An optional route group must not 500 when it does not participate.
+
+		`unquote(None)` raises, so a valid URL that simply omitted the optional
+		segment returned HTTP 500. Found in a real browser, not by this suite.
+		"""
+		definition, params = resolve_frontend_route("/retail-erp/admin/access-control")
+		self.assertIsNotNone(definition)
+		self.assertEqual(definition["name"], "access-control")
+		self.assertEqual(params, {}, "an unmatched optional group is an absent parameter")
+
+		for tab in ("access", "restrictions", "roles", "profiles", "email"):
+			with self.subTest(tab=tab):
+				definition, params = resolve_frontend_route(f"/retail-erp/admin/access-control/{tab}")
+				self.assertIsNotNone(definition)
+				self.assertEqual(params, {"tab": tab})
+
+		# It is an admin surface, so it must be System Manager gated like /admin.
+		self.assertEqual(definition["roles"], ("System Manager",))
+		self.assertIsNone(resolve_frontend_route("/retail-erp/admin/access-control/not-a-tab")[0])
+
 	def test_unknown_route_returns_custom_not_found(self):
 		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
 		self.assertEqual(result["outcome"], "not_found")

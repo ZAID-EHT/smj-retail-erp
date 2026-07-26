@@ -71,12 +71,21 @@ export const moduleRoutes = [
     component: ModuleDashboardPage,
     meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
   },
+  // Two plain paths rather than one optional/regex param: an optional custom-regex
+  // segment scores lower in vue-router's ranking than the
+  // /:module(...|admin)/:pathMatch(.+) clean-route catch-all below, so the
+  // catch-all swallowed these and rendered "Page not found". Verified in a real
+  // browser. User/Role/Role Profile CRUD keeps its own canonical /admin routes
+  // and is not duplicated here.
   {
-    // Declared before the /:module/:pathMatch catch-all so the generated engine
-    // does not swallow these; User/Role/Role Profile CRUD stays on its own
-    // canonical /admin routes rather than being duplicated here.
-    path: "/admin/access-control/:tab(access|restrictions|roles|profiles|email)?",
+    path: "/admin/access-control",
     name: "access-control",
+    component: () => import("@/pages/priority/AccessControlPage.vue"),
+    meta: { title: "Access Control", description: "Effective access, user permissions, roles and email delivery status.", accent: "purple", icon: "shield" },
+  },
+  {
+    path: "/admin/access-control/:tab",
+    name: "access-control-tab",
     component: () => import("@/pages/priority/AccessControlPage.vue"),
     meta: { title: "Access Control", description: "Effective access, user permissions, roles and email delivery status.", accent: "purple", icon: "shield" },
   },
