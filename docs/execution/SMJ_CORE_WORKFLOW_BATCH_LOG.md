@@ -46,3 +46,28 @@ Append-only log of logical batches. Newest at the bottom.
 
 ## Final regression (2026-07-24): 59 backend tests green across 7 modules; FIFO
 ## dev-script exact; frontend build clean (201 modules).
+
+---
+
+## Batch: Phase 7/8 recovery and completion (2026-07-26)
+
+Started from `e9e71e2` with unverified code in the worktree. Tag
+`pre-smj-phase78-recovery-20260726-1740`; backup `20260726_174038-staging_local-*`.
+
+| Step | Outcome |
+|------|---------|
+| Worktree inventory | 3 modified + 4 untracked files; nothing unrelated touched |
+| Verified reported staging change | `Wholesale Price List` selling=1 confirmed; **buying still 1** — corrected to 0 after re-checking 0 references |
+| Phase 7 test run | 7 green as-written; probing then found the `Item Manager` permission defect the suite could not catch |
+| Phase 7 hardening | permission pre-flight, duplicate convergence, legacy NULL-UOM adoption → **14 tests** |
+| Phase 8 first run | **4 errors** — `Email Account.disabled` does not exist (OperationalError 1054) |
+| Phase 8 fixes | real email schema, manager gate, removed mid-request commits, self-lockout guard → **28 tests** |
+| Phase 8 frontend | `/admin/access-control`, 5 sections + `search_users`; CRUD deliberately not duplicated |
+| Acceptance | scenarios 10 and 11 automated (**3 tests**); all 11 mapped in a matrix |
+| Browser matrix (1st run) | **29 failures** — Access Control dead at every viewport |
+| Root cause | route absent from server-side `ROUTE_REGISTRY`; then a latent `unquote(None)` 500 on the optional group |
+| Browser matrix (final) | **60/60, 0 problems**, six viewports |
+| Full regression | **142 backend tests green**, 12 modules, 0 failures |
+| Cleanup | 0 `Item Price` rows, no residual test users |
+
+Commits: `ba2e1dc`, `0667a5d`, `eec512b`, `4a42f42`, `2862160`, `ea92d16`, `f7c7cbe`.

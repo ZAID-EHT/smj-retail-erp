@@ -1,92 +1,151 @@
-# SMJ Core Wholesale Workflow — Final Report (session of 2026-07-24)
+# SMJ Core Wholesale Workflow — Final Report
 
-This report is **truthful about scope**. The mission spans eight phases plus
-acceptance scenarios and a full browser matrix. This session completed and
-**verified** the security/correctness-critical spine (customer-first sales,
-customer-specific pricing, server-side stock gating, reservation concurrency UX)
-and FIFO valuation. The remaining phases are genuine remaining work — not
-externally blocked — and are listed explicitly so the next session can resume.
+Recovery and completion mission, **2026-07-26**. Supersedes the 2026-07-24 interim
+report (whose commit pointers and "remaining" list are now out of date).
 
-## Repository
-- Starting branch / commit: `full-feature-parity` @ `e15c37e`
-- Final commit: `9d4dbdc`
-- Recovery tag: `pre-smj-core-workflow-20260724-1140`
-- Final commit: `5a67ec2`
-- Commits created (7):
-  - `9fc727b` chore: audit + resumable mission state
-  - `524d01f` feat: customer-first Smart Sales (pricing, stock gating, reservation retry)
-  - `9d4dbdc` test: FIFO valuation verification
-  - `b47c880` docs: mission state + interim report
-  - `8811341` feat: permission-aware Quick Create (+ Create) header menu
-  - `07e3447` feat: curated Supplier add form + simplified-entry state (Phase 7)
-  - `5a67ec2` test: reservation bounded retry-on-deadlock + friendly message
-- Working tree: clean after each commit. No pre-existing unrelated changes were
-  touched (there were none at mission start).
-- Verified totals: **59 backend tests green** (test_smart_sales_core 5,
-  test_frontend_layout 9, test_quick_create 4, test_universal_frontend 24,
-  test_reservation_retry 3, test_wholesale_credit 7, test_stock_action_parity 7) +
-  FIFO dev-script exact + frontend build clean (201 modules).
+## What this mission was
 
-## Verified this session (with evidence)
-| Requirement | Status | Evidence |
-|-------------|--------|----------|
-| Customer required before product add / cart / submit (1, 11, 12) | ✅ Done | `SmartSalesPage.vue` gating + `test_frontend_layout.test_smart_sales_enforces_customer_first_and_stock_gating` |
-| Out-of-stock badge + add blocked (10, 11) | ✅ Done | product-card `outOfStock()` guard + badge; frontend regression test |
-| Customer's prices load automatically / different customers differ (2–5) | ✅ Done | `get_bootstrap(customer)` → `Customer.default_price_list`; `test_smart_sales_core` (bootstrap + isolation) |
-| Cart reprices on customer change (6) | ✅ Done | `get_cart_pricing` + `repriceCart()`; uses ERPNext `get_item_details` |
-| Customer-specific Pricing Rule applied (Phase 2) | ✅ Done | `test_smart_sales_core.test_cart_pricing_applies_customer_pricing_rule` |
-| Pricing source displayed (Phase 2) | ✅ Done | per-line `source` (pricing_rule / customer_price_list / price_list) in cart |
-| Backend rechecks stock on placement; over-available rejected (12, 13) | ✅ Done | `create_draft_sales_order` recheck; `test_smart_sales_core` out-of-stock rejection |
-| Concurrency friendly conflict / bounded retry (14) | ✅ Done | `reserve_sales_order` retry-on-deadlock (1213/1205) + friendly message |
-| FIFO layer valuation + remaining layer (15–17) | ✅ Done | `SMJ_FIFO_VERIFICATION.md`: 12,400 exact, remaining 9,600 exact |
+A previous session stopped mid-work and left **valid-looking but entirely unverified**
+code in the working tree. This mission recovered it, verified every line against a
+live site and a real browser, fixed what was wrong, and committed it.
 
-| Concurrency friendly bounded-retry (14, Scenario 5) | ✅ Done | `test_reservation_retry` (3) — deterministic 1213/1205 retry + friendly error |
-| `+ Create` permission-aware header menu (Phase 6) | ✅ Done | `test_quick_create` (4) — 22 real routes, no dead actions, role-filtered; `SMJ_QUICK_CREATE_MENU.md` |
-| Curated Supplier add form; Customer/Item already sectioned (Phase 7) | ✅ Done | `test_universal_frontend` (24); `SMJ_SIMPLIFIED_ENTRY_FORMS.md` |
+Nothing was discarded, reset or rewritten from scratch.
 
-Regression: `test_wholesale_credit` (7), `test_stock_action_parity` (7) pass;
-`npm run build` clean (201 modules). **59 backend tests green total.**
+| | |
+|---|---|
+| Starting branch | `full-feature-parity` |
+| Starting commit | `e9e71e2` |
+| Final commit | `f7c7cbe` |
+| Recovery tag | `pre-smj-phase78-recovery-20260726-1740` |
+| Backup | `20260726_174038-staging_local-*` |
+| Final worktree | clean |
 
-### Phase 6 update
-Initially reported as prerequisite-blocked, but the universal form engine
-(`/generated/:feature/new`) provides **real** create routes for 22 doctypes — the
-menu now offers Customer/Quotation/Sales Order/Delivery Note/Sales Invoice/Payment
-Entry, Supplier/Material Request/RFQ/Supplier Quotation/Purchase Order/Purchase
-Receipt/Purchase Invoice, Item/Stock Entry/Stock Reconciliation/Warehouse, User/Role,
-Journal Entry/Contact/Address — every one route-resolved (no dead actions), filtered
-by create permission. Role Profile is correctly omitted (no create route).
+## Verified totals
 
-## Confirmed defect (documented, not auto-fixed — needs a decision)
-- **Item pricing stored only in custom fields**: `form_api._apply_item_pricing`
-  writes wholesale/retail to `custom_*` fields, not standard `Item Price` records,
-  so those prices are invisible to the pricing engine (and Smart Sales). Fix needs a
-  price-list mapping decision (no `Wholesale Price List` on staging). See
-  `SMJ_SIMPLIFIED_ENTRY_FORMS.md` + blockers.
+| | Result |
+|---|---|
+| Backend tests | **142 green** across 12 modules — 0 failures, 0 errors |
+| Frontend build | clean, **204 modules** |
+| Browser matrix | **60/60 checks, 0 problems**, six viewports |
+| Acceptance scenarios | 9 Verified, 2 Partly verified |
+| Staging cleanliness | 0 `Item Price` rows, no residual test users |
 
-## Not done this session (remaining scope — not blocked)
-1. **Live 2-process reservation concurrency demo** against the new wrapper (retry is
-   unit-verified; prior mission ran the live 10/8/8 against the pre-retry path).
-2. **Sale-path FIFO → COGS → Gross Profit** trace (layer valuation verified).
-3. **Phase 5** — Purchase Order field-level data audit + end-to-end purchase
-   acceptance docs (prior mission Phase 9 traced the chains live).
-4. **Phase 7 pricing fix** — item-price → `Item Price` sync (needs mapping decision).
-5. **Phase 8** — remaining access management (Role Profile surface, User Permission
-   company/warehouse surface, effective-access view, session revocation,
-   welcome/reset email). Password set/reset + enable/disable already shipped.
-6. **Acceptance scenarios 1–11** as a scripted staging suite; **6-viewport
-   Playwright matrix** for the new Smart Sales UI.
+## The six defects the previous session left behind
 
-## Safety confirmations
-- All writes were to `staging.local`; a full backup was taken first
-  (`20260724_114030-*`). `site1.local` business data was not modified.
-- No `ignore_permissions=True` in any endpoint; all pricing/stock/reservation goes
-  through standard ERPNext controllers (`get_item_details`,
-  `create_stock_reservation_entries`, Stock Entry). No direct GL/SLE/Bin/outstanding
-  writes; no Vue-side valuation.
-- No sudo / killall / pkill / taskkill / Windows Chrome; no credentials committed.
+Three were invisible to the test suite and were only found by probing the live site
+or driving a real browser.
 
-## One-line status
-The core wholesale security/correctness spine (customer-first, customer pricing,
-stock gating, reservation concurrency UX) and FIFO valuation are **implemented and
-verified**; the remaining phases are unfinished scope, honestly enumerated above,
-resumable from the mission-state files.
+| # | Defect | How it was found | Severity |
+|---|--------|------------------|----------|
+| 1 | Item Price sync **broke product creation for `Item Manager`** — `Item Price` is master data in stock ERPNext v15, and the suite runs as Administrator, which bypasses permission checks | permission probe | High |
+| 2 | `Wholesale Price List` left `buying=1`, so the marked-up wholesale rate was selectable as a **purchase cost** | schema probe | Medium |
+| 3 | Email status queried `Email Account.disabled`, **which does not exist** — `OperationalError 1054` on every call, taking 4 tests down | test run | High |
+| 4 | **Self-lockout possible** — Frappe protects only Administrator/Guest, so a System Manager could disable their own account or drop their own System Manager role | source audit | High |
+| 5 | Access Control was a **dead route** at all six viewports — absent from the server-side `ROUTE_REGISTRY` | browser matrix | High |
+| 6 | Optional route groups returned **HTTP 500** — `unquote(None)` raises; latent for any future optional group | browser matrix | Medium |
+
+All six are fixed, each with regression coverage.
+
+## Phase 7 — Item Price synchronisation
+
+Products created through the Retail ERP stored prices only in `custom_*` fields, so
+ERPNext's pricing engine never saw them: site-wide `Item Price` count was **0**.
+
+`save_entity_form` now mirrors purchase, wholesale and retail prices into standard
+`Item Price` documents. Mapping settled from data, not guessed:
+
+| Item field | Price List | Required flag |
+|---|---|---|
+| `custom_purchase_price` | Buying Settings → `Standard Buying` | `buying` |
+| `custom_wholesale_price` | `Wholesale Price List` | `selling` |
+| `custom_retail_price` | `Retail Price List` (23 of 26 customers default to it) | `selling` |
+
+Proof it works: `test_synced_price_is_visible_to_the_pricing_engine` asserts
+`get_item_details` returns the synced retail rate.
+
+Behaviour: updates rather than duplicating; deletes a cleared price; adopts legacy
+`NULL`-UOM rows; converges duplicates; **never** touches a batch-, party- or
+other-UOM-specific price; refuses to write a price the engine could never apply; and
+gates on `Item Price` permissions before the first write, failing atomically.
+
+**14 tests.** Detail: `docs/ui/SMJ_SIMPLIFIED_ENTRY_FORMS.md`.
+
+## Phase 8 — Access management
+
+Backend (`access_management.py`) plus the first UI for it at `/admin/access-control`
+— before this it was reachable only over the raw API with no frontend reference.
+
+Five sections: Effective Access, User Permissions, Roles, Role Profiles, Email
+Delivery. User/Role/Role Profile **CRUD was not rebuilt** — it already exists at
+`/admin/users`, `/admin/roles`, `/admin/role-profiles`, so the screen links to it.
+
+Every access decision is made server-side for the target user via
+`frappe.has_permission(..., user=…)`; a test asserts the report cannot drift from the
+permission engine. No endpoint uses `ignore_permissions`. Restrictions are standard
+`User Permission` documents against a fixed DocType allowlist.
+
+**28 tests.** Detail: `docs/security/SMJ_USER_ROLE_ACCESS_MODEL.md`.
+
+## Acceptance scenarios
+
+Full matrix in `docs/workflows/SMJ_CORE_ACCEPTANCE_SCENARIOS.md`.
+
+- **Verified (9):** 1, 2, 3, 4, 7, 8, 9, 10, 11
+- **Partly verified (2):** 5 (live two-process demo not re-run; unit-level retry
+  coverage exists), 6 (six-step reservation trace covered across two modules rather
+  than one continuous sequence)
+
+Scenario 11 asserts login through `User.find_by_credentials` — the same function
+`LoginManager.authenticate` uses — so "login refused when disabled" is a real
+assertion, not a restatement of the `enabled` flag.
+
+## Browser verification
+
+Linux-native Playwright Chromium, located through `chromium.executablePath()` —
+never a guessed path, never Windows Chrome — and always closed through the Playwright
+API. No process was killed by name.
+
+| Viewport | Result |
+|---|---|
+| 1920×1080 | 10/10 |
+| 1440×900 | 10/10 |
+| 1024×768 | 10/10 |
+| 768×1024 | 10/10 |
+| 390×844 | 10/10 |
+| 360×800 | 10/10 |
+
+Checked per route: HTTP status, dead routes, horizontal overflow, console and page
+errors, and that no stored secret reaches the DOM.
+
+## Staging changes made
+
+One, applied only after re-verifying it was safe: `Wholesale Price List`
+`buying` 1 → 0. Zero Item Prices, customers, suppliers, customer groups and
+purchasing documents referenced it. Applied by
+`dev_scripts/fix_wholesale_price_list_selling_only.py`, which re-checks every one of
+those and **refuses to act** if any is non-zero.
+
+`site1.local` was never touched.
+
+## Remaining, stated plainly
+
+**External setup (cannot be done from this repository):**
+- No outgoing `Email Account` on staging, so welcome/reset emails cannot be
+  delivered. Onboarding uses an administrator-set password. The UI says so.
+  See `docs/security/SMJ_EMAIL_ONBOARDING_STATUS.md`.
+
+**Ordinary remaining development:**
+- Scenario 5 live two-process concurrency demo.
+- Scenario 6 as one continuous Actual/Reserved/Available trace.
+- Role-by-role denial breadth for Purchase/Stock/Accounts users against the access
+  endpoints (the single System Manager gate is already exercised by the Sales User
+  case).
+- Product form field gaps: Colour, Purchase/Selling UOM, Default Warehouse, Reorder
+  Level, Safety Stock, Published — some need a Custom Field or child-table support.
+
+## Production readiness
+
+The core wholesale spine, pricing, stock gating, FIFO, purchasing, quick create,
+simplified entry forms and access management are implemented, verified on staging and
+browser-checked. The one genuine gap to production is **email configuration**, which
+is an infrastructure task, not a code defect.

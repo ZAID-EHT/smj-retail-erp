@@ -3,7 +3,31 @@
 Truthful list of anything that blocks a requirement. Empty is good.
 
 ## Active blockers
-- None blocking the core wholesale spine.
+- **None.** Nothing in this repository is blocked.
+
+## External setup required (not a code defect, cannot be fixed from this repo)
+- **No outgoing `Email Account` on `staging.local`.** 0 accounts with
+  `enable_outgoing=1`, no default outgoing account, no site-config SMTP fallback.
+  Welcome and password-reset emails therefore cannot be delivered, and onboarding
+  uses an administrator-set password instead. The Access Control screen reports this
+  truthfully rather than implying mail was sent. Detail and the fix procedure:
+  `docs/security/SMJ_EMAIL_ONBOARDING_STATUS.md`.
+
+## Resolved — Access Control was a dead route (found in a real browser)
+- **Fixed 2026-07-26.** The new `/admin/access-control` screen rendered nothing but
+  "Page not found" at all six viewports. The SPA runs every navigation through the
+  server-side `authorize_frontend_route` guard, and the route was absent from
+  `ROUTE_REGISTRY`, so a fully working page resolved to not-found. Registered it,
+  System Manager gated like the rest of `/admin`; the endpoints behind it still
+  re-check that server-side.
+- Registering it exposed a second, **pre-existing latent** defect: an optional regex
+  group that does not participate yields `None`, and `unquote(None)` raises — so
+  `/admin/access-control` returned **HTTP 500** while `/admin/access-control/access`
+  worked. `resolve_frontend_route` now treats a non-participating group as an absent
+  parameter. This would have hit any future optional route group.
+- Neither defect was reachable by the existing test suites; both were found by the
+  six-viewport browser matrix. Regression coverage:
+  `test_standalone_frontend.test_access_control_resolves_with_and_without_a_tab`.
 
 ## Resolved — item pricing now creates standard `Item Price` records
 - **Fixed 2026-07-25, verified and corrected 2026-07-26.** `save_entity_form` now

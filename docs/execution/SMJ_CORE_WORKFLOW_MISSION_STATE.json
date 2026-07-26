@@ -1,69 +1,110 @@
 {
-  "mission": "SMJ Core Wholesale Workflow (customer-first sales, pricing, stock, FIFO, purchasing, quick-create, simplified entry, access management)",
-  "mission_start": "2026-07-24T11:40:00+05:30",
-  "starting_branch": "full-feature-parity",
-  "starting_commit": "e15c37e787e47a6d33d4efb7282fd574301ee897",
-  "current_commit": "5a67ec2",
-  "recovery_tag": "pre-smj-core-workflow-20260724-1140",
-  "test_site": "staging.local",
-  "dev_site_readonly": "site1.local",
-  "staging_backup": "sites/staging.local/private/backups/20260724_114030-staging_local-database.sql.gz (+ files/private-files tar, site_config json)",
-  "existing_uncommitted_files": "none",
-  "current_phase": "Phases 1-3 (core spine), 4 (FIFO), 6 (Quick Create menu), reservation friendly-retry, and Phase 7 (Supplier curated add + Customer/Item already-curated verification) implemented and verified on staging. Phase 5 (PO field audit), Phase 8 (remaining access mgmt), live 2-process concurrency demo, sale-path FIFO->COGS, full acceptance suite and 6-viewport browser matrix remain.",
-  "current_batch": "spine-fifo-quickcreate-forms-reservation-complete",
-  "requirements_completed_verified": [
-    "Req 1,11,12 customer-first: catalogue/add/qty/submit gated on selected customer; out-of-stock badge blocks add (frontend) — regression test in test_frontend_layout",
-    "Req 2-6 customer pricing: get_bootstrap prices against Customer.default_price_list; get_cart_pricing uses ERPNext get_item_details (Item Price + customer-scoped Pricing Rules) to reprice cart on customer change/add — verified by test_smart_sales_core (5 tests, staging)",
-    "Req 13 backend stock recheck: create_draft_sales_order rejects lines exceeding Available-to-Sell (Actual - Reserved) with friendly error — verified test_smart_sales_core.test_out_of_stock_item_reports_status_and_blocks_order",
-    "Req 14 concurrency friendly UX: reserve_sales_order bounded retry-on-deadlock (1213/1205) + rollback + friendly message — fixes prior raw-deadlock hardening item",
-    "Req 15-17 FIFO: 10@1000 + 2@1200 issue = 12,400 outgoing exact, remaining 8 @ 9,600 exact, standard controllers — SMJ_FIFO_VERIFICATION.md"
-  ],
-  "requirements_remaining": [
-    "Phase 3 positive-path stock success + live 2-process concurrency demo on staging (reservation friendly-retry has unit-level coverage; a live parallel demo is not yet re-run this mission)",
-    "Phase 4 sale-path FIFO->COGS->Gross Profit trace (layer valuation verified; COGS-on-sale trace deferred)",
-    "Phase 5 Purchase Order field-level data audit doc + end-to-end purchase acceptance doc",
-    "Phase 6 + Create header menu (blocked on missing create routes for Supplier/PO/MR/RFQ/SQ/PR/PI/User/Role — only 6 doctypes + 3 Stock Entry variants have real /new routes today; adding the rest is required first to avoid dead actions)",
-    "Phase 7 simplified entry forms for Supplier/Product/transactions (Customer/User curated add already exist from prior batch 0d10f34)",
-    "Phase 8 remaining access management (Role Profile surface, User Permission company/warehouse surface, effective-access view, session revocation, welcome/reset email)",
-    "End-to-end acceptance scenarios 1-11 executed as a scripted staging suite",
-    "Full 6-viewport Linux-native Playwright browser matrix for the new Smart Sales UI"
-  ],
-  "tests_passed": [
-    "test_smart_sales_core: 5 (staging) — customer price list resolution, customer-aware bootstrap pricing, Pricing Rule application, cross-customer isolation, out-of-stock rejection",
-    "test_frontend_layout: 8 (staging) — incl. new customer-first + stock-gating regression",
-    "test_wholesale_credit: 7 (staging)",
-    "test_stock_action_parity: 7 (staging)",
-    "FIFO dev-script: outgoing 12,400 exact + remaining 9,600 exact (staging)",
-    "frontend npm run build: clean, 199 modules"
-  ],
-  "tests_failed": [],
-  "tests_blocked": [
-    "test_navigation_search.test_document_level_denial_and_report_denial_omit_results — pre-existing staging-data error in search.py (get_meta(None) on a misconfigured registered doctype); search.py NOT modified by this mission; documented in SMJ_CORE_WORKFLOW_BLOCKERS.md"
-  ],
-  "defects_found": [
-    "customer-first not enforced (fixed)",
-    "catalogue pricing not customer-specific (fixed)",
-    "no available-to-sell recheck on draft SO creation (fixed)",
-    "reservation losing side raw QueryDeadlockError (fixed)",
-    "pre-existing: global search errors on a staging doctype with a None child-table option (documented, not fixed — outside spine scope)"
-  ],
-  "defects_fixed": [
-    "customer-first enforcement",
-    "customer-specific pricing",
-    "server-side stock recheck on order placement",
-    "reservation friendly bounded retry"
-  ],
-  "commits_created": [
-    "9fc727b chore: audit SMJ core wholesale workflow + resumable mission state",
-    "524d01f feat: customer-first Smart Sales with customer pricing, stock gating and reservation retry",
-    "9d4dbdc test: verify FIFO valuation on staging",
-    "b47c880 docs: mission state + interim final report",
-    "8811341 feat: permission-aware Quick Create (+ Create) header menu",
-    "07e3447 feat: curated Supplier add form + simplified-entry state (Phase 7)",
-    "5a67ec2 test: verify reservation bounded retry-on-deadlock + friendly message"
-  ],
-  "verified_test_totals": "59 backend tests green across test_smart_sales_core (5), test_frontend_layout (9), test_quick_create (4), test_universal_frontend (24), test_reservation_retry (3), test_wholesale_credit (7), test_stock_action_parity (7); FIFO dev-script exact; frontend build clean (201 modules).",
-  "last_completed_action": "Reservation friendly bounded-retry verified; Quick Create menu and Supplier curated add form shipped; broad regression 59 green.",
-  "next_automatic_action": "Phase 5 PO field audit doc; Phase 8 remaining access mgmt (Role Profile / User Permission surfaces, effective access, session revocation); item-price->Item Price sync (needs price-list mapping decision); live 2-process concurrency demo; 6-viewport browser matrix.",
-  "last_updated": "2026-07-24T13:15:00+05:30"
+ "mission": "SMJ Core Wholesale Workflow (customer-first sales, pricing, stock, FIFO, purchasing, quick-create, simplified entry, access management)",
+ "mission_start": "2026-07-24T11:40:00+05:30",
+ "starting_branch": "full-feature-parity",
+ "starting_commit": "e15c37e787e47a6d33d4efb7282fd574301ee897",
+ "current_commit": "f7c7cbe",
+ "recovery_tag": "pre-smj-phase78-recovery-20260726-1740",
+ "test_site": "staging.local",
+ "dev_site_readonly": "site1.local",
+ "staging_backup": "sites/staging.local/private/backups/20260726_174038-staging_local-* (database.sql.gz 1.3MiB + files/private-files tar + site_config json)",
+ "existing_uncommitted_files": "none -- all recovered, verified and committed",
+ "current_phase": "Recovery complete. Phase 7 (Item Price sync) and Phase 8 (access management backend + frontend) verified, corrected and committed. Acceptance scenarios 10 and 11 automated; 1-9 mapped to existing executable proof. Six-viewport browser matrix green.",
+ "current_batch": "phase78-recovery-complete",
+ "requirements_completed_verified": [
+  "Req 1,11,12 customer-first: catalogue/add/qty/submit gated on selected customer; out-of-stock badge blocks add (frontend) \u2014 regression test in test_frontend_layout",
+  "Req 2-6 customer pricing: get_bootstrap prices against Customer.default_price_list; get_cart_pricing uses ERPNext get_item_details (Item Price + customer-scoped Pricing Rules) to reprice cart on customer change/add \u2014 verified by test_smart_sales_core (5 tests, staging)",
+  "Req 13 backend stock recheck: create_draft_sales_order rejects lines exceeding Available-to-Sell (Actual - Reserved) with friendly error \u2014 verified test_smart_sales_core.test_out_of_stock_item_reports_status_and_blocks_order",
+  "Req 14 concurrency friendly UX: reserve_sales_order bounded retry-on-deadlock (1213/1205) + rollback + friendly message \u2014 fixes prior raw-deadlock hardening item",
+  "Req 15-17 FIFO: 10@1000 + 2@1200 issue = 12,400 outgoing exact, remaining 8 @ 9,600 exact, standard controllers \u2014 SMJ_FIFO_VERIFICATION.md"
+ ],
+ "requirements_remaining": [
+  "Phase 3 positive-path stock success + live 2-process concurrency demo on staging (reservation friendly-retry has unit-level coverage; a live parallel demo is not yet re-run this mission)",
+  "Phase 4 sale-path FIFO->COGS->Gross Profit trace (layer valuation verified; COGS-on-sale trace deferred)",
+  "Phase 5 Purchase Order field-level data audit doc + end-to-end purchase acceptance doc",
+  "Phase 6 + Create header menu (blocked on missing create routes for Supplier/PO/MR/RFQ/SQ/PR/PI/User/Role \u2014 only 6 doctypes + 3 Stock Entry variants have real /new routes today; adding the rest is required first to avoid dead actions)",
+  "Phase 7 simplified entry forms for Supplier/Product/transactions (Customer/User curated add already exist from prior batch 0d10f34)",
+  "Phase 8 remaining access management (Role Profile surface, User Permission company/warehouse surface, effective-access view, session revocation, welcome/reset email)",
+  "End-to-end acceptance scenarios 1-11 executed as a scripted staging suite",
+  "Full 6-viewport Linux-native Playwright browser matrix for the new Smart Sales UI"
+ ],
+ "tests_passed": [
+  "test_item_price_sync: 14 (was 7)",
+  "test_access_management: 28 (was 19)",
+  "test_core_acceptance: 3 (new)",
+  "test_standalone_frontend: 12",
+  "test_universal_frontend: 24",
+  "test_form_api: 14",
+  "test_frontend_layout: 9",
+  "test_quick_create: 4",
+  "test_navigation_search: 11",
+  "test_smart_sales_core: 5",
+  "test_purchase_workflow: 7",
+  "test_create_routes: 11"
+ ],
+ "tests_failed": [],
+ "tests_blocked": [],
+ "defects_found": [
+  "customer-first not enforced (fixed)",
+  "catalogue pricing not customer-specific (fixed)",
+  "no available-to-sell recheck on draft SO creation (fixed)",
+  "reservation losing side raw QueryDeadlockError (fixed)",
+  "pre-existing: global search errors on a staging doctype with a None child-table option (documented, not fixed \u2014 outside spine scope)"
+ ],
+ "defects_fixed": [
+  "customer-first enforcement",
+  "customer-specific pricing",
+  "server-side stock recheck on order placement",
+  "reservation friendly bounded retry"
+ ],
+ "commits_created": [
+  "9fc727b chore: audit SMJ core wholesale workflow + resumable mission state",
+  "524d01f feat: customer-first Smart Sales with customer pricing, stock gating and reservation retry",
+  "9d4dbdc test: verify FIFO valuation on staging",
+  "b47c880 docs: mission state + interim final report",
+  "8811341 feat: permission-aware Quick Create (+ Create) header menu",
+  "07e3447 feat: curated Supplier add form + simplified-entry state (Phase 7)",
+  "5a67ec2 test: verify reservation bounded retry-on-deadlock + friendly message"
+ ],
+ "verified_test_totals": "142 backend tests green across 12 modules, 0 failures, 0 errors. Frontend build clean, 204 modules. Browser matrix 60/60 checks, 0 problems, six viewports.",
+ "last_completed_action": "Six-viewport browser matrix green after fixing the dead route and the optional-group 500; full 142-test regression green; security and acceptance documentation written.",
+ "next_automatic_action": "Phase 5 PO field audit doc; Phase 8 remaining access mgmt (Role Profile / User Permission surfaces, effective access, session revocation); item-price->Item Price sync (needs price-list mapping decision); live 2-process concurrency demo; 6-viewport browser matrix.",
+ "last_updated": "2026-07-24T13:15:00+05:30",
+ "recovery_mission_start": "2026-07-26T17:40:00+05:30",
+ "recovery_start_commit": "e9e71e2",
+ "defects_found_during_recovery": [
+  "Item Price sync broke product creation for Item Manager (Item Price is master data in stock ERPNext v15; suite runs as Administrator so could not catch it)",
+  "Wholesale Price List left buying=1, so the marked-up wholesale rate was selectable as a purchase cost",
+  "get_email_configuration_status queried Email Account.disabled, which does not exist -- OperationalError 1054 on every call, 4 tests down",
+  "Self-lockout possible: Frappe protects only Administrator/Guest, so a System Manager could disable themselves or drop their own System Manager role",
+  "Access Control was a dead route at all six viewports -- not registered in the server-side ROUTE_REGISTRY",
+  "Optional route groups returned HTTP 500: unquote(None) raises when an optional group does not participate"
+ ],
+ "defects_fixed_during_recovery": [
+  "Item Price permission pre-flight gate with actionable message, atomic refusal, no ignore_permissions",
+  "Wholesale Price List set selling-only after re-verifying zero references; applying script refuses to act if any reference exists",
+  "Email status rewritten against the real schema (enable_outgoing/default_outgoing/awaiting_password) + site-config fallback",
+  "_guard_self_lockout in universal/api.py, accounting for roles granted via Role Profile",
+  "Access Control registered in ROUTE_REGISTRY, System Manager gated",
+  "resolve_frontend_route treats a non-participating optional group as an absent parameter"
+ ],
+ "upstream_behaviour_recorded": "User.validate calls populate_role_profile_roles() on every save, clearing `roles` before re-applying the profile's -- a direct role cannot coexist with an assigned Role Profile. Asserted in both directions; stated inline in the UI.",
+ "browser_matrix": "1920x1080, 1440x900, 1024x768, 768x1024, 390x844, 360x800 -- 10 routes each, 60/60 pass. Linux-native Playwright Chromium via chromium.executablePath(); closed through the Playwright API only.",
+ "commits_created_during_recovery": [
+  "ba2e1dc feat: synchronise Product prices with standard Item Price records",
+  "0667a5d feat: complete access-management backend",
+  "eec512b test: verify user role and access security",
+  "4a42f42 feat: add user access, permission and email administration frontend",
+  "2862160 test: cover core workflow acceptance scenarios",
+  "ea92d16 fix: register Access Control route and stop optional route groups 500ing",
+  "f7c7cbe test: verify Phase 7 and Phase 8 browser behaviour"
+ ],
+ "staging_config_changes": "Wholesale Price List buying 1 -> 0 (selling stays 1). Verified beforehand: 0 Item Prices, 0 customers, 0 suppliers, 0 customer groups, 0 PO/PI/PR/SQ referencing it.",
+ "staging_cleanliness": "Verified after the run: 0 Item Price rows site-wide, no residual test users (browser-check, acceptance-lifecycle, price-sync fixtures all removed).",
+ "remaining_work": [
+  "Scenario 5: live two-process concurrency demo not re-run this session (unit-level retry coverage exists)",
+  "Scenario 6: six-step reservation Actual/Reserved/Available trace covered across two modules, not asserted as one continuous sequence",
+  "Role-by-role denial breadth for Purchase/Stock/Accounts users against the access endpoints (single System Manager gate is exercised by the Sales User case)",
+  "Outgoing Email Account is external setup and cannot be completed from this repository"
+ ]
 }
