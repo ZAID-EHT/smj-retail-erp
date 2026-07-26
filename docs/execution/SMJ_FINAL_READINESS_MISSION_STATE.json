@@ -1,0 +1,32 @@
+{
+ "mission": "SMJ Retail ERP final production-readiness (16 phases)",
+ "branch": "full-feature-parity",
+ "start_commit": "8202289",
+ "recovery_tag": "pre-smj-final-readiness-20260726-1848",
+ "backup": "sites/staging.local/private/backups/20260726_184814-staging_local-*",
+ "test_site": "staging.local",
+ "protected_site": "site1.local",
+ "environment_limitation": "MariaDB root password unavailable; bench new-site/restore blocked, so financefix.local and freshsetup.local QA sites cannot be created. Read-only audit + guarded reversible correction used instead.",
+ "baseline": {"tests": 164, "modules": 16, "result": "all green", "frontend_build": "clean 204 modules"},
+ "phases": {
+  "0_preflight": "done",
+  "1_baseline": "done",
+  "2_concurrency": "in_progress",
+  "3_lifecycle": "pending",
+  "4_role_denial": "pending",
+  "5_product_fields": "pending",
+  "6_pnl_opening_stock": "pending",
+  "7_setup_wizard": "pending",
+  "8_printing": "pending",
+  "9_email": "pending",
+  "10_data": "pending",
+  "11_finance_frontend": "pending",
+  "12_system_health": "pending",
+  "13_launch_audit": "pending",
+  "14_acceptance": "pending",
+  "15_regression": "pending",
+  "16_browser": "pending"
+ },
+ "commits_created": [],
+ "last_update": "2026-07-26T18:50:00+05:30"
+}
