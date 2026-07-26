@@ -647,6 +647,41 @@ def _apply_user_create_defaults(doc) -> None:
 		doc.first_name = username or (doc.email or "").split("@", 1)[0]
 
 
+def _guard_self_lockout(doc) -> None:
+	"""A user manager must not be able to lock themselves out.
+
+	Frappe's own `check_enable_disable` protects only Administrator and Guest, so
+	disabling your own account -- or dropping your own System Manager role -- would
+	otherwise succeed and leave nobody able to undo it from this UI. `enabled` and
+	`roles` are re-exposed as writable by SPECIAL_WRITABLE_FIELDS, so this guard is
+	what keeps that re-exposure safe.
+	"""
+	if doc.name != frappe.session.user:
+		return
+	if not cint(doc.get("enabled")):
+		frappe.throw(
+			_("You cannot disable your own account. Ask another System Manager to do it."),
+			frappe.PermissionError,
+		)
+	if "System Manager" not in frappe.get_roles(doc.name):
+		return
+	# A role profile can also grant the role, so check what the save would leave.
+	prospective = {row.role for row in doc.get("roles", []) if row.role}
+	if doc.get("role_profile_name"):
+		prospective |= {
+			row.role for row in frappe.get_all(
+				"Has Role",
+				filters={"parent": doc.get("role_profile_name"), "parenttype": "Role Profile"},
+				fields=["role"],
+			) if row.role
+		}
+	if "System Manager" not in prospective:
+		frappe.throw(
+			_("You cannot remove your own System Manager role. Ask another System Manager to do it."),
+			frappe.PermissionError,
+		)
+
+
 @frappe.whitelist(methods=["POST"])
 def create_document(feature: str, values: Any):
 	_require_login()
@@ -671,6 +706,8 @@ def update_document(feature: str, name: str, values: Any, modified: str | None =
 	if modified and str(doc.modified) != str(modified):
 		frappe.throw(_("This record changed after you opened it. Refresh before saving."), frappe.TimestampMismatchError)
 	doc.update(_clean_payload(meta, values, doc))
+	if meta.name == "User":
+		_guard_self_lockout(doc)
 	doc.save()
 	return {"name": doc.name, "route": _record_route(record, doc.name), "modified": doc.modified}
 
