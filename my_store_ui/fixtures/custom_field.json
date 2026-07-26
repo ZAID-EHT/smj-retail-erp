@@ -188,5 +188,28 @@
   "in_standard_filter": 1,
   "no_copy": 0,
   "module": "My Store Ui"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "custom_product_colour",
+  "fieldtype": "Data",
+  "label": "Product Colour",
+  "insert_after": "custom_product_size",
+  "name": "Item-custom_product_colour",
+  "module": "My Store UI"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Custom Field",
+  "dt": "Item",
+  "fieldname": "custom_published",
+  "fieldtype": "Check",
+  "label": "Published (visible in catalogue)",
+  "insert_after": "custom_product_colour",
+  "name": "Item-custom_published",
+  "module": "My Store UI",
+  "description": "Marks the product visible in the wholesale catalogue. This site has no public storefront, so it is an internal catalogue flag, not a website publish."
  }
 ]

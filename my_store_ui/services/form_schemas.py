@@ -52,8 +52,19 @@ FORM_SCHEMAS = {
 			field("country_of_origin", _("Country of Origin"), "Link", options="Country", section="product"),
 			field("custom_product_material", _("Product Material"), "Data", section="product"),
 			field("custom_product_size", _("Product Size"), "Data", section="product"),
+			field("custom_product_colour", _("Product Colour"), "Data", section="product"),
 			field("custom_supplier", _("Supplier"), "Link", options="Supplier", section="product"),
 			field("custom_sku_prefix", _("SKU Prefix"), "Data", section="product"),
+			field("custom_published", _("Published in catalogue"), "Check", default=0, section="product"),
+			# Standard Item fields, previously missing from the curated form.
+			field("purchase_uom", _("Purchase UOM"), "Link", options="UOM", section="stock"),
+			field("sales_uom", _("Selling UOM"), "Link", options="UOM", section="stock"),
+			field("safety_stock", _("Safety Stock"), "Float", default=0, section="stock"),
+			# Flat inputs backed by child tables (item_defaults / reorder_levels),
+			# handled explicitly in form_api._apply_item_child_defaults.
+			field("default_warehouse", _("Default Warehouse"), "Link", options="Warehouse", section="stock"),
+			field("reorder_level", _("Reorder Level"), "Float", default=0, section="stock"),
+			field("reorder_qty", _("Reorder Quantity"), "Float", default=0, section="stock"),
 			field("custom_purchase_price", _("Purchase Price"), "Currency", default=0, section="pricing"),
 			field("custom_additional_cost", _("Additional Cost"), "Currency", default=0, section="pricing"),
 			field("custom_total_cost", _("Total Cost"), "Currency", read_only=True, section="pricing"),
@@ -62,7 +73,7 @@ FORM_SCHEMAS = {
 			field("custom_retail_price", _("Retail Price"), "Currency", read_only=True, section="pricing"),
 			field("custom_wholesale_price", _("Wholesale Price"), "Currency", read_only=True, section="pricing"),
 		),
-		"sections": (("basic", _("Basic Information")), ("product", _("Product Details")), ("pricing", _("Pricing"))),
+		"sections": (("basic", _("Basic Information")), ("product", _("Product Details")), ("stock", _("Stock & UOM")), ("pricing", _("Pricing"))),
 	},
 	"delivery_notes": {
 		"doctype": "Delivery Note", "title": _("Delivery Note"), "back_route": "/sales/delivery-notes", "detail_route": "/sales/delivery-notes/{name}", "draft_only": True,

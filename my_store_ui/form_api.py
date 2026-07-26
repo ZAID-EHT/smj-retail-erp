@@ -308,15 +308,51 @@ def _sync_item_prices(doc) -> None:
 			item_price.save()
 
 
+# Flat Product-form inputs that are actually stored in Item child tables. They must
+# never be passed to doc.set() as if they were scalar Item fields.
+ITEM_CHILD_TABLE_INPUTS = ("default_warehouse", "reorder_level", "reorder_qty")
+
+
+def _apply_item_child_defaults(doc, values: dict) -> None:
+	"""Map the flat warehouse/reorder inputs onto the Item's child tables.
+
+	`default_warehouse` -> a single company-scoped `Item Default` row.
+	`reorder_level` / `reorder_qty` -> a single `Item Reorder` row for that warehouse.
+	Only the row this form owns (matched by company / warehouse) is touched; any
+	other manually entered defaults are preserved.
+	"""
+	default_warehouse = values.get("default_warehouse")
+	reorder_level = flt(values.get("reorder_level"))
+	reorder_qty = flt(values.get("reorder_qty"))
+	company = frappe.defaults.get_global_default("company") or (
+		frappe.get_all("Company", pluck="name", limit_page_length=1) or [None]
+	)[0]
+
+	if "default_warehouse" in values and company:
+		rows = [row for row in doc.get("item_defaults", []) if row.company == company]
+		target = rows[0] if rows else doc.append("item_defaults", {"company": company})
+		target.default_warehouse = default_warehouse or None
+
+	if ("reorder_level" in values or "reorder_qty" in values) and default_warehouse and reorder_level > 0:
+		existing = [row for row in doc.get("reorder_levels", []) if row.warehouse == default_warehouse]
+		target = existing[0] if existing else doc.append("reorder_levels", {"warehouse": default_warehouse})
+		target.warehouse_reorder_level = reorder_level
+		target.warehouse_reorder_qty = reorder_qty or reorder_level
+		# ERPNext requires a material-request type on a reorder row.
+		if not target.get("material_request_type"):
+			target.material_request_type = "Purchase"
+
+
 def _set_safe_values(doc, schema: dict, values: dict) -> None:
 	for fieldname, value in values.items():
-		if schema["doctype"] == "Item" and fieldname == "barcodes":
+		if schema["doctype"] == "Item" and fieldname in {"barcodes", *ITEM_CHILD_TABLE_INPUTS}:
 			continue
 		doc.set(fieldname, value)
 	if schema["doctype"] == "Item":
 		barcode = values.get("barcodes")
 		if barcode is not None:
 			doc.set("barcodes", [{"barcode": barcode}]) if barcode else doc.set("barcodes", [])
+		_apply_item_child_defaults(doc, values)
 		_apply_item_pricing(doc)
 
 

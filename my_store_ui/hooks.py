@@ -13,7 +13,8 @@ fixtures = [
 	{
 		"dt": "Custom Field",
 		"filters": [["dt", "=", "Item"], ["fieldname", "in", [
-			"custom_product_material", "custom_product_size", "custom_supplier",
+			"custom_product_material", "custom_product_size", "custom_product_colour",
+			"custom_published", "custom_supplier",
 			"custom_purchase_price", "custom_additional_cost", "custom_total_cost",
 			"custom_retail_profit_percentage", "custom_wholesale_profit_percentage",
 			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
