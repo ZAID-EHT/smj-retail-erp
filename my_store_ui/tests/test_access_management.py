@@ -26,6 +26,7 @@ from my_store_ui.access_management import (
 	get_role_profile_overview,
 	get_user_access_overview,
 	revoke_user_sessions,
+	search_users,
 	set_user_restrictions,
 )
 
@@ -112,6 +113,42 @@ class TestAccessManagement(unittest.TestCase):
 			get_restriction_options(doctype="DocType")
 		with self.assertRaises(frappe.ValidationError):
 			set_user_restrictions(user=SALES_USER, doctype="Role", values=[])
+
+	# -- user directory -----------------------------------------------------
+
+	def test_user_directory_is_manager_only(self):
+		frappe.set_user(SALES_USER)
+		with self.assertRaises(frappe.PermissionError):
+			search_users()
+
+	def test_user_directory_never_returns_credentials(self):
+		"""A user list must not become a credential or session leak."""
+		result = search_users(search="smj-access")
+		self.assertTrue(result["users"])
+		leaked = {
+			"password", "new_password", "api_key", "api_secret", "reset_password_key",
+			"salt", "session_data", "last_password_reset_date",
+		}
+		for row in result["users"]:
+			with self.subTest(user=row["name"]):
+				self.assertEqual(set(row) & leaked, set())
+
+	def test_user_directory_filters_by_status_and_role(self):
+		by_role = search_users(role="System Manager")
+		self.assertIn(MANAGER_USER, [row["name"] for row in by_role["users"]])
+		self.assertNotIn(SALES_USER, [row["name"] for row in by_role["users"]])
+
+		enabled = search_users(status="enabled", search="smj-access")
+		self.assertTrue(all(row["enabled"] for row in enabled["users"]))
+
+		unknown_role = search_users(role="No Such Role At All")
+		self.assertEqual(unknown_role["users"], [])
+
+	def test_user_directory_reports_effective_role_count(self):
+		result = search_users(search=SALES_USER)
+		row = next(row for row in result["users"] if row["name"] == SALES_USER)
+		self.assertEqual(row["effective_role_count"], len(frappe.get_roles(SALES_USER)))
+		self.assertFalse(row["protected"])
 
 	# -- effective access ---------------------------------------------------
 

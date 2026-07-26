@@ -85,6 +85,71 @@ def _assert_not_protected(user: str, action: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# User directory
+# ---------------------------------------------------------------------------
+
+# Safe to show an administrator. Deliberately excludes every credential and
+# session field (api_key, api_secret, password hashes, reset keys).
+USER_DIRECTORY_FIELDS = (
+	"name", "full_name", "enabled", "user_type", "role_profile_name", "last_login",
+	"last_active", "creation",
+)
+
+
+@frappe.whitelist(methods=["GET"])
+def search_users(
+	search: str = "",
+	status: str = "",
+	role: str = "",
+	role_profile: str = "",
+	user_type: str = "",
+	never_logged_in: int | str = 0,
+	limit: int = 50,
+) -> dict:
+	"""Permission-filtered user directory for the access surfaces.
+
+	Uses `frappe.get_list`, so User Permissions apply and a manager never sees an
+	account they are not entitled to.
+	"""
+	_require_user_manager()
+	if not frappe.has_permission("User", "read"):
+		frappe.throw(_("You do not have permission to view users."), frappe.PermissionError)
+
+	filters: dict = {}
+	if status == "enabled":
+		filters["enabled"] = 1
+	elif status == "disabled":
+		filters["enabled"] = 0
+	if user_type in {"System User", "Website User"}:
+		filters["user_type"] = user_type
+	if role_profile:
+		filters["role_profile_name"] = role_profile
+	if cint(never_logged_in):
+		filters["last_login"] = ["is", "not set"]
+	if role:
+		holders = frappe.get_all(
+			"Has Role", filters={"role": role, "parenttype": "User"}, pluck="parent", limit_page_length=0
+		)
+		if not holders:
+			return {"users": [], "total": 0}
+		filters["name"] = ["in", holders]
+
+	or_filters = None
+	if search:
+		term = f"%{str(search)[:60]}%"
+		or_filters = {"name": ["like", term], "full_name": ["like", term]}
+
+	rows = frappe.get_list(
+		"User", filters=filters, or_filters=or_filters, fields=list(USER_DIRECTORY_FIELDS),
+		order_by="enabled desc, full_name asc", limit_page_length=max(1, min(cint(limit) or 50, 200)),
+	)
+	for row in rows:
+		row["effective_role_count"] = len(frappe.get_roles(row["name"]))
+		row["protected"] = row["name"] in PROTECTED_USERS
+	return {"users": rows, "total": len(rows)}
+
+
+# ---------------------------------------------------------------------------
 # Effective access
 # ---------------------------------------------------------------------------
 

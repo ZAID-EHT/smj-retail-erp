@@ -71,6 +71,15 @@ export const moduleRoutes = [
     component: ModuleDashboardPage,
     meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
   },
+  {
+    // Declared before the /:module/:pathMatch catch-all so the generated engine
+    // does not swallow these; User/Role/Role Profile CRUD stays on its own
+    // canonical /admin routes rather than being duplicated here.
+    path: "/admin/access-control/:tab(access|restrictions|roles|profiles|email)?",
+    name: "access-control",
+    component: () => import("@/pages/priority/AccessControlPage.vue"),
+    meta: { title: "Access Control", description: "Effective access, user permissions, roles and email delivery status.", accent: "purple", icon: "shield" },
+  },
   { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
   { path: "/permission-denied", name: "permission-denied", component: PermissionDeniedPage, meta: { title: "Permission Denied", accent: "pink" } },
   { path: "/not-found", name: "not-found", component: NotFoundPage, meta: { title: "Page Not Found", accent: "orange" } },
