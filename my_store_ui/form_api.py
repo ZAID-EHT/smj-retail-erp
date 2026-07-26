@@ -161,6 +161,153 @@ def _apply_item_pricing(doc) -> None:
 	doc.custom_wholesale_price = wholesale
 
 
+# Which computed Item field feeds which standard Price List, and the flag that
+# Price List must carry for the price to ever be applied. ERPNext's pricing engine
+# filters Item Price by buying/selling, so a selling price parked on a buying-only
+# list is silently never used -- hence the flag is verified before writing.
+ITEM_PRICE_SYNC = (
+	{"fieldname": "custom_purchase_price", "price_list": "Standard Buying", "flag": "buying"},
+	{"fieldname": "custom_wholesale_price", "price_list": "Wholesale Price List", "flag": "selling"},
+	{"fieldname": "custom_retail_price", "price_list": "Retail Price List", "flag": "selling"},
+)
+
+
+def _resolve_price_list(target: dict) -> str | None:
+	"""The configured Price List for a target, or None when it cannot be used.
+
+	Site defaults win for the generic buying/selling lists so a differently
+	configured site still syncs; the wholesale/retail lists are named explicitly
+	because ERPNext has no "wholesale" default.
+	"""
+	name = target["price_list"]
+	if target["flag"] == "buying":
+		name = frappe.db.get_single_value("Buying Settings", "buying_price_list") or name
+	details = frappe.db.get_value(
+		"Price List", {"name": name, "enabled": 1}, ["name", "buying", "selling"], as_dict=True
+	)
+	if not details:
+		frappe.logger("my_store_ui").warning(
+			f"item price sync: Price List {name!r} is missing or disabled; {target['fieldname']} not synced"
+		)
+		return None
+	if not details.get(target["flag"]):
+		# Writing it anyway would create an Item Price that get_item_details can
+		# never apply -- the exact silent-failure this sync exists to remove.
+		frappe.logger("my_store_ui").warning(
+			f"item price sync: Price List {name!r} is not {target['flag']}-enabled; "
+			f"{target['fieldname']} not synced"
+		)
+		return None
+	return details["name"]
+
+
+# ERPNext treats Item Price as master data: stock v15 grants it to Sales Master
+# Manager and Purchase Master Manager only, so an Item Manager can create an Item
+# but not price it. Naming the roles keeps that failure actionable instead of
+# surfacing a bare PermissionError raised deep inside the Item Price insert.
+ITEM_PRICE_ROLES = ("Sales Master Manager", "Purchase Master Manager")
+
+
+def _owned_item_prices(item_code: str, price_list: str, stock_uom: str | None) -> list:
+	"""The Item Price rows this sync owns, oldest first.
+
+	Matched in Python rather than SQL because these columns may be NULL or '',
+	and `uom IN ('', NULL)` never matches NULL. ERPNext defaults Item Price.uom to
+	the item's stock UOM, so the rows we own are the stock-UOM ones with no party
+	or batch -- a batch/party/other-UOM price was entered deliberately elsewhere
+	and must never be overwritten.
+	"""
+	return [
+		row
+		for row in frappe.get_all(
+			"Item Price",
+			filters={"item_code": item_code, "price_list": price_list},
+			fields=["name", "price_list_rate", "uom", "customer", "supplier", "batch_no"],
+			order_by="creation asc",
+		)
+		if (not row.uom or row.uom == stock_uom)
+		and not row.customer and not row.supplier and not row.batch_no
+	]
+
+
+def _require_item_price_permission(actions: set[str]) -> None:
+	"""Fail before any price is written, not part-way through."""
+	missing = sorted(action for action in actions if not frappe.has_permission("Item Price", action))
+	if not missing:
+		return
+	frappe.throw(
+		_(
+			"Saving these prices needs {0} permission on Item Price. Ask an administrator "
+			"for the {1} role, or clear the price fields to save the product without prices."
+		).format(", ".join(missing), " or ".join(ITEM_PRICE_ROLES)),
+		frappe.PermissionError,
+	)
+
+
+def _sync_item_prices(doc) -> None:
+	"""Mirror the form's computed prices into standard `Item Price` records.
+
+	Without this the prices exist only in `custom_*` fields, so ERPNext's pricing
+	engine -- and therefore Smart Sales, quotations and every transaction that calls
+	`get_item_details` -- never sees them and the product has no usable price.
+
+	Uses standard Item Price documents so Pricing Rules, currency and validity all
+	behave normally. Nothing is written directly to any pricing table.
+	"""
+	if not doc.get("name"):
+		return
+	stock_uom = doc.get("stock_uom")
+
+	# Plan every change first so the permission gate can run before the first write.
+	plan, actions = [], set()
+	for target in ITEM_PRICE_SYNC:
+		price_list = _resolve_price_list(target)
+		if not price_list:
+			continue
+		rate = flt(doc.get(target["fieldname"]))
+		owned = _owned_item_prices(doc.name, price_list, stock_uom)
+		plan.append((price_list, rate, owned))
+		if rate <= 0:
+			if owned:
+				actions.add("delete")
+			continue
+		if not owned:
+			actions.add("create")
+			continue
+		if len(owned) > 1:
+			actions.add("delete")
+		if flt(owned[0].price_list_rate) != rate:
+			actions.add("write")
+	if not actions:
+		return
+	_require_item_price_permission(actions)
+
+	for price_list, rate, owned in plan:
+		if rate <= 0:
+			# A cleared price must stop applying rather than linger at its old value.
+			for row in owned:
+				frappe.delete_doc("Item Price", row.name, ignore_permissions=False)
+			continue
+		if not owned:
+			frappe.get_doc({
+				"doctype": "Item Price",
+				"item_code": doc.name,
+				"price_list": price_list,
+				"price_list_rate": rate,
+				"uom": stock_uom,
+			}).insert()
+			continue
+		primary, *duplicates = owned
+		# Legacy/imported duplicates would keep applying a stale rate alongside the
+		# row we maintain, so converge on exactly one owned row per price list.
+		for row in duplicates:
+			frappe.delete_doc("Item Price", row.name, ignore_permissions=False)
+		if flt(primary.price_list_rate) != rate:
+			item_price = frappe.get_doc("Item Price", primary.name)
+			item_price.price_list_rate = rate
+			item_price.save()
+
+
 def _set_safe_values(doc, schema: dict, values: dict) -> None:
 	for fieldname, value in values.items():
 		if schema["doctype"] == "Item" and fieldname == "barcodes":
@@ -430,6 +577,9 @@ def save_entity_form(entity_key: str, values: str | dict, name: str | None = Non
 		doc.insert()
 	else:
 		doc.save()
+	if schema["doctype"] == "Item":
+		# After save, so the Item Price rows can reference a real item_code.
+		_sync_item_prices(doc)
 	if cache_key:
 		frappe.cache.set_value(cache_key, doc.name, expires_in_sec=300)
 	return {"name": doc.name, "route": schema["detail_route"].format(name=quote(doc.name, safe="")), "duplicate": False, "totals": {"currency": doc.get("currency"), "grand_total": doc.get("grand_total"), "net_total": doc.get("net_total")}}

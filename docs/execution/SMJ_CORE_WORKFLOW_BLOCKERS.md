@@ -5,15 +5,44 @@ Truthful list of anything that blocks a requirement. Empty is good.
 ## Active blockers
 - None blocking the core wholesale spine.
 
-## Confirmed defect — item pricing stored only in custom fields (needs business decision)
-- `form_api._apply_item_pricing` writes computed retail/wholesale prices to
-  `custom_retail_price` / `custom_wholesale_price` only — it does **not** create
-  standard `Item Price` records, so those prices are invisible to ERPNext's pricing
-  engine (and therefore to Smart Sales customer pricing). The fix (upsert Item Price
-  on the retail/wholesale price lists) needs a **price-list mapping decision**:
-  staging has `Retail Price List` + `Preferred Customer Price List` but no
-  `Wholesale Price List`. Not auto-fixed to avoid guessing the mapping. See
-  `docs/ui/SMJ_SIMPLIFIED_ENTRY_FORMS.md` for the recommended implementation.
+## Resolved — item pricing now creates standard `Item Price` records
+- **Fixed 2026-07-25, verified and corrected 2026-07-26.** `save_entity_form` now
+  calls `form_api._sync_item_prices()` after saving an Item, upserting standard
+  `Item Price` documents for purchase, wholesale and retail. Measured severity of the
+  original defect: site-wide `Item Price` count was **0**, so no product created
+  through the form had a price the pricing engine could see.
+- The earlier claim that staging has **no** `Wholesale Price List` was **wrong** — it
+  exists. The mapping was settled from data, not guessed: retail → `Retail Price List`
+  (23 of 26 customers default to it), wholesale → `Wholesale Price List`, purchase →
+  Buying Settings `buying_price_list` (`Standard Buying`).
+- Two configuration corrections were required on `Wholesale Price List`:
+  `selling` 0 → 1 (2026-07-25), then `buying` 1 → 0 (2026-07-26). The earlier session
+  deliberately left `buying=1`; that was wrong, because ERPNext stamps the list flags
+  onto each `Item Price` row, so the marked-up wholesale rate was selectable as a
+  **purchase cost**. Both changes were made only after verifying 0 Item Prices, 0
+  customers, 0 suppliers, 0 customer groups and 0 purchasing documents referenced the
+  list. Applied by `dev_scripts/fix_wholesale_price_list_selling_only.py`, which
+  re-checks all of those and refuses to act if any is non-zero.
+- Proof it actually works: `test_synced_price_is_visible_to_the_pricing_engine`
+  asserts `get_item_details` returns the synced retail rate. Full detail in
+  `docs/ui/SMJ_SIMPLIFIED_ENTRY_FORMS.md`.
+
+## Resolved — the price sync would have broken product creation for `Item Manager`
+- Found 2026-07-26 while verifying the previous session's uncommitted code. **The
+  test suite could not have caught this**: it runs as Administrator, which bypasses
+  permission checks.
+- `Item Price` is master data in stock ERPNext v15 — `item_price.json` grants it to
+  `Sales Master Manager` and `Purchase Master Manager` only (confirmed against the
+  `apps/erpnext` source and the live site; no `Custom DocPerm` overrides exist).
+  `Item Manager` is the only non-Administrator role on this site that can create an
+  `Item`, and it has **no** `Item Price` permission at all.
+- Effect of the unfixed code: saving any priced product as an Item Manager raised a
+  bare `PermissionError` from inside the `Item Price` insert — product creation was
+  broken for that role entirely.
+- **Fixed** by planning all price changes first and gating on the exact permissions
+  the plan requires, throwing one actionable message that names the roles. No
+  `ignore_permissions` was added. An unpriced product still saves fine, and the
+  refusal is atomic (no partially created product). Guarded by three tests.
 
 ## Resolved — navigation search failure (root cause corrected)
 - **`test_navigation_search.test_document_level_denial_and_report_denial_omit_results`**
