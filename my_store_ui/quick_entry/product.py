@@ -74,9 +74,23 @@ def _validate_warehouse(name: str, company: str, seen: set) -> None:
 
 @frappe.whitelist(methods=["POST"])
 def create_product(values: dict | str, name: str | None = None):
-	"""Create or edit a Product atomically. name set = edit."""
+	"""Create or edit a Product atomically. name set = edit.
+
+	Wrapped in a savepoint so a failure at any step (e.g. the Item Price permission
+	gate) rolls back the whole operation -- atomic even outside an HTTP request.
+	"""
 	if frappe.session.user == "Guest":
 		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	sp = "product_quick_entry"
+	frappe.db.savepoint(sp)
+	try:
+		return _create_product(values, name)
+	except Exception:
+		frappe.db.rollback(save_point=sp)
+		raise
+
+
+def _create_product(values: dict | str, name: str | None = None):
 	data = _clean(values)
 	company = frappe.defaults.get_global_default("company") or (
 		frappe.get_all("Company", pluck="name", limit_page_length=1) or [None])[0]

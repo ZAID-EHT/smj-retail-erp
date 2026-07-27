@@ -65,8 +65,19 @@ def find_duplicate_customers(customer_name: str) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def create_customer(values: dict | str, name: str | None = None):
+	"""Atomic create/edit -- a savepoint rolls back the whole operation on failure."""
 	if frappe.session.user == "Guest":
 		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	sp = "customer_quick_entry"
+	frappe.db.savepoint(sp)
+	try:
+		return _create_customer(values, name)
+	except Exception:
+		frappe.db.rollback(save_point=sp)
+		raise
+
+
+def _create_customer(values: dict | str, name: str | None = None):
 	data = _clean(values)
 
 	editing = bool(name)
