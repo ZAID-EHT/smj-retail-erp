@@ -54,3 +54,18 @@ The full-year demo dataset, wholesale workflow, security matrix,
 accounting report reconciliation, import/purchasing chains, and
 backup-restore/load/concurrency testing are all complete with real,
 documented evidence under `docs/`.
+
+---
+
+## Update 2026-07-27 (final-readiness mission)
+
+1. **P&L opening-stock correction** — root cause confirmed and a guarded, reversible
+   correction built + reconciled via dry-run (profit 15.87M → 4.05M, Trial Balance
+   balanced). **Apply is one command, held for accountant sign-off** — see
+   `docs/finance/SMJ_OPENING_STOCK_QA_RESULT.md` and
+   `docs/release/SMJ_ACCOUNTANT_SIGNOFF_CHECKLIST.md`.
+2. **SMTP credentials** — still external; email admin + status built
+   (`docs/email/SMJ_EMAIL_SETUP.md`).
+3. **MariaDB root password** — needed for isolated QA / fresh-install sites.
+4. **Scheduler** — enable in production (staging shows it disabled).
+5. **Hetzner / DNS** — deployment, separate.

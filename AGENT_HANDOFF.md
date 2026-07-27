@@ -1628,3 +1628,20 @@ per-feature in the `docs/execution/`, `docs/workflows/`,
 `docs/security/`, `docs/verification/`, and `docs/ui/` reports, which
 are the authoritative record of what was actually tested, how, and with
 what result.
+
+---
+
+## Final-readiness mission (2026-07-27)
+
+333 backend tests / 42 modules green; frontend build clean; browser matrix 90/90 over
+six viewports. New admin surfaces: Setup wizard (`/setup`), Printing (`/admin/printing`),
+Email (`/admin/email`), Data Management (`/admin/data`), System Operations
+(`/admin/system`), plus the Access Control page from the prior mission.
+
+Key docs: `docs/execution/SMJ_FINAL_PRODUCTION_READINESS_REPORT.md`,
+`docs/verification/SMJ_FINAL_ACCEPTANCE_MATRIX.md`,
+`docs/verification/SMJ_FINAL_BROWSER_MATRIX.md`,
+`docs/finance/SMJ_OPENING_STOCK_*`, `docs/release/*`.
+
+External requirements: SMTP credentials, MariaDB root (QA/fresh sites), accountant
+sign-off (opening-stock JE), Hetzner/DNS. Enable the scheduler in production.

@@ -7,26 +7,56 @@
  "test_site": "staging.local",
  "protected_site": "site1.local",
  "environment_limitation": "MariaDB root password unavailable; bench new-site/restore blocked, so financefix.local and freshsetup.local QA sites cannot be created. Read-only audit + guarded reversible correction used instead.",
- "baseline": {"tests": 164, "modules": 16, "result": "all green", "frontend_build": "clean 204 modules"},
+ "baseline": {
+  "tests": 164,
+  "modules": 16,
+  "result": "all green",
+  "frontend_build": "clean 204 modules"
+ },
  "phases": {
   "0_preflight": "done",
   "1_baseline": "done",
-  "2_concurrency": "in_progress",
-  "3_lifecycle": "pending",
-  "4_role_denial": "pending",
-  "5_product_fields": "pending",
-  "6_pnl_opening_stock": "pending",
-  "7_setup_wizard": "pending",
-  "8_printing": "pending",
-  "9_email": "pending",
-  "10_data": "pending",
-  "11_finance_frontend": "pending",
-  "12_system_health": "pending",
-  "13_launch_audit": "pending",
-  "14_acceptance": "pending",
-  "15_regression": "pending",
-  "16_browser": "pending"
+  "2_concurrency": "done",
+  "3_lifecycle": "done",
+  "4_role_denial": "done",
+  "5_product_fields": "done",
+  "6_pnl_opening_stock": "done (reconciled via dry-run; staging apply held for accountant sign-off)",
+  "7_setup_wizard": "done (code+tests; fresh-site run env-blocked)",
+  "8_printing": "done",
+  "9_email": "done",
+  "10_data": "done",
+  "11_finance_frontend": "done",
+  "12_system_health": "done",
+  "13_launch_audit": "done",
+  "14_acceptance": "done",
+  "15_regression": "done",
+  "16_browser": "done"
  },
  "commits_created": [],
- "last_update": "2026-07-26T18:50:00+05:30"
+ "last_update": "2026-07-27T10:00:00+05:30",
+ "final_regression": {
+  "tests": 333,
+  "modules": 42,
+  "result": "all green",
+  "frontend_build": "clean",
+  "browser_matrix": "90/90 six viewports"
+ },
+ "new_test_modules": [
+  "test_reservation_concurrency(2)",
+  "test_reservation_lifecycle(1)",
+  "test_role_denial_matrix(7)",
+  "test_product_fields(4)",
+  "test_system_operations(5)",
+  "test_data_management(7)",
+  "test_setup_wizard(6)",
+  "test_email_admin(4)",
+  "test_printing_admin(6)"
+ ],
+ "staging_cleanliness": "No residual test users/items/companies. Three empty test warehouses disabled (cannot hard-delete due to cancelled-SLE history; purging SLEs is forbidden). Opening-stock correction JE NOT applied (held for sign-off).",
+ "external_requirements": [
+  "MariaDB root password (QA/fresh sites)",
+  "SMTP credentials (email delivery)",
+  "Accountant sign-off (opening-stock reclassification)",
+  "Hetzner/DNS (deployment)"
+ ]
 }
