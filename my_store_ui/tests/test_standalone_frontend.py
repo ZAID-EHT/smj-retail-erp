@@ -92,6 +92,18 @@ class TestStandaloneRetailERP(unittest.TestCase):
 			definition, _p = resolve_frontend_route(route)
 			self.assertIsNotNone(definition, route)
 
+	def test_rc4_admin_routes_resolve(self):
+		# Launch readiness (manager gated) and scheduled reports (any authed user).
+		readiness, _p = resolve_frontend_route("/retail-erp/admin/readiness")
+		self.assertIsNotNone(readiness)
+		self.assertEqual(readiness["roles"], ("System Manager",))
+		scheduled, _p = resolve_frontend_route("/retail-erp/reports/scheduled")
+		self.assertIsNotNone(scheduled)
+		self.assertNotIn("roles", scheduled)
+		# Admin landing itself resolves.
+		admin, _p = resolve_frontend_route("/retail-erp/admin")
+		self.assertIsNotNone(admin)
+
 	def test_unknown_route_returns_custom_not_found(self):
 		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
 		self.assertEqual(result["outcome"], "not_found")
