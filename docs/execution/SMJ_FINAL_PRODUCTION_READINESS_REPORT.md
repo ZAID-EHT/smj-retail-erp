@@ -55,8 +55,28 @@ Recovery tag: `pre-smj-final-readiness-20260726-1848`. Backup:
 - Staging clean: no residual test users/items/companies; three empty test warehouses
   disabled (cannot hard-delete due to cancelled-SLE history — purging SLEs is forbidden).
 
+## Status ladder (precise — no overstatement)
+
+| Item | State |
+|------|-------|
+| Code implemented | ✅ |
+| Backend verified (333+ tests) | ✅ |
+| Browser verified (90/90, 6 viewports) | ✅ |
+| Financial correction **designed** | ✅ |
+| Financial correction **QA-tested (dry-run / savepoint)** | ✅ reconciles to 4,048,006 |
+| Financial correction **applied** | ❌ not applied — held for accountant sign-off |
+| **Accountant approved** | ❌ external |
+| Fresh-site **code** verified (savepoint/controller) | ✅ |
+| Fresh-site **on a physically empty site** | ❌ external (MariaDB root) |
+| SMTP configured | ❌ external |
+| Hetzner rehearsal deployed | ❌ external (package prepared) |
+| Client UAT completed | ❌ external |
+| Production live | ❌ external |
+
 ## Verdict
-**Technically implemented and verified, with specific external infrastructure
-requirements** (SMTP, MariaDB root for fresh/QA sites, accountant sign-off on the
-opening-stock booking, Hetzner/DNS deployment). No launch-critical development item
-remains open.
+**Code-complete release candidate awaiting accountant-approved financial
+reclassification, genuine fresh-install verification (needs MariaDB root), SMTP
+configuration, deployment rehearsal and client UAT.** No launch-critical *development*
+item remains open; the outstanding items are external (credentials, accountant, DNS).
+The opening-stock correction is designed and QA-verified (dry-run reconciles to
+4,048,006) but **not applied** — it is a draft awaiting sign-off.

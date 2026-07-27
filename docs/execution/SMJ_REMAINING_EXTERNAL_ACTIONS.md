@@ -69,3 +69,16 @@ documented evidence under `docs/`.
 3. **MariaDB root password** — needed for isolated QA / fresh-install sites.
 4. **Scheduler** — enable in production (staging shows it disabled).
 5. **Hetzner / DNS** — deployment, separate.
+
+---
+
+## Update 2026-07-27 (finance/deployment mission) — precise status
+
+- **Opening-stock P&L**: root cause confirmed, figures re-verified from the ledger
+  (corrected profit 4,048,006), correction package built and QA-verified via
+  savepoint. **Draft only — not applied. Awaiting accountant sign-off.** Apply command
+  in `docs/finance/SMJ_STAGING_CORRECTION_RUNBOOK.md`.
+- **MariaDB root** — QA/fresh sites (`financeqa.local`, `freshrelease.local`).
+- **SMTP** — email delivery (onboarding works via admin-set passwords meanwhile).
+- **Hetzner / DNS / registry / git push** — deployment package prepared, not deployed.
+- **Client UAT** — external participation.

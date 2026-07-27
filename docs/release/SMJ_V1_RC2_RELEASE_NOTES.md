@@ -34,6 +34,13 @@ Recovery tag: `pre-smj-final-readiness-20260726-1848`
   built and reconciled via dry-run (profit 15.87M → 4.05M; Trial Balance balanced).
   Staging application held for accountant sign-off.
 
+## Financial correction status (precise)
+
+- Root cause **confirmed** at voucher level; figures **re-verified from the ledger**
+  (profit 15,868,706 → **4,048,006**; the impossible "4,048,825,204" was never in the repo).
+- Correction **designed and QA-verified** (dry-run/savepoint reconciles exactly).
+- Correction **NOT applied** — a draft awaiting **accountant sign-off**.
+
 ## Verification
 - **333 backend tests / 42 modules — all green.**
 - **Frontend build clean.**
