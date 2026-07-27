@@ -1,0 +1,146 @@
+# SMJ Retail ERP — production compose (Hetzner).
+# Based on the official frappe_docker production architecture. Uses ONE immutable
+# custom image (built from deployment/apps.json) for every Frappe service.
+#
+# NOT for local dev. Does not use `bench start`. MariaDB and Redis are NOT published.
+# Secrets come from a .env file (see .env.example) — never commit real secrets.
+#
+# Static validation: `docker compose --env-file .env.example -f compose.yaml config`
+
+x-customizable-image: &image
+  image: ${IMAGE:-your-registry/smj-erp:v1.0.0-rc3}
+  restart: unless-stopped
+  pull_policy: always
+
+x-backend-defaults: &backend-defaults
+  <<: *image
+  depends_on:
+    db:
+      condition: service_healthy
+    redis-cache:
+      condition: service_started
+    redis-queue:
+      condition: service_started
+  environment: &backend-env
+    DB_HOST: db
+    DB_PORT: "3306"
+    REDIS_CACHE: redis-cache:6379
+    REDIS_QUEUE: redis-queue:6379
+    SOCKETIO_PORT: "9000"
+
+services:
+  # --- Data services (never exposed publicly) ---------------------------------
+  db:
+    image: mariadb:10.6
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?set DB_ROOT_PASSWORD in .env}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # No `ports:` — the database is reachable only on the internal network.
+
+  redis-cache:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-cache-data:/data
+    # No `ports:` — internal only.
+
+  redis-queue:
+    image: redis:6.2-alpine
+    restart: unless-stopped
+    volumes:
+      - redis-queue-data:/data
+    # No `ports:` — internal only.
+
+  # --- Application services (single image) ------------------------------------
+  backend:
+    <<: *backend-defaults
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  configurator:
+    <<: *image
+    restart: "no"
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        bench set-config -g db_host $$DB_HOST;
+        bench set-config -gp db_port $$DB_PORT;
+        bench set-config -g redis_cache "redis://$$REDIS_CACHE";
+        bench set-config -g redis_queue "redis://$$REDIS_QUEUE";
+        bench set-config -g redis_socketio "redis://$$REDIS_QUEUE";
+        bench set-config -gp socketio_port $$SOCKETIO_PORT;
+    environment: *backend-env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  frontend:
+    <<: *image
+    command: ["nginx-entrypoint.sh"]
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: ${SITE_NAME:?set SITE_NAME in .env}
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: "off"
+      PROXY_READ_TIMEOUT: "120"
+      CLIENT_MAX_BODY_SIZE: "50m"
+    depends_on:
+      backend:
+        condition: service_started
+      websocket:
+        condition: service_started
+    ports:
+      # Bind to localhost only; a TLS-terminating reverse proxy (Caddy/Traefik/nginx)
+      # in front publishes 80/443. See docs/DNS_AND_TLS.md.
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  websocket:
+    <<: *image
+    command: ["node", "/home/frappe/frappe-bench/apps/frappe/socketio.js"]
+    depends_on:
+      backend:
+        condition: service_started
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  scheduler:
+    <<: *backend-defaults
+    command: ["bench", "schedule"]
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  queue-short:
+    <<: *backend-defaults
+    command: ["bench", "worker", "--queue", "short,default"]
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+  queue-long:
+    <<: *backend-defaults
+    command: ["bench", "worker", "--queue", "long,default,short"]
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+volumes:
+  db-data:
+  redis-cache-data:
+  redis-queue-data:
+  sites:

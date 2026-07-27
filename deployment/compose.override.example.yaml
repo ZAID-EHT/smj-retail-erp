@@ -1,0 +1,19 @@
+# Optional override: a TLS-terminating reverse proxy in front of `frontend`.
+# Copy to compose.override.yaml and adjust. Only 80/443 are published; the app,
+# database and Redis stay internal. Requires DNS pointing at the host (external).
+services:
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  caddy-data:
+  caddy-config:

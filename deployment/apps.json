@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://github.com/frappe/frappe",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/frappe/erpnext",
+    "branch": "version-15"
+  },
+  {
+    "url": "https://github.com/YOUR-ORG/my_store_ui",
+    "branch": "full-feature-parity"
+  }
+]
