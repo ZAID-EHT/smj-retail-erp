@@ -137,6 +137,18 @@ export const moduleRoutes = [
     component: () => import("@/pages/priority/EmailAdminPage.vue"),
     meta: { title: "Email & Notifications", description: "Email delivery status, templates and notifications.", accent: "gold", icon: "settings" },
   },
+  {
+    path: "/admin/printing",
+    name: "printing-admin",
+    component: () => import("@/pages/priority/PrintingAdminPage.vue"),
+    meta: { title: "Printing & Branding", description: "Letter heads, print formats and document preview.", accent: "purple", icon: "settings" },
+  },
+  {
+    path: "/admin/printing/:tab",
+    name: "printing-admin-tab",
+    component: () => import("@/pages/priority/PrintingAdminPage.vue"),
+    meta: { title: "Printing & Branding", description: "Letter heads, print formats and document preview.", accent: "purple", icon: "settings" },
+  },
   { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
   { path: "/permission-denied", name: "permission-denied", component: PermissionDeniedPage, meta: { title: "Permission Denied", accent: "pink" } },
   { path: "/not-found", name: "not-found", component: NotFoundPage, meta: { title: "Page Not Found", accent: "orange" } },

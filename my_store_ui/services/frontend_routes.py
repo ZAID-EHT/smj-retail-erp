@@ -39,6 +39,8 @@ ROUTE_REGISTRY = (
 	{"name": "data-management", "pattern": r"^/admin/data(?:/(?P<tab>import|export|opening-stock|opening-balances|history))?/?$", "module": "Admin", "feature_id": "retail.admin.data_management", "implemented": True, "roles": ("System Manager",)},
 	# Email & Notifications administration (status, templates, notifications).
 	{"name": "email-admin", "pattern": r"^/admin/email(?:/(?P<tab>accounts|templates|notifications|status))?/?$", "module": "Admin", "feature_id": "retail.admin.email", "implemented": True, "roles": ("System Manager",)},
+	# Printing & Branding landing + preview (Letter Head / Print Format CRUD is generated).
+	{"name": "printing-admin", "pattern": r"^/admin/printing(?:/(?P<tab>letter-heads|templates|settings|preview))?/?$", "module": "Admin", "feature_id": "retail.admin.printing", "implemented": True, "roles": ("System Manager",)},
 	# First-time setup wizard -- any authenticated user may reach it; the create
 	# action is gated server-side. Steps are open-ended so the SPA owns them.
 	{"name": "setup-wizard", "pattern": r"^/setup(?:/(?P<step>[a-z-]{1,40}))?/?$", "module": "Setup", "feature_id": "retail.setup", "implemented": True},
