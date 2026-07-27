@@ -42,3 +42,12 @@ written to a document or the repo. The account is removed after the run.
   clipping and no horizontal overflow.
 - The earlier dead-route and optional-group-500 classes of defect (found in the prior
   mission's browser run) stayed fixed — every new admin route resolves and renders.
+
+---
+
+## Re-run 2026-07-27 (finance/deployment mission)
+
+Re-verified after the finance/deployment work: **90/90 checks, 0 problems** across all
+six viewports and the same 15 pages. No regressions from the correction package,
+deployment package or documentation changes. Throwaway System Manager removed after
+the run; `site1.local` fingerprint re-confirmed identical to the Phase 0 baseline.
