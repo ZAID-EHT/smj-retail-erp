@@ -49,5 +49,15 @@
   "impossible_figure_in_repo": false
  },
  "correction_status": "designed + QA-verified (savepoint); NOT applied; awaiting accountant sign-off",
- "regression_note": "fixed a self-inflicted regression: re-enabled 3 test warehouses the prior mission disabled (had broken 5 modules)"
+ "regression_note": "fixed a self-inflicted regression: re-enabled 3 test warehouses the prior mission disabled (had broken 5 modules)",
+ "new_tag": "v1.0.0-rc3",
+ "final_commit": "4e374c9",
+ "final_regression": {
+  "tests": 338,
+  "failures": 0,
+  "browser": "90/90",
+  "build": "clean",
+  "secret_scan": "clean"
+ },
+ "site1_untouched": true
 }
