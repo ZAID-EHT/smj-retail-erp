@@ -55,6 +55,20 @@ class TestStandaloneRetailERP(unittest.TestCase):
 		self.assertEqual(definition["roles"], ("System Manager",))
 		self.assertIsNone(resolve_frontend_route("/retail-erp/admin/access-control/not-a-tab")[0])
 
+	def test_admin_operational_routes_resolve_and_are_gated(self):
+		"""System Operations and Data Management must resolve (not dead) and be
+		System Manager gated, with their optional tab groups not 500ing."""
+		for base in ("/retail-erp/admin/system", "/retail-erp/admin/data"):
+			definition, params = resolve_frontend_route(base)
+			self.assertIsNotNone(definition, base)
+			self.assertEqual(definition["roles"], ("System Manager",))
+			self.assertEqual(params, {})
+		# Optional tab present.
+		definition, params = resolve_frontend_route("/retail-erp/admin/system/health")
+		self.assertEqual(params, {"tab": "health"})
+		definition, params = resolve_frontend_route("/retail-erp/admin/data/export")
+		self.assertEqual(params, {"tab": "export"})
+
 	def test_unknown_route_returns_custom_not_found(self):
 		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
 		self.assertEqual(result["outcome"], "not_found")
