@@ -68,8 +68,8 @@ export const moduleRoutes = [
   {
     path: "/admin",
     name: "admin",
-    component: ModuleDashboardPage,
-    meta: { title: "Admin", description: "Users, roles, companies, integrations and system tools.", accent: "purple", icon: "shield" },
+    component: () => import("@/pages/priority/AdminLandingPage.vue"),
+    meta: { title: "Administration", description: "Users, roles, companies, printing, email, data, finance and system tools.", accent: "purple", icon: "shield" },
   },
   // Two plain paths rather than one optional/regex param: an optional custom-regex
   // segment scores lower in vue-router's ranking than the
@@ -148,6 +148,18 @@ export const moduleRoutes = [
     name: "printing-admin-tab",
     component: () => import("@/pages/priority/PrintingAdminPage.vue"),
     meta: { title: "Printing & Branding", description: "Letter heads, print formats and document preview.", accent: "purple", icon: "settings" },
+  },
+  {
+    path: "/reports/scheduled",
+    name: "scheduled-reports",
+    component: () => import("@/pages/priority/ScheduledReportsPage.vue"),
+    meta: { title: "Scheduled Reports", description: "Auto-email reports on a schedule.", accent: "dark-blue", icon: "chart" },
+  },
+  {
+    path: "/admin/readiness",
+    name: "launch-readiness",
+    component: () => import("@/pages/priority/LaunchReadinessPage.vue"),
+    meta: { title: "Launch Readiness", description: "Truthful go-live checklist.", accent: "gold", icon: "shield" },
   },
   { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
   { path: "/permission-denied", name: "permission-denied", component: PermissionDeniedPage, meta: { title: "Permission Denied", accent: "pink" } },
