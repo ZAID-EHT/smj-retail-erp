@@ -1671,3 +1671,11 @@ New: /admin (Administration landing), /admin/readiness (truthful launch-readines
 two-company separation test. 369 backend tests, 96/96 browser, secret scan clean,
 site1 untouched. External unchanged: accountant, SMTP, MariaDB root, Hetzner/DNS, UAT.
 Owner actions: docs/release/SMJ_OWNER_ACTIONS_BEFORE_GO_LIVE.md.
+
+---
+## Product/Customer quick-entry (2026-07-27, v1.0.0-rc6)
+Exact Product form (P100001 ID / 5001 SKU auto, 18 fields, batch-managed, 4 Item
+Prices incl Department) and Customer form (14 fields, linked address/contact, credit).
+Backends: my_store_ui/quick_entry/{product,customer,options,existing_data}.py. Batch/
+FIFO proven (12,400/9,600). 405 backend tests, 108/108 browser. Existing-data migration
+tool dry-run only (batch-on-stocked-items is manual). site1 untouched.
