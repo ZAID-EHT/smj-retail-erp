@@ -8,7 +8,7 @@ in Bin/Stock Ledger via standard transactions.
 
 Field order (business layout): Product ID, Image 1, Image 2, SKU, Product Name, Size,
 Category, Material, Carton Qty, Stock Location 1-3, Re-Stock Qty, Cost Price, Margin,
-Wholesale Price, Retail Price, Department Price.
+Wholesale Price, Retail Price. Two selling prices only: Wholesale and Retail.
 """
 
 from __future__ import annotations
@@ -25,19 +25,19 @@ PRODUCT_ID_SERIES = "P1.#####"
 SKU_SERIES = "5.###"
 BATCH_SERIES = "BAT-.YYYY.-.######"
 
-# Selling/buying prices synced to standard Item Price. Department added here.
+# Two selling prices (Wholesale, Retail) plus the buying Cost Price. All standard
+# Item Price rows. (Department Price was dropped per the business rule: two prices.)
 PRICE_MAP = (
 	{"field": "cost_price", "price_list": "Standard Buying", "flag": "buying", "site_default": True},
 	{"field": "wholesale_price", "price_list": "Wholesale Price List", "flag": "selling"},
 	{"field": "retail_price", "price_list": "Retail Price List", "flag": "selling"},
-	{"field": "department_price", "price_list": "Department Price List", "flag": "selling"},
 )
 
 # Only these input keys are accepted (explicit allowlist — no arbitrary field mutation).
 ALLOWED_KEYS = {
 	"product_id", "image", "image_2", "product_name", "size", "category", "material",
 	"carton_qty", "stock_location_1", "stock_location_2", "stock_location_3",
-	"restock_qty", "cost_price", "margin", "wholesale_price", "retail_price", "department_price",
+	"restock_qty", "cost_price", "margin", "wholesale_price", "retail_price",
 	"is_stock_item",
 }
 
@@ -118,7 +118,7 @@ def _create_product(values: dict | str, name: str | None = None):
 		frappe.throw(_("Carton Qty cannot be negative."), frappe.ValidationError)
 	if flt(data.get("restock_qty")) < 0:
 		frappe.throw(_("Re-Stock Qty cannot be negative."), frappe.ValidationError)
-	for key in ("cost_price", "wholesale_price", "retail_price", "department_price", "margin"):
+	for key in ("cost_price", "wholesale_price", "retail_price", "margin"):
 		if flt(data.get(key)) < 0:
 			frappe.throw(_("{0} cannot be negative.").format(key), frappe.ValidationError)
 
@@ -158,7 +158,6 @@ def _create_product(values: dict | str, name: str | None = None):
 	doc.custom_purchase_price = flt(data.get("cost_price"))
 	doc.custom_wholesale_price = flt(data.get("wholesale_price"))
 	doc.custom_retail_price = flt(data.get("retail_price"))
-	doc.custom_department_price = flt(data.get("department_price"))
 
 	# Location 1 → the standard company default warehouse (item_defaults).
 	if locations[0] and company:
@@ -274,7 +273,6 @@ def get_product(name: str) -> dict:
 		"cost_price": prices.get(frappe.db.get_single_value("Buying Settings", "buying_price_list") or "Standard Buying") if show_cost else None,
 		"wholesale_price": prices.get("Wholesale Price List"),
 		"retail_price": prices.get("Retail Price List"),
-		"department_price": prices.get("Department Price List"),
 		"is_batch_managed": bool(doc.has_batch_no),
 		"is_stock_item": bool(doc.is_stock_item),
 		"cost_visible": show_cost,

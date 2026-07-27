@@ -44,7 +44,7 @@ class TestProductQuickEntry(unittest.TestCase):
 	def _base(self, **over):
 		v = {"product_name": "PQE Test", "category": self.group, "material": "Steel", "size": "L",
 		     "carton_qty": 12, "restock_qty": 20, "stock_location_1": self.whs[0],
-		     "cost_price": 1000, "margin": 25, "wholesale_price": 1200, "retail_price": 1500, "department_price": 1350}
+		     "cost_price": 1000, "margin": 25, "wholesale_price": 1200, "retail_price": 1500}
 		v.update(over)
 		return v
 
@@ -64,18 +64,19 @@ class TestProductQuickEntry(unittest.TestCase):
 		self.assertNotEqual(a["product_id"], b["product_id"])
 		self.assertNotEqual(a["sku"], b["sku"])
 
-	def test_all_four_item_prices_are_synced(self):
+	def test_two_selling_prices_plus_cost_are_synced(self):
 		res = self._create()
 		prices = {r.price_list: flt(r.price_list_rate) for r in frappe.get_all(
 			"Item Price", filters={"item_code": res["name"]}, fields=["price_list", "price_list_rate"])}
 		self.assertEqual(prices.get("Standard Buying"), 1000.0)
 		self.assertEqual(prices.get("Wholesale Price List"), 1200.0)
 		self.assertEqual(prices.get("Retail Price List"), 1500.0)
-		self.assertEqual(prices.get("Department Price List"), 1350.0)
+		# Only two selling prices -- no Department Price row.
+		self.assertNotIn("Department Price List", prices)
 
 	def test_selling_prices_are_selling_only(self):
 		res = self._create()
-		for pl in ("Wholesale Price List", "Retail Price List", "Department Price List"):
+		for pl in ("Wholesale Price List", "Retail Price List"):
 			row = frappe.get_all("Item Price", filters={"item_code": res["name"], "price_list": pl},
 			                     fields=["buying", "selling"])[0]
 			self.assertTrue(row.selling)
@@ -115,14 +116,14 @@ class TestProductQuickEntry(unittest.TestCase):
 
 	def test_edit_keeps_id_and_sku_and_no_duplicate_prices(self):
 		res = self._create()
-		create_product(self._base(product_name="PQE v2", department_price=1400), name=res["name"])
+		create_product(self._base(product_name="PQE v2", retail_price=1600), name=res["name"])
 		it = frappe.get_doc("Item", res["name"])
 		self.assertEqual(it.item_name, "PQE v2")
 		self.assertEqual(it.item_code, res["product_id"])
 		self.assertEqual(it.custom_sku, res["sku"])
-		dept = frappe.get_all("Item Price", filters={"item_code": res["name"], "price_list": "Department Price List"})
-		self.assertEqual(len(dept), 1)
-		self.assertEqual(flt(get_product(res["name"])["department_price"]), 1400.0)
+		retail = frappe.get_all("Item Price", filters={"item_code": res["name"], "price_list": "Retail Price List"})
+		self.assertEqual(len(retail), 1)
+		self.assertEqual(flt(get_product(res["name"])["retail_price"]), 1600.0)
 
 	def test_arbitrary_field_rejected(self):
 		with self.assertRaises(frappe.ValidationError):

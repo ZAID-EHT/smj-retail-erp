@@ -1,6 +1,7 @@
-"""Install Product/Customer quick-entry custom fields + Department Price List.
+"""Install Product/Customer quick-entry custom fields.
 
-Idempotent (standard create_custom_fields). Staging/allowlisted sites only.
+Two selling prices only (Wholesale + Retail); no Department Price. Idempotent
+(standard create_custom_fields). Staging/allowlisted sites only.
 """
 
 from __future__ import annotations
@@ -19,8 +20,6 @@ ITEM_FIELDS = [
 	 "description": "Number of stock units in one carton."},
 	{"fieldname": "custom_margin", "label": "Margin %", "fieldtype": "Percent", "insert_after": "custom_additional_cost",
 	 "description": "Reference margin for this product."},
-	{"fieldname": "custom_department_price", "label": "Department Price", "fieldtype": "Currency", "insert_after": "custom_retail_price",
-	 "permlevel": 0},
 	{"fieldname": "custom_stock_location_1", "label": "Stock Location 1", "fieldtype": "Link", "options": "Warehouse", "insert_after": "safety_stock"},
 	{"fieldname": "custom_stock_location_2", "label": "Stock Location 2", "fieldtype": "Link", "options": "Warehouse", "insert_after": "custom_stock_location_1"},
 	{"fieldname": "custom_stock_location_3", "label": "Stock Location 3", "fieldtype": "Link", "options": "Warehouse", "insert_after": "custom_stock_location_2"},
@@ -49,14 +48,9 @@ def run():
 		raise RuntimeError(f"refusing on {frappe.local.site!r}; allowlisted sites only")
 	create_custom_fields({"Item": ITEM_FIELDS, "Customer": CUSTOMER_FIELDS}, ignore_validate=True)
 
-	# Department Price List (selling only), created once.
-	if not frappe.db.exists("Price List", "Department Price List"):
-		frappe.get_doc({"doctype": "Price List", "price_list_name": "Department Price List",
-		                "enabled": 1, "selling": 1, "buying": 0, "currency": "LKR"}).insert(ignore_permissions=True)
 
 	frappe.db.commit()
 	meta = frappe.get_meta("Item", cached=False)
 	cust = frappe.get_meta("Customer", cached=False)
 	print("Item fields ok:", all(meta.get_field(f["fieldname"]) for f in ITEM_FIELDS))
 	print("Customer fields ok:", all(cust.get_field(f["fieldname"]) for f in CUSTOMER_FIELDS))
-	print("Department Price List:", frappe.db.get_value("Price List", "Department Price List", ["selling", "buying"], as_dict=True))

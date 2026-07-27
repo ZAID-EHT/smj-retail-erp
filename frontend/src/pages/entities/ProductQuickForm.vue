@@ -13,7 +13,7 @@ const form = reactive({
   product_name: "", image: "", image_2: "", size: "", category: "", material: "",
   carton_qty: null, stock_location_1: "", stock_location_2: "", stock_location_3: "",
   restock_qty: null, cost_price: null, margin: null, wholesale_price: null,
-  retail_price: null, department_price: null,
+  retail_price: null,
 });
 const ids = reactive({ product_id: "", sku: "", cost_visible: true, batch: true, created: "" });
 const opts = reactive({ warehouse: [], item_group: [] });
@@ -44,7 +44,7 @@ async function init() {
         carton_qty: p.carton_qty, stock_location_1: p.stock_location_1 || "",
         stock_location_2: p.stock_location_2 || "", stock_location_3: p.stock_location_3 || "",
         restock_qty: p.restock_qty, cost_price: p.cost_price, margin: p.margin,
-        wholesale_price: p.wholesale_price, retail_price: p.retail_price, department_price: p.department_price,
+        wholesale_price: p.wholesale_price, retail_price: p.retail_price,
       });
       ids.product_id = p.product_id; ids.sku = p.sku; ids.cost_visible = p.cost_visible;
       ids.batch = p.is_batch_managed; ids.created = p.created;
@@ -134,7 +134,6 @@ init();
             <label><span>Margin %</span><input v-model.number="form.margin" type="number" min="0" step="any" /></label>
             <label><span>Wholesale Price (LKR)</span><input v-model.number="form.wholesale_price" type="number" min="0" step="any" /></label>
             <label><span>Retail Price (LKR)</span><input v-model.number="form.retail_price" type="number" min="0" step="any" /></label>
-            <label><span>Department Price (LKR)</span><input v-model.number="form.department_price" type="number" min="0" step="any" /></label>
           </div>
         </section>
 

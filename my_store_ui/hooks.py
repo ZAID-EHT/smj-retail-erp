@@ -19,7 +19,7 @@ fixtures = [
 			"custom_retail_profit_percentage", "custom_wholesale_profit_percentage",
 			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
 			"custom_sku", "custom_image_2", "custom_carton_qty", "custom_margin",
-			"custom_department_price", "custom_stock_location_1", "custom_stock_location_2",
+			"custom_stock_location_1", "custom_stock_location_2",
 			"custom_stock_location_3",
 		]]],
 	},
