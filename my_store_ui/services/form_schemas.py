@@ -8,10 +8,14 @@ import frappe
 from frappe import _
 
 
-def field(fieldname, label, fieldtype, *, required=False, read_only=False, options=None, default=None, section="general"):
+def field(fieldname, label, fieldtype, *, required=False, read_only=False, options=None, default=None, section="general", synthetic=False):
+	# synthetic=True marks a flat form input NOT backed by a scalar DocType field
+	# (e.g. default_warehouse / reorder_level, which map onto child tables). The
+	# metadata validator skips these; form_api handles them explicitly.
 	return {
 		"fieldname": fieldname, "label": label, "fieldtype": fieldtype, "required": required,
 		"read_only": read_only, "options": options, "default": default, "section": section,
+		"synthetic": synthetic,
 	}
 
 
@@ -62,9 +66,9 @@ FORM_SCHEMAS = {
 			field("safety_stock", _("Safety Stock"), "Float", default=0, section="stock"),
 			# Flat inputs backed by child tables (item_defaults / reorder_levels),
 			# handled explicitly in form_api._apply_item_child_defaults.
-			field("default_warehouse", _("Default Warehouse"), "Link", options="Warehouse", section="stock"),
-			field("reorder_level", _("Reorder Level"), "Float", default=0, section="stock"),
-			field("reorder_qty", _("Reorder Quantity"), "Float", default=0, section="stock"),
+			field("default_warehouse", _("Default Warehouse"), "Link", options="Warehouse", section="stock", synthetic=True),
+			field("reorder_level", _("Reorder Level"), "Float", default=0, section="stock", synthetic=True),
+			field("reorder_qty", _("Reorder Quantity"), "Float", default=0, section="stock", synthetic=True),
 			field("custom_purchase_price", _("Purchase Price"), "Currency", default=0, section="pricing"),
 			field("custom_additional_cost", _("Additional Cost"), "Currency", default=0, section="pricing"),
 			field("custom_total_cost", _("Total Cost"), "Currency", read_only=True, section="pricing"),
@@ -143,7 +147,7 @@ def validate_form_registry_against_metadata() -> None:
 	for schema in FORM_SCHEMAS.values():
 		meta = frappe.get_meta(schema["doctype"])
 		available = {df.fieldname for df in meta.fields} | {"name"}
-		missing = {f["fieldname"] for f in schema["fields"]} - available
+		missing = {f["fieldname"] for f in schema["fields"] if not f.get("synthetic")} - available
 		if missing:
 			frappe.throw(_("Retail ERP form schema for {0} contains missing fields: {1}").format(schema["doctype"], ", ".join(sorted(missing))))
 		for table in schema.get("child_tables", {}).values():
