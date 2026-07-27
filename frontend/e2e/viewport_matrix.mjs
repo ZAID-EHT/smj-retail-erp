@@ -41,8 +41,10 @@ const VIEWPORTS = [
 const ROUTES = [
   { path: "/retail-erp/home", label: "Home" },
   { path: "/retail-erp/smart-sales", label: "Smart Sales" },
-  { path: "/retail-erp/inventory/products/new", label: "Product form (7 fields + pricing)" },
-  { path: "/retail-erp/sales/customers/new", label: "Customer form" },
+  { path: "/retail-erp/inventory/products/new", label: "Product quick-create (18 fields)" },
+  { path: "/retail-erp/sales/customers/new", label: "Customer quick-create (14 fields)" },
+  { path: "/retail-erp/inventory/products", label: "Product list (SKU)" },
+  { path: "/retail-erp/sales/customers", label: "Customer list (business nature)" },
   { path: "/retail-erp/admin", label: "Administration landing" },
   { path: "/retail-erp/admin/access-control/access", label: "Effective Access" },
   { path: "/retail-erp/admin/access-control/roles", label: "Roles" },
