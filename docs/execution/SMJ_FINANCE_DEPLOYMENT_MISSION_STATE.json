@@ -1,0 +1,16 @@
+{
+ "mission": "SMJ finance correction, fresh-install and deployment preparation",
+ "branch": "full-feature-parity",
+ "start_commit": "13b3da1",
+ "start_tag": "v1.0.0-rc2",
+ "recovery_tag": "pre-smj-finance-deployment-20260727-0941",
+ "backup": "sites/staging.local/private/backups/20260727_094121-staging_local-*",
+ "test_site": "staging.local",
+ "protected_site": "site1.local",
+ "site1_fingerprint": {"companies": ["SMJ", "SMJ (Demo)"], "test_users": 0, "correction_je": 0, "admin_modified": "2026-05-28 12:13:39", "latest_gl": "2026-12-10"},
+ "finance_figure_to_verify": {"reported_impossible": 4048825204, "expected": 4048006, "before": 15868706, "overstatement": 11820700},
+ "environment_limitation": "MariaDB root password unavailable; financeqa.local / freshrelease.local cannot be created. Savepoint simulation + static-validated scripts used.",
+ "phases": {"0": "done", "1": "in_progress", "2": "pending", "3": "pending", "4": "pending", "5": "pending", "6": "pending", "7": "pending", "8": "pending", "9": "pending", "10": "pending", "11": "pending", "12": "pending"},
+ "commits_created": [],
+ "last_update": "2026-07-27T09:42:00+05:30"
+}
