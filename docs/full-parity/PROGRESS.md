@@ -818,3 +818,11 @@ accounting reports via the real Report API (finding a real P&L
 overstatement bug), both import/purchasing chains, and a full
 backup-restore/load/concurrency drill (closing GATE 4 along the way).
 Full detail: `docs/execution/SMJ_MASTER_BATCH_LOG.md`.
+
+---
+## 2026-07-27 (finance/deployment, v1.0.0-rc3)
+- Opening-stock P&L: correction package built + QA-verified (savepoint); corrected
+  profit 4,048,006; **not applied — accountant sign-off external**.
+- Fresh-install script + Hetzner deployment package complete (live runs external:
+  MariaDB root / Hetzner / DNS credentials).
+- 338 backend tests green, 90/90 browser, secret scan clean, site1.local untouched.

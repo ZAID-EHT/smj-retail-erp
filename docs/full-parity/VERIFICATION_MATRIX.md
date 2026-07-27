@@ -185,3 +185,11 @@ testing (real clicks, not just presence) covered Home's full interactive
 surface and one representative page per each of the app's 3 distinct
 list/detail component engines. First-ever browser-level
 permission-denied test in this project's history.
+
+---
+## 2026-07-27 (finance/deployment, v1.0.0-rc3)
+- Opening-stock P&L: correction package built + QA-verified (savepoint); corrected
+  profit 4,048,006; **not applied — accountant sign-off external**.
+- Fresh-install script + Hetzner deployment package complete (live runs external:
+  MariaDB root / Hetzner / DNS credentials).
+- 338 backend tests green, 90/90 browser, secret scan clean, site1.local untouched.

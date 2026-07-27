@@ -318,3 +318,11 @@ of a Balance-Sheet-only account. The exact correction path is documented
 there; not applied because reversing those entries now risks a stock
 ledger reposting cascade across the 100+ documents already built on top
 of them this mission.
+
+---
+## 2026-07-27 (finance/deployment, v1.0.0-rc3)
+- Opening-stock P&L: correction package built + QA-verified (savepoint); corrected
+  profit 4,048,006; **not applied — accountant sign-off external**.
+- Fresh-install script + Hetzner deployment package complete (live runs external:
+  MariaDB root / Hetzner / DNS credentials).
+- 338 backend tests green, 90/90 browser, secret scan clean, site1.local untouched.

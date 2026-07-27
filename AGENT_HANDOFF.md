@@ -1645,3 +1645,21 @@ Key docs: `docs/execution/SMJ_FINAL_PRODUCTION_READINESS_REPORT.md`,
 
 External requirements: SMTP credentials, MariaDB root (QA/fresh sites), accountant
 sign-off (opening-stock JE), Hetzner/DNS. Enable the scheduler in production.
+
+---
+
+## Finance / deployment mission (2026-07-27) — tag v1.0.0-rc3
+
+- Finance figures re-verified from the ledger: profit 15,868,706 → corrected
+  **4,048,006** (the "4,048,825,204" figure never existed in the repo). Guarded
+  correction package at `my_store_ui/finance/opening_stock_correction.py`
+  (inspect/dry_run/prepare_draft/verify_after/apply). **Not applied — accountant
+  sign-off external.** Runbook: `docs/finance/SMJ_STAGING_CORRECTION_RUNBOOK.md`.
+- Fresh-install script `scripts/verify_fresh_install.sh` (static-validated; live run
+  needs MariaDB root).
+- Hetzner deployment package under `deployment/` (compose statically valid; 8 scripts;
+  secrets git-ignored). Live deploy external.
+- 338 backend tests, 90/90 browser, secret scan clean, site1 untouched.
+
+Externals: accountant sign-off, MariaDB root (QA/fresh sites), SMTP, Hetzner/DNS/
+registry/git-push, client UAT.

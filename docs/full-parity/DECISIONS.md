@@ -390,3 +390,11 @@ truth, not a registry guess — verified against the actual Python source of
    tests were executing real (rolled-back) writes against `site1.local`
    regardless of which site was targeted, in direct tension with this
    project's "never touch site1.local" rule.
+
+---
+## 2026-07-27 (finance/deployment, v1.0.0-rc3)
+- Opening-stock P&L: correction package built + QA-verified (savepoint); corrected
+  profit 4,048,006; **not applied — accountant sign-off external**.
+- Fresh-install script + Hetzner deployment package complete (live runs external:
+  MariaDB root / Hetzner / DNS credentials).
+- 338 backend tests green, 90/90 browser, secret scan clean, site1.local untouched.
