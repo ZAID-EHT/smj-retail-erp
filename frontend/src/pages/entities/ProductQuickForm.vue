@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
+import ImageUpload from "@/components/forms/ImageUpload.vue";
 import { createProduct, getProduct } from "@/services/productQuickEntry.js";
 
 const route = useRoute();
@@ -94,12 +95,8 @@ init();
             <label><span>Product ID</span><input :value="editName ? ids.product_id : 'Auto-generated'" type="text" readonly /></label>
             <label><span>SKU</span><input :value="editName ? ids.sku : 'Auto-generated'" type="text" readonly /></label>
             <label><span>Product Name *</span><input v-model="form.product_name" type="text" required /></label>
-            <label><span>Upload Image 1 (URL)</span><input v-model="form.image" type="text" placeholder="/files/…" /></label>
-            <label><span>Upload Image 2 (URL)</span><input v-model="form.image_2" type="text" placeholder="/files/…" /></label>
-          </div>
-          <div v-if="form.image || form.image_2" class="pqf-thumbs">
-            <img v-if="form.image" :src="form.image" alt="Image 1" />
-            <img v-if="form.image_2" :src="form.image_2" alt="Image 2" />
+            <ImageUpload v-model="form.image" label="Upload Image 1" />
+            <ImageUpload v-model="form.image_2" label="Upload Image 2" />
           </div>
         </section>
 
