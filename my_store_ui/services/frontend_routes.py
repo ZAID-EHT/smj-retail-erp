@@ -33,6 +33,10 @@ ROUTE_REGISTRY = (
 	# System Manager server-side; this registration only stops the SPA's own route
 	# guard from treating a real page as not-found.
 	{"name": "access-control", "pattern": r"^/admin/access-control(?:/(?P<tab>access|restrictions|roles|profiles|email))?/?$", "module": "Admin", "feature_id": "retail.admin.access_control", "implemented": True, "roles": ("System Manager",)},
+	# System Operations -- read-only health/readiness/backup, System Manager gated.
+	{"name": "system-operations", "pattern": r"^/admin/system(?:/(?P<tab>health|backups|errors|scheduler|readiness))?/?$", "module": "Admin", "feature_id": "retail.admin.system_operations", "implemented": True, "roles": ("System Manager",)},
+	# Data Management -- guided import/export of allowlisted DocTypes.
+	{"name": "data-management", "pattern": r"^/admin/data(?:/(?P<tab>import|export|opening-stock|opening-balances|history))?/?$", "module": "Admin", "feature_id": "retail.admin.data_management", "implemented": True, "roles": ("System Manager",)},
 	{"name": "feature-unavailable", "pattern": r"^/feature-unavailable/?$", "module": "System", "feature_id": "retail.feature_unavailable", "implemented": True},
 	{"name": "permission-denied", "pattern": r"^/permission-denied/?$", "module": "System", "feature_id": "retail.permission_denied", "implemented": True},
 	{"name": "not-found", "pattern": r"^/not-found/?$", "module": "System", "feature_id": "retail.not_found", "implemented": True},
