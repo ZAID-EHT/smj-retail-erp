@@ -176,13 +176,13 @@ export const entityRoutes = [
   {
     path: "/sales/customers/new",
     name: "customer-new",
-    component: EntityFormPage,
+    component: () => import("@/pages/entities/CustomerQuickForm.vue"),
     meta: { title: "New Customer", entityKey: "customers", accent: "green" },
   },
   {
     path: "/sales/customers/:name/edit",
     name: "customer-edit",
-    component: EntityFormPage,
+    component: () => import("@/pages/entities/CustomerQuickForm.vue"),
     meta: { title: "Edit Customer", entityKey: "customers", accent: "green" },
   },
   {
@@ -200,13 +200,13 @@ export const entityRoutes = [
   {
     path: "/inventory/products/new",
     name: "item-new",
-    component: EntityFormPage,
+    component: () => import("@/pages/entities/ProductQuickForm.vue"),
     meta: { title: "New Product", entityKey: "items", accent: "orange" },
   },
   {
     path: "/inventory/products/:name/edit",
     name: "item-edit",
-    component: EntityFormPage,
+    component: () => import("@/pages/entities/ProductQuickForm.vue"),
     meta: { title: "Edit Product", entityKey: "items", accent: "orange" },
   },
   {
