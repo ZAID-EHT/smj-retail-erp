@@ -326,3 +326,8 @@ of them this mission.
 - Fresh-install script + Hetzner deployment package complete (live runs external:
   MariaDB root / Hetzner / DNS credentials).
 - 338 backend tests green, 90/90 browser, secret scan clean, site1.local untouched.
+
+## 2026-07-27 RC4 (v1.0.0-rc4)
+Admin landing/navigation, secure PDF, scheduled reports, two-company separation,
+truthful launch-readiness dashboard. 369 backend tests green, 96/96 browser, secret
+scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/UAT.

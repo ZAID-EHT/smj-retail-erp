@@ -80,3 +80,16 @@ configuration, deployment rehearsal and client UAT.** No launch-critical *develo
 item remains open; the outstanding items are external (credentials, accountant, DNS).
 The opening-stock correction is designed and QA-verified (dry-run reconciles to
 4,048,006) but **not applied** — it is a draft awaiting sign-off.
+
+---
+
+## RC4 update (2026-07-27, tag v1.0.0-rc4, commit b527b04)
+
+Added and verified locally: two-company end-to-end separation (8 tests),
+Administration landing + navigation, secure PDF download, scheduled-report
+management, and a **truthful launch-readiness dashboard** (`/admin/readiness`).
+**369 backend tests, 0 failures; browser 96/96; secret scan clean; site1 untouched.**
+
+Status unchanged where external: accountant approval (finance JE not applied), SMTP,
+MariaDB root (fresh site), Hetzner/DNS, client UAT. The launch-readiness dashboard
+now reports each of these truthfully in-app.

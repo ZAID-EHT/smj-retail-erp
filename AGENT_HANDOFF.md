@@ -1663,3 +1663,11 @@ sign-off (opening-stock JE), Hetzner/DNS. Enable the scheduler in production.
 
 Externals: accountant sign-off, MariaDB root (QA/fresh sites), SMTP, Hetzner/DNS/
 registry/git-push, client UAT.
+
+---
+## RC4 (2026-07-27, v1.0.0-rc4)
+New: /admin (Administration landing), /admin/readiness (truthful launch-readiness),
+/reports/scheduled (scheduled reports), secure PDF download on /admin/printing,
+two-company separation test. 369 backend tests, 96/96 browser, secret scan clean,
+site1 untouched. External unchanged: accountant, SMTP, MariaDB root, Hetzner/DNS, UAT.
+Owner actions: docs/release/SMJ_OWNER_ACTIONS_BEFORE_GO_LIVE.md.
