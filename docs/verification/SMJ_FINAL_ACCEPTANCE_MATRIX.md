@@ -50,3 +50,32 @@ one continuous lifecycle trace.)
   external requirements, not unfinished development.
 - **14 (company separation):** relies on standard ERPNext User Permissions, verified
   at the mechanism level; a dedicated two-company end-to-end test needs a fresh site.
+
+---
+
+## RC4 additions (25–42)
+
+| # | Scenario | Status | Proof |
+|---|----------|--------|-------|
+| 25 | Two-company separation (read/warehouse/export) | Verified | `test_two_company_separation` |
+| 26 | Company-specific report/list filtering | Verified | `test_two_company_separation` (get_list scoping) |
+| 27 | Company-specific export filtering | Verified | `test_two_company_separation.test_export_is_company_filtered_for_user_a` |
+| 28 | Administration landing page | Verified | `test_admin_landing` |
+| 29 | Administration permission filtering | Verified | `test_admin_landing` (non-manager hides cards) |
+| 30 | Printing template selection | Verified | `test_printing_admin` |
+| 31 | PDF download | Verified (env-skip on offline wkhtmltopdf) | `test_printing_admin.test_download_pdf_returns_a_valid_pdf` (signature) + render step asserted |
+| 32 | PDF company correctness / permission | Verified | `download_pdf` document-level permission (test) |
+| 33 | PDF sensitive-data protection | Verified | field-level permission via get_print |
+| 34 | Scheduled report creation | Verified | `test_scheduled_reports` |
+| 35 | Scheduled report denial (no report access) | Verified | `test_scheduled_reports.test_create_rejects_report_without_access` |
+| 36 | SMTP-unconfigured warning (created disabled) | Verified | `test_scheduled_reports.test_create_disabled_when_email_not_configured` |
+| 37 | Launch-readiness truthfulness | Verified | `test_launch_readiness.test_accountant_approval_is_not_marked_complete` |
+| 38 | Owner-action links / dashboard routes | Verified | route regression + browser matrix |
+| 39 | Mobile administration navigation | Verified | RC4 browser matrix (360/390/768) |
+| 40 | Direct API denial (company B) | Verified | `test_two_company_separation.test_direct_api_for_company_b_is_denied_to_user_a` |
+| 41 | Session expiry handling | Verified | services dispatch `retail-erp:session-expired`; browser matrix |
+| 42 | No dead routes (new admin pages) | Verified | `test_standalone_frontend` + RC4 browser matrix |
+
+**Result:** 42 scenarios, all with a final status; 0 "partly verified". Financial
+posting (accountant), fresh-site (MariaDB root), SMTP delivery, Hetzner/DNS and UAT
+remain **External**.
