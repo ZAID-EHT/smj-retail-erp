@@ -39,16 +39,21 @@ const VIEWPORTS = [
 ];
 
 const ROUTES = [
-  { path: "/retail-erp/admin/access-control", label: "Access Control (no tab)" },
+  { path: "/retail-erp/home", label: "Home" },
+  { path: "/retail-erp/smart-sales", label: "Smart Sales" },
+  { path: "/retail-erp/inventory/products/new", label: "Product form (7 fields + pricing)" },
+  { path: "/retail-erp/sales/customers/new", label: "Customer form" },
   { path: "/retail-erp/admin/access-control/access", label: "Effective Access" },
   { path: "/retail-erp/admin/access-control/restrictions", label: "User Permissions" },
   { path: "/retail-erp/admin/access-control/roles", label: "Roles" },
   { path: "/retail-erp/admin/access-control/profiles", label: "Role Profiles" },
-  { path: "/retail-erp/admin/access-control/email", label: "Email Delivery" },
   { path: "/retail-erp/admin/users", label: "Users (generated)" },
-  { path: "/retail-erp/admin/roles", label: "Roles (generated)" },
-  { path: "/retail-erp/admin/role-profiles", label: "Role Profiles (generated)" },
-  { path: "/retail-erp/inventory/products/new", label: "Product form (pricing)" },
+  { path: "/retail-erp/admin/companies", label: "Companies" },
+  { path: "/retail-erp/setup", label: "Setup wizard" },
+  { path: "/retail-erp/admin/printing", label: "Printing & Branding" },
+  { path: "/retail-erp/admin/email", label: "Email admin" },
+  { path: "/retail-erp/admin/data", label: "Data Management" },
+  { path: "/retail-erp/admin/system", label: "System Operations" },
 ];
 
 const results = [];
