@@ -37,6 +37,11 @@ ROUTE_REGISTRY = (
 	{"name": "system-operations", "pattern": r"^/admin/system(?:/(?P<tab>health|backups|errors|scheduler|readiness))?/?$", "module": "Admin", "feature_id": "retail.admin.system_operations", "implemented": True, "roles": ("System Manager",)},
 	# Data Management -- guided import/export of allowlisted DocTypes.
 	{"name": "data-management", "pattern": r"^/admin/data(?:/(?P<tab>import|export|opening-stock|opening-balances|history))?/?$", "module": "Admin", "feature_id": "retail.admin.data_management", "implemented": True, "roles": ("System Manager",)},
+	# Email & Notifications administration (status, templates, notifications).
+	{"name": "email-admin", "pattern": r"^/admin/email(?:/(?P<tab>accounts|templates|notifications|status))?/?$", "module": "Admin", "feature_id": "retail.admin.email", "implemented": True, "roles": ("System Manager",)},
+	# First-time setup wizard -- any authenticated user may reach it; the create
+	# action is gated server-side. Steps are open-ended so the SPA owns them.
+	{"name": "setup-wizard", "pattern": r"^/setup(?:/(?P<step>[a-z-]{1,40}))?/?$", "module": "Setup", "feature_id": "retail.setup", "implemented": True},
 	{"name": "feature-unavailable", "pattern": r"^/feature-unavailable/?$", "module": "System", "feature_id": "retail.feature_unavailable", "implemented": True},
 	{"name": "permission-denied", "pattern": r"^/permission-denied/?$", "module": "System", "feature_id": "retail.permission_denied", "implemented": True},
 	{"name": "not-found", "pattern": r"^/not-found/?$", "module": "System", "feature_id": "retail.not_found", "implemented": True},

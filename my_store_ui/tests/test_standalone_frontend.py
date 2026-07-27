@@ -69,6 +69,18 @@ class TestStandaloneRetailERP(unittest.TestCase):
 		definition, params = resolve_frontend_route("/retail-erp/admin/data/export")
 		self.assertEqual(params, {"tab": "export"})
 
+	def test_email_and_setup_routes_resolve(self):
+		email, params = resolve_frontend_route("/retail-erp/admin/email")
+		self.assertIsNotNone(email)
+		self.assertEqual(email["roles"], ("System Manager",))
+		self.assertEqual(resolve_frontend_route("/retail-erp/admin/email/templates")[1], {"tab": "templates"})
+		# Setup is reachable by any authenticated user (no roles gate); create is
+		# gated in the backend, not the route.
+		setup, params = resolve_frontend_route("/retail-erp/setup")
+		self.assertIsNotNone(setup)
+		self.assertNotIn("roles", setup)
+		self.assertEqual(resolve_frontend_route("/retail-erp/setup/company")[1], {"step": "company"})
+
 	def test_unknown_route_returns_custom_not_found(self):
 		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
 		self.assertEqual(result["outcome"], "not_found")
