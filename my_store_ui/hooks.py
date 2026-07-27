@@ -18,11 +18,18 @@ fixtures = [
 			"custom_purchase_price", "custom_additional_cost", "custom_total_cost",
 			"custom_retail_profit_percentage", "custom_wholesale_profit_percentage",
 			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
+			"custom_sku", "custom_image_2", "custom_carton_qty", "custom_margin",
+			"custom_department_price", "custom_stock_location_1", "custom_stock_location_2",
+			"custom_stock_location_3",
 		]]],
 	},
 	{
 		"dt": "Custom Field",
-		"filters": [["dt", "=", "Customer"], ["fieldname", "=", "custom_credit_type"]],
+		"filters": [["dt", "=", "Customer"], ["fieldname", "in", [
+			"custom_credit_type", "custom_whatsapp_no", "custom_accounts_department_no",
+			"custom_transport_method", "custom_transport_detail", "custom_br_no",
+			"custom_business_nature", "custom_credit_days",
+		]]],
 	},
 	{
 		"dt": "Custom Field",
