@@ -81,6 +81,17 @@ class TestStandaloneRetailERP(unittest.TestCase):
 		self.assertNotIn("roles", setup)
 		self.assertEqual(resolve_frontend_route("/retail-erp/setup/company")[1], {"step": "company"})
 
+	def test_printing_and_finance_admin_routes_resolve(self):
+		# Printing landing is dedicated; finance CRUD is via the generated engine.
+		printing, _p = resolve_frontend_route("/retail-erp/admin/printing")
+		self.assertIsNotNone(printing)
+		self.assertEqual(printing["roles"], ("System Manager",))
+		for route in ("/retail-erp/finance/chart-of-accounts", "/retail-erp/finance/fiscal-year",
+		              "/retail-erp/finance/cost-centers", "/retail-erp/admin/companies",
+		              "/retail-erp/admin/print-format", "/retail-erp/admin/letter-head"):
+			definition, _p = resolve_frontend_route(route)
+			self.assertIsNotNone(definition, route)
+
 	def test_unknown_route_returns_custom_not_found(self):
 		result = authorize_frontend_route("/retail-erp/not-a-registered-feature")
 		self.assertEqual(result["outcome"], "not_found")
