@@ -2,7 +2,7 @@
 import { onBeforeUnmount, reactive, ref } from "vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
-import { getPreviewCandidates, getPrintingOverview, previewDocument } from "@/services/printingAdmin.js";
+import { downloadPdfUrl, getPreviewCandidates, getPrintingOverview, previewDocument } from "@/services/printingAdmin.js";
 
 const overview = ref(null);
 const error = ref(null);
@@ -129,6 +129,13 @@ init();
             </label>
             <div class="print-actions">
               <button class="rug-primary" type="button" :disabled="loading.preview || !preview.name" @click="runPreview">{{ loading.preview ? "Rendering…" : "Preview" }}</button>
+              <a
+                v-if="preview.name"
+                class="rug-button rug-button--secondary"
+                :href="downloadPdfUrl(preview.doctype, preview.name, preview.format || undefined)"
+                target="_blank"
+                rel="noopener"
+              >Download PDF</a>
             </div>
           </div>
           <div v-if="preview.html" class="print-preview" v-html="preview.html" />

@@ -23,3 +23,9 @@ export const getPrintingOverview = (signal) => call("get_printing_overview", {},
 export const getPreviewCandidates = (doctype, signal) => call("get_preview_candidates", { doctype }, signal);
 export const previewDocument = (doctype, name, print_format, signal) =>
   call("preview_document", { doctype, name, print_format }, signal);
+
+export function downloadPdfUrl(doctype, name, print_format) {
+  const q = new URLSearchParams({ doctype, name });
+  if (print_format) q.set("print_format", print_format);
+  return `/api/method/my_store_ui.printing_admin.download_pdf?${q}`;
+}

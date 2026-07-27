@@ -97,6 +97,46 @@ def preview_document(doctype: str, name: str, print_format: str | None = None) -
 	return {"doctype": doctype, "name": name, "print_format": print_format, "html": html}
 
 
+def _check_printable(doctype: str, name: str) -> str:
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	doctype = str(doctype or "").strip()
+	if doctype not in PRINTABLE_DOCTYPES:
+		frappe.throw(_("{0} is not available for printing.").format(doctype), frappe.ValidationError)
+	name = str(name or "").strip()
+	if not name or not frappe.db.exists(doctype, name):
+		frappe.throw(_("Document not found."), frappe.DoesNotExistError)
+	# Document-level permission: this also applies company / User Permission scoping,
+	# so a user cannot print another company's document.
+	if not frappe.has_permission(doctype, "print", doc=name) and not frappe.has_permission(doctype, "read", doc=name):
+		frappe.throw(_("You do not have permission to print this document."), frappe.PermissionError)
+	return name
+
+
+@frappe.whitelist(methods=["GET"])
+def download_pdf(doctype: str, name: str, print_format: str | None = None, letterhead: str | None = None) -> None:
+	"""Stream a permission-checked PDF using ERPNext's standard PDF pipeline.
+
+	No separate PDF engine: renders via frappe.get_print (field-level permissions
+	honoured) then frappe.utils.pdf.get_pdf. Sets the download response directly.
+	"""
+	from frappe.utils.pdf import get_pdf
+
+	name = _check_printable(doctype, name)
+	doctype = str(doctype).strip()
+	if print_format and not frappe.db.exists("Print Format", {"name": print_format, "doc_type": doctype}):
+		frappe.throw(_("That print format does not apply to this document."), frappe.ValidationError)
+	if letterhead and not frappe.db.exists("Letter Head", letterhead):
+		frappe.throw(_("That letter head does not exist."), frappe.ValidationError)
+
+	html = frappe.get_print(doctype, name, print_format=print_format or None,
+	                        letterhead=letterhead or None, no_letterhead=0)
+	pdf = get_pdf(html)
+	frappe.local.response.filename = f"{name}.pdf".replace(" ", "-").replace("/", "-")
+	frappe.local.response.filecontent = pdf
+	frappe.local.response.type = "pdf"
+
+
 @frappe.whitelist(methods=["GET"])
 def get_preview_candidates(doctype: str) -> dict:
 	"""A few documents the caller may read, to drive the preview picker."""
