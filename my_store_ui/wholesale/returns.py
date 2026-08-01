@@ -260,7 +260,11 @@ def create_purchase_return(purchase_receipt: str, lines=None, reason: str | None
 						row.idx, qty, allowed),
 					frappe.ValidationError,
 				)
+			# A Purchase Receipt line must keep received = accepted + rejected, and a
+			# return may not carry a rejected quantity at all.
 			row.qty = -abs(qty)
+			row.rejected_qty = 0
+			row.received_qty = row.qty
 			kept.append(row)
 		ret.set("items", kept)
 		if not ret.get("items"):
