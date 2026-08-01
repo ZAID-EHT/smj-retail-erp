@@ -101,3 +101,68 @@
 .smj-sales-customer-required strong{color:var(--ref-danger);font-weight:800}
 .smj-sales-customer-required span{color:var(--ref-secondary-text)}
 .smj-carton-note{color:var(--ref-secondary-text);font-size:10px;font-weight:700}
+
+/* --- Accounts workspace --------------------------------------------------- */
+.smj-accounts-note{margin:6px 0 2px;padding:8px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:var(--ref-blue-background);color:var(--ref-secondary-text);font-size:12px}
+.smj-accounts-section header{margin-bottom:12px}
+.smj-accounts-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:14px}
+.smj-accounts-card{display:grid;gap:4px;padding:14px 16px;border:1px solid var(--ref-border-colour);border-left:3px solid var(--ref-primary-blue);border-radius:10px;background:#fff}
+.smj-accounts-card.is-danger{border-left-color:var(--ref-danger)}
+.smj-accounts-card small{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-accounts-card strong{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.smj-accounts-links{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.smj-accounts-links a{display:inline-flex;padding:7px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-primary-blue);font-size:12px;font-weight:700;text-decoration:none}
+.smj-accounts-links a:hover{background:var(--ref-blue-background)}
+
+/* --- Henderson analysis --------------------------------------------------- */
+.smj-henderson-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.smj-henderson-summary article{display:grid;gap:3px;padding:14px 16px;border:1px solid var(--ref-border-colour);border-radius:10px;background:#fff}
+.smj-henderson-summary small{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-henderson-summary strong{font-size:22px;font-weight:800}
+.smj-henderson-summary em{color:var(--ref-secondary-text);font-size:10px;font-style:normal}
+.smj-henderson-priorities{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.smj-henderson-priorities li{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:10px 12px;border:1px solid var(--ref-border-colour);border-left:3px solid var(--ref-border-colour);border-radius:8px;background:#fff}
+.smj-henderson-priorities li.is-medium{border-left-color:var(--ref-primary-blue)}
+.smj-henderson-priorities li.is-high{border-left-color:var(--ref-orange)}
+.smj-henderson-priorities li.is-critical{border-left-color:var(--ref-danger)}
+.smj-henderson-priorities span{color:var(--ref-secondary-text);font-size:12px}
+.smj-henderson-priorities em{margin-left:auto;font-size:11px;font-style:normal;font-weight:700}
+.smj-henderson-notes{margin:0;color:var(--ref-primary-text);font-size:13px;white-space:pre-wrap}
+.smj-henderson-notes-edit{display:grid;gap:5px;margin-top:10px}
+.smj-henderson-notes-edit span{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-henderson-meta{padding:4px 2px;color:var(--ref-secondary-text);font-size:11px}
+
+/* --- Print format administration ------------------------------------------ */
+.smj-print-doc header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.smj-print-controls{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px;margin-bottom:12px}
+.smj-print-controls label{display:grid;flex:1 1 220px;gap:5px}
+.smj-print-controls label span{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-print-formats{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.smj-print-formats li{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;font-size:12px}
+.smj-print-formats li button{margin-left:auto}
+.smj-print-tag{padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.smj-print-tag.is-standard{background:var(--ref-blue-background);color:var(--ref-primary-blue)}
+.smj-print-tag.is-custom{background:var(--ref-success-background);color:var(--ref-success)}
+
+/* Print preview modal: aligned header/body/footer, scrollable body, real actions. */
+.smj-print-modal{position:fixed;z-index:200;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(23,32,51,.55)}
+.smj-print-modal>section{display:flex;flex-direction:column;width:min(940px,100%);max-height:calc(100vh - 32px);border-radius:12px;background:#fff;box-shadow:0 24px 60px rgba(23,32,51,.3)}
+.smj-print-modal header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--ref-border-colour)}
+.smj-print-modal header h2{margin:0;font-size:16px;font-weight:800}
+.smj-print-modal header p{margin:2px 0 0;color:var(--ref-secondary-text);font-size:12px}
+.smj-print-modal__close{min-width:34px;min-height:34px;padding:0;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-secondary-text);font-size:18px;line-height:1;cursor:pointer}
+.smj-print-modal__close:focus-visible{outline:2px solid var(--ref-primary-blue);outline-offset:2px}
+.smj-print-modal__body{flex:1;overflow:auto;padding:14px 18px}
+.smj-print-modal__body iframe{width:100%;min-height:52vh;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff}
+.smj-print-modal__state{margin:0;color:var(--ref-secondary-text);font-size:13px}
+.smj-print-modal footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:13px 18px;border-top:1px solid var(--ref-border-colour)}
+.smj-print-modal__meta{color:var(--ref-secondary-text);font-size:11px}
+.smj-print-modal__actions{display:flex;gap:8px}
+@media(max-width:600px){
+  .smj-print-modal{padding:8px}
+  .smj-print-modal>section{max-height:calc(100vh - 16px)}
+  .smj-print-modal footer{flex-direction:column;align-items:stretch}
+  .smj-print-modal__actions{width:100%}
+  .smj-print-modal__actions button{flex:1}
+  .smj-print-doc header{flex-direction:column}
+}

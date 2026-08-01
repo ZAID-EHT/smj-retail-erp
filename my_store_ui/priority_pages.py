@@ -74,10 +74,19 @@ def get_priority_route_definition(path: str):
 		component = "sales_funnel"
 	if path == "/inventory/warehouse-capacity":
 		component = "warehouse_capacity"
+	# Accounts workspace, Henderson management analysis and print-format
+	# administration are dedicated pages, not the generic register.
+	if path == "/finance/accounts":
+		component = "accounts_workspace"
+	if path == "/reports/henderson-analysis":
+		component = "henderson_analysis"
+	if path == "/admin/print-formats":
+		component = "print_format_admin"
 	if component not in {
 		"entity", "tree", "special", "report", "report_hub", "register",
 		"payment_reconciliation", "bank_reconciliation", "bank_clearance", "pegged_currencies", "single",
 		"sales_funnel", "warehouse_capacity",
+		"accounts_workspace", "henderson_analysis", "print_format_admin",
 	}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {

@@ -290,6 +290,15 @@ SPECIAL_ROUTES = {
 	"/finance/payment-reconciliation": {"module": "finance", "label": "Payment Reconciliation", "doctype": "Payment Reconciliation", "classification": "specialised_provisional"},
 	"/finance/bank-reconciliation": {"module": "finance", "label": "Bank Reconciliation", "doctype": "Bank Reconciliation Tool", "classification": "specialised_provisional"},
 	"/finance/bank-clearance": {"module": "finance", "label": "Bank Clearance", "doctype": "Bank Clearance", "classification": "specialised_provisional"},
+	# Accounts workspace: the landing page itself needs no single doctype -- each
+	# section is filtered server-side by what the user may read.
+	"/finance/accounts": {"module": "finance", "label": "Accounts", "classification": "register"},
+	# Management analysis, deliberately outside the operational modules.
+	"/reports/henderson-analysis": {"module": "reports", "label": "Henderson Analysis",
+	                                "doctype": "Henderson Assessment", "classification": "register"},
+	# Print-format administration (System Manager gated in the API).
+	"/admin/print-formats": {"module": "admin", "label": "Print Formats",
+	                         "doctype": "Print Format", "classification": "register"},
 	"/finance/pegged-currencies": {"module": "finance", "label": "Pegged Currencies", "doctype": "Pegged Currencies", "classification": "specialised_provisional"},
 	"/crm/customers": {"module": "crm", "label": "Customers", "alias": "/sales/customers", "doctype": "Customer"},
 	"/operations/manufacturing": {"module": "operations", "label": "Manufacturing", "doctypes": ("BOM", "Production Plan", "Work Order", "Job Card")},
