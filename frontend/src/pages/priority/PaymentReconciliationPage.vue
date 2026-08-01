@@ -33,6 +33,23 @@ const selectedPayments = computed(() => payments.value.filter((row) => selectedP
 const canPreview = computed(() => selectedInvoices.value.length > 0 && selectedPayments.value.length > 0);
 const allocationTotal = computed(() => allocation.value.reduce((sum, row) => sum + (Number(row.allocated_amount) || 0), 0));
 
+/* Reconciliation totals. These are presentation summaries of figures ERPNext
+   returned; the authoritative allocation is computed and posted by ERPNext. */
+const num = (value) => Number(value) || 0;
+const totalAvailable = computed(() => payments.value.reduce((s, r) => s + num(r.amount), 0));
+const totalSelectedPayments = computed(() => selectedPayments.value.reduce((s, r) => s + num(r.amount), 0));
+const totalSelectedInvoices = computed(() =>
+  selectedInvoices.value.reduce((s, r) => s + num(r.outstanding_amount ?? r.amount), 0));
+const remainingUnallocated = computed(() =>
+  Math.max(totalSelectedPayments.value - allocationTotal.value, 0));
+const outstandingAfter = computed(() =>
+  Math.max(totalSelectedInvoices.value - allocationTotal.value, 0));
+
+function money(value) {
+  return new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    .format(num(value));
+}
+
 function searchCompany() {
   window.clearTimeout(companyTimer);
   companyTimer = window.setTimeout(async () => {
@@ -135,6 +152,16 @@ function startOver() {
       </header>
 
       <ErrorState v-if="error" title="Reconciliation request failed" :message="error.message" @retry="() => (error = null)" />
+
+      <!-- Reconciliation totals, visible from the moment entries are loaded. -->
+      <section v-if="step !== 'filter'" class="smj-recon-totals" aria-label="Reconciliation totals">
+        <article><small>Available to allocate</small><strong>{{ money(totalAvailable) }}</strong><em>{{ payments.length }} payment(s)</em></article>
+        <article><small>Selected payments</small><strong>{{ money(totalSelectedPayments) }}</strong><em>{{ selectedPayments.length }} selected</em></article>
+        <article><small>Selected invoices</small><strong>{{ money(totalSelectedInvoices) }}</strong><em>{{ selectedInvoices.length }} selected</em></article>
+        <article><small>Allocated</small><strong>{{ money(allocationTotal) }}</strong><em>{{ allocation.length }} row(s)</em></article>
+        <article :class="remainingUnallocated > 0 && 'is-warning'"><small>Remaining unallocated</small><strong>{{ money(remainingUnallocated) }}</strong><em>of selected payments</em></article>
+        <article :class="outstandingAfter > 0 && 'is-warning'"><small>Outstanding after</small><strong>{{ money(outstandingAfter) }}</strong><em>on selected invoices</em></article>
+      </section>
 
       <section class="rug-section-card">
         <div class="rug-form-grid">

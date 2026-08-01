@@ -92,6 +92,15 @@ function searchMode(form) {
 
 async function fetchSummary() {
   if (!filters.company || !filters.bank_account) return;
+  // An inverted range silently returns nothing from the server, which reads as
+  // "no transactions". Catch it here and say so.
+  if (
+    filters.bank_statement_from_date && filters.bank_statement_to_date
+    && filters.bank_statement_from_date > filters.bank_statement_to_date
+  ) {
+    error.value = { message: "The From date must be on or before the To date." };
+    return;
+  }
   loading.value = true;
   error.value = null;
   successMessage.value = null;

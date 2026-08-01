@@ -166,3 +166,11 @@
   .smj-print-modal__actions button{flex:1}
   .smj-print-doc header{flex-direction:column}
 }
+
+/* --- Reconciliation totals ------------------------------------------------ */
+.smj-recon-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.smj-recon-totals article{display:grid;gap:3px;padding:12px 14px;border:1px solid var(--ref-border-colour);border-left:3px solid var(--ref-primary-blue);border-radius:10px;background:#fff}
+.smj-recon-totals article.is-warning{border-left-color:var(--ref-orange)}
+.smj-recon-totals small{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-recon-totals strong{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.smj-recon-totals em{color:var(--ref-secondary-text);font-size:10px;font-style:normal}
