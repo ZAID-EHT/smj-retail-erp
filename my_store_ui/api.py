@@ -7,6 +7,8 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt, nowdate
 
+from my_store_ui.wholesale.uom import conversion_factor
+
 
 def _require_login() -> None:
 	if frappe.session.user == "Guest":
@@ -281,11 +283,16 @@ def get_cart_pricing(customer: str, items: str | list, warehouse: str = "", pric
 			continue
 		qty = flt((row or {}).get("qty")) or 1
 		item = frappe.get_cached_doc("Item", item_code)
+		# Unit or Carton: the factor comes from the Item's own UOM table, never the browser.
+		uom = str((row or {}).get("uom") or "").strip() or item.stock_uom
+		factor = conversion_factor(item_code, uom)
+		stock_qty = qty * factor
 		args = {
 			"item_code": item_code, "customer": customer, "company": company,
 			"selling_price_list": price_list, "price_list": price_list,
 			"currency": currency, "price_list_currency": currency,
 			"plc_conversion_rate": 1.0, "conversion_rate": 1.0, "qty": qty,
+			"uom": uom, "conversion_factor": factor, "stock_qty": stock_qty,
 			"doctype": "Sales Order", "transaction_type": "selling",
 			"warehouse": warehouse or None, "transaction_date": nowdate(),
 		}
@@ -329,14 +336,18 @@ def get_cart_pricing(customer: str, items: str | list, warehouse: str = "", pric
 			source = "unpriced"
 		stock = _available_to_sell(item_code, warehouse)
 		available = stock["available_to_sell"]
+		# Availability is held in stock units, so compare the converted quantity and
+		# express the cap back in the UOM the user is actually entering.
+		max_in_uom = (available / factor) if factor else available
 		out.append({
 			"item_code": item_code, "item_name": item.item_name, "stock_uom": item.stock_uom,
+			"uom": uom, "conversion_factor": factor, "stock_qty": stock_qty,
 			"qty": qty, "rate": rate, "price_list_rate": price_list_rate,
 			"discount_percentage": discount, "currency": currency,
 			"pricing_rule": pricing_rule, "source": source, "price_list": price_list,
 			"actual_qty": stock["actual_qty"], "reserved_qty": stock["reserved_qty"],
-			"available_to_sell": available, "max_qty": available if item.is_stock_item else None,
-			"stock_status": _stock_status(available, qty, bool(item.is_stock_item)),
+			"available_to_sell": available, "max_qty": max_in_uom if item.is_stock_item else None,
+			"stock_status": _stock_status(available, stock_qty, bool(item.is_stock_item)),
 		})
 	return {"customer": customer, "company": company, "warehouse": warehouse, "price_list": price_list, "currency": currency, "lines": out}
 
@@ -392,18 +403,27 @@ def create_draft_sales_order(payload: str | dict):
 			frappe.throw(_("Quantity for {0} must be greater than zero.").format(item_code))
 		_validate_link("Item", item_code, {"disabled": 0, "is_sales_item": 1})
 		seen.add(item_code)
+		# Unit or Carton: resolve the factor from the Item, never from the browser, and
+		# convert to stock units before any availability decision.
+		stock_uom = frappe.db.get_value("Item", item_code, "stock_uom")
+		uom = str(row.get("uom") or "").strip() or stock_uom
+		factor = conversion_factor(item_code, uom)
+		stock_qty = qty * factor
 		# Server-side stock recheck: never trust the browser's availability. Stock
 		# items may not be ordered beyond Available-to-Sell (Actual - Reserved).
 		if frappe.db.get_value("Item", item_code, "is_stock_item"):
 			available = _available_to_sell(item_code, warehouse)["available_to_sell"]
-			if qty > available:
+			if stock_qty > available:
 				shortfalls.append({
 					"item_code": item_code,
-					"requested": qty,
+					"requested": stock_qty,
 					"available": available,
-					"stock_uom": frappe.db.get_value("Item", item_code, "stock_uom"),
+					"stock_uom": stock_uom,
 				})
-		order.append("items", {"item_code": item_code, "qty": qty, "warehouse": warehouse, "delivery_date": delivery_date})
+		order.append("items", {
+			"item_code": item_code, "qty": qty, "uom": uom, "conversion_factor": factor,
+			"warehouse": warehouse, "delivery_date": delivery_date,
+		})
 
 	if shortfalls:
 		lines = ", ".join(

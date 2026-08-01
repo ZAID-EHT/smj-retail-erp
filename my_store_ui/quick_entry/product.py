@@ -18,6 +18,8 @@ from frappe import _
 from frappe.model.naming import make_autoname
 from frappe.utils import cint, flt
 
+from my_store_ui.wholesale.uom import CARTON_UOM, sync_carton_uom
+
 # Product ID series (P100001, P100002, …) and SKU series (5001, 5002, …).
 # make_autoname uses dots as format separators; literal chars stay, hashes become a
 # zero-padded counter. "P1.#####" -> P100001; "5.###" -> 5001.
@@ -150,6 +152,9 @@ def _create_product(values: dict | str, name: str | None = None):
 	doc.custom_product_size = str(data.get("size") or "").strip() or None
 	doc.custom_product_material = str(data.get("material") or "").strip() or None
 	doc.custom_carton_qty = flt(data.get("carton_qty"))
+	# Carton Qty is a real UOM conversion, not a display number: mirror it onto
+	# Item.uoms so every sales/purchase document converts through ERPNext itself.
+	sync_carton_uom(doc, doc.custom_carton_qty)
 	doc.custom_margin = flt(data.get("margin"))
 	doc.custom_stock_location_1 = locations[0] or None
 	doc.custom_stock_location_2 = locations[1] or None
