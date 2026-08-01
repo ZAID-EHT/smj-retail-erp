@@ -21,11 +21,18 @@ DEFAULT_PAGE_SIZE = 20
 MAX_PAGE_SIZE = 100
 FINANCIAL_ROLES = ("Accounts User", "Accounts Manager", "Sales Manager")
 
-SAFE_FILTERS = {"customer", "status", "from_date", "to_date", "credit_type"}
+SAFE_FILTERS = {"customer", "status", "from_date", "to_date", "credit_type", "company",
+                "delivery_status", "payment_status", "invoice_status", "return_status",
+                "warehouse", "overdue_only"}
 
 
 def _has_txn_field() -> bool:
     return bool(frappe.get_meta("Sales Order").get_field(TRANSACTION_ID_FIELD))
+
+
+def _has_reservation_field() -> bool:
+    """Stock reservation is optional in ERPNext; degrade gracefully when absent."""
+    return bool(frappe.get_meta("Sales Order Item").get_field("stock_reserved_qty"))
 
 
 def _can_see_financials() -> bool:
@@ -49,6 +56,28 @@ def _payment_status(outstanding: float, grand_total: float, paid: float) -> str:
     return "Partially Paid"
 
 
+def _invoice_status(per_billed: float) -> str:
+    if per_billed <= 0:
+        return "Not Invoiced"
+    if per_billed >= 100:
+        return "Fully Invoiced"
+    return "Partially Invoiced"
+
+
+def _return_status(has_return: bool, fully_returned: bool) -> str:
+    if not has_return:
+        return "No Return"
+    return "Fully Returned" if fully_returned else "Partially Returned"
+
+
+def _reservation_status(reserved: float, ordered: float) -> str:
+    if reserved <= 0:
+        return "Not Reserved"
+    if reserved + 0.001 >= ordered:
+        return "Fully Reserved"
+    return "Partially Reserved"
+
+
 @frappe.whitelist(methods=["GET"])
 def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEFAULT_PAGE_SIZE,
                                sort_field: str = "transaction_date", sort_order: str = "desc"):
@@ -66,8 +95,12 @@ def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEF
         so_filters["customer"] = filters["customer"]
     if filters.get("status"):
         so_filters["status"] = filters["status"]
+    if filters.get("company"):
+        so_filters["company"] = filters["company"]
     if filters.get("from_date") and filters.get("to_date"):
         so_filters["transaction_date"] = ["between", [filters["from_date"], filters["to_date"]]]
+    if filters.get("warehouse"):
+        so_filters["set_warehouse"] = filters["warehouse"]
 
     if sort_field not in {"transaction_date", "customer", "grand_total", "name"} or str(sort_order).lower() not in {"asc", "desc"}:
         frappe.throw(_("Unsupported sort."), frappe.ValidationError)
@@ -120,6 +153,28 @@ def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEF
                     pe_map[so_for_ref]["entries"].add(r["parent"])
                     pe_map[so_for_ref]["paid"] += flt(r["allocated_amount"])
 
+    # Returns and reservations for this page, from standard links.
+    return_map: dict[str, dict] = {}
+    reserved_map: dict[str, float] = {}
+    if so_names:
+        all_dn = sorted({n for s in dn_map.values() for n in s})
+        if all_dn:
+            for r in frappe.get_all(
+                "Delivery Note", filters={"return_against": ["in", all_dn], "docstatus": 1},
+                fields=["name", "return_against"],
+            ):
+                for so, notes in dn_map.items():
+                    if r["return_against"] in notes:
+                        entry = return_map.setdefault(so, {"notes": set()})
+                        entry["notes"].add(r["name"])
+                        break
+        for r in frappe.get_all(
+            "Sales Order Item", filters={"parent": ["in", so_names], "docstatus": 1},
+            fields=["parent", "sum(stock_reserved_qty) as reserved", "sum(stock_qty) as ordered"],
+            group_by="parent",
+        ) if _has_reservation_field() else []:
+            reserved_map[r["parent"]] = (flt(r.get("reserved")), flt(r.get("ordered")))
+
     rows = []
     for o in orders:
         so = o["name"]
@@ -139,6 +194,13 @@ def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEF
             "sales_invoices": sis,
             "payment_entries": sorted(pe_map.get(so, {}).get("entries", [])),
             "delivery_status": _delivery_status(flt(o.get("per_delivered"))),
+            "invoice_status": _invoice_status(flt(o.get("per_billed"))),
+            "return_status": _return_status(
+                bool(return_map.get(so)),
+                bool(return_map.get(so)) and flt(o.get("per_delivered")) <= 0,
+            ),
+            "return_notes": sorted(return_map.get(so, {}).get("notes", [])),
+            "reservation_status": _reservation_status(*reserved_map.get(so, (0.0, 0.0))),
             "overall_status": o.get("status"),
         }
         if show_financials:
@@ -152,6 +214,15 @@ def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEF
             row["payment_status"] = _payment_status(outstanding, grand_total, paid)
         rows.append(row)
 
+    # Derived statuses are computed above, so they are filtered here rather than in SQL.
+    for key in ("delivery_status", "invoice_status", "return_status", "payment_status"):
+        wanted = filters.get(key)
+        if wanted:
+            rows = [r for r in rows if r.get(key) == wanted]
+    if filters.get("overdue_only"):
+        overdue = _overdue_sales_orders([r["sales_order"] for r in rows], si_map)
+        rows = [r for r in rows if r["sales_order"] in overdue]
+
     return {
         "rows": rows,
         "pagination": {"page": page, "page_size": page_size, "total": total,
@@ -160,6 +231,27 @@ def get_wholesale_transactions(filters=None, page: int = 1, page_size: int = DEF
         "transaction_id_field_present": has_txn,
         "columns": _register_columns(show_financials),
     }
+
+
+def _overdue_sales_orders(so_names: list[str], si_map: dict) -> set[str]:
+    """Orders whose invoices are past due and still outstanding."""
+    if not so_names:
+        return set()
+    overdue: set[str] = set()
+    for so in so_names:
+        invoices = si_map.get(so) or []
+        if not invoices:
+            continue
+        past_due = frappe.get_all(
+            "Sales Invoice",
+            filters={"name": ["in", sorted(invoices)], "docstatus": 1,
+                     "outstanding_amount": [">", 0.01],
+                     "due_date": ["<", frappe.utils.nowdate()]},
+            limit=1,
+        )
+        if past_due:
+            overdue.add(so)
+    return overdue
 
 
 def _register_columns(show_financials: bool) -> list[dict]:
