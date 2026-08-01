@@ -200,3 +200,16 @@
 .smj-credit-dialog__facts dt,.smj-credit-dialog__facts dd{margin:0}
 .smj-credit-dialog__facts dd{font-weight:700}
 .smj-credit-dialog__note{margin:0;color:var(--ref-secondary-text);font-size:12px}
+
+/* Single customer field on Smart Sales: type to search, pick from the list. */
+.smj-customer-picker{position:relative}
+.smj-customer-picker__control{position:relative;display:block}
+.smj-customer-picker__control input{width:100%;padding-right:32px}
+.smj-customer-picker__clear{position:absolute;top:50%;right:6px;width:24px;height:24px;padding:0;transform:translateY(-50%);border:0;border-radius:6px;background:transparent;color:var(--ref-secondary-text);font-size:17px;line-height:1;cursor:pointer}
+.smj-customer-picker__clear:hover{background:var(--ref-blue-background);color:var(--ref-primary-text)}
+.smj-customer-picker__list{position:absolute;z-index:60;top:calc(100% + 4px);right:0;left:0;max-height:264px;margin:0;padding:5px;overflow-y:auto;border:1px solid var(--ref-border-colour);border-radius:10px;background:#fff;box-shadow:0 16px 34px rgba(23,32,51,.18);list-style:none}
+.smj-customer-picker__list li{display:grid;gap:1px;padding:8px 10px;border-radius:7px;cursor:pointer}
+.smj-customer-picker__list li.is-active{background:var(--ref-blue-background)}
+.smj-customer-picker__list li.is-state{color:var(--ref-secondary-text);font-size:12px;cursor:default}
+.smj-customer-picker__list strong{font-size:13px;font-weight:700}
+.smj-customer-picker__list small{color:var(--ref-secondary-text);font-size:11px}

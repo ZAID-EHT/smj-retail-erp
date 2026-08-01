@@ -111,16 +111,92 @@ function schedule() {
   timer = setTimeout(load, 300);
 }
 
+/* Single customer field: typing searches, the list shows the closest matches, and
+   choosing one sets the customer. There is no separate "choose customer" select. */
+const suggestionsOpen = ref(false);
+const customerLoading = ref(false);
+const activeSuggestion = ref(0);
+let customerTimer;
+let blurTimer;
+
 async function findCustomers() {
-  if (customerSearch.value.trim().length < 2) {
+  const term = customerSearch.value.trim();
+  if (term.length < 2) {
     customers.value = [];
+    customerLoading.value = false;
     return;
   }
+  customerLoading.value = true;
   try {
-    customers.value = await searchSmartCustomers(customerSearch.value, controller?.signal);
+    customers.value = await searchSmartCustomers(term, controller?.signal);
+    activeSuggestion.value = 0;
   } catch (caught) {
-    error.value = caught;
+    if (caught.name !== "AbortError") customers.value = [];
+  } finally {
+    customerLoading.value = false;
   }
+}
+
+function onCustomerInput() {
+  suggestionsOpen.value = true;
+  // The chosen customer is only cleared once the text no longer matches it, so
+  // editing the text does not silently drop the selection mid-keystroke.
+  if (customer.value && customerSearch.value !== selectedLabel()) {
+    customer.value = "";
+    credit.value = null;
+  }
+  window.clearTimeout(customerTimer);
+  customerTimer = window.setTimeout(findCustomers, 250);
+}
+
+function onCustomerFocus() {
+  suggestionsOpen.value = true;
+  if (customerSearch.value.trim().length >= 2 && !customers.value.length) findCustomers();
+}
+
+function closeSuggestionsSoon() {
+  // Delay so a click on an option is registered before the list closes.
+  blurTimer = window.setTimeout(() => { suggestionsOpen.value = false; }, 120);
+}
+
+function selectedLabel() {
+  const row = customers.value.find((c) => c.name === customer.value);
+  return row ? row.customer_name : customerSearch.value;
+}
+
+function pickCustomer(row) {
+  window.clearTimeout(blurTimer);
+  customer.value = row.name;
+  customerSearch.value = row.customer_name;
+  suggestionsOpen.value = false;
+  // watch(customer, onCustomerChange) reloads pricing, credit and the catalogue.
+}
+
+function clearCustomer() {
+  window.clearTimeout(blurTimer);
+  customer.value = "";
+  customerSearch.value = "";
+  customers.value = [];
+  credit.value = null;
+  suggestionsOpen.value = false;
+}
+
+function onCustomerKeydown(event) {
+  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    if (!suggestionsOpen.value) suggestionsOpen.value = true;
+    if (!customers.value.length) return;
+    event.preventDefault();
+    const step = event.key === "ArrowDown" ? 1 : -1;
+    const count = customers.value.length;
+    activeSuggestion.value = (activeSuggestion.value + step + count) % count;
+    return;
+  }
+  if (event.key === "Enter" && suggestionsOpen.value && customers.value.length) {
+    event.preventDefault();
+    pickCustomer(customers.value[activeSuggestion.value]);
+    return;
+  }
+  if (event.key === "Escape") suggestionsOpen.value = false;
 }
 
 // Authoritative repricing + stock re-check through the backend pricing engine.
@@ -237,14 +313,12 @@ const sourceLabels = {
 };
 
 watch([group, warehouse, priceList], load);
-watch(customerSearch, () => {
-  clearTimeout(timer);
-  timer = setTimeout(findCustomers, 300);
-});
 watch(customer, onCustomerChange);
 load();
 onBeforeUnmount(() => {
   clearTimeout(timer);
+  window.clearTimeout(customerTimer);
+  window.clearTimeout(blurTimer);
   controller?.abort();
 });
 </script>
@@ -348,16 +422,52 @@ onBeforeUnmount(() => {
           <span v-if="selectedCustomer" class="rug-value-badge">{{ selectedCustomer.customer_name }}</span>
         </header>
         <div class="priority-sales-controls">
-          <label>
-            <span>Find customer</span>
-            <input v-model="customerSearch" type="search" placeholder="Name, mobile or customer ID…" autocomplete="off" />
-          </label>
-          <label>
+          <label class="smj-customer-picker">
             <span>Customer</span>
-            <select v-model="customer">
-              <option value="">Choose customer</option>
-              <option v-for="row in customers" :key="row.name" :value="row.name">{{ row.customer_name }} · {{ row.name }}</option>
-            </select>
+            <span class="smj-customer-picker__control">
+              <input
+                v-model="customerSearch"
+                type="text"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="smj-customer-options"
+                :aria-expanded="suggestionsOpen"
+                :placeholder="customerSelected ? '' : 'Start typing a name, mobile or customer ID…'"
+                autocomplete="off"
+                @input="onCustomerInput"
+                @focus="onCustomerFocus"
+                @keydown="onCustomerKeydown"
+                @blur="closeSuggestionsSoon"
+              />
+              <button
+                v-if="customerSelected || customerSearch"
+                type="button"
+                class="smj-customer-picker__clear"
+                aria-label="Clear customer"
+                @mousedown.prevent="clearCustomer"
+              >&times;</button>
+            </span>
+
+            <ul v-if="suggestionsOpen" id="smj-customer-options" class="smj-customer-picker__list" role="listbox">
+              <li v-if="customerLoading" class="is-state">Searching&hellip;</li>
+              <li v-else-if="!customers.length" class="is-state">
+                {{ customerSearch.trim().length < 2 ? "Keep typing to search customers." : "No matching customer." }}
+              </li>
+              <template v-else>
+                <li
+                  v-for="(row, index) in customers"
+                  :key="row.name"
+                  role="option"
+                  :aria-selected="index === activeSuggestion"
+                  :class="index === activeSuggestion && 'is-active'"
+                  @mousedown.prevent="pickCustomer(row)"
+                  @mousemove="activeSuggestion = index"
+                >
+                  <strong>{{ row.customer_name }}</strong>
+                  <small>{{ row.name }}<template v-if="row.mobile_no"> &middot; {{ row.mobile_no }}</template></small>
+                </li>
+              </template>
+            </ul>
           </label>
           <label>
             <span>Warehouse</span>
