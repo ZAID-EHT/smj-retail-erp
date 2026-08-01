@@ -127,7 +127,13 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		"Item",
 		filters=filters,
 		or_filters=or_filters,
-		fields=["name", "item_code", "item_name", "image", "brand", "item_group", "description", "stock_uom", "is_stock_item"],
+		fields=[
+			"name", "item_code", "item_name", "image", "brand", "item_group", "description",
+			"stock_uom", "is_stock_item",
+			# Reference only on the catalogue card: a wholesale customer may order
+			# below a full carton, so this never gates the order.
+			"custom_carton_qty as carton_qty",
+		],
 		order_by="modified desc",
 		limit_start=(page - 1) * page_length,
 		limit_page_length=page_length,

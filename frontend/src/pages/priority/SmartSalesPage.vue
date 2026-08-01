@@ -283,6 +283,13 @@ onBeforeUnmount(() => {
         </article>
       </section>
 
+      <!-- Required by the business: a plain red warning until a customer is chosen.
+           It disappears the moment a valid customer is selected. -->
+      <div v-if="!customerSelected" class="smj-sales-customer-required" role="alert">
+        <strong>Select a customer before you start this sale.</strong>
+        <span>Prices, credit limits and stock availability all depend on the customer.</span>
+      </div>
+
       <section class="rug-section-card smj-sale-context">
         <header>
           <div><h2>Sale setup</h2><p>Customer, warehouse and pricing context for this order.</p></div>
@@ -366,6 +373,11 @@ onBeforeUnmount(() => {
                 <small>Actual <b>{{ Number(item.actual_qty ?? 0) }}</b></small>
                 <small>Reserved <b>{{ Number(item.reserved_qty ?? 0) }}</b></small>
               </span>
+              <!-- Carton size is shown for reference only. Wholesale customers may
+                   order below a full carton, so this never gates the order. -->
+              <small v-if="Number(item.carton_qty || 0) > 1" class="smj-carton-note">
+                Carton = {{ Number(item.carton_qty) }} {{ item.stock_uom }}
+              </small>
               <span class="smj-product-add">{{ outOfStock(item) ? "Unavailable" : "+ Add to cart" }}</span>
             </button>
           </div>

@@ -94,3 +94,10 @@
 .smj-stock-badge{position:absolute;top:8px;right:8px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.02em}
 .smj-stock-badge--out{background:var(--ref-danger,#c0392b);color:#fff}
 .smj-cart-source{display:block;color:var(--ref-success,#14a85a);font-size:9px;font-style:normal;margin-top:2px}
+
+/* Customer-required warning on Smart Sales. Red, plain and unmissable, shown until
+   a customer is selected because pricing, credit and availability all depend on it. */
+.smj-sales-customer-required{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin:6px 0 2px;padding:10px 14px;border:1px solid var(--ref-danger);border-left:4px solid var(--ref-danger);border-radius:8px;background:color-mix(in srgb,var(--ref-danger),white 92%);color:var(--ref-primary-text);font-size:12px}
+.smj-sales-customer-required strong{color:var(--ref-danger);font-weight:800}
+.smj-sales-customer-required span{color:var(--ref-secondary-text)}
+.smj-carton-note{color:var(--ref-secondary-text);font-size:10px;font-weight:700}
