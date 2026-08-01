@@ -7,6 +7,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt, nowdate
 
+from my_store_ui.wholesale import idempotency
 from my_store_ui.wholesale.uom import conversion_factor
 
 
@@ -361,12 +362,11 @@ def create_draft_sales_order(payload: str | dict):
 	if not isinstance(data, dict):
 		frappe.throw(_("Invalid sales order request."))
 
-	request_id = (data.get("request_id") or "").strip()
-	if not request_id or len(request_id) > 80:
-		frappe.throw(_("A valid request ID is required."))
-	cache_key = f"my_store_ui:sales_order:{frappe.session.user}:{request_id}"
-	existing = frappe.cache.get_value(cache_key)
-	if existing and frappe.db.exists("Sales Order", existing):
+	# Idempotency is database-backed: a lost cache key must never let a retried
+	# request create a second order for the same click.
+	request_id = idempotency.normalise(data.get("request_id"), required=True)
+	existing = idempotency.find_existing("Sales Order", request_id)
+	if existing:
 		return {"name": existing, "route": f"/sales/orders/{existing}", "duplicate": True}
 
 	customer = (data.get("customer") or "").strip()
@@ -436,8 +436,9 @@ def create_draft_sales_order(payload: str | dict):
 		)
 
 	# ERPNext fetches item defaults, rates, taxes and totals during insertion.
+	idempotency.stamp(order, request_id)
 	order.insert()
-	frappe.cache.set_value(cache_key, order.name, expires_in_sec=3600)
+	idempotency.remember("Sales Order", request_id, order.name)
 	return {"name": order.name, "route": f"/sales/orders/{order.name}", "duplicate": False}
 
 

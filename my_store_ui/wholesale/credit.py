@@ -16,6 +16,9 @@ CREDIT_TYPE_FIELD = "custom_credit_type"
 CREDIT_CUSTOMER = "Credit Customer"
 NON_CREDIT_CUSTOMER = "Non-Credit Customer"
 
+# Currency rounding slack: a payment short by less than this is treated as settled.
+TOLERANCE = 0.01
+
 
 def _has_credit_type_field() -> bool:
     return bool(frappe.get_meta("Customer").get_field(CREDIT_TYPE_FIELD))
@@ -72,12 +75,16 @@ def get_customer_credit_status(customer: str, company: str | None = None):
 
 def decide_delivery_gate(credit_type: str | None, has_overdue: bool, credit_limit: float,
                          current_outstanding: float, incremental_amount: float = 0.0,
-                         field_present: bool = True) -> dict:
+                         field_present: bool = True, paid_amount: float | None = None,
+                         order_total: float | None = None) -> dict:
     """Pure decision for the delivery-before-payment gate (no DB access).
 
     Rules (approved):
     - Type unset: a manager must classify the customer.
-    - Non-Credit: dispatch requires full payment (not allowed on credit here).
+    - Non-Credit: dispatch requires payment covering the order. When the caller
+      supplies the paid/ordered pair, sufficient payment releases the delivery and
+      a shortfall is overridable by a manager. Without that pair the answer stays
+      the conservative "payment required".
     - Credit + overdue: requires manager approval.
     - Credit + would exceed limit: requires manager approval.
     - Credit within limit and not overdue: allowed.
@@ -86,8 +93,17 @@ def decide_delivery_gate(credit_type: str | None, has_overdue: bool, credit_limi
         return {"allowed": False, "requires_manager_approval": True,
                 "reason": _("Customer credit type is not set; a manager must classify the customer.")}
     if credit_type == NON_CREDIT_CUSTOMER:
-        return {"allowed": False, "requires_manager_approval": False,
-                "reason": _("Non-Credit customer: full payment is required before dispatch.")}
+        if paid_amount is None or order_total is None:
+            return {"allowed": False, "requires_manager_approval": False,
+                    "reason": _("Non-Credit customer: full payment is required before dispatch.")}
+        shortfall = flt(order_total) - flt(paid_amount)
+        if shortfall > TOLERANCE:
+            return {"allowed": False, "requires_manager_approval": True,
+                    "shortfall": shortfall,
+                    "reason": _("Non-Credit customer: {0} of {1} is still unpaid.").format(
+                        shortfall, flt(order_total))}
+        return {"allowed": True, "requires_manager_approval": False, "shortfall": 0.0,
+                "reason": _("Non-Credit customer: payment received in full.")}
     if has_overdue:
         return {"allowed": False, "requires_manager_approval": True,
                 "reason": _("Customer has overdue invoices; a manager must approve credit delivery.")}
@@ -99,15 +115,60 @@ def decide_delivery_gate(credit_type: str | None, has_overdue: bool, credit_limi
             "reason": _("Within credit limit and not overdue.")}
 
 
-def evaluate_delivery_gate(customer: str, company: str | None, incremental_amount: float = 0.0) -> dict:
+def evaluate_delivery_gate(customer: str, company: str | None, incremental_amount: float = 0.0,
+                           paid_amount: float | None = None, order_total: float | None = None) -> dict:
     """Authoritative server-side delivery gate for a customer (reads real balances)."""
     status = get_customer_credit_status(customer, company)
     decision = decide_delivery_gate(
         credit_type=status["credit_type"], has_overdue=status["has_overdue"],
         credit_limit=flt(status["credit_limit"]), current_outstanding=flt(status["current_outstanding"]),
         incremental_amount=incremental_amount, field_present=status["credit_type_field_present"],
+        paid_amount=paid_amount, order_total=order_total,
     )
     decision["status"] = status
+    return decision
+
+
+def sales_order_paid_amount(sales_order: str) -> float:
+    """Payment actually received against one Sales Order.
+
+    Counts submitted Payment Entry allocations to the order itself plus allocations
+    to Sales Invoices raised from it, so an advance and a post-invoice receipt are
+    both recognised. Read-only -- outstanding figures are never written here.
+    """
+    paid = flt(frappe.db.get_value(
+        "Payment Entry Reference",
+        {"reference_doctype": "Sales Order", "reference_name": sales_order, "docstatus": 1},
+        "sum(allocated_amount)",
+    ))
+    invoices = frappe.get_all(
+        "Sales Invoice Item",
+        filters={"sales_order": sales_order, "docstatus": 1},
+        pluck="parent",
+        distinct=True,
+    )
+    for invoice in set(invoices):
+        paid += flt(frappe.db.get_value(
+            "Payment Entry Reference",
+            {"reference_doctype": "Sales Invoice", "reference_name": invoice, "docstatus": 1},
+            "sum(allocated_amount)",
+        ))
+    return flt(paid)
+
+
+def evaluate_sales_order_delivery_gate(sales_order: str) -> dict:
+    """Delivery gate for one Sales Order, with its real payment position."""
+    order = frappe.get_doc("Sales Order", sales_order)
+    total = flt(order.grand_total)
+    paid = sales_order_paid_amount(sales_order)
+    decision = evaluate_delivery_gate(
+        customer=order.customer, company=order.company,
+        incremental_amount=max(total - paid, 0.0), paid_amount=paid, order_total=total,
+    )
+    decision["sales_order"] = sales_order
+    decision["order_total"] = total
+    decision["paid_amount"] = paid
+    decision["unpaid_amount"] = max(total - paid, 0.0)
     return decision
 
 

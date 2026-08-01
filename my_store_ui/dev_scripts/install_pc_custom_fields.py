@@ -41,16 +41,49 @@ CUSTOMER_FIELDS = [
 	{"fieldname": "custom_credit_days", "label": "Credit Days", "fieldtype": "Int", "insert_after": "custom_credit_type"},
 ]
 
+TRANSPORT_OPTIONS = "\nCustomer Pickup\nCompany Delivery\nOwn Vehicle\nCourier\nThird-Party Transport\nOther"
+
+# The dispatch documents carry their own transport details: the customer master
+# holds the default, the document records what actually happened.
+DELIVERY_NOTE_FIELDS = [
+	{"fieldname": "custom_transport_method", "label": "Transport Method", "fieldtype": "Select",
+	 "options": TRANSPORT_OPTIONS, "insert_after": "driver_name"},
+	{"fieldname": "custom_transport_detail", "label": "Transport Detail", "fieldtype": "Small Text",
+	 "insert_after": "custom_transport_method"},
+]
+
+# Idempotency key for create-document endpoints. Held in the database, not the
+# cache: a lost cache key would otherwise let a retried request dispatch the same
+# goods twice. no_copy so amending never inherits a used key.
+REQUEST_ID_FIELD = {
+	"fieldname": "custom_request_id", "label": "Client Request ID", "fieldtype": "Data",
+	"read_only": 1, "no_copy": 1, "print_hide": 1, "search_index": 1,
+	"description": "Idempotency key from the originating request.",
+}
+
 
 def run():
 	frappe.set_user("Administrator")
 	if frappe.local.site not in ALLOWED:
 		raise RuntimeError(f"refusing on {frappe.local.site!r}; allowlisted sites only")
-	create_custom_fields({"Item": ITEM_FIELDS, "Customer": CUSTOMER_FIELDS}, ignore_validate=True)
-
+	request_id_targets = ["Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry",
+	                      "Purchase Order", "Purchase Receipt", "Purchase Invoice"]
+	fields = {
+		"Item": ITEM_FIELDS,
+		"Customer": CUSTOMER_FIELDS,
+		"Delivery Note": list(DELIVERY_NOTE_FIELDS),
+	}
+	for doctype in request_id_targets:
+		fields.setdefault(doctype, [])
+		fields[doctype] = list(fields[doctype]) + [dict(REQUEST_ID_FIELD)]
+	create_custom_fields(fields, ignore_validate=True)
 
 	frappe.db.commit()
 	meta = frappe.get_meta("Item", cached=False)
 	cust = frappe.get_meta("Customer", cached=False)
+	note = frappe.get_meta("Delivery Note", cached=False)
 	print("Item fields ok:", all(meta.get_field(f["fieldname"]) for f in ITEM_FIELDS))
 	print("Customer fields ok:", all(cust.get_field(f["fieldname"]) for f in CUSTOMER_FIELDS))
+	print("Delivery Note fields ok:", all(note.get_field(f["fieldname"]) for f in DELIVERY_NOTE_FIELDS))
+	print("Request ID fields ok:", all(
+		frappe.get_meta(dt, cached=False).get_field("custom_request_id") for dt in request_id_targets))
