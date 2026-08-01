@@ -190,3 +190,13 @@
 .rug-table-region tr.is-critical td{color:var(--ref-danger)}
 .rug-table-region td.is-out{color:var(--ref-danger);font-weight:700}
 .rug-table-region td.is-in{color:var(--ref-success);font-weight:700}
+
+/* Credit-limit prompt on Smart Sales */
+.smj-credit-dialog{width:min(520px,100%)}
+.smj-credit-dialog__lead{margin:0 0 12px;color:var(--ref-danger);font-size:13px;font-weight:700}
+.smj-credit-dialog__facts{display:grid;gap:6px;margin:0 0 12px}
+.smj-credit-dialog__facts>div{display:flex;justify-content:space-between;gap:12px;padding:7px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;font-size:12px}
+.smj-credit-dialog__facts>div.is-danger{border-color:var(--ref-danger);color:var(--ref-danger);font-weight:700}
+.smj-credit-dialog__facts dt,.smj-credit-dialog__facts dd{margin:0}
+.smj-credit-dialog__facts dd{font-weight:700}
+.smj-credit-dialog__note{margin:0;color:var(--ref-secondary-text);font-size:12px}

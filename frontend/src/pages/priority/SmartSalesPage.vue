@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import {
@@ -61,6 +61,18 @@ const cartRows = computed(() => Object.values(cart));
 const cartQuantity = computed(() => cartRows.value.reduce((sum, row) => sum + Number(row.qty || 0), 0));
 const total = computed(() => cartRows.value.reduce((sum, row) => sum + Number(row.qty) * Number(row.rate || 0), 0));
 const selectedCustomer = computed(() => customers.value.find((row) => row.name === customer.value));
+
+/* Credit gate. A Credit Customer whose available credit cannot cover this cart is
+   prompted to clear pending dues before the order is created. The server enforces
+   the same rule -- this only explains it before the user hits Create. */
+const creditShortfall = computed(() => {
+  const status = credit.value;
+  if (!status || !status.is_credit_customer) return 0;
+  if (status.available_credit === null || status.available_credit === undefined) return 0;
+  return Math.max(total.value - Number(status.available_credit || 0), 0);
+});
+const creditBlocked = computed(() => creditShortfall.value > 0 || !!credit.value?.has_overdue);
+const showCreditPrompt = ref(false);
 const stockSummary = computed(() => (data.value?.items || []).reduce(
   (summary, item) => ({
     actual: summary.actual + Number(item.actual_qty || 0),
@@ -189,6 +201,11 @@ async function onCustomerChange() {
 
 async function save() {
   if (saving.value) return;
+  // Credit customers over their limit (or in arrears) are prompted to clear dues.
+  if (creditBlocked.value && !showCreditPrompt.value) {
+    showCreditPrompt.value = true;
+    return;
+  }
   if (!customer.value || !warehouse.value || !cartRows.value.length) {
     error.value = new Error("Choose a customer and warehouse, then add at least one product.");
     return;
@@ -282,6 +299,41 @@ onBeforeUnmount(() => {
           <div><small>Available to sell</small><strong>{{ stockSummary.available.toLocaleString() }}</strong><em>Actual minus reserved</em></div>
         </article>
       </section>
+
+      <!-- Credit customer over limit or in arrears: prompt to clear dues first. -->
+      <div v-if="showCreditPrompt" class="smj-print-modal" role="dialog" aria-modal="true" aria-labelledby="smj-credit-title" @click.self="showCreditPrompt = false">
+        <section class="smj-credit-dialog">
+          <header>
+            <div>
+              <h2 id="smj-credit-title">Credit limit reached</h2>
+              <p>{{ selectedCustomer?.customer_name || customer }}</p>
+            </div>
+            <button type="button" class="smj-print-modal__close" aria-label="Close" @click="showCreditPrompt = false">×</button>
+          </header>
+          <div class="smj-print-modal__body">
+            <p class="smj-credit-dialog__lead">
+              Pending dues must be cleared before new credit entries can be made for this customer.
+            </p>
+            <dl class="smj-credit-dialog__facts">
+              <div><dt>Outstanding</dt><dd>{{ data?.currency }} {{ Number(credit?.current_outstanding || 0).toLocaleString() }}</dd></div>
+              <div v-if="credit?.credit_limit"><dt>Credit limit</dt><dd>{{ Number(credit.credit_limit).toLocaleString() }}</dd></div>
+              <div v-if="credit?.available_credit !== null"><dt>Available credit</dt><dd>{{ Number(credit?.available_credit || 0).toLocaleString() }}</dd></div>
+              <div><dt>This order</dt><dd>{{ Number(total).toLocaleString() }}</dd></div>
+              <div v-if="creditShortfall > 0" class="is-danger"><dt>Short by</dt><dd>{{ Number(creditShortfall).toLocaleString() }}</dd></div>
+              <div v-if="credit?.has_overdue" class="is-danger"><dt>Overdue</dt><dd>{{ Number(credit?.overdue_amount || 0).toLocaleString() }}</dd></div>
+            </dl>
+            <p class="smj-credit-dialog__note">
+              Record a payment against the outstanding invoices, or ask a manager to approve this order.
+            </p>
+          </div>
+          <footer>
+            <span class="smj-print-modal__actions">
+              <button type="button" @click="showCreditPrompt = false">Back to cart</button>
+              <RouterLink class="rug-primary priority-button-link" :to="`/finance/payments/receive/new?party=${encodeURIComponent(customer)}`">Record payment</RouterLink>
+            </span>
+          </footer>
+        </section>
+      </div>
 
       <!-- Required by the business: a plain red warning until a customer is chosen.
            It disappears the moment a valid customer is selected. -->
