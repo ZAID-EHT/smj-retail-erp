@@ -1290,9 +1290,19 @@
   border-bottom: 1px solid var(--ref-divider-colour);
 }
 
+/* Sale setup holds three controls now (Customer, Warehouse, Price List) -- the
+   old four-column track left the customer field mis-sized after the separate
+   "Find customer" box was merged into it. */
 .smj-sale-context .priority-sales-controls {
-  grid-template-columns: 1.25fr 1.25fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr;
   margin-top: 15px;
+}
+
+/* The customer suggestion list is absolutely positioned inside this card. Raise
+   the whole card so the list paints in front of the cards that follow it. */
+.smj-sale-context {
+  position: relative;
+  z-index: 20;
 }
 
 .smj-credit-heading { display: inline-flex; align-items: center; gap: 6px; color: var(--ref-primary-text); }

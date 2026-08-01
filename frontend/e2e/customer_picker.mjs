@@ -94,6 +94,47 @@ try {
   await page.waitForTimeout(1500);
   check("keyboard selection works", (await combo.inputValue()).length > 0);
 
+  // 6. Visual consistency: the customer input must match the Warehouse select.
+  const metrics = await page.evaluate(() => {
+    const input = document.querySelector('.smj-customer-picker__control input');
+    const select = document.querySelector('.priority-sales-controls select');
+    if (!input || !select) return null;
+    const a = input.getBoundingClientRect(), b = select.getBoundingClientRect();
+    const ca = getComputedStyle(input), cb = getComputedStyle(select);
+    return {
+      inH: Math.round(a.height), selH: Math.round(b.height),
+      inFont: ca.fontSize, selFont: cb.fontSize,
+      inRadius: ca.borderRadius, selRadius: cb.borderRadius,
+    };
+  });
+  if (metrics) {
+    check("customer input height matches the select", metrics.inH === metrics.selH,
+      `${metrics.inH}px vs ${metrics.selH}px`);
+    check("font size matches", metrics.inFont === metrics.selFont,
+      `${metrics.inFont} vs ${metrics.selFont}`);
+    check("corner radius matches", metrics.inRadius === metrics.selRadius,
+      `${metrics.inRadius} vs ${metrics.selRadius}`);
+  } else {
+    check("control metrics readable", false, "input or select not found");
+  }
+
+  // 7. The suggestion list must paint in FRONT of the card below it.
+  await combo.click();
+  await combo.fill("");
+  await combo.type(TERM, { delay: 60 });
+  await page.waitForTimeout(1400);
+  const front = await page.evaluate(() => {
+    const list = document.querySelector('#smj-customer-options');
+    if (!list) return { ok: false, why: "list not rendered" };
+    const r = list.getBoundingClientRect();
+    if (r.height < 5) return { ok: false, why: "list has no height" };
+    const x = r.left + r.width / 2;
+    const y = r.top + Math.min(r.height - 4, 30);
+    const top = document.elementFromPoint(x, y);
+    return { ok: !!top && list.contains(top), why: top ? (top.className || top.tagName) : "nothing" };
+  });
+  check("suggestion list paints in front of the next card", front.ok, String(front.why));
+
   check("no console errors", consoleErrors.length === 0, consoleErrors[0] || "");
   await page.close();
   await ctx.close();

@@ -201,10 +201,15 @@
 .smj-credit-dialog__facts dd{font-weight:700}
 .smj-credit-dialog__note{margin:0;color:var(--ref-secondary-text);font-size:12px}
 
-/* Single customer field on Smart Sales: type to search, pick from the list. */
+/* Single customer field on Smart Sales: type to search, pick from the list.
+   The input must be visually identical to the Warehouse/Price List selects beside
+   it -- same height, font and padding -- so the row does not look mismatched. */
 .smj-customer-picker{position:relative}
 .smj-customer-picker__control{position:relative;display:block}
-.smj-customer-picker__control input{width:100%;padding-right:32px}
+.priority-sales-controls .smj-customer-picker__control input{width:100%;min-height:38px;height:38px;padding:8px 32px 8px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-primary-text);font:inherit;font-size:13px;line-height:1.2}
+/* Match the selects in the same row to the same metrics. */
+.priority-sales-controls select,.priority-sales-controls input{min-height:38px;height:38px;font-size:13px;line-height:1.2}
+.smj-customer-picker__control input::placeholder{color:var(--ref-muted-text);font-size:12px}
 .smj-customer-picker__clear{position:absolute;top:50%;right:6px;width:24px;height:24px;padding:0;transform:translateY(-50%);border:0;border-radius:6px;background:transparent;color:var(--ref-secondary-text);font-size:17px;line-height:1;cursor:pointer}
 .smj-customer-picker__clear:hover{background:var(--ref-blue-background);color:var(--ref-primary-text)}
 .smj-customer-picker__list{position:absolute;z-index:60;top:calc(100% + 4px);right:0;left:0;max-height:264px;margin:0;padding:5px;overflow-y:auto;border:1px solid var(--ref-border-colour);border-radius:10px;background:#fff;box-shadow:0 16px 34px rgba(23,32,51,.18);list-style:none}
