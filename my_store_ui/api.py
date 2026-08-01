@@ -372,7 +372,15 @@ def create_draft_sales_order(payload: str | dict):
 	customer = (data.get("customer") or "").strip()
 	company = (data.get("company") or _default_company() or "").strip()
 	warehouse = (data.get("warehouse") or "").strip()
-	price_list = (data.get("price_list") or _default_price_list() or "Standard Selling").strip()
+	# The customer's Price Category wins, exactly as it does in get_cart_pricing --
+	# otherwise the order would price against the site default and quote a different
+	# rate from the one the cart just showed.
+	price_list = (
+		_customer_price_list(customer)
+		or (data.get("price_list") or "").strip()
+		or _default_price_list()
+		or "Standard Selling"
+	).strip()
 	_validate_link("Customer", customer, {"disabled": 0})
 	_validate_link("Company", company)
 	_validate_link("Warehouse", warehouse, {"company": company, "disabled": 0, "is_group": 0})
