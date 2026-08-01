@@ -627,6 +627,34 @@
   background: color-mix(in srgb, var(--ref-accent), transparent 92%);
 }
 
+/* The banner decoration is absolutely positioned and paints over the header's
+   action area. Where a page renders its create button as a direct child of the
+   banner (rather than inside .rug-banner-actions, which carries z-index:1) the
+   circle intercepted the click and the button did nothing -- the "New Supplier /
+   Add New Lead / New Quotation does not work" reports. Decoration must never be
+   a click target, and the actions must always sit above it. */
+.ref-entity-page__header::before,
+.ref-entity-page__header::after,
+.ref-detail-header::before,
+.ref-detail-header::after,
+.rug-banner::before,
+.rug-banner::after,
+.ru-page__header::before,
+.ru-page__header::after {
+  pointer-events: none;
+}
+
+.rug-banner > button,
+.rug-banner > a,
+.rug-banner > .rug-primary,
+.ref-entity-page__header > button,
+.ref-entity-page__header > a,
+.ru-page__header > button,
+.ru-page__header > a {
+  position: relative;
+  z-index: 1;
+}
+
 .rug-banner--blue { --ref-accent: var(--ref-module-home); }
 .rug-banner--green { --ref-accent: var(--ref-module-sales); }
 .rug-banner--purple { --ref-accent: var(--ref-module-purchases); }
