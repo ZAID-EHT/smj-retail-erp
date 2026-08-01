@@ -450,6 +450,16 @@ def create_draft_sales_order(payload: str | dict):
 	return {"name": order.name, "route": f"/sales/orders/{order.name}", "duplicate": False}
 
 
+def _linked_record_permitted(doctype: str, name: str | None) -> bool:
+	"""Readable and present. A link to a record that is not installed is dropped."""
+	if not name or not frappe.db.exists(doctype, name):
+		return False
+	try:
+		return bool(frappe.has_permission(doctype, "read", doc=name))
+	except frappe.DoesNotExistError:
+		return False
+
+
 def get_navigation():
 	sections = [
 		("Sales", "#1463E6", [("Smart Sales", "/app/smart-sales", "Page", "smart-sales"), ("POS Awesome", "/app/posapp", "Page", "posapp"), ("Customers", "/app/customer", "Customer", None), ("Sales Orders", "/app/sales-order", "Sales Order", None), ("Sales Invoices", "/app/sales-invoice", "Sales Invoice", None)]),
@@ -467,11 +477,11 @@ def get_navigation():
 		for link_label, route, doctype, document in links:
 			if doctype is None:
 				allowed.append({"label": link_label, "route": route})
-			elif doctype == "Page":
-				if frappe.has_permission("Page", "read", doc=document):
-					allowed.append({"label": link_label, "route": route})
-			elif doctype == "Report":
-				if frappe.has_permission("Report", "read", doc=document):
+			elif doctype in ("Page", "Report"):
+				# These point at optional apps (POS Awesome, extra reports). A missing
+				# record must drop the link, not raise -- has_permission(doc=...) throws
+				# DoesNotExistError, which previously broke the whole bootstrap.
+				if _linked_record_permitted(doctype, document):
 					allowed.append({"label": link_label, "route": route})
 			elif frappe.has_permission(doctype, "read"):
 				allowed.append({"label": link_label, "route": route})

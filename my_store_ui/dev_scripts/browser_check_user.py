@@ -25,7 +25,14 @@ def create():
 		"send_welcome_email": 0, "enabled": 1, "new_password": password,
 	})
 	doc.insert(ignore_permissions=True)
-	doc.append("roles", {"role": "System Manager"})
+	# System Manager is a Frappe role and carries no ERPNext selling/buying rights --
+	# a browser check with only that role sees permission-denied everywhere and proves
+	# nothing. Give the throwaway user the roles a real operator has.
+	for role in ("System Manager", "Sales Manager", "Sales User", "Accounts Manager",
+	             "Stock Manager", "Stock User", "Purchase Manager", "Purchase User",
+	             "Item Manager"):
+		if frappe.db.exists("Role", role):
+			doc.append("roles", {"role": role})
 	doc.save(ignore_permissions=True)
 	frappe.db.commit()
 	# stdout only, so the browser harness can pick it up without persisting it

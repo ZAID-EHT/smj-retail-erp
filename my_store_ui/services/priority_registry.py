@@ -280,7 +280,11 @@ FORM_VARIANTS = {
 
 SPECIAL_ROUTES = {
 	"/sales/funnel": {"module": "sales", "label": "Sales Funnel", "page": "sales-funnel", "classification": "specialised_provisional"},
-	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions", "classification": "register"},
+	# `doctype` is what makes the route guard enforce a permission. Without it the
+	# guard admitted anyone and the page then failed on a 403 from its own API,
+	# which reads Sales Order. The two must require the same thing.
+	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions",
+	                        "doctype": "Sales Order", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},
 	"/inventory/warehouse-capacity": {"module": "inventory", "label": "Warehouse Capacity Summary", "page": "warehouse-capacity-summary", "classification": "specialised_provisional"},
 	"/finance/payment-reconciliation": {"module": "finance", "label": "Payment Reconciliation", "doctype": "Payment Reconciliation", "classification": "specialised_provisional"},
