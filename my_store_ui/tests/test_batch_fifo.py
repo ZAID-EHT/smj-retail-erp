@@ -41,7 +41,7 @@ class TestBatchFifo(unittest.TestCase):
 		try:
 			res = create_product({"product_name": f"FIFO Test {SUFFIX}", "category": self.group,
 			                      "stock_location_1": self.wh, "cost_price": 1000, "wholesale_price": 1200,
-			                      "retail_price": 1500, "department_price": 1350})
+			                      "retail_price": 1500})
 			item = res["name"]
 			it = frappe.get_doc("Item", item)
 			# Force FIFO on the item so the test is deterministic regardless of the site default.

@@ -60,7 +60,7 @@ class TestQuickEntrySecurity(unittest.TestCase):
 	def _base(self, **over):
 		v = {"product_name": f"Sec {uuid.uuid4().hex[:5]}", "category": self.group,
 		     "stock_location_1": self.wh, "cost_price": 1000, "wholesale_price": 1200,
-		     "retail_price": 1500, "department_price": 1350}
+		     "retail_price": 1500}
 		v.update(over)
 		return v
 

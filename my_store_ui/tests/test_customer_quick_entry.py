@@ -78,10 +78,9 @@ class TestCustomerQuickEntry(unittest.TestCase):
 		MADE.append(res["name"])
 		self.assertEqual(get_customer(res["name"])["price_category"], "Retail Price List")
 
-	def test_wholesale_and_department_price_categories(self):
-		for pl in ("Wholesale Price List", "Department Price List"):
-			res = self._create(price_category=pl)
-			self.assertEqual(get_customer(res["name"])["price_category"], pl)
+	def test_wholesale_price_category(self):
+		res = self._create(price_category="Wholesale Price List")
+		self.assertEqual(get_customer(res["name"])["price_category"], "Wholesale Price List")
 
 	def test_buying_price_list_rejected_as_category(self):
 		with self.assertRaises(frappe.ValidationError):
