@@ -174,3 +174,19 @@
 .smj-recon-totals small{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
 .smj-recon-totals strong{font-size:18px;font-weight:800;letter-spacing:-.02em}
 .smj-recon-totals em{color:var(--ref-secondary-text);font-size:10px;font-style:normal}
+
+/* Product form: margin applies live and offers "Set default". */
+.pqf-margin__row{display:flex;align-items:center;gap:8px}
+.pqf-margin__row input{flex:1;min-width:0}
+.pqf-margin__default{padding:7px 10px;border:1px solid var(--ref-primary-blue);border-radius:8px;background:#fff;color:var(--ref-primary-blue);font-size:11px;font-weight:700;white-space:nowrap;cursor:pointer}
+.pqf-margin__default:disabled{opacity:.6;cursor:default}
+.pqf-margin__preview{color:var(--ref-secondary-text);font-size:11px}
+
+/* Warehouse drill-down */
+.smj-wh-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.smj-wh-tabs button{padding:8px 14px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-secondary-text);font-size:12px;font-weight:700;cursor:pointer}
+.smj-wh-tabs button.is-active{border-color:var(--ref-module-sales);background:color-mix(in srgb,var(--ref-module-sales),white 90%);color:var(--ref-module-sales)}
+.rug-table-region tr.is-open{background:var(--ref-blue-background)}
+.rug-table-region tr.is-critical td{color:var(--ref-danger)}
+.rug-table-region td.is-out{color:var(--ref-danger);font-weight:700}
+.rug-table-region td.is-in{color:var(--ref-success);font-weight:700}

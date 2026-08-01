@@ -287,6 +287,9 @@ SPECIAL_ROUTES = {
 	                        "doctype": "Sales Order", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},
 	"/inventory/warehouse-capacity": {"module": "inventory", "label": "Warehouse Capacity Summary", "page": "warehouse-capacity-summary", "classification": "specialised_provisional"},
+	# Warehouse drill-down: item-wise and batch-wise stock inside one warehouse.
+	"/inventory/warehouse-stock": {"module": "inventory", "label": "Warehouse Stock",
+	                               "doctype": "Warehouse", "classification": "register"},
 	"/finance/payment-reconciliation": {"module": "finance", "label": "Payment Reconciliation", "doctype": "Payment Reconciliation", "classification": "specialised_provisional"},
 	"/finance/bank-reconciliation": {"module": "finance", "label": "Bank Reconciliation", "doctype": "Bank Reconciliation Tool", "classification": "specialised_provisional"},
 	"/finance/bank-clearance": {"module": "finance", "label": "Bank Clearance", "doctype": "Bank Clearance", "classification": "specialised_provisional"},

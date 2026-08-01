@@ -4,7 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import ImageUpload from "@/components/forms/ImageUpload.vue";
-import { createProduct, getProduct } from "@/services/productQuickEntry.js";
+import { createProduct, getProduct, getDefaultMargin, saveDefaultMargin } from "@/services/productQuickEntry.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -14,7 +14,7 @@ const form = reactive({
   product_name: "", image: "", image_2: "", size: "", category: "", material: "",
   carton_qty: null, stock_location_1: "", stock_location_2: "", stock_location_3: "",
   restock_qty: null, cost_price: null, margin: null, wholesale_price: null,
-  retail_price: null,
+  retail_price: null, department_price: null,
 });
 const ids = reactive({ product_id: "", sku: "", cost_visible: true, batch: true, created: "" });
 const opts = reactive({ warehouse: [], item_group: [] });
@@ -22,6 +22,44 @@ const error = ref(null);
 const notice = ref(null);
 const loading = reactive({ init: true, saving: false });
 const timers = {};
+
+/* Margin: applies live as the user types (no Enter), with a "Set default" action
+   that stores the percentage for future products. */
+const defaultMargin = ref(null);
+const savingDefault = ref(false);
+
+const showSetDefault = computed(() => {
+  const value = Number(form.margin);
+  return Number.isFinite(value) && value > 0 && value !== defaultMargin.value;
+});
+
+const marginPreview = computed(() => {
+  const cost = Number(form.cost_price);
+  const margin = Number(form.margin);
+  if (!Number.isFinite(cost) || !Number.isFinite(margin) || cost <= 0 || margin <= 0) return "";
+  const suggested = cost * (1 + margin / 100);
+  return `${margin}% on ${cost.toFixed(2)} = ${suggested.toFixed(2)}`;
+});
+
+function applyMargin() {
+  // Recomputation is reactive through marginPreview; this exists so the input
+  // explicitly applies on every keystroke rather than on change/Enter.
+}
+
+async function setDefaultMargin() {
+  const value = Number(form.margin);
+  if (!Number.isFinite(value) || value <= 0) return;
+  savingDefault.value = true;
+  try {
+    await saveDefaultMargin(value);
+    defaultMargin.value = value;
+    notice.value = `Default margin set to ${value}%.`;
+  } catch (err) {
+    error.value = err;
+  } finally {
+    savingDefault.value = false;
+  }
+}
 
 async function loadOpts(kind) {
   try {
@@ -36,6 +74,12 @@ async function init() {
   loading.init = true;
   error.value = null;
   await Promise.all([loadOpts("warehouse"), loadOpts("item_group")]);
+  try {
+    const saved = await getDefaultMargin();
+    defaultMargin.value = saved;
+    // A new product starts from the saved default; editing keeps its own value.
+    if (!editName.value && saved !== null && form.margin === null) form.margin = saved;
+  } catch { defaultMargin.value = null; }
   if (editName.value) {
     try {
       const p = await getProduct(editName.value);
@@ -46,6 +90,7 @@ async function init() {
         stock_location_2: p.stock_location_2 || "", stock_location_3: p.stock_location_3 || "",
         restock_qty: p.restock_qty, cost_price: p.cost_price, margin: p.margin,
         wholesale_price: p.wholesale_price, retail_price: p.retail_price,
+        department_price: p.department_price,
       });
       ids.product_id = p.product_id; ids.sku = p.sku; ids.cost_visible = p.cost_visible;
       ids.batch = p.is_batch_managed; ids.created = p.created;
@@ -128,9 +173,25 @@ init();
           <header><div><h2>Pricing</h2></div></header>
           <div class="rug-form-grid">
             <label v-if="ids.cost_visible"><span>Cost Price (LKR)</span><input v-model.number="form.cost_price" type="number" min="0" step="any" /></label>
-            <label><span>Margin %</span><input v-model.number="form.margin" type="number" min="0" step="any" /></label>
+            <label class="pqf-margin">
+              <span>Margin %</span>
+              <span class="pqf-margin__row">
+                <!-- Applies as you type; no Enter required. -->
+                <input v-model.number="form.margin" type="number" min="0" max="100" step="any" @input="applyMargin" />
+                <button
+                  v-if="showSetDefault"
+                  type="button"
+                  class="pqf-margin__default"
+                  :disabled="savingDefault"
+                  @click="setDefaultMargin"
+                >{{ savingDefault ? "Saving…" : "Set default" }}</button>
+              </span>
+              <small v-if="marginPreview" class="pqf-margin__preview">{{ marginPreview }}</small>
+              <small v-else-if="defaultMargin !== null" class="pqf-margin__preview">Default margin {{ defaultMargin }}%</small>
+            </label>
             <label><span>Wholesale Price (LKR)</span><input v-model.number="form.wholesale_price" type="number" min="0" step="any" /></label>
             <label><span>Retail Price (LKR)</span><input v-model.number="form.retail_price" type="number" min="0" step="any" /></label>
+            <label><span>Department Price (LKR)</span><input v-model.number="form.department_price" type="number" min="0" step="any" /></label>
           </div>
         </section>
 

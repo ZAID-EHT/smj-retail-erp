@@ -55,3 +55,11 @@ export const setPrintFormatDisabled = (params, signal) =>
   call("print_format_admin.set_print_format_disabled", params, { signal, httpMethod: "POST" });
 export const previewPrintFormat = (params, signal) =>
   call("print_format_admin.preview_print_format", params, { signal });
+
+/* Warehouse drill-down */
+export const getWarehouseStock = (params, signal) =>
+  call("warehouse_stock.get_warehouse_stock", params, { signal });
+export const getWarehouseBatches = (params, signal) =>
+  call("warehouse_stock.get_warehouse_batches", params, { signal });
+export const getWarehouseMovements = (params, signal) =>
+  call("warehouse_stock.get_warehouse_movements", params, { signal });

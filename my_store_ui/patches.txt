@@ -5,3 +5,4 @@
 [post_model_sync]
 # Patches added in this section will be executed after doctypes are migrated
 my_store_ui.patches.grant_buying_operator_permissions
+my_store_ui.patches.ensure_department_price_list

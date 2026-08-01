@@ -73,6 +73,7 @@ const ROUTES = [
   { path: "/retail-erp/admin/print-formats", label: "Print Format administration" },
   { path: "/retail-erp/finance/payment-reconciliation", label: "Payment Reconciliation" },
   { path: "/retail-erp/finance/bank-reconciliation", label: "Bank Reconciliation" },
+  { path: "/retail-erp/inventory/warehouse-stock?warehouse=Stores+-+SMJ", label: "Warehouse stock drill-down" },
 ];
 
 const results = [];

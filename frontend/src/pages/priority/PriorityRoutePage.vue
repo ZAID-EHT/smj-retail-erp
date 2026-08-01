@@ -21,6 +21,7 @@ import PriorityTreePage from "@/pages/priority/PriorityTreePage.vue";
 import AccountsWorkspacePage from "@/pages/priority/AccountsWorkspacePage.vue";
 import HendersonAnalysisPage from "@/pages/priority/HendersonAnalysisPage.vue";
 import PrintFormatAdminPage from "@/pages/priority/PrintFormatAdminPage.vue";
+import WarehouseStockPage from "@/pages/priority/WarehouseStockPage.vue";
 import { getPriorityRouteDefinition } from "@/services/priority.js";
 
 const route = useRoute();
@@ -62,6 +63,7 @@ onBeforeUnmount(() => controller?.abort());
   <AccountsWorkspacePage v-else-if="definition?.component === 'accounts_workspace'" />
   <HendersonAnalysisPage v-else-if="definition?.component === 'henderson_analysis'" />
   <PrintFormatAdminPage v-else-if="definition?.component === 'print_format_admin'" />
+  <WarehouseStockPage v-else-if="definition?.component === 'warehouse_stock'" />
   <PaymentReconciliationPage v-else-if="definition?.component === 'payment_reconciliation'" />
   <BankReconciliationPage v-else-if="definition?.component === 'bank_reconciliation'" />
   <BankClearancePage v-else-if="definition?.component === 'bank_clearance'" />

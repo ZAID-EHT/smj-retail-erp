@@ -13,7 +13,15 @@ let controller;
 async function children(parent = "") { return getTreeNodes(route.path, parent || undefined, company.value || undefined, controller?.signal); }
 async function load() { controller?.abort(); controller = new AbortController(); loading.value = true; error.value = null; expanded.value = {}; company.value = String(route.query.company || ""); try { const result = await children(); roots.value = result.nodes; company.value = result.company || ""; } catch (caught) { if (caught.name !== "AbortError") error.value = caught; } finally { loading.value = false; } }
 async function toggle(node) { if (!node.expandable) return; if (expanded.value[node.name]) { const copy = { ...expanded.value }; delete copy[node.name]; expanded.value = copy; return; } try { const result = await children(node.name); expanded.value = { ...expanded.value, [node.name]: result.nodes }; } catch (caught) { error.value = caught; } }
-function open(node) { if (props.definition.base_path) router.push(`${props.definition.base_path}/${encodeURIComponent(node.name)}`); }
+function open(node) {
+  // A warehouse opens its stock drill-down (item-wise / batch-wise / movements),
+  // which is what the requirements ask for; other trees open the record.
+  if (props.definition.doctype === "Warehouse") {
+    router.push({ path: "/inventory/warehouse-stock", query: { warehouse: node.name } });
+    return;
+  }
+  if (props.definition.base_path) router.push(`${props.definition.base_path}/${encodeURIComponent(node.name)}`);
+}
 watch(() => route.path, load, { immediate: true }); onBeforeUnmount(() => controller?.abort());
 </script>
 <template><PageContainer><ErrorState v-if="error && !roots.length" title="Unable to load tree" :message="error.message" @retry="load" /><main v-else class="rug-page"><nav class="rug-breadcrumbs"><RouterLink to="/home">Home</RouterLink><span>›</span><strong>{{ definition.doctype }}</strong></nav><header class="rug-banner rug-banner--green"><div><span class="rug-badge">Tree view</span><h1>{{ definition.doctype }}</h1><p>Browse the permitted hierarchy{{ company ? ` for ${company}` : '' }}.</p></div><div class="rug-banner-actions"><RouterLink v-if="definition.permissions?.can_create && definition.base_path" class="rug-primary priority-button-link" :to="`${definition.base_path}/new`">New {{ definition.doctype }}</RouterLink><button type="button" @click="load">Refresh</button></div></header><section class="rug-section-card priority-tree"><div v-if="loading" class="rug-skeleton"><i v-for="n in 6" :key="n" /></div><div v-else-if="!roots.length" class="rug-empty"><h2>No permitted nodes</h2></div><ul v-else><PriorityTreeNode v-for="node in roots" :key="node.name" :node="node" :children="expanded[node.name]" :expanded-map="expanded" @toggle="toggle" @open="open" /></ul></section></main></PageContainer></template>

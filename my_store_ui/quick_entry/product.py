@@ -8,7 +8,7 @@ in Bin/Stock Ledger via standard transactions.
 
 Field order (business layout): Product ID, Image 1, Image 2, SKU, Product Name, Size,
 Category, Material, Carton Qty, Stock Location 1-3, Re-Stock Qty, Cost Price, Margin,
-Wholesale Price, Retail Price. Two selling prices only: Wholesale and Retail.
+Wholesale Price, Retail Price, Department Price.
 """
 
 from __future__ import annotations
@@ -27,12 +27,17 @@ PRODUCT_ID_SERIES = "P1.#####"
 SKU_SERIES = "5.###"
 BATCH_SERIES = "BAT-.YYYY.-.######"
 
-# Two selling prices (Wholesale, Retail) plus the buying Cost Price. All standard
-# Item Price rows. (Department Price was dropped per the business rule: two prices.)
+# Third selling list from the requirements document. Created on demand so a site
+# that has never used it still works.
+DEPARTMENT_PRICE_LIST = "Department Price List"
+
+# Three selling prices (Wholesale, Retail, Department) plus the buying Cost Price,
+# as listed in ACCOUNT CREATION.docx. All standard Item Price rows.
 PRICE_MAP = (
 	{"field": "cost_price", "price_list": "Standard Buying", "flag": "buying", "site_default": True},
 	{"field": "wholesale_price", "price_list": "Wholesale Price List", "flag": "selling"},
 	{"field": "retail_price", "price_list": "Retail Price List", "flag": "selling"},
+	{"field": "department_price", "price_list": DEPARTMENT_PRICE_LIST, "flag": "selling"},
 )
 
 # Only these input keys are accepted (explicit allowlist — no arbitrary field mutation).
@@ -40,7 +45,7 @@ ALLOWED_KEYS = {
 	"product_id", "image", "image_2", "product_name", "size", "category", "material",
 	"carton_qty", "stock_location_1", "stock_location_2", "stock_location_3",
 	"restock_qty", "cost_price", "margin", "wholesale_price", "retail_price",
-	"is_stock_item",
+	"department_price", "is_stock_item",
 }
 
 
@@ -120,7 +125,7 @@ def _create_product(values: dict | str, name: str | None = None):
 		frappe.throw(_("Carton Qty cannot be negative."), frappe.ValidationError)
 	if flt(data.get("restock_qty")) < 0:
 		frappe.throw(_("Re-Stock Qty cannot be negative."), frappe.ValidationError)
-	for key in ("cost_price", "wholesale_price", "retail_price", "margin"):
+	for key in ("cost_price", "wholesale_price", "retail_price", "department_price", "margin"):
 		if flt(data.get(key)) < 0:
 			frappe.throw(_("{0} cannot be negative.").format(key), frappe.ValidationError)
 
@@ -278,8 +283,45 @@ def get_product(name: str) -> dict:
 		"cost_price": prices.get(frappe.db.get_single_value("Buying Settings", "buying_price_list") or "Standard Buying") if show_cost else None,
 		"wholesale_price": prices.get("Wholesale Price List"),
 		"retail_price": prices.get("Retail Price List"),
+		"department_price": prices.get(DEPARTMENT_PRICE_LIST),
 		"is_batch_managed": bool(doc.has_batch_no),
 		"is_stock_item": bool(doc.is_stock_item),
 		"cost_visible": show_cost,
 		"created": str(doc.creation),
 	}
+
+
+# --- Default margin -------------------------------------------------------
+# The Product form's "Set default" action stores the percentage so future
+# products start from it. Held in Stock Settings' own defaults table via a
+# Singles-backed key so it survives migrate without a bespoke DocType.
+DEFAULT_MARGIN_KEY = "my_store_ui_default_margin"
+
+
+def _margin_managers() -> bool:
+	return frappe.session.user == "Administrator" or bool(
+		set(frappe.get_roles()) & {"Item Manager", "System Manager", "Sales Master Manager",
+		                           "Purchase Master Manager"})
+
+
+@frappe.whitelist(methods=["GET"])
+def get_default_margin():
+	"""The saved default margin percentage, or None when never set."""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	value = frappe.db.get_default(DEFAULT_MARGIN_KEY)
+	return {"margin": flt(value) if value not in (None, "") else None}
+
+
+@frappe.whitelist(methods=["POST"])
+def save_default_margin(margin: float):
+	"""Store the default margin for future products. Authorised roles only."""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	if not _margin_managers():
+		frappe.throw(_("You cannot change the default margin."), frappe.PermissionError)
+	value = flt(margin)
+	if value < 0 or value > 100:
+		frappe.throw(_("Margin must be between 0 and 100."), frappe.ValidationError)
+	frappe.db.set_default(DEFAULT_MARGIN_KEY, value)
+	return {"margin": value}
