@@ -1679,3 +1679,35 @@ Prices incl Department) and Customer form (14 fields, linked address/contact, cr
 Backends: my_store_ui/quick_entry/{product,customer,options,existing_data}.py. Batch/
 FIFO proven (12,400/9,600). 405 backend tests, 108/108 browser. Existing-data migration
 tool dry-run only (batch-on-stocked-items is manual). site1 untouched.
+
+---
+## Wholesale operations: sales, purchasing, payments, returns (2026-08-01, v1.0.0-rc8)
+Complete wholesale chain on standard ERPNext controllers only -- no direct GL, Stock
+Ledger, Payment Ledger or Bin writes anywhere.
+
+Sales: Smart Sales -> Sales Order (customer Price Category, Unit/Carton, server-side
+revalidation) -> reservation -> payment/credit gate -> FIFO Delivery Note -> final
+Sales Invoice with advance allocation -> payment allocation -> completion. Returns:
+Return Delivery Note + Credit Note. Purchasing: PO -> (partial) Purchase Receipt ->
+Purchase Invoice -> supplier payment, plus Landed Cost Vouchers and supplier returns
+with Debit Notes. Transaction register with delivery/invoice/payment/return/
+reservation status and a lifecycle timeline; daily operations dashboard.
+
+New modules: my_store_ui/wholesale/{uom,delivery,invoicing,payments,purchasing,
+returns,landed_cost,idempotency,operations_dashboard}.py.
+
+Carton is now a real UOM conversion on the Item (it was a display-only number), and
+idempotency is stored on the document in custom_request_id rather than the cache --
+a Redis restart could previously have dispatched the same goods twice.
+
+Ten real defects found and fixed; two were visible only in a browser (a route guard
+that admitted users its own API refuses, and a missing optional app breaking the whole
+Smart Sales bootstrap). See docs/execution/SMJ_WHOLESALE_OPERATIONS_LOG.md.
+
++140 backend tests (540 total, 0 failures, 6 skipped), 162/162 browser across six
+viewports, frontend build clean, secret scan clean, site1.local fingerprint unchanged.
+
+External unchanged: accountant approval for the opening-stock correction, SMTP,
+MariaDB root, Hetzner/DNS, bank credentials, client UAT.
+Docs: docs/workflows/SMJ_COMPLETE_WHOLESALE_SALES_FLOW.md and siblings;
+docs/verification/SMJ_WHOLESALE_END_TO_END_ACCEPTANCE.md.

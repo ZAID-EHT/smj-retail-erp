@@ -93,3 +93,89 @@ management, and a **truthful launch-readiness dashboard** (`/admin/readiness`).
 Status unchanged where external: accountant approval (finance JE not applied), SMTP,
 MariaDB root (fresh site), Hetzner/DNS, client UAT. The launch-readiness dashboard
 now reports each of these truthfully in-app.
+
+---
+
+# Wholesale Operations Update — v1.0.0-rc8 (2026-08-01)
+
+Branch `full-feature-parity`. Mission base `8311990`. Recovery tag
+`pre-smj-wholesale-operations-20260801-1121`. Backup
+`20260801_112204-staging_local-*`.
+
+## What is implemented and locally verified
+
+The complete wholesale chain runs on standard ERPNext controllers and mappings. No
+GL Entry, Stock Ledger Entry, Payment Ledger Entry or Bin row is written directly
+anywhere in the application.
+
+**Sales.** Customer -> Smart Sales (Price Category pricing, Unit or Carton,
+Available-to-Sell) -> Sales Order -> reservation -> payment or credit approval ->
+FIFO Delivery Note -> final Sales Invoice with advance allocation -> payment
+allocation -> completion. Reservation reduces Available-to-Sell, never physical
+stock; delivery reduces physical stock once, through the standard Stock Ledger.
+Non-Credit customers are gated on real payment, with a manager override that records
+an audited reason. Credit is defended twice: ERPNext refuses to submit an over-limit
+order, and the delivery gate covers arrears and limit breaches afterwards.
+
+**Purchasing.** Purchase Order -> (partial) Purchase Receipt with batch creation ->
+Purchase Invoice -> supplier payment. Landed Cost Vouchers apply freight, customs and
+clearing to valuation through the standard voucher. Supplier returns produce a Return
+Purchase Receipt and Debit Note.
+
+**Returns.** Return Delivery Note restores stock; the Credit Note reduces the
+receivable. Reason is mandatory, quantities are protected against over-return, and
+duplicates are refused.
+
+**Visibility.** Transaction register (delivery, invoice, payment, return and
+reservation status; eleven filters; lifecycle timeline) and a daily operations
+dashboard across sales, inventory, purchasing and finance. Financial figures are
+withheld server-side from users without a finance role.
+
+## Evidence
+
+| Check | Result |
+|---|---|
+| Backend suite | 540 tests, 0 failures, 6 skipped |
+| New tests this mission | +140 |
+| End-to-end acceptance scenarios | 14, all green |
+| Frontend production build | clean |
+| Browser matrix | 162/162 across six viewports, zero console errors |
+| Secret scan | clean |
+| site1.local integrity | fingerprint identical to pre-mission baseline |
+
+The 6 skips are environmental: staging.local has a single Company, so cross-company
+warehouse cases skip there. Cross-company separation is covered by suites that create
+their own second company.
+
+## Known limitation in the test environment
+
+`bench schedule` and `bench worker` run against the same database as the test suite on
+this bench. During a ~7-minute full run this produced MariaDB deadlocks (error 1213) in
+one module on one occasion. That module passes in isolation and the whole suite passed
+clean on re-run, so it is contention, not a defect. Workers were deliberately left
+running (no process is killed by name).
+
+## Remaining ordinary development (not blockers)
+
+- A dedicated replenishment screen. Re-Stock Qty already writes a standard Item Reorder
+  row, which drives ERPNext's own reorder process.
+- Frontend surfaces for some newly added backend endpoints (delivery preparation,
+  landed cost). The register, dashboard and existing document pages cover the primary
+  flows and are browser-verified.
+
+## External requirements — owner action needed
+
+| # | Requirement | Owner action |
+|---|---|---|
+| 1 | Opening-stock financial correction | Accountant approval before the guarded correction is submitted |
+| 2 | Outgoing email | Real SMTP credentials |
+| 3 | Production database | MariaDB administrative credentials |
+| 4 | Production hosting | Hetzner / DNS credentials |
+| 5 | Bank feeds | Real bank credentials |
+| 6 | Sign-off | Client UAT participation |
+
+## Status
+
+All wholesale operational workflows are implemented and locally verified. Go-live
+remains gated on the six external requirements above, which cannot be satisfied from
+this environment.

@@ -198,3 +198,33 @@ permission-denied test in this project's history.
 Admin landing/navigation, secure PDF, scheduled reports, two-company separation,
 truthful launch-readiness dashboard. 369 backend tests green, 96/96 browser, secret
 scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/UAT.
+
+## Wholesale operations (2026-08-01, v1.0.0-rc8)
+
+| Capability | Evidence | Verified |
+|---|---|---|
+| Carton UOM is a real conversion | test_carton_uom (11), test_carton_sales_flow (6) | yes |
+| Customer Price Category drives the order rate | test_wholesale_acceptance scenarios 1-3 | yes |
+| Availability judged in stock units | 5 cartons refused against 24 units | yes |
+| Forged UOM refused | test_carton_sales_flow | yes |
+| Idempotency survives cache loss | test_delivery_fifo, test_invoice_payment_flow, test_purchase_flow | yes |
+| Non-Credit payment gate | test_delivery_fifo, acceptance 1-2 | yes |
+| Credit gate + audited manager override | test_delivery_fifo, acceptance 4a/4b | yes |
+| FIFO multi-batch allocation | test_delivery_fifo, acceptance 6 (10+2 of 12) | yes |
+| Delivery reduces stock exactly once | acceptance 1 (50 -> 40) | yes |
+| Partial then final delivery | test_delivery_fifo, acceptance 5 | yes |
+| Over-delivery refused | test_delivery_fifo | yes |
+| Final invoice + advance allocation | test_invoice_payment_flow (17) | yes |
+| Payment allocation validated | test_invoice_payment_flow, acceptance 11 | yes |
+| Sales return restores stock | test_sales_returns (16), acceptance 7 | yes |
+| Credit note reduces receivable | test_sales_returns, acceptance 7 | yes |
+| Purchasing to supplier payment | test_purchase_flow (18), acceptance 8 | yes |
+| Purchase return + debit note | test_purchase_flow, acceptance 9 | yes |
+| Landed cost raises valuation | test_landed_cost (8) — 2,000 charge -> +2,000 stock value | yes |
+| Transaction ID propagation | acceptance 1b (SO -> DN -> SI) | yes |
+| Register statuses and filters | test_transaction_register (13) | yes |
+| Register route guard matches its API | test_register_route_permission (3) | yes |
+| Dashboard withholds money from non-finance users | test_operations_dashboard (7) | yes |
+| Navigation survives an absent optional app | test_navigation_missing_page (5) | yes |
+| Six-viewport browser matrix | 162/162, zero console errors | yes |
+| site1.local untouched | SHA256 fingerprint identical | yes |

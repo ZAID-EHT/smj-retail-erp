@@ -51,4 +51,48 @@ Two feature commits landed after it without a release. Previous-mission item sta
 
 ## Phase status
 
-Phase 0 preflight: done.
+| Phase | Status |
+|---|---|
+| 0 Preflight, backup, recovery tag, fingerprint | done |
+| 1 Baseline + previous-mission verification | done (408 baseline green; rc7 never existed) |
+| 2 Unified transaction model | done (existing TRX implementation verified end to end, not duplicated) |
+| 3 Smart Sales → Sales Order | done (Unit/Carton, customer Price Category, server revalidation, DB-backed idempotency) |
+| 4 Reservation lifecycle | existing module verified; register now surfaces reservation status |
+| 5 Non-Credit payment before delivery | done |
+| 6 Credit approval + manager override | done |
+| 7 Delivery preparation + FIFO | done |
+| 8 Final Sales Invoice | done |
+| 9 Payment allocation | done |
+| 10 Sales returns + credit notes | done |
+| 11 Purchasing → supplier payment | done |
+| 12 Landed cost + supplier returns | done |
+| 13 Transaction register | done (statuses, filters, timeline) |
+| 14 Daily operations dashboard | done |
+| 15 Printing | existing printing suite re-verified in regression |
+| 16 End-to-end acceptance | done (14 scenarios) |
+| 17 Backend tests | done (+140 new tests) |
+| 18 Browser matrix | done (162/162, six viewports) |
+| 19 Full regression | done |
+
+## Previous-mission gaps closed by this mission
+
+| Item | Resolution |
+|---|---|
+| Carton UOM | Now a real `UOM Conversion Detail` on the Item, used by selling and buying |
+| FIFO delivery allocation | `wholesale/delivery.py` via ERPNext `get_auto_batch_nos` |
+| Release tag rc7 | Superseded — this mission tags `v1.0.0-rc8` |
+| Product image display / upload | Verified: `ImageUpload.vue` + browser matrix on the product form |
+| Existing-data safe migration | `quick_entry/existing_data.py` verified in regression (dry-run only, unchanged) |
+
+## Replenishment (scope note)
+
+Re-Stock Qty writes a standard **Item Reorder** row on stock location 1, which is what
+drives ERPNext's own reorder process. A dedicated replenishment *screen* is not built;
+this is ordinary remaining development, not an external blocker.
+
+## site1.local integrity — re-verified at mission end
+
+```
+SHA256 f51fedb5a9ac68e27b1515daee5cdf2f90490a22c07925960dd0acb4d123d9c3
+MATCHES_BASELINE True
+```

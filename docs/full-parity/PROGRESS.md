@@ -831,3 +831,27 @@ Full detail: `docs/execution/SMJ_MASTER_BATCH_LOG.md`.
 Admin landing/navigation, secure PDF, scheduled reports, two-company separation,
 truthful launch-readiness dashboard. 369 backend tests green, 96/96 browser, secret
 scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/UAT.
+
+## 2026-08-01 — Wholesale operations (v1.0.0-rc8)
+
+Complete wholesale sales, purchasing, payment, delivery and return workflows on
+standard ERPNext controllers.
+
+| Area | Status |
+|---|---|
+| Smart Sales -> Sales Order | complete (Price Category, Unit/Carton, server revalidation, idempotent) |
+| Reservation | existing module verified; status surfaced in the register |
+| Non-Credit payment gate | complete (payment releases dispatch; shortfall overridable) |
+| Credit approval | complete (two layers: ERPNext submit block + delivery gate) |
+| Delivery + FIFO | complete (multi-batch via ERPNext's own allocator) |
+| Final Sales Invoice | complete (advance allocation capped at the invoice) |
+| Payment allocation | complete (explicit or oldest-first, validated) |
+| Sales returns + credit notes | complete |
+| Purchasing -> supplier payment | complete (partial receipt, batch creation) |
+| Landed cost | complete (valuation via standard voucher) |
+| Supplier returns + debit notes | complete |
+| Transaction register | complete (5 statuses, 11 filters, timeline) |
+| Operations dashboard | complete (sales/inventory/purchasing/finance, permission-filtered) |
+| Replenishment screen | not built — Re-Stock Qty writes a standard Item Reorder row; ordinary remaining development |
+
+Tests 540 (0 failures, 6 skipped) · browser 162/162 six viewports · site1 unchanged.
