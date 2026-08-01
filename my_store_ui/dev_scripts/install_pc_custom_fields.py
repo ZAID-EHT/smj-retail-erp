@@ -67,7 +67,8 @@ def run():
 	if frappe.local.site not in ALLOWED:
 		raise RuntimeError(f"refusing on {frappe.local.site!r}; allowlisted sites only")
 	request_id_targets = ["Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry",
-	                      "Purchase Order", "Purchase Receipt", "Purchase Invoice"]
+	                      "Purchase Order", "Purchase Receipt", "Purchase Invoice",
+	                      "Landed Cost Voucher"]
 	fields = {
 		"Item": ITEM_FIELDS,
 		"Customer": CUSTOMER_FIELDS,
