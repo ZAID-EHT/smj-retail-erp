@@ -7,10 +7,25 @@ import {
   getHomeKpis, getLowStockAlerts, getPaymentCollection, getRecentTransactions,
   getSalesTrend, getStockOverview, getTopCategories, getTopParties,
 } from "@/services/dashboardAnalytics.js";
+import { getQuickCreateActions } from "@/services/quickCreate.js";
 
 const session = inject("retailSession", null);
-const displayName = computed(() => session?.state?.displayName || window.frappe?.session?.user_fullname || "there");
 const company = computed(() => session?.state?.company || "");
+const today = computed(() =>
+  new Intl.DateTimeFormat(undefined, { dateStyle: "full" }).format(new Date()),
+);
+
+// Header shortcuts follow the same permission source as the rest of the shell:
+// an action the user cannot perform is not offered. The server re-checks anyway.
+const quickCreate = ref([]);
+const shortcuts = computed(() => {
+  const doctypes = new Set(quickCreate.value.flatMap((g) => g.items.map((i) => i.doctype)));
+  return {
+    sales: doctypes.has("Sales Order"),
+    purchaseOrder: doctypes.has("Purchase Order"),
+    payment: doctypes.has("Payment Entry"),
+  };
+});
 
 const KPI_ICON = { total_sales: SmjSalesCartPulse, receivables: SmjCreditGauge, gross_profit: SmjFinanceWalletLedger, reserved_stock: SmjReserveCubeLock, available_to_sell: SmjInventoryCubeLayers, pending_deliveries: SmjDeliveryTruckArrow };
 const KPI_ACCENT = { total_sales: "green", receivables: "orange", gross_profit: "gold", reserved_stock: "purple", available_to_sell: "turquoise", pending_deliveries: "pink" };
@@ -56,6 +71,9 @@ function loadAll() {
   tracked(getLowStockAlerts(6, make()), "lowStock", lowStock);
   tracked(getTopParties("customers", 5, make()), "customers", topCustomers);
   tracked(getTopParties("products", 5, make()), "products", topProducts);
+  getQuickCreateActions(make())
+    .then((groups) => { quickCreate.value = groups || []; })
+    .catch(() => { quickCreate.value = []; });
 }
 loadAll();
 onBeforeUnmount(() => controllers.forEach((controller) => controller.abort()));
@@ -78,13 +96,13 @@ const collectionPercent = computed(() => collection.value?.total ? Math.round((c
 
       <header class="smj-home-hero">
         <div>
-          <h1>Good morning, {{ displayName.split(/\s+/)[0] }} 👋</h1>
-          <p>Here's what's happening with {{ company || "your business" }} today.</p>
+          <h1>{{ company || "Retail ERP" }}</h1>
+          <p>{{ today }}</p>
         </div>
         <div class="smj-home-hero__actions">
-          <RouterLink class="ref-button ref-button--secondary" to="/sales/invoices/new">+ Sales Invoice</RouterLink>
-          <RouterLink class="ref-button ref-button--secondary" to="/purchases/orders/new">+ Purchase Order</RouterLink>
-          <RouterLink class="ref-button ref-button--secondary" to="/finance/payments/new">+ Payment</RouterLink>
+          <RouterLink v-if="shortcuts.sales" class="ref-button ref-button--primary" to="/smart-sales">Sales</RouterLink>
+          <RouterLink v-if="shortcuts.purchaseOrder" class="ref-button ref-button--secondary" to="/purchases/orders/new">+ Purchase Order</RouterLink>
+          <RouterLink v-if="shortcuts.payment" class="ref-button ref-button--secondary" to="/finance/payments/new">+ Payment</RouterLink>
         </div>
       </header>
 
