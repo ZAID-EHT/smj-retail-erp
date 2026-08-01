@@ -67,6 +67,12 @@ const ROUTES = [
   { path: "/retail-erp/reports/scheduled", label: "Scheduled Reports" },
   { path: "/retail-erp/admin/system", label: "System Operations" },
   { path: "/retail-erp/admin/readiness", label: "Launch Readiness" },
+  // Pages built for the ACCOUNT CREATION requirements.
+  { path: "/retail-erp/finance/accounts", label: "Accounts workspace" },
+  { path: "/retail-erp/reports/henderson-analysis", label: "Henderson Analysis" },
+  { path: "/retail-erp/admin/print-formats", label: "Print Format administration" },
+  { path: "/retail-erp/finance/payment-reconciliation", label: "Payment Reconciliation" },
+  { path: "/retail-erp/finance/bank-reconciliation", label: "Bank Reconciliation" },
 ];
 
 const results = [];

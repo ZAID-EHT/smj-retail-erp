@@ -256,8 +256,12 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		self.assertTrue(set(metadata["simple_create_fields"]).issubset(all_names))
 		self.assertGreater(len(metadata["fields"]), len(metadata["simple_create_fields"]))
 		# A doctype with no curated config is unaffected (falls through to []).
-		self.assertEqual(get_doctype_metadata("warehouse")["simple_create_fields"], [])
-		self.assertEqual(get_doctype_metadata("warehouse")["simple_create_required"], [])
+		# Warehouse used to be the example here, but it now has a curated add form of
+		# its own (see SIMPLE_CREATE_FIELDS), so use one that is still uncurated.
+		self.assertEqual(get_doctype_metadata("contact")["simple_create_fields"], [])
+		self.assertEqual(get_doctype_metadata("contact")["simple_create_required"], [])
+		# Warehouse is curated now, and must stay that way.
+		self.assertTrue(get_doctype_metadata("warehouse")["simple_create_fields"])
 
 	def test_supplier_has_a_curated_universal_add_form(self):
 		# Supplier flows through the universal generated engine.

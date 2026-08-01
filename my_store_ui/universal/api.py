@@ -70,6 +70,43 @@ SIMPLE_CREATE_FIELDS = {
 		"payment_terms", "tax_id", "tax_category", "image",
 	),
 	"Role Profile": ("role_profile", "roles"),
+	# --- Curated add forms for the documents ACCOUNT CREATION.docx calls out ----
+	# Each keeps the business fields the wholesale workflow needs and drops the
+	# corporate-level ERPNext fields. Everything omitted still exists on the
+	# DocType and remains editable on the detail view; only the ADD form is
+	# trimmed, and ERPNext's own defaults fill the rest.
+	"Lead": (
+		"lead_name", "company_name", "status", "source", "email_id", "mobile_no", "phone",
+		"territory", "city", "country", "lead_owner",
+	),
+	"Quotation": (
+		"quotation_to", "party_name", "company", "transaction_date", "valid_till",
+		"order_type", "currency", "selling_price_list", "items", "taxes_and_charges",
+		"taxes", "tc_name", "terms",
+	),
+	"Purchase Order": (
+		"supplier", "company", "transaction_date", "schedule_date", "currency",
+		"buying_price_list", "set_warehouse", "items", "taxes_and_charges", "taxes",
+		"payment_terms_template", "tc_name", "terms",
+	),
+	"Purchase Receipt": (
+		"supplier", "company", "posting_date", "set_warehouse", "supplier_delivery_note",
+		"currency", "buying_price_list", "items", "taxes_and_charges", "taxes",
+	),
+	"Purchase Invoice": (
+		"supplier", "company", "posting_date", "due_date", "bill_no", "bill_date",
+		"currency", "buying_price_list", "update_stock", "set_warehouse", "items",
+		"taxes_and_charges", "taxes", "payment_terms_template",
+	),
+	# Stock Entry is the "Stock Transfer" of the Retail ERP vocabulary.
+	"Stock Entry": (
+		"stock_entry_type", "company", "posting_date", "from_warehouse", "to_warehouse",
+		"items", "remarks",
+	),
+	"Warehouse": (
+		"warehouse_name", "company", "parent_warehouse", "is_group", "warehouse_type",
+		"phone_no", "mobile_no", "address_line_1", "city", "state", "pin",
+	),
 }
 
 # Fields that are mandatory ON THE ADD FORM, overriding the DocType's own reqd
@@ -82,6 +119,15 @@ SIMPLE_CREATE_REQUIRED = {
 	"Supplier": ("supplier_name", "supplier_group"),
 	# A Role Profile with no roles is useless, so require at least the table.
 	"Role Profile": ("role_profile", "roles"),
+	# Only what ERPNext genuinely needs to save; the rest is optional on the add
+	# form and validated by the controller on submit.
+	"Lead": ("lead_name",),
+	"Quotation": ("quotation_to", "party_name", "company", "transaction_date"),
+	"Purchase Order": ("supplier", "company", "transaction_date", "schedule_date"),
+	"Purchase Receipt": ("supplier", "company", "posting_date"),
+	"Purchase Invoice": ("supplier", "company", "posting_date"),
+	"Stock Entry": ("stock_entry_type", "company"),
+	"Warehouse": ("warehouse_name", "company"),
 }
 
 # Fixed server-owned mappings. The browser sends only these symbolic action
