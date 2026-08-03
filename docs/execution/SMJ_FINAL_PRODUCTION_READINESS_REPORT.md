@@ -179,3 +179,70 @@ running (no process is killed by name).
 All wholesale operational workflows are implemented and locally verified. Go-live
 remains gated on the six external requirements above, which cannot be satisfied from
 this environment.
+
+---
+
+# Sales Teams, Snapshot and Commission (2026-08-04, v1.0.0-rc9)
+
+## Status: complete locally, except commission payout
+
+| Area | State |
+|---|---|
+| Sales Team master | complete |
+| Customer assignment, detail, filters | complete |
+| Smart Sales auto-load + override | complete |
+| Sales Order immutable snapshot | complete |
+| Delivery Note / Sales Invoice continuity | complete |
+| Credit note reversal | complete |
+| Commission calculation | complete |
+| Commission register + export | complete |
+| Existing-data backfill | complete (nothing to backfill, by design) |
+| Permissions | complete |
+| **Commission payout posting** | **deferred — accountant approval required** |
+
+## Verification
+
+| Check | Result |
+|---|---|
+| Backend suite | **736 tests, 0 failures, 0 errors, 6 skipped** |
+| Sales Team browser | 73/73 |
+| Six-viewport matrix | 228/228 |
+| Customer picker | 15/15 |
+| Button audit | 10, 0 failures |
+| Frontend build | clean |
+| Secret scan | clean |
+| Backfill dry run | clean, 0 writes |
+| site1.local | fingerprint identical to the mission start |
+| Staging residue | none |
+
+## Safety
+
+- No direct GL Entry, Stock Ledger Entry, Payment Ledger Entry or Bin write.
+- No separate accounting or commission ledger. Every figure is standard ERPNext
+  fields plus retail-owned snapshot rows.
+- No `ignore_permissions=True` in any production API added here.
+- No submitted document rewritten, in code or by the backfill.
+- No credentials, backups or test data committed.
+- Linux-native Playwright Chromium only; no process killed by name; no `sudo`.
+
+## The one external requirement
+
+**Accountant approval before commission can be paid.** Required: the commission
+expense account, the payee party type, whether commission is earned on invoicing or
+on collection, the payout cycle, and withholding treatment. None exists in writing,
+and guessing any of them would produce authoritative-looking, wrong accounting.
+
+Until then the register calculates, reports and exports, and stops at `Earned` /
+`Reversed`. There is deliberately **no `Paid` status**, because nothing in the
+system can verify that money left the business.
+
+See `docs/sales/SMJ_COMMISSION_PAYOUT_BOUNDARY.md`.
+
+## Ordinary development remaining
+
+- Per-transaction **percentage** override. Deliberately withheld: the requirement
+  gates it behind an approved permission that does not exist. The enforcement it
+  would need already exists.
+- Assigning teams to the 29 unassigned customers — a business decision, listed in
+  `docs/data/SMJ_SALES_TEAM_MIGRATION_RESULT.md`.
+- Setting a commission rate on `STM-00014`, which is currently 0.

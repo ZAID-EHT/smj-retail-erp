@@ -1753,7 +1753,7 @@ on the master where it can be fixed; `_snapshot_from_source` subscripted a child
 Document; and the customer-history test could not observe the Version trail at all
 because Frappe sets `ignore_version = frappe.flags.in_test` on every save.
 
-+62 backend tests (735 total, 0 failures, 6 skipped), browser 73/73 sales team,
++63 backend tests (736 total, 0 failures, 6 skipped), browser 73/73 sales team,
 228/228 across six viewports, 15/15 customer picker, 10/10 button audit, frontend
 build clean, secret scan clean, site1.local fingerprint unchanged.
 

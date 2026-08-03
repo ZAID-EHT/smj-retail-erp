@@ -877,5 +877,5 @@ Tests 540 (0 failures, 6 skipped) · browser 162/162 six viewports · site1 unch
 | Permission matrix | complete |
 | Commission payout posting | deferred — accountant approval required |
 
-Tests 735 (0 failures, 6 skipped) · browser 73/73 sales team, 228/228 six viewports ·
+Tests 736 (0 failures, 6 skipped) · browser 73/73 sales team, 228/228 six viewports ·
 site1 unchanged.
