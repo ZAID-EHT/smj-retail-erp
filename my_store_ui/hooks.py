@@ -198,13 +198,25 @@ before_request = ["my_store_ui.route_guard.before_request"]
 # any site (including before the fixture is applied).
 doc_events = {
 	"Sales Order": {
-		"validate": "my_store_ui.wholesale.transaction_id.assign_to_sales_order",
+		"validate": [
+			"my_store_ui.wholesale.transaction_id.assign_to_sales_order",
+			# Freezes the customer's sales team onto the order at creation. It is
+			# never re-read afterwards, so reassigning the customer later cannot
+			# rewrite an order that already exists.
+			"my_store_ui.sales_team.stamp_sales_document",
+		],
 	},
 	"Delivery Note": {
-		"validate": "my_store_ui.wholesale.transaction_id.propagate_from_source",
+		"validate": [
+			"my_store_ui.wholesale.transaction_id.propagate_from_source",
+			"my_store_ui.sales_team.stamp_sales_document",
+		],
 	},
 	"Sales Invoice": {
-		"validate": "my_store_ui.wholesale.transaction_id.propagate_from_source",
+		"validate": [
+			"my_store_ui.wholesale.transaction_id.propagate_from_source",
+			"my_store_ui.sales_team.stamp_sales_document",
+		],
 	},
 	"Payment Entry": {
 		"validate": "my_store_ui.wholesale.transaction_id.propagate_payment_entry",

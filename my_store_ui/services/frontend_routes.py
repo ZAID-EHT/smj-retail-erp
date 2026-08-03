@@ -99,6 +99,9 @@ NAVIGATION = (
 		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
 		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
 		{"label": "Sales Funnel", "path": "/sales/funnel", "page": "sales-funnel"},
+		# Permission-gated by the doctype, so a user without Retail Sales Team read
+		# never sees the entry.
+		{"label": "Sales Teams", "path": "/sales/teams", "doctype": "Retail Sales Team"},
 		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
 	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (

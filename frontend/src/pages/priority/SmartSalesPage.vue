@@ -15,6 +15,8 @@ import {
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { createSmartOrder, getCartPricing, getSmartSales, searchSmartCustomers } from "@/services/smartSales.js";
 import { getCustomerCreditStatus } from "@/services/wholesale.js";
+import { getCustomerSalesAssignment } from "@/services/salesTeam.js";
+import SalesTeamCard from "@/components/sales/SalesTeamCard.vue";
 
 const router = useRouter();
 const data = ref(null);
@@ -45,6 +47,28 @@ function isStockItem(item) {
 }
 function outOfStock(item) {
   return isStockItem(item) && availabilityOf(item) <= 0;
+}
+
+/* Sales team + commission for the selected customer. Cleared the instant the
+   customer changes so the previous customer's team is never shown. */
+const salesTeam = ref(null);
+const salesTeamLoading = ref(false);
+
+async function loadSalesTeam() {
+  salesTeam.value = null;
+  if (!customer.value) { salesTeamLoading.value = false; return; }
+  salesTeamLoading.value = true;
+  const forCustomer = customer.value;
+  try {
+    const result = await getCustomerSalesAssignment(forCustomer);
+    // Ignore a late response for a customer that is no longer selected.
+    if (customer.value !== forCustomer) return;
+    salesTeam.value = result.assigned ? result.assignment : null;
+  } catch {
+    if (customer.value === forCustomer) salesTeam.value = null;
+  } finally {
+    if (customer.value === forCustomer) salesTeamLoading.value = false;
+  }
 }
 
 async function loadCredit() {
@@ -144,6 +168,7 @@ function onCustomerInput() {
   if (customer.value && customerSearch.value !== selectedLabel()) {
     customer.value = "";
     credit.value = null;
+    salesTeam.value = null;
   }
   window.clearTimeout(customerTimer);
   customerTimer = window.setTimeout(findCustomers, 250);
@@ -178,6 +203,8 @@ function clearCustomer() {
   customerSearch.value = "";
   customers.value = [];
   credit.value = null;
+  salesTeam.value = null;
+  salesTeamLoading.value = false;
   suggestionsOpen.value = false;
 }
 
@@ -269,7 +296,10 @@ function add(item) {
 
 async function onCustomerChange() {
   notice.value = cartRows.value.length ? "Repricing the cart for the selected customer…" : "";
-  await loadCredit();
+  // Clear the old team immediately, before anything is awaited.
+  salesTeam.value = null;
+  salesTeamLoading.value = Boolean(customer.value);
+  await Promise.all([loadCredit(), loadSalesTeam()]);
   await load();
   await repriceCart();
   if (cartRows.value.length) notice.value = "Cart prices updated for the selected customer.";
@@ -496,6 +526,16 @@ onBeforeUnmount(() => {
           <span v-if="credit.has_overdue" class="priority-credit-overdue">Overdue {{ Number(credit.overdue_amount).toLocaleString() }}</span>
         </div>
       </section>
+
+      <!-- Sales team and commission for the selected customer, directly below
+           Sale setup and above the catalogue so it never overlaps either. -->
+      <SalesTeamCard
+        :assignment="salesTeam"
+        :loading="salesTeamLoading"
+        :idle="!customerSelected"
+        :can-edit="Boolean(customerSelected)"
+        @edit="router.push(`/sales/customers/${encodeURIComponent(customer)}/edit`)"
+      />
 
       <div class="priority-sales-layout">
         <section class="rug-section-card smj-catalogue">

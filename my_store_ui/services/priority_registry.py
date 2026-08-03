@@ -283,6 +283,9 @@ SPECIAL_ROUTES = {
 	# `doctype` is what makes the route guard enforce a permission. Without it the
 	# guard admitted anyone and the page then failed on a 403 from its own API,
 	# which reads Sales Order. The two must require the same thing.
+	# Sales Teams master: manager + representatives and their commission split.
+	"/sales/teams": {"module": "sales", "label": "Sales Teams",
+	                 "doctype": "Retail Sales Team", "classification": "register"},
 	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions",
 	                        "doctype": "Sales Order", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},

@@ -4,6 +4,9 @@ import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { createCustomer, findDuplicateCustomers, getCustomer } from "@/services/customerQuickEntry.js";
+import {
+  assignCustomerSalesTeam, getCustomerSalesAssignment, listSalesTeams,
+} from "@/services/salesTeam.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -16,6 +19,48 @@ const form = reactive({
   credit_limit: null, credit_days: null,
 });
 const created = ref("");
+
+/* Sales assignment. The team drives the manager, representatives and split, so
+   those are read-only previews rather than separately editable fields. */
+const salesTeamId = ref("");
+const originalTeamId = ref("");
+const teamOptions = ref([]);
+const teamPreview = ref(null);
+const canAssignTeam = ref(false);
+const teamChanged = computed(() =>
+  Boolean(editName.value) && salesTeamId.value !== originalTeamId.value);
+
+function loadTeamPreview() {
+  const chosen = salesTeamId.value;
+  if (!chosen) { teamPreview.value = null; return; }
+  const match = teamOptions.value.find((t) => t.name === chosen);
+  teamPreview.value = match?.preview || null;
+}
+
+async function loadSalesTeams() {
+  try {
+    const result = await listSalesTeams({ is_active: "1", page_size: 100 });
+    canAssignTeam.value = Boolean(result.can_manage);
+    teamOptions.value = result.rows || [];
+  } catch {
+    teamOptions.value = [];
+    canAssignTeam.value = false;
+  }
+}
+
+async function loadAssignment(name) {
+  if (!name) return;
+  try {
+    const result = await getCustomerSalesAssignment(name);
+    canAssignTeam.value = Boolean(result.can_manage);
+    if (result.assigned) {
+      salesTeamId.value = result.assignment.team;
+      originalTeamId.value = result.assignment.team;
+      teamPreview.value = result.assignment;
+    }
+  } catch { /* an unassigned or unreadable customer simply shows no team */ }
+}
+loadSalesTeams();
 const priceLists = ref([]);
 const duplicates = ref([]);
 const error = ref(null);
@@ -50,6 +95,7 @@ async function init() {
   await loadPriceLists();
   if (editName.value) {
     try {
+      await loadAssignment(editName.value);
       const c = await getCustomer(editName.value);
       Object.assign(form, {
         customer_name: c.customer_name, address: c.address || "", city: c.city || "",
@@ -73,6 +119,12 @@ async function save() {
     const payload = { ...form };
     if (!isCredit.value) { payload.credit_limit = 0; payload.credit_days = 0; }
     const result = await createCustomer(payload, editName.value);
+    // The assignment is a separate, permission-gated call so a user without the
+    // right to reassign can still save the rest of the customer.
+    if (canAssignTeam.value && salesTeamId.value !== originalTeamId.value) {
+      await assignCustomerSalesTeam(result.name, salesTeamId.value);
+      originalTeamId.value = salesTeamId.value;
+    }
     notice.value = `Saved ${result.customer}.`;
     router.push(`/sales/customers/${encodeURIComponent(result.name)}`).catch(() => {});
   } catch (caught) { error.value = caught; }
@@ -149,6 +201,41 @@ init();
             <label v-if="isCredit"><span>Credit Days *</span><input v-model.number="form.credit_days" type="number" min="0" step="1" :required="isCredit" /></label>
           </div>
           <p v-if="!isCredit" class="cqf-hint">Non-Credit: payment is required before dispatch (existing manager overrides remain).</p>
+        </section>
+
+        <section class="rug-section-card">
+          <header><div><h2>Sales Assignment</h2><p>The team whose commission split applies to this customer's new transactions.</p></div></header>
+          <div class="rug-form-grid">
+            <label><span>Assigned Sales Team</span>
+              <select v-model="salesTeamId" :disabled="!canAssignTeam" @change="loadTeamPreview">
+                <option value="">No sales team</option>
+                <option v-for="t in teamOptions" :key="t.name" :value="t.name">{{ t.team_name }}</option>
+              </select>
+            </label>
+            <label><span>Assigned Sales Manager</span>
+              <input :value="teamPreview?.sales_manager || '—'" type="text" readonly />
+            </label>
+            <label><span>Primary Sales Representative</span>
+              <input :value="teamPreview?.representatives?.[0]?.sales_person || '—'" type="text" readonly />
+            </label>
+            <label><span>Commission Rate</span>
+              <input :value="teamPreview ? `${Number(teamPreview.commission_rate || 0)}%` : '—'" type="text" readonly />
+            </label>
+          </div>
+
+          <p v-if="!canAssignTeam" class="cqf-hint">Only a Sales Manager or System Manager can change this assignment.</p>
+
+          <ul v-if="teamPreview?.members?.length" class="smj-team-card__members cqf-team-preview">
+            <li v-for="m in teamPreview.members" :key="m.sales_person">
+              <strong>{{ m.sales_person }}</strong>
+              <span>{{ m.role }}</span>
+              <em>{{ Number(m.share_percentage || 0) }}%</em>
+            </li>
+          </ul>
+
+          <p v-if="teamChanged" class="cqf-hint cqf-hint--warn" role="status">
+            Changing the sales team affects new transactions only. Documents already raised keep the team they were created with.
+          </p>
         </section>
 
         <footer class="cqf-actions">

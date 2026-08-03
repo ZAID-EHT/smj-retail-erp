@@ -218,3 +218,32 @@
 .smj-customer-picker__list li.is-state{color:var(--ref-secondary-text);font-size:12px;cursor:default}
 .smj-customer-picker__list strong{font-size:13px;font-weight:700}
 .smj-customer-picker__list small{color:var(--ref-secondary-text);font-size:11px}
+
+/* --- Sales team and commission card --------------------------------------- */
+.smj-team-card header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.smj-team-card header h2{margin:0;font-size:15px;font-weight:800}
+.smj-team-card header p{margin:2px 0 0;color:var(--ref-secondary-text);font-size:11px}
+.smj-team-card__state{padding:10px 12px;border:1px dashed var(--ref-border-colour);border-radius:8px;color:var(--ref-secondary-text);font-size:12px}
+.smj-team-card__team{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 10px}
+.smj-team-card__team span{color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-team-card__team strong{font-size:14px;font-weight:800}
+.smj-team-card__members{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:0 0 10px;padding:0;list-style:none}
+.smj-team-card__members li{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 10px;padding:10px 12px;border:1px solid var(--ref-border-colour);border-left:3px solid var(--ref-module-sales);border-radius:8px;background:#fff}
+.smj-team-card__members strong{font-size:13px;font-weight:700;overflow-wrap:anywhere}
+.smj-team-card__members span{grid-column:1;color:var(--ref-secondary-text);font-size:11px}
+.smj-team-card__members em{grid-row:1/3;grid-column:2;align-self:center;font-size:15px;font-style:normal;font-weight:800}
+.smj-team-card__totals{display:flex;flex-wrap:wrap;gap:8px 18px;padding-top:10px;border-top:1px solid var(--ref-border-colour);color:var(--ref-secondary-text);font-size:12px}
+.smj-team-card__totals strong{color:var(--ref-primary-text);font-weight:800}
+.smj-team-card__totals .is-warning strong{color:var(--ref-danger)}
+
+/* --- Sales Teams list and form -------------------------------------------- */
+.smj-sort{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:inherit;cursor:pointer}
+.smj-sort:hover{color:var(--ref-primary-blue)}
+.smj-pager{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding-top:12px;color:var(--ref-secondary-text);font-size:12px}
+.smj-pager button{margin-left:6px}
+.smj-team-total{margin:10px 0 0;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:700}
+.smj-team-total.is-ok{background:var(--ref-success-background);color:var(--ref-success)}
+.smj-team-total.is-bad{background:color-mix(in srgb,var(--ref-danger),white 92%);color:var(--ref-danger)}
+.smj-form-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
+.cqf-team-preview{margin-top:10px}
+.cqf-hint--warn{color:var(--ref-orange);font-weight:700}

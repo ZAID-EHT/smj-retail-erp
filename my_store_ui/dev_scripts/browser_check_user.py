@@ -30,7 +30,7 @@ def create():
 	# nothing. Give the throwaway user the roles a real operator has.
 	for role in ("System Manager", "Sales Manager", "Sales User", "Accounts Manager",
 	             "Stock Manager", "Stock User", "Purchase Manager", "Purchase User",
-	             "Item Manager"):
+	             "Item Manager", "Sales Master Manager"):
 		if frappe.db.exists("Role", role):
 			doc.append("roles", {"role": role})
 	doc.save(ignore_permissions=True)
