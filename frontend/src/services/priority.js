@@ -14,7 +14,11 @@ export async function callPriority(method, params = {}, { signal, httpMethod = "
   const isGet = httpMethod === "GET";
   const query = new URLSearchParams(
     Object.entries(params)
-      .filter(([, value]) => value !== undefined && value !== null && value !== "")
+      // Only an absent value is dropped. An empty string is a deliberate value --
+      // a blank record name means "a new record", and a cleared filter means "all"
+      // -- so it must reach the server. Dropping it previously made the API run
+      // without a required argument and return HTTP 500.
+      .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) => [key, typeof value === "object" ? JSON.stringify(value) : value]),
   );
   const response = await fetch(`${PREFIX}${method}${isGet && query.size ? `?${query}` : ""}`, {

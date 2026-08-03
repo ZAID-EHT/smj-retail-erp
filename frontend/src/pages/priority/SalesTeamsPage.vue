@@ -154,10 +154,12 @@ function goPage(delta) {
           <RouterLink
             v-if="!isForm && data?.can_manage"
             class="rug-primary priority-button-link"
+            active-class=""
+            exact-active-class=""
             :to="{ path: '/sales/teams', query: { team: 'new' } }"
           >New Sales Team</RouterLink>
           <button v-if="!isForm" type="button" @click="loadList">Refresh</button>
-          <RouterLink v-if="isForm" class="priority-button-link" :to="{ path: '/sales/teams' }">Back to list</RouterLink>
+          <RouterLink v-if="isForm" class="priority-button-link" active-class="" exact-active-class="" :to="{ path: '/sales/teams' }">Back to list</RouterLink>
         </div>
       </header>
 
@@ -322,7 +324,7 @@ function goPage(delta) {
           </section>
 
           <footer class="smj-form-actions">
-            <RouterLink class="priority-button-link" :to="{ path: '/sales/teams' }">Cancel</RouterLink>
+            <RouterLink class="priority-button-link" active-class="" exact-active-class="" :to="{ path: '/sales/teams' }">Cancel</RouterLink>
             <button
               v-if="form.canManage"
               type="button"

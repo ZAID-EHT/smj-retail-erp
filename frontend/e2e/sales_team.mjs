@@ -21,7 +21,7 @@ function check(name, ok, detail = "") {
 }
 
 const stamp = Date.now().toString(36);
-const created = { persons: [], teams: [], customers: [] };
+const created = { persons: [], teams: [], customers: [], users: [] };
 let ctx;
 
 async function api(method, args = {}, httpMethod = "POST") {
@@ -99,6 +99,18 @@ try {
   created.customers.push(withTeam, withoutTeam);
   await api("my_store_ui.sales_team.assign_customer_sales_team", { customer: withTeam, team: saved.name });
 
+  // Restricted user for the unauthorised checks, created before any page opens.
+  const restrictedEmail = `e2e-nosales-${stamp}@example.invalid`;
+  const restrictedPw = `E2e!${stamp}Aa1`;
+  await api("frappe.client.insert", {
+    doc: {
+      doctype: "User", email: restrictedEmail, first_name: "E2E NoSales",
+      send_welcome_email: 0, new_password: restrictedPw,
+      roles: [{ role: "Stock User" }],
+    },
+  });
+  created.users = [restrictedEmail];
+
   // Fourth person, created up front for the "add a representative" case below.
   const extra = await insert({
     doctype: "Sales Person", sales_person_name: `E2E SP ${stamp}-x`, is_group: 0,
@@ -110,6 +122,10 @@ try {
   const failedRequests = [];
   page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(m.text().slice(0, 160)); });
   page.on("pageerror", (e) => consoleErrors.push(String(e).slice(0, 160)));
+  const teamRequests = [];
+  page.on("request", (r) => {
+    if (r.url().includes("get_sales_team")) teamRequests.push(r.url());
+  });
   page.on("response", (r) => {
     if (r.status() >= 400 && r.url().includes("/api/")) failedRequests.push(`${r.status()} ${r.url().split("/api/method/")[1] || r.url()}`);
   });
@@ -126,12 +142,44 @@ try {
   await navLink.first().waitFor({ state: "attached", timeout: 8000 }).catch(() => {});
   const navLinks = await navLink.count();
   check("Sales Teams appears in the Sales navigation", navLinks > 0, `${navLinks} link(s)`);
+  const href = await navLink.first().getAttribute("href");
+  check("navigation href uses the Retail ERP base path",
+    href === "/retail-erp/sales/teams", String(href));
+  await page.evaluate(() => { window.__spa = true; });
+  await navLink.first().click();
+  await page.waitForTimeout(3000);
+  check("clicking navigates without a full page reload",
+    await page.evaluate(() => window.__spa === true));
+  check("click lands on the Sales Teams page",
+    /\/retail-erp\/sales\/teams$/.test(await page.evaluate(() => location.pathname)),
+    await page.evaluate(() => location.pathname));
+
+  // Back / forward
+  await page.goBack(); await page.waitForTimeout(1500);
+  await page.goForward(); await page.waitForTimeout(2500);
+  check("browser back and forward return to Sales Teams",
+    /sales teams/i.test(await page.locator("h1").first().innerText().catch(() => "")));
+
+  // Direct URL + refresh
+  await page.goto(`${BASE}/retail-erp/sales/teams`, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(2500);
+  check("direct URL works", /sales teams/i.test(await page.locator("h1").first().innerText().catch(() => "")));
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(2500);
+  check("refresh works", /sales teams/i.test(await page.locator("h1").first().innerText().catch(() => "")));
 
   // ---- 2. list page ----------------------------------------------------
   await page.goto(`${BASE}/retail-erp/sales/teams`, { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(3000);
   const h1 = await page.locator("h1").first().innerText().catch(() => "");
   check("Sales Teams list loads", /sales teams/i.test(h1), h1);
+  const listBody = await page.evaluate(() => ({
+    filters: !!document.querySelector(".rug-form-grid"),
+    tableOrEmpty: !!document.querySelector(".rug-table-region, .rug-empty"),
+    newBtn: !!Array.from(document.querySelectorAll("a,button")).find((e) => /new sales team/i.test(e.innerText || "")),
+  }));
+  check("list body renders (filters, table/empty, New button), not just the header",
+    listBody.filters && listBody.tableOrEmpty && listBody.newBtn, JSON.stringify(listBody));
   check("the created team is listed",
     (await page.getByText(teamName, { exact: false }).count()) > 0);
 
@@ -143,10 +191,32 @@ try {
   await page.waitForTimeout(2500);
   check("New Sales Team opens the form", /new sales team/i.test(await page.locator("h1").first().innerText()));
 
+  // Regression: the helper must transmit name="" for a new record, not drop it.
+  const newReq = teamRequests.find((u) => u.includes("get_sales_team"));
+  check("new-team request carries the name parameter",
+    Boolean(newReq) && /[?&]name=(&|$)/.test(newReq), newReq || "(no request)");
+
   const shareInputs = page.locator('input[aria-label^="Share for row"]');
   const shareValues = await shareInputs.evaluateAll((els) => els.map((e) => Number(e.value)));
   check("default split is 50 / 25 / 25",
     JSON.stringify(shareValues) === JSON.stringify([50, 25, 25]), JSON.stringify(shareValues));
+
+  const formBody = await page.evaluate(() => ({
+    teamName: !!document.querySelector('input[type="text"]'),
+    teamCode: Array.from(document.querySelectorAll("input")).some((i) => i.readOnly),
+    rows: document.querySelectorAll('input[aria-label^="Person for row"]').length,
+    add: !!Array.from(document.querySelectorAll("button")).find((e) => /add representative/i.test(e.innerText || "")),
+    save: !!Array.from(document.querySelectorAll("button")).find((e) => /save sales team/i.test(e.innerText || "")),
+    cancel: !!Array.from(document.querySelectorAll("a,button")).find((e) => /^cancel$/i.test((e.innerText || "").trim())),
+    roles: Array.from(document.querySelectorAll('select[aria-label^="Role for row"]')).map((s2) => s2.value),
+  }));
+  check("form body shows name, code, member rows, Add, Save and Cancel",
+    formBody.teamName && formBody.teamCode && formBody.rows === 3
+      && formBody.add && formBody.save && formBody.cancel, JSON.stringify(formBody));
+  check("default roles are Manager + 2 Representatives",
+    JSON.stringify(formBody.roles) === JSON.stringify(
+      ["Sales Manager", "Sales Representative", "Sales Representative"]),
+    JSON.stringify(formBody.roles));
 
   const totalText = () => page.locator(".smj-team-total").innerText();
   check("live total shows 100%", /100/.test(await totalText()), await totalText());
@@ -272,6 +342,69 @@ try {
   check("assignment loads the saved team after refresh",
     custText.includes(teamName) || custText.includes(created.persons[0]), "");
 
+  // ---- 6b. saved team round-trip --------------------------------------
+  await page.goto(`${BASE}/retail-erp/sales/teams`, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(2800);
+  const savedRow = page.locator("tbody tr").filter({ hasText: `E2E UI Team ${stamp}` }).first();
+  check("the saved team appears in the list", (await savedRow.count()) > 0);
+  if (await savedRow.count()) {
+    await savedRow.click();
+    await page.waitForTimeout(3000);
+    const loaded = await page.evaluate(() => ({
+      h1: (document.querySelector("h1") || {}).innerText || "",
+      name: (document.querySelector('input[type="text"]') || {}).value || "",
+      shares: Array.from(document.querySelectorAll('input[aria-label^="Share for row"]')).map((i) => Number(i.value)),
+      total: (document.querySelector(".smj-team-total") || {}).innerText || "",
+    }));
+    check("opening the saved team loads its real data",
+      loaded.name.includes(`E2E UI Team ${stamp}`), JSON.stringify(loaded).slice(0, 140));
+    check("saved shares are preserved (50/25/15/10)",
+      JSON.stringify(loaded.shares) === JSON.stringify([50, 25, 15, 10]),
+      JSON.stringify(loaded.shares));
+    check("reloaded team still totals 100%", /100/.test(loaded.total), loaded.total);
+  }
+
+  // ---- 6c. unauthorised user ------------------------------------------
+  const rCtx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const rLogin = await rCtx.request.post(`${BASE}/api/method/login`,
+    { data: { usr: restrictedEmail, pwd: restrictedPw } });
+  if (rLogin.ok()) {
+    const rp = await rCtx.newPage();
+    await rp.goto(`${BASE}/retail-erp/home`, { waitUntil: "domcontentloaded" });
+    await rp.waitForTimeout(2500);
+    await rp.getByRole("button", { name: /^Sales submenu$/i }).click().catch(() => {});
+    await rp.waitForTimeout(700);
+    await rp.getByRole("button", { name: /show all \d+ links/i }).click().catch(() => {});
+    await rp.waitForTimeout(700);
+    check("unauthorised user does not see the Sales Teams navigation",
+      (await rp.locator('a[href*="/sales/teams"]').count()) === 0);
+
+    await rp.goto(`${BASE}/retail-erp/sales/teams`, { waitUntil: "domcontentloaded" });
+    await rp.waitForTimeout(3000);
+    // Assert on the page's own heading, not any occurrence in the whole document,
+    // and confirm the Sales Teams body is genuinely absent.
+    const rState = await rp.evaluate(() => ({
+      heading: Array.from(document.querySelectorAll("h1,h2"))
+        .map((h) => h.innerText.trim()).join(" | "),
+      hasNewBtn: !!Array.from(document.querySelectorAll("a,button"))
+        .find((e) => /new sales team/i.test(e.innerText || "")),
+      hasTeamTable: !!document.querySelector(".rug-table-region"),
+    }));
+    check("unauthorised direct access is denied",
+      /permission denied|not permitted|no access/i.test(rState.heading)
+        && !rState.hasNewBtn && !rState.hasTeamTable,
+      JSON.stringify(rState));
+
+    const apiRes = await rCtx.request.get(
+      `${BASE}/api/method/my_store_ui.sales_team.list_sales_teams`);
+    check("backend refuses the unauthorised user too (not just the UI)",
+      apiRes.status() === 403, `HTTP ${apiRes.status()}`);
+    await rp.close();
+  } else {
+    check("restricted user could log in", false, `HTTP ${rLogin.status()}`);
+  }
+  await rCtx.close();
+
   // ---- 7. health -------------------------------------------------------
   check("no console errors", consoleErrors.length === 0, consoleErrors[0] || "");
   check("no failed API requests", failedRequests.length === 0, failedRequests[0] || "");
@@ -286,6 +419,7 @@ try {
       { doctype: "Retail Sales Team", filters: JSON.stringify([["team_name", "like", `%${stamp}%`]]), limit_page_length: 20 }, "GET").catch(() => []);
     for (const t of uiTeams || []) await api("frappe.client.delete", { doctype: "Retail Sales Team", name: t.name }).catch(() => {});
     for (const p of created.persons) await api("frappe.client.delete", { doctype: "Sales Person", name: p }).catch(() => {});
+    for (const u of created.users || []) await api("frappe.client.delete", { doctype: "User", name: u }).catch(() => {});
   } catch { /* cleanup is best effort */ }
   await browser.close();
 }

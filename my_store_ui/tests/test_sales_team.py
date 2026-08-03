@@ -95,6 +95,33 @@ class TestSalesTeamMaster(SalesTeamBase):
 	def test_route_resolves(self):
 		self.assertEqual(authorize_frontend_route("/sales/teams")["outcome"], "allowed")
 
+	def test_new_record_contract_holds_however_it_is_called(self):
+		"""Regression: the frontend helper once dropped name="" and the endpoint ran
+		with no argument, returning HTTP 500 and a blank form body. Every form of the
+		new-record call must return the new-team shape."""
+		for call in (lambda: get_sales_team(), lambda: get_sales_team(""),
+		             lambda: get_sales_team(name="")):
+			data = call()
+			self.assertTrue(data["is_new"])
+			self.assertEqual(len(data["team"]["members"]), 3)
+
+	def test_no_retail_erp_endpoint_requires_an_argument_the_ui_may_blank(self):
+		"""Any whitelisted endpoint the UI calls with a possibly-empty value must
+		declare a default, or the same 500 returns on a different page."""
+		import inspect
+
+		import my_store_ui.sales_team as module
+
+		for attr in ("get_sales_team", "list_sales_teams", "search_sales_persons"):
+			fn = getattr(module, attr)
+			sig = inspect.signature(getattr(fn, "__wrapped__", fn))
+			required = [
+				p.name for p in sig.parameters.values()
+				if p.default is inspect.Parameter.empty
+				and p.kind in (p.POSITIONAL_OR_KEYWORD, p.KEYWORD_ONLY)
+			]
+			self.assertFalse(required, f"{attr} would break on a blank value: {required}")
+
 	def test_default_new_team_is_50_25_25(self):
 		data = get_sales_team("")
 		members = data["team"]["members"]

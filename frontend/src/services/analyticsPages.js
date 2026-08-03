@@ -11,7 +11,8 @@ function message(payload, fallback) {
 }
 
 async function get(method, params = {}, signal) {
-  const query = new URLSearchParams(Object.entries(params).filter(([, value]) => value !== undefined && value !== null && value !== ""));
+  // Only an absent value is dropped; an empty string is a deliberate value.
+  const query = new URLSearchParams(Object.entries(params).filter(([, value]) => value !== undefined && value !== null));
   const response = await fetch(`${PREFIX}${method}${query.size ? `?${query}` : ""}`, {
     credentials: "same-origin",
     cache: "no-store",

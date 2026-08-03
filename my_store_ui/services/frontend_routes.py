@@ -93,15 +93,17 @@ NAVIGATION = (
 	{"name": "sales", "label": "Sales", "path": "/sales", "accent": "green", "icon": "sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice"), "links": (
 		{"label": "Sales Dashboard", "path": "/sales", "any_read": ("Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice")},
 		{"label": "Customers", "path": "/sales/customers", "doctype": "Customer"},
+		# A Sales module master alongside Customers, and the source of every
+		# customer's commission split -- kept high so it is reachable without
+		# expanding the menu. Permission-gated by the doctype, so a user without
+		# Retail Sales Team read never sees it.
+		{"label": "Sales Teams", "path": "/sales/teams", "doctype": "Retail Sales Team"},
 		{"label": "Quotations", "path": "/sales/quotations", "doctype": "Quotation"},
 		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},
 		{"label": "Sales Invoices", "path": "/sales/invoices", "doctype": "Sales Invoice"},
 		{"label": "Payment Entries", "path": "/finance/payments", "doctype": "Payment Entry"},
 		{"label": "Sales Funnel", "path": "/sales/funnel", "page": "sales-funnel"},
-		# Permission-gated by the doctype, so a user without Retail Sales Team read
-		# never sees the entry.
-		{"label": "Sales Teams", "path": "/sales/teams", "doctype": "Retail Sales Team"},
 		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
 	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
