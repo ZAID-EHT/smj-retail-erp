@@ -250,6 +250,22 @@
 .smj-team-override select,.smj-team-override textarea{width:100%;padding:8px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
 .smj-team-override__actions{display:flex;flex-wrap:wrap;gap:8px}
 
+/* --- Commission register --------------------------------------------------- */
+.smj-commissions__scope{margin:0 0 12px;padding:9px 12px;border-radius:8px;background:var(--ref-surface-muted,#eef1f5);color:var(--ref-secondary-text);font-size:12px;font-weight:600}
+.smj-commissions__filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.smj-commissions__filter-grid label{display:block}
+.smj-commissions__filter-grid span{display:block;margin-bottom:4px;color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-commissions__filter-grid input,.smj-commissions__filter-grid select{width:100%;padding:7px 9px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
+.smj-commissions__filter-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.smj-commissions__totals{display:flex;flex-wrap:wrap;gap:10px 24px;color:var(--ref-secondary-text);font-size:12px}
+.smj-commissions__totals strong{color:var(--ref-primary-text);font-size:14px;font-weight:800}
+/* Wide tables scroll inside their own box; the page itself must never scroll sideways. */
+.smj-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.smj-commissions__table{min-width:1080px}
+.smj-commissions__table .is-num{text-align:right;white-space:nowrap}
+.smj-commissions__table tr.is-return{background:var(--ref-warning-background,#fff6e5)}
+.smj-commissions__table small{display:block;color:var(--ref-warning,#8a5a00);font-size:10px;font-weight:700}
+
 /* --- Sales Teams list and form -------------------------------------------- */
 .smj-sort{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:inherit;cursor:pointer}
 .smj-sort:hover{color:var(--ref-primary-blue)}
@@ -261,3 +277,21 @@
 .smj-form-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
 .cqf-team-preview{margin-top:10px}
 .cqf-hint--warn{color:var(--ref-orange);font-weight:700}
+.smj-customer-team{display:grid;gap:16px;margin-top:16px}
+.smj-customer-team__note{margin:10px 0 0;color:var(--ref-secondary-text);font-size:11px}
+.smj-customer-team .rug-table .is-num,.smj-doc-team .rug-table .is-num{text-align:right;white-space:nowrap}
+.smj-customer-team small{display:block;color:var(--ref-secondary-text);font-size:10px}
+.smj-doc-team{margin-top:16px}
+.smj-doc-team header h2{margin:0;font-size:15px;font-weight:800}
+.smj-doc-team header p{margin:2px 0 12px;color:var(--ref-secondary-text);font-size:11px}
+.smj-doc-team .smj-commissions__totals{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--ref-border-colour)}
+.smj-team-performance header h2{margin:0;font-size:15px;font-weight:800}
+.smj-team-performance header p{margin:2px 0 12px;color:var(--ref-secondary-text);font-size:11px}
+.smj-team-performance__range{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.smj-team-performance__range label span{display:block;margin-bottom:4px;color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-team-performance__range input{padding:7px 9px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
+.smj-team-performance__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.smj-team-performance__grid>div{padding:10px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff}
+.smj-team-performance__grid span{display:block;color:var(--ref-secondary-text);font-size:11px}
+.smj-team-performance__grid strong{font-size:16px;font-weight:800}
+.smj-team-performance__grid .is-total{border-left:3px solid var(--ref-module-sales)}

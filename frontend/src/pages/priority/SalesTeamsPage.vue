@@ -7,6 +7,7 @@ import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
 import {
   getSalesTeam, listSalesTeams, saveSalesTeam, searchSalesPersons,
 } from "@/services/salesTeam.js";
+import TeamPerformancePanel from "@/components/sales/TeamPerformancePanel.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -24,7 +25,7 @@ const error = ref(null);
 const denied = ref(false);
 let controller = null;
 
-const form = reactive({ team: null, roles: [], canManage: false, isNew: true });
+const form = reactive({ team: null, roles: [], companies: [], canManage: false, isNew: true });
 const formLoading = ref(false);
 const saving = ref(false);
 const formError = ref("");
@@ -56,6 +57,7 @@ function loadForm() {
       form.team = result.team;
       form.roles = result.roles;
       form.canManage = result.can_manage;
+      form.companies = result.companies || [];
       form.isNew = result.is_new;
     })
     .catch((err) => { formError.value = err.message; })
@@ -256,6 +258,14 @@ function goPage(delta) {
               <label><span>Team Commission Rate (%)</span>
                 <input v-model.number="form.team.commission_rate" type="number" min="0" max="100" step="any" :disabled="!form.canManage" />
               </label>
+              <label><span>Restrict to Company</span>
+                <select v-model="form.team.company" :disabled="!form.canManage" data-test="team-company">
+                  <option value="">Every company</option>
+                  <option v-for="option in form.companies || []" :key="option" :value="option">
+                    {{ option }}
+                  </option>
+                </select>
+              </label>
               <label><span>Effective From</span>
                 <input v-model="form.team.effective_from" type="date" :disabled="!form.canManage" />
               </label>
@@ -317,6 +327,9 @@ function goPage(delta) {
             </p>
             <p v-if="blockingReason" class="rug-inline-error" role="alert">{{ blockingReason }}</p>
           </section>
+
+          <!-- Only for a team that exists; a new one has nothing to report on yet. -->
+          <TeamPerformancePanel v-if="!form.isNew && editing !== 'new'" :team="editing" />
 
           <section class="rug-section-card">
             <header><h2>Notes</h2></header>

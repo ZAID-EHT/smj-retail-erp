@@ -98,6 +98,7 @@ NAVIGATION = (
 		# expanding the menu. Permission-gated by the doctype, so a user without
 		# Retail Sales Team read never sees it.
 		{"label": "Sales Teams", "path": "/sales/teams", "doctype": "Retail Sales Team"},
+		{"label": "Commission Register", "path": "/sales/commissions", "doctype": "Sales Invoice"},
 		{"label": "Quotations", "path": "/sales/quotations", "doctype": "Quotation"},
 		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},

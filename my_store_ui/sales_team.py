@@ -141,6 +141,11 @@ def list_sales_teams(search: str = "", is_active: str = "", sales_manager: str =
 	}
 
 
+def _company_options() -> list[str]:
+	"""Companies the user may actually see; blank means the team works for all."""
+	return frappe.get_list("Company", pluck="name", limit_page_length=0)
+
+
 def _serialise(doc) -> dict:
 	return {
 		"name": doc.name,
@@ -187,6 +192,7 @@ def get_sales_team(name: str = ""):
 			},
 			"can_manage": can_manage(),
 			"roles": [MANAGER_ROLE, REPRESENTATIVE_ROLE],
+			"companies": _company_options(),
 			"is_new": True,
 		}
 	if not frappe.has_permission(DOCTYPE, "read", doc=name):
@@ -196,6 +202,7 @@ def get_sales_team(name: str = ""):
 		"team": _serialise(doc),
 		"can_manage": can_manage(),
 		"roles": [MANAGER_ROLE, REPRESENTATIVE_ROLE],
+		"companies": _company_options(),
 		"is_new": False,
 		"assigned_customers": frappe.get_list(
 			"Customer", filters={"custom_sales_team": name}, fields=["name", "customer_name"],
@@ -647,8 +654,9 @@ def _snapshot_from_source(doc) -> dict | None:
 			value = row.get(fieldname)
 			if value:
 				candidates.append(("Sales Invoice", value))
+		# Child rows are Documents: `.get()` works, subscripting does not.
 		if row.get("delivery_note"):
-			candidates.append(("Delivery Note", row["delivery_note"]))
+			candidates.append(("Delivery Note", row.get("delivery_note")))
 
 	seen = set()
 	for doctype, name in candidates:

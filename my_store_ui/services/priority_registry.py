@@ -286,6 +286,10 @@ SPECIAL_ROUTES = {
 	# Sales Teams master: manager + representatives and their commission split.
 	"/sales/teams": {"module": "sales", "label": "Sales Teams",
 	                 "doctype": "Retail Sales Team", "classification": "register"},
+	# Commission is read from Sales Invoice snapshots, so the guard must require the
+	# same doctype the page's own API reads, or the page renders and then 403s.
+	"/sales/commissions": {"module": "sales", "label": "Commission Register",
+	                       "doctype": "Sales Invoice", "classification": "register"},
 	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions",
 	                        "doctype": "Sales Order", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},

@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import EntityActions from "@/components/detail/EntityActions.vue";
+import DocumentSalesTeamPanel from "@/components/detail/DocumentSalesTeamPanel.vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
 import RecordNotFound from "@/components/feedback/RecordNotFound.vue";
@@ -18,6 +19,10 @@ const denied = ref(false);
 const notFound = ref(false);
 let controller;
 
+// Only the selling documents carry a frozen team; a Payment Entry does not.
+const teamDoctype = computed(
+  () => ({ delivery_notes: "Delivery Note", sales_invoices: "Sales Invoice" })[entityKey.value] || "",
+);
 const backRoute = computed(
   () =>
     ({
@@ -165,6 +170,8 @@ onBeforeUnmount(() => controller?.abort());
           </table>
         </div>
       </section>
+
+      <DocumentSalesTeamPanel v-if="teamDoctype" :doctype="teamDoctype" :name="data.document.name" />
 
       <EntityActions :entity-key="entityKey" :document="data.document" @refresh="load" />
     </div>

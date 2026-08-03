@@ -8,6 +8,8 @@ import DetailSummaryCard from "@/components/detail/DetailSummaryCard.vue";
 import ReadOnlyChildTable from "@/components/detail/ReadOnlyChildTable.vue";
 import RelatedDocuments from "@/components/detail/RelatedDocuments.vue";
 import SalesOrderActions from "@/components/detail/SalesOrderActions.vue";
+import CustomerSalesTeamPanel from "@/components/detail/CustomerSalesTeamPanel.vue";
+import DocumentSalesTeamPanel from "@/components/detail/DocumentSalesTeamPanel.vue";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
 import RecordNotFound from "@/components/feedback/RecordNotFound.vue";
@@ -72,6 +74,8 @@ const status = computed(() => data.value?.document?.[data.value.entity.status_fi
 
       <ReadOnlyChildTable v-for="table in data.child_tables" :key="table.fieldname" :table="table" :currency="currency" />
       <RelatedDocuments :groups="data.related" />
+      <CustomerSalesTeamPanel v-if="data.entity.key === 'customers'" :customer="data.document.name" />
+      <DocumentSalesTeamPanel v-if="data.entity.key === 'sales_orders'" doctype="Sales Order" :name="data.document.name" />
       <SalesOrderActions v-if="data.entity.key === 'sales_orders'" :document="data.document" @refresh="state.load" />
       <ActivitySummary :activity="data.activity" />
     </div>
