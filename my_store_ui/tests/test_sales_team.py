@@ -667,6 +667,110 @@ class TestSnapshotImmutability(SalesTeamBase):
 		)
 
 
+class TestSmartSalesIntegration(SalesTeamBase):
+	"""What the Smart Sales screen actually calls."""
+
+	def _cart_order(self, customer, **extra):
+		from my_store_ui.api import create_draft_sales_order
+
+		item, wh = SnapshotHelpers.item(self)
+		se = frappe.get_doc({
+			"doctype": "Stock Entry", "stock_entry_type": "Material Receipt",
+			"company": self.company,
+			"items": [{"item_code": item, "qty": 50, "t_warehouse": wh, "basic_rate": 500}],
+		})
+		se.insert(ignore_permissions=True)
+		se.submit()
+		payload = {
+			"request_id": uuid.uuid4().hex, "customer": customer, "company": self.company,
+			"warehouse": wh, "items": [{"item_code": item, "qty": 5}],
+		}
+		payload.update(extra)
+		return frappe.get_doc("Sales Order", create_draft_sales_order(payload)["name"])
+
+	def test_the_cart_freezes_the_customers_team(self):
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		so = self._cart_order(customer)
+		self.assertEqual(so.custom_sales_team, team)
+		self.assertEqual(so.custom_sales_team_source, "Customer Default")
+		self.assertEqual(len(so.custom_sales_team_members), 3)
+
+	def test_the_cart_can_carry_an_authorised_override(self):
+		default = self._team()["name"]
+		other = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, default)
+		so = self._cart_order(customer, sales_team=other,
+		                      sales_team_override_reason="Covering the route")
+		self.assertEqual(so.custom_sales_team, other)
+		self.assertEqual(so.custom_sales_team_source, "Overridden")
+		self.assertEqual(so.custom_sales_team_override_reason, "Covering the route")
+		self.assertEqual(
+			frappe.db.get_value("Customer", customer, "custom_sales_team"), default,
+			"an override must never change the customer master")
+
+	def test_the_cart_refuses_an_override_with_no_reason(self):
+		default = self._team()["name"]
+		other = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, default)
+		with self.assertRaises(frappe.ValidationError):
+			self._cart_order(customer, sales_team=other)
+
+	def test_the_assignment_endpoint_warns_when_there_is_no_team(self):
+		data = get_customer_sales_assignment(self._customer())
+		self.assertFalse(data["assigned"])
+		self.assertTrue(data["warnings"])
+
+	def test_the_assignment_endpoint_warns_when_the_team_went_inactive(self):
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		frappe.db.set_value("Retail Sales Team", team, "is_active", 0)
+		frappe.clear_document_cache("Retail Sales Team", team)
+		data = get_customer_sales_assignment(customer)
+		self.assertTrue(data["assigned"])
+		self.assertTrue(any("no longer active" in w for w in data["warnings"]))
+
+	def test_search_only_offers_active_teams(self):
+		from my_store_ui.sales_team import search_sales_teams
+
+		live = self._team()["name"]
+		dead = self._team()["name"]
+		frappe.db.set_value("Retail Sales Team", dead, "is_active", 0)
+		found = {row["value"] for row in search_sales_teams(limit=50)}
+		self.assertIn(live, found)
+		self.assertNotIn(dead, found)
+
+	def test_search_hides_a_team_pinned_to_another_company(self):
+		from my_store_ui.sales_team import search_sales_teams
+
+		other_company = frappe.get_doc({
+			"doctype": "Company", "company_name": f"STCo {uuid.uuid4().hex[:6]}",
+			"default_currency": "LKR", "country": "Sri Lanka",
+		}).insert(ignore_permissions=True)
+		pinned = self._team(company=other_company.name)["name"]
+		found = {row["value"] for row in search_sales_teams(company=self.company, limit=50)}
+		self.assertNotIn(pinned, found)
+
+	def test_the_snapshot_preview_balances_to_one_hundred(self):
+		from my_store_ui.sales_team import get_sales_team_snapshot
+
+		team = self._team(members=self._members(shares=(33.333, 33.333, 33.333)))["name"]
+		data = get_sales_team_snapshot(sales_team=team)
+		self.assertTrue(data["assigned"])
+		total = sum(flt(m["allocation_percentage"]) for m in data["assignment"]["members"])
+		self.assertEqual(total, 100.0)
+
+	def test_a_blank_preview_does_not_error(self):
+		from my_store_ui.sales_team import get_sales_team_snapshot
+
+		self.assertFalse(get_sales_team_snapshot()["assigned"])
+		self.assertFalse(get_sales_team_snapshot(sales_team="", customer="")["assigned"])
+
+
 class TestSalesTeamPermissions(SalesTeamBase):
 	def test_a_sales_user_can_read_but_not_change_a_team(self):
 		team = self._team()["name"]

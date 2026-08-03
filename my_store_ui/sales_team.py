@@ -314,11 +314,21 @@ def get_customer_sales_assignment(customer: str):
 		frappe.throw(_("You do not have access to this customer."), frappe.PermissionError)
 	team = frappe.db.get_value("Customer", customer, "custom_sales_team")
 	payload = team_payload(team)
+	warnings = []
+	if not payload:
+		warnings.append(_("No sales team is assigned to this customer. "
+		                  "The order will carry no commission split."))
+	elif not payload["is_active"]:
+		warnings.append(_("{0} is no longer active. Choose another team before "
+		                  "raising a new order.").format(payload["team_name"] or team))
 	return {
 		"customer": customer,
 		"assigned": bool(payload),
 		"assignment": payload,
 		"can_manage": can_manage(),
+		"can_override": can_override(),
+		"warnings": warnings,
+		"source": SOURCE_CUSTOMER,
 	}
 
 

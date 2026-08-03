@@ -235,6 +235,20 @@
 .smj-team-card__totals{display:flex;flex-wrap:wrap;gap:8px 18px;padding-top:10px;border-top:1px solid var(--ref-border-colour);color:var(--ref-secondary-text);font-size:12px}
 .smj-team-card__totals strong{color:var(--ref-primary-text);font-weight:800}
 .smj-team-card__totals .is-warning strong{color:var(--ref-danger)}
+.smj-team-card__actions{display:flex;flex-wrap:wrap;gap:8px}
+.smj-team-card__team small{color:var(--ref-secondary-text);font-size:11px}
+.smj-team-card__warning{margin:0 0 10px;padding:9px 12px;border-radius:8px;background:var(--ref-warning-background,#fff6e5);color:var(--ref-warning,#8a5a00);font-size:12px;font-weight:600}
+.smj-team-card__source{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 10px;font-size:11px}
+.smj-team-card__source span{padding:3px 8px;border-radius:999px;background:var(--ref-surface-muted,#eef1f5);color:var(--ref-secondary-text);font-weight:700}
+.smj-team-card__source span.is-overridden{background:var(--ref-warning-background,#fff6e5);color:var(--ref-warning,#8a5a00)}
+.smj-team-card__source em{color:var(--ref-secondary-text);font-style:normal;overflow-wrap:anywhere}
+.smj-team-card__members li.is-manager{border-left-color:var(--ref-primary-blue)}
+.smj-team-override header h2{margin:0;font-size:15px;font-weight:800}
+.smj-team-override header p{margin:2px 0 12px;color:var(--ref-secondary-text);font-size:11px}
+.smj-team-override label{display:block;margin-bottom:10px}
+.smj-team-override label span{display:block;margin-bottom:4px;color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-team-override select,.smj-team-override textarea{width:100%;padding:8px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
+.smj-team-override__actions{display:flex;flex-wrap:wrap;gap:8px}
 
 /* --- Sales Teams list and form -------------------------------------------- */
 .smj-sort{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:inherit;cursor:pointer}

@@ -406,6 +406,15 @@ def create_draft_sales_order(payload: str | dict):
 	order.set_warehouse = warehouse
 	order.delivery_date = delivery_date
 
+	# A team other than the customer's own is a supervisor action. Only the intent is
+	# carried here; sales_team.freeze_team re-authorises it, so a request that skips
+	# this endpoint is refused in exactly the same way.
+	override_team = (data.get("sales_team") or "").strip()
+	if override_team and order.meta.get_field("custom_sales_team"):
+		order.custom_sales_team = override_team
+		order.custom_sales_team_override_reason = (
+			data.get("sales_team_override_reason") or "").strip()
+
 	seen: set[str] = set()
 	shortfalls: list[dict] = []
 	for row in rows:

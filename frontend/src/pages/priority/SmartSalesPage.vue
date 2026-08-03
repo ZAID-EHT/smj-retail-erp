@@ -15,7 +15,7 @@ import {
 import PageContainer from "@/components/layout/PageContainer.vue";
 import { createSmartOrder, getCartPricing, getSmartSales, searchSmartCustomers } from "@/services/smartSales.js";
 import { getCustomerCreditStatus } from "@/services/wholesale.js";
-import { getCustomerSalesAssignment } from "@/services/salesTeam.js";
+import { getCustomerSalesAssignment, searchSalesTeams } from "@/services/salesTeam.js";
 import SalesTeamCard from "@/components/sales/SalesTeamCard.vue";
 
 const router = useRouter();
@@ -53,9 +53,27 @@ function outOfStock(item) {
    customer changes so the previous customer's team is never shown. */
 const salesTeam = ref(null);
 const salesTeamLoading = ref(false);
+const salesTeamWarnings = ref([]);
+const canOverrideTeam = ref(false);
+
+/* A team chosen for this one order. It never touches the customer master -- that
+   is a separate, deliberate action on the customer form. */
+const overrideTeam = ref("");
+const overrideReason = ref("");
+const overrideOpen = ref(false);
+const overrideOptions = ref([]);
+const overrideBusy = ref(false);
+const overrideError = ref("");
+
+// What the customer is actually assigned, kept separate so cancelling an override
+// restores it without another round trip.
+const customerDefaultTeam = ref(null);
 
 async function loadSalesTeam() {
   salesTeam.value = null;
+  customerDefaultTeam.value = null;
+  salesTeamWarnings.value = [];
+  clearOverride();
   if (!customer.value) { salesTeamLoading.value = false; return; }
   salesTeamLoading.value = true;
   const forCustomer = customer.value;
@@ -63,12 +81,64 @@ async function loadSalesTeam() {
     const result = await getCustomerSalesAssignment(forCustomer);
     // Ignore a late response for a customer that is no longer selected.
     if (customer.value !== forCustomer) return;
-    salesTeam.value = result.assigned ? result.assignment : null;
+    customerDefaultTeam.value = result.assigned ? result.assignment : null;
+    salesTeam.value = customerDefaultTeam.value;
+    salesTeamWarnings.value = result.warnings || [];
+    canOverrideTeam.value = Boolean(result.can_override);
   } catch {
     if (customer.value === forCustomer) salesTeam.value = null;
   } finally {
     if (customer.value === forCustomer) salesTeamLoading.value = false;
   }
+}
+
+function clearOverride() {
+  overrideTeam.value = "";
+  overrideReason.value = "";
+  overrideOpen.value = false;
+  overrideError.value = "";
+}
+
+async function openOverride() {
+  overrideOpen.value = true;
+  overrideError.value = "";
+  overrideBusy.value = true;
+  try {
+    overrideOptions.value = await searchSalesTeams({
+      company: data.value?.company || "", active_only: "1", limit: 50,
+    });
+  } catch (caught) {
+    overrideError.value = caught?.message || "Sales teams could not be loaded.";
+  } finally {
+    overrideBusy.value = false;
+  }
+}
+
+function applyOverride() {
+  if (!overrideTeam.value) { overrideError.value = "Choose a team."; return; }
+  if (!overrideReason.value.trim()) {
+    overrideError.value = "A reason is required when you use another customer's team.";
+    return;
+  }
+  const chosen = overrideOptions.value.find((o) => o.value === overrideTeam.value);
+  if (!chosen) { overrideError.value = "Choose a team."; return; }
+  salesTeam.value = {
+    team: chosen.value,
+    team_name: chosen.label,
+    sales_manager: chosen.sales_manager,
+    commission_rate: chosen.commission_rate,
+    is_active: chosen.is_active,
+    members: chosen.members,
+    source: "Overridden",
+    override_reason: overrideReason.value.trim(),
+  };
+  overrideOpen.value = false;
+  overrideError.value = "";
+}
+
+function cancelOverride() {
+  clearOverride();
+  salesTeam.value = customerDefaultTeam.value;
 }
 
 async function loadCredit() {
@@ -326,6 +396,10 @@ async function save() {
       warehouse: warehouse.value,
       price_list: priceList.value,
       items: cartRows.value.map(({ item_code, qty }) => ({ item_code, qty })),
+      // Only sent when a team other than the customer's own was chosen. The server
+      // re-authorises it either way.
+      sales_team: overrideTeam.value || "",
+      sales_team_override_reason: overrideTeam.value ? overrideReason.value.trim() : "",
     });
     await router.push(result.route);
   } catch (caught) {
@@ -533,9 +607,45 @@ onBeforeUnmount(() => {
         :assignment="salesTeam"
         :loading="salesTeamLoading"
         :idle="!customerSelected"
+        :warnings="salesTeamWarnings"
         :can-edit="Boolean(customerSelected)"
+        :can-override="canOverrideTeam && Boolean(customerSelected)"
         @edit="router.push(`/sales/customers/${encodeURIComponent(customer)}/edit`)"
+        @override="openOverride"
       />
+
+      <!-- Choosing another team applies to this order only. Changing the customer's
+           own team is a separate action on the customer form. -->
+      <section v-if="overrideOpen" class="rug-section-card smj-team-override"
+               role="dialog" aria-labelledby="smj-team-override-title">
+        <header>
+          <h2 id="smj-team-override-title">Use another sales team for this order</h2>
+          <p>The customer keeps their own team. Only this order changes.</p>
+        </header>
+        <div v-if="overrideBusy" class="smj-team-card__state" role="status">Loading teams…</div>
+        <template v-else>
+          <label>
+            <span>Sales team</span>
+            <select v-model="overrideTeam" data-test="override-team">
+              <option value="">Select a team</option>
+              <option v-for="option in overrideOptions" :key="option.value" :value="option.value">
+                {{ option.label }} — {{ option.member_count }} members
+              </option>
+            </select>
+          </label>
+          <label>
+            <span>Reason</span>
+            <textarea v-model="overrideReason" rows="2" data-test="override-reason"
+                      placeholder="Why is another team taking this order?"></textarea>
+          </label>
+          <p v-if="overrideError" class="smj-team-card__warning" role="alert">{{ overrideError }}</p>
+          <div class="smj-team-override__actions">
+            <button type="button" class="rug-button" data-test="override-apply"
+                    @click="applyOverride">Use this team</button>
+            <button type="button" @click="cancelOverride">Cancel</button>
+          </div>
+        </template>
+      </section>
 
       <div class="priority-sales-layout">
         <section class="rug-section-card smj-catalogue">

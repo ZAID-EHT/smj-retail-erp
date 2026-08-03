@@ -52,3 +52,8 @@ export const assignCustomerSalesTeam = (customer, team, signal) =>
 
 export const getDocumentSalesTeam = (doctype, name, signal) =>
   call("get_document_sales_team", { doctype, name }, { signal });
+
+export const searchSalesTeams = (params, signal) =>
+  call("search_sales_teams", params || {}, { signal });
+export const getSalesTeamSnapshot = (params, signal) =>
+  call("get_sales_team_snapshot", params || {}, { signal });
