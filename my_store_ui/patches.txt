@@ -7,3 +7,6 @@
 my_store_ui.patches.grant_buying_operator_permissions
 my_store_ui.patches.ensure_department_price_list
 my_store_ui.patches.install_sales_team_fields
+# Re-run: the snapshot grew rows, override provenance and commission fields. The
+# patch upserts through create_custom_fields, so running it again is safe.
+my_store_ui.patches.install_sales_team_fields #2026-08-03-snapshot-rows

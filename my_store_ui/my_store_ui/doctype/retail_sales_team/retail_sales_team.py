@@ -24,7 +24,28 @@ class RetailSalesTeam(Document):
 	def validate(self):
 		self._validate_dates()
 		self._validate_members()
+		self._validate_sales_persons_enabled()
 		self._set_manager()
+
+	def _validate_sales_persons_enabled(self):
+		"""Refuse a disabled Sales Person as an active member.
+
+		ERPNext throws when a disabled sales person reaches the standard sales_team
+		rows, which would block every new order for this team at the counter. Catching
+		it here, on the master, keeps the failure where someone can actually fix it.
+		"""
+		people = [row.sales_person for row in self.get("members") or [] if row.is_active and row.sales_person]
+		if not people:
+			return
+		disabled = frappe.get_all(
+			"Sales Person", filters={"name": ["in", people], "enabled": 0}, pluck="name"
+		)
+		if disabled:
+			frappe.throw(
+				_("{0} is disabled as a Sales Person and cannot be an active team member.").format(
+					", ".join(sorted(disabled))),
+				frappe.ValidationError,
+			)
 
 	def _validate_dates(self):
 		if self.effective_to and self.effective_from and self.effective_to < self.effective_from:

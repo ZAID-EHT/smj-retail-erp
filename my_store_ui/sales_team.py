@@ -16,7 +16,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.utils import cint, flt, nowdate
+from frappe.utils import cint, flt, now_datetime, nowdate
 
 from my_store_ui.my_store_ui.doctype.retail_sales_team.retail_sales_team import (
 	MANAGER_ROLE,
@@ -148,6 +148,7 @@ def _serialise(doc) -> dict:
 		"team_code": doc.name,
 		"sales_manager": doc.sales_manager,
 		"commission_rate": flt(doc.commission_rate),
+		"company": doc.get("restrict_to_company") or "",
 		"effective_from": str(doc.effective_from) if doc.effective_from else None,
 		"effective_to": str(doc.effective_to) if doc.effective_to else None,
 		"is_active": bool(doc.is_active),
@@ -220,6 +221,7 @@ def save_sales_team(payload, name: str | None = None):
 
 	doc.team_name = str(data.get("team_name") or "").strip()
 	doc.commission_rate = flt(data.get("commission_rate"))
+	doc.restrict_to_company = (data.get("company") or "").strip() or None
 	doc.effective_from = data.get("effective_from") or nowdate()
 	doc.effective_to = data.get("effective_to") or None
 	doc.is_active = 1 if data.get("is_active", True) else 0
@@ -274,6 +276,7 @@ def team_payload(team: str | None) -> dict | None:
 		"team_name": doc.team_name,
 		"sales_manager": doc.sales_manager,
 		"commission_rate": flt(doc.commission_rate),
+		"company": doc.get("restrict_to_company") or None,
 		"is_active": bool(doc.is_active),
 		"effective_from": str(doc.effective_from) if doc.effective_from else None,
 		"effective_to": str(doc.effective_to) if doc.effective_to else None,
@@ -284,18 +287,22 @@ def team_payload(team: str | None) -> dict | None:
 
 
 def _apply_team_rows(doc, team: str | None) -> None:
-	"""Project the team onto ERPNext's standard sales_team child table."""
+	"""Project the team onto ERPNext's standard sales_team child table.
+
+	The row's own `commission_rate` is deliberately left alone: it is read-only and
+	`fetch_from: sales_person.commission_rate`, so it carries the sales person's own
+	rate. Writing the team rate into it is silently overwritten on save.
+	"""
 	if not doc.meta.get_field("sales_team"):
 		return
 	doc.set("sales_team", [])
 	payload = team_payload(team)
 	if not payload:
 		return
-	for member in payload["members"]:
+	for member, share in zip(payload["members"], _balanced_shares(payload["members"])):
 		doc.append("sales_team", {
 			"sales_person": member["sales_person"],
-			"allocated_percentage": member["share_percentage"],
-			"commission_rate": payload["commission_rate"],
+			"allocated_percentage": share,
 		})
 
 
@@ -340,6 +347,46 @@ def assign_customer_sales_team(customer: str, team: str | None = None):
 
 
 @frappe.whitelist(methods=["GET"])
+def search_sales_teams(query: str = "", company: str = "", active_only: str = "1", limit: int = 20):
+	"""Type-ahead for the team pickers. Only teams usable for the given company."""
+	_require_read()
+	limit = min(max(cint(limit) or 20, 1), 50)
+	filters = {}
+	if cint(active_only or 0):
+		filters["is_active"] = 1
+	or_filters = None
+	if query:
+		like = f"%{query.strip()}%"
+		or_filters = {"team_name": ["like", like], "name": ["like", like]}
+	rows = frappe.get_list(
+		DOCTYPE, filters=filters, or_filters=or_filters,
+		fields=["name", "team_name", "sales_manager", "commission_rate", "restrict_to_company",
+		        "is_active"],
+		order_by="team_name asc", limit_page_length=limit,
+	)
+	company = (company or "").strip()
+	results = []
+	for row in rows:
+		# A team pinned to another company must not even be offered.
+		if company and row.get("restrict_to_company") and row["restrict_to_company"] != company:
+			continue
+		payload = team_payload(row["name"]) or {}
+		results.append({
+			"value": row["name"],
+			"label": row.get("team_name") or row["name"],
+			"team_code": row["name"],
+			"sales_manager": row.get("sales_manager"),
+			"commission_rate": flt(row.get("commission_rate")),
+			"company": row.get("restrict_to_company") or None,
+			"is_active": bool(row.get("is_active")),
+			"member_count": len(payload.get("members") or []),
+			"members": payload.get("members") or [],
+			"total_share": payload.get("total_share", 0),
+		})
+	return results
+
+
+@frappe.whitelist(methods=["GET"])
 def search_sales_persons(txt: str = "", limit: int = 20):
 	"""Sales Person options for the team form."""
 	_require_read()
@@ -357,63 +404,250 @@ def search_sales_persons(txt: str = "", limit: int = 20):
 # Transaction snapshot
 # --------------------------------------------------------------------------
 
-def build_snapshot(customer: str) -> dict | None:
-	"""The values to freeze onto a document raised for this customer now."""
-	team = frappe.db.get_value("Customer", customer, "custom_sales_team")
+SNAPSHOT_DOCTYPES = ("Sales Order", "Delivery Note", "Sales Invoice")
+SOURCE_CUSTOMER = "Customer Default"
+SOURCE_OVERRIDE = "Overridden"
+
+# Overriding the customer's team for one transaction is a supervisor action.
+OVERRIDE_ROLES = ("System Manager", "Sales Manager")
+
+
+def can_override() -> bool:
+	"""May the current user use a team other than the customer's default?"""
+	return bool(set(frappe.get_roles()) & set(OVERRIDE_ROLES))
+
+
+def _balanced_shares(members: list[dict]) -> list[float]:
+	"""Percentages that total exactly 100.
+
+	The master validator accepts 100 +/- 0.01, but ERPNext's own
+	`calculate_contribution` compares the standard sales_team rows against 100.0
+	exactly and throws otherwise. Three equal thirds stored as 33.33 would pass our
+	check and then block the order. The residue is put on the largest share, so the
+	adjustment is at most 0.01 and no money is created or lost when the pool is
+	divided.
+	"""
+	shares = [flt(m.get("share_percentage")) for m in members]
+	if not shares:
+		return []
+	rounded = [flt(s, 6) for s in shares]
+	residue = flt(TOTAL_SHARE - sum(rounded), 6)
+	if residue:
+		largest = max(range(len(rounded)), key=lambda i: rounded[i])
+		rounded[largest] = flt(rounded[largest] + residue, 6)
+	return rounded
+
+
+def _assert_team_usable(team: str, company: str | None) -> dict:
+	"""A team may only be put on a *new* document when it is active and in company."""
 	payload = team_payload(team)
 	if not payload:
+		frappe.throw(_("Invalid sales team: {0}").format(team), frappe.ValidationError)
+	if not payload["is_active"]:
+		frappe.throw(
+			_("{0} is no longer active and cannot be used on a new document.").format(
+				payload["team_name"] or team),
+			frappe.ValidationError,
+		)
+	team_company = payload.get("company")
+	if team_company and company and team_company != company:
+		frappe.throw(
+			_("{0} belongs to {1} and cannot be used on a {2} document.").format(
+				payload["team_name"] or team, team_company, company),
+			frappe.PermissionError,
+		)
+	return payload
+
+
+def build_snapshot(customer: str, team: str | None = None) -> dict | None:
+	"""The values to freeze onto a document raised for this customer now."""
+	resolved = team or frappe.db.get_value("Customer", customer, "custom_sales_team")
+	payload = team_payload(resolved)
+	if not payload:
 		return None
-	return {
-		**payload,
-		"source_customer": customer,
-		"captured_on": nowdate(),
-	}
+	return {**payload, "source_customer": customer, "captured_on": nowdate()}
 
 
-def apply_snapshot(doc, customer: str | None = None) -> None:
-	"""Freeze the customer's current team onto a document. Called once, at creation."""
+def _resolve_document_team(doc) -> tuple[str | None, str | None, str, str]:
+	"""Which team this document should freeze, where it came from, and why.
+
+	Returns (team, customer_team, source, reason). The override is re-authorised
+	here rather than trusted from whoever built the document, so posting straight at
+	the REST API is refused exactly like the Smart Sales route is.
+	"""
+	customer = doc.get("customer")
+	customer_team = frappe.db.get_value("Customer", customer, "custom_sales_team") if customer else None
+	requested = (doc.get("custom_sales_team") or "").strip() or None
+	reason = (doc.get("custom_sales_team_override_reason") or "").strip()
+
+	if not requested or requested == customer_team:
+		return customer_team, customer_team, SOURCE_CUSTOMER, ""
+
+	# A team other than the customer's default is an override.
+	if not can_override():
+		frappe.throw(
+			_("Only a Sales Manager can use a team other than the customer's own."),
+			frappe.PermissionError,
+		)
+	if not reason:
+		frappe.throw(
+			_("Give a reason for using a team other than the customer's own."),
+			frappe.ValidationError,
+		)
+	return requested, customer_team, SOURCE_OVERRIDE, reason
+
+
+def freeze_team(doc, method=None):
+	"""`before_validate`: settle the team and the split, once, and never again.
+
+	This runs *before* the document's own validate so ERPNext's
+	`calculate_commission` / `calculate_contribution` see the rate and the
+	percentages and derive the eligible amount, the pool and each person's
+	contribution themselves. Running it as a plain `validate` hook would be too
+	late -- Frappe runs the document's own method first and the hooks after it.
+	"""
 	if not doc.meta.get_field("custom_sales_team_snapshot"):
 		return
-	if doc.get("custom_sales_team_snapshot"):
-		return   # already frozen; never re-read the master
-	snapshot = build_snapshot(customer or doc.get("customer"))
-	if not snapshot:
+
+	if doc.get("custom_sales_team_captured_on"):
+		# Already frozen. The team never moves again; only the money below follows
+		# the document while it is still a draft.
 		return
+
+	inherited = _snapshot_from_source(doc)
+	if inherited:
+		snapshot = inherited
+		source = inherited.get("source") or SOURCE_CUSTOMER
+		reason = inherited.get("override_reason") or ""
+		customer_team = inherited.get("customer_team")
+	else:
+		team, customer_team, source, reason = _resolve_document_team(doc)
+		if not team:
+			return
+		_assert_team_usable(team, doc.get("company"))
+		snapshot = build_snapshot(doc.get("customer"), team)
+		if not snapshot:
+			return
+
+	members = snapshot.get("members") or []
+	shares = _balanced_shares(members)
+
 	doc.custom_sales_team = snapshot["team"]
 	doc.custom_sales_team_name = snapshot["team_name"]
 	doc.custom_sales_manager = snapshot["sales_manager"]
-	doc.custom_team_commission_rate = snapshot["commission_rate"]
-	doc.custom_sales_team_snapshot = json.dumps(snapshot, sort_keys=True)
+	doc.custom_team_commission_rate = flt(snapshot["commission_rate"])
+	doc.custom_customer_sales_team = customer_team
+	doc.custom_sales_team_source = source
+	doc.custom_sales_team_override_reason = reason
+	doc.custom_sales_team_captured_on = now_datetime()
+	doc.custom_sales_team_captured_by = frappe.session.user
+
+	doc.set("custom_sales_team_members", [])
+	for member, share in zip(members, shares):
+		doc.append("custom_sales_team_members", {
+			"sales_person": member["sales_person"],
+			"sales_person_name": frappe.db.get_value(
+				"Sales Person", member["sales_person"], "sales_person_name") or member["sales_person"],
+			"team_role": member["role"],
+			"allocation_percentage": share,
+		})
+
+	# Standard ERPNext rows, so ordinary sales-person reporting keeps working. The
+	# row's own commission_rate is read-only and fetched from the Sales Person, so
+	# it is deliberately not written here.
+	if doc.meta.get_field("sales_team"):
+		doc.set("sales_team", [])
+		for member, share in zip(members, shares):
+			doc.append("sales_team", {
+				"sales_person": member["sales_person"],
+				"allocated_percentage": share,
+			})
+	if doc.meta.get_field("commission_rate"):
+		doc.commission_rate = flt(snapshot["commission_rate"])
+
+	snapshot = {
+		**snapshot,
+		"source": source,
+		"override_reason": reason,
+		"customer_team": customer_team,
+		"balanced_shares": shares,
+		"captured_by": frappe.session.user,
+	}
+	doc.custom_sales_team_snapshot = json.dumps(snapshot, sort_keys=True, default=str)
+
+
+def price_commission(doc, method=None):
+	"""`validate`, after ERPNext has worked out the pool: split it between members.
+
+	The team and the percentages are frozen. The money is not -- while the document
+	is a draft its value can still change, and the estimate has to follow it. Once
+	submitted, nothing can change either.
+	"""
+	if not doc.meta.get_field("custom_sales_team_members"):
+		return
+	rows = doc.get("custom_sales_team_members") or []
+	if not rows:
+		return
+	pool = flt(doc.get("total_commission"))
+	precision = doc.precision("total_commission") or 2
+	for row in rows:
+		row.commission_amount = flt(pool * flt(row.allocation_percentage) / 100.0, precision)
 
 
 def stamp_sales_document(doc, method=None):
-	"""Document hook: snapshot on first save, and carry forward on mapped documents."""
+	"""Kept for the existing hook name; freezing now happens in `before_validate`."""
+	freeze_team(doc, method)
+
+
+def guard_snapshot_after_submit(doc, method=None):
+	"""A submitted document's team may not be edited in place."""
 	if not doc.meta.get_field("custom_sales_team_snapshot"):
 		return
-	if doc.get("custom_sales_team_snapshot"):
+	before = doc.get_doc_before_save()
+	if not before:
 		return
-	# Delivery Notes and Invoices inherit from their Sales Order rather than
-	# re-reading the customer, so the whole chain shares one snapshot.
-	inherited = _snapshot_from_source(doc)
-	if inherited:
-		doc.custom_sales_team = inherited.get("team")
-		doc.custom_sales_team_name = inherited.get("team_name")
-		doc.custom_sales_manager = inherited.get("sales_manager")
-		doc.custom_team_commission_rate = flt(inherited.get("commission_rate"))
-		doc.custom_sales_team_snapshot = json.dumps(inherited, sort_keys=True)
-		return
-	apply_snapshot(doc)
+	frozen = ("custom_sales_team", "custom_sales_team_name", "custom_sales_manager",
+	          "custom_team_commission_rate", "custom_sales_team_source",
+	          "custom_sales_team_captured_on", "custom_sales_team_snapshot")
+	for fieldname in frozen:
+		if (doc.get(fieldname) or "") != (before.get(fieldname) or ""):
+			frappe.throw(
+				_("The sales team on a submitted document cannot be changed. "
+				  "Cancel and amend it instead."),
+				frappe.ValidationError,
+			)
 
 
 def _snapshot_from_source(doc) -> dict | None:
-	orders = set()
+	"""Inherit the snapshot from whatever this document was made from.
+
+	Delivery Notes and Invoices follow their Sales Order; a Credit Note follows the
+	invoice it reverses. None of them re-read the customer or the master, so one
+	frozen team runs the whole chain.
+	"""
+	candidates: list[tuple[str, str]] = []
+	if doc.get("return_against"):
+		candidates.append((doc.doctype, doc.get("return_against")))
 	for row in doc.get("items") or []:
 		for fieldname in ("against_sales_order", "sales_order"):
 			value = row.get(fieldname)
 			if value:
-				orders.add(value)
-	for order in sorted(orders):
-		raw = frappe.db.get_value("Sales Order", order, "custom_sales_team_snapshot")
+				candidates.append(("Sales Order", value))
+		for fieldname in ("against_sales_invoice", "sales_invoice"):
+			value = row.get(fieldname)
+			if value:
+				candidates.append(("Sales Invoice", value))
+		if row.get("delivery_note"):
+			candidates.append(("Delivery Note", row["delivery_note"]))
+
+	seen = set()
+	for doctype, name in candidates:
+		if (doctype, name) in seen or doctype not in SNAPSHOT_DOCTYPES:
+			continue
+		seen.add((doctype, name))
+		if not frappe.get_meta(doctype).get_field("custom_sales_team_snapshot"):
+			continue
+		raw = frappe.db.get_value(doctype, name, "custom_sales_team_snapshot")
 		if raw:
 			try:
 				return json.loads(raw)
@@ -426,16 +660,96 @@ def _snapshot_from_source(doc) -> dict | None:
 def get_document_sales_team(doctype: str, name: str):
 	"""The frozen team for a transaction, for the detail pages."""
 	_require_login()
-	if doctype not in ("Sales Order", "Delivery Note", "Sales Invoice"):
+	if doctype not in SNAPSHOT_DOCTYPES:
 		frappe.throw(_("Unsupported document type."), frappe.ValidationError)
+	if not frappe.db.exists(doctype, name):
+		frappe.throw(_("That document does not exist."), frappe.DoesNotExistError)
 	if not frappe.has_permission(doctype, "read", doc=name):
 		frappe.throw(_("You do not have access to this document."), frappe.PermissionError)
-	raw = frappe.db.get_value(doctype, name, "custom_sales_team_snapshot")
-	if not raw:
-		return {"doctype": doctype, "name": name, "assigned": False, "assignment": None}
-	try:
-		snapshot = json.loads(raw)
-	except ValueError:
-		return {"doctype": doctype, "name": name, "assigned": False, "assignment": None}
-	return {"doctype": doctype, "name": name, "assigned": True, "assignment": snapshot,
-	        "is_snapshot": True}
+
+	empty = {"doctype": doctype, "name": name, "assigned": False, "assignment": None,
+	         "members": [], "commission": None}
+	head = frappe.db.get_value(
+		doctype, name,
+		["custom_sales_team", "custom_sales_team_name", "custom_sales_manager",
+		 "custom_team_commission_rate", "custom_customer_sales_team",
+		 "custom_sales_team_source", "custom_sales_team_override_reason",
+		 "custom_sales_team_captured_on", "custom_sales_team_captured_by",
+		 "amount_eligible_for_commission", "total_commission", "currency", "docstatus"],
+		as_dict=True,
+	)
+	if not head or not head.get("custom_sales_team"):
+		return empty
+
+	members = frappe.get_all(
+		"Retail Sales Team Snapshot",
+		filters={"parent": name, "parenttype": doctype,
+		         "parentfield": "custom_sales_team_members"},
+		fields=["sales_person", "sales_person_name", "team_role", "allocation_percentage",
+		        "commission_amount"],
+		order_by="idx asc",
+	)
+	return {
+		"doctype": doctype,
+		"name": name,
+		"assigned": True,
+		"is_snapshot": True,
+		"assignment": {
+			"team": head["custom_sales_team"],
+			"team_name": head.get("custom_sales_team_name"),
+			"sales_manager": head.get("custom_sales_manager"),
+			"commission_rate": flt(head.get("custom_team_commission_rate")),
+			"customer_team": head.get("custom_customer_sales_team"),
+			"source": head.get("custom_sales_team_source") or SOURCE_CUSTOMER,
+			"override_reason": head.get("custom_sales_team_override_reason") or "",
+			"captured_on": str(head["custom_sales_team_captured_on"])
+			if head.get("custom_sales_team_captured_on") else None,
+			"captured_by": head.get("custom_sales_team_captured_by"),
+			"members": members,
+			"total_share": round(sum(flt(m["allocation_percentage"]) for m in members), 2),
+		},
+		"members": members,
+		"commission": {
+			"base": flt(head.get("amount_eligible_for_commission")),
+			"rate": flt(head.get("custom_team_commission_rate")),
+			"pool": flt(head.get("total_commission")),
+			"currency": head.get("currency"),
+			"status": _commission_status(doctype, head.get("docstatus")),
+		},
+	}
+
+
+def _commission_status(doctype: str, docstatus) -> str:
+	"""What the figure on this document actually means."""
+	if cint(docstatus) == 2:
+		return "Cancelled"
+	if doctype == "Sales Invoice" and cint(docstatus) == 1:
+		return "Earned"
+	if cint(docstatus) == 1:
+		return "Estimated"
+	return "Draft"
+
+
+@frappe.whitelist(methods=["GET"])
+def get_sales_team_snapshot(sales_team: str = "", customer: str = ""):
+	"""What *would* be frozen right now, for a preview before anything is raised."""
+	_require_read()
+	team = (sales_team or "").strip()
+	if not team and customer:
+		if not frappe.has_permission("Customer", "read", doc=customer):
+			frappe.throw(_("You do not have access to this customer."), frappe.PermissionError)
+		team = frappe.db.get_value("Customer", customer, "custom_sales_team")
+	payload = team_payload(team) if team else None
+	if not payload:
+		return {"assigned": False, "assignment": None}
+	shares = _balanced_shares(payload["members"])
+	return {
+		"assigned": True,
+		"assignment": {
+			**payload,
+			"members": [
+				{**member, "allocation_percentage": share}
+				for member, share in zip(payload["members"], shares)
+			],
+		},
+	}

@@ -85,9 +85,20 @@ staging have it set, so the base is the net total of the order in practice.
    The member's commission amount is therefore kept in the retail-owned snapshot
    row, and `incentives` is left to ERPNext.
 
-`calculate_contribution` also throws if the `sales_team` rows do not total 100.
-Our teams always total exactly 100 across *active* members, so this is consistent
-rather than an obstacle — it gives us a second, standard enforcement of the rule.
+`calculate_contribution` also throws if the `sales_team` rows do not total 100 —
+and it compares against `100.0` **exactly**. The master validator accepts
+100 ± 0.01, so a split stored as 33.333 / 33.333 / 33.333 passes our check and then
+blocks the order at ERPNext's. Percentages are therefore balanced to exactly 100
+before the standard rows are written, with the residue (at most 0.01) placed on the
+largest share. The snapshot rows use the same balanced figures, so the member
+amounts always reconcile to the pool exactly.
+
+### Why the company field is not called `company`
+
+Frappe auto-fills any field named `company` from the user's default company when a
+document is inserted. That would make "blank = every company" unreachable, and
+every team would silently become single-company. The field is therefore
+`restrict_to_company`, which Frappe leaves alone.
 
 ---
 
@@ -101,7 +112,7 @@ Custom doctype, `STM-.#####`, 2 records on staging, both active.
 | Team Code | `name` | autoname | custom | auto | `STM-.#####` | permanent identity |
 | Sales Manager | `sales_manager` | Link → Sales Person | custom | derived | set from the member row marked Sales Manager; read-only | snapshot keeps the manager of the day |
 | Team Commission Rate | `commission_rate` | Percent | custom | no | 0–100 | snapshot freezes the rate |
-| Company | `company` | Link → Company | custom **(added)** | no | blank = every company | enforced against the transaction company |
+| Restrict to Company | `restrict_to_company` | Link → Company | custom **(added)** | no | blank = every company | enforced against the transaction company |
 | Effective From | `effective_from` | Date | custom | yes | ≤ Effective To | |
 | Effective To | `effective_to` | Date | custom | no | ≥ Effective From | |
 | Active | `is_active` | Check | custom | no | | inactive blocks *new* use only |

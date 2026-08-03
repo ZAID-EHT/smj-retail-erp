@@ -393,6 +393,280 @@ class TestSalesOrderSnapshot(SalesTeamBase):
 			get_document_sales_team("Customer", "whatever")
 
 
+class TestCommissionModel(SalesTeamBase):
+	"""The five quantities must stay distinct, and the money must reconcile.
+
+	See docs/sales/SMJ_SALES_TEAM_DATA_MAPPING.md for what each one means.
+	"""
+
+	def _priced_order(self, rate=2, shares=(50, 25, 25), qty=100, unit=1000):
+		team = self._team(commission_rate=rate, members=self._members(shares=shares))["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		item, wh = SnapshotHelpers.item(self)
+		so = frappe.get_doc({
+			"doctype": "Sales Order", "customer": customer, "company": self.company,
+			"delivery_date": frappe.utils.add_days(nowdate(), 7),
+			"items": [{"item_code": item, "qty": qty, "rate": unit, "warehouse": wh,
+			           "delivery_date": frappe.utils.add_days(nowdate(), 7)}],
+		})
+		so.insert(ignore_permissions=True)
+		return so, team, customer
+
+	def test_the_worked_example_from_the_requirements(self):
+		"""100,000 at 2% is a 2,000 pool split 1,000 / 500 / 500."""
+		so, _, _ = self._priced_order()
+		self.assertEqual(flt(so.amount_eligible_for_commission), 100000.0)
+		self.assertEqual(flt(so.commission_rate), 2.0)
+		self.assertEqual(flt(so.total_commission), 2000.0)
+		amounts = [flt(r.commission_amount) for r in so.custom_sales_team_members]
+		self.assertEqual(amounts, [1000.0, 500.0, 500.0])
+
+	def test_the_manager_is_not_paid_a_share_of_the_whole_sale(self):
+		"""The allocation percentage divides the pool, never the sale."""
+		so, _, _ = self._priced_order()
+		manager = so.custom_sales_team_members[0]
+		self.assertEqual(flt(manager.allocation_percentage), 50.0)
+		self.assertNotEqual(flt(manager.commission_amount), 50000.0)
+		self.assertEqual(flt(manager.commission_amount), 1000.0)
+
+	def test_member_amounts_reconcile_to_the_pool(self):
+		so, _, _ = self._priced_order(rate=3.5, shares=(40, 35, 25))
+		total = sum(flt(r.commission_amount) for r in so.custom_sales_team_members)
+		self.assertAlmostEqual(total, flt(so.total_commission), places=2)
+
+	def test_uneven_thirds_still_total_exactly_one_hundred(self):
+		"""33.333 x 3 is 99.999. The master's 0.01 tolerance accepts it, but ERPNext's
+		own sales_team check compares against 100.0 exactly and would block the order.
+		The residue must be balanced away before the standard rows are written."""
+		so, _, _ = self._priced_order(shares=(33.333, 33.333, 33.333))
+		standard = sum(flt(r.allocated_percentage) for r in so.sales_team)
+		self.assertEqual(standard, 100.0)
+		snapshot = sum(flt(r.allocation_percentage) for r in so.custom_sales_team_members)
+		self.assertEqual(snapshot, 100.0)
+
+	def test_snapshot_rows_keep_the_role_the_standard_table_cannot(self):
+		so, _, _ = self._priced_order()
+		roles = [r.team_role for r in so.custom_sales_team_members]
+		self.assertEqual(roles, ["Sales Manager", "Sales Representative", "Sales Representative"])
+
+	def test_standard_erpnext_rows_are_populated_for_ordinary_reporting(self):
+		so, _, _ = self._priced_order()
+		self.assertEqual(len(so.sales_team), 3)
+		# allocated_amount is the share of the *sale*, not the commission.
+		self.assertEqual(flt(so.sales_team[0].allocated_amount), 50000.0)
+
+	def test_the_estimate_follows_a_draft_but_the_team_does_not(self):
+		so, team, _ = self._priced_order()
+		frozen_at = so.custom_sales_team_captured_on
+		so.items[0].qty = 200
+		so.save(ignore_permissions=True)
+		self.assertEqual(flt(so.total_commission), 4000.0)
+		self.assertEqual(flt(so.custom_sales_team_members[0].commission_amount), 2000.0)
+		self.assertEqual(so.custom_sales_team, team)
+		self.assertEqual(so.custom_sales_team_captured_on, frozen_at)
+
+	def test_a_customer_with_no_team_gets_no_commission_figures(self):
+		item, wh = SnapshotHelpers.item(self)
+		so = frappe.get_doc({
+			"doctype": "Sales Order", "customer": self._customer(), "company": self.company,
+			"delivery_date": frappe.utils.add_days(nowdate(), 7),
+			"items": [{"item_code": item, "qty": 5, "rate": 100, "warehouse": wh,
+			           "delivery_date": frappe.utils.add_days(nowdate(), 7)}],
+		}).insert(ignore_permissions=True)
+		self.assertFalse(so.get("custom_sales_team"))
+		self.assertFalse(so.get("custom_sales_team_members"))
+		self.assertEqual(flt(so.total_commission), 0.0)
+
+
+class SnapshotHelpers:
+	"""Shared fixtures for the order-shaped tests."""
+
+	@staticmethod
+	def item(case):
+		from my_store_ui.quick_entry.product import create_product
+
+		group = frappe.get_all("Item Group", filters={"is_group": 0}, pluck="name")[0]
+		wh = frappe.get_all(
+			"Warehouse", filters={"is_group": 0, "company": case.company, "disabled": 0},
+			pluck="name")[0]
+		name = create_product({
+			"product_name": f"STItem {uuid.uuid4().hex[:5]}", "category": group,
+			"stock_location_1": wh, "cost_price": 500, "wholesale_price": 1000,
+			"retail_price": 1200,
+		})["name"]
+		return name, wh
+
+
+class TestTeamOverride(SalesTeamBase):
+	def _order_with(self, customer, team=None, reason=None):
+		item, wh = SnapshotHelpers.item(self)
+		payload = {
+			"doctype": "Sales Order", "customer": customer, "company": self.company,
+			"delivery_date": frappe.utils.add_days(nowdate(), 7),
+			"items": [{"item_code": item, "qty": 10, "rate": 1000, "warehouse": wh,
+			           "delivery_date": frappe.utils.add_days(nowdate(), 7)}],
+		}
+		if team:
+			payload["custom_sales_team"] = team
+		if reason:
+			payload["custom_sales_team_override_reason"] = reason
+		return frappe.get_doc(payload).insert(ignore_permissions=True)
+
+	def test_default_is_the_customers_own_team(self):
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		so = self._order_with(customer)
+		self.assertEqual(so.custom_sales_team_source, "Customer Default")
+		self.assertEqual(so.custom_customer_sales_team, team)
+		self.assertFalse(so.custom_sales_team_override_reason)
+
+	def test_a_manager_may_override_with_a_reason(self):
+		default = self._team()["name"]
+		other = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, default)
+		so = self._order_with(customer, team=other, reason="Regional handover")
+		self.assertEqual(so.custom_sales_team, other)
+		self.assertEqual(so.custom_sales_team_source, "Overridden")
+		self.assertEqual(so.custom_sales_team_override_reason, "Regional handover")
+		# The point of an override: the customer master is untouched.
+		self.assertEqual(
+			frappe.db.get_value("Customer", customer, "custom_sales_team"), default)
+		self.assertEqual(so.custom_customer_sales_team, default)
+
+	def test_an_override_without_a_reason_is_rejected(self):
+		default = self._team()["name"]
+		other = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, default)
+		with self.assertRaises(frappe.ValidationError):
+			self._order_with(customer, team=other)
+
+	def test_an_ordinary_sales_user_cannot_override_even_by_posting_directly(self):
+		"""The permission lives in the document hook, not in the Smart Sales screen,
+		so bypassing the screen changes nothing."""
+		default = self._team()["name"]
+		other = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, default)
+		user = self._user(SALES_USER, ["Sales User"])
+		frappe.set_user(user)
+		try:
+			with self.assertRaises(frappe.PermissionError):
+				self._order_with(customer, team=other, reason="Trying it on")
+		finally:
+			frappe.set_user("Administrator")
+
+	def test_an_inactive_team_cannot_be_used_on_a_new_document(self):
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		frappe.db.set_value("Retail Sales Team", team, "is_active", 0)
+		frappe.clear_document_cache("Retail Sales Team", team)
+		with self.assertRaises(frappe.ValidationError):
+			self._order_with(customer)
+
+	def test_a_team_pinned_to_another_company_is_refused(self):
+		other_company = frappe.get_doc({
+			"doctype": "Company", "company_name": f"STCo {uuid.uuid4().hex[:6]}",
+			"default_currency": "LKR", "country": "Sri Lanka",
+		}).insert(ignore_permissions=True)
+		team = self._team(company=other_company.name)["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		with self.assertRaises(frappe.PermissionError):
+			self._order_with(customer)
+
+	def test_a_team_with_no_company_works_for_every_company(self):
+		team = self._team()["name"]
+		self.assertFalse(frappe.db.get_value("Retail Sales Team", team, "company"))
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		so = self._order_with(customer)
+		self.assertEqual(so.custom_sales_team, team)
+
+
+class TestSnapshotImmutability(SalesTeamBase):
+	def _submitted_order(self):
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		item, wh = SnapshotHelpers.item(self)
+		se = frappe.get_doc({
+			"doctype": "Stock Entry", "stock_entry_type": "Material Receipt",
+			"company": self.company,
+			"items": [{"item_code": item, "qty": 200, "t_warehouse": wh, "basic_rate": 500}],
+		})
+		se.insert(ignore_permissions=True)
+		se.submit()
+		so = frappe.get_doc({
+			"doctype": "Sales Order", "customer": customer, "company": self.company,
+			"delivery_date": frappe.utils.add_days(nowdate(), 7),
+			"items": [{"item_code": item, "qty": 100, "rate": 1000, "warehouse": wh,
+			           "delivery_date": frappe.utils.add_days(nowdate(), 7)}],
+		})
+		so.insert(ignore_permissions=True)
+		so.submit()
+		return so, team, customer, item, wh
+
+	def test_a_submitted_snapshot_cannot_be_edited_in_place(self):
+		so, _, _, _, _ = self._submitted_order()
+		other = self._team()["name"]
+		so.custom_sales_team = other
+		with self.assertRaises(frappe.ValidationError):
+			so.save(ignore_permissions=True)
+
+	def test_deactivating_the_team_leaves_the_submitted_order_readable(self):
+		so, team, _, _, _ = self._submitted_order()
+		frappe.db.set_value("Retail Sales Team", team, "is_active", 0)
+		frappe.clear_document_cache("Retail Sales Team", team)
+		data = get_document_sales_team("Sales Order", so.name)
+		self.assertTrue(data["assigned"])
+		self.assertEqual(data["assignment"]["team"], team)
+		self.assertEqual(len(data["members"]), 3)
+
+	def test_the_invoice_inherits_the_orders_frozen_team_and_earns_on_it(self):
+		from my_store_ui.wholesale.delivery import create_delivery_note
+		from my_store_ui.wholesale.invoicing import create_sales_invoice
+
+		so, team, _, _, _ = self._submitted_order()
+		note = create_delivery_note(so.name, override_reason="Snapshot test", submit=1)
+		invoice = create_sales_invoice(note["name"], submit=1)
+		doc = frappe.get_doc("Sales Invoice", invoice["name"])
+		self.assertEqual(doc.custom_sales_team, team)
+		# 100 x 1000 at the default 4% team rate is a 4,000 pool, split 50/25/25.
+		self.assertEqual(flt(doc.total_commission), 4000.0)
+		self.assertEqual(
+			[flt(r.commission_amount) for r in doc.custom_sales_team_members],
+			[2000.0, 1000.0, 1000.0],
+		)
+		self.assertEqual(
+			get_document_sales_team("Sales Invoice", doc.name)["commission"]["status"], "Earned")
+		self.assertEqual(frappe.get_doc("Delivery Note", note["name"]).custom_sales_team, team)
+
+	def test_a_credit_note_reverses_the_commission_in_proportion(self):
+		from my_store_ui.wholesale.invoicing import create_sales_invoice
+		from my_store_ui.wholesale.returns import create_credit_note
+		from my_store_ui.wholesale.delivery import create_delivery_note
+
+		so, team, _, _, _ = self._submitted_order()
+		delivery = create_delivery_note(so.name, override_reason="Snapshot test", submit=1)
+		invoice = create_sales_invoice(delivery["name"], submit=1)
+		credit = frappe.get_doc(
+			"Sales Invoice", create_credit_note(invoice["name"], submit=0)["name"])
+
+		self.assertEqual(credit.custom_sales_team, team, "the reversal keeps the original team")
+		self.assertTrue(credit.is_return)
+		# A full return of a 4,000 pool is a -4,000 pool, split the same way.
+		self.assertEqual(flt(credit.total_commission), -4000.0)
+		self.assertEqual(
+			[flt(r.commission_amount) for r in credit.custom_sales_team_members],
+			[-2000.0, -1000.0, -1000.0],
+		)
+
+
 class TestSalesTeamPermissions(SalesTeamBase):
 	def test_a_sales_user_can_read_but_not_change_a_team(self):
 		team = self._team()["name"]

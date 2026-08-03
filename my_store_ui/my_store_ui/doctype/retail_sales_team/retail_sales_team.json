@@ -10,6 +10,7 @@
   "team_name",
   "sales_manager",
   "commission_rate",
+  "restrict_to_company",
   "column_break_head",
   "effective_from",
   "effective_to",
@@ -46,6 +47,14 @@
    "fieldtype": "Percent",
    "in_list_view": 1,
    "label": "Team Commission Rate"
+  },
+  {
+   "description": "Leave blank to let the team work for every company. Deliberately not named 'company': Frappe auto-fills any field of that name from the user's default company, which would make blank unreachable.",
+   "fieldname": "restrict_to_company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Restrict to Company",
+   "options": "Company"
   },
   {
    "fieldname": "column_break_head",

@@ -197,26 +197,40 @@ before_request = ["my_store_ui.route_guard.before_request"]
 # when the custom_wholesale_transaction_id field is absent, so this is safe on
 # any site (including before the fixture is applied).
 doc_events = {
+	# The sales team is frozen in `before_validate` and priced in `validate`.
+	#
+	# Freezing must happen first: Frappe runs a document's own method before the
+	# hooks, so a `validate` hook lands after ERPNext's calculate_commission and
+	# calculate_contribution have already run, and the pool would stay stale for a
+	# save. Setting the rate and the percentages in `before_validate` lets ERPNext
+	# derive the eligible amount, the pool and each person's contribution itself.
+	#
+	# Pricing then runs in `validate`, once the pool exists, to split it between the
+	# frozen members. The team never moves again; the money follows the document
+	# while it is a draft and stops when it is submitted.
 	"Sales Order": {
+		"before_validate": ["my_store_ui.sales_team.freeze_team"],
 		"validate": [
 			"my_store_ui.wholesale.transaction_id.assign_to_sales_order",
-			# Freezes the customer's sales team onto the order at creation. It is
-			# never re-read afterwards, so reassigning the customer later cannot
-			# rewrite an order that already exists.
-			"my_store_ui.sales_team.stamp_sales_document",
+			"my_store_ui.sales_team.price_commission",
 		],
+		"before_update_after_submit": ["my_store_ui.sales_team.guard_snapshot_after_submit"],
 	},
 	"Delivery Note": {
+		"before_validate": ["my_store_ui.sales_team.freeze_team"],
 		"validate": [
 			"my_store_ui.wholesale.transaction_id.propagate_from_source",
-			"my_store_ui.sales_team.stamp_sales_document",
+			"my_store_ui.sales_team.price_commission",
 		],
+		"before_update_after_submit": ["my_store_ui.sales_team.guard_snapshot_after_submit"],
 	},
 	"Sales Invoice": {
+		"before_validate": ["my_store_ui.sales_team.freeze_team"],
 		"validate": [
 			"my_store_ui.wholesale.transaction_id.propagate_from_source",
-			"my_store_ui.sales_team.stamp_sales_document",
+			"my_store_ui.sales_team.price_commission",
 		],
+		"before_update_after_submit": ["my_store_ui.sales_team.guard_snapshot_after_submit"],
 	},
 	"Payment Entry": {
 		"validate": "my_store_ui.wholesale.transaction_id.propagate_payment_entry",
