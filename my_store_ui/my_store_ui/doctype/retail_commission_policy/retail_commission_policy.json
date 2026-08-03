@@ -1,0 +1,358 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:policy_name",
+ "creation": "2026-08-04 00:30:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "policy_name",
+  "company",
+  "currency",
+  "enabled",
+  "col_head",
+  "status",
+  "effective_from",
+  "effective_to",
+  "sec_trigger",
+  "earning_trigger",
+  "custom_rule_note",
+  "sec_basis",
+  "commission_basis",
+  "custom_basis_note",
+  "col_basis",
+  "rate_source",
+  "fixed_rate",
+  "rate_priority_note",
+  "sec_accounting",
+  "commission_expense_account",
+  "commission_payable_account",
+  "payee_party_type",
+  "col_acc",
+  "mode_of_payment",
+  "cost_center",
+  "accounting_document_type",
+  "sec_cycle",
+  "payout_cycle",
+  "withholding_mode",
+  "withholding_percentage",
+  "col_cycle",
+  "returns_rule",
+  "sec_thresholds",
+  "minimum_payout_amount",
+  "carry_forward_small_balance",
+  "col_thr",
+  "maximum_negative_carry_forward",
+  "manual_approval_threshold",
+  "sec_approval",
+  "approved_by",
+  "approved_on",
+  "col_appr",
+  "accountant_approval_reference",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "policy_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Policy Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "default": "0",
+   "description": "A policy only becomes Active once it is approved and enabled.",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "col_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nIncomplete\nReady for Review\nApproved\nActive\nSuspended\nRetired",
+   "read_only": 1
+  },
+  {
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "label": "Effective From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "effective_to",
+   "fieldtype": "Date",
+   "label": "Effective To"
+  },
+  {
+   "fieldname": "sec_trigger",
+   "fieldtype": "Section Break",
+   "label": "Earning Trigger"
+  },
+  {
+   "description": "No default. An unset trigger keeps the policy Incomplete.",
+   "fieldname": "earning_trigger",
+   "fieldtype": "Select",
+   "label": "Commission Is Earned On",
+   "options": "\nSales Invoice Submission\nCustomer Payment Collection\nFull Payment Collection\nApproved Custom Rule"
+  },
+  {
+   "depends_on": "eval:doc.earning_trigger=='Approved Custom Rule'",
+   "fieldname": "custom_rule_note",
+   "fieldtype": "Small Text",
+   "label": "Approved Custom Rule"
+  },
+  {
+   "fieldname": "sec_basis",
+   "fieldtype": "Section Break",
+   "label": "Commission Basis"
+  },
+  {
+   "description": "No default. Gross Profit exposes cost and is permission-gated.",
+   "fieldname": "commission_basis",
+   "fieldtype": "Select",
+   "label": "Commission Basis",
+   "options": "\nNet Total\nNet Total After Discount\nGrand Total Excluding Tax\nGross Profit\nCollected Amount\nApproved Custom Basis"
+  },
+  {
+   "depends_on": "eval:doc.commission_basis=='Approved Custom Basis'",
+   "fieldname": "custom_basis_note",
+   "fieldtype": "Small Text",
+   "label": "Approved Custom Basis"
+  },
+  {
+   "fieldname": "col_basis",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rate_source",
+   "fieldtype": "Select",
+   "label": "Rate Source",
+   "options": "\nSales Team Rate\nCustomer Rate\nProduct Category Rate\nFixed Policy Rate\nApproved Priority Order"
+  },
+  {
+   "depends_on": "eval:doc.rate_source=='Fixed Policy Rate'",
+   "fieldname": "fixed_rate",
+   "fieldtype": "Percent",
+   "label": "Fixed Policy Rate"
+  },
+  {
+   "depends_on": "eval:doc.rate_source=='Approved Priority Order'",
+   "fieldname": "rate_priority_note",
+   "fieldtype": "Small Text",
+   "label": "Approved Priority Order"
+  },
+  {
+   "description": "Every field here must be set before any payout can be posted.",
+   "fieldname": "sec_accounting",
+   "fieldtype": "Section Break",
+   "label": "Accounting"
+  },
+  {
+   "fieldname": "commission_expense_account",
+   "fieldtype": "Link",
+   "label": "Commission Expense Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "commission_payable_account",
+   "fieldtype": "Link",
+   "label": "Commission Payable Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "payee_party_type",
+   "fieldtype": "Select",
+   "label": "Payee Party Type",
+   "options": "\nEmployee\nSupplier\nApproved Other"
+  },
+  {
+   "fieldname": "col_acc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Link",
+   "label": "Mode of Payment",
+   "options": "Mode of Payment"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "description": "Chosen by the accountant, not for convenience. See docs/accounting/SMJ_COMMISSION_ACCOUNTING_OPTIONS.md.",
+   "fieldname": "accounting_document_type",
+   "fieldtype": "Select",
+   "label": "Accounting Document",
+   "options": "\nJournal Entry\nPayment Entry\nExpense Claim\nPayroll Component\nApproved Other"
+  },
+  {
+   "fieldname": "sec_cycle",
+   "fieldtype": "Section Break",
+   "label": "Payout Cycle and Withholding"
+  },
+  {
+   "fieldname": "payout_cycle",
+   "fieldtype": "Select",
+   "label": "Payout Cycle",
+   "options": "\nWeekly\nFortnightly\nMonthly\nQuarterly\nManual Period"
+  },
+  {
+   "fieldname": "withholding_mode",
+   "fieldtype": "Select",
+   "label": "Withholding",
+   "options": "\nNo Withholding\nFixed Percentage\nRule Based\nExternal Payroll"
+  },
+  {
+   "depends_on": "eval:doc.withholding_mode=='Fixed Percentage'",
+   "description": "Never defaulted. Must be approved.",
+   "fieldname": "withholding_percentage",
+   "fieldtype": "Percent",
+   "label": "Withholding %"
+  },
+  {
+   "fieldname": "col_cycle",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "returns_rule",
+   "fieldtype": "Select",
+   "label": "Returns and Clawbacks",
+   "options": "\nReverse Before Payout\nDeduct From Next Period\nCreate Payable Adjustment\nManual Review"
+  },
+  {
+   "fieldname": "sec_thresholds",
+   "fieldtype": "Section Break",
+   "label": "Thresholds"
+  },
+  {
+   "default": "0",
+   "fieldname": "minimum_payout_amount",
+   "fieldtype": "Currency",
+   "label": "Minimum Payout Amount"
+  },
+  {
+   "default": "1",
+   "fieldname": "carry_forward_small_balance",
+   "fieldtype": "Check",
+   "label": "Carry Forward Below Minimum"
+  },
+  {
+   "fieldname": "col_thr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "maximum_negative_carry_forward",
+   "fieldtype": "Currency",
+   "label": "Maximum Negative Carry Forward"
+  },
+  {
+   "default": "0",
+   "fieldname": "manual_approval_threshold",
+   "fieldtype": "Currency",
+   "label": "Manual Approval Threshold"
+  },
+  {
+   "fieldname": "sec_approval",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_appr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "External evidence that the accounting configuration was signed off. Posting stays blocked without it.",
+   "fieldname": "accountant_approval_reference",
+   "fieldtype": "Data",
+   "label": "Accountant Approval Reference"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-04 00:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Commission Policy",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,209 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-08-04 00:30:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "sales_person",
+  "sales_person_name",
+  "team_role",
+  "sales_team",
+  "customer",
+  "col_a",
+  "sales_invoice",
+  "sales_order",
+  "payment_entry",
+  "eligibility_date",
+  "is_return",
+  "sec_money",
+  "eligible_basis",
+  "commission_rate",
+  "gross_pool",
+  "allocation_percentage",
+  "col_b",
+  "gross_commission",
+  "return_reversal",
+  "withholding",
+  "adjustment",
+  "net_commission",
+  "sec_meta",
+  "row_status",
+  "source_key"
+ ],
+ "fields": [
+  {
+   "fieldname": "sales_person",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Team Member",
+   "options": "Sales Person",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_person_name",
+   "fieldtype": "Data",
+   "label": "Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "team_role",
+   "fieldtype": "Data",
+   "label": "Role",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_team",
+   "fieldtype": "Link",
+   "label": "Sales Team",
+   "options": "Retail Sales Team",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sales Invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order",
+   "read_only": 1
+  },
+  {
+   "description": "Set only when the policy earns on collection.",
+   "fieldname": "payment_entry",
+   "fieldtype": "Link",
+   "label": "Payment Entry",
+   "options": "Payment Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "eligibility_date",
+   "fieldtype": "Date",
+   "label": "Eligibility Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_return",
+   "fieldtype": "Check",
+   "label": "Is Return",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_money",
+   "fieldtype": "Section Break",
+   "label": "Amounts"
+  },
+  {
+   "fieldname": "eligible_basis",
+   "fieldtype": "Currency",
+   "label": "Eligible Basis",
+   "read_only": 1
+  },
+  {
+   "fieldname": "commission_rate",
+   "fieldtype": "Percent",
+   "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gross_pool",
+   "fieldtype": "Currency",
+   "label": "Gross Pool",
+   "read_only": 1
+  },
+  {
+   "fieldname": "allocation_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Allocation %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "gross_commission",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Gross Commission",
+   "read_only": 1
+  },
+  {
+   "fieldname": "return_reversal",
+   "fieldtype": "Currency",
+   "label": "Return Reversal",
+   "read_only": 1
+  },
+  {
+   "fieldname": "withholding",
+   "fieldtype": "Currency",
+   "label": "Withholding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "adjustment",
+   "fieldtype": "Currency",
+   "label": "Adjustment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_commission",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Net Commission",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_meta",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Eligible",
+   "fieldname": "row_status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Eligible\nReversed\nExcluded\nBlocked",
+   "read_only": 1
+  },
+  {
+   "description": "Deterministic dedupe key: preparing a period twice must not double a row.",
+   "fieldname": "source_key",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Source Key",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-04 00:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Commission Period Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

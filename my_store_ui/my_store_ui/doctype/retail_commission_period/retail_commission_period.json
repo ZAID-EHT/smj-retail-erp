@@ -1,0 +1,281 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-08-04 00:30:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "company",
+  "policy",
+  "currency",
+  "col_h",
+  "from_date",
+  "to_date",
+  "status",
+  "sec_totals",
+  "gross_commission",
+  "reversals",
+  "withholding",
+  "col_t",
+  "adjustments",
+  "net_payable",
+  "paid_amount",
+  "outstanding",
+  "sec_rows",
+  "details",
+  "sec_exc",
+  "exceptions",
+  "sec_audit",
+  "prepared_by",
+  "prepared_on",
+  "reviewed_by",
+  "reviewed_on",
+  "col_au",
+  "approved_by",
+  "approved_on",
+  "decision_log"
+ ],
+ "fields": [
+  {
+   "default": "COM-PER-.YYYY.-.######",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "COM-PER-.YYYY.-.######"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "policy",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commission Policy",
+   "options": "Retail Commission Policy",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_h",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPrepared\nUnder Review\nApproved\nPayment Prepared\nPartially Paid\nPaid\nReopened\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_totals",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "gross_commission",
+   "fieldtype": "Currency",
+   "label": "Gross Commission",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reversals",
+   "fieldtype": "Currency",
+   "label": "Reversals",
+   "read_only": 1
+  },
+  {
+   "fieldname": "withholding",
+   "fieldtype": "Currency",
+   "label": "Withholding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_t",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "adjustments",
+   "fieldtype": "Currency",
+   "label": "Adjustments",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_payable",
+   "fieldtype": "Currency",
+   "label": "Net Payable",
+   "read_only": 1
+  },
+  {
+   "description": "Only an accounting-backed payout can move this. It stays zero until posting is approved.",
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "label": "Paid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "outstanding",
+   "fieldtype": "Currency",
+   "label": "Outstanding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_rows",
+   "fieldtype": "Section Break",
+   "label": "Detail"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Table",
+   "label": "Commission Rows",
+   "options": "Retail Commission Period Detail",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_exc",
+   "fieldtype": "Section Break",
+   "label": "Exceptions"
+  },
+  {
+   "fieldname": "exceptions",
+   "fieldtype": "Table",
+   "label": "Exceptions",
+   "options": "Retail Commission Exception"
+  },
+  {
+   "fieldname": "sec_audit",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail"
+  },
+  {
+   "fieldname": "prepared_by",
+   "fieldtype": "Link",
+   "label": "Prepared By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prepared_on",
+   "fieldtype": "Datetime",
+   "label": "Prepared On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Reviewed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_au",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decision_log",
+   "fieldtype": "Long Text",
+   "label": "Decision Log",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-04 00:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Commission Period",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

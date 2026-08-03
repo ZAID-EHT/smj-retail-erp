@@ -1,0 +1,154 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-08-04 00:30:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "period",
+  "company",
+  "currency",
+  "col_po",
+  "status",
+  "total_net_payable",
+  "posting_blocked_reason",
+  "sec_lines",
+  "lines",
+  "sec_preview",
+  "accounting_preview"
+ ],
+ "fields": [
+  {
+   "default": "COM-PAY-.YYYY.-.######",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "COM-PAY-.YYYY.-.######"
+  },
+  {
+   "fieldname": "period",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Commission Period",
+   "options": "Retail Commission Period",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_po",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nValidated\nReady for Posting\nPosted\nPartially Posted\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_net_payable",
+   "fieldtype": "Currency",
+   "label": "Total Net Payable",
+   "read_only": 1
+  },
+  {
+   "fieldname": "posting_blocked_reason",
+   "fieldtype": "Small Text",
+   "label": "Posting Blocked Because",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_lines",
+   "fieldtype": "Section Break",
+   "label": "Payout Lines"
+  },
+  {
+   "fieldname": "lines",
+   "fieldtype": "Table",
+   "label": "Lines",
+   "options": "Retail Commission Payout Line",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_preview",
+   "fieldtype": "Section Break",
+   "label": "Accounting Preview"
+  },
+  {
+   "description": "A dry run only. No accounting document is created by this record.",
+   "fieldname": "accounting_preview",
+   "fieldtype": "Long Text",
+   "label": "Proposed Accounting Entries",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-04 00:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Commission Payout",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
