@@ -21,13 +21,19 @@ function check(name, ok, detail = "") {
 }
 
 const stamp = Date.now().toString(36);
-const created = { persons: [], teams: [], customers: [], users: [] };
+// Frappe only starts enforcing CSRF once a page has booted and put a token in the
+// session. Every API call after that must carry it, or the POST is rejected.
+let csrfToken = "";
+const created = { persons: [], teams: [], customers: [], users: [], items: [], orders: [] };
 let ctx;
 
 async function api(method, args = {}, httpMethod = "POST") {
   const res = await ctx.request.fetch(`${BASE}/api/method/${method}`, {
     method: httpMethod,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      ...(csrfToken ? { "X-Frappe-CSRF-Token": csrfToken } : {}),
+    },
     data: httpMethod === "GET" ? undefined : args,
     params: httpMethod === "GET" ? args : undefined,
   });
@@ -52,6 +58,12 @@ async function purgeStale() {
 async function insert(doc) {
   const out = await api("frappe.client.insert", { doc });
   return out.name;
+}
+
+// frappe.client.submit takes the whole document, not a doctype/name pair.
+async function submitDoc(doctype, name) {
+  const doc = await api("frappe.client.get", { doctype, name }, "GET");
+  return api("frappe.client.submit", { doc });
 }
 
 const browser = await chromium.launch({ headless: true });
@@ -91,6 +103,7 @@ try {
   const withTeam = await insert({
     doctype: "Customer", customer_name: `E2E Cust A ${stamp}`,
     customer_group: groups[0].name, territory: territories[0].name,
+    default_price_list: "Wholesale Price List",
   });
   const withoutTeam = await insert({
     doctype: "Customer", customer_name: `E2E Cust B ${stamp}`,
@@ -142,6 +155,7 @@ try {
   await navLink.first().waitFor({ state: "attached", timeout: 8000 }).catch(() => {});
   const navLinks = await navLink.count();
   check("Sales Teams appears in the Sales navigation", navLinks > 0, `${navLinks} link(s)`);
+  csrfToken = await page.evaluate(() => window.frappe?.csrf_token || "").catch(() => "");
   const href = await navLink.first().getAttribute("href");
   check("navigation href uses the Retail ERP base path",
     href === "/retail-erp/sales/teams", String(href));
@@ -405,6 +419,179 @@ try {
   }
   await rCtx.close();
 
+  // ---- 8. snapshot, commission register and detail panels ---------------
+  // A real order -> delivery -> invoice chain, so the register has something
+  // truthful to show rather than an empty page that would pass by default.
+  let orderName = "";
+  let invoiceName = "";
+  try {
+    const groupsForItem = await api("frappe.client.get_list",
+      { doctype: "Item Group", filters: JSON.stringify([["is_group", "=", 0]]), limit_page_length: 1 }, "GET");
+    const warehouses = await api("frappe.client.get_list",
+      { doctype: "Warehouse", filters: JSON.stringify([["is_group", "=", 0], ["disabled", "=", 0]]), limit_page_length: 1 }, "GET");
+    const warehouse = warehouses[0].name;
+    const product = await api("my_store_ui.quick_entry.product.create_product", {
+      values: {
+        product_name: `E2E Item ${stamp}`, category: groupsForItem[0].name,
+        stock_location_1: warehouse, cost_price: 500,
+        wholesale_price: 1000, retail_price: 1200,
+      },
+    });
+    created.items = [product.name];
+
+    const receipt = await api("frappe.client.insert", {
+      doc: {
+        doctype: "Stock Entry", stock_entry_type: "Material Receipt",
+        items: [{ item_code: product.name, qty: 200, t_warehouse: warehouse, basic_rate: 500 }],
+      },
+    });
+    await submitDoc("Stock Entry", receipt.name);
+
+    const order = await api("my_store_ui.api.create_draft_sales_order", {
+      payload: {
+        request_id: `e2e-${stamp}`, customer: withTeam, warehouse,
+        items: [{ item_code: product.name, qty: 100 }],
+      },
+    });
+    orderName = order.name;
+    created.orders = [orderName];
+
+    const frozen = await api("my_store_ui.sales_team.get_document_sales_team",
+      { doctype: "Sales Order", name: orderName }, "GET");
+    check("the order froze the customer's team",
+      frozen.assigned && frozen.assignment.team === saved.name,
+      JSON.stringify(frozen.assignment || {}).slice(0, 120));
+    check("the frozen split is 50/25/25 totalling 100%",
+      frozen.members.length === 3
+        && Math.abs(frozen.members.reduce((s, m) => s + Number(m.allocation_percentage), 0) - 100) < 0.01,
+      JSON.stringify(frozen.members.map((m) => m.allocation_percentage)));
+    // 100 x 1000 at the 4% team rate is a 4,000 pool split 2,000 / 1,000 / 1,000.
+    check("the order has a real value to earn commission on",
+      Number(frozen.commission.base) > 0, `base=${frozen.commission.base}`);
+    check("the commission pool is the base times the team rate",
+      Math.abs(Number(frozen.commission.pool)
+               - Number(frozen.commission.base) * Number(frozen.commission.rate) / 100) < 0.01
+        && Math.abs(Number(frozen.commission.pool) - 4000) < 0.01,
+      `base=${frozen.commission.base} rate=${frozen.commission.rate} pool=${frozen.commission.pool}`);
+    check("the manager gets a share of the pool, not of the sale",
+      Math.abs(Number(frozen.members[0].commission_amount) - 2000) < 0.01,
+      String(frozen.members[0].commission_amount));
+
+    // Submitting, delivering and invoicing so the register has an earned line.
+    await submitDoc("Sales Order", orderName);
+    const note = await api("my_store_ui.wholesale.delivery.create_delivery_note",
+      { sales_order: orderName, override_reason: "E2E browser check", submit: 1 });
+    const invoice = await api("my_store_ui.wholesale.invoicing.create_sales_invoice",
+      { delivery_note: note.name, submit: 1 });
+    invoiceName = invoice.name;
+
+    // The team master changing must not move an already-raised document.
+    await api("my_store_ui.sales_team.save_sales_team", {
+      payload: {
+        team_name: teamName, commission_rate: 9,
+        effective_from: new Date().toISOString().slice(0, 10), is_active: true,
+        members: [
+          { sales_person: created.persons[0], team_role: "Sales Manager", share_percentage: 80, is_active: true },
+          { sales_person: created.persons[1], team_role: "Sales Representative", share_percentage: 10, is_active: true },
+          { sales_person: created.persons[2], team_role: "Sales Representative", share_percentage: 10, is_active: true },
+        ],
+      },
+      name: saved.name,
+    });
+    const after = await api("my_store_ui.sales_team.get_document_sales_team",
+      { doctype: "Sales Order", name: orderName }, "GET");
+    check("editing the team master leaves the raised order untouched",
+      Math.abs(Number(after.commission.rate) - 4) < 0.01
+        && Math.abs(Number(after.members[0].allocation_percentage) - 50) < 0.01,
+      `rate=${after.commission.rate} first=${after.members[0].allocation_percentage}`);
+  } catch (caught) {
+    check("commission chain data could be built", false, String(caught).slice(0, 200));
+  }
+
+  if (orderName) {
+    await page.goto(`${BASE}/retail-erp/sales/orders/${encodeURIComponent(orderName)}`,
+      { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(3500);
+    const panel = page.locator('[data-test="document-sales-team"]');
+    check("Sales Order detail shows the frozen team panel", (await panel.count()) > 0);
+    if (await panel.count()) {
+      const panelText = await panel.innerText();
+      check("the panel names the frozen team", panelText.includes(teamName), "");
+      check("the panel lists every member",
+        (await page.locator('[data-test="document-team-members"] tbody tr').count()) === 3);
+    }
+  }
+
+  if (invoiceName) {
+    await page.goto(`${BASE}/retail-erp/sales/invoices/${encodeURIComponent(invoiceName)}`,
+      { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(3500);
+    check("Sales Invoice detail shows the frozen team panel",
+      (await page.locator('[data-test="document-sales-team"]').count()) > 0);
+  }
+
+  // Customer detail: current team, past orders, and the teams they were raised with.
+  await page.goto(`${BASE}/retail-erp/sales/customers/${encodeURIComponent(withTeam)}`,
+    { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(4000);
+  const detailText = await page.locator("body").innerText();
+  check("Customer detail shows the sales team card", /sales team and commission/i.test(detailText));
+  check("Customer detail lists recent orders and their team",
+    (await page.locator('[data-test="customer-team-transactions"]').count()) > 0
+      || !orderName, "");
+
+  // Commission register.
+  await page.goto(`${BASE}/retail-erp/sales/commissions`, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(4000);
+  const regText = await page.locator("body").innerText();
+  check("Commission Register page renders", /commission register/i.test(regText));
+  check("the register offers its filters",
+    (await page.locator('[data-test="commission-apply"]').count()) > 0);
+  if (invoiceName) {
+    check("the register lists the earned lines",
+      (await page.locator('[data-test="commission-table"] tbody tr').count()) >= 3,
+      String(await page.locator('[data-test="commission-table"] tbody tr').count()));
+    check("the register offers an export",
+      (await page.locator('[data-test="commission-export"]').count()) > 0);
+  }
+  check("the register does not scroll the page sideways",
+    await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1));
+
+  // Team performance panel on the team form.
+  await page.goto(`${BASE}/retail-erp/sales/teams?team=${encodeURIComponent(saved.name)}`,
+    { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(3500);
+  check("the team form shows a performance panel",
+    (await page.locator('[data-test="team-performance"]').count()) > 0);
+
+  // Smart Sales override, available because this user is a Sales Manager.
+  await page.goto(`${BASE}/retail-erp/smart-sales`, { waitUntil: "domcontentloaded" });
+  await page.waitForTimeout(3000);
+  const overrideCombo = page.locator('input[aria-controls="smj-customer-options"]');
+  if (await overrideCombo.count()) {
+    await overrideCombo.click();
+    await overrideCombo.type(`E2E Cust A ${stamp}`, { delay: 25 });
+    await page.waitForTimeout(2500);
+    await page.locator('#smj-customer-options li[role="option"]')
+      .filter({ hasText: `E2E Cust A ${stamp}` }).first().click().catch(() => {});
+    await page.waitForTimeout(3500);
+  }
+  const overrideBtn = page.locator('[data-test="team-override"]');
+  check("a Sales Manager is offered the team override", (await overrideBtn.count()) > 0);
+  if (await overrideBtn.count()) {
+    await overrideBtn.click();
+    await page.waitForTimeout(2000);
+    check("the override dialog asks for a team and a reason",
+      (await page.locator('[data-test="override-team"]').count()) > 0
+        && (await page.locator('[data-test="override-reason"]').count()) > 0);
+    // Applying with no reason must be refused in the browser too.
+    await page.locator('[data-test="override-team"]').selectOption({ index: 1 }).catch(() => {});
+    await page.locator('[data-test="override-apply"]').click().catch(() => {});
+    await page.waitForTimeout(1200);
+    check("an override with no reason is refused",
+      /reason is required/i.test(await page.locator("body").innerText()));
+  }
+
   // ---- 7. health -------------------------------------------------------
   check("no console errors", consoleErrors.length === 0, consoleErrors[0] || "");
   check("no failed API requests", failedRequests.length === 0, failedRequests[0] || "");
@@ -418,6 +605,7 @@ try {
     const uiTeams = await api("frappe.client.get_list",
       { doctype: "Retail Sales Team", filters: JSON.stringify([["team_name", "like", `%${stamp}%`]]), limit_page_length: 20 }, "GET").catch(() => []);
     for (const t of uiTeams || []) await api("frappe.client.delete", { doctype: "Retail Sales Team", name: t.name }).catch(() => {});
+    for (const i of created.items || []) await api("frappe.client.delete", { doctype: "Item", name: i }).catch(() => {});
     for (const p of created.persons) await api("frappe.client.delete", { doctype: "Sales Person", name: p }).catch(() => {});
     for (const u of created.users || []) await api("frappe.client.delete", { doctype: "User", name: u }).catch(() => {});
   } catch { /* cleanup is best effort */ }

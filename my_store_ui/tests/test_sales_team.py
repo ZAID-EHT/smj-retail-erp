@@ -646,6 +646,48 @@ class TestSnapshotImmutability(SalesTeamBase):
 			get_document_sales_team("Sales Invoice", doc.name)["commission"]["status"], "Earned")
 		self.assertEqual(frappe.get_doc("Delivery Note", note["name"]).custom_sales_team, team)
 
+	def test_a_team_edited_while_an_order_is_being_raised_still_saves_one_consistent_snapshot(self):
+		"""Scenario 10. The master may change between building an order and saving it.
+
+		Whichever version the snapshot catches, it must be internally consistent --
+		one team, its own rate, members totalling exactly 100 -- and never a
+		half-old, half-new mixture.
+		"""
+		team = self._team()["name"]
+		customer = self._customer()
+		assign_customer_sales_team(customer, team)
+		item, wh = SnapshotHelpers.item(self)
+
+		# Built but deliberately not saved yet.
+		so = frappe.get_doc({
+			"doctype": "Sales Order", "customer": customer, "company": self.company,
+			"delivery_date": frappe.utils.add_days(nowdate(), 7),
+			"items": [{"item_code": item, "qty": 10, "rate": 1000, "warehouse": wh,
+			           "delivery_date": frappe.utils.add_days(nowdate(), 7)}],
+		})
+
+		# The master moves underneath it.
+		save_sales_team({
+			"team_name": frappe.db.get_value("Retail Sales Team", team, "team_name"),
+			"commission_rate": 7, "effective_from": nowdate(), "is_active": True,
+			"members": self._members(shares=(60, 20, 20)),
+		}, name=team)
+
+		so.insert(ignore_permissions=True)
+
+		rows = so.custom_sales_team_members
+		shares = sorted(flt(r.allocation_percentage) for r in rows)
+		self.assertEqual(so.custom_sales_team, team)
+		self.assertEqual(round(sum(shares), 4), 100.0, "the split must be whole, not mixed")
+		self.assertIn(shares, ([20.0, 20.0, 60.0], [25.0, 25.0, 50.0]),
+		              f"a mixture of both versions was saved: {shares}")
+		# The rate and the split must come from the same version of the master.
+		expected_rate = 7.0 if shares == [20.0, 20.0, 60.0] else 4.0
+		self.assertEqual(flt(so.custom_team_commission_rate), expected_rate)
+		# And the money must follow that same version.
+		self.assertAlmostEqual(
+			sum(flt(r.commission_amount) for r in rows), flt(so.total_commission), places=2)
+
 	def test_a_credit_note_reverses_the_commission_in_proportion(self):
 		from my_store_ui.wholesale.invoicing import create_sales_invoice
 		from my_store_ui.wholesale.returns import create_credit_note

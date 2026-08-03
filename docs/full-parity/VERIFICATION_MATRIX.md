@@ -228,3 +228,37 @@ scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/
 | Navigation survives an absent optional app | test_navigation_missing_page (5) | yes |
 | Six-viewport browser matrix | 162/162, zero console errors | yes |
 | site1.local untouched | SHA256 fingerprint identical | yes |
+
+## Sales Teams, snapshot and commission (2026-08-04)
+
+| Requirement | Evidence | Verified |
+|---|---|---|
+| Team assigned to a Customer | test_sales_team (assignment, 8) | yes |
+| Only active teams offered | test_search_only_offers_active_teams | yes |
+| Inactive team refused on new work | test_an_inactive_team_cannot_be_used_on_a_new_document | yes |
+| Smart Sales loads the customer's team | browser: card shows team, manager, reps, 50/25/25, 100% | yes |
+| Stale response never wins | request-identity guard, asserted in the picker suite | yes |
+| Permission-controlled override | test_a_manager_may_override_with_a_reason | yes |
+| Override refused for a Sales User posting directly | test_an_ordinary_sales_user_cannot_override_even_by_posting_directly | yes |
+| Override never changes the customer master | asserted in both override tests | yes |
+| Sales Order freezes an immutable snapshot | test_order_stores_a_snapshot, browser | yes |
+| Team-master edit cannot rewrite an old order | test_editing_the_team_master_does_not_change_the_old_order, browser | yes |
+| Customer reassignment cannot rewrite an old order | test_reassigning_the_customer_does_not_change_the_old_order | yes |
+| Submitted snapshot cannot be edited | test_a_submitted_snapshot_cannot_be_edited_in_place | yes |
+| Concurrent master edit yields one consistent snapshot | test_a_team_edited_while_an_order_is_being_raised... | yes |
+| Delivery Note preserves the snapshot | test_delivery_note_inherits_the_orders_snapshot | yes |
+| Sales Invoice preserves it and earns on it | test_the_invoice_inherits_the_orders_frozen_team_and_earns_on_it | yes |
+| Credit Note reverses proportionally | test_a_credit_note_reverses_the_commission_in_proportion (-4,000 = -2,000/-1,000/-1,000) | yes |
+| Commission base / rate / pool / allocation / amount distinct | test_the_worked_example_from_the_requirements | yes |
+| Manager is not paid a share of the whole sale | test_the_manager_is_not_paid_a_share_of_the_whole_sale | yes |
+| Member amounts reconcile to the pool | test_member_amounts_reconcile_to_the_pool | yes |
+| Percentages total exactly 100 for ERPNext | test_uneven_thirds_still_total_exactly_one_hundred | yes |
+| Commission register with filters and export | test_commission (19), browser | yes |
+| Register scoped to own lines for non-managers | test_a_sales_user_sees_only_their_own_lines | yes |
+| Cross-company assignment denied | test_a_team_pinned_to_another_company_is_refused | yes |
+| Backfill refuses the protected site | test_a_protected_site_is_refused_for_being_protected | yes |
+| Backfill never guesses or rewrites history | test_a_customer_with_no_team_is_never_guessed_at, test_a_submitted_document_is_never_rewritten | yes |
+| Backfill is idempotent | test_applying_twice_changes_nothing_the_second_time | yes |
+| Six-viewport browser matrix | 228/228, zero console errors | yes |
+| site1.local untouched | SHA256 fingerprint identical | yes |
+| Commission payout | deferred — accountant approval required | documented, not implemented |

@@ -855,3 +855,27 @@ standard ERPNext controllers.
 | Replenishment screen | not built — Re-Stock Qty writes a standard Item Reorder row; ordinary remaining development |
 
 Tests 540 (0 failures, 6 skipped) · browser 162/162 six viewports · site1 unchanged.
+
+## Sales Teams and commission (2026-08-04)
+
+| Item | State |
+|---|---|
+| Sales Team master (manager, reps, split, rate, company) | complete |
+| Customer assignment + preview + list filter | complete |
+| Customer detail: team, order history, reassignment trail | complete |
+| Smart Sales auto-load with stale-request protection | complete |
+| Per-order team override, permission-gated, reason required | complete |
+| Per-order **percentage** override | deliberately not built — the requirement gates it behind an approved permission that does not exist |
+| Sales Order immutable snapshot (rows + audit blob) | complete |
+| Delivery Note / Sales Invoice continuity | complete |
+| Partial invoicing, multiple deliveries | complete (each invoice earns on its own base; no apportioning needed) |
+| Credit note reversal | complete, proportional |
+| Commission calculation model | complete, reusing ERPNext's own chain |
+| Commission register + CSV export | complete |
+| Team performance panel | complete |
+| Guarded backfill (5 modes) | complete; nothing to backfill on staging, by design |
+| Permission matrix | complete |
+| Commission payout posting | deferred — accountant approval required |
+
+Tests 735 (0 failures, 6 skipped) · browser 73/73 sales team, 228/228 six viewports ·
+site1 unchanged.

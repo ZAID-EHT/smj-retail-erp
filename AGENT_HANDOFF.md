@@ -1711,3 +1711,66 @@ External unchanged: accountant approval for the opening-stock correction, SMTP,
 MariaDB root, Hetzner/DNS, bank credentials, client UAT.
 Docs: docs/workflows/SMJ_COMPLETE_WHOLESALE_SALES_FLOW.md and siblings;
 docs/verification/SMJ_WHOLESALE_END_TO_END_ACCEPTANCE.md.
+
+## Sales Teams end to end: customer, Smart Sales, snapshot, commission (2026-08-04)
+Create a Sales Team -> assign it to a Customer -> Smart Sales loads it -> the Sales
+Order freezes it -> Delivery Note and Sales Invoice inherit it -> the Commission
+Register reports it -> a Credit Note reverses it. Nothing recalculates from the team
+master, ever.
+
+The commission model reuses ERPNext's own chain rather than duplicating the maths.
+`freeze_team` runs in `before_validate` and supplies two inputs -- the document
+`commission_rate` and the allocated percentages -- and ERPNext's selling controller
+derives the eligible amount, the pool and each person's contribution itself.
+`price_commission` then runs in `validate`, once the pool exists, and splits it
+between the frozen members. A `validate` hook would be too late: Frappe runs a
+document's own method before the hooks.
+
+Five quantities are kept strictly distinct (base, rate, pool, allocation %, member
+amount). LKR 100,000 at a 2% team rate is a 2,000 pool split 1,000/500/500 -- the
+manager's 50% divides the *pool*, never the sale. Their sales *contribution* is
+50,000 and lives in ERPNext's own `allocated_amount`.
+
+New: snapshot child rows carrying the team role (which the standard Sales Team row
+has no field for), transaction provenance (customer default vs override, the reason,
+who froze it and when), a permission-controlled per-order team override, the
+Commission Register at /retail-erp/sales/commissions with export, team performance,
+customer team history from Frappe's own Version trail, and a guarded five-mode
+backfill.
+
+New modules: my_store_ui/{commission,sales_team_migration}.py; doctype Retail Sales
+Team Snapshot; patches/install_sales_team_fields.py re-run for the new fields.
+
+Six real defects found and fixed, four of which no existing test could have caught:
+`Sales Team.commission_rate` is `Data`, read-only and `fetch_from
+sales_person.commission_rate`, so the previous code's write of the team rate was
+silently discarded; ERPNext compares the standard rows against 100.0 exactly, so a
+legal 33.333 x 3 split passed our own tolerance and then blocked the order; a field
+named `company` is auto-filled by Frappe from the user default, which would have made
+"works for every company" unreachable (hence `restrict_to_company`); a disabled Sales
+Person in an active team would have failed every new order at the counter rather than
+on the master where it can be fixed; `_snapshot_from_source` subscripted a child
+Document; and the customer-history test could not observe the Version trail at all
+because Frappe sets `ignore_version = frappe.flags.in_test` on every save.
+
++62 backend tests (735 total, 0 failures, 6 skipped), browser 73/73 sales team,
+228/228 across six viewports, 15/15 customer picker, 10/10 button audit, frontend
+build clean, secret scan clean, site1.local fingerprint unchanged.
+
+Backfill result: nothing to do, correctly. All 303 existing documents are submitted
+and predate the feature, so none carries evidence of the team it was raised with;
+guessing would fabricate commission history. They are exported for manual review
+(333 rows, site private files) instead.
+
+External unchanged, plus one new: accountant approval is required before commission
+can be paid out -- the expense account, payee party type, whether commission is
+earned on invoicing or on collection, the payout cycle and withholding. Calculation,
+reporting and export are complete; posting is deliberately not implemented and there
+is deliberately no "Paid" status.
+Docs: docs/sales/SMJ_SALES_TEAM_DATA_MAPPING.md, SMJ_COMMISSION_CALCULATION.md,
+SMJ_COMMISSION_REGISTER.md, SMJ_COMMISSION_PAYOUT_BOUNDARY.md,
+SMJ_SALES_ORDER_TEAM_SNAPSHOT.md, SMJ_CUSTOMER_SALES_TEAM_ASSIGNMENT.md,
+SMJ_SMART_SALES_TEAM_INTEGRATION.md; docs/security/SMJ_SALES_TEAM_PERMISSION_MATRIX.md;
+docs/data/SMJ_SALES_TEAM_MIGRATION_RESULT.md;
+docs/verification/SMJ_SALES_TEAM_END_TO_END_ACCEPTANCE.md and
+SMJ_SALES_TEAM_BROWSER_MATRIX.md.

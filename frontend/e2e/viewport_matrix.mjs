@@ -45,6 +45,10 @@ const ROUTES = [
   { path: "/retail-erp/sales/customers/new", label: "Customer quick-create (14 fields)" },
   { path: "/retail-erp/inventory/products", label: "Product list (SKU)" },
   { path: "/retail-erp/sales/customers", label: "Customer list (business nature)" },
+  // Sales team and commission surfaces.
+  { path: "/retail-erp/sales/teams", label: "Sales Teams" },
+  { path: "/retail-erp/sales/teams?team=new", label: "Sales Team form" },
+  { path: "/retail-erp/sales/commissions", label: "Commission Register" },
   // Wholesale operations surfaces (sales, delivery, invoicing, payments, purchasing).
   { path: "/retail-erp/sales/transactions", label: "Wholesale transaction register" },
   { path: "/retail-erp/sales/orders", label: "Sales Orders" },
