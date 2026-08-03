@@ -104,11 +104,18 @@ class RetailCommissionPeriod(Document):
 			if row.severity == BLOCKING and row.resolution_status in ("Open", "Acknowledged")
 		]
 
-	def is_locked(self) -> bool:
+	def is_closed(self) -> bool:
+		"""Deliberately not named `is_locked`.
+
+		`Document.is_locked` is a Frappe *property* backing its file-lock mechanism.
+		A method of that name here shadows it, and a bound method is always truthy --
+		so every save looked locked and then crashed stat-ing a lock file that had
+		never been created.
+		"""
 		return self.status in LOCKED_STATUSES
 
 	def assert_editable(self):
-		if self.is_locked():
+		if self.is_closed():
 			frappe.throw(
 				_("{0} is {1}. Reopen it, or raise an adjustment instead of editing it.").format(
 					self.name, self.status),

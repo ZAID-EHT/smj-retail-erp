@@ -364,7 +364,7 @@ def get_commission_period(name: str):
 		"period": _serialise_period(doc),
 		"policy": policy.summary() if policy else None,
 		"adjustments": _period_adjustments(name),
-		"can_prepare": _has(PREPARER_ROLES) and not doc.is_locked(),
+		"can_prepare": _has(PREPARER_ROLES) and not doc.is_closed(),
 		"can_review": _has(REVIEWER_ROLES),
 		"can_approve": _has(APPROVER_ROLES),
 		"can_request_adjustment": _has(ADJUSTMENT_REQUEST_ROLES),
@@ -873,10 +873,10 @@ def approve_commission_adjustment(name: str, note: str = ""):
 
 	# An approved adjustment changes what is owed, so an unlocked period is rebuilt
 	# from source. A locked one is left alone: history is not rewritten.
-	if not period.is_locked():
+	if not period.is_closed():
 		prepare_commission_period(period.name)
 	return {"name": doc.name, "adjustments": _period_adjustments(doc.period),
-	        "period_recalculated": not period.is_locked()}
+	        "period_recalculated": not period.is_closed()}
 
 
 @frappe.whitelist(methods=["POST"])
