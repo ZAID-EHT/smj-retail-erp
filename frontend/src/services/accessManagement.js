@@ -9,7 +9,7 @@ async function call(method, params = {}, { signal, post = false } = {}) {
     options.method = "POST";
     options.headers = {
       "Content-Type": "application/json",
-      "X-Frappe-CSRF-Token": window.csrf_token || "",
+      "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "",
     };
     options.body = JSON.stringify(Object.fromEntries(entries));
   } else {

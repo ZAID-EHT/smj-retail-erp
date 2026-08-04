@@ -6,7 +6,7 @@ async function call(method, params = {}, { post = false } = {}) {
   let url = `${PREFIX}${method}`;
   if (post) {
     options.method = "POST";
-    options.headers = { "Content-Type": "application/json", "X-Frappe-CSRF-Token": window.csrf_token || "" };
+    options.headers = { "Content-Type": "application/json", "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "" };
     options.body = JSON.stringify(Object.fromEntries(entries));
   } else {
     options.method = "GET";

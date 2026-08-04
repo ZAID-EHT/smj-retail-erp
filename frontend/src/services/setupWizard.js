@@ -4,7 +4,7 @@ async function call(method, { post = false, body = {} } = {}) {
   const options = { credentials: "same-origin", cache: "no-store" };
   if (post) {
     options.method = "POST";
-    options.headers = { "Content-Type": "application/json", "X-Frappe-CSRF-Token": window.csrf_token || "" };
+    options.headers = { "Content-Type": "application/json", "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "" };
     options.body = JSON.stringify(body);
   } else {
     options.method = "GET";

@@ -51,7 +51,7 @@ async function upload(file) {
     const response = await fetch("/api/method/upload_file", {
       method: "POST",
       credentials: "same-origin",
-      headers: { "X-Frappe-CSRF-Token": window.csrf_token || "" },
+      headers: { "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "" },
       body: data,
     });
     const payload = await response.json().catch(() => ({}));
