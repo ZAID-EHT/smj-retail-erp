@@ -85,6 +85,22 @@ class TestSpaBranding(unittest.TestCase):
 		self.assertEqual(context.retail_logo, LOGO_URL)
 		self.assertEqual(context.retail_bootstrap["logo"], LOGO_URL)
 
+	def test_the_browser_tab_says_smj_erp(self):
+		"""The text beside the favicon in the tab."""
+		from my_store_ui.www.retail_erp import get_context
+
+		context = frappe._dict()
+		get_context(context)
+		self.assertEqual(context.title, "SMJ ERP")
+
+	def test_the_root_favicon_is_the_smj_icon(self):
+		"""Browsers ask for /favicon.ico regardless of what the head declares."""
+		root = APP / "www" / "favicon.ico"
+		self.assertTrue(root.is_file(), "no favicon is served at the site root")
+		self.assertEqual(
+			root.read_bytes(), (IMAGES / "favicon.ico").read_bytes(),
+			"the root favicon is stale; it does not match the shipped SMJ icon")
+
 	def test_the_page_head_declares_the_icons(self):
 		head = (APP / "www" / "retail_erp.html").read_text(encoding="utf-8")
 		for fragment in ("favicon.ico", "favicon-32.png", "apple-touch-icon.png"):
@@ -136,6 +152,11 @@ class TestSiteWideBranding(unittest.TestCase):
 	def test_website_app_logo_is_set(self):
 		self.assertEqual(
 			frappe.db.get_single_value("Website Settings", "app_logo"), LOGO_URL)
+
+	def test_app_name_is_smj_erp(self):
+		"""Titles every page Frappe renders itself, not just the SPA."""
+		self.assertEqual(
+			frappe.db.get_single_value("Website Settings", "app_name"), "SMJ ERP")
 
 	def test_navbar_logo_is_set(self):
 		if not frappe.db.exists("DocType", "Navbar Settings"):

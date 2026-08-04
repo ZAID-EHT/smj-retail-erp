@@ -33,13 +33,16 @@ def _asset_context() -> tuple[str, str, str]:
 
 SMJ_LOGO = "/assets/my_store_ui/images/smj-logo.png"
 
+# The browser tab text, sitting next to the favicon.
+APP_TITLE = "SMJ ERP"
+
 
 def get_context(context):
 	javascript, stylesheet, version = _asset_context()
 	company = frappe.defaults.get_global_default("company")
 	company_logo = frappe.db.get_value("Company", company, "company_logo") if company else None
 	context.no_cache = 1
-	context.title = "Retail ERP"
+	context.title = APP_TITLE
 	context.retail_javascript = javascript
 	context.retail_stylesheet = stylesheet
 	context.retail_asset_version = version

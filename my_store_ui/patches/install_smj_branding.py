@@ -16,11 +16,15 @@ import frappe
 
 FAVICON = "/assets/my_store_ui/images/favicon.ico"
 LOGO = "/assets/my_store_ui/images/smj-logo.png"
+APP_NAME = "SMJ ERP"
 
-# Values that mean "nobody chose this" -- safe to replace.
+# Values that mean "nobody chose this" -- safe to replace. "Frappe" is the stock
+# app_name every site ships with, so it counts as unset for our purposes.
 REPLACEABLE = {
 	"",
 	None,
+	"Frappe",
+	"Retail ERP",
 	"/assets/frappe/images/frappe-favicon.svg",
 	"/assets/frappe/images/frappe-framework-logo.png",
 	"/assets/frappe/images/frappe-logo.png",
@@ -46,6 +50,8 @@ def execute():
 	for doctype, field, value in (
 		("Website Settings", "favicon", FAVICON),
 		("Website Settings", "app_logo", LOGO),
+		# Names the product in the title of every page Frappe renders itself.
+		("Website Settings", "app_name", APP_NAME),
 		("Navbar Settings", "app_logo", LOGO),
 	):
 		if not frappe.db.exists("DocType", doctype):
