@@ -154,8 +154,12 @@ async function buildPayout() {
   error.value = "";
   try {
     const prepared = await prepareCommissionPayout(opened.value);
-    payout.value = (await validateCommissionPayout(prepared.name)).payout;
+    const validated = (await validateCommissionPayout(prepared.name)).payout;
+    // loadDetail() resets the tab's transient state, payout included. Refresh the
+    // period first and publish the payout after, or the payout just prepared is
+    // wiped before it can render.
     await loadDetail(opened.value);
+    payout.value = validated;
   } catch (caught) {
     error.value = caught?.message || "The payout could not be prepared.";
   } finally {
