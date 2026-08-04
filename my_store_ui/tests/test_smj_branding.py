@@ -91,15 +91,33 @@ class TestSpaBranding(unittest.TestCase):
 			self.assertIn(fragment, head, f"{fragment} is not linked in the head")
 		self.assertIn('rel="apple-touch-icon"', head)
 
-	def test_the_shell_no_longer_falls_back_to_a_stock_icon(self):
-		"""The house icon is what used to show when no company logo was set."""
+	def _brand_source(self):
 		brand = FRONTEND / "components" / "shell" / "CompanyBrand.vue"
 		if not brand.exists():
 			self.skipTest("frontend sources are not present in this checkout")
-		text = brand.read_text(encoding="utf-8")
+		return brand.read_text(encoding="utf-8")
+
+	def test_the_shell_no_longer_falls_back_to_a_stock_icon(self):
+		"""The house icon is what used to show when no company logo was set."""
+		text = self._brand_source()
 		self.assertIn(LOGO_URL, text, "the shell does not reference the SMJ mark")
 		self.assertNotIn("SmjHomeBuilding", text,
 		                 "the shell still falls back to the stock house icon")
+
+	def test_the_brand_is_the_mark_alone(self):
+		"""The wordmark is in the artwork; repeating it beside the logo is noise."""
+		text = self._brand_source()
+		self.assertNotIn("ref-brand__copy", text,
+		                 "the text block beside the logo is back")
+		self.assertNotIn("ERPNext v15", text,
+		                 "the version line beside the logo is back")
+		self.assertIn("ref-brand--mark-only", text)
+
+	def test_the_mark_still_carries_an_accessible_name(self):
+		"""Dropping the visible text must not drop the label a reader announces."""
+		text = self._brand_source()
+		self.assertIn("aria-label", text)
+		self.assertIn('alt="SMJ Retail ERP"', text)
 
 
 class TestSiteWideBranding(unittest.TestCase):

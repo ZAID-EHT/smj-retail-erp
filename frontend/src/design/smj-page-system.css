@@ -75,6 +75,20 @@ img.ref-brand__logo {
   object-fit: contain;
 }
 
+/* Mark-only brand: the wordmark lives in the artwork, so the min-width that was
+   reserving room for a text block beside it would otherwise leave dead space.
+   Overrides the responsive min-widths further down this file too. */
+.ref-brand.ref-brand--mark-only {
+  min-width: 0;
+  gap: 0;
+}
+
+.ref-brand.ref-brand--mark-only .ref-brand__logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 13px;
+}
+
 .ref-brand__copy { gap: 2px; }
 .ref-brand__copy strong { max-width: 100px; font-size: 12px; letter-spacing: -.015em; }
 .ref-brand__copy small { max-width: 100px; overflow: hidden; margin: 0; color: rgba(255, 255, 255, .73); font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
