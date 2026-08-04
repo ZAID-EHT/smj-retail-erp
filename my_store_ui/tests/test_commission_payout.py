@@ -826,5 +826,109 @@ class TestCommissionPermissions(CommissionPayoutBase):
 			                         from_date=add_days(nowdate(), -30), to_date=nowdate())
 
 
+class TestHistoricalReviewAndDashboard(CommissionPayoutBase):
+	def test_the_review_list_never_suggests_the_customers_current_team(self):
+		from my_store_ui.commission_payout import list_historical_commission_review
+
+		data = list_historical_commission_review()
+		self.assertIn("note", data)
+		for row in data["rows"]:
+			if not row["has_reliable_evidence"]:
+				self.assertFalse(row["suggested_team"],
+				                 "a team must never be suggested without evidence")
+
+	def test_a_team_cannot_be_assigned_without_evidence_on_the_document(self):
+		"""The customer's current team is not proof of the historical one."""
+		from my_store_ui.commission_payout import (
+			list_historical_commission_review, record_historical_commission_decision,
+		)
+
+		rows = [r for r in list_historical_commission_review()["rows"]
+		        if not r["has_reliable_evidence"]]
+		if not rows:
+			self.skipTest("no evidence-free historical document on this site")
+		row = rows[0]
+		team, _people = self._team()
+		with self.assertRaises(frappe.ValidationError):
+			record_historical_commission_decision(
+				source_doctype=row["source_doctype"], source_name=row["source_name"],
+				status="Assigned", reason="Customer has this team now", team=team)
+
+	def test_a_decision_needs_a_reason(self):
+		from my_store_ui.commission_payout import (
+			list_historical_commission_review, record_historical_commission_decision,
+		)
+
+		rows = list_historical_commission_review()["rows"]
+		if not rows:
+			self.skipTest("nothing to review on this site")
+		with self.assertRaises(frappe.ValidationError):
+			record_historical_commission_decision(
+				source_doctype=rows[0]["source_doctype"], source_name=rows[0]["source_name"],
+				status="Excluded", reason="")
+
+	def test_excluding_records_the_decision_without_editing_the_document(self):
+		from my_store_ui.commission_payout import (
+			list_historical_commission_review, record_historical_commission_decision,
+		)
+
+		rows = list_historical_commission_review()["rows"]
+		if not rows:
+			self.skipTest("nothing to review on this site")
+		row = rows[0]
+		before = frappe.db.get_value(
+			row["source_doctype"], row["source_name"], ["grand_total", "docstatus"], as_dict=True)
+		record_historical_commission_decision(
+			source_doctype=row["source_doctype"], source_name=row["source_name"],
+			status="Excluded", reason="Predates the feature; no evidence exists")
+		after = frappe.db.get_value(
+			row["source_doctype"], row["source_name"], ["grand_total", "docstatus"], as_dict=True)
+		self.assertEqual(before, after, "the submitted document must not be edited")
+
+	def test_an_unsupported_status_is_refused(self):
+		from my_store_ui.commission_payout import record_historical_commission_decision
+
+		with self.assertRaises(frappe.ValidationError):
+			record_historical_commission_decision(
+				source_doctype="Sales Invoice", source_name="x", status="Paid", reason="no")
+
+	def test_the_dashboard_never_reports_a_payout_as_possible(self):
+		from my_store_ui.commission_payout import get_commission_dashboard
+
+		data = get_commission_dashboard(company=self.company)
+		self.assertIn("periods", data)
+		if data.get("accounts"):
+			self.assertFalse(data["accounts"]["posting_enabled"])
+
+	def test_a_member_sees_only_their_own_dashboard_figures(self):
+		from my_store_ui.commission_payout import get_commission_dashboard
+
+		team, people = self._team()
+		self._invoice(self._customer(team))
+		self._period(self._policy())
+		email = self._user(["Sales User", "Accounts User"])
+		gender = frappe.get_all("Gender", limit=1, pluck="name")
+		if not gender:
+			gender = [frappe.get_doc({
+				"doctype": "Gender", "gender": "Prefer not to say",
+			}).insert(ignore_permissions=True).name]
+		employee = frappe.get_doc({
+			"doctype": "Employee", "first_name": "CP", "user_id": email,
+			"company": self.company, "date_of_birth": "1990-01-01",
+			"date_of_joining": "2020-01-01", "status": "Active", "gender": gender[0],
+		}).insert(ignore_permissions=True).name
+		frappe.db.set_value("Sales Person", people[0], "employee", employee)
+
+		frappe.set_user(email)
+		try:
+			data = get_commission_dashboard(company=self.company)
+			self.assertFalse(data["is_manager"])
+			self.assertIsNone(data["sales"], "a member must not see team-wide figures")
+			self.assertIsNotNone(data["own"])
+			self.assertEqual(flt(data["own"]["paid"]), 0.0)
+		finally:
+			frappe.set_user("Administrator")
+
+
 if __name__ == "__main__":
 	unittest.main()

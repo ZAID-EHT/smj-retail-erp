@@ -88,12 +88,19 @@ def get_priority_route_definition(path: str):
 		component = "sales_teams"
 	if path == "/sales/commissions":
 		component = "commission_register"
+	if path == "/sales/commission-periods":
+		component = "commission_periods"
+	if path == "/sales/commissions/historical-review":
+		component = "commission_historical_review"
+	if path == "/admin/sales/commission-policy":
+		component = "commission_policy"
 	if component not in {
 		"entity", "tree", "special", "report", "report_hub", "register",
 		"payment_reconciliation", "bank_reconciliation", "bank_clearance", "pegged_currencies", "single",
 		"sales_funnel", "warehouse_capacity",
 		"accounts_workspace", "henderson_analysis", "print_format_admin", "warehouse_stock",
-		"sales_teams", "commission_register",
+		"sales_teams", "commission_register", "commission_periods",
+		"commission_historical_review", "commission_policy",
 	}:
 		frappe.throw(_("This route uses a dedicated Retail ERP page."), frappe.ValidationError)
 	result = {

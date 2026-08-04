@@ -442,3 +442,260 @@ def post_commission_payout(name: str, confirmation: str = ""):
 		_("Commission posting is not enabled. {0}").format(" ".join(posting_blockers(policy))),
 		frappe.ValidationError,
 	)
+
+
+# --------------------------------------------------------------------------
+# Historical review
+# --------------------------------------------------------------------------
+
+HISTORICAL_STATUSES = ("Unreviewed", "Evidence Found", "Assigned", "No Reliable Evidence",
+                       "Excluded", "Escalated")
+
+
+@frappe.whitelist(methods=["GET"])
+def list_historical_commission_review(status: str = "", doctype_filter: str = "",
+                                      limit: int = 200):
+	"""Documents raised before the feature existed, with no team evidence.
+
+	A customer's *current* team is shown for context and is never treated as proof
+	of what the team was at the time. Suggesting one would fabricate commission
+	history, so the suggestion column stays empty unless real evidence exists on the
+	document itself.
+	"""
+	_require(HISTORICAL_REVIEW_ROLES, _("You cannot review historical commission."))
+	limit = min(max(cint(limit) or 200, 1), 500)
+
+	rows = []
+	for source in ("Sales Order", "Sales Invoice"):
+		if doctype_filter and doctype_filter != source:
+			continue
+		if not frappe.has_permission(source, "read"):
+			continue
+		for doc in frappe.get_list(
+			source,
+			filters={"docstatus": 1, "custom_sales_team": ["is", "not set"]},
+			fields=["name", "customer", "customer_name", "company", "grand_total",
+			        "posting_date" if source == "Sales Invoice" else "transaction_date"],
+			order_by="creation desc", limit_page_length=limit,
+		):
+			date = doc.get("posting_date") or doc.get("transaction_date")
+			evidence = _historical_evidence(source, doc["name"])
+			decision = _historical_decision(source, doc["name"])
+			row_status = decision.get("status") or (
+				"Evidence Found" if evidence["sales_persons"] else "No Reliable Evidence")
+			if status and row_status != status:
+				continue
+			rows.append({
+				"source_doctype": source,
+				"source_name": doc["name"],
+				"date": str(date) if date else None,
+				"customer": doc["customer"],
+				"customer_name": doc.get("customer_name") or doc["customer"],
+				"company": doc["company"],
+				"grand_total": flt(doc.get("grand_total")),
+				"sales_order": evidence["sales_order"],
+				"existing_sales_persons": evidence["sales_persons"],
+				# Context only. Never a suggestion, and never applied automatically.
+				"customer_current_team": frappe.db.get_value(
+					"Customer", doc["customer"], "custom_sales_team"),
+				"has_reliable_evidence": bool(evidence["sales_persons"]),
+				"suggested_team": evidence["suggested_team"],
+				"status": row_status,
+				"reviewer": decision.get("reviewer"),
+				"reviewed_on": decision.get("reviewed_on"),
+				"reason": decision.get("reason"),
+				"confidence": decision.get("confidence"),
+			})
+	return {
+		"rows": rows[:limit],
+		"statuses": list(HISTORICAL_STATUSES),
+		"can_review": True,
+		"note": _("A customer's current team is not evidence of the team a historical "
+		          "document was raised with. Nothing here is assigned automatically."),
+	}
+
+
+def _historical_evidence(doctype: str, name: str) -> dict:
+	"""The only admissible evidence: sales-person rows the document already carries."""
+	people = frappe.get_all(
+		"Sales Team", filters={"parent": name, "parenttype": doctype},
+		fields=["sales_person", "allocated_percentage"], limit_page_length=0)
+	sales_order = ""
+	if doctype == "Sales Invoice":
+		row = frappe.get_all(
+			"Sales Invoice Item", filters={"parent": name, "sales_order": ["is", "set"]},
+			fields=["sales_order"], limit_page_length=1)
+		sales_order = row[0]["sales_order"] if row else ""
+
+	suggested = ""
+	if people:
+		# A team is only suggested when one team's active membership exactly matches
+		# the sales people already recorded on the document.
+		names = {p["sales_person"] for p in people}
+		for team in frappe.get_all("Retail Sales Team", pluck="name", limit_page_length=0):
+			members = {
+				m["sales_person"] for m in frappe.get_all(
+					"Retail Sales Team Member",
+					filters={"parent": team, "parenttype": "Retail Sales Team", "is_active": 1},
+					fields=["sales_person"], limit_page_length=0)
+			}
+			if members and members == names:
+				suggested = team
+				break
+	return {"sales_persons": people, "sales_order": sales_order, "suggested_team": suggested}
+
+
+def _historical_decision(doctype: str, name: str) -> dict:
+	"""A reviewer's recorded decision, stored as a Comment against the document.
+
+	Frappe's Comment trail is the existing audit record; a second one is not
+	invented, and nothing about the submitted document is edited.
+	"""
+	rows = frappe.get_all(
+		"Comment",
+		filters={"reference_doctype": doctype, "reference_name": name,
+		         "comment_type": "Comment", "content": ["like", "%[commission-review]%"]},
+		fields=["content", "owner", "creation"], order_by="creation desc", limit_page_length=1)
+	if not rows:
+		return {}
+	try:
+		payload = json.loads(rows[0]["content"].split("[commission-review]", 1)[1])
+	except (ValueError, IndexError):
+		return {}
+	return {
+		"status": payload.get("status"), "reason": payload.get("reason"),
+		"confidence": payload.get("confidence"), "team": payload.get("team"),
+		"reviewer": rows[0]["owner"], "reviewed_on": str(rows[0]["creation"]),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def record_historical_commission_decision(source_doctype: str, source_name: str,
+                                          status: str, reason: str, team: str = "",
+                                          confidence: str = ""):
+	"""Record a reviewer's decision without touching the submitted document.
+
+	Assigning a team requires evidence on the document itself. The customer's
+	current team is never sufficient -- that is the whole point of the review.
+	"""
+	_require(HISTORICAL_REVIEW_ROLES, _("You cannot review historical commission."))
+	if source_doctype not in ("Sales Order", "Sales Invoice"):
+		frappe.throw(_("Unsupported document type."), frappe.ValidationError)
+	if status not in HISTORICAL_STATUSES:
+		frappe.throw(_("Unsupported review status."), frappe.ValidationError)
+	if not (reason or "").strip():
+		frappe.throw(_("Record why you reached this decision."), frappe.ValidationError)
+	if not frappe.has_permission(source_doctype, "read", doc=source_name):
+		frappe.throw(_("You do not have access to that document."), frappe.PermissionError)
+
+	if status == "Assigned":
+		if not team:
+			frappe.throw(_("Choose the team you are assigning."), frappe.ValidationError)
+		evidence = _historical_evidence(source_doctype, source_name)
+		if not evidence["sales_persons"]:
+			frappe.throw(
+				_("{0} carries no sales-person evidence, so a team cannot be assigned to "
+				  "it. The customer's current team is not evidence of what it was."
+				  ).format(source_name),
+				frappe.ValidationError,
+			)
+
+	payload = {"status": status, "reason": reason.strip(), "team": team or None,
+	           "confidence": confidence or None}
+	comment = frappe.new_doc("Comment")
+	comment.comment_type = "Comment"
+	comment.reference_doctype = source_doctype
+	comment.reference_name = source_name
+	comment.content = f"[commission-review]{json.dumps(payload)}"
+	comment.insert(ignore_permissions=True)
+	return {"source_name": source_name, "decision": _historical_decision(
+		source_doctype, source_name)}
+
+
+# --------------------------------------------------------------------------
+# Dashboards
+# --------------------------------------------------------------------------
+
+@frappe.whitelist(methods=["GET"])
+def get_commission_dashboard(company: str = ""):
+	"""One dashboard, three audiences, each shown only what they may see."""
+	_require_login()
+	company = (company or "").strip()
+	roles = set(frappe.get_roles())
+	is_manager = bool(roles & {"System Manager", "Sales Manager", "Accounts Manager"})
+	is_accounts = bool(roles & {"System Manager", "Accounts Manager", "Accounts User"})
+
+	filters = {"company": company} if company else {}
+	periods = frappe.get_list(
+		PERIOD, filters=filters,
+		fields=["name", "status", "from_date", "to_date", "net_payable", "outstanding",
+		        "gross_commission", "reversals"],
+		order_by="from_date desc", limit_page_length=50) \
+		if frappe.has_permission(PERIOD, "read") else []
+
+	def total(status_list, field="net_payable"):
+		return round(sum(flt(p[field]) for p in periods if p["status"] in status_list), 2)
+
+	dashboard = {
+		"company": company or None,
+		"is_manager": is_manager,
+		"is_accounts": is_accounts,
+		"periods": {
+			"awaiting_review": len([p for p in periods if p["status"] == "Under Review"]),
+			"awaiting_approval": len([p for p in periods if p["status"] == "Under Review"]),
+			"draft": len([p for p in periods if p["status"] in ("Draft", "Prepared")]),
+			"approved": len([p for p in periods if p["status"] == "Approved"]),
+			"recent": periods[:10],
+		},
+		"accounts": None,
+		"sales": None,
+		"own": None,
+	}
+
+	if is_accounts:
+		payouts = frappe.get_list(
+			PAYOUT, filters=filters,
+			fields=["name", "status", "total_net_payable"], limit_page_length=50) \
+			if frappe.has_permission(PAYOUT, "read") else []
+		missing_payees = 0
+		for payout in payouts:
+			missing_payees += len(frappe.get_all(
+				"Retail Commission Payout Line",
+				filters={"parent": payout["name"], "validation_status": "Blocked"},
+				limit_page_length=0))
+		dashboard["accounts"] = {
+			"net_payable": total(("Approved", "Payment Prepared")),
+			"withholding": round(sum(flt(p.get("reversals")) for p in periods), 2),
+			"payouts_prepared": len(payouts),
+			"payouts_blocked": len([p for p in payouts if p["status"] != "Ready for Posting"]),
+			"blocked_payout_lines": missing_payees,
+			"posting_enabled": False,
+		}
+
+	if is_manager:
+		unresolved = frappe.db.count(
+			"Retail Commission Exception", {"severity": "Blocking",
+			                                "resolution_status": ["in", ("Open", "Acknowledged")]})
+		dashboard["sales"] = {
+			"gross_commission": round(sum(flt(p["gross_commission"]) for p in periods), 2),
+			"reversals": round(sum(flt(p["reversals"]) for p in periods), 2),
+			"net_commission": round(sum(flt(p["net_payable"]) for p in periods), 2),
+			"unresolved_exceptions": unresolved,
+		}
+
+	people = _visible_people()
+	if people:
+		rows = frappe.get_all(
+			"Retail Commission Period Detail",
+			filters={"sales_person": ["in", people], "parenttype": PERIOD},
+			fields=["gross_commission", "return_reversal", "adjustment", "net_commission"],
+			limit_page_length=0)
+		dashboard["own"] = {
+			"gross_commission": round(sum(flt(r["gross_commission"]) for r in rows), 2),
+			"reversals": round(sum(flt(r["return_reversal"]) for r in rows), 2),
+			"adjustments": round(sum(flt(r["adjustment"]) for r in rows), 2),
+			"net_commission": round(sum(flt(r["net_commission"]) for r in rows), 2),
+			"paid": 0.0,
+			"lines": len(rows),
+		}
+	return dashboard

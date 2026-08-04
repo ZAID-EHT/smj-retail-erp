@@ -295,3 +295,28 @@
 .smj-team-performance__grid span{display:block;color:var(--ref-secondary-text);font-size:11px}
 .smj-team-performance__grid strong{font-size:16px;font-weight:800}
 .smj-team-performance__grid .is-total{border-left:3px solid var(--ref-module-sales)}
+
+/* --- Commission policy, periods, statements and review -------------------- */
+.smj-pill{display:inline-block;padding:3px 9px;border-radius:999px;background:var(--ref-surface-muted,#eef1f5);color:var(--ref-secondary-text);font-size:10px;font-weight:800;white-space:nowrap}
+.smj-pill[data-status="Active"],.smj-pill[data-status="Approved"],.smj-pill[data-status="Valid"]{background:var(--ref-success-background,#e8f6ed);color:var(--ref-success,#1c7a41)}
+.smj-pill[data-status="Incomplete"],.smj-pill[data-status="Blocking"],.smj-pill[data-status="Blocked"]{background:color-mix(in srgb,var(--ref-danger),white 90%);color:var(--ref-danger)}
+.smj-pill[data-status="Ready for Review"],.smj-pill[data-status="Under Review"],.smj-pill[data-status="Prepared"],.smj-pill[data-status="Warning"]{background:var(--ref-warning-background,#fff6e5);color:var(--ref-warning,#8a5a00)}
+.smj-issue-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.smj-issue-list li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:baseline;padding:9px 12px;border:1px solid var(--ref-border-colour);border-left:3px solid var(--ref-danger);border-radius:8px;font-size:12px}
+.smj-issue-list li[data-severity="Warning"]{border-left-color:var(--ref-warning,#8a5a00)}
+.smj-issue-list li[data-severity="ok"]{border-left-color:var(--ref-success,#1c7a41)}
+.smj-issue-list strong{font-size:10px;font-weight:800;text-transform:uppercase}
+.smj-issue-list em{color:var(--ref-secondary-text);font-style:normal;font-size:10px}
+.smj-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 12px}
+.smj-tabs button{padding:8px 14px;border:1px solid var(--ref-border-colour);border-radius:999px;background:#fff;color:var(--ref-primary-text);font:700 12px var(--ref-font);cursor:pointer}
+.smj-tabs button[aria-selected="true"]{background:var(--ref-primary-blue);border-color:var(--ref-primary-blue);color:#fff}
+.smj-statement{padding:14px;margin-bottom:14px;border:1px solid var(--ref-border-colour);border-radius:10px;background:#fff}
+.smj-statement header{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin-bottom:10px}
+.smj-statement header strong{font-size:14px;font-weight:800}
+.smj-statement header span{color:var(--ref-secondary-text);font-size:11px}
+.smj-historical__actions{display:flex;flex-wrap:wrap;gap:4px}
+.smj-historical td small{display:block;color:var(--ref-secondary-text);font-size:9px}
+.smj-historical td span{display:block;font-size:11px}
+.smj-policy .rug-form-grid label span,.smj-periods .rug-form-grid label span{display:block;margin-bottom:4px;color:var(--ref-secondary-text);font-size:11px;font-weight:700}
+.smj-policy .rug-form-grid input,.smj-policy .rug-form-grid select,.smj-periods .rug-form-grid input,.smj-periods .rug-form-grid select{width:100%;padding:8px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
+.smj-periods .rug-table small{display:block;color:var(--ref-secondary-text);font-size:9px}

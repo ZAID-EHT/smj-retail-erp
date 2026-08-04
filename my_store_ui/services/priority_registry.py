@@ -290,6 +290,17 @@ SPECIAL_ROUTES = {
 	# same doctype the page's own API reads, or the page renders and then 403s.
 	"/sales/commissions": {"module": "sales", "label": "Commission Register",
 	                       "doctype": "Sales Invoice", "classification": "register"},
+	# Closing, approval and payout preparation. Each is guarded on the doctype its
+	# own API reads, so the guard and the API require the same thing.
+	"/sales/commission-periods": {"module": "sales", "label": "Commission Periods",
+	                              "doctype": "Retail Commission Period",
+	                              "classification": "register"},
+	"/sales/commissions/historical-review": {
+		"module": "sales", "label": "Historical Commission Review",
+		"doctype": "Sales Invoice", "classification": "register"},
+	"/admin/sales/commission-policy": {"module": "admin", "label": "Commission Policy",
+	                                   "doctype": "Retail Commission Policy",
+	                                   "classification": "register"},
 	"/sales/transactions": {"module": "sales", "label": "Wholesale Transactions",
 	                        "doctype": "Sales Order", "classification": "register"},
 	"/inventory/reorder-alerts": {"module": "inventory", "label": "Reorder Alerts", "report": "Stock Projected Qty", "classification": "report", "alias": "/reports/view/Stock%20Projected%20Qty"},

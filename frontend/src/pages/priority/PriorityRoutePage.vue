@@ -24,6 +24,9 @@ import PrintFormatAdminPage from "@/pages/priority/PrintFormatAdminPage.vue";
 import WarehouseStockPage from "@/pages/priority/WarehouseStockPage.vue";
 import SalesTeamsPage from "@/pages/priority/SalesTeamsPage.vue";
 import CommissionRegisterPage from "@/pages/priority/CommissionRegisterPage.vue";
+import CommissionPolicyPage from "@/pages/priority/CommissionPolicyPage.vue";
+import CommissionPeriodsPage from "@/pages/priority/CommissionPeriodsPage.vue";
+import HistoricalCommissionReviewPage from "@/pages/priority/HistoricalCommissionReviewPage.vue";
 import { getPriorityRouteDefinition } from "@/services/priority.js";
 
 const route = useRoute();
@@ -68,6 +71,9 @@ onBeforeUnmount(() => controller?.abort());
   <WarehouseStockPage v-else-if="definition?.component === 'warehouse_stock'" />
   <SalesTeamsPage v-else-if="definition?.component === 'sales_teams'" />
   <CommissionRegisterPage v-else-if="definition?.component === 'commission_register'" />
+  <CommissionPolicyPage v-else-if="definition?.component === 'commission_policy'" />
+  <CommissionPeriodsPage v-else-if="definition?.component === 'commission_periods'" />
+  <HistoricalCommissionReviewPage v-else-if="definition?.component === 'commission_historical_review'" />
   <PaymentReconciliationPage v-else-if="definition?.component === 'payment_reconciliation'" />
   <BankReconciliationPage v-else-if="definition?.component === 'bank_reconciliation'" />
   <BankClearancePage v-else-if="definition?.component === 'bank_clearance'" />

@@ -99,6 +99,7 @@ NAVIGATION = (
 		# Retail Sales Team read never sees it.
 		{"label": "Sales Teams", "path": "/sales/teams", "doctype": "Retail Sales Team"},
 		{"label": "Commission Register", "path": "/sales/commissions", "doctype": "Sales Invoice"},
+		{"label": "Commission Periods", "path": "/sales/commission-periods", "doctype": "Retail Commission Period"},
 		{"label": "Quotations", "path": "/sales/quotations", "doctype": "Quotation"},
 		{"label": "Sales Orders", "path": "/sales/orders", "doctype": "Sales Order"},
 		{"label": "Delivery Notes", "path": "/sales/delivery-notes", "doctype": "Delivery Note"},
