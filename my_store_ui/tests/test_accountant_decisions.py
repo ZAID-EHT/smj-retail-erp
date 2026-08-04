@@ -18,6 +18,7 @@ import frappe
 
 from my_store_ui.finance.accountant_decisions import (
 	AREA_COMMISSION,
+	DECISION_DETAIL,
 	AREA_OPENING_STOCK,
 	CAP_RECORD,
 	CAP_SUBMIT_CORRECTION,
@@ -482,3 +483,90 @@ class TestDecisionCentreRoute(AccountantDecisionBase):
 				entry["name"], declared,
 				f"route {entry['name']} is registered server-side but no SPA page "
 				f"declares it; that is a dead route")
+
+
+class TestCommissionDecisionPackage(AccountantDecisionBase):
+	"""Phase 5: every commission choice must be presented, never made.
+
+	The danger with a decision screen is not that it refuses -- it is that it
+	quietly shows a value that came from a draft policy and lets a reader take it
+	for an answer. These tests hold the line between "current value" and
+	"decision".
+	"""
+
+	COMMISSION_FIELDS = (
+		"earning_trigger", "commission_basis", "commission_expense_account",
+		"commission_payable_account", "payee_party_type",
+		"accounting_document_type", "payout_cycle", "withholding_mode",
+		"returns_rule",
+	)
+
+	def test_every_catalogue_topic_has_structured_detail(self):
+		for entry in CATALOGUE:
+			detail = DECISION_DETAIL.get(entry["topic"])
+			self.assertIsNotNone(detail, f"{entry['topic']} has no structured detail")
+			self.assertTrue(detail.get("options"), f"{entry['topic']} lists no options")
+			self.assertTrue((detail.get("impact") or "").strip(),
+			                f"{entry['topic']} states no accounting impact")
+			self.assertTrue((detail.get("risk") or "").strip(),
+			                f"{entry['topic']} states no risk")
+
+	def test_all_ten_commission_decisions_map_to_a_policy_field_or_are_explained(self):
+		commission = [e for e in CATALOGUE if e["area"] == AREA_COMMISSION]
+		self.assertEqual(len(commission), 10)
+		mapped = {DECISION_DETAIL[e["topic"]].get("field") for e in commission}
+		for field in self.COMMISSION_FIELDS:
+			self.assertIn(field, mapped, f"no decision maps to policy field {field}")
+
+	def test_payout_document_options_cover_every_candidate(self):
+		options = DECISION_DETAIL["Commission: payout document type"]["options"]
+		for candidate in ("Journal Entry", "Payment Entry", "Expense Claim",
+		                  "Payroll Component"):
+			self.assertIn(candidate, options)
+
+	def test_centre_exposes_options_impact_and_risk(self):
+		frappe.set_user(self.accountant)
+		items = get_decision_centre(company=self.company)["items"]
+		for item in items:
+			self.assertTrue(item["options"], f"{item['topic']} exposes no options")
+			self.assertTrue(item["accounting_impact"])
+			self.assertTrue(item["risk"])
+
+	def test_a_current_policy_value_is_never_reported_as_a_decision(self):
+		"""The distinction the whole screen depends on."""
+		frappe.set_user(self.accountant)
+		for item in get_decision_centre(company=self.company)["items"]:
+			self.assertFalse(item["current_value_is_a_decision"])
+			if not item["answered"]:
+				self.assertIsNone(item["accountant_answer"],
+				                  f"{item['topic']} shows an answer without a decision")
+
+	def test_verification_state_tracks_the_lifecycle(self):
+		name = self._prepare()
+		frappe.set_user(self.accountant)
+		self.assertEqual(
+			next(i for i in get_decision_centre(company=self.company)["items"]
+			     if i["topic"] == TOPIC_TRIGGER)["verification_state"],
+			"Not verified")
+		self._approve(name)
+		frappe.set_user(self.accountant)
+		self.assertEqual(
+			next(i for i in get_decision_centre(company=self.company)["items"]
+			     if i["topic"] == TOPIC_TRIGGER)["verification_state"],
+			"Decided, not yet implemented")
+		mark_implemented(name, implementation_reference="CP-1")
+		frappe.set_user(self.verifier)
+		mark_verified(name, verification_note="checked")
+		frappe.set_user(self.accountant)
+		self.assertEqual(
+			next(i for i in get_decision_centre(company=self.company)["items"]
+			     if i["topic"] == TOPIC_TRIGGER)["verification_state"],
+			"Verified")
+
+	def test_worked_example_allocation_matches_the_documented_split(self):
+		frappe.set_user(self.accountant)
+		ex = get_decision_centre(company=self.company)["commission"]["worked_example"]
+		self.assertEqual(ex["eligible_base"] * ex["rate_percent"] / 100, ex["pool"])
+		self.assertEqual(ex["manager"], ex["pool"] * 0.5)
+		self.assertEqual(ex["representative_1"], ex["pool"] * 0.25)
+		self.assertEqual(ex["representative_2"], ex["pool"] * 0.25)

@@ -238,6 +238,158 @@ def _catalogue_by_topic() -> dict:
 
 
 # --------------------------------------------------------------------------
+# Structured detail per decision
+#
+# Kept beside the catalogue rather than inside it so the catalogue stays
+# readable as a list of questions. Each entry gives the accountant the options,
+# what each option does to the books, and what goes wrong if the choice is
+# guessed -- which is the part a software default would silently decide.
+#
+# `options` are candidates, not recommendations. Nothing here ranks them.
+# --------------------------------------------------------------------------
+
+DECISION_DETAIL: dict[str, dict] = {
+	"Commission: earning trigger": {
+		"field": "earning_trigger",
+		"options": [
+			"Sales Invoice Submission",
+			"Customer Payment Collection",
+			"Full Payment Collection",
+			"Approved Custom Rule",
+		],
+		"impact": "Fixes the period in which commission expense and the matching "
+		          "liability are recognised.",
+		"risk": "Earning on invoicing recognises a liability for money not yet "
+		        "collected; if the customer never pays, commission was accrued on a "
+		        "sale that did not happen. Earning on collection defers the cost away "
+		        "from the period that produced the revenue.",
+	},
+	"Commission: calculation basis": {
+		"field": "commission_basis",
+		"options": [
+			"Net Total",
+			"Net Total After Discount",
+			"Grand Total Excluding Tax",
+			"Gross Profit",
+			"Collected Amount",
+			"Approved Custom Basis",
+		],
+		"impact": "Determines the amount commission is calculated on, and therefore "
+		          "every figure downstream.",
+		"risk": "Commission on a tax-inclusive total pays commission on tax the "
+		        "business merely collects. Gross Profit additionally exposes cost "
+		        "prices to whoever can see a commission statement.",
+	},
+	"Commission: expense account": {
+		"field": "commission_expense_account",
+		"options": ["An expense account chosen by the accountant"],
+		"impact": "Sets where commission cost appears in the Profit and Loss.",
+		"risk": "A guessed account misstates the P&L and can land commission inside "
+		        "an unrelated cost line, where nobody reviewing the accounts will "
+		        "recognise it.",
+	},
+	"Commission: payable account": {
+		"field": "commission_payable_account",
+		"options": ["A liability account chosen by the accountant"],
+		"impact": "Sets where unpaid commission sits on the Balance Sheet until it "
+		          "is settled.",
+		"risk": "Without a distinct payable, commission owed is invisible on the "
+		        "balance sheet and the obligation cannot be aged against the payee.",
+	},
+	"Commission: payee party type": {
+		"field": "payee_party_type",
+		"options": ["Employee", "Supplier", "Approved Other"],
+		"impact": "Determines which subledger the obligation lives in and which tax "
+		          "and payroll rules apply.",
+		"risk": "Treating an employee as a supplier can bypass payroll withholding "
+		        "entirely; treating a contractor as an employee pulls them into "
+		        "payroll reporting they do not belong in.",
+	},
+	"Commission: payout document type": {
+		"field": "accounting_document_type",
+		"options": ["Journal Entry", "Payment Entry", "Expense Claim",
+		            "Payroll Component", "Approved Other"],
+		"impact": "Decides how the obligation is recognised and settled, and what "
+		          "cancellation and reconciliation look like.",
+		"risk": "Payment Entry alone skips the accrual, so commission earned in one "
+		        "month and paid in the next misstates both. Expense Claim describes "
+		        "earnings as a reimbursement and fails for non-employees. See "
+		        "docs/accounting/SMJ_COMMISSION_ACCOUNTING_OPTIONS.md for the full "
+		        "comparison.",
+	},
+	"Commission: payout cycle": {
+		"field": "payout_cycle",
+		"options": ["Weekly", "Fortnightly", "Monthly", "Quarterly", "Manual Period"],
+		"impact": "Sets the period boundary every statement, carry-forward and "
+		          "clawback calculation uses.",
+		"risk": "Changing the cycle after periods exist re-cuts boundaries and makes "
+		        "already-issued statements disagree with the system.",
+	},
+	"Commission: withholding": {
+		"field": "withholding_mode",
+		"options": ["No Withholding", "Fixed Percentage", "Rule Based",
+		            "External Payroll"],
+		"impact": "Determines what is deducted before the payee is paid.",
+		"risk": "A withheld percentage nobody approved would be applied to real "
+		        "payments; under-withholding creates a statutory liability for the "
+		        "business, over-withholding underpays the payee.",
+	},
+	"Commission: tax treatment": {
+		"field": None,
+		"options": ["Recorded on the policy and in this decision"],
+		"impact": "Determines how commission is reported for tax purposes.",
+		"risk": "Depends on the payee party type and on local rules. The software "
+		        "has no basis on which to assume either, and a wrong assumption is "
+		        "discovered at filing.",
+	},
+	"Commission: returns and clawback": {
+		"field": "returns_rule",
+		"options": ["Reverse Before Payout", "Deduct From Next Period",
+		            "Create Payable Adjustment", "Manual Review"],
+		"impact": "Decides what happens to commission already earned when the "
+		          "underlying sale is returned.",
+		"risk": "Each option produces a different balance for the same return. "
+		        "Deducting from the next period can drive a payee negative; "
+		        "reversing before payout can reopen a closed period.",
+	},
+	"Opening stock correction: account pair": {
+		"field": None,
+		"options": ["Dr Stock Adjustment / Cr Opening Balance Equity",
+		            "Another pair chosen by the accountant"],
+		"impact": "Moves the opening inventory value out of the P&L and into equity.",
+		"risk": "A different credit account changes where opening equity is reported "
+		        "on the Balance Sheet.",
+	},
+	"Opening stock correction: amount": {
+		"field": None,
+		"options": ["The measured overstatement"],
+		"impact": "Sets the size of the reclassification.",
+		"risk": "The figure is re-measured from the ledger at run time; a correction "
+		        "posted against a stale figure leaves a residue in the P&L.",
+	},
+	"Opening stock correction: posting date": {
+		"field": None,
+		"options": ["2025-07-01 (opening date)", "Current period",
+		            "Another date chosen by the accountant"],
+		"impact": "Decides which period absorbs the correction.",
+		"risk": "Posting into a closed or already-reported period changes figures "
+		        "that have been published.",
+	},
+	"Opening stock correction: authorisation to post": {
+		"field": None,
+		"options": ["Authorised", "Not authorised"],
+		"impact": "This record is the authorisation itself.",
+		"risk": "No automated process submits the correction. Without this record "
+		        "the guarded apply path refuses.",
+	},
+}
+
+
+def decision_detail(topic: str) -> dict:
+	return DECISION_DETAIL.get(topic, {})
+
+
+# --------------------------------------------------------------------------
 # Reading the Centre
 # --------------------------------------------------------------------------
 
@@ -262,23 +414,73 @@ def _existing(company: str | None) -> dict:
 	return out
 
 
+def _live_policy_values(company: str | None) -> dict:
+	"""What the active (or newest) policy currently holds for each decision field.
+
+	Shown as *current value*, never as an answer. A field carrying a value because
+	somebody typed it into a draft policy is not an accountant's decision, and the
+	Centre is careful not to let one look like the other.
+	"""
+	rows = frappe.get_all(
+		"Retail Commission Policy",
+		filters={"company": company} if company else None,
+		fields=["name", "status", "earning_trigger", "commission_basis",
+		        "commission_expense_account", "commission_payable_account",
+		        "payee_party_type", "accounting_document_type", "payout_cycle",
+		        "withholding_mode", "returns_rule"],
+		order_by="modified desc")
+	if not rows:
+		return {}
+	active = next((r for r in rows if r.get("status") == "Active"), rows[0])
+	return active
+
+
 def _merge(company: str | None) -> list[dict]:
 	existing = _existing(company)
+	policy = _live_policy_values(company)
 	merged = []
 	for entry in CATALOGUE:
 		record = existing.get(entry["topic"])
+		detail = DECISION_DETAIL.get(entry["topic"], {})
+		field = detail.get("field")
+		current = policy.get(field) if field else None
 		merged.append({
 			"area": entry["area"],
 			"topic": entry["topic"],
 			"question": entry["question"],
 			"system_proposal": entry["proposal"],
 			"why_it_matters": entry["why"],
+			"options": detail.get("options", []),
+			"accounting_impact": detail.get("impact"),
+			"risk": detail.get("risk"),
+			"policy_field": field,
+			"current_value": current or None,
+			"current_value_is_a_decision": False,
 			"decision": record,
 			"status": (record or {}).get("status") or STATUS_NOT_REVIEWED,
+			"accountant_answer": (record or {}).get("accountant_decision") or None,
+			"evidence": ((record or {}).get("evidence_attachment")
+			             or (record or {}).get("evidence_reference") or None),
+			"effective_date": (record or {}).get("effective_date"),
+			"recorded_by": (record or {}).get("recorded_by"),
+			"verification_state": _verification_state(record),
 			"answered": bool(record and record.get("status") in POSITIVE_STATUSES),
 			"blocking": not (record and record.get("status") in POSITIVE_STATUSES),
 		})
 	return merged
+
+
+def _verification_state(record: dict | None) -> str:
+	if not record:
+		return "Not verified"
+	status = record.get("status")
+	if status == STATUS_VERIFIED:
+		return "Verified"
+	if status == STATUS_IMPLEMENTED:
+		return "Implemented, awaiting verification"
+	if status in POSITIVE_STATUSES:
+		return "Decided, not yet implemented"
+	return "Not verified"
 
 
 @frappe.whitelist(methods=["GET"])

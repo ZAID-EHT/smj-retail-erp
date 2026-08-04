@@ -96,22 +96,52 @@ load();
           <div v-else class="rug-table-wrap">
             <table>
               <thead>
-                <tr><th>Question</th><th>System proposal</th><th>Status</th><th>Decided by</th></tr>
+                <tr>
+                  <th>Question</th><th>Current value</th><th>Options</th>
+                  <th>Status</th><th>Accountant answer</th><th>Evidence</th>
+                </tr>
               </thead>
               <tbody>
                 <tr v-for="item in visible(items)" :key="item.topic">
                   <td>
                     {{ item.question }}
                     <small class="decisions-why">{{ item.why_it_matters }}</small>
+                    <small v-if="item.accounting_impact" class="decisions-impact">
+                      Impact: {{ item.accounting_impact }}
+                    </small>
+                    <small v-if="item.risk" class="decisions-risk">
+                      Risk if guessed: {{ item.risk }}
+                    </small>
                   </td>
-                  <td class="decisions-proposal">{{ item.system_proposal }}</td>
-                  <td><span class="decisions-pill" :class="statusClass(item.status)">{{ item.status }}</span></td>
                   <td>
-                    <template v-if="item.decision && item.decision.accountant_name">
-                      {{ item.decision.accountant_name }}
-                      <small>{{ item.decision.review_date }}</small>
+                    <template v-if="item.current_value">
+                      {{ item.current_value }}
+                      <small class="decisions-why">Current policy value — not a decision.</small>
                     </template>
-                    <span v-else>—</span>
+                    <span v-else class="decisions-unset">not set</span>
+                  </td>
+                  <td class="decisions-proposal">
+                    <ul class="decisions-options">
+                      <li v-for="option in item.options" :key="option">{{ option }}</li>
+                    </ul>
+                  </td>
+                  <td>
+                    <span class="decisions-pill" :class="statusClass(item.status)">{{ item.status }}</span>
+                    <small class="decisions-why">{{ item.verification_state }}</small>
+                  </td>
+                  <td>
+                    <template v-if="item.accountant_answer">
+                      <strong>{{ item.accountant_answer }}</strong>
+                      <small v-if="item.decision">
+                        {{ item.decision.accountant_name }} · {{ item.decision.review_date }}
+                      </small>
+                      <small v-if="item.effective_date">Effective {{ item.effective_date }}</small>
+                    </template>
+                    <span v-else class="decisions-unset">no decision recorded</span>
+                  </td>
+                  <td>
+                    <span v-if="item.evidence">{{ item.evidence }}</span>
+                    <span v-else class="decisions-unset">—</span>
                   </td>
                 </tr>
               </tbody>
@@ -175,5 +205,10 @@ load();
 .decisions-pill.is-bad{background:var(--ref-warning-background);color:var(--ref-danger)}
 .decisions-pill.is-pending{background:var(--ref-warning-background);color:var(--ref-warning,#8a6d00)}
 .decisions-why{display:block;color:var(--ref-secondary-text);font-weight:500}
-.decisions-proposal{max-width:22rem}
+.decisions-impact{display:block;color:var(--ref-secondary-text);font-weight:500;margin-top:.25rem}
+.decisions-risk{display:block;color:var(--ref-danger);font-weight:600;margin-top:.25rem}
+.decisions-unset{color:var(--ref-secondary-text);font-style:italic}
+.decisions-options{margin:0;padding-left:1.1rem}
+.decisions-options li{font-size:.85rem}
+.decisions-proposal{max-width:16rem}
 </style>
