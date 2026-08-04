@@ -1,9 +1,79 @@
-.DS_Store
-*.pyc
-*.egg-info
-frontend/node_modules/
+# Secrets and environment ------------------------------------------------------
+# .env.example is kept on purpose: it is the placeholder template deployments
+# copy from. The negation must stay after the .env.* rule to survive it.
+.env
+.env.*
+!.env.example
+site_config.json
+common_site_config.json
+
+# Credential material ----------------------------------------------------------
+*.key
+*.pem
+*.crt
+*.pfx
+*.p12
+id_rsa
+id_rsa.pub
+*.ppk
+
+# Database dumps, archives and backups -----------------------------------------
+*.sql
+*.sql.gz
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.rdb
+*.dump
+backups/
+
+# Frappe site data -------------------------------------------------------------
+# An app repository must never carry a site. These belong to the bench, not here.
+sites/
+private/
+public/files/
+
+# Build output -----------------------------------------------------------------
+# The SPA is built at deploy time from frontend/src, which IS tracked. Committing
+# the bundle would put a stale build in every clone.
 my_store_ui/public/frontend/
-*.swp
-tags
+dist/
+build/
+.vite/
+
+# Dependencies -----------------------------------------------------------------
 node_modules
+node_modules/
+frontend/node_modules/
+.venv/
+venv/
+*.egg-info
+
+# Python artefacts -------------------------------------------------------------
 __pycache__
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+coverage/
+.coverage
+htmlcov/
+
+# Logs -------------------------------------------------------------------------
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+
+# Editor and OS ----------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+tags
+.idea/
+.vscode/
