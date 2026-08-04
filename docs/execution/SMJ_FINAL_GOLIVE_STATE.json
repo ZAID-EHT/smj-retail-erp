@@ -1,7 +1,7 @@
 {
   "mission": "SMJ Final Go-Live Execution",
   "started_at": "2026-08-04T16:57:00",
-  "last_update": "2026-08-04T18:20:00",
+  "last_update": "2026-08-04T19:25:00",
   "repository": {
     "bench": "/home/zaidh/frappe-bench",
     "app": "/home/zaidh/frappe-bench/apps/my_store_ui",
@@ -11,7 +11,8 @@
     "starting_worktree_clean": true,
     "recovery_tag": "pre-smj-final-golive-20260804-1657",
     "recovery_tag_created_this_mission": true,
-    "commits_created": 4
+    "commits_created": 10,
+    "continuation_head_at_session_start": "ad595d4fd5835532a045632ba00483ff23410626"
   },
   "platform": {
     "frappe": "15.108.0",
@@ -44,7 +45,10 @@
   "site1_fingerprint_start": {
     "captured_read_only": true,
     "site": "site1.local",
-    "companies": ["SMJ", "SMJ (Demo)"],
+    "companies": [
+      "SMJ",
+      "SMJ (Demo)"
+    ],
     "installed_apps": [
       "erpnext",
       "erpnext_chatgpt",
@@ -69,57 +73,84 @@
     "commission_tables": "absent"
   },
   "progress": {
-    "phases_completed": [0, 1, 2, 3, 4],
-    "phases_not_started": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
-    "commits_created_this_mission": 3,
-    "commit_shas": ["177b420", "f847545", "ac1a18e"],
+    "phases_completed": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "phases_not_started": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      19
+    ],
+    "phase_18_partial": "full regression run and test manifest written; the wider per-area suites named in the brief were not separately run",
+    "commits_created_this_session": 6,
+    "commit_shas_this_session": [
+      "64b8eb1",
+      "444575e",
+      "239277a",
+      "0571624",
+      "dc066ba"
+    ],
     "release_tag_created": false,
-    "release_tag_reason": "brief requires a passing browser matrix, security audit and performance audit; none was run",
-    "last_completed_action": "final regression green; documents finalised",
+    "release_tag_reason": "brief requires a passing browser matrix, security audit, performance audit, automated UAT, human UAT workspace, deployment audit and backup/restore audit; none was run",
     "not_started": [
-      "commission accountant decision package",
-      "unified accounting preparation service",
-      "external action tracker",
-      "production configuration checker",
-      "fresh-install rehearsal hardening",
-      "SMTP sandbox rehearsal",
-      "automated business UAT",
-      "human UAT workspace",
-      "deployment package audit",
-      "backup and restore audit",
-      "performance audit",
-      "security audit",
-      "acceptance matrix update",
-      "six-viewport browser matrix",
-      "release package"
+      "Phase 10 SMTP sandbox rehearsal",
+      "Phase 11 automated business UAT",
+      "Phase 12 human UAT workspace",
+      "Phase 13 deployment package audit",
+      "Phase 14 backup and restore audit",
+      "Phase 15 performance audit",
+      "Phase 16 security audit",
+      "Phase 17 acceptance matrix",
+      "Phase 19 six-viewport browser matrix",
+      "release package documents"
     ]
   },
   "verification": {
     "backend_tests_full_run": {
-      "ran": 860,
+      "ran": 941,
       "result": "OK",
       "skipped": 6,
       "failures": 0,
       "errors": 0,
-      "duration_seconds": 358.403,
-      "note": "860 = 810 baseline + 50 tests added this mission; this is the final run, taken after every change"
+      "duration_seconds": 383.742,
+      "note": "941 = 860 at session start + 81 added this session"
     },
     "frontend_build": {
       "command": "npm run build",
       "result": "clean",
       "modules": 256,
-      "available_scripts": ["dev", "build", "check"],
+      "available_scripts": [
+        "dev",
+        "build",
+        "check"
+      ],
       "note": "no lint, type-check, unit-test or Playwright script exists in package.json"
     },
     "browser_matrix": "not run",
-    "security_audit": "not run",
+    "security_audit": "not run as a phase",
     "performance_audit": "not run",
-    "exit_code_warning": "bench run-tests returns 0 even when tests fail; results are read from the unittest summary, never from exit status"
+    "exit_code_warning": "bench run-tests returns 0 even when tests fail; results are read from the unittest summary, never from exit status",
+    "test_manifest": "docs/verification/SMJ_FINAL_TEST_MANIFEST.json"
   },
   "site1_unchanged": {
     "verified": true,
-    "method": "same read-only fingerprint script re-run at end",
-    "result": "identical field for field"
+    "method": "same read-only fingerprint script, diffed against the session-start capture",
+    "result": "identical"
   },
   "material_finding": {
     "what": "published post-correction profit figure had gone stale",
@@ -132,5 +163,11 @@
     "authoritative_document": "docs/finance/SMJ_OPENING_STOCK_FINAL_ACCOUNTANT_PACKAGE.md",
     "guarded_by_tests": true
   },
-  "external_blockers": []
+  "external_blockers": [],
+  "residue_check": {
+    "decisions": 0,
+    "correction_journal_entries": 0,
+    "test_users": 0,
+    "verified_after_full_regression": true
+  }
 }

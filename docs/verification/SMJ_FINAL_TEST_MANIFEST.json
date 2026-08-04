@@ -1,0 +1,103 @@
+{
+  "captured_at": "2026-08-04T19:20:00",
+  "site": "staging.local",
+  "how_results_were_determined": "Parsed from the unittest summary lines ('Ran N tests', 'OK', 'OK (skipped=N)', 'FAILED'). Exit status was NOT used: bench run-tests returns 0 even when tests fail, which was observed directly in this project when a module reported FAILED (failures=2, errors=1) and still exited 0.",
+  "full_suite": {
+    "command": "bench --site staging.local run-tests --app my_store_ui",
+    "ran": 941,
+    "result": "OK",
+    "skipped": 6,
+    "failures": 0,
+    "errors": 0,
+    "duration_seconds": 383.742,
+    "fail_or_error_lines_in_output": 0
+  },
+  "baselines": {
+    "session_start": 860,
+    "session_end": 941,
+    "added_this_session": 81,
+    "note": "81 = 7 commission package + 30 accounting preparation + 27 external actions + 17 production configuration"
+  },
+  "modules_added_or_changed_this_session": [
+    {
+      "module": "my_store_ui.tests.test_accountant_decisions",
+      "command": "bench --site staging.local run-tests --module my_store_ui.tests.test_accountant_decisions",
+      "ran": 52,
+      "result": "OK",
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 18.571
+    },
+    {
+      "module": "my_store_ui.tests.test_accounting_preparation",
+      "command": "bench --site staging.local run-tests --module my_store_ui.tests.test_accounting_preparation",
+      "ran": 30,
+      "result": "OK",
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 12.846
+    },
+    {
+      "module": "my_store_ui.tests.test_external_actions",
+      "command": "bench --site staging.local run-tests --module my_store_ui.tests.test_external_actions",
+      "ran": 27,
+      "result": "OK",
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 7.169
+    },
+    {
+      "module": "my_store_ui.tests.test_production_configuration",
+      "command": "bench --site staging.local run-tests --module my_store_ui.tests.test_production_configuration",
+      "ran": 17,
+      "result": "OK",
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 4.925
+    },
+    {
+      "module": "my_store_ui.tests.test_opening_stock_correction",
+      "command": "bench --site staging.local run-tests --module my_store_ui.tests.test_opening_stock_correction",
+      "ran": 10,
+      "result": "OK",
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 0.988
+    }
+  ],
+  "frontend": {
+    "command": "npm run build",
+    "result": "clean",
+    "available_scripts": ["dev", "build", "check"],
+    "note": "No lint, type-check, unit-test or Playwright script exists in frontend/package.json, so none was invented or reported."
+  },
+  "migrations": {
+    "command": "bench --site staging.local migrate",
+    "result": "clean",
+    "runs_this_session": 3
+  },
+  "not_run": {
+    "browser_matrix": "Phase 19 six-viewport Playwright matrix was not run.",
+    "security_audit": "Phase 16 role-denial matrix was not run as a phase, though permission denial is covered inside the module suites above.",
+    "performance_audit": "Phase 15 was not run.",
+    "automated_uat": "Phase 11 scripts/run_uat_checks.py was not built or run.",
+    "deployment_audit": "Phase 13 was not run.",
+    "backup_restore_audit": "Phase 14 was not run."
+  },
+  "residue_check": {
+    "retail_accountant_decision_rows": 0,
+    "opening_stock_correction_journal_entries": 0,
+    "test_pattern_users": 0,
+    "verified_after": "full regression and per-module runs"
+  },
+  "site1_local": {
+    "compared_against": "session-start fingerprint",
+    "result": "identical",
+    "method": "same read-only SELECT-only script, diffed"
+  }
+}

@@ -78,10 +78,10 @@ field. Any difference is a safety failure, not a finding.
 
 | Field | Value |
 |---|---|
-| Phases completed | 0, 1 (backend/frontend), 2, 3, 4 |
-| Phases not started | 5–19 |
-| Commits created this mission | 3 (`177b420`, `f847545`, `ac1a18e`) |
-| Backend tests | **860 ran, OK, 6 skipped, 0 failures, 0 errors** (358.4s), final run after every change |
+| Phases completed | 0–9 |
+| Phases not started | 10–17, 19 (18 partial) |
+| Commits created this mission | 10 total (4 in session 1, 6 in session 2) |
+| Backend tests | **941 ran, OK, 6 skipped, 0 failures, 0 errors** (383.7s), final run after every change |
 | Frontend build | Clean (`vite build`, 256 modules, 4.89s) |
 | site1.local | Re-fingerprinted at end — identical to start, field for field |
 | Last completed action | Final regression green; documents finalised |
@@ -96,17 +96,44 @@ field. Any difference is a safety failure, not a finding.
 | 2 | Accountant Decision Centre: DocType, capability matrix, 14-question catalogue, API, SPA page and service, 45 tests |
 | 3 | Segregation of duties enforced in the controller; two app roles created; permission matrix documented |
 | 4 | Opening-stock final accountant package with **re-measured** figures, plus four tests that keep it honest |
+| 5 | Commission decision package: options, accounting impact and risk per decision; current value separated from decision; final package document; 7 tests |
+| 6 | Guarded accounting preparation service — five modes, no submit mode; 30 tests |
+| 7 | External action tracker — 16 seeded actions, evidence-gated verification; 27 tests |
+| 8 | Production configuration checker — 32 fixed-purpose checks, no command endpoint; 17 tests |
+| 9 | Fresh-install rehearsal hardened with `--dry-run/--create/--verify/--resume`; dry run executed and passing |
 
 ### Not started
 
-Phases 5–19: commission decision package, unified accounting preparation service,
-external-action tracker, production configuration checker, fresh-install hardening, SMTP
-rehearsal, automated UAT, human UAT workspace, deployment audit, backup/restore audit,
-performance audit, security audit, acceptance matrix, six-viewport browser matrix,
-release package, release tag.
+| Phase | Work |
+|---|---|
+| 10 | SMTP sandbox rehearsal |
+| 11 | Automated business UAT (`scripts/run_uat_checks.py`) |
+| 12 | Human UAT evidence workspace |
+| 13 | Deployment package audit |
+| 14 | Backup and restore audit |
+| 15 | Performance and reliability audit |
+| 16 | Security audit as a phase (permission denial is covered inside the module suites) |
+| 17 | Final acceptance matrix |
+| 19 | Six-viewport browser matrix |
+| — | rc11 release package documents |
 
-No release tag was created. The tag conditions in the brief require the browser matrix,
-security audit and performance audit to have passed; none of them were run.
+Phase 18 is **partial**: the full regression was run and
+`docs/verification/SMJ_FINAL_TEST_MANIFEST.json` written, but the separate per-area
+suites the brief lists were not individually run.
+
+No release tag was created. The brief's tag conditions require a passing browser matrix,
+security audit, performance audit, automated UAT, human UAT workspace, deployment audit
+and backup/restore audit. None of those ran, so `v1.0.0-rc11` would have been a claim
+rather than a fact. The tag name remains unused.
+
+### Defects found and fixed in this session's own work
+
+| Defect | Consequence had it shipped |
+|---|---|
+| `prepare_draft()` commits mid-test, destroying the savepoint | A test run left a real draft Journal Entry, then eighteen **Approved** opening-stock decisions, on staging. Approved decisions are the worse residue: left in place they would satisfy the preparation guard for real work later. Both were removed and the suite now cleans committed residue after the rollback. |
+| `cancel_draft` deleted any draft by name | Could have removed an unrelated draft. Now proves the correction marker first. |
+| `Retail Finance Verifier` / `Accounts Manager` lacked DocType write | Verification failed with a permission error. |
+| Two routes registered with no SPA page (session 1) | Dead routes; both removed, and a test now walks bespoke routes. |
 
 ## Material finding — a published figure had gone stale
 

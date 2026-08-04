@@ -230,3 +230,105 @@ release package and release tag.
 
 No release tag was created, because the brief's tag conditions require a passing browser
 matrix, security audit and performance audit, and none of the three was run.
+
+---
+
+# Session 2 — Phases 5 to 9
+
+Continued from `ad595d4`. Preflight re-verified branch, HEAD, the four session-1
+commits, a clean worktree, all Phase 0–4 artefacts present, and that `v1.0.0-rc11` was
+still unused. A fresh staging backup was taken (`20260804_174028`) before any change.
+
+## Phase 5 — Commission accountant decision package
+
+Added structured detail per decision — options, accounting impact, and what goes wrong
+if the choice is guessed — and separated two things the screen had been conflating: a
+*current policy value* and an *accountant decision*. A field holding a value because
+somebody typed it into a draft policy is not an answer, and `current_value_is_a_decision`
+is now always false with a test to prove no topic reports an answer without a decision
+behind it.
+
+`docs/accounting/SMJ_COMMISSION_FINAL_ACCOUNTANT_PACKAGE.md` written with the worked
+example (100,000 at 2% splitting 1,000 / 500 / 500), whose arithmetic is asserted by test
+rather than typed into prose. `Ran 52 tests, OK`.
+
+## Phase 6 — Guarded accounting preparation service
+
+`my_store_ui/finance/accounting_preparation.py`. Five modes and deliberately no sixth;
+the absence of a submit mode is asserted rather than assumed. Commission preparation
+refuses even when all eight of its decisions are recorded, and that refusal is tested,
+because "the decisions are complete" is precisely the moment someone would assume it
+now works.
+
+**Two test-harness defects found by watching what the suite left behind.**
+
+The first run left a real draft Journal Entry `ACC-JV-2026-00004` on staging. Cause:
+`osc.prepare_draft()` calls `frappe.db.commit()`, so the savepoint cannot undo it.
+
+The fix was then made wrongly — cleanup was placed *before* the rollback, and the commit
+inside cleanup destroyed the savepoint, leaking more. A direct query of the database
+rather than more guessing showed the real damage: **eighteen `Approved` opening-stock
+decision records committed to staging**, because the mid-test commit had persisted the
+decisions each test approved moments earlier. Those are the dangerous residue — left in
+place they would satisfy the preparation guard for real work later.
+
+All eighteen were deleted, the draft was deleted, and cleanup now runs *after* the
+rollback and removes committed residue explicitly. `Ran 30 tests, OK`; staging verified
+at zero residue afterwards.
+
+## Phase 7 — External action tracker
+
+16 seeded actions at `/retail-erp/admin/readiness/external-actions`. `Verified` cannot be
+reached by setting the status; it is reached by verifying with evidence, by someone other
+than whoever completed the work. Nothing ships pre-verified, asserted by test. Filters
+narrow the view but never the blocking count. `Ran 27 tests, OK`.
+
+Two defects fixed: the verifier roles lacked DocType write permission, and one assertion
+searched for a sentence fragment that did not match the real message.
+
+## Phase 8 — Production configuration checker
+
+32 fixed-purpose checks at `/retail-erp/admin/readiness/configuration`. No endpoint
+accepts a command, and a test asserts no check function takes caller-supplied input.
+
+Measured on staging: `17 Pass, 3 Warning, 2 Fail, 9 External, 1 N/A`. Both failures —
+`allow_tests` on and the scheduler disabled — are correct, because staging is a test
+site. A checker that passed everything on a test site would be worthless on a real one.
+`Ran 17 tests, OK`.
+
+## Phase 9 — Fresh-install rehearsal
+
+Added `--dry-run`, `--create`, `--verify`, `--resume` and removed the implicit default,
+so a mistyped flag can no longer create a site. Dry run executed:
+
+```
+$ scripts/verify_fresh_install.sh freshrelease.local        -> exit 2 (no mode)
+$ scripts/verify_fresh_install.sh --dry-run staging.local   -> exit 3 (protected)
+$ scripts/verify_fresh_install.sh --dry-run freshrelease.local -> exit 0
+```
+
+The result file was initially written into `docs/`, which would pollute the repository
+with run artifacts; it now defaults to the bench logs directory. `--create` remains
+blocked on EXT-03.
+
+## Verification at end of session 2
+
+```
+bench --site staging.local run-tests --app my_store_ui
+-> Ran 941 tests in 383.742s
+-> OK (skipped=6)
+-> "^(FAIL|ERROR): " lines = 0
+```
+
+941 = 860 at session start + 81 added. Frontend build clean at every step. Migrations
+clean (3 runs). Staging residue: 0 decisions, 0 correction journal entries, 0 test users.
+
+**site1.local re-fingerprinted and diffed against the session-start capture: identical.**
+
+## Not done
+
+Phases 10–17 and 19, and the rc11 release package. Phase 18 partial — the full regression
+ran and the manifest was written, but the per-area suites named in the brief were not
+separately run. No release tag was created; its conditions require a browser matrix,
+security audit, performance audit, automated UAT, human UAT workspace, deployment audit
+and backup/restore audit, none of which ran.
