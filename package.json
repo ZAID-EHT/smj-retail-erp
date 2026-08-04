@@ -1,0 +1,9 @@
+{
+  "name": "my_store_ui",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Bench app-root package.json. Its sole purpose is to hook into bench's existing 'yarn install --check-files' step (run automatically for any app with a root package.json) so the postinstall script below builds the nested Vue/Vite SPA in frontend/ during the Docker image build, before bench's final asset-linking pass copies my_store_ui/public/* into sites/assets/my_store_ui/.",
+  "scripts": {
+    "postinstall": "cd frontend && yarn install --frozen-lockfile && yarn build"
+  }
+}
