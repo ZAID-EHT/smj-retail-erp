@@ -1,0 +1,86 @@
+{
+  "mission": "SMJ Final Go-Live Execution",
+  "started_at": "2026-08-04T16:57:00",
+  "last_update": "2026-08-04T16:58:00",
+  "repository": {
+    "bench": "/home/zaidh/frappe-bench",
+    "app": "/home/zaidh/frappe-bench/apps/my_store_ui",
+    "starting_branch": "full-feature-parity",
+    "starting_commit": "2eb5980ca6f3081fdc2e4cefc7cdc8bda73be0e2",
+    "starting_release_tag": "v1.0.0-rc10",
+    "starting_worktree_clean": true,
+    "recovery_tag": "pre-smj-final-golive-20260804-1657",
+    "recovery_tag_created_this_mission": true,
+    "commits_created": 0
+  },
+  "platform": {
+    "frappe": "15.108.0",
+    "erpnext": "15.108.3",
+    "my_store_ui": "0.0.1",
+    "posawesome": "15.30.0",
+    "smj_theme": "0.0.1",
+    "erpnext_chatgpt": "0.0.1",
+    "erpnext_gemini_integration": "0.1.0"
+  },
+  "backup": {
+    "site": "staging.local",
+    "taken_at": "2026-08-04T16:57:51",
+    "with_files": true,
+    "database": {
+      "file": "20260804_165748-staging_local-database.sql.gz",
+      "size": "2.9MiB",
+      "sha256": "2dada3992f1da2a52bb0074c0ecef92c31d2fbb1549db6c04f98de32a59d03d2"
+    },
+    "public_files": {
+      "file": "20260804_165748-staging_local-files.tar",
+      "sha256": "b1f4bcb063430576d4be77c11236b6bd84d8e0b66cc4321f8be8466b15559e0d"
+    },
+    "private_files": {
+      "file": "20260804_165748-staging_local-private-files.tar",
+      "sha256": "586d765008d7973550856ee1f0b592242759e880fe1008ad4cbab7dd72b337c2"
+    },
+    "committed_to_git": false
+  },
+  "site1_fingerprint_start": {
+    "captured_read_only": true,
+    "site": "site1.local",
+    "companies": ["SMJ", "SMJ (Demo)"],
+    "installed_apps": [
+      "erpnext",
+      "erpnext_chatgpt",
+      "erpnext_gemini_integration",
+      "frappe",
+      "my_store_ui",
+      "posawesome",
+      "smj_theme"
+    ],
+    "administrator_modified": "2026-05-28 12:13:39.040427",
+    "latest_gl_posting_date": "2026-12-10",
+    "gl_entry_count": "44",
+    "latest_sle_posting_date": "2026-12-10",
+    "sle_count": "17",
+    "journal_entry_count": "0",
+    "submitted_journal_entries": "0",
+    "opening_stock_correction_jes": "0",
+    "payment_entry_count": "5",
+    "sales_invoice_count": "7",
+    "user_count": "3",
+    "test_pattern_users": "0",
+    "commission_tables": "absent"
+  },
+  "progress": {
+    "current_phase": "Phase 0 - preflight",
+    "phase_0_complete": true,
+    "completed_requirements": [
+      "repository verification",
+      "recovery tag",
+      "staging backup with checksums",
+      "site1.local read-only fingerprint",
+      "state documents"
+    ],
+    "remaining_requirements": ["Phase 1 through Phase 19"],
+    "last_completed_action": "site1.local fingerprint captured",
+    "next_automatic_action": "Phase 1 baseline reproduction"
+  },
+  "external_blockers": []
+}

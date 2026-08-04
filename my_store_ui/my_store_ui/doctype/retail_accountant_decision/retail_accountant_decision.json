@@ -1,0 +1,348 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-08-04 17:10:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "company",
+  "topic_area",
+  "topic",
+  "col_head",
+  "status",
+  "version_no",
+  "superseded_by",
+  "sec_proposal",
+  "proposed_value",
+  "system_evidence",
+  "col_proposal",
+  "prepared_by",
+  "prepared_on",
+  "sec_decision",
+  "accountant_decision",
+  "decision_comment",
+  "rejection_reason",
+  "col_decision",
+  "accountant_name",
+  "accountant_user",
+  "review_date",
+  "effective_date",
+  "sec_evidence",
+  "evidence_attachment",
+  "evidence_reference",
+  "col_evidence",
+  "recorded_by",
+  "recorded_on",
+  "sec_implementation",
+  "implemented_by",
+  "implemented_on",
+  "implementation_reference",
+  "col_implementation",
+  "verified_by",
+  "verified_on",
+  "verification_note"
+ ],
+ "fields": [
+  {
+   "default": "ACC-DEC-.YYYY.-",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ACC-DEC-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "description": "Which accountant-controlled area this decision belongs to.",
+   "fieldname": "topic_area",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Topic Area",
+   "options": "Opening Stock Correction\nCommission Accounting",
+   "reqd": 1
+  },
+  {
+   "description": "The single question this record decides. One question per record.",
+   "fieldname": "topic",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Not Reviewed",
+   "description": "Set through the decision workflow, never typed in directly.",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Not Reviewed\nInformation Required\nUnder Accountant Review\nApproved\nRejected\nApproved with Changes\nImplemented\nVerified",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "description": "A decision is never edited after it is decided. A change creates a new version.",
+   "fieldname": "version_no",
+   "fieldtype": "Int",
+   "label": "Version",
+   "read_only": 1
+  },
+  {
+   "fieldname": "superseded_by",
+   "fieldtype": "Link",
+   "label": "Superseded By",
+   "options": "Retail Accountant Decision",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_proposal",
+   "fieldtype": "Section Break",
+   "label": "Proposal"
+  },
+  {
+   "description": "What the system proposes. This is a proposal only and carries no authority.",
+   "fieldname": "proposed_value",
+   "fieldtype": "Small Text",
+   "label": "Proposed Value"
+  },
+  {
+   "description": "Measured figures behind the proposal, captured when it was prepared.",
+   "fieldname": "system_evidence",
+   "fieldtype": "Code",
+   "label": "System Evidence",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_proposal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "prepared_by",
+   "fieldtype": "Link",
+   "label": "Prepared By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prepared_on",
+   "fieldtype": "Datetime",
+   "label": "Prepared On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_decision",
+   "fieldtype": "Section Break",
+   "label": "Accountant Decision"
+  },
+  {
+   "description": "The value the accountant actually chose. Blank until a decision is recorded.",
+   "fieldname": "accountant_decision",
+   "fieldtype": "Small Text",
+   "label": "Accountant Decision",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decision_comment",
+   "fieldtype": "Text",
+   "label": "Comment",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status=='Rejected'",
+   "description": "Required when a proposal is rejected.",
+   "fieldname": "rejection_reason",
+   "fieldtype": "Small Text",
+   "label": "Rejection Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_decision",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "The name of the responsible accountant, as they signed it.",
+   "fieldname": "accountant_name",
+   "fieldtype": "Data",
+   "label": "Accountant Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accountant_user",
+   "fieldtype": "Link",
+   "label": "Accountant User",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "review_date",
+   "fieldtype": "Date",
+   "label": "Review Date",
+   "read_only": 1
+  },
+  {
+   "description": "The date from which the decided value applies.",
+   "fieldname": "effective_date",
+   "fieldtype": "Date",
+   "label": "Effective Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_evidence",
+   "fieldtype": "Section Break",
+   "label": "Evidence"
+  },
+  {
+   "description": "Signed approval. Approval is refused without evidence.",
+   "fieldname": "evidence_attachment",
+   "fieldtype": "Attach",
+   "label": "Evidence Attachment",
+   "read_only": 1
+  },
+  {
+   "description": "External reference for the evidence, such as an email or minute number.",
+   "fieldname": "evidence_reference",
+   "fieldtype": "Data",
+   "label": "Evidence Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_evidence",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "The user who recorded the decision. Must not be the preparer.",
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recorded_on",
+   "fieldtype": "Datetime",
+   "label": "Recorded On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_implementation",
+   "fieldtype": "Section Break",
+   "label": "Implementation"
+  },
+  {
+   "fieldname": "implemented_by",
+   "fieldtype": "Link",
+   "label": "Implemented By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "implemented_on",
+   "fieldtype": "Datetime",
+   "label": "Implemented On",
+   "read_only": 1
+  },
+  {
+   "description": "The document the implementation produced, if any.",
+   "fieldname": "implementation_reference",
+   "fieldtype": "Data",
+   "label": "Implementation Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_implementation",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "verified_by",
+   "fieldtype": "Link",
+   "label": "Verified By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verified_on",
+   "fieldtype": "Datetime",
+   "label": "Verified On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verification_note",
+   "fieldtype": "Small Text",
+   "label": "Verification Note",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-04 17:10:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Accountant Decision",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Retail Accountant",
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Retail Finance Verifier",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}
