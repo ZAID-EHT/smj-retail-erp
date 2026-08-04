@@ -262,3 +262,38 @@ scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/
 | Six-viewport browser matrix | 228/228, zero console errors | yes |
 | site1.local untouched | SHA256 fingerprint identical | yes |
 | Commission payout | deferred — accountant approval required | documented, not implemented |
+
+## Commission policy, closing, approval, statements and payout preparation
+
+| Requirement | Evidence | Verified |
+|---|---|---|
+| Policy has no defaults for any unapproved decision | test_a_new_policy_defaults_nothing, browser: trigger field empty | yes |
+| Policy stays Incomplete until the calculation decisions exist | test_policy_status_progression | yes |
+| Approved + enabled policy becomes Active | browser: Ready for Review → Active | yes |
+| An Active policy still cannot post | test_may_post_stays_false_without_accounts, browser | yes |
+| Simulation persists nothing | test_simulation_writes_nothing, `persisted False` | yes |
+| Simulation matches the current calculation | `matches current calculation True` | yes |
+| Period id is concurrency-safe (COM-PER-YYYY-######) | test_period_naming, browser regex | yes |
+| Overlapping active periods refused | test_overlapping_periods_are_refused | yes |
+| Preparation is idempotent | test_preparing_twice_does_not_duplicate (9 rows, then 9) | yes |
+| Preparation reads the frozen snapshot, never the master | test_editing_the_team_master_does_not_change_the_old_order | yes |
+| Credit note before preparation reduces the net | test_a_credit_note_before_preparation_reduces_the_net | yes |
+| Approved period cannot be re-prepared | test_an_approved_period_cannot_be_re_prepared | yes |
+| Reopening needs a reason and clears the approval | test_reopening_needs_a_reason_and_clears_the_approval | yes |
+| Blocking exceptions prevent approval | test_a_blocking_exception_prevents_approval | yes |
+| Adjustment: requester cannot approve their own | test_a_requester_cannot_approve_their_own_adjustment | yes |
+| Adjustment awaiting approval blocks the period | test_an_adjustment_awaiting_approval_blocks_period_approval | yes |
+| Preparer cannot review or approve their own period | test_the_preparer_cannot_review_or_approve_their_own_period | yes |
+| Statements scoped — a member sees only their own | test_a_member_sees_only_their_own_statement | yes |
+| Sales Manager cannot prepare a payout | test_a_sales_manager_cannot_prepare_a_payout | yes |
+| Payout lines blocked without payee/account config | browser: every line Blocked | yes |
+| Accounting preview proposes without posting | test_the_accounting_preview_proposes_without_posting, `would_post no` | yes |
+| Posting endpoint refuses when called directly | browser: HTTP 417 | yes |
+| GL entries created by the whole workflow | **0** | yes |
+| No fake Paid status at any viewport | browser, six viewports | yes |
+| Historical rows never auto-assigned from a current team | test_a_customer_with_no_team_is_never_guessed_at, browser note | yes |
+| Six-viewport browser matrix | 246/246, zero console errors | yes |
+| Full browser verification | 396 checks, 0 failures | yes |
+| Backend suite | **810 tests, 0 failures, 6 skipped** | yes |
+| site1.local untouched | SHA `f51fed…d9c3` identical | yes |
+| Commission accounting posting | **deliberately blocked** — 8 accountant decisions outstanding | documented, not implemented |

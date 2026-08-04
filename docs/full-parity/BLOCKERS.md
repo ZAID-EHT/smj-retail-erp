@@ -331,3 +331,25 @@ of them this mission.
 Admin landing/navigation, secure PDF, scheduled reports, two-company separation,
 truthful launch-readiness dashboard. 369 backend tests green, 96/96 browser, secret
 scan clean, site1 untouched. External: accountant/SMTP/MariaDB-root/Hetzner/DNS/UAT.
+
+## 2026-08-04 (commission closing and payout, v1.0.0-rc10)
+
+Commission is calculated, closed, reviewed, approved, stated and prepared for
+payout. It is **not posted**, and cannot be, until an accountant settles eight
+decisions: commission expense account, commission payable account or payment
+method, payee party type, whether commission is earned on invoicing or on
+collection, payout cycle, withholding treatment, tax treatment, and the
+cancellation/clawback rule.
+
+Every one has a field waiting for it and **none has a default**. The policy stays
+`Incomplete` until the calculation decisions are answered, and `may_post()` stays
+False until the accounting ones are too. `post_commission_payout` exists, is
+reachable, and always refuses with the list of what is missing — an absent endpoint
+would only invite someone to write a quick one against the ledger.
+
+The accounting document is not chosen either. Five candidates are compared in
+`docs/accounting/SMJ_COMMISSION_ACCOUNTING_OPTIONS.md`; the right answer depends on
+decisions 3 and 6, which are external.
+
+810 backend tests green, 396 browser checks green, secret scan clean, staging left
+without residue, site1.local untouched.

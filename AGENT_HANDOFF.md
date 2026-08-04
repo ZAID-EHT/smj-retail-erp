@@ -1774,3 +1774,55 @@ SMJ_SMART_SALES_TEAM_INTEGRATION.md; docs/security/SMJ_SALES_TEAM_PERMISSION_MAT
 docs/data/SMJ_SALES_TEAM_MIGRATION_RESULT.md;
 docs/verification/SMJ_SALES_TEAM_END_TO_END_ACCEPTANCE.md and
 SMJ_SALES_TEAM_BROWSER_MATRIX.md.
+
+---
+
+## 2026-08-04 — Commission closing, approval, statements and payout preparation
+
+Sales Invoice → eligible → period prepared → reviewed → approved → statements →
+payout prepared → **posting refused**. Seven doctypes (Policy, Period, Period
+Detail, Exception, Adjustment, Payout, Payout Line), three API modules
+(`commission_policy`, `commission_period`, `commission_payout`), three screens.
+
+The eleven quantities stay separate throughout: eligible base, team rate, gross
+pool, member allocation %, gross member commission, reversal, withholding,
+approved adjustment, net payable, paid, outstanding. A member's percentage is a
+share of the *pool*, never of the invoice — 100,000 at 2% gives a 2,000 pool split
+1,000 / 500 / 500, measured in the browser, not asserted in a test.
+
++74 backend tests (**810 total, 0 failures, 6 skipped**), browser 396 checks 0
+failures (52 commission payout, 246 six-viewport matrix, 73 sales team, 15 customer
+picker, 10 button audit), frontend build clean, secret scan clean, staging left
+with no residue, site1.local fingerprint unchanged.
+
+Four defects fixed. Two came from the implementation phase: a controller method
+that shadowed Frappe's `is_locked` property so every period save looked locked, and
+a `get_doc_before_save()` comparison that ran before Frappe populates it, so
+editing an approved policy silently kept the approval. Two came from the browser
+and could not have come from anywhere else: `buildPayout()` wiped the payout it had
+just prepared by calling `loadDetail()` afterwards, so the panel was empty every
+time; and the browser harness's own cleanup deleted payouts by period name, leaving
+five periods, payouts and policies on staging while printing `failures=0`.
+
+Correction to the previous entry: the historical manual-review export is **331**
+rows, not 333. The count is read from the file each time rather than carried
+forward.
+
+External, unchanged in substance and now exact: **eight accountant decisions**
+block posting — commission expense account, commission payable account or payment
+method, payee party type, earned-on-invoicing vs on-collection, payout cycle,
+withholding treatment, tax treatment, cancellation/clawback rule. None is
+defaulted; the policy will not go complete without them, and the posting endpoint
+refuses while listing them. The accounting document is not chosen either, because
+the choice depends on two of those decisions.
+
+Docs: docs/sales/SMJ_COMMISSION_POLICY.md, SMJ_COMMISSION_POLICY_SIMULATION.md,
+SMJ_COMMISSION_PERIODS.md, SMJ_COMMISSION_ADJUSTMENTS.md,
+SMJ_COMMISSION_STATEMENTS.md, SMJ_COMMISSION_PAYOUT_PREPARATION.md,
+SMJ_COMMISSION_REVERSAL_AND_CLAWBACK.md, SMJ_COMMISSION_CURRENT_STATE_AUDIT.md;
+docs/accounting/SMJ_COMMISSION_ACCOUNTING_OPTIONS.md;
+docs/data/SMJ_HISTORICAL_COMMISSION_REVIEW.md;
+docs/security/SMJ_COMMISSION_PERMISSION_MATRIX.md;
+docs/verification/SMJ_COMMISSION_PAYOUT_ACCEPTANCE.md and
+SMJ_COMMISSION_PAYOUT_BROWSER_MATRIX.md;
+docs/execution/SMJ_COMMISSION_PAYOUT_{STATE,LOG,BLOCKERS}.md.

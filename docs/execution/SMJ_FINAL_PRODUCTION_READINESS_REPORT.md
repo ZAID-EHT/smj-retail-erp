@@ -246,3 +246,31 @@ See `docs/sales/SMJ_COMMISSION_PAYOUT_BOUNDARY.md`.
 - Assigning teams to the 29 unassigned customers — a business decision, listed in
   `docs/data/SMJ_SALES_TEAM_MIGRATION_RESULT.md`.
 - Setting a commission rate on `STM-00014`, which is currently 0.
+
+---
+
+## 2026-08-04 — Commission closing and payout preparation (v1.0.0-rc10)
+
+| Area | State |
+|---|---|
+| Commission calculation, register, snapshots | complete (rc9) |
+| Commission policy configuration | complete |
+| Policy simulation over real transactions | complete |
+| Period closing, approval, statements | complete |
+| Adjustments and exceptions | complete |
+| Payout preparation and accounting preview | complete |
+| Historical review | complete |
+| **Commission accounting posting** | **blocked — 8 accountant decisions** |
+
+Backend 810 tests, 0 failures, 6 skipped. Browser 396 checks, 0 failures, six
+viewports. Frontend build clean. Secret scan clean. Staging left without residue.
+site1.local fingerprint identical to the pre-mission read.
+
+**Local implementation of everything that can be built without an accountant: complete.**
+**Local verification: complete.**
+
+What remains is not development. It is eight decisions listed in
+`docs/execution/SMJ_COMMISSION_PAYOUT_BLOCKERS.md`, plus the accounting-document
+choice that follows from two of them. Until they are made, the system prepares
+commission fully and refuses to post it — by design, in the API, in the doctype
+status ladder and in the UI, all three.

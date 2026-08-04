@@ -879,3 +879,26 @@ Tests 540 (0 failures, 6 skipped) · browser 162/162 six viewports · site1 unch
 
 Tests 736 (0 failures, 6 skipped) · browser 73/73 sales team, 228/228 six viewports ·
 site1 unchanged.
+
+## Commission closing, approval and payout preparation (v1.0.0-rc10)
+
+| Capability | State |
+|---|---|
+| Commission Policy configuration, nothing defaulted | complete |
+| Policy validation, status ladder, simulation over real data | complete |
+| Commission periods, concurrency-safe ids, overlap prevention | complete |
+| Period preparation — deterministic, idempotent, snapshot-sourced | complete |
+| Exceptions, blocking vs warning, reviewer resolution | complete |
+| Manual adjustments with segregation of duties | complete |
+| Member statements, permission-filtered | complete |
+| Review and approval with a full audit trail | complete |
+| Payout preparation, grouping, payee resolution, line validation | complete |
+| Dry-run accounting preview | complete |
+| Historical review workflow — never guesses a team | complete |
+| Dashboards and four reports | complete |
+| **Accounting posting** | **deliberately blocked** — 8 accountant decisions outstanding |
+| A `Paid` status reachable without accounting evidence | deliberately impossible |
+
+Tests 810 (0 failures, 6 skipped) · browser 396 checks 0 failures, of which 246 are
+the six-viewport matrix · frontend build clean · secret scan clean · staging residue
+none · site1 unchanged.
