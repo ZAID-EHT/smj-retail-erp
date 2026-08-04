@@ -162,6 +162,12 @@ export const moduleRoutes = [
     meta: { title: "Launch Readiness", description: "Truthful go-live checklist.", accent: "gold", icon: "shield" },
   },
   {
+    path: "/admin/readiness/configuration",
+    name: "production-configuration",
+    component: () => import("@/pages/priority/ProductionConfigurationPage.vue"),
+    meta: { title: "Production Configuration", description: "Is this site configured to be production.", accent: "gold", icon: "shield" },
+  },
+  {
     path: "/admin/readiness/external-actions",
     name: "external-actions",
     component: () => import("@/pages/priority/ExternalActionsPage.vue"),

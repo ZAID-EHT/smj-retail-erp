@@ -362,6 +362,16 @@ def verify_action(action_id: str, evidence_reference: str = "",
 	return {"action_id": doc.action_id, "status": doc.status}
 
 
+def go_live_blockers_count() -> int:
+	"""Blocking, still-outstanding actions. Unwhitelisted: for internal callers."""
+	if not frappe.db.table_exists("Retail External Action"):
+		return 0
+	return len(frappe.get_all(
+		ACTION,
+		filters={"blocking_go_live": 1, "status": ["in", list(OUTSTANDING_STATUSES)]},
+		pluck="name"))
+
+
 @frappe.whitelist(methods=["GET"])
 def go_live_blockers() -> dict:
 	"""What the release tag would have to be honest about."""
