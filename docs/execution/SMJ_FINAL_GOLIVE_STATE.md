@@ -78,14 +78,54 @@ field. Any difference is a safety failure, not a finding.
 
 | Field | Value |
 |---|---|
-| Current phase | Phase 0 — preflight |
-| Current batch | Preflight complete; Phase 1 baseline reproduction next |
-| Completed requirements | Repo verification, recovery tag, staging backup, site1 fingerprint, state documents |
-| Remaining requirements | Phases 1–19 |
-| Commits created this mission | 0 at time of writing |
-| Last completed action | site1.local fingerprint captured and recorded |
-| Next automatic action | Phase 1 — reproduce the rc10 backend/frontend/browser baseline |
-| Last update | 2026-08-04 16:58 |
+| Phases completed | 0, 1 (backend/frontend), 2, 3, 4 |
+| Phases not started | 5–19 |
+| Commits created this mission | 3 (`177b420`, `f847545`, `ac1a18e`) |
+| Backend tests | **860 ran, OK, 6 skipped, 0 failures, 0 errors** (358.4s), final run after every change |
+| Frontend build | Clean (`vite build`, 256 modules, 4.89s) |
+| site1.local | Re-fingerprinted at end — identical to start, field for field |
+| Last completed action | Final regression green; documents finalised |
+| Last update | 2026-08-04 18:05 |
+
+### Completed
+
+| Phase | What was actually delivered |
+|---|---|
+| 0 | Repo verified against the brief, recovery tag `pre-smj-final-golive-20260804-1657`, staging backup with SHA256, site1 read-only fingerprint, state/log/blocker documents |
+| 1 | Full backend suite reproduced (857 tests OK, 6 skipped); frontend build clean. **Method correction:** `bench run-tests` exits 0 even when tests fail, so exit status alone is not evidence — the unittest summary is now always captured |
+| 2 | Accountant Decision Centre: DocType, capability matrix, 14-question catalogue, API, SPA page and service, 45 tests |
+| 3 | Segregation of duties enforced in the controller; two app roles created; permission matrix documented |
+| 4 | Opening-stock final accountant package with **re-measured** figures, plus four tests that keep it honest |
+
+### Not started
+
+Phases 5–19: commission decision package, unified accounting preparation service,
+external-action tracker, production configuration checker, fresh-install hardening, SMTP
+rehearsal, automated UAT, human UAT workspace, deployment audit, backup/restore audit,
+performance audit, security audit, acceptance matrix, six-viewport browser matrix,
+release package, release tag.
+
+No release tag was created. The tag conditions in the brief require the browser matrix,
+security audit and performance audit to have passed; none of them were run.
+
+## Material finding — a published figure had gone stale
+
+Re-measuring the ledger for the accountant package found that the post-correction profit
+of **4,048,006**, published in the July 2026 finance documents, is no longer true.
+
+| | July 2026 docs | Measured 2026-08-04 |
+|---|---|---|
+| Profit before correction | 15,868,706 | **17,418,706** |
+| Correction amount | 11,820,700 | 11,820,700 (unchanged) |
+| Profit after correction | 4,048,006 | **5,598,006** |
+
+The arithmetic was right; its inputs aged, because staging took on further trading
+between the two dates. An accountant approving against 4,048,006 would have reconciled
+after posting and found a 1,550,000 discrepancy with nothing to explain it.
+
+`docs/finance/SMJ_OPENING_STOCK_FINAL_ACCOUNTANT_PACKAGE.md` is now the figure of record
+and lists the documents still carrying the superseded number. Four tests fail if the
+package and the ledger ever drift apart again.
 
 ## Honesty rules held for this mission
 

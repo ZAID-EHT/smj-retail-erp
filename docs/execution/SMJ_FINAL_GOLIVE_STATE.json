@@ -1,7 +1,7 @@
 {
   "mission": "SMJ Final Go-Live Execution",
   "started_at": "2026-08-04T16:57:00",
-  "last_update": "2026-08-04T16:58:00",
+  "last_update": "2026-08-04T18:20:00",
   "repository": {
     "bench": "/home/zaidh/frappe-bench",
     "app": "/home/zaidh/frappe-bench/apps/my_store_ui",
@@ -11,7 +11,7 @@
     "starting_worktree_clean": true,
     "recovery_tag": "pre-smj-final-golive-20260804-1657",
     "recovery_tag_created_this_mission": true,
-    "commits_created": 0
+    "commits_created": 4
   },
   "platform": {
     "frappe": "15.108.0",
@@ -69,18 +69,68 @@
     "commission_tables": "absent"
   },
   "progress": {
-    "current_phase": "Phase 0 - preflight",
-    "phase_0_complete": true,
-    "completed_requirements": [
-      "repository verification",
-      "recovery tag",
-      "staging backup with checksums",
-      "site1.local read-only fingerprint",
-      "state documents"
-    ],
-    "remaining_requirements": ["Phase 1 through Phase 19"],
-    "last_completed_action": "site1.local fingerprint captured",
-    "next_automatic_action": "Phase 1 baseline reproduction"
+    "phases_completed": [0, 1, 2, 3, 4],
+    "phases_not_started": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+    "commits_created_this_mission": 3,
+    "commit_shas": ["177b420", "f847545", "ac1a18e"],
+    "release_tag_created": false,
+    "release_tag_reason": "brief requires a passing browser matrix, security audit and performance audit; none was run",
+    "last_completed_action": "final regression green; documents finalised",
+    "not_started": [
+      "commission accountant decision package",
+      "unified accounting preparation service",
+      "external action tracker",
+      "production configuration checker",
+      "fresh-install rehearsal hardening",
+      "SMTP sandbox rehearsal",
+      "automated business UAT",
+      "human UAT workspace",
+      "deployment package audit",
+      "backup and restore audit",
+      "performance audit",
+      "security audit",
+      "acceptance matrix update",
+      "six-viewport browser matrix",
+      "release package"
+    ]
+  },
+  "verification": {
+    "backend_tests_full_run": {
+      "ran": 860,
+      "result": "OK",
+      "skipped": 6,
+      "failures": 0,
+      "errors": 0,
+      "duration_seconds": 358.403,
+      "note": "860 = 810 baseline + 50 tests added this mission; this is the final run, taken after every change"
+    },
+    "frontend_build": {
+      "command": "npm run build",
+      "result": "clean",
+      "modules": 256,
+      "available_scripts": ["dev", "build", "check"],
+      "note": "no lint, type-check, unit-test or Playwright script exists in package.json"
+    },
+    "browser_matrix": "not run",
+    "security_audit": "not run",
+    "performance_audit": "not run",
+    "exit_code_warning": "bench run-tests returns 0 even when tests fail; results are read from the unittest summary, never from exit status"
+  },
+  "site1_unchanged": {
+    "verified": true,
+    "method": "same read-only fingerprint script re-run at end",
+    "result": "identical field for field"
+  },
+  "material_finding": {
+    "what": "published post-correction profit figure had gone stale",
+    "superseded_figure": 4048006,
+    "measured_figure": 5598006,
+    "profit_before_july_docs": 15868706,
+    "profit_before_measured": 17418706,
+    "correction_amount": 11820700,
+    "cause": "staging took on further trading between 2026-07-27 and 2026-08-04; the arithmetic was sound, its inputs aged",
+    "authoritative_document": "docs/finance/SMJ_OPENING_STOCK_FINAL_ACCOUNTANT_PACKAGE.md",
+    "guarded_by_tests": true
   },
   "external_blockers": []
 }
