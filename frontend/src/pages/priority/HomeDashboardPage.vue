@@ -114,12 +114,13 @@ const collectionPercent = computed(() => collection.value?.total ? Math.round((c
             v-for="kpi in kpis?.kpis || []"
             :key="kpi.key"
             :label="kpi.label"
-            :value="money(kpi.value)"
+            :value="kpi.unavailable ? 'Unavailable' : money(kpi.value)"
             :icon="KPI_ICON[kpi.key]"
             :accent="KPI_ACCENT[kpi.key]"
             :trend="kpi.trend"
             :spark="kpi.spark"
             :to="kpi.path"
+            :title="kpi.unavailable ? kpi.unavailable_reason : undefined"
           />
         </template>
       </section>

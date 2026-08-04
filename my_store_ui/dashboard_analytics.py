@@ -59,6 +59,47 @@ def _monthly_series(doctype: str, amount_field: str, date_field: str, months: in
 	return values
 
 
+# ERPNext's Gross Profit report treats `group_by` as required-with-a-default and
+# raises "'NoneType' object is not iterable" without it. Grouping by Invoice returns
+# a tree -- an indent-0 row per invoice plus indent-1 rows per item, each carrying
+# the same profit -- so summing every returned row double-counts. Only the
+# invoice-level rows are totalled here.
+GROSS_PROFIT_GROUP_BY = "Invoice"
+
+
+def _gross_profit(from_date, to_date, company) -> tuple[float, str | None]:
+	"""Total gross profit for a period.
+
+	Returns (value, error). A non-None error means the figure could not be
+	computed -- the caller must not render that as a legitimate zero, because a
+	crashing report and a month with no margin look identical on a dashboard tile.
+	"""
+	if not (_can("Sales Invoice") and _can("Stock Ledger Entry")):
+		return 0.0, "no permission to read Sales Invoice or Stock Ledger Entry"
+
+	from frappe.desk.query_report import run as run_report
+
+	filters = {"from_date": from_date, "to_date": to_date,
+	           "group_by": GROSS_PROFIT_GROUP_BY}
+	if company:
+		filters["company"] = company
+	try:
+		result = run_report("Gross Profit", filters=filters,
+		                    ignore_prepared_report=True)
+	except Exception:
+		frappe.log_error(title="SMJ dashboard: Gross Profit report failed")
+		return 0.0, "the Gross Profit report could not be run"
+
+	total = 0.0
+	for row in result.get("result") or []:
+		if not isinstance(row, dict):
+			continue
+		if flt(row.get("indent")) != 0:
+			continue
+		total += flt(row.get("gross_profit"))
+	return flt(total), None
+
+
 @frappe.whitelist(methods=["GET"])
 def get_home_kpis():
 	_require_login()
@@ -81,37 +122,29 @@ def get_home_kpis():
 		scoped({"outstanding_amount": [">", 0], "posting_date": ["<=", last_end]}),
 	)
 
-	gross_profit_this = 0.0
-	gross_profit_last = 0.0
-	if _can("Sales Invoice") and _can("Stock Ledger Entry"):
-		try:
-			from frappe.desk.query_report import run as run_report
-
-			gp_filters = {"from_date": this_start, "to_date": this_end}
-			if company:
-				gp_filters["company"] = company
-			gp_result = run_report("Gross Profit", filters=gp_filters, ignore_prepared_report=True)
-			gross_profit_this = flt(sum(flt(row.get("gross_profit")) for row in gp_result.get("result") or [] if isinstance(row, dict)))
-			gp_filters_last = {"from_date": last_start, "to_date": last_end}
-			if company:
-				gp_filters_last["company"] = company
-			gp_result_last = run_report("Gross Profit", filters=gp_filters_last, ignore_prepared_report=True)
-			gross_profit_last = flt(sum(flt(row.get("gross_profit")) for row in gp_result_last.get("result") or [] if isinstance(row, dict)))
-		except Exception:
-			frappe.log_error(title="SMJ dashboard: Gross Profit report unavailable")
+	gross_profit_this, gp_this_error = _gross_profit(this_start, this_end, company)
+	gross_profit_last, _gp_last_error = _gross_profit(last_start, last_end, company)
 
 	reserved_value = 0.0
 	available_value = 0.0
 	if _can("Bin"):
-		bin_filters = {}
 		rows = frappe.get_list(
-			"Bin", filters=bin_filters,
-			fields=["sum(actual_qty * valuation_rate) as actual_value", "sum(reserved_stock * valuation_rate) as reserved_value"],
+			"Bin", filters={},
+			fields=[
+				"sum(actual_qty * valuation_rate) as actual_value",
+				"sum(reserved_stock * valuation_rate) as reserved_stock_value",
+				"sum(reserved_qty * valuation_rate) as reserved_qty_value",
+			],
 			limit_page_length=1,
 		)
 		if rows:
 			actual_value = flt(rows[0].actual_value)
-			reserved_value = flt(rows[0].reserved_value)
+			# `reserved_stock` only carries a value when Stock Reservation Entries are
+			# in play. Ordinary Sales Order reservation lands in `reserved_qty`, so
+			# reading only the former reports zero on a site that has reservations --
+			# and quietly overstates Available-to-Sell by the same amount. Same
+			# fallback warehouse_stock.py already uses.
+			reserved_value = flt(rows[0].reserved_stock_value) or flt(rows[0].reserved_qty_value)
 			available_value = actual_value - reserved_value
 
 	pending_deliveries = 0
@@ -131,7 +164,10 @@ def get_home_kpis():
 		"kpis": [
 			{"key": "total_sales", "label": "Total Sales (MTD)", "value": sales_this, "trend": _percent_change(sales_this, sales_last), "spark": sales_spark, "path": "/sales/invoices"},
 			{"key": "receivables", "label": "Outstanding Receivables", "value": receivables, "trend": _percent_change(receivables, receivables_last), "spark": receivables_spark, "path": "/finance/payments"},
-			{"key": "gross_profit", "label": "Gross Profit (MTD)", "value": gross_profit_this, "trend": _percent_change(gross_profit_this, gross_profit_last), "spark": [], "path": "/reports/view/Gross%20Profit"},
+			# `unavailable` lets the tile say it could not compute rather than show a
+			# confident LKR 0. A failed report and a genuinely flat month are not the
+			# same thing and must not look the same.
+			{"key": "gross_profit", "label": "Gross Profit (MTD)", "value": gross_profit_this, "trend": None if gp_this_error else _percent_change(gross_profit_this, gross_profit_last), "spark": [], "path": "/reports/view/Gross%20Profit", "unavailable": bool(gp_this_error), "unavailable_reason": gp_this_error},
 			{"key": "reserved_stock", "label": "Reserved Stock Value", "value": reserved_value, "trend": None, "spark": [], "path": "/inventory/products"},
 			{"key": "available_to_sell", "label": "Available-to-Sell Value", "value": available_value, "trend": None, "spark": [], "path": "/inventory/products"},
 			{"key": "pending_deliveries", "label": "Pending Deliveries", "value": pending_deliveries, "trend": None, "spark": [], "path": "/sales/orders"},
