@@ -49,6 +49,9 @@ const ROUTES = [
   { path: "/retail-erp/sales/teams", label: "Sales Teams" },
   { path: "/retail-erp/sales/teams?team=new", label: "Sales Team form" },
   { path: "/retail-erp/sales/commissions", label: "Commission Register" },
+  { path: "/retail-erp/sales/commission-periods", label: "Commission Periods" },
+  { path: "/retail-erp/sales/commissions/historical-review", label: "Historical Commission Review" },
+  { path: "/retail-erp/admin/sales/commission-policy", label: "Commission Policy" },
   // Wholesale operations surfaces (sales, delivery, invoicing, payments, purchasing).
   { path: "/retail-erp/sales/transactions", label: "Wholesale transaction register" },
   { path: "/retail-erp/sales/orders", label: "Sales Orders" },
