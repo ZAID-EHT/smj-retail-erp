@@ -161,6 +161,12 @@ export const moduleRoutes = [
     component: () => import("@/pages/priority/LaunchReadinessPage.vue"),
     meta: { title: "Launch Readiness", description: "Truthful go-live checklist.", accent: "gold", icon: "shield" },
   },
+  {
+    path: "/admin/finance/decisions",
+    name: "accountant-decisions",
+    component: () => import("@/pages/priority/AccountantDecisionsPage.vue"),
+    meta: { title: "Accountant Decisions", description: "Finance decisions awaiting an accountant.", accent: "gold", icon: "shield" },
+  },
   { path: "/feature-unavailable", name: "feature-unavailable", component: FeatureUnavailablePage, meta: { title: "Feature Unavailable", accent: "orange" } },
   { path: "/permission-denied", name: "permission-denied", component: PermissionDeniedPage, meta: { title: "Permission Denied", accent: "pink" } },
   { path: "/not-found", name: "not-found", component: NotFoundPage, meta: { title: "Page Not Found", accent: "orange" } },

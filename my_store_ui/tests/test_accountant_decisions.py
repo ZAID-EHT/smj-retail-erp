@@ -431,3 +431,54 @@ class TestDecisionCentreView(AccountantDecisionBase):
 		frappe.set_user(self.accountant)
 		after = get_decision_centre(company=self.company)["outstanding"]
 		self.assertEqual(after, before - 1)
+
+
+class TestDecisionCentreRoute(AccountantDecisionBase):
+	"""The route must resolve, be gated, and have a page behind it.
+
+	A route registered server-side with no component in the SPA resolves fine here
+	and still lands the user on a blank screen, so the frontend side is asserted
+	too rather than assumed.
+	"""
+
+	def test_route_resolves_to_the_decision_centre(self):
+		from my_store_ui.standalone import resolve_frontend_route
+
+		definition, params = resolve_frontend_route("/retail-erp/admin/finance/decisions")
+		self.assertIsNotNone(definition, "the decision centre route does not resolve")
+		self.assertEqual(definition["name"], "accountant-decisions")
+		self.assertEqual(params, {})
+
+	def test_route_is_not_open_to_every_role(self):
+		from my_store_ui.services.frontend_routes import ROUTE_REGISTRY
+
+		entry = next(r for r in ROUTE_REGISTRY if r["name"] == "accountant-decisions")
+		self.assertTrue(entry.get("roles"), "the decision centre route is ungated")
+		self.assertNotIn("Sales User", entry["roles"])
+		self.assertIn("Retail Accountant", entry["roles"])
+
+	def test_every_registered_route_has_a_page_in_the_spa(self):
+		"""Guards against registering a route nobody built a screen for."""
+		import pathlib
+		import re
+
+		from my_store_ui.services.frontend_routes import ROUTE_REGISTRY
+
+		routes_js = (pathlib.Path(frappe.get_app_path("my_store_ui")).parent
+		             / "frontend" / "src" / "router" / "routes.js")
+		if not routes_js.exists():
+			self.skipTest("frontend sources are not present in this checkout")
+		declared = set(re.findall(r'name:\s*"([a-z0-9-]+)"', routes_js.read_text(encoding="utf-8")))
+
+		# Entity and report routes are generated from the registry at build time and
+		# are covered by their own coverage tests; only bespoke pages are checked here.
+		bespoke = {"accountant-decisions", "launch-readiness", "system-operations",
+		           "data-management", "email-admin", "printing-admin",
+		           "access-control", "scheduled-reports"}
+		for entry in ROUTE_REGISTRY:
+			if entry["name"] not in bespoke:
+				continue
+			self.assertIn(
+				entry["name"], declared,
+				f"route {entry['name']} is registered server-side but no SPA page "
+				f"declares it; that is a dead route")

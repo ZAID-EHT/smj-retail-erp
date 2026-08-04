@@ -43,11 +43,6 @@ ROUTE_REGISTRY = (
 	{"name": "printing-admin", "pattern": r"^/admin/printing(?:/(?P<tab>letter-heads|templates|settings|preview))?/?$", "module": "Admin", "feature_id": "retail.admin.printing", "implemented": True, "roles": ("System Manager",)},
 	# Launch readiness dashboard -- System Manager gated (truthful go-live checklist).
 	{"name": "launch-readiness", "pattern": r"^/admin/readiness/?$", "module": "Admin", "feature_id": "retail.admin.readiness", "implemented": True, "roles": ("System Manager",)},
-	# External go-live actions -- the owner-facing tracker. System Manager gated; the
-	# tracker records who owes what, and never claims an external step is done.
-	{"name": "external-actions", "pattern": r"^/admin/readiness/external-actions/?$", "module": "Admin", "feature_id": "retail.admin.readiness.external_actions", "implemented": True, "roles": ("System Manager",)},
-	# Human UAT evidence workspace -- testers record results and evidence here.
-	{"name": "uat-workspace", "pattern": r"^/admin/readiness/uat/?$", "module": "Admin", "feature_id": "retail.admin.readiness.uat", "implemented": True, "roles": ("System Manager",)},
 	# Accountant Decision Centre -- finance decisions only, deliberately separate from
 	# ordinary configuration. Visible to finance roles as well as System Manager, but
 	# every write re-checks the capability matrix server-side.
