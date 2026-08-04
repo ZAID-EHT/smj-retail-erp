@@ -473,9 +473,9 @@ class TestDecisionCentreRoute(AccountantDecisionBase):
 
 		# Entity and report routes are generated from the registry at build time and
 		# are covered by their own coverage tests; only bespoke pages are checked here.
-		bespoke = {"accountant-decisions", "launch-readiness", "system-operations",
-		           "data-management", "email-admin", "printing-admin",
-		           "access-control", "scheduled-reports"}
+		bespoke = {"accountant-decisions", "external-actions", "launch-readiness",
+		           "system-operations", "data-management", "email-admin",
+		           "printing-admin", "access-control", "scheduled-reports"}
 		for entry in ROUTE_REGISTRY:
 			if entry["name"] not in bespoke:
 				continue

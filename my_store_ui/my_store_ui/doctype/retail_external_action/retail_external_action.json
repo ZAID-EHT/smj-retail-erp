@@ -1,0 +1,230 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:action_id",
+ "creation": "2026-08-04 18:40:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "action_id",
+  "category",
+  "title",
+  "col_head",
+  "status",
+  "owner_role",
+  "blocking_go_live",
+  "due_date",
+  "sec_detail",
+  "required_action",
+  "risk",
+  "verification_procedure",
+  "sec_evidence",
+  "evidence_attachment",
+  "evidence_reference",
+  "col_evidence",
+  "completed_by",
+  "completed_date",
+  "sec_verification",
+  "verified_by",
+  "verified_date",
+  "verification_note",
+  "col_verification",
+  "rejection_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "action_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Action ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "Accounting\nDatabase\nEmail\nInfrastructure\nOperations\nUAT\nApproval",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Not Started",
+   "description": "Set through the tracker workflow, never typed in directly.",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Not Started\nWaiting for Owner\nCredential Required\nAwaiting Approval\nIn Progress\nReady for Verification\nVerified\nRejected\nBlocked",
+   "read_only": 1
+  },
+  {
+   "description": "Who outside this system must act.",
+   "fieldname": "owner_role",
+   "fieldtype": "Data",
+   "label": "Owner"
+  },
+  {
+   "default": "1",
+   "description": "A blocking action cannot be hidden from the go-live view.",
+   "fieldname": "blocking_go_live",
+   "fieldtype": "Check",
+   "label": "Blocking Go-Live"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "sec_detail",
+   "fieldtype": "Section Break",
+   "label": "What Is Required"
+  },
+  {
+   "fieldname": "required_action",
+   "fieldtype": "Small Text",
+   "label": "Required Action"
+  },
+  {
+   "fieldname": "risk",
+   "fieldtype": "Small Text",
+   "label": "Risk If Not Done"
+  },
+  {
+   "description": "How someone confirms this was genuinely done, not merely claimed.",
+   "fieldname": "verification_procedure",
+   "fieldtype": "Small Text",
+   "label": "Verification Procedure"
+  },
+  {
+   "fieldname": "sec_evidence",
+   "fieldtype": "Section Break",
+   "label": "Evidence"
+  },
+  {
+   "description": "Verification is refused without evidence.",
+   "fieldname": "evidence_attachment",
+   "fieldtype": "Attach",
+   "label": "Evidence Attachment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evidence_reference",
+   "fieldtype": "Data",
+   "label": "Evidence Reference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_evidence",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "completed_by",
+   "fieldtype": "Link",
+   "label": "Completed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_date",
+   "fieldtype": "Datetime",
+   "label": "Completed Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sec_verification",
+   "fieldtype": "Section Break",
+   "label": "Verification"
+  },
+  {
+   "description": "Must not be the same user who completed the action.",
+   "fieldname": "verified_by",
+   "fieldtype": "Link",
+   "label": "Verified By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verified_date",
+   "fieldtype": "Datetime",
+   "label": "Verified Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verification_note",
+   "fieldtype": "Small Text",
+   "label": "Verification Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "col_verification",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rejection_reason",
+   "fieldtype": "Small Text",
+   "label": "Rejection Reason",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-04 18:40:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail External Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Retail Accountant"
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Retail Finance Verifier",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

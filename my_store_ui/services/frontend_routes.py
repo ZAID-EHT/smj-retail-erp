@@ -43,6 +43,9 @@ ROUTE_REGISTRY = (
 	{"name": "printing-admin", "pattern": r"^/admin/printing(?:/(?P<tab>letter-heads|templates|settings|preview))?/?$", "module": "Admin", "feature_id": "retail.admin.printing", "implemented": True, "roles": ("System Manager",)},
 	# Launch readiness dashboard -- System Manager gated (truthful go-live checklist).
 	{"name": "launch-readiness", "pattern": r"^/admin/readiness/?$", "module": "Admin", "feature_id": "retail.admin.readiness", "implemented": True, "roles": ("System Manager",)},
+	# External go-live actions -- the owner-facing tracker. Records who owes what and
+	# refuses to call anything Verified without evidence.
+	{"name": "external-actions", "pattern": r"^/admin/readiness/external-actions/?$", "module": "Admin", "feature_id": "retail.admin.readiness.external_actions", "implemented": True, "roles": ("System Manager", "Accounts Manager", "Retail Accountant", "Retail Finance Verifier")},
 	# Accountant Decision Centre -- finance decisions only, deliberately separate from
 	# ordinary configuration. Visible to finance roles as well as System Manager, but
 	# every write re-checks the capability matrix server-side.

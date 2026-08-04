@@ -162,6 +162,12 @@ export const moduleRoutes = [
     meta: { title: "Launch Readiness", description: "Truthful go-live checklist.", accent: "gold", icon: "shield" },
   },
   {
+    path: "/admin/readiness/external-actions",
+    name: "external-actions",
+    component: () => import("@/pages/priority/ExternalActionsPage.vue"),
+    meta: { title: "External Actions", description: "Go-live steps owned outside this system.", accent: "gold", icon: "shield" },
+  },
+  {
     path: "/admin/finance/decisions",
     name: "accountant-decisions",
     component: () => import("@/pages/priority/AccountantDecisionsPage.vue"),
