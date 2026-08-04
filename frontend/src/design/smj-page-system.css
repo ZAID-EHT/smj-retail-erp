@@ -55,17 +55,24 @@
 
 .ref-brand {
   min-width: 140px;
-  gap: 7px;
+  gap: 10px;
 }
 
 .ref-brand__logo {
-  width: 34px;
-  height: 34px;
+  width: 48px;
+  height: 48px;
   border: 0;
-  border-radius: 9px;
+  border-radius: 11px;
   background: rgba(255, 255, 255, .98);
   color: var(--ref-primary-blue);
   box-shadow: 0 5px 16px rgba(0, 0, 0, .14);
+}
+
+/* The SMJ mark is already trimmed to its own edges, so it only needs enough
+   inset to keep it off the rounded corners. */
+img.ref-brand__logo {
+  padding: 4px;
+  object-fit: contain;
 }
 
 .ref-brand__copy { gap: 2px; }

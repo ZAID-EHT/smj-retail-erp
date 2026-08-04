@@ -31,6 +31,9 @@ def _asset_context() -> tuple[str, str, str]:
 	)
 
 
+SMJ_LOGO = "/assets/my_store_ui/images/smj-logo.png"
+
+
 def get_context(context):
 	javascript, stylesheet, version = _asset_context()
 	company = frappe.defaults.get_global_default("company")
@@ -41,7 +44,10 @@ def get_context(context):
 	context.retail_stylesheet = stylesheet
 	context.retail_asset_version = version
 	context.retail_brand = company or frappe.get_website_settings("app_name") or "Retail ERP"
-	context.retail_logo = company_logo or "/assets/my_store_ui/images/product-placeholder.svg"
+	# A company that has uploaded its own logo keeps it; otherwise the SMJ mark is
+	# the brand, not the generic product placeholder that used to fall through here
+	# and leave the shell showing a stock house icon.
+	context.retail_logo = company_logo or SMJ_LOGO
 	context.retail_bootstrap = {
 		"basePath": "/retail-erp/",
 		"brand": context.retail_brand,
