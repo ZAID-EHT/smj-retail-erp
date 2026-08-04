@@ -206,6 +206,11 @@ def save_commission_policy(payload, name: str | None = None):
 	else:
 		doc = frappe.new_doc(DOCTYPE)
 
+	# Captured before anything is changed. `get_doc_before_save()` is not usable
+	# here: Frappe only populates it inside save(), which is after the point the
+	# comparison has to be made.
+	before = {field: doc.get(field) for field in TERM_FIELDS}
+
 	for fieldname in WRITABLE:
 		if fieldname not in data:
 			continue
@@ -216,7 +221,7 @@ def save_commission_policy(payload, name: str | None = None):
 
 	# Changing the terms of an approved policy withdraws the approval. Otherwise a
 	# rate could be edited under a signature that was given for something else.
-	if doc.get("approved_by") and _terms_changed(doc):
+	if doc.get("approved_by") and _terms_changed(doc, before):
 		doc.approved_by = None
 		doc.approved_on = None
 
@@ -224,13 +229,15 @@ def save_commission_policy(payload, name: str | None = None):
 	return {"name": doc.name, "policy": doc.summary()}
 
 
-def _terms_changed(doc) -> bool:
-	before = doc.get_doc_before_save()
-	if not before:
-		return False
-	terms = [f for f, _label in CALCULATION_FIELDS] + [f for f, _label in POSTING_FIELDS]
-	terms += ["fixed_rate", "withholding_percentage", "effective_from", "effective_to"]
-	return any((doc.get(f) or "") != (before.get(f) or "") for f in terms)
+TERM_FIELDS = (
+	tuple(f for f, _label in CALCULATION_FIELDS)
+	+ tuple(f for f, _label in POSTING_FIELDS)
+	+ ("fixed_rate", "withholding_percentage", "effective_from", "effective_to")
+)
+
+
+def _terms_changed(doc, before: dict) -> bool:
+	return any(str(doc.get(f) or "") != str(before.get(f) or "") for f in TERM_FIELDS)
 
 
 @frappe.whitelist(methods=["POST"])
