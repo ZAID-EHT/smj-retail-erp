@@ -1133,9 +1133,23 @@ img.ref-brand__logo {
   .ru-form-grid { grid-template-columns: 1fr; }
   .ref-brand { min-width: auto; }
   .ref-brand__copy { display: none; }
+  /* Mark-only header logo is fixed at 56px at every width otherwise — too
+     large once the toggle, search and actions all need to share one row. */
+  .ref-brand.ref-brand--mark-only .ref-brand__logo { width: 34px; height: 34px; border-radius: 9px; }
   .ref-header-utility { display: none; }
   .ref-user-menu { min-width: auto; padding-right: 3px; }
   .ref-user-menu__copy { display: none; }
+  /* .ref-header__search (min-width: 300px) and .ref-global-search itself
+     (min-width: 210px) are both sized for desktop and don't budge at any
+     narrower breakpoint, which forces the row past 320-430px viewports;
+     let both shrink with the rest of the row instead. */
+  .ref-header__search { min-width: 0; flex-basis: 0; }
+  .ref-global-search { min-width: 90px; padding: 0 8px; gap: 7px; }
+}
+
+@media (max-width: 430px) {
+  .ref-header__inner { gap: 5px; padding: 0 7px; }
+  .ref-header__actions { gap: 4px; }
 }
 
 @media (max-width: 420px) {
