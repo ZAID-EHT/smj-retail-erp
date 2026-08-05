@@ -747,7 +747,7 @@ img.ref-brand__logo {
   grid-template-columns: auto minmax(0, 1fr) minmax(260px, auto);
 }
 
-.ref-detail-header > img {
+.ref-detail-header > :is(img, .ref-detail-header__images) {
   padding: 5px;
   border: 1px solid var(--ref-border-colour);
   background: #fff;
@@ -1356,7 +1356,8 @@ img.ref-brand__logo {
   gap: 12px;
 }
 
-.priority-product-grid > button {
+.priority-product-grid > button,
+.priority-product-grid > article {
   position: relative;
   align-content: start;
   gap: 6px;
@@ -1365,22 +1366,26 @@ img.ref-brand__logo {
   transition: border-color var(--ref-transition-base), transform var(--ref-transition-base), box-shadow var(--ref-transition-base);
 }
 
-.priority-product-grid > button:hover {
+.priority-product-grid > button:hover,
+.priority-product-grid > article:not([aria-disabled="true"]):hover {
   border-color: var(--ref-module-sales);
   box-shadow: 0 10px 26px rgba(24, 182, 107, .12);
   transform: translateY(-2px);
 }
 
 .priority-product-grid img,
-.priority-product-placeholder {
+.priority-product-placeholder,
+/* The carousel wraps the image, so the tile's height belongs to the wrapper and
+   the image inside it fills that box. */
+.priority-product-grid .smj-product-images {
   height: 118px;
   margin-bottom: 2px;
   border-radius: 10px;
 }
 
-.priority-product-grid > button > strong { font-size: 12px; }
-.priority-product-grid > button > b { color: var(--ref-primary-text); font-size: 13px; }
-.priority-product-grid > button > em { color: var(--ref-success); font-weight: 750; }
+.priority-product-grid > :is(button, article) > strong { font-size: 12px; }
+.priority-product-grid > :is(button, article) > b { color: var(--ref-primary-text); font-size: 13px; }
+.priority-product-grid > :is(button, article) > em { color: var(--ref-success); font-weight: 750; }
 
 .smj-stock-triplet {
   display: flex;

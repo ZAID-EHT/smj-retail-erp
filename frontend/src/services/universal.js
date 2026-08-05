@@ -1,3 +1,5 @@
+import { compressImage } from "@/utils/compressImage.js";
+
 const PREFIX = "/api/method/my_store_ui.universal.api.";
 
 export class UniversalApiError extends Error {
@@ -77,7 +79,11 @@ export const removeShare = (feature, name, user) => callCollaboration("remove_sh
 export const setTags = (feature, name, tags) => callCollaboration("set_tags", { feature, name, tags });
 export const emailDocument = (feature, name, values) => callCollaboration("email_document", { feature, name, ...values });
 export async function uploadAttachment(upload, file, signal) {
-  const body = new FormData(); body.set("file", file); body.set("doctype", upload.doctype); body.set("docname", upload.docname); body.set("is_private", String(upload.is_private ?? 1));
+  // Image attachments are shrunk on the way out for the same reason product images
+  // are. Anything that is not a re-encodable image comes back untouched, so a PDF
+  // or a spreadsheet is attached exactly as it was chosen.
+  const payloadFile = await compressImage(file);
+  const body = new FormData(); body.set("file", payloadFile); body.set("doctype", upload.doctype); body.set("docname", upload.docname); body.set("is_private", String(upload.is_private ?? 1));
   const response = await fetch(upload.endpoint, { method: "POST", credentials: "same-origin", signal, headers: { "X-Frappe-CSRF-Token": window.frappe?.csrf_token || "" }, body });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok || payload.exc) throw new UniversalApiError(serverMessage(payload, "Attachment upload failed."), response, payload);

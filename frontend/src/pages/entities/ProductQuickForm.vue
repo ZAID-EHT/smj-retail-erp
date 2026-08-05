@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
+import ComboBox from "@/components/forms/ComboBox.vue";
 import ImageUpload from "@/components/forms/ImageUpload.vue";
 import OptionSelect from "@/components/forms/OptionSelect.vue";
 import PriceCodeSelect from "@/components/forms/PriceCodeSelect.vue";
@@ -231,8 +232,13 @@ init();
           <header><div><h2>Product Classification</h2></div></header>
           <div class="rug-form-grid">
             <label><span>Product Category *</span>
-              <input v-model="form.category" list="pqf-groups" type="search" autocomplete="off" required />
-              <datalist id="pqf-groups"><option v-for="g in opts.item_group" :key="g" :value="g" /></datalist>
+              <ComboBox
+                v-model="form.category"
+                :options="opts.item_group"
+                placeholder="Type to search a category…"
+                no-options-text="No product category has been set up yet."
+                required
+              />
             </label>
             <label><span>Carton Qty</span><input v-model.number="form.carton_qty" type="number" min="0" step="any" /><small>Number of stock units in one carton.</small></label>
           </div>
@@ -249,9 +255,14 @@ init();
           <header><div><h2>Stock Setup</h2><p v-if="ids.batch">Batch-managed product.</p></div></header>
           <div class="rug-form-grid">
             <label v-for="n in 3" :key="n"><span>Stock Location {{ n }}{{ n === 1 ? ' *' : '' }}</span>
-              <input v-model="form['stock_location_' + n]" :list="'pqf-wh'" type="search" autocomplete="off" :required="n === 1" />
+              <ComboBox
+                v-model="form['stock_location_' + n]"
+                :options="opts.warehouse"
+                :required="n === 1"
+                placeholder="Type to search a location…"
+                no-options-text="No stock location is available for this company."
+              />
             </label>
-            <datalist id="pqf-wh"><option v-for="w in opts.warehouse" :key="w" :value="w" /></datalist>
             <label><span>Re-Stock Qty</span><input v-model.number="form.restock_qty" type="number" min="0" step="any" /><small>Suggested replenishment quantity.</small></label>
           </div>
         </section>

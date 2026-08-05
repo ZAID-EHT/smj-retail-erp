@@ -1,13 +1,15 @@
 <script setup>
-/* A dropdown backed by the admin-managed Retail Option List, with the "add or
-   delete these choices" button the requirement asks for beside it.
+/* A dropdown backed by the admin-managed Retail Option List, with the "add, edit
+   or delete these choices" button the requirement asks for beside it.
 
    Two shapes from one component: a plain <select> for the short fixed lists
-   (Business Nature, Transport Method) and a type-to-search combobox for the long
-   ones (City, Product Size, Product Material, Carpet Category). The manage button
-   is rendered only when the server says this user may manage options, so it is
-   absent for everyone but the admin rather than merely disabled. */
+   (Business Nature, Transport Method) and a type-to-search ComboBox for the long
+   ones (City, Product Size, Product Material, Carpet Category). Both draw their
+   own list, so neither hands the popup to the browser to render in its own style.
+   The manage button is rendered only when the server says this user may manage
+   options, so it is absent for everyone but the admin rather than merely disabled. */
 import { computed, onMounted, ref, watch } from "vue";
+import ComboBox from "@/components/forms/ComboBox.vue";
 import { listOptions, optionAdminUrl } from "@/services/retailOptions.js";
 
 const props = defineProps({
@@ -25,9 +27,6 @@ const options = ref([]);
 const canManage = ref(false);
 const loading = ref(true);
 const failed = ref(false);
-// A stable id so the <datalist> and its input pair up even when several of these
-// sit on the same form.
-const listId = `opt-${props.optionType.toLowerCase().replace(/[^a-z]+/g, "-")}`;
 
 const value = computed({
   get: () => props.modelValue || "",
@@ -86,24 +85,29 @@ watch(() => props.optionType, load);
         v-if="canManage"
         type="button"
         class="opt-field__manage"
-        :title="`Add or delete ${label || optionType} options`"
+        :title="`Add, edit or delete ${label || optionType} options`"
         @click="manage"
-      >Add / delete</button>
+      >Add / edit / delete</button>
     </span>
 
-    <template v-if="searchable">
-      <input
-        v-model="value"
-        :list="listId"
-        :required="required"
-        :placeholder="placeholder || (loading ? 'Loading…' : 'Type to search…')"
-        type="search"
-        autocomplete="off"
-      />
-      <datalist :id="listId">
-        <option v-for="option in shownOptions" :key="option" :value="option" />
-      </datalist>
-    </template>
+    <!-- The list could not be loaded, so the field falls back to plain text rather
+         than trapping the user behind an empty dropdown. -->
+    <input
+      v-if="failed"
+      v-model="value"
+      :required="required"
+      :placeholder="placeholder || 'Type the value'"
+      type="text"
+      autocomplete="off"
+    />
+    <ComboBox
+      v-else-if="searchable"
+      v-model="value"
+      :options="shownOptions"
+      :required="required"
+      :placeholder="placeholder || (loading ? 'Loading…' : 'Type to search…')"
+      :no-options-text="`No ${(label || optionType).toLowerCase()} has been set up yet.`"
+    />
     <select v-else v-model="value" :required="required">
       <option value="">Select…</option>
       <option v-for="option in shownOptions" :key="option" :value="option">{{ option }}</option>

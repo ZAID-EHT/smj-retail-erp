@@ -50,6 +50,13 @@ def _company_status() -> dict:
 	        "warnings": 0 if count else 1}
 
 
+def _price_code_status() -> dict:
+	"""How many codes exist -- "none yet" is the state worth seeing from here."""
+	count = frappe.db.count("Retail Price Code", {"is_active": 1})
+	return {"ok": count > 0, "warnings": 0 if count else 1,
+	        "text": _("{0} active code(s)").format(count) if count else _("No price codes yet")}
+
+
 def _system_status() -> dict:
 	from my_store_ui.system_operations import _scheduler_disabled
 	warnings = 0
@@ -90,6 +97,16 @@ def get_admin_landing() -> dict:
 	    "/admin/email", None, _email_status())
 	add("data", _("Data Management"), _("Guided, permission-filtered import and export."),
 	    "/admin/data", None, {"ok": True, "text": _("Import / export")})
+	# The masters behind the Customer and Product forms. They were reachable only
+	# from the manage button beside the field that uses them, which left an admin
+	# who opened this page with no way to find them.
+	add("pricecodes", _("Price Codes"),
+	    _("Category-wise codes, their preset prices and the SKU series behind them."),
+	    "/admin/price-codes", None, _price_code_status())
+	add("options", _("Form Options & Sales People"),
+	    _("Cities, business natures, transport methods, sizes, materials and carpet "
+	      "categories, plus the sales roster the Customer form assigns from."),
+	    "/admin/options", "/admin/sales-persons", {"ok": True, "text": _("Manage choices")})
 	add("finance", _("Finance Setup"), _("Chart of accounts, fiscal year, reconciliation and the opening-stock correction."),
 	    "/finance/chart-of-accounts", "/admin/readiness", _finance_status())
 	add("scheduled", _("Scheduled Reports"), _("Auto-email reports on a schedule (needs SMTP to deliver)."),

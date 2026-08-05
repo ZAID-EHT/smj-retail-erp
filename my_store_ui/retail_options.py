@@ -129,6 +129,62 @@ def add_option(option_type: str, option_value: str, sort_order: int = 0) -> dict
 
 
 @frappe.whitelist(methods=["POST"])
+def rename_option(name: str, option_value: str) -> dict:
+	"""Rename one option, carrying the records that already use it along with it.
+
+	The old value is written onto records, not linked from them, so a rename that
+	only touched this list would leave those records showing a choice the dropdown
+	no longer offers. The records are moved onto the new value first; the option row
+	is then replaced, which is what the row's name -- built from type and value --
+	requires anyway.
+	"""
+	_require_manage()
+	if not frappe.db.exists(DOCTYPE, name):
+		frappe.throw(_("Option not found."), frappe.DoesNotExistError)
+	doc = frappe.get_doc(DOCTYPE, name)
+	value = str(option_value or "").strip()
+	if not value:
+		frappe.throw(_("Give the option a value."), frappe.ValidationError)
+	if len(value) > 140:
+		frappe.throw(_("The option is too long."), frappe.ValidationError)
+	if value == doc.option_value:
+		return {"name": doc.name, "option_type": doc.option_type, "option_value": value, "updated": 0}
+	if frappe.db.exists(DOCTYPE, {"option_type": doc.option_type, "option_value": value}):
+		frappe.throw(_("{0} already offers {1}.").format(doc.option_type, value), frappe.DuplicateEntryError)
+
+	updated = _rewrite_usage(doc.option_type, doc.option_value, value)
+
+	replacement = frappe.new_doc(DOCTYPE)
+	replacement.option_type = doc.option_type
+	replacement.option_value = value
+	replacement.sort_order = cint(doc.sort_order)
+	replacement.is_active = cint(doc.is_active)
+	replacement.insert()
+	# Nothing carries the old value any more, so the DocType's "in use" guard lets
+	# the row go without needing to be bypassed.
+	frappe.delete_doc(DOCTYPE, doc.name, ignore_permissions=False)
+	return {
+		"name": replacement.name, "option_type": replacement.option_type,
+		"option_value": value, "previous": doc.option_value, "updated": updated,
+	}
+
+
+def _rewrite_usage(option_type: str, old_value: str, new_value: str) -> int:
+	"""Move every record carrying `old_value` for this option type onto `new_value`."""
+	target = USAGE.get(option_type)
+	if not target:
+		return 0
+	doctype, fieldname = target
+	if not frappe.db.has_column(doctype, fieldname):
+		return 0
+	affected = frappe.get_all(doctype, filters={fieldname: old_value}, pluck="name",
+	                          limit_page_length=0)
+	for record in affected:
+		frappe.db.set_value(doctype, record, fieldname, new_value, update_modified=False)
+	return len(affected)
+
+
+@frappe.whitelist(methods=["POST"])
 def set_option_active(name: str, is_active: int = 1) -> dict:
 	"""Hide or restore an option without touching records that already use it."""
 	_require_manage()

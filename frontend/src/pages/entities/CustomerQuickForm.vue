@@ -1,15 +1,23 @@
 <script setup>
-import { computed, reactive, ref, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import OptionSelect from "@/components/forms/OptionSelect.vue";
 import {
-  createCustomer, findDuplicateCustomers, getCustomer, getPriceCategories,
+  checkWhatsappNumber, createCustomer, findDuplicateCustomers, getCustomer, getPriceCategories,
 } from "@/services/customerQuickEntry.js";
 import {
-  assignCustomerSalesManager, getCustomerSalesAssignment, searchSalesManagers,
+  assignCustomerSalesManager, getCustomerSalesAssignment, listSalesPersons,
+  salesPersonAdminUrl, searchSalesManagers,
 } from "@/services/salesTeam.js";
+
+/* Phone numbers are held in the one local shape the business uses. The example is
+   shown beside every number field, and the server refuses anything else, so the
+   WhatsApp uniqueness rule below cannot be sidestepped by typing the same number
+   a different way. */
+const PHONE_EXAMPLE = "0778754231";
+const PHONE_HINT = `Enter the number as ${PHONE_EXAMPLE}.`;
 
 const route = useRoute();
 const router = useRouter();
@@ -18,7 +26,7 @@ const editName = computed(() => route.params.name || null);
 const form = reactive({
   customer_name: "", address: "", city: "", contact_no: "", whatsapp_no: "", same_whatsapp: false,
   accounts_department_no: "", same_accounts_dept: false, transport_detail: "", transport_method: "",
-  br_no: "", business_nature: "", price_category: "Retail Price", payment_type: "Non-Credit",
+  br_no: "", vat_no: "", business_nature: "", price_category: "Retail Price", payment_type: "Non-Credit",
   credit_limit: null, credit_days: null,
 });
 const created = ref("");
@@ -34,10 +42,39 @@ const managerOptions = ref([]);
 const canAssignTeam = ref(false);
 const teamPreview = ref(null);
 
+/* The sales person is who handles the customer. It sits beside the manager but is
+   not part of the commission split, which stays the manager's team. */
+const salesPerson = ref("");
+const originalPerson = ref("");
+const personOptions = ref([]);
+const canManagePersons = ref(false);
+
+async function loadSalesPersons() {
+  try {
+    const result = await listSalesPersons();
+    personOptions.value = result?.sales_persons || [];
+    canManagePersons.value = Boolean(result?.can_manage);
+  } catch {
+    personOptions.value = [];
+    canManagePersons.value = false;
+  }
+}
+
+function manageSalesPersons() {
+  window.open(salesPersonAdminUrl(), "_blank", "noopener");
+}
+
+// The roster page opens in another tab; pick up anything changed there when this
+// tab is looked at again.
+function refreshPersonsOnFocus() {
+  if (document.visibilityState === "visible") loadSalesPersons();
+}
+
 const selectedManager = computed(() =>
   managerOptions.value.find((m) => m.value === salesManager.value) || null);
 const assignmentChanged = computed(() =>
   salesManager.value !== originalManager.value
+  || salesPerson.value !== originalPerson.value
   || Number(commissionRate.value ?? NaN) !== Number(originalRate.value ?? NaN));
 
 /* The rate follows the manager's team unless the user has typed their own. */
@@ -64,6 +101,8 @@ async function loadAssignment(name) {
     canAssignTeam.value = Boolean(result.can_manage);
     salesManager.value = result.sales_manager || "";
     originalManager.value = salesManager.value;
+    salesPerson.value = result.sales_person || "";
+    originalPerson.value = salesPerson.value;
     commissionRate.value = result.commission_rate ?? null;
     originalRate.value = commissionRate.value;
     teamPreview.value = result.assignment
@@ -74,10 +113,17 @@ async function loadAssignment(name) {
 
 const priceCategories = ref([]);
 const duplicates = ref([]);
+// The verdict on the typed WhatsApp number: whether it is well-formed and whether
+// another customer already holds it.
+const whatsappCheck = ref(null);
 const error = ref(null);
 const notice = ref(null);
 const loading = reactive({ init: true, saving: false });
 let dupTimer;
+let whatsappTimer;
+
+const whatsappBlocked = computed(() =>
+  Boolean(whatsappCheck.value && (whatsappCheck.value.duplicate || whatsappCheck.value.valid === false)));
 
 const isCredit = computed(() => form.payment_type === "Credit");
 
@@ -93,6 +139,21 @@ watch(() => form.customer_name, (v) => {
   dupTimer = window.setTimeout(async () => {
     try { duplicates.value = (await findDuplicateCustomers(v))?.candidates || []; } catch { duplicates.value = []; }
   }, 300);
+});
+
+/* Only the WhatsApp number has to be unique -- it is the channel the business
+   messages the customer on, so two customers sharing one would send the wrong
+   person the wrong message. Contact No and Account Dept No are free to repeat.
+
+   Asked while typing so the answer arrives before the save is attempted; the save
+   enforces the same rule regardless, so a number taken in between is still caught. */
+watch(() => form.whatsapp_no, (v) => {
+  window.clearTimeout(whatsappTimer);
+  if (!v || !v.trim()) { whatsappCheck.value = null; return; }
+  whatsappTimer = window.setTimeout(async () => {
+    try { whatsappCheck.value = await checkWhatsappNumber(v, editName.value); }
+    catch { whatsappCheck.value = null; }
+  }, 350);
 });
 
 async function loadPriceCategories() {
@@ -113,7 +174,7 @@ async function loadPriceCategories() {
 
 async function init() {
   loading.init = true;
-  await Promise.all([loadPriceCategories(), loadSalesManagers()]);
+  await Promise.all([loadPriceCategories(), loadSalesManagers(), loadSalesPersons()]);
   if (editName.value) {
     try {
       await loadAssignment(editName.value);
@@ -122,7 +183,8 @@ async function init() {
         customer_name: c.customer_name, address: c.address || "", city: c.city || "",
         contact_no: c.contact_no || "", whatsapp_no: c.whatsapp_no || "",
         accounts_department_no: c.accounts_department_no || "", transport_detail: c.transport_detail || "",
-        transport_method: c.transport_method || "", br_no: c.br_no || "", business_nature: c.business_nature || "",
+        transport_method: c.transport_method || "", br_no: c.br_no || "", vat_no: c.vat_no || "",
+        business_nature: c.business_nature || "",
         price_category: c.price_category || "Retail Price", payment_type: c.payment_type || "Non-Credit",
         credit_limit: c.credit_limit, credit_days: c.credit_days,
       });
@@ -147,9 +209,11 @@ async function save() {
         salesManager: salesManager.value,
         team: selectedManager.value?.team,
         commissionRate: commissionRate.value,
+        salesPerson: salesPerson.value,
       });
       originalManager.value = salesManager.value;
       originalRate.value = commissionRate.value;
+      originalPerson.value = salesPerson.value;
     }
     notice.value = `Saved ${result.customer}.`;
     router.push(`/sales/customers/${encodeURIComponent(result.name)}`).catch(() => {});
@@ -157,6 +221,12 @@ async function save() {
   finally { loading.saving = false; }
 }
 
+onMounted(() => document.addEventListener("visibilitychange", refreshPersonsOnFocus));
+onBeforeUnmount(() => {
+  document.removeEventListener("visibilitychange", refreshPersonsOnFocus);
+  window.clearTimeout(dupTimer);
+  window.clearTimeout(whatsappTimer);
+});
 init();
 </script>
 
@@ -182,6 +252,7 @@ init();
           <div class="rug-form-grid">
             <label><span>Customer *</span><input v-model="form.customer_name" type="text" required /></label>
             <label><span>BR No</span><input v-model="form.br_no" type="text" /></label>
+            <label><span>VAT No</span><input v-model="form.vat_no" type="text" /></label>
             <OptionSelect v-model="form.business_nature" option-type="Business Nature" label="Business Nature" />
             <label><span>Created Date</span><input :value="editName ? created : 'On save'" type="text" readonly /></label>
           </div>
@@ -193,14 +264,31 @@ init();
           <div class="rug-form-grid">
             <label class="cqf-wide"><span>Address</span><input v-model="form.address" type="text" placeholder="Address line" /></label>
             <OptionSelect v-model="form.city" option-type="City" label="City" searchable placeholder="Type to search a city…" />
-            <label><span>Contact No</span><input v-model="form.contact_no" type="tel" /></label>
+            <label><span>Contact No</span>
+              <input v-model="form.contact_no" type="tel" :placeholder="PHONE_EXAMPLE" />
+              <small>{{ PHONE_HINT }}</small>
+            </label>
             <label><span>WhatsApp No</span>
-              <input v-model="form.whatsapp_no" :disabled="form.same_whatsapp" type="tel" />
+              <input
+                v-model="form.whatsapp_no"
+                :disabled="form.same_whatsapp"
+                :class="{ 'cqf-input--bad': whatsappBlocked }"
+                type="tel"
+                :placeholder="PHONE_EXAMPLE"
+              />
               <small><label class="cqf-inline"><input v-model="form.same_whatsapp" type="checkbox" /> Same as Contact No</label></small>
+              <small v-if="whatsappCheck?.duplicate" class="cqf-bad" role="alert">
+                ⚠ Duplicate number — {{ whatsappCheck.customer_name }} already uses this WhatsApp number.
+              </small>
+              <small v-else-if="whatsappCheck && whatsappCheck.valid === false" class="cqf-bad" role="alert">
+                ⚠ {{ PHONE_HINT }}
+              </small>
+              <small v-else>{{ PHONE_HINT }} Each customer needs its own WhatsApp number.</small>
             </label>
             <label><span>Account Dept No</span>
-              <input v-model="form.accounts_department_no" :disabled="form.same_accounts_dept" type="tel" />
+              <input v-model="form.accounts_department_no" :disabled="form.same_accounts_dept" type="tel" :placeholder="PHONE_EXAMPLE" />
               <small><label class="cqf-inline"><input v-model="form.same_accounts_dept" type="checkbox" /> Same as Contact No</label></small>
+              <small>{{ PHONE_HINT }}</small>
             </label>
           </div>
         </section>
@@ -233,7 +321,7 @@ init();
         </section>
 
         <section class="rug-section-card">
-          <header><div><h2>Sales Assignment</h2><p>The sales manager whose commission split applies to this customer's new transactions.</p></div></header>
+          <header><div><h2>Sales Assignment</h2><p>The sales manager whose commission split applies to this customer's new transactions, and the sales person who handles it.</p></div></header>
           <div class="rug-form-grid">
             <label><span>Assigned Sales Manager</span>
               <select v-model="salesManager" :disabled="!canAssignTeam" @change="onManagerChange">
@@ -242,6 +330,22 @@ init();
                   {{ m.label }} — {{ m.team_name }}
                 </option>
               </select>
+            </label>
+            <label><span class="cqf-label-row">Assign Sales Person
+              <button
+                v-if="canManagePersons"
+                type="button"
+                class="cqf-manage"
+                title="Add, edit or delete sales people"
+                @click="manageSalesPersons"
+              >Add / edit / delete</button>
+            </span>
+              <select v-model="salesPerson" :disabled="!canAssignTeam">
+                <option value="">No sales person</option>
+                <option v-for="p in personOptions" :key="p.name" :value="p.name">{{ p.sales_person_name }}</option>
+              </select>
+              <small v-if="!personOptions.length">Nobody is on the sales roster yet.</small>
+              <small v-else>Who handles this customer. The commission split still follows the sales manager's team.</small>
             </label>
             <label><span>Commission Rate (%)</span>
               <input
@@ -267,7 +371,7 @@ init();
 
         <footer class="cqf-actions">
           <button type="button" class="rug-button rug-button--secondary" @click="router.back()">Cancel</button>
-          <button type="submit" class="rug-primary" :disabled="loading.saving || !form.customer_name">{{ loading.saving ? "Saving…" : "Save Customer" }}</button>
+          <button type="submit" class="rug-primary" :disabled="loading.saving || !form.customer_name || whatsappBlocked">{{ loading.saving ? "Saving…" : "Save Customer" }}</button>
         </footer>
       </form>
     </main>
@@ -286,4 +390,9 @@ init();
 .cqf-notice{padding:.6rem 1rem;border-radius:.6rem;background:var(--ref-success-background);color:var(--ref-success);font-weight:700}
 .cqf-dup{color:var(--ref-danger);font-weight:700}
 .cqf-hint{color:var(--ref-secondary-text)}
+.cqf-bad{color:var(--ref-danger);font-weight:700}
+.cqf-form label input.cqf-input--bad{border-color:var(--ref-danger)}
+.cqf-label-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.cqf-manage{border:1px solid var(--ref-border-colour);border-radius:.5rem;background:transparent;color:var(--ref-accent, var(--ref-primary-text));font-size:.72rem;font-weight:700;padding:.15rem .5rem;cursor:pointer}
+.cqf-manage:hover{background:var(--ref-card-background)}
 </style>

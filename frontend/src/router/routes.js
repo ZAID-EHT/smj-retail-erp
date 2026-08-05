@@ -128,6 +128,13 @@ export const moduleRoutes = [
     component: () => import("@/pages/priority/OptionListAdminPage.vue"),
     meta: { title: "Dropdown Options", description: "Cities, business natures, transport methods, sizes, materials and carpet categories.", accent: "purple", icon: "settings" },
   },
+  // Opened in a new tab from the Customer form's Assigned Sales Person button.
+  {
+    path: "/admin/sales-persons",
+    name: "sales-persons",
+    component: () => import("@/pages/priority/SalesPersonAdminPage.vue"),
+    meta: { title: "Sales People", description: "The people the Customer form can assign.", accent: "green", icon: "users" },
+  },
   {
     path: "/setup",
     name: "setup-wizard",

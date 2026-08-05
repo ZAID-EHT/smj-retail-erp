@@ -45,6 +45,23 @@ export const saveSalesTeam = (payload, name, signal) =>
   call("save_sales_team", { payload, name: name || "" }, { signal, httpMethod: "POST" });
 export const searchSalesPersons = (txt, signal) => call("search_sales_persons", { txt }, { signal });
 
+// The sales-person roster and the actions behind the admin page that the customer
+// form's "Add / edit / delete" button opens.
+export const salesPersonAdminUrl = () => "/retail-erp/admin/sales-persons";
+export const listSalesPersons = (params = {}, signal) =>
+  call("list_sales_persons", {
+    query: params.query || "",
+    include_disabled: params.includeDisabled ? 1 : 0,
+  }, { signal });
+export const addSalesPerson = (salesPersonName, signal) =>
+  call("add_sales_person", { sales_person_name: salesPersonName }, { signal, httpMethod: "POST" });
+export const renameSalesPerson = (name, salesPersonName, signal) =>
+  call("rename_sales_person", { name, sales_person_name: salesPersonName }, { signal, httpMethod: "POST" });
+export const deleteSalesPerson = (name, signal) =>
+  call("delete_sales_person", { name }, { signal, httpMethod: "POST" });
+export const setSalesPersonEnabled = (name, enabled, signal) =>
+  call("set_sales_person_enabled", { name, enabled: enabled ? 1 : 0 }, { signal, httpMethod: "POST" });
+
 export const getCustomerSalesAssignment = (customer, signal) =>
   call("get_customer_sales_assignment", { customer }, { signal });
 export const assignCustomerSalesTeam = (customer, team, signal) =>
@@ -54,14 +71,18 @@ export const assignCustomerSalesTeam = (customer, team, signal) =>
 // the team that still carries the commission split.
 export const searchSalesManagers = (query = "", signal) =>
   call("search_sales_managers", { query }, { signal });
-export const assignCustomerSalesManager = (customer, { salesManager, team, commissionRate } = {}, signal) =>
+export const assignCustomerSalesManager = (
+  customer, { salesManager, team, commissionRate, salesPerson } = {}, signal,
+) =>
   call("assign_customer_sales_manager", {
     customer,
     sales_manager: salesManager || "",
     team: team || "",
-    // A blank rate means "follow the team's", so it must reach the server as an
-    // empty string rather than being dropped as absent.
+    // A blank rate means "follow the team's", and a blank person means "nobody is
+    // named", so both must reach the server as empty strings rather than being
+    // dropped as absent.
     commission_rate: commissionRate === null || commissionRate === undefined ? "" : commissionRate,
+    sales_person: salesPerson || "",
   }, { signal, httpMethod: "POST" });
 
 export const getDocumentSalesTeam = (doctype, name, signal) =>

@@ -130,6 +130,9 @@ def get_bootstrap(page: int = 1, page_length: int = 24, search: str = "", item_g
 		fields=[
 			"name", "item_code", "item_name", "image", "brand", "item_group", "description",
 			"stock_uom", "is_stock_item",
+			# The product form offers two image slots. Both travel, so the catalogue
+			# card can page between them rather than the second one never being seen.
+			"custom_image_2 as image_2",
 			# Reference only on the catalogue card: a wholesale customer may order
 			# below a full carton, so this never gates the order.
 			"custom_carton_qty as carton_qty",

@@ -339,6 +339,7 @@ def get_customer_sales_assignment(customer: str):
 		"commission_rate": override if override is not None else (
 			flt(payload["commission_rate"]) if payload else None),
 		"commission_rate_override": override,
+		"sales_person": customer_sales_person(customer),
 		"can_manage": can_manage(),
 		"can_override": can_override(),
 		"warnings": warnings,
@@ -347,6 +348,14 @@ def get_customer_sales_assignment(customer: str):
 
 
 COMMISSION_OVERRIDE_FIELD = "custom_commission_rate"
+SALES_PERSON_FIELD = "custom_assigned_sales_person"
+
+
+def customer_sales_person(customer: str) -> str | None:
+	"""The individual handling this customer, or None when nobody is named."""
+	if not customer or not frappe.get_meta("Customer").get_field(SALES_PERSON_FIELD):
+		return None
+	return frappe.db.get_value("Customer", customer, SALES_PERSON_FIELD) or None
 
 
 def customer_commission_override(customer: str) -> float | None:
@@ -402,12 +411,17 @@ def search_sales_managers(query: str = "", company: str = "", limit: int = 50):
 
 @frappe.whitelist(methods=["POST"])
 def assign_customer_sales_manager(customer: str, sales_manager: str | None = None,
-                                  team: str | None = None, commission_rate=None):
+                                  team: str | None = None, commission_rate=None,
+                                  sales_person: str | None = None):
 	"""Assign a customer's sales manager and, optionally, its own commission rate.
 
 	The team behind the manager is what is actually stored, so the commission
 	engine, the ERPNext `sales_team` rows and every existing snapshot keep working
 	untouched. Passing `team` settles the case of a manager who runs more than one.
+
+	The sales person is a plainer thing alongside it: who actually handles this
+	customer. It stays out of the commission split -- that remains the manager's
+	team -- and is set here only because the form chooses both together.
 	"""
 	_require_manage()
 	if not frappe.has_permission("Customer", "write", doc=customer):
@@ -447,6 +461,11 @@ def assign_customer_sales_manager(customer: str, sales_manager: str | None = Non
 			if rate < 0 or rate > 100:
 				frappe.throw(_("Commission Rate must be between 0 and 100."), frappe.ValidationError)
 			doc.set(COMMISSION_OVERRIDE_FIELD, rate)
+	if doc.meta.get_field(SALES_PERSON_FIELD):
+		person = (sales_person or "").strip()
+		if person and not frappe.db.exists("Sales Person", person):
+			frappe.throw(_("Unknown sales person: {0}").format(person), frappe.ValidationError)
+		doc.set(SALES_PERSON_FIELD, person or None)
 	_apply_team_rows(doc, resolved)
 	doc.save()
 	return {
@@ -454,6 +473,7 @@ def assign_customer_sales_manager(customer: str, sales_manager: str | None = Non
 		"sales_manager": frappe.db.get_value(DOCTYPE, resolved, "sales_manager") if resolved else None,
 		"assignment": team_payload(resolved),
 		"commission_rate_override": customer_commission_override(customer),
+		"sales_person": customer_sales_person(customer),
 		"note": _("Existing submitted documents keep the team they were raised with."),
 	}
 
@@ -534,6 +554,125 @@ def search_sales_persons(txt: str = "", limit: int = 20):
 		fields=["name", "sales_person_name"], limit_page_length=limit, order_by="name asc",
 	)
 	return [{"value": r["name"], "label": r.get("sales_person_name") or r["name"]} for r in rows]
+
+
+# --------------------------------------------------------------------------
+# Sales people: the roster behind the customer form's "Assigned Sales Person"
+#
+# Adding, renaming and removing one is a Sales Manager / System Manager action --
+# the same gate as reassigning a customer -- because the roster is what every
+# other user's dropdown is limited to.
+# --------------------------------------------------------------------------
+
+def _sales_person_root() -> str:
+	"""The group every new sales person is created under.
+
+	Sales Person is a tree, so a leaf needs a parent. The site's own root group is
+	used when there is one rather than inventing a second hierarchy beside it.
+	"""
+	root = frappe.db.get_value(
+		"Sales Person", {"is_group": 1, "parent_sales_person": ["in", ("", None)]}, "name")
+	return root or "Sales Team"
+
+
+def _sales_person_row(row: dict) -> dict:
+	return {
+		"name": row["name"],
+		"sales_person_name": row.get("sales_person_name") or row["name"],
+		"enabled": bool(row.get("enabled", 1)),
+		"is_group": bool(row.get("is_group")),
+	}
+
+
+@frappe.whitelist(methods=["GET"])
+def list_sales_persons(query: str = "", include_disabled: str = "0") -> dict:
+	"""Every sales person the form may offer, plus whether this user may edit them."""
+	_require_read()
+	has_enabled = bool(frappe.get_meta("Sales Person").get_field("enabled"))
+	filters = {"is_group": 0}
+	if has_enabled and not cint(include_disabled):
+		filters["enabled"] = 1
+	text = str(query or "").strip()[:60]
+	or_filters = ({"name": ["like", f"%{text}%"], "sales_person_name": ["like", f"%{text}%"]}
+	              if text else None)
+	fields = ["name", "sales_person_name", "is_group"] + (["enabled"] if has_enabled else [])
+	rows = frappe.get_list(
+		"Sales Person", filters=filters, or_filters=or_filters, fields=fields,
+		order_by="sales_person_name asc", limit_page_length=500,
+	)
+	return {
+		"sales_persons": [_sales_person_row(row) for row in rows],
+		"can_manage": can_manage(),
+	}
+
+
+@frappe.whitelist(methods=["POST"])
+def add_sales_person(sales_person_name: str) -> dict:
+	"""Create a sales person. Sales Manager / System Manager only."""
+	_require_manage()
+	name = str(sales_person_name or "").strip()
+	if not name:
+		frappe.throw(_("Give the sales person a name."), frappe.ValidationError)
+	if len(name) > 140:
+		frappe.throw(_("The name is too long."), frappe.ValidationError)
+	if frappe.db.exists("Sales Person", name):
+		frappe.throw(_("{0} already exists.").format(name), frappe.DuplicateEntryError)
+	doc = frappe.new_doc("Sales Person")
+	doc.sales_person_name = name
+	doc.parent_sales_person = _sales_person_root()
+	doc.is_group = 0
+	doc.insert()
+	return {"name": doc.name, "sales_person_name": doc.sales_person_name}
+
+
+@frappe.whitelist(methods=["POST"])
+def rename_sales_person(name: str, sales_person_name: str) -> dict:
+	"""Rename a sales person, carrying every record pointing at them along.
+
+	`rename_doc` rewrites the links, so a customer, team or order already naming
+	this person keeps naming them rather than being left pointing at a gap.
+	"""
+	_require_manage()
+	if not frappe.db.exists("Sales Person", name):
+		frappe.throw(_("Sales person not found."), frappe.DoesNotExistError)
+	new_name = str(sales_person_name or "").strip()
+	if not new_name:
+		frappe.throw(_("Give the sales person a name."), frappe.ValidationError)
+	if new_name == name:
+		return {"name": name, "sales_person_name": new_name}
+	if frappe.db.exists("Sales Person", new_name):
+		frappe.throw(_("{0} already exists.").format(new_name), frappe.DuplicateEntryError)
+	frappe.db.set_value("Sales Person", name, "sales_person_name", new_name)
+	renamed = frappe.rename_doc("Sales Person", name, new_name, force=False, merge=False)
+	return {"name": renamed, "sales_person_name": new_name}
+
+
+@frappe.whitelist(methods=["POST"])
+def delete_sales_person(name: str) -> dict:
+	"""Delete a sales person, or refuse when records still point at them.
+
+	Frappe's own link check does the refusing; the message it raises already names
+	what is in the way, which is more useful than a count invented here.
+	"""
+	_require_manage()
+	if not frappe.db.exists("Sales Person", name):
+		frappe.throw(_("Sales person not found."), frappe.DoesNotExistError)
+	frappe.delete_doc("Sales Person", name, ignore_permissions=False)
+	return {"deleted": name}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_sales_person_enabled(name: str, enabled: int = 1) -> dict:
+	"""Hide a sales person from new assignments without deleting their history."""
+	_require_manage()
+	if not frappe.db.exists("Sales Person", name):
+		frappe.throw(_("Sales person not found."), frappe.DoesNotExistError)
+	if not frappe.get_meta("Sales Person").get_field("enabled"):
+		frappe.throw(_("This site's Sales Person records cannot be disabled."), frappe.ValidationError)
+	doc = frappe.get_doc("Sales Person", name)
+	doc.enabled = 1 if cint(enabled) else 0
+	doc.save()
+	return {"name": doc.name, "enabled": bool(doc.enabled)}
 
 
 # --------------------------------------------------------------------------

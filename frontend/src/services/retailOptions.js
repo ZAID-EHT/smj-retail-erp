@@ -50,6 +50,11 @@ export const listAllOptions = (signal) => call("list_all_options", {}, { signal 
 export const addOption = (optionType, optionValue, sortOrder = 0) =>
   call("add_option", { option_type: optionType, option_value: optionValue, sort_order: sortOrder }, { post: true });
 
+// Editing carries the records already holding the old value across to the new one,
+// so a rename never leaves a record showing a choice the dropdown no longer offers.
+export const renameOption = (name, optionValue) =>
+  call("rename_option", { name, option_value: optionValue }, { post: true });
+
 export const setOptionActive = (name, isActive) =>
   call("set_option_active", { name, is_active: isActive ? 1 : 0 }, { post: true });
 

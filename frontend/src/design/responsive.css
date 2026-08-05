@@ -50,7 +50,7 @@
   .ref-mobile-record-card dt { color: var(--ref-secondary-text); font-weight: 600; }
   .ref-mobile-record-card dd { margin: 0; overflow: hidden; color: var(--ref-primary-text); text-overflow: ellipsis; white-space: nowrap; }
   .ref-detail-header { grid-template-columns: auto minmax(0,1fr); padding: 17px; }
-  .ref-detail-header>img { width: 72px; height: 72px; }
+  .ref-detail-header>:is(img,.ref-detail-header__images) { width: 72px; height: 72px; }
   .ref-detail-header h1 { font-size: 22px !important; }
   .ref-detail-actions { grid-column: 1/-1; justify-content: flex-start; max-width: none; }
   .ref-detail-summary-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
@@ -81,7 +81,7 @@
   .ref-global-search input::placeholder { font-size: 11px; }
   .ref-date-range { grid-template-columns: 1fr; }
   .ref-detail-header { grid-template-columns: 1fr; }
-  .ref-detail-header>img { width: 82px; height: 82px; }
+  .ref-detail-header>:is(img,.ref-detail-header__images) { width: 82px; height: 82px; }
   .ref-detail-actions { grid-column: auto; }
   .ref-detail-summary-grid { grid-template-columns: 1fr 1fr; }
   .ref-detail-summary-card { min-height: 76px; padding: 12px; }

@@ -14,6 +14,7 @@ import ErrorState from "@/components/feedback/ErrorState.vue";
 import PermissionDenied from "@/components/feedback/PermissionDenied.vue";
 import RecordNotFound from "@/components/feedback/RecordNotFound.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
+import ProductImageCarousel from "@/components/data/ProductImageCarousel.vue";
 import { detailStatusClass, formatDetailValue } from "@/services/detailFormatters.js";
 import { useEntityDetail } from "@/stores/entityDetail.js";
 
@@ -23,6 +24,17 @@ const state = useEntityDetail(entityKey);
 const data = computed(() => state.detail);
 const currency = computed(() => data.value?.document?.currency || data.value?.document?.default_currency || "LKR");
 const status = computed(() => data.value?.document?.[data.value.entity.status_field]);
+
+/* Every image slot this record type declares, in order, with the empty ones
+   dropped. A product carries two; most records carry one, and then the header
+   renders as the plain picture it always was. */
+const recordImages = computed(() => {
+  const entity = data.value?.entity;
+  if (!entity?.image_field) return [];
+  return [entity.image_field, ...(entity.extra_image_fields || [])]
+    .map((field) => data.value.document?.[field])
+    .filter(Boolean);
+});
 </script>
 
 <template>
@@ -36,11 +48,11 @@ const status = computed(() => data.value?.document?.[data.value.entity.status_fi
     />
     <div v-else-if="data" class="ref-detail-page">
       <header class="ref-detail-header">
-        <img
+        <ProductImageCarousel
           v-if="data.entity.image_field"
-          :src="data.document[data.entity.image_field] || '/assets/my_store_ui/images/product-placeholder.svg'"
+          class="ref-detail-header__images"
+          :images="recordImages"
           :alt="data.document[data.entity.title_field]"
-          @error="$event.target.src = '/assets/my_store_ui/images/product-placeholder.svg'"
         />
         <div class="ref-detail-header__copy">
           <span class="ref-entity-page__eyebrow">LIVE ERPNEXT RECORD</span>

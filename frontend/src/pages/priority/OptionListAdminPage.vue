@@ -6,7 +6,9 @@ import { computed, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
-import { addOption, deleteOption, listAllOptions, setOptionActive } from "@/services/retailOptions.js";
+import {
+  addOption, deleteOption, listAllOptions, renameOption, setOptionActive,
+} from "@/services/retailOptions.js";
 
 const route = useRoute();
 
@@ -20,6 +22,9 @@ const search = ref("");
 const error = ref(null);
 const notice = ref(null);
 const loading = reactive({ init: true, saving: false });
+// The option being renamed inline, with its own copy of the value so a cancelled
+// edit leaves the list untouched.
+const editing = reactive({ name: "", value: "" });
 
 const rows = computed(() => {
   const all = optionsByType.value[activeType.value] || [];
@@ -60,6 +65,34 @@ async function create() {
     await addOption(activeType.value, value);
     notice.value = `Added ${value} to ${activeType.value}.`;
     newValue.value = "";
+    await load();
+  } catch (caught) { error.value = caught; }
+  finally { loading.saving = false; }
+}
+
+function startEdit(row) {
+  editing.name = row.name;
+  editing.value = row.option_value;
+}
+
+function cancelEdit() {
+  editing.name = "";
+}
+
+async function applyEdit(row) {
+  const value = editing.value.trim();
+  if (!value || value === row.option_value) { editing.name = ""; return; }
+  loading.saving = true;
+  error.value = null;
+  notice.value = null;
+  try {
+    const result = await renameOption(row.name, value);
+    // Renaming moves the records that carried the old value onto the new one; how
+    // many is worth saying, because it is the part that is not visible on screen.
+    notice.value = result?.updated
+      ? `Renamed ${row.option_value} to ${value}, and updated ${result.updated} record(s) using it.`
+      : `Renamed ${row.option_value} to ${value}.`;
+    editing.name = "";
     await load();
   } catch (caught) { error.value = caught; }
   finally { loading.saving = false; }
@@ -150,13 +183,23 @@ load();
 
           <ul v-else class="ola-list">
             <li v-for="row in rows" :key="row.name" :class="{ 'ola-row--inactive': !row.is_active }">
-              <span class="ola-value">{{ row.option_value }}<em v-if="!row.is_active"> (inactive)</em></span>
-              <span v-if="canManage" class="ola-row-actions">
-                <button type="button" class="rug-button rug-button--secondary" :disabled="loading.saving" @click="toggle(row)">
-                  {{ row.is_active ? "Deactivate" : "Activate" }}
-                </button>
-                <button type="button" class="rug-button rug-button--secondary ola-danger" :disabled="loading.saving" @click="remove(row)">Delete</button>
-              </span>
+              <template v-if="editing.name === row.name">
+                <input v-model="editing.value" class="ola-edit" type="text" @keyup.enter="applyEdit(row)" />
+                <span class="ola-row-actions">
+                  <button type="button" class="rug-primary" :disabled="loading.saving" @click="applyEdit(row)">Save</button>
+                  <button type="button" class="rug-button rug-button--secondary" @click="cancelEdit">Cancel</button>
+                </span>
+              </template>
+              <template v-else>
+                <span class="ola-value">{{ row.option_value }}<em v-if="!row.is_active"> (inactive)</em></span>
+                <span v-if="canManage" class="ola-row-actions">
+                  <button type="button" class="rug-button rug-button--secondary" @click="startEdit(row)">Edit</button>
+                  <button type="button" class="rug-button rug-button--secondary" :disabled="loading.saving" @click="toggle(row)">
+                    {{ row.is_active ? "Deactivate" : "Activate" }}
+                  </button>
+                  <button type="button" class="rug-button rug-button--secondary ola-danger" :disabled="loading.saving" @click="remove(row)">Delete</button>
+                </span>
+              </template>
             </li>
           </ul>
         </section>
@@ -179,6 +222,7 @@ load();
 .ola-list li{display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;padding:.55rem .75rem;border:1px solid var(--ref-border-colour);border-radius:.6rem}
 .ola-value{font-weight:600}
 .ola-value em{font-style:normal;font-weight:500;color:var(--ref-secondary-text)}
+.ola-edit{flex:1 1 14rem;min-height:36px}
 .ola-row--inactive{opacity:.55}
 .ola-row-actions{display:flex;gap:.35rem;flex-wrap:wrap}
 .ola-danger{color:var(--ref-danger)}

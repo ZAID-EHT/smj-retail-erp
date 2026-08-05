@@ -262,7 +262,7 @@ img.ref-brand__logo { object-fit: contain; padding: 3px; }
 
 .ref-detail-page { display: grid; gap: 15px; }
 .ref-detail-header { min-height: 145px; display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 20px; padding: 24px 28px; border: 1px solid var(--ref-border-colour); border-radius: var(--ref-card-radius); background: linear-gradient(120deg,#fff,var(--ref-blue-background)); box-shadow: var(--ref-card-shadow); }
-.ref-detail-header>img { width: 96px; height: 96px; object-fit: contain; border: 1px solid var(--ref-border-colour); border-radius: 14px; background: #fff; }
+.ref-detail-header>:is(img,.ref-detail-header__images) { width: 96px; height: 96px; object-fit: contain; border: 1px solid var(--ref-border-colour); border-radius: 14px; background: #fff; }
 .ref-detail-header__copy { min-width: 0; }
 .ref-detail-header h1 { margin: 4px 0 5px !important; overflow-wrap: anywhere; color: var(--ref-primary-text) !important; font: 800 28px/1.15 var(--ref-font) !important; }
 .ref-detail-header code { color: var(--ref-primary-blue); font-size: 11px; }

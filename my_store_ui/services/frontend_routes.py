@@ -44,6 +44,10 @@ ROUTE_REGISTRY = (
 	# Product Material and Carpet Category. Opened in a new tab from the form field
 	# whose choices are being edited.
 	{"name": "option-lists", "pattern": r"^/admin/options/?$", "module": "Admin", "feature_id": "retail.admin.option_lists", "implemented": True, "roles": ("System Manager",)},
+	# Sales people -- the roster the Customer form's Assigned Sales Person offers.
+	# Opened in a new tab from that field. A Sales Manager owns their own roster, so
+	# they reach it as well as a System Manager.
+	{"name": "sales-persons", "pattern": r"^/admin/sales-persons/?$", "module": "Admin", "feature_id": "retail.admin.sales_persons", "implemented": True, "roles": ("System Manager", "Sales Manager")},
 	# Email & Notifications administration (status, templates, notifications).
 	{"name": "email-admin", "pattern": r"^/admin/email(?:/(?P<tab>accounts|templates|notifications|status))?/?$", "module": "Admin", "feature_id": "retail.admin.email", "implemented": True, "roles": ("System Manager",)},
 	# Printing & Branding landing + preview (Letter Head / Print Format CRUD is generated).
@@ -195,6 +199,7 @@ NAVIGATION = (
 		# The two masters the Product and Customer forms send the admin to.
 		{"label": "Price Codes", "path": "/admin/price-codes", "doctype": "Retail Price Code", "permission": "write"},
 		{"label": "Dropdown Options", "path": "/admin/options", "doctype": "Retail Option List", "permission": "write"},
+		{"label": "Sales People", "path": "/admin/sales-persons", "doctype": "Sales Person", "permission": "write"},
 		{"label": "Users", "path": "/admin/users", "doctype": "User"}, {"label": "Roles", "path": "/admin/roles", "doctype": "Role"},
 		{"label": "Role Permissions", "path": "/admin/permissions", "page": "permission-manager"}, {"label": "Companies", "path": "/admin/companies", "doctype": "Company"},
 		{"label": "Warehouses", "path": "/admin/warehouses", "doctype": "Warehouse"}, {"label": "Price Lists", "path": "/admin/price-lists", "doctype": "Price List"},

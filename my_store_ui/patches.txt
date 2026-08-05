@@ -9,6 +9,10 @@ my_store_ui.patches.create_finance_decision_roles
 # Patches added in this section will be executed after doctypes are migrated
 my_store_ui.patches.grant_buying_operator_permissions
 my_store_ui.patches.ensure_department_price_list
+# Every custom field the Customer and Product forms read and write. Must run
+# before install_sales_team_fields, whose section break anchors after the
+# custom_credit_days this patch creates.
+my_store_ui.patches.install_core_custom_fields
 my_store_ui.patches.install_sales_team_fields
 # Re-run: the snapshot grew rows, override provenance and commission fields. The
 # patch upserts through create_custom_fields, so running it again is safe.
@@ -23,3 +27,10 @@ my_store_ui.patches.install_retail_option_fields
 # Sri Lankan cities plus the Business Nature / Transport Method choices the forms
 # used to hard-code, now admin-managed.
 my_store_ui.patches.seed_retail_options
+# VAT No and the assigned sales person. After install_retail_option_fields, which
+# creates the custom_commission_rate the sales person field is inserted below.
+my_store_ui.patches.install_v2_customer_fields
+# Re-run: the first pass produced nothing, because its section break anchored to a
+# custom_credit_days that install_core_custom_fields had not created yet. That
+# patch now runs first, so this one can place its fields.
+my_store_ui.patches.install_sales_team_fields #2026-08-05-after-core-fields

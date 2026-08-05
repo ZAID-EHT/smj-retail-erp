@@ -117,7 +117,10 @@ def save_price_code(values: dict | str, name: str | None = None) -> dict:
 	data = frappe.parse_json(values) if isinstance(values, str) else values
 	if not isinstance(data, dict):
 		frappe.throw(_("Invalid price code details."), frappe.ValidationError)
-	allowed = {"price_code", "category", "description", "is_active", *PRICE_FIELDS}
+	# Description is no longer offered by the form: a code is identified by itself
+	# and its category, and the free-text line only ever repeated one of them. Old
+	# values are still read back, they simply cannot be set any more.
+	allowed = {"price_code", "category", "is_active", *PRICE_FIELDS}
 	unknown = set(data) - allowed
 	if unknown:
 		frappe.throw(_("Unsupported field: {0}").format(", ".join(sorted(unknown))), frappe.ValidationError)
@@ -131,7 +134,6 @@ def save_price_code(values: dict | str, name: str | None = None) -> dict:
 		doc.price_code = str(data.get("price_code") or "").strip().upper()
 		doc.category = str(data.get("category") or "").strip()
 
-	doc.description = str(data.get("description") or "").strip() or None
 	for field in PRICE_FIELDS:
 		if field in data:
 			doc.set(field, flt(data.get(field)))

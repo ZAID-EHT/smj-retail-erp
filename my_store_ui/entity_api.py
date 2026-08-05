@@ -387,6 +387,9 @@ def get_entity_detail(entity_key: str, name: str):
 			"status_field": schema["status_field"],
 			"status_type": schema["status_type"],
 			"image_field": schema.get("image_field"),
+			# Further image slots the record may carry, so the header can page
+			# through them rather than showing only the first.
+			"extra_image_fields": list(schema.get("extra_image_fields", ())),
 			"back_route": schema["back_route"],
 			"desk_route": schema["desk_route"].format(name=quote(name, safe="")) if allow_desk else None,
 			"draft_only": bool(schema.get("draft_only", False)),

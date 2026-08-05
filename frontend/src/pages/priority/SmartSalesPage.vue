@@ -13,6 +13,7 @@ import {
   SmjSalesCartPulse,
 } from "@/components/icons";
 import PageContainer from "@/components/layout/PageContainer.vue";
+import ProductImageCarousel from "@/components/data/ProductImageCarousel.vue";
 import { createSmartOrder, getCartPricing, getSmartSales, searchSmartCustomers } from "@/services/smartSales.js";
 import { getCustomerCreditStatus } from "@/services/wholesale.js";
 import { getCustomerSalesAssignment, searchSalesTeams } from "@/services/salesTeam.js";
@@ -335,6 +336,12 @@ async function repriceCart() {
   } finally {
     repricing.value = false;
   }
+}
+
+/* The two image slots the product form offers, in order, with the empty ones
+   dropped so a product carrying only the second still shows it. */
+function productImages(item) {
+  return [item.image, item.image_2].filter(Boolean);
 }
 
 function add(item) {
@@ -665,17 +672,30 @@ onBeforeUnmount(() => {
           <div v-if="loading" class="rug-skeleton"><i v-for="n in 8" :key="n" /></div>
           <div v-else-if="!data?.items?.length" class="rug-empty"><SmjInventoryCubeLayers size="28" decorative /><h2>No products found</h2><p>Change the search, group or warehouse.</p></div>
           <div v-else class="priority-product-grid">
-            <button
+            <!-- The card carries the image carousel, whose arrows are buttons of
+                 their own, so the card itself cannot also be a button. It keeps the
+                 click-anywhere-to-add behaviour through the role and key handlers,
+                 and `add` refuses an out-of-stock or customerless click regardless. -->
+            <article
               v-for="item in data.items"
               :key="item.item_code"
-              type="button"
               class="smj-product-card"
               :class="{ 'is-out': outOfStock(item), 'is-locked': !customerSelected }"
-              :disabled="!customerSelected || outOfStock(item)"
+              role="button"
+              :tabindex="!customerSelected || outOfStock(item) ? -1 : 0"
+              :aria-disabled="!customerSelected || outOfStock(item)"
               @click="add(item)"
+              @keydown.enter.prevent="add(item)"
+              @keydown.space.prevent="add(item)"
             >
               <span v-if="outOfStock(item)" class="smj-stock-badge smj-stock-badge--out">Out of Stock</span>
-              <img v-if="item.image" :src="item.image" :alt="item.item_name" />
+              <ProductImageCarousel
+                v-if="productImages(item).length"
+                class="smj-product-images"
+                :images="productImages(item)"
+                :alt="item.item_name"
+                isolate
+              />
               <span v-else class="priority-product-placeholder"><SmjInventoryCubeLayers size="26" decorative /></span>
               <strong>{{ item.item_name }}</strong>
               <small>{{ item.item_code }} · {{ item.item_group }}</small>
@@ -691,7 +711,7 @@ onBeforeUnmount(() => {
                 Carton = {{ Number(item.carton_qty) }} {{ item.stock_uom }}
               </small>
               <span class="smj-product-add">{{ outOfStock(item) ? "Unavailable" : "+ Add to cart" }}</span>
-            </button>
+            </article>
           </div>
         </section>
 

@@ -6,11 +6,14 @@ the price category (selling Price List), and the credit classification (custom_c
 + standard credit_limits child + custom_credit_days). Any failure rolls back.
 
 Visible business fields: Customer, Address, City, Contact No, WhatsApp No, Account
-Dept No, Transport Detail, Transport Method, BR No, Business Nature, Price Category,
-Payment Type, Credit Limit, Credit Days, Created Date, Sales Manager, Commission Rate.
+Dept No, Transport Detail, Transport Method, BR No, VAT No, Business Nature, Price
+Category, Payment Type, Credit Limit, Credit Days, Created Date, Sales Manager,
+Sales Person, Commission Rate.
 """
 
 from __future__ import annotations
+
+import re
 
 import frappe
 from frappe import _
@@ -23,9 +26,64 @@ NON_CREDIT = "Non-Credit Customer"
 ALLOWED_KEYS = {
 	"customer_name", "address", "address_line2", "city", "state", "pincode", "country",
 	"contact_no", "whatsapp_no", "same_whatsapp", "accounts_department_no",
-	"same_accounts_dept", "transport_detail", "transport_method", "br_no",
+	"same_accounts_dept", "transport_detail", "transport_method", "br_no", "vat_no",
 	"business_nature", "price_category", "payment_type", "credit_limit", "credit_days",
 }
+
+# Phone numbers are stored in the one local shape the business uses -- ten digits
+# beginning with a zero, as in 0778754231. Anything else is refused rather than
+# quietly stored, because the WhatsApp uniqueness rule below can only be trusted
+# when two people typing the same number produce the same string.
+PHONE_EXAMPLE = "0778754231"
+PHONE_PATTERN = re.compile(r"^0\d{9}$")
+WHATSAPP_FIELD = "custom_whatsapp_no"
+
+
+def normalise_phone(value: str) -> str:
+	"""Reduce a typed number to its local 10-digit form, or "" when blank.
+
+	Separators are cosmetic and the +94 / 0094 / 94 country prefixes are the same
+	number written another way, so all of them collapse onto the local form before
+	the shape is checked.
+	"""
+	digits = re.sub(r"[^\d+]", "", str(value or "").strip())
+	if not digits:
+		return ""
+	for prefix in ("+94", "0094", "94"):
+		if digits.startswith(prefix) and len(digits) - len(prefix) == 9:
+			return "0" + digits[len(prefix):]
+	return digits.lstrip("+")
+
+
+def _clean_phone(value: str, label: str) -> str | None:
+	"""Validated local number for one field, or None when it was left blank."""
+	number = normalise_phone(value)
+	if not number:
+		return None
+	if not PHONE_PATTERN.match(number):
+		frappe.throw(
+			_("{0} must be a 10-digit number starting with 0, like {1}.").format(label, PHONE_EXAMPLE),
+			frappe.ValidationError,
+		)
+	return number
+
+
+def whatsapp_owner(number: str, exclude: str | None = None) -> dict | None:
+	"""The customer already holding this WhatsApp number, if there is one.
+
+	Only the WhatsApp number is unique: it is the channel the business messages the
+	customer on, so two customers sharing one would send the wrong person the wrong
+	message. Contact No and Account Dept No are deliberately left free to repeat --
+	a branch and its head office genuinely share a landline.
+	"""
+	number = normalise_phone(number)
+	if not number:
+		return None
+	filters = {WHATSAPP_FIELD: number}
+	if exclude:
+		filters["name"] = ["!=", exclude]
+	row = frappe.db.get_value("Customer", filters, ["name", "customer_name"], as_dict=True)
+	return dict(row) if row else None
 # Visible "Payment Type" -> backing custom_credit_type value.
 PAYMENT_TYPE_MAP = {"Credit": CREDIT, "Non-Credit": NON_CREDIT}
 
@@ -104,6 +162,36 @@ def find_duplicate_customers(customer_name: str) -> dict:
 	return {"candidates": rows}
 
 
+@frappe.whitelist(methods=["GET"])
+def check_whatsapp_number(whatsapp_no: str, name: str | None = None) -> dict:
+	"""Whether this WhatsApp number is free, for the form to say so before saving.
+
+	The save enforces the same rule, so a number that slips past this check -- taken
+	between the keystroke and the save -- is still refused. This only moves the
+	answer earlier.
+	"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	number = normalise_phone(whatsapp_no)
+	if not number:
+		return {"whatsapp_no": "", "valid": True, "duplicate": False}
+	if not PHONE_PATTERN.match(number):
+		return {
+			"whatsapp_no": number, "valid": False, "duplicate": False,
+			"message": _("Enter the number as {0}.").format(PHONE_EXAMPLE),
+		}
+	owner = whatsapp_owner(number, exclude=str(name or "").strip() or None)
+	return {
+		"whatsapp_no": number,
+		"valid": True,
+		"duplicate": bool(owner),
+		"customer": owner["name"] if owner else None,
+		"customer_name": (owner["customer_name"] or owner["name"]) if owner else None,
+		"message": _("{0} already uses this WhatsApp number.").format(
+			owner["customer_name"] or owner["name"]) if owner else None,
+	}
+
+
 @frappe.whitelist(methods=["POST"])
 def create_customer(values: dict | str, name: str | None = None):
 	"""Atomic create/edit -- a savepoint rolls back the whole operation on failure."""
@@ -170,17 +258,29 @@ def _create_customer(values: dict | str, name: str | None = None):
 			frappe.throw(_("Cannot switch to Non-Credit while {0} has outstanding balance {1}.").format(
 				doc.name, outstanding), frappe.ValidationError)
 
-	doc.mobile_no = str(data.get("contact_no") or "").strip() or None
+	doc.mobile_no = _clean_phone(data.get("contact_no"), _("Contact No"))
 	same = cint(data.get("same_whatsapp"))
-	doc.custom_whatsapp_no = (doc.mobile_no if same else str(data.get("whatsapp_no") or "").strip()) or None
+	whatsapp = doc.mobile_no if same else _clean_phone(data.get("whatsapp_no"), _("WhatsApp No"))
+	# One WhatsApp number, one customer. Refused before the save rather than after it,
+	# and the message names the customer holding it so the user can go and look.
+	owner = whatsapp_owner(whatsapp, exclude=doc.name if editing else None)
+	if owner:
+		frappe.throw(
+			_("WhatsApp No {0} is already used by {1}. Every customer needs its own "
+			  "WhatsApp number.").format(whatsapp, owner["customer_name"] or owner["name"]),
+			frappe.DuplicateEntryError,
+		)
+	doc.custom_whatsapp_no = whatsapp
 	# "Same as Contact No" is offered for the accounts department number too, so a
 	# customer with one number does not have to type it three times.
 	same_accounts = cint(data.get("same_accounts_dept"))
 	doc.custom_accounts_department_no = (
-		doc.mobile_no if same_accounts else str(data.get("accounts_department_no") or "").strip()) or None
+		doc.mobile_no if same_accounts else _clean_phone(data.get("accounts_department_no"), _("Account Dept No")))
 	doc.custom_transport_method = str(data.get("transport_method") or "").strip() or None
 	doc.custom_transport_detail = str(data.get("transport_detail") or "").strip() or None
 	doc.custom_br_no = str(data.get("br_no") or "").strip() or None
+	if doc.meta.get_field("custom_vat_no"):
+		doc.custom_vat_no = str(data.get("vat_no") or "").strip() or None
 	doc.custom_business_nature = str(data.get("business_nature") or "").strip() or None
 
 	if editing:
@@ -246,8 +346,10 @@ def _upsert_address(doc, data: dict) -> None:
 
 
 def _upsert_contact(doc, data: dict) -> None:
-	phone = str(data.get("contact_no") or "").strip()
-	if not phone and not str(data.get("whatsapp_no") or "").strip():
+	# The customer already carries the validated numbers, so the Contact is written
+	# from those rather than re-reading the raw input and storing a second shape.
+	phone = doc.mobile_no or ""
+	if not phone and not doc.custom_whatsapp_no:
 		return
 	existing = frappe.get_all(
 		"Dynamic Link", filters={"link_doctype": "Customer", "link_name": doc.name, "parenttype": "Contact"},
@@ -283,7 +385,8 @@ def get_customer(name: str) -> dict:
 		"contact_no": doc.mobile_no, "whatsapp_no": doc.custom_whatsapp_no,
 		"accounts_department_no": doc.custom_accounts_department_no,
 		"transport_method": doc.custom_transport_method, "transport_detail": doc.custom_transport_detail,
-		"br_no": doc.custom_br_no, "business_nature": doc.custom_business_nature,
+		"br_no": doc.custom_br_no, "vat_no": doc.get("custom_vat_no"),
+		"business_nature": doc.custom_business_nature,
 		# Reported as the business label the form shows, falling back to the raw
 		# Price List for a customer set to a list outside the three categories.
 		"price_category": PRICE_LIST_TO_CATEGORY.get(doc.default_price_list, doc.default_price_list),

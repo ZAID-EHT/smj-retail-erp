@@ -21,13 +21,13 @@ const search = ref("");
 const showInactive = ref(false);
 
 const draft = reactive({
-  price_code: "", category: "", description: "",
+  price_code: "", category: "",
   wholesale_price: null, department_price: null, retail_price: null,
 });
 const newCategory = ref("");
 // The code being edited inline, keyed by name, with its own copy of the prices so
 // a cancelled edit leaves the list untouched.
-const editing = reactive({ name: "", description: "", wholesale_price: null, department_price: null, retail_price: null });
+const editing = reactive({ name: "", wholesale_price: null, department_price: null, retail_price: null });
 
 const totalCodes = computed(() => groups.value.reduce((sum, group) => sum + group.codes.length, 0));
 
@@ -57,14 +57,13 @@ async function create() {
     const saved = await savePriceCode({
       price_code: draft.price_code.trim().toUpperCase(),
       category: draft.category,
-      description: draft.description,
       wholesale_price: draft.wholesale_price || 0,
       department_price: draft.department_price || 0,
       retail_price: draft.retail_price || 0,
     });
     notice.value = `Added ${saved.price_code}. Its first product becomes ${saved.next_sku}.`;
     Object.assign(draft, {
-      price_code: "", description: "",
+      price_code: "",
       wholesale_price: null, department_price: null, retail_price: null,
     });
     await load();
@@ -75,7 +74,6 @@ async function create() {
 function startEdit(code) {
   Object.assign(editing, {
     name: code.name,
-    description: code.description,
     wholesale_price: code.wholesale_price,
     department_price: code.department_price,
     retail_price: code.retail_price,
@@ -92,7 +90,6 @@ async function applyEdit() {
   notice.value = null;
   try {
     await savePriceCode({
-      description: editing.description,
       wholesale_price: editing.wholesale_price || 0,
       department_price: editing.department_price || 0,
       retail_price: editing.retail_price || 0,
@@ -177,7 +174,6 @@ load();
                 <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
               </select>
             </label>
-            <label class="pca-wide"><span>Description</span><input v-model="draft.description" type="text" placeholder="What this code covers" /></label>
             <label><span>Wholesale Price (LKR)</span><input v-model.number="draft.wholesale_price" type="number" min="0" step="any" /></label>
             <label><span>Department Price (LKR)</span><input v-model.number="draft.department_price" type="number" min="0" step="any" /></label>
             <label><span>Retail Price (LKR)</span><input v-model.number="draft.retail_price" type="number" min="0" step="any" /></label>
@@ -202,7 +198,7 @@ load();
             <div><h2>Existing codes</h2><p>{{ totalCodes }} code(s) across {{ groups.length }} categor{{ groups.length === 1 ? 'y' : 'ies' }}.</p></div>
           </header>
           <div class="pca-filters">
-            <input v-model="search" type="search" placeholder="Search code, description or category…" @input="load" />
+            <input v-model="search" type="search" placeholder="Search code or category…" @input="load" />
             <label class="pca-check"><input v-model="showInactive" type="checkbox" @change="load" /> Show inactive</label>
           </div>
 
@@ -214,7 +210,7 @@ load();
               <table class="pca-table">
                 <thead>
                   <tr>
-                    <th>Code</th><th>Description</th><th>Wholesale</th><th>Department</th>
+                    <th>Code</th><th>Wholesale</th><th>Department</th>
                     <th>Retail</th><th>Next SKU</th><th v-if="canManage">Actions</th>
                   </tr>
                 </thead>
@@ -222,7 +218,6 @@ load();
                   <tr v-for="code in group.codes" :key="code.name" :class="{ 'pca-row--inactive': !code.is_active }">
                     <td><strong>{{ code.price_code }}</strong><em v-if="!code.is_active"> (inactive)</em></td>
                     <template v-if="editing.name === code.name">
-                      <td><input v-model="editing.description" type="text" /></td>
                       <td><input v-model.number="editing.wholesale_price" type="number" min="0" step="any" /></td>
                       <td><input v-model.number="editing.department_price" type="number" min="0" step="any" /></td>
                       <td><input v-model.number="editing.retail_price" type="number" min="0" step="any" /></td>
@@ -233,7 +228,6 @@ load();
                       </td>
                     </template>
                     <template v-else>
-                      <td>{{ code.description || "—" }}</td>
                       <td>{{ code.wholesale_price }}</td>
                       <td>{{ code.department_price }}</td>
                       <td>{{ code.retail_price }}</td>

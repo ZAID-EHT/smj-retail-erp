@@ -2,11 +2,19 @@
 /* The SKU field's price-code picker.
 
    The requirement is specific: the SKU field offers the price codes and nothing
-   else, grouped by product category, and the code must be typeable and searchable
-   rather than hunted for in a long list. A native <select> cannot do that -- it
-   groups but does not filter -- so this is a combobox: type to narrow, arrow keys
-   or the mouse to choose, and the SKU the chosen code would issue is shown as the
-   user picks. */
+   else, grouped by product category, and the code must be searchable rather than
+   hunted for in a long list. A native <select> cannot do that -- it groups but
+   does not filter -- so this is a combobox: type to narrow, arrow keys or the
+   mouse to choose.
+
+   Typing only ever filters. What is typed is never itself a value, so a code that
+   does not exist cannot be entered however it is spelled -- the field holds one of
+   the preset codes or nothing.
+
+   Once a code is chosen the field shows the SKU that code will actually issue --
+   CCA 2, not CCA -- because that number is what the product is about to be called,
+   and reading it off a hint below the field was the thing that had to be looked up
+   twice. */
 import { computed, nextTick, ref, watch } from "vue";
 
 const props = defineProps({
@@ -17,7 +25,7 @@ const props = defineProps({
   // category is refused on save, so it is not worth offering.
   category: { type: String, default: "" },
   disabled: { type: Boolean, default: false },
-  placeholder: { type: String, default: "Type a code, category or description…" },
+  placeholder: { type: String, default: "Choose a price code…" },
 });
 const emit = defineEmits(["update:modelValue"]);
 
@@ -41,7 +49,7 @@ const filteredGroups = computed(() => {
       category: group.category,
       codes: group.codes.filter((code) => (
         code.price_code.toLowerCase().includes(text)
-        || (code.description || "").toLowerCase().includes(text)
+        || (code.next_sku || "").toLowerCase().includes(text)
         || (code.category || "").toLowerCase().includes(text)
       )),
     }))
@@ -114,7 +122,7 @@ watch(() => props.category, () => { search.value = ""; });
         aria-autocomplete="list"
         :aria-expanded="open"
         :disabled="disabled"
-        :placeholder="selected ? `${selected.price_code}${selected.description ? ' — ' + selected.description : ''}` : placeholder"
+        :placeholder="selected ? selected.next_sku || selected.price_code : placeholder"
         :class="{ 'has-value': Boolean(selected) }"
         autocomplete="off"
         @focus="show"
@@ -146,11 +154,8 @@ watch(() => props.category, () => { search.value = ""; });
           @mousedown.prevent="pick(code)"
           @mousemove="active = flat.findIndex((item) => item.price_code === code.price_code)"
         >
-          <strong>{{ code.price_code }}</strong>
-          <small>
-            <template v-if="code.description">{{ code.description }} &middot; </template>
-            next {{ code.next_sku }}
-          </small>
+          <strong>{{ code.next_sku }}</strong>
+          <small>{{ code.price_code }} series</small>
         </li>
       </template>
     </ul>

@@ -364,7 +364,17 @@ def run(proposal_type: str, mode: str, company: str = "", draft: str = "") -> di
 
 @frappe.whitelist(methods=["GET"])
 def inspect_proposal(proposal_type: str, company: str = "") -> dict:
-	"""Read-only. Safe to call from the Decision Centre."""
+	"""Read-only. Safe to call from the Decision Centre.
+
+	A caller without the finance view capability is refused outright rather than
+	handed the same soft "refused" string a proposal with nothing to show returns.
+	`run` withholds the data either way, but the two are different answers, and
+	reporting them identically hid a permission failure inside what read as an
+	ordinary empty result. `preparation_status` beside it already refuses this way.
+	"""
+	if not decisions.has_capability(decisions.CAP_VIEW):
+		frappe.throw(_("You do not hold the permission to view finance work."),
+		             frappe.PermissionError)
 	try:
 		return run(proposal_type, INSPECT, company=company)
 	except PreparationRefused as refused:

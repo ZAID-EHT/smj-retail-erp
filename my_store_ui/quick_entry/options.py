@@ -40,6 +40,8 @@ def search(kind: str, query: str = "", company: str | None = None) -> dict:
 		frappe.throw(_("Not permitted."), frappe.PermissionError)
 	q = str(query or "").strip()[:60]
 	or_filters = {"name": ["like", f"%{q}%"]} if q else None
+	# The form narrows these inside its own dropdown, so the whole list has to
+	# arrive rather than just the first page of it.
 	rows = frappe.get_list(doctype, filters=filters, or_filters=or_filters, pluck="name",
-	                       order_by="name asc", limit_page_length=25)
+	                       order_by="name asc", limit_page_length=500)
 	return {"kind": kind, "options": rows}

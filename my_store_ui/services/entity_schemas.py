@@ -71,8 +71,12 @@ ENTITY_SCHEMAS = {
 			"disabled",
 			"modified",
 			"image",
+			# The SKU and the price code that issued it. Both are columns below, and
+			# leaving them out of the query is what made every SKU cell read as a dash.
+			"custom_sku",
+			"custom_price_code",
 		),
-		"search_fields": ("name", "item_code", "item_name"),
+		"search_fields": ("name", "item_code", "item_name", "custom_sku"),
 		"barcode_search": True,
 		"filters": {
 			"item_group": {"label": _("Item Group"), "type": "Link", "options": "Item Group"},
@@ -97,6 +101,7 @@ ENTITY_SCHEMAS = {
 			("image", _("Image"), "image"),
 			("name", _("Product ID"), "code"),
 			("custom_sku", _("SKU"), "text"),
+			("custom_price_code", _("Price Code"), "text"),
 			("item_name", _("Product Name"), "text"),
 			("item_group", _("Item Group"), "text"),
 			("brand", _("Brand"), "text"),
@@ -104,7 +109,7 @@ ENTITY_SCHEMAS = {
 			("is_stock_item", _("Stock Item"), "boolean"),
 			("disabled", _("Status"), "enabled_status"),
 		),
-		"mobile_fields": ("item_group", "brand", "stock_uom", "disabled"),
+		"mobile_fields": ("custom_sku", "item_group", "brand", "stock_uom", "disabled"),
 		"detail_route": "/inventory/products/{name}",
 		"desk_route": "/app/item/{name}",
 	},
@@ -275,11 +280,15 @@ DETAIL_SCHEMAS = {
 		"status_field": "disabled",
 		"status_type": "enabled_status",
 		"image_field": "image",
+		# The product form offers a second image slot. Naming it here is what lets
+		# the record header page between the two instead of showing only the first.
+		"extra_image_fields": ("custom_image_2",),
 		"back_route": "/inventory/products",
 		"desk_route": "/app/item/{name}",
 		"fields": (
 			"name", "item_code", "item_name", "item_group", "brand", "stock_uom", "is_stock_item",
-			"disabled", "description", "country_of_origin", "image", "valuation_rate", "standard_rate",
+			"disabled", "description", "country_of_origin", "image", "custom_image_2",
+			"custom_sku", "custom_price_code", "valuation_rate", "standard_rate",
 			"barcodes", "supplier_items", "item_defaults", "owner", "creation", "modified", "modified_by",
 		),
 		"optional_custom_fields": (
@@ -299,7 +308,7 @@ DETAIL_SCHEMAS = {
 			("standard_rate", _("Standard Rate"), "currency"),
 		),
 		"sections": (
-			{"key": "basic", "title": _("Basic Information"), "fields": (("name", _("Item Code / SKU"), "code"), ("item_name", _("Item Name"), "text"), ("item_group", _("Item Group"), "text"), ("brand", _("Brand"), "text"), ("description", _("Description"), "multiline"))},
+			{"key": "basic", "title": _("Basic Information"), "fields": (("name", _("Product ID"), "code"), ("custom_sku", _("SKU"), "code"), ("custom_price_code", _("Price Code"), "text"), ("item_name", _("Item Name"), "text"), ("item_group", _("Item Group"), "text"), ("brand", _("Brand"), "text"), ("description", _("Description"), "multiline"))},
 			{"key": "product", "title": _("Product Details"), "fields": (("stock_uom", _("Stock UOM"), "text"), ("country_of_origin", _("Country of Origin"), "text"), ("is_stock_item", _("Stock Item"), "boolean"))},
 			{"key": "stock", "title": _("Stock Information"), "fields": (("default_warehouse", _("Default Warehouse"), "text"), ("valuation_rate", _("Valuation Rate"), "currency"))},
 			{"key": "pricing", "title": _("Pricing Information"), "fields": (("standard_rate", _("Standard Rate"), "currency"),)},

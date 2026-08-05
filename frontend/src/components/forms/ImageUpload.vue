@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { compressImage } from "@/utils/compressImage.js";
 
 const props = defineProps({
   modelValue: { type: String, default: "" },
@@ -43,8 +44,12 @@ async function upload(file) {
   }
   uploading.value = true;
   try {
+    // Shrunk here rather than sent whole: a phone photo is megabytes of pixels
+    // nothing in this app ever renders, and every later view would pay for them.
+    // A format that cannot be re-encoded safely comes back untouched.
+    const upload = await compressImage(file);
     const data = new FormData();
-    data.append("file", file, file.name);
+    data.append("file", upload, upload.name);
     data.append("is_private", "0");
     data.append("folder", "Home/Attachments");
     data.append("optimize", "1");
@@ -96,7 +101,7 @@ function clear() {
     >
       <span v-if="uploading">Uploading…</span>
       <span v-else><strong>Drag &amp; drop</strong> an image here, or <u>browse</u></span>
-      <small>PNG / JPG / WEBP / GIF, up to {{ maxMb }} MB</small>
+      <small>PNG / JPG / WEBP / GIF, up to {{ maxMb }} MB — compressed before it is saved</small>
     </div>
     <div v-else class="img-upload__preview">
       <img :src="modelValue" :alt="label" />
