@@ -50,6 +50,20 @@ export const getCustomerSalesAssignment = (customer, signal) =>
 export const assignCustomerSalesTeam = (customer, team, signal) =>
   call("assign_customer_sales_team", { customer, team: team || "" }, { signal, httpMethod: "POST" });
 
+// The customer form assigns by sales manager, not by team: the manager identifies
+// the team that still carries the commission split.
+export const searchSalesManagers = (query = "", signal) =>
+  call("search_sales_managers", { query }, { signal });
+export const assignCustomerSalesManager = (customer, { salesManager, team, commissionRate } = {}, signal) =>
+  call("assign_customer_sales_manager", {
+    customer,
+    sales_manager: salesManager || "",
+    team: team || "",
+    // A blank rate means "follow the team's", so it must reach the server as an
+    // empty string rather than being dropped as absent.
+    commission_rate: commissionRate === null || commissionRate === undefined ? "" : commissionRate,
+  }, { signal, httpMethod: "POST" });
+
 export const getDocumentSalesTeam = (doctype, name, signal) =>
   call("get_document_sales_team", { doctype, name }, { signal });
 

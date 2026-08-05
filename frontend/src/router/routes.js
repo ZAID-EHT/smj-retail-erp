@@ -113,6 +113,21 @@ export const moduleRoutes = [
     component: () => import("@/pages/priority/DataManagementPage.vue"),
     meta: { title: "Data Management", description: "Guided import and export of business records.", accent: "turquoise", icon: "box" },
   },
+  // Opened in a new tab from the Product form's Price Codes button.
+  {
+    path: "/admin/price-codes",
+    name: "price-codes",
+    component: () => import("@/pages/priority/PriceCodeAdminPage.vue"),
+    meta: { title: "Price Codes", description: "Category-wise price codes, their preset prices and the SKU series behind them.", accent: "orange", icon: "box" },
+  },
+  // Opened in a new tab from the manage button beside a dropdown; ?type= picks
+  // which list is being edited.
+  {
+    path: "/admin/options",
+    name: "option-lists",
+    component: () => import("@/pages/priority/OptionListAdminPage.vue"),
+    meta: { title: "Dropdown Options", description: "Cities, business natures, transport methods, sizes, materials and carpet categories.", accent: "purple", icon: "settings" },
+  },
   {
     path: "/setup",
     name: "setup-wizard",

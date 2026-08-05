@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "format:{option_type}::{option_value}",
+ "creation": "2026-08-05 09:00:00.000000",
+ "description": "One admin-managed dropdown option. A single master backs every option list the Retail ERP forms offer (City, Business Nature, Transport Method, Product Size, Product Material, Carpet Category) so adding a new list never needs a new DocType.",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "option_type",
+  "option_value",
+  "column_break_head",
+  "is_active",
+  "sort_order"
+ ],
+ "fields": [
+  {
+   "fieldname": "option_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Option Type",
+   "options": "City\nBusiness Nature\nTransport Method\nProduct Size\nProduct Material\nCarpet Category",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "option_value",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Option Value",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "description": "Clear this instead of deleting when the option is already used by existing records.",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "default": "0",
+   "description": "Lower numbers appear first. Equal numbers fall back to alphabetical order.",
+   "fieldname": "sort_order",
+   "fieldtype": "Int",
+   "label": "Sort Order"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-05 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Option List",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User"
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User"
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

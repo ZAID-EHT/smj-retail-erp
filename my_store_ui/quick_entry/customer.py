@@ -5,9 +5,9 @@ Address and Contact (via Dynamic Link), the transport / BR / business-nature fie
 the price category (selling Price List), and the credit classification (custom_credit_type
 + standard credit_limits child + custom_credit_days). Any failure rolls back.
 
-Visible business fields: Customer, Address, Contact No, WhatsApp No, Account Dept No,
-Transport Detail, Transport Method, BR No, Business Nature, Price Category, Payment
-Type, Credit Limit, Credit Days, Created Date.
+Visible business fields: Customer, Address, City, Contact No, WhatsApp No, Account
+Dept No, Transport Detail, Transport Method, BR No, Business Nature, Price Category,
+Payment Type, Credit Limit, Credit Days, Created Date, Sales Manager, Commission Rate.
 """
 
 from __future__ import annotations
@@ -23,11 +23,23 @@ NON_CREDIT = "Non-Credit Customer"
 ALLOWED_KEYS = {
 	"customer_name", "address", "address_line2", "city", "state", "pincode", "country",
 	"contact_no", "whatsapp_no", "same_whatsapp", "accounts_department_no",
-	"transport_detail", "transport_method", "br_no", "business_nature",
-	"price_category", "payment_type", "credit_limit", "credit_days",
+	"same_accounts_dept", "transport_detail", "transport_method", "br_no",
+	"business_nature", "price_category", "payment_type", "credit_limit", "credit_days",
 }
 # Visible "Payment Type" -> backing custom_credit_type value.
 PAYMENT_TYPE_MAP = {"Credit": CREDIT, "Non-Credit": NON_CREDIT}
+
+# The Price Category the user picks is the price they enter on the Product form,
+# not a raw Price List name: Wholesale, Department and Retail are the only three,
+# and each maps onto the selling Price List the product's price was saved to.
+PRICE_CATEGORIES = (
+	("Wholesale Price", "Wholesale Price List"),
+	("Department Price", "Department Price List"),
+	("Retail Price", "Retail Price List"),
+)
+PRICE_CATEGORY_TO_LIST = dict(PRICE_CATEGORIES)
+PRICE_LIST_TO_CATEGORY = {value: key for key, value in PRICE_CATEGORIES}
+DEFAULT_PRICE_CATEGORY = "Retail Price"
 
 
 def _clean(values) -> dict:
@@ -41,13 +53,42 @@ def _clean(values) -> dict:
 
 
 def _validate_price_list(name: str) -> str:
-	name = str(name or "").strip() or "Retail Price List"
+	"""Resolve the chosen Price Category to its selling Price List.
+
+	Accepts the three business labels (Wholesale / Department / Retail Price) as
+	well as the underlying Price List name, so customers saved before the form
+	offered labels still load and re-save unchanged.
+	"""
+	name = str(name or "").strip() or DEFAULT_PRICE_CATEGORY
+	name = PRICE_CATEGORY_TO_LIST.get(name, name)
+	if name not in PRICE_LIST_TO_CATEGORY:
+		frappe.throw(
+			_("Price Category must be one of: {0}.").format(
+				", ".join(label for label, _list in PRICE_CATEGORIES)),
+			frappe.ValidationError,
+		)
 	row = frappe.db.get_value("Price List", {"name": name, "enabled": 1}, ["name", "selling"], as_dict=True)
 	if not row:
 		frappe.throw(_("Price Category {0} is not available.").format(name), frappe.ValidationError)
 	if not row.selling:
 		frappe.throw(_("Price Category must be a selling Price List."), frappe.ValidationError)
 	return row["name"]
+
+
+@frappe.whitelist(methods=["GET"])
+def get_price_categories() -> dict:
+	"""The three Price Categories the form offers, with the ones the site can use."""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	usable = set(frappe.get_all(
+		"Price List", filters={"enabled": 1, "selling": 1}, pluck="name"))
+	return {
+		"categories": [
+			{"label": label, "price_list": price_list, "available": price_list in usable}
+			for label, price_list in PRICE_CATEGORIES
+		],
+		"default": DEFAULT_PRICE_CATEGORY,
+	}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -132,7 +173,11 @@ def _create_customer(values: dict | str, name: str | None = None):
 	doc.mobile_no = str(data.get("contact_no") or "").strip() or None
 	same = cint(data.get("same_whatsapp"))
 	doc.custom_whatsapp_no = (doc.mobile_no if same else str(data.get("whatsapp_no") or "").strip()) or None
-	doc.custom_accounts_department_no = str(data.get("accounts_department_no") or "").strip() or None
+	# "Same as Contact No" is offered for the accounts department number too, so a
+	# customer with one number does not have to type it three times.
+	same_accounts = cint(data.get("same_accounts_dept"))
+	doc.custom_accounts_department_no = (
+		doc.mobile_no if same_accounts else str(data.get("accounts_department_no") or "").strip()) or None
 	doc.custom_transport_method = str(data.get("transport_method") or "").strip() or None
 	doc.custom_transport_detail = str(data.get("transport_detail") or "").strip() or None
 	doc.custom_br_no = str(data.get("br_no") or "").strip() or None
@@ -239,7 +284,9 @@ def get_customer(name: str) -> dict:
 		"accounts_department_no": doc.custom_accounts_department_no,
 		"transport_method": doc.custom_transport_method, "transport_detail": doc.custom_transport_detail,
 		"br_no": doc.custom_br_no, "business_nature": doc.custom_business_nature,
-		"price_category": doc.default_price_list,
+		# Reported as the business label the form shows, falling back to the raw
+		# Price List for a customer set to a list outside the three categories.
+		"price_category": PRICE_LIST_TO_CATEGORY.get(doc.default_price_list, doc.default_price_list),
 		"payment_type": "Credit" if credit_type == CREDIT else ("Non-Credit" if credit_type else None),
 		"credit_limit": credit_limit, "credit_days": cint(doc.custom_credit_days),
 		"created": str(doc.creation),

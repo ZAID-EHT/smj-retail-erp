@@ -26,6 +26,13 @@
 .rug-chip{display:inline-block;padding:3px 7px;border-radius:999px;background:var(--ref-blue-background);color:var(--ref-primary-blue);font-size:9px;text-decoration:none}
 .rug-sort{border:0;background:transparent;color:var(--ref-primary-text);font:800 10px var(--ref-font);cursor:pointer}
 .rug-secondary{min-height:36px;padding:8px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-primary-text);font:700 10px var(--ref-font);cursor:pointer}
+/* .rug-button is used across the priority pages for the non-primary action beside
+   a .rug-primary. It had no rule, so those buttons fell back to the browser's
+   default chrome -- visibly not part of the page. Same metrics as .rug-secondary. */
+.rug-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:8px 12px;border:1px solid var(--ref-border-colour);border-radius:8px;background:#fff;color:var(--ref-primary-text);font:700 10px var(--ref-font);text-decoration:none;cursor:pointer}
+.rug-button--secondary{background:#fff;color:var(--ref-primary-blue)}
+.rug-button:hover:not(:disabled){border-color:var(--ref-primary-blue)}
+.rug-button:disabled{opacity:.55;cursor:not-allowed}
 .rug-card-list{display:none;gap:10px;padding:12px}
 .rug-txn-card{border:1px solid var(--ref-border-colour);border-radius:12px;padding:12px;background:#fff}
 .rug-txn-card header{display:flex;justify-content:space-between;align-items:center;gap:8px}

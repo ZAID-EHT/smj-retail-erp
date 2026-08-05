@@ -3,9 +3,12 @@ import { computed, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
-import { createCustomer, findDuplicateCustomers, getCustomer } from "@/services/customerQuickEntry.js";
+import OptionSelect from "@/components/forms/OptionSelect.vue";
 import {
-  assignCustomerSalesTeam, getCustomerSalesAssignment, listSalesTeams,
+  createCustomer, findDuplicateCustomers, getCustomer, getPriceCategories,
+} from "@/services/customerQuickEntry.js";
+import {
+  assignCustomerSalesManager, getCustomerSalesAssignment, searchSalesManagers,
 } from "@/services/salesTeam.js";
 
 const route = useRoute();
@@ -14,37 +17,43 @@ const editName = computed(() => route.params.name || null);
 
 const form = reactive({
   customer_name: "", address: "", city: "", contact_no: "", whatsapp_no: "", same_whatsapp: false,
-  accounts_department_no: "", transport_detail: "", transport_method: "", br_no: "",
-  business_nature: "", price_category: "Retail Price List", payment_type: "Non-Credit",
+  accounts_department_no: "", same_accounts_dept: false, transport_detail: "", transport_method: "",
+  br_no: "", business_nature: "", price_category: "Retail Price", payment_type: "Non-Credit",
   credit_limit: null, credit_days: null,
 });
 const created = ref("");
 
-/* Sales assignment. The team drives the manager, representatives and split, so
-   those are read-only previews rather than separately editable fields. */
-const salesTeamId = ref("");
-const originalTeamId = ref("");
-const teamOptions = ref([]);
-const teamPreview = ref(null);
+/* Sales assignment. The customer is assigned by choosing its sales manager --
+   the manager identifies the team behind them, which is what still carries the
+   commission split -- and the rate is the customer's own when it is filled in. */
+const salesManager = ref("");
+const commissionRate = ref(null);
+const originalManager = ref("");
+const originalRate = ref(null);
+const managerOptions = ref([]);
 const canAssignTeam = ref(false);
-const teamChanged = computed(() =>
-  Boolean(editName.value) && salesTeamId.value !== originalTeamId.value);
+const teamPreview = ref(null);
 
-function loadTeamPreview() {
-  const chosen = salesTeamId.value;
-  if (!chosen) { teamPreview.value = null; return; }
-  const match = teamOptions.value.find((t) => t.name === chosen);
-  teamPreview.value = match?.preview || null;
+const selectedManager = computed(() =>
+  managerOptions.value.find((m) => m.value === salesManager.value) || null);
+const assignmentChanged = computed(() =>
+  salesManager.value !== originalManager.value
+  || Number(commissionRate.value ?? NaN) !== Number(originalRate.value ?? NaN));
+
+/* The rate follows the manager's team unless the user has typed their own. */
+function onManagerChange() {
+  teamPreview.value = selectedManager.value;
+  if (selectedManager.value && (commissionRate.value === null || commissionRate.value === "")) {
+    commissionRate.value = selectedManager.value.commission_rate;
+  }
+  if (!salesManager.value) teamPreview.value = null;
 }
 
-async function loadSalesTeams() {
+async function loadSalesManagers() {
   try {
-    const result = await listSalesTeams({ is_active: "1", page_size: 100 });
-    canAssignTeam.value = Boolean(result.can_manage);
-    teamOptions.value = result.rows || [];
+    managerOptions.value = (await searchSalesManagers()) || [];
   } catch {
-    teamOptions.value = [];
-    canAssignTeam.value = false;
+    managerOptions.value = [];
   }
 }
 
@@ -53,15 +62,17 @@ async function loadAssignment(name) {
   try {
     const result = await getCustomerSalesAssignment(name);
     canAssignTeam.value = Boolean(result.can_manage);
-    if (result.assigned) {
-      salesTeamId.value = result.assignment.team;
-      originalTeamId.value = result.assignment.team;
-      teamPreview.value = result.assignment;
-    }
-  } catch { /* an unassigned or unreadable customer simply shows no team */ }
+    salesManager.value = result.sales_manager || "";
+    originalManager.value = salesManager.value;
+    commissionRate.value = result.commission_rate ?? null;
+    originalRate.value = commissionRate.value;
+    teamPreview.value = result.assignment
+      ? { team_name: result.assignment.team_name, commission_rate: result.assignment.commission_rate }
+      : null;
+  } catch { /* an unassigned or unreadable customer simply shows no manager */ }
 }
-loadSalesTeams();
-const priceLists = ref([]);
+
+const priceCategories = ref([]);
 const duplicates = ref([]);
 const error = ref(null);
 const notice = ref(null);
@@ -69,11 +80,13 @@ const loading = reactive({ init: true, saving: false });
 let dupTimer;
 
 const isCredit = computed(() => form.payment_type === "Credit");
-const transportMethods = ["Customer Pickup", "Company Delivery", "Own Vehicle", "Courier", "Third-Party Transport", "Other"];
-const businessNatures = ["Retailer", "Wholesaler", "Department Store", "Contractor", "Hotel", "Office", "Distributor", "Other"];
 
 watch(() => form.same_whatsapp, (v) => { if (v) form.whatsapp_no = form.contact_no; });
-watch(() => form.contact_no, (v) => { if (form.same_whatsapp) form.whatsapp_no = v; });
+watch(() => form.same_accounts_dept, (v) => { if (v) form.accounts_department_no = form.contact_no; });
+watch(() => form.contact_no, (v) => {
+  if (form.same_whatsapp) form.whatsapp_no = v;
+  if (form.same_accounts_dept) form.accounts_department_no = v;
+});
 watch(() => form.customer_name, (v) => {
   if (editName.value || !v) { duplicates.value = []; return; }
   window.clearTimeout(dupTimer);
@@ -82,17 +95,25 @@ watch(() => form.customer_name, (v) => {
   }, 300);
 });
 
-async function loadPriceLists() {
+async function loadPriceCategories() {
   try {
-    const r = await fetch("/api/method/my_store_ui.quick_entry.options.search?kind=price_list", { credentials: "same-origin", cache: "no-store" });
-    const p = await r.json().catch(() => ({}));
-    priceLists.value = p?.message?.options || ["Retail Price List"];
-  } catch { priceLists.value = ["Retail Price List"]; }
+    const result = await getPriceCategories();
+    priceCategories.value = result?.categories || [];
+    if (!editName.value && result?.default) form.price_category = result.default;
+  } catch {
+    // The three categories are fixed, so a failed lookup falls back to them
+    // rather than leaving the user with an empty required dropdown.
+    priceCategories.value = [
+      { label: "Wholesale Price", available: true },
+      { label: "Department Price", available: true },
+      { label: "Retail Price", available: true },
+    ];
+  }
 }
 
 async function init() {
   loading.init = true;
-  await loadPriceLists();
+  await Promise.all([loadPriceCategories(), loadSalesManagers()]);
   if (editName.value) {
     try {
       await loadAssignment(editName.value);
@@ -102,7 +123,7 @@ async function init() {
         contact_no: c.contact_no || "", whatsapp_no: c.whatsapp_no || "",
         accounts_department_no: c.accounts_department_no || "", transport_detail: c.transport_detail || "",
         transport_method: c.transport_method || "", br_no: c.br_no || "", business_nature: c.business_nature || "",
-        price_category: c.price_category || "Retail Price List", payment_type: c.payment_type || "Non-Credit",
+        price_category: c.price_category || "Retail Price", payment_type: c.payment_type || "Non-Credit",
         credit_limit: c.credit_limit, credit_days: c.credit_days,
       });
       created.value = c.created;
@@ -121,9 +142,14 @@ async function save() {
     const result = await createCustomer(payload, editName.value);
     // The assignment is a separate, permission-gated call so a user without the
     // right to reassign can still save the rest of the customer.
-    if (canAssignTeam.value && salesTeamId.value !== originalTeamId.value) {
-      await assignCustomerSalesTeam(result.name, salesTeamId.value);
-      originalTeamId.value = salesTeamId.value;
+    if (canAssignTeam.value && assignmentChanged.value) {
+      await assignCustomerSalesManager(result.name, {
+        salesManager: salesManager.value,
+        team: selectedManager.value?.team,
+        commissionRate: commissionRate.value,
+      });
+      originalManager.value = salesManager.value;
+      originalRate.value = commissionRate.value;
     }
     notice.value = `Saved ${result.customer}.`;
     router.push(`/sales/customers/${encodeURIComponent(result.name)}`).catch(() => {});
@@ -156,9 +182,7 @@ init();
           <div class="rug-form-grid">
             <label><span>Customer *</span><input v-model="form.customer_name" type="text" required /></label>
             <label><span>BR No</span><input v-model="form.br_no" type="text" /></label>
-            <label><span>Business Nature</span>
-              <select v-model="form.business_nature"><option value="">Select…</option><option v-for="b in businessNatures" :key="b" :value="b">{{ b }}</option></select>
-            </label>
+            <OptionSelect v-model="form.business_nature" option-type="Business Nature" label="Business Nature" />
             <label><span>Created Date</span><input :value="editName ? created : 'On save'" type="text" readonly /></label>
           </div>
           <p v-if="duplicates.length" class="cqf-dup">⚠ Similar customers exist: {{ duplicates.map((d) => d.customer_name).join(', ') }}</p>
@@ -168,31 +192,36 @@ init();
           <header><div><h2>Contact and Address</h2></div></header>
           <div class="rug-form-grid">
             <label class="cqf-wide"><span>Address</span><input v-model="form.address" type="text" placeholder="Address line" /></label>
-            <label><span>City</span><input v-model="form.city" type="text" /></label>
+            <OptionSelect v-model="form.city" option-type="City" label="City" searchable placeholder="Type to search a city…" />
             <label><span>Contact No</span><input v-model="form.contact_no" type="tel" /></label>
             <label><span>WhatsApp No</span>
               <input v-model="form.whatsapp_no" :disabled="form.same_whatsapp" type="tel" />
               <small><label class="cqf-inline"><input v-model="form.same_whatsapp" type="checkbox" /> Same as Contact No</label></small>
             </label>
-            <label><span>Account Dept No</span><input v-model="form.accounts_department_no" type="tel" /></label>
+            <label><span>Account Dept No</span>
+              <input v-model="form.accounts_department_no" :disabled="form.same_accounts_dept" type="tel" />
+              <small><label class="cqf-inline"><input v-model="form.same_accounts_dept" type="checkbox" /> Same as Contact No</label></small>
+            </label>
           </div>
         </section>
 
         <section class="rug-section-card">
           <header><div><h2>Delivery Information</h2></div></header>
           <div class="rug-form-grid">
-            <label><span>Transport Method</span>
-              <select v-model="form.transport_method"><option value="">Select…</option><option v-for="t in transportMethods" :key="t" :value="t">{{ t }}</option></select>
-            </label>
+            <OptionSelect v-model="form.transport_method" option-type="Transport Method" label="Transport Method" />
             <label class="cqf-wide"><span>Transport Detail</span><input v-model="form.transport_detail" type="text" /></label>
           </div>
         </section>
 
         <section class="rug-section-card">
-          <header><div><h2>Pricing and Credit</h2></div></header>
+          <header><div><h2>Pricing and Credit</h2><p>Price Category is the price entered against each product.</p></div></header>
           <div class="rug-form-grid">
             <label><span>Price Category</span>
-              <select v-model="form.price_category"><option v-for="p in priceLists" :key="p" :value="p">{{ p }}</option></select>
+              <select v-model="form.price_category">
+                <option v-for="p in priceCategories" :key="p.label" :value="p.label" :disabled="p.available === false">
+                  {{ p.label }}{{ p.available === false ? " (not set up)" : "" }}
+                </option>
+              </select>
             </label>
             <label><span>Payment Type</span>
               <select v-model="form.payment_type"><option value="Non-Credit">Non-Credit</option><option value="Credit">Credit</option></select>
@@ -204,37 +233,35 @@ init();
         </section>
 
         <section class="rug-section-card">
-          <header><div><h2>Sales Assignment</h2><p>The team whose commission split applies to this customer's new transactions.</p></div></header>
+          <header><div><h2>Sales Assignment</h2><p>The sales manager whose commission split applies to this customer's new transactions.</p></div></header>
           <div class="rug-form-grid">
-            <label><span>Assigned Sales Team</span>
-              <select v-model="salesTeamId" :disabled="!canAssignTeam" @change="loadTeamPreview">
-                <option value="">No sales team</option>
-                <option v-for="t in teamOptions" :key="t.name" :value="t.name">{{ t.team_name }}</option>
+            <label><span>Assigned Sales Manager</span>
+              <select v-model="salesManager" :disabled="!canAssignTeam" @change="onManagerChange">
+                <option value="">No sales manager</option>
+                <option v-for="m in managerOptions" :key="m.team" :value="m.value">
+                  {{ m.label }} — {{ m.team_name }}
+                </option>
               </select>
             </label>
-            <label><span>Assigned Sales Manager</span>
-              <input :value="teamPreview?.sales_manager || '—'" type="text" readonly />
-            </label>
-            <label><span>Primary Sales Representative</span>
-              <input :value="teamPreview?.representatives?.[0]?.sales_person || '—'" type="text" readonly />
-            </label>
-            <label><span>Commission Rate</span>
-              <input :value="teamPreview ? `${Number(teamPreview.commission_rate || 0)}%` : '—'" type="text" readonly />
+            <label><span>Commission Rate (%)</span>
+              <input
+                v-model.number="commissionRate"
+                :disabled="!canAssignTeam"
+                type="number"
+                min="0"
+                max="100"
+                step="any"
+                placeholder="Team rate"
+              />
+              <small v-if="teamPreview">Team default {{ Number(teamPreview.commission_rate || 0) }}%. Clear to follow it.</small>
             </label>
           </div>
 
           <p v-if="!canAssignTeam" class="cqf-hint">Only a Sales Manager or System Manager can change this assignment.</p>
+          <p v-else-if="!managerOptions.length" class="cqf-hint">No active sales team has a manager yet, so there is nobody to assign.</p>
 
-          <ul v-if="teamPreview?.members?.length" class="smj-team-card__members cqf-team-preview">
-            <li v-for="m in teamPreview.members" :key="m.sales_person">
-              <strong>{{ m.sales_person }}</strong>
-              <span>{{ m.role }}</span>
-              <em>{{ Number(m.share_percentage || 0) }}%</em>
-            </li>
-          </ul>
-
-          <p v-if="teamChanged" class="cqf-hint cqf-hint--warn" role="status">
-            Changing the sales team affects new transactions only. Documents already raised keep the team they were created with.
+          <p v-if="assignmentChanged" class="cqf-hint cqf-hint--warn" role="status">
+            Changing the sales assignment affects new transactions only. Documents already raised keep the team they were created with.
           </p>
         </section>
 

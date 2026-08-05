@@ -6,9 +6,10 @@ locations + reorder, and synchronises buying/selling Item Prices. Any failure ro
 the whole thing back. Stock quantity is NEVER stored on the Item — actual stock stays
 in Bin/Stock Ledger via standard transactions.
 
-Field order (business layout): Product ID, Image 1, Image 2, SKU, Product Name, Size,
-Category, Material, Carton Qty, Stock Location 1-3, Re-Stock Qty, Cost Price, Margin,
-Wholesale Price, Retail Price, Department Price.
+Field order (business layout): Product ID, Image 1, Image 2, SKU, Product Name,
+Product Category, Carton Qty, Size / Material / Carpet Category (carpets only),
+Stock Location 1-3, Re-Stock Qty, Cost Price, Wholesale Price, Department Price,
+Retail Price.
 """
 
 from __future__ import annotations
@@ -18,14 +19,26 @@ from frappe import _
 from frappe.model.naming import make_autoname
 from frappe.utils import cint, flt
 
+from my_store_ui.my_store_ui.doctype.retail_price_code.retail_price_code import (
+	issue_sku,
+	peek_next_sku,
+)
 from my_store_ui.wholesale.uom import CARTON_UOM, sync_carton_uom
 
-# Product ID series (P100001, P100002, …) and SKU series (5001, 5002, …).
-# make_autoname uses dots as format separators; literal chars stay, hashes become a
-# zero-padded counter. "P1.#####" -> P100001; "5.###" -> 5001.
-PRODUCT_ID_SERIES = "P1.#####"
+# Product ID series (PID00001, PID00002, …). make_autoname uses dots as format
+# separators; literal chars stay, hashes become a zero-padded counter.
+# "PID.#####" -> PID00001.
+PRODUCT_ID_SERIES = "PID.#####"
+PRODUCT_ID_PREFIX = "PID"
+# Fallback SKU series for a product saved without a price code. A product that
+# carries one is numbered by the code itself (CCA 1, CCA 2 …) instead.
 SKU_SERIES = "5.###"
 BATCH_SERIES = "BAT-.YYYY.-.######"
+
+# The category whose products carry Size, Material and a Carpet Category. Set by
+# the system, not chosen by the user: those three fields appear exactly when the
+# selected product category is Carpets (or sits underneath it).
+CARPET_CATEGORY = "Carpets"
 
 # Third selling list from the requirements document. Created on demand so a site
 # that has never used it still works.
@@ -41,12 +54,30 @@ PRICE_MAP = (
 )
 
 # Only these input keys are accepted (explicit allowlist — no arbitrary field mutation).
+# "margin" is still accepted so an integration that has always sent it keeps working;
+# the Product form no longer offers it.
 ALLOWED_KEYS = {
 	"product_id", "image", "image_2", "product_name", "size", "category", "material",
-	"carton_qty", "stock_location_1", "stock_location_2", "stock_location_3",
-	"restock_qty", "cost_price", "margin", "wholesale_price", "retail_price",
-	"department_price", "is_stock_item",
+	"carpet_category", "price_code", "carton_qty", "stock_location_1", "stock_location_2",
+	"stock_location_3", "restock_qty", "cost_price", "margin", "wholesale_price",
+	"retail_price", "department_price", "is_stock_item",
 }
+
+
+def is_carpet_category(category: str) -> bool:
+	"""Whether this category is Carpets, or sits underneath it.
+
+	Walks the Item Group tree upward so a sub-category such as "Hand-Knotted
+	Carpets" also gets the carpet-only fields, rather than only an exact match.
+	"""
+	seen: set[str] = set()
+	current = str(category or "").strip()
+	while current and current not in seen:
+		if current.strip().lower() == CARPET_CATEGORY.lower():
+			return True
+		seen.add(current)
+		current = frappe.db.get_value("Item Group", current, "parent_item_group") or ""
+	return False
 
 
 def _require_manager_for_cost() -> bool:
@@ -120,7 +151,25 @@ def _create_product(values: dict | str, name: str | None = None):
 		frappe.throw(_("Product Name is required."), frappe.ValidationError)
 	category = str(data.get("category") or "").strip()
 	if not category or not frappe.db.exists("Item Group", {"name": category, "is_group": 0}):
-		frappe.throw(_("A valid Category is required."), frappe.ValidationError)
+		frappe.throw(_("A valid Product Category is required."), frappe.ValidationError)
+	carpet = is_carpet_category(category)
+
+	price_code = str(data.get("price_code") or "").strip().upper()
+	if price_code:
+		code_row = frappe.db.get_value(
+			"Retail Price Code", price_code, ["name", "category", "is_active"], as_dict=True)
+		if not code_row:
+			frappe.throw(_("Price Code {0} does not exist.").format(price_code), frappe.ValidationError)
+		if not code_row.is_active:
+			frappe.throw(_("Price Code {0} is no longer active.").format(price_code), frappe.ValidationError)
+		# The codes are category-wise, so a code from another category on this
+		# product would make the SKU say something the product is not.
+		if code_row.category != category:
+			frappe.throw(
+				_("Price Code {0} belongs to {1}, not {2}.").format(
+					price_code, code_row.category, category),
+				frappe.ValidationError,
+			)
 	if flt(data.get("carton_qty")) < 0:
 		frappe.throw(_("Carton Qty cannot be negative."), frappe.ValidationError)
 	if flt(data.get("restock_qty")) < 0:
@@ -139,7 +188,9 @@ def _create_product(values: dict | str, name: str | None = None):
 	# --- identifiers (server-side, concurrency-safe) ---
 	if not editing:
 		doc.item_code = make_autoname(PRODUCT_ID_SERIES)
-		doc.custom_sku = make_autoname(SKU_SERIES)
+		# A price code numbers its own products (CCA 1, CCA 2 …); without one the
+		# product falls back to the plain SKU series.
+		doc.custom_sku = issue_sku(price_code) if price_code else make_autoname(SKU_SERIES)
 		doc.stock_uom = "Nos"
 		doc.item_group = category
 		# New stock products are batch-managed.
@@ -154,13 +205,27 @@ def _create_product(values: dict | str, name: str | None = None):
 	doc.item_group = category
 	doc.image = str(data.get("image") or "").strip() or None
 	doc.custom_image_2 = str(data.get("image_2") or "").strip() or None
-	doc.custom_product_size = str(data.get("size") or "").strip() or None
-	doc.custom_product_material = str(data.get("material") or "").strip() or None
+	# Size, Material and Carpet Category belong to carpets only. Anything sent for a
+	# non-carpet product is cleared rather than stored, so moving a product out of
+	# Carpets cannot leave stale carpet attributes behind it.
+	doc.custom_product_size = (str(data.get("size") or "").strip() or None) if carpet else None
+	doc.custom_product_material = (str(data.get("material") or "").strip() or None) if carpet else None
+	if doc.meta.get_field("custom_carpet_category"):
+		doc.custom_carpet_category = (
+			str(data.get("carpet_category") or "").strip() or None) if carpet else None
+	if doc.meta.get_field("custom_price_code"):
+		# Immutable on edit: it is already baked into this product's SKU.
+		if not editing:
+			doc.custom_price_code = price_code or None
 	doc.custom_carton_qty = flt(data.get("carton_qty"))
 	# Carton Qty is a real UOM conversion, not a display number: mirror it onto
 	# Item.uoms so every sales/purchase document converts through ERPNext itself.
 	sync_carton_uom(doc, doc.custom_carton_qty)
-	doc.custom_margin = flt(data.get("margin"))
+	# The Product form no longer offers Margin. Only write it when the caller
+	# actually sent it, so saving through the form leaves an existing value alone
+	# instead of silently resetting it to zero.
+	if "margin" in data:
+		doc.custom_margin = flt(data.get("margin"))
 	doc.custom_stock_location_1 = locations[0] or None
 	doc.custom_stock_location_2 = locations[1] or None
 	doc.custom_stock_location_3 = locations[2] or None
@@ -194,7 +259,35 @@ def _create_product(values: dict | str, name: str | None = None):
 
 	return {
 		"name": doc.name, "product_id": doc.item_code, "sku": doc.custom_sku,
+		"price_code": doc.get("custom_price_code"),
 		"route": f"/inventory/products/{doc.name}",
+	}
+
+
+@frappe.whitelist(methods=["GET"])
+def preview_identifiers(price_code: str = "") -> dict:
+	"""The Product ID and SKU the next product would receive.
+
+	A preview, not a reservation: it reads the counters without advancing them, so
+	opening the form ten times does not burn ten numbers. The real values are
+	settled at save time, which is why the form labels these as previews.
+	"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	# tabSeries is Frappe's own counter table, not a DocType, so it is read the way
+	# Frappe reads it -- and without FOR UPDATE, because this only looks.
+	row = frappe.db.sql("SELECT `current` FROM `tabSeries` WHERE `name` = %s",
+	                    (PRODUCT_ID_PREFIX,))
+	current = cint(row[0][0]) if row and row[0][0] is not None else 0
+	# Width comes from the series definition rather than a repeated literal, so
+	# changing PRODUCT_ID_SERIES cannot make the preview disagree with the real name.
+	digits = len(PRODUCT_ID_SERIES.split(".")[-1])
+	product_id = f"{PRODUCT_ID_PREFIX}{current + 1:0{digits}d}"
+	code = str(price_code or "").strip().upper()
+	return {
+		"product_id": product_id,
+		"sku": peek_next_sku(code) if code else None,
+		"price_code": code or None,
 	}
 
 
@@ -276,6 +369,9 @@ def get_product(name: str) -> dict:
 		"name": doc.name, "product_id": doc.item_code, "sku": doc.custom_sku,
 		"product_name": doc.item_name, "image": doc.image, "image_2": doc.custom_image_2,
 		"size": doc.custom_product_size, "category": doc.item_group, "material": doc.custom_product_material,
+		"carpet_category": doc.get("custom_carpet_category"),
+		"price_code": doc.get("custom_price_code"),
+		"is_carpet": is_carpet_category(doc.item_group),
 		"carton_qty": flt(doc.custom_carton_qty), "margin": flt(doc.custom_margin),
 		"stock_location_1": doc.custom_stock_location_1, "stock_location_2": doc.custom_stock_location_2,
 		"stock_location_3": doc.custom_stock_location_3,

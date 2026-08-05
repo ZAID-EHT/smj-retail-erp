@@ -30,3 +30,6 @@ async function call(method, params = {}, { post = false } = {}) {
 export const createCustomer = (values, name) => call("create_customer", name ? { values, name } : { values }, { post: true });
 export const getCustomer = (name) => call("get_customer", { name });
 export const findDuplicateCustomers = (customer_name) => call("find_duplicate_customers", { customer_name });
+// The three Price Categories -- Wholesale, Department, Retail -- and which of them
+// the site actually has a selling Price List for.
+export const getPriceCategories = () => call("get_price_categories");

@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "field:price_code",
+ "creation": "2026-08-05 09:00:00.000000",
+ "description": "A category-wise price code (CCA, CCB, AAC …). It carries the preset Wholesale, Department and Retail prices a product of that code starts from, and owns the running number that makes each product's SKU (CCA 1, CCA 2 …).",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "price_code",
+  "category",
+  "description",
+  "column_break_head",
+  "is_active",
+  "current_sequence",
+  "section_prices",
+  "wholesale_price",
+  "department_price",
+  "column_break_prices",
+  "retail_price"
+ ],
+ "fields": [
+  {
+   "description": "The code itself, for example CCA. Used as the SKU prefix for every product that carries it.",
+   "fieldname": "price_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Price Code",
+   "reqd": 1,
+   "set_only_once": 1,
+   "unique": 1
+  },
+  {
+   "description": "The product category this code belongs to. The product form groups the code list by this.",
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Product Category",
+   "options": "Item Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "default": "0",
+   "description": "The last SKU number issued for this code. The next product becomes <code> <this + 1>.",
+   "fieldname": "current_sequence",
+   "fieldtype": "Int",
+   "label": "Last Issued Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_prices",
+   "fieldtype": "Section Break",
+   "label": "Preset Prices"
+  },
+  {
+   "default": "0",
+   "fieldname": "wholesale_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Wholesale Price"
+  },
+  {
+   "default": "0",
+   "fieldname": "department_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Department Price"
+  },
+  {
+   "fieldname": "column_break_prices",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "retail_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Retail Price"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-08-05 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "My Store UI",
+ "name": "Retail Price Code",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Item Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User"
+  },
+  {
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

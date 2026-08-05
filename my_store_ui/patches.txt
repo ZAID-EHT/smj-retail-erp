@@ -15,3 +15,11 @@ my_store_ui.patches.install_sales_team_fields
 my_store_ui.patches.install_sales_team_fields #2026-08-03-snapshot-rows
 # Favicon and app logo for every non-SPA page the site serves.
 my_store_ui.patches.install_smj_branding
+# Price Category needs all three selling lists, and the carpet-only fields need the
+# Carpets group. Runs before the fields and options that depend on them.
+my_store_ui.patches.ensure_retail_masters
+# Price code, carpet category and the per-customer commission rate.
+my_store_ui.patches.install_retail_option_fields
+# Sri Lankan cities plus the Business Nature / Transport Method choices the forms
+# used to hard-code, now admin-managed.
+my_store_ui.patches.seed_retail_options

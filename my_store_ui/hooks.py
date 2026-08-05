@@ -20,7 +20,7 @@ fixtures = [
 			"custom_retail_price", "custom_wholesale_price", "custom_sku_prefix",
 			"custom_sku", "custom_image_2", "custom_carton_qty", "custom_margin",
 			"custom_stock_location_1", "custom_stock_location_2",
-			"custom_stock_location_3",
+			"custom_stock_location_3", "custom_price_code", "custom_carpet_category",
 		]]],
 	},
 	{
@@ -28,7 +28,7 @@ fixtures = [
 		"filters": [["dt", "=", "Customer"], ["fieldname", "in", [
 			"custom_credit_type", "custom_whatsapp_no", "custom_accounts_department_no",
 			"custom_transport_method", "custom_transport_detail", "custom_br_no",
-			"custom_business_nature", "custom_credit_days",
+			"custom_business_nature", "custom_credit_days", "custom_commission_rate",
 		]]],
 	},
 	{

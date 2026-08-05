@@ -29,7 +29,13 @@ async function call(method, params = {}, { post = false } = {}) {
 
 export const createProduct = (values, name) => call("create_product", name ? { values, name } : { values }, { post: true });
 export const getProduct = (name) => call("get_product", { name });
+// The Product ID and SKU the next save would issue. A preview: it reads the
+// counters without advancing them.
+export const previewIdentifiers = (priceCode = "") =>
+  call("preview_identifiers", { price_code: priceCode });
 
+/* The Product form no longer offers Margin. These two remain exported because the
+   endpoints still exist and other callers may rely on the stored default. */
 export async function getDefaultMargin(signal) {
   const r = await fetch("/api/method/my_store_ui.quick_entry.product.get_default_margin", {
     credentials: "same-origin", cache: "no-store", signal,

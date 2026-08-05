@@ -323,19 +323,138 @@ def get_customer_sales_assignment(customer: str):
 	payload = team_payload(team)
 	warnings = []
 	if not payload:
-		warnings.append(_("No sales team is assigned to this customer. "
+		warnings.append(_("No sales manager is assigned to this customer. "
 		                  "The order will carry no commission split."))
 	elif not payload["is_active"]:
-		warnings.append(_("{0} is no longer active. Choose another team before "
+		warnings.append(_("{0} is no longer active. Choose another sales manager before "
 		                  "raising a new order.").format(payload["team_name"] or team))
+	override = customer_commission_override(customer)
 	return {
 		"customer": customer,
 		"assigned": bool(payload),
 		"assignment": payload,
+		"sales_manager": payload.get("sales_manager") if payload else None,
+		# The rate actually applied: the customer's own if one is set, otherwise
+		# the manager's team rate.
+		"commission_rate": override if override is not None else (
+			flt(payload["commission_rate"]) if payload else None),
+		"commission_rate_override": override,
 		"can_manage": can_manage(),
 		"can_override": can_override(),
 		"warnings": warnings,
 		"source": SOURCE_CUSTOMER,
+	}
+
+
+COMMISSION_OVERRIDE_FIELD = "custom_commission_rate"
+
+
+def customer_commission_override(customer: str) -> float | None:
+	"""The customer's own commission rate, or None when it follows the team's.
+
+	Stored as a nullable field rather than a number defaulting to zero, so "0%
+	commission for this customer" stays distinguishable from "not set".
+	"""
+	if not customer or not frappe.get_meta("Customer").get_field(COMMISSION_OVERRIDE_FIELD):
+		return None
+	value = frappe.db.get_value("Customer", customer, COMMISSION_OVERRIDE_FIELD)
+	return None if value in (None, "") else flt(value)
+
+
+@frappe.whitelist(methods=["GET"])
+def search_sales_managers(query: str = "", company: str = "", limit: int = 50):
+	"""The sales managers a customer can be assigned to.
+
+	The customer form picks a manager, not a team: every active team has exactly
+	one manager, so the manager identifies the team and the commission split behind
+	it. A manager who runs more than one usable team is listed once per team, and
+	the team name disambiguates them.
+	"""
+	_require_read()
+	limit = min(max(cint(limit) or 50, 1), 100)
+	rows = frappe.get_list(
+		DOCTYPE, filters={"is_active": 1, "sales_manager": ["is", "set"]},
+		fields=["name", "team_name", "sales_manager", "commission_rate", "restrict_to_company"],
+		order_by="sales_manager asc, team_name asc", limit_page_length=200,
+	)
+	company = (company or "").strip()
+	text = (query or "").strip().lower()
+	results = []
+	for row in rows:
+		if company and row.get("restrict_to_company") and row["restrict_to_company"] != company:
+			continue
+		manager = row["sales_manager"]
+		manager_name = frappe.db.get_value("Sales Person", manager, "sales_person_name") or manager
+		if text and text not in manager_name.lower() and text not in (row.get("team_name") or "").lower():
+			continue
+		results.append({
+			"value": manager,
+			"label": manager_name,
+			"team": row["name"],
+			"team_name": row.get("team_name") or row["name"],
+			"commission_rate": flt(row.get("commission_rate")),
+			"company": row.get("restrict_to_company") or None,
+		})
+		if len(results) >= limit:
+			break
+	return results
+
+
+@frappe.whitelist(methods=["POST"])
+def assign_customer_sales_manager(customer: str, sales_manager: str | None = None,
+                                  team: str | None = None, commission_rate=None):
+	"""Assign a customer's sales manager and, optionally, its own commission rate.
+
+	The team behind the manager is what is actually stored, so the commission
+	engine, the ERPNext `sales_team` rows and every existing snapshot keep working
+	untouched. Passing `team` settles the case of a manager who runs more than one.
+	"""
+	_require_manage()
+	if not frappe.has_permission("Customer", "write", doc=customer):
+		frappe.throw(_("You cannot edit this customer."), frappe.PermissionError)
+
+	manager = (sales_manager or "").strip()
+	resolved = (team or "").strip() or None
+	if manager and not resolved:
+		candidates = frappe.get_all(
+			DOCTYPE, filters={"is_active": 1, "sales_manager": manager}, pluck="name",
+			order_by="modified desc", limit_page_length=2)
+		if not candidates:
+			frappe.throw(
+				_("{0} does not manage an active sales team, so there is no commission "
+				  "split to apply.").format(manager),
+				frappe.ValidationError,
+			)
+		if len(candidates) > 1:
+			frappe.throw(
+				_("{0} manages more than one active team. Choose the team explicitly.").format(manager),
+				frappe.ValidationError,
+			)
+		resolved = candidates[0]
+	if resolved:
+		if not frappe.db.exists(DOCTYPE, resolved):
+			frappe.throw(_("Invalid sales team: {0}").format(resolved), frappe.ValidationError)
+		if not frappe.db.get_value(DOCTYPE, resolved, "is_active"):
+			frappe.throw(_("{0} is not active.").format(resolved), frappe.ValidationError)
+
+	doc = frappe.get_doc("Customer", customer)
+	doc.custom_sales_team = resolved
+	if doc.meta.get_field(COMMISSION_OVERRIDE_FIELD):
+		if commission_rate in (None, ""):
+			doc.set(COMMISSION_OVERRIDE_FIELD, None)
+		else:
+			rate = flt(commission_rate)
+			if rate < 0 or rate > 100:
+				frappe.throw(_("Commission Rate must be between 0 and 100."), frappe.ValidationError)
+			doc.set(COMMISSION_OVERRIDE_FIELD, rate)
+	_apply_team_rows(doc, resolved)
+	doc.save()
+	return {
+		"customer": customer,
+		"sales_manager": frappe.db.get_value(DOCTYPE, resolved, "sales_manager") if resolved else None,
+		"assignment": team_payload(resolved),
+		"commission_rate_override": customer_commission_override(customer),
+		"note": _("Existing submitted documents keep the team they were raised with."),
 	}
 
 
@@ -477,11 +596,21 @@ def _assert_team_usable(team: str, company: str | None) -> dict:
 
 
 def build_snapshot(customer: str, team: str | None = None) -> dict | None:
-	"""The values to freeze onto a document raised for this customer now."""
+	"""The values to freeze onto a document raised for this customer now.
+
+	A customer with its own commission rate overrides the team's here, at the one
+	place every document's snapshot is built, so the rate the customer form shows
+	is the rate the document actually commissions at. The split between members is
+	still the team's -- only the size of the pool is per-customer.
+	"""
 	resolved = team or frappe.db.get_value("Customer", customer, "custom_sales_team")
 	payload = team_payload(resolved)
 	if not payload:
 		return None
+	override = customer_commission_override(customer)
+	if override is not None:
+		payload = {**payload, "commission_rate": override,
+		           "commission_rate_source": "Customer", "team_commission_rate": payload["commission_rate"]}
 	return {**payload, "source_customer": customer, "captured_on": nowdate()}
 
 

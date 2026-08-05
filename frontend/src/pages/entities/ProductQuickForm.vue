@@ -1,64 +1,72 @@
 <script setup>
-import { computed, onBeforeUnmount, reactive, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ErrorState from "@/components/feedback/ErrorState.vue";
 import PageContainer from "@/components/layout/PageContainer.vue";
 import ImageUpload from "@/components/forms/ImageUpload.vue";
-import { createProduct, getProduct, getDefaultMargin, saveDefaultMargin } from "@/services/productQuickEntry.js";
+import OptionSelect from "@/components/forms/OptionSelect.vue";
+import PriceCodeSelect from "@/components/forms/PriceCodeSelect.vue";
+import { createProduct, getProduct, previewIdentifiers } from "@/services/productQuickEntry.js";
+import { listPriceCodes, priceCodeAdminUrl } from "@/services/priceCodes.js";
 
 const route = useRoute();
 const router = useRouter();
 const editName = computed(() => route.params.name || null);
 
 const form = reactive({
-  product_name: "", image: "", image_2: "", size: "", category: "", material: "",
+  product_name: "", image: "", image_2: "", price_code: "", category: "",
+  size: "", material: "", carpet_category: "",
   carton_qty: null, stock_location_1: "", stock_location_2: "", stock_location_3: "",
-  restock_qty: null, cost_price: null, margin: null, wholesale_price: null,
-  retail_price: null, department_price: null,
+  restock_qty: null, cost_price: null, wholesale_price: null, department_price: null,
+  retail_price: null,
 });
-const ids = reactive({ product_id: "", sku: "", cost_visible: true, batch: true, created: "" });
+const ids = reactive({ product_id: "", sku: "", price_code: "", cost_visible: true, batch: true, created: "" });
+// Previews of the identifiers the next save would issue. Read-only, and re-read
+// rather than reserved, so opening the form does not burn a number.
+const preview = reactive({ product_id: "", sku: "" });
 const opts = reactive({ warehouse: [], item_group: [] });
+const priceCodes = ref([]);
+const priceCodeGroups = ref([]);
+const canManageCodes = ref(false);
 const error = ref(null);
 const notice = ref(null);
 const loading = reactive({ init: true, saving: false });
 const timers = {};
 
-/* Margin: applies live as the user types (no Enter), with a "Set default" action
-   that stores the percentage for future products. */
-const defaultMargin = ref(null);
-const savingDefault = ref(false);
-
-const showSetDefault = computed(() => {
-  const value = Number(form.margin);
-  return Number.isFinite(value) && value > 0 && value !== defaultMargin.value;
+/* Carpets are the only category with Size, Material and a Carpet Category. The
+   system decides this from the selected category -- there is no switch for the
+   user to set. */
+const isCarpet = computed(() => {
+  const category = (form.category || "").trim().toLowerCase();
+  if (!category) return false;
+  return category === "carpets" || category.includes("carpet");
 });
 
-const marginPreview = computed(() => {
-  const cost = Number(form.cost_price);
-  const margin = Number(form.margin);
-  if (!Number.isFinite(cost) || !Number.isFinite(margin) || cost <= 0 || margin <= 0) return "";
-  const suggested = cost * (1 + margin / 100);
-  return `${margin}% on ${cost.toFixed(2)} = ${suggested.toFixed(2)}`;
+const selectedCode = computed(() =>
+  priceCodes.value.find((code) => code.price_code === form.price_code) || null);
+
+const skuPreview = computed(() => {
+  if (editName.value) return ids.sku;
+  if (selectedCode.value) return selectedCode.value.next_sku;
+  return preview.sku || "Auto-generated on save";
 });
 
-function applyMargin() {
-  // Recomputation is reactive through marginPreview; this exists so the input
-  // explicitly applies on every keystroke rather than on change/Enter.
+const productIdPreview = computed(() =>
+  (editName.value ? ids.product_id : preview.product_id || "Auto-generated on save"));
+
+function openPriceCodeAdmin() {
+  window.open(priceCodeAdminUrl(), "_blank", "noopener");
 }
 
-async function setDefaultMargin() {
-  const value = Number(form.margin);
-  if (!Number.isFinite(value) || value <= 0) return;
-  savingDefault.value = true;
-  try {
-    await saveDefaultMargin(value);
-    defaultMargin.value = value;
-    notice.value = `Default margin set to ${value}%.`;
-  } catch (err) {
-    error.value = err;
-  } finally {
-    savingDefault.value = false;
-  }
+/* Choosing a code fills in its preset prices. They stay editable afterwards --
+   the preset is a starting point, not a lock. */
+function applyPriceCode() {
+  const code = selectedCode.value;
+  if (!code) return;
+  form.wholesale_price = code.wholesale_price;
+  form.department_price = code.department_price;
+  form.retail_price = code.retail_price;
+  if (!form.category) form.category = code.category;
 }
 
 async function loadOpts(kind) {
@@ -70,33 +78,72 @@ async function loadOpts(kind) {
   } catch { opts[kind] = []; }
 }
 
+async function loadPriceCodes() {
+  try {
+    const result = await listPriceCodes();
+    priceCodes.value = result?.codes || [];
+    priceCodeGroups.value = result?.groups || [];
+    canManageCodes.value = Boolean(result?.can_manage);
+  } catch {
+    priceCodes.value = [];
+    priceCodeGroups.value = [];
+    canManageCodes.value = false;
+  }
+}
+
+async function loadPreview() {
+  if (editName.value) return;
+  try {
+    const result = await previewIdentifiers(form.price_code);
+    preview.product_id = result?.product_id || "";
+    preview.sku = result?.sku || "";
+  } catch { /* a preview that cannot be read simply stays as the placeholder */ }
+}
+
 async function init() {
   loading.init = true;
   error.value = null;
-  await Promise.all([loadOpts("warehouse"), loadOpts("item_group")]);
-  try {
-    const saved = await getDefaultMargin();
-    defaultMargin.value = saved;
-    // A new product starts from the saved default; editing keeps its own value.
-    if (!editName.value && saved !== null && form.margin === null) form.margin = saved;
-  } catch { defaultMargin.value = null; }
+  await Promise.all([loadOpts("warehouse"), loadOpts("item_group"), loadPriceCodes()]);
   if (editName.value) {
     try {
       const p = await getProduct(editName.value);
       Object.assign(form, {
         product_name: p.product_name, image: p.image || "", image_2: p.image_2 || "",
-        size: p.size || "", category: p.category || "", material: p.material || "",
+        price_code: p.price_code || "", category: p.category || "",
+        size: p.size || "", material: p.material || "", carpet_category: p.carpet_category || "",
         carton_qty: p.carton_qty, stock_location_1: p.stock_location_1 || "",
         stock_location_2: p.stock_location_2 || "", stock_location_3: p.stock_location_3 || "",
-        restock_qty: p.restock_qty, cost_price: p.cost_price, margin: p.margin,
-        wholesale_price: p.wholesale_price, retail_price: p.retail_price,
-        department_price: p.department_price,
+        restock_qty: p.restock_qty, cost_price: p.cost_price,
+        wholesale_price: p.wholesale_price, department_price: p.department_price,
+        retail_price: p.retail_price,
       });
-      ids.product_id = p.product_id; ids.sku = p.sku; ids.cost_visible = p.cost_visible;
+      ids.product_id = p.product_id; ids.sku = p.sku; ids.price_code = p.price_code || "";
+      ids.cost_visible = p.cost_visible;
       ids.batch = p.is_batch_managed; ids.created = p.created;
     } catch (caught) { error.value = caught; }
+  } else {
+    await loadPreview();
   }
   loading.init = false;
+}
+
+/* A code from another category would be refused on save, so clearing it when the
+   category changes keeps the form honest rather than letting it fail later. */
+watch(() => form.category, (category) => {
+  if (!form.price_code) return;
+  const code = selectedCode.value;
+  if (code && category && code.category !== category) form.price_code = "";
+});
+
+watch(() => form.price_code, () => {
+  applyPriceCode();
+  loadPreview();
+});
+
+// The Price Codes page opens in another tab; pick up anything added there when
+// this tab is looked at again.
+function refreshOnFocus() {
+  if (document.visibilityState === "visible") loadPriceCodes();
 }
 
 async function save() {
@@ -106,6 +153,12 @@ async function save() {
   try {
     const payload = { ...form };
     if (!ids.cost_visible) delete payload.cost_price;
+    // Carpet-only attributes never travel for a non-carpet product.
+    if (!isCarpet.value) {
+      payload.size = "";
+      payload.material = "";
+      payload.carpet_category = "";
+    }
     const result = await createProduct(payload, editName.value);
     notice.value = `Saved ${result.product_id} (SKU ${result.sku}).`;
     router.push(`/inventory/products/${encodeURIComponent(result.name)}`).catch(() => {});
@@ -113,7 +166,11 @@ async function save() {
   finally { loading.saving = false; }
 }
 
-onBeforeUnmount(() => Object.values(timers).forEach(window.clearTimeout));
+onMounted(() => document.addEventListener("visibilitychange", refreshOnFocus));
+onBeforeUnmount(() => {
+  document.removeEventListener("visibilitychange", refreshOnFocus);
+  Object.values(timers).forEach(window.clearTimeout);
+});
 init();
 </script>
 
@@ -135,10 +192,35 @@ init();
 
       <form v-else class="pqf-form" @submit.prevent="save">
         <section class="rug-section-card">
-          <header><div><h2>Basic Information</h2></div></header>
+          <header>
+            <div><h2>Basic Information</h2></div>
+            <button
+              v-if="canManageCodes"
+              type="button"
+              class="pqf-codes-button"
+              @click="openPriceCodeAdmin"
+            >Price Codes</button>
+          </header>
           <div class="rug-form-grid">
-            <label><span>Product ID</span><input :value="editName ? ids.product_id : 'Auto-generated'" type="text" readonly /></label>
-            <label><span>SKU</span><input :value="editName ? ids.sku : 'Auto-generated'" type="text" readonly /></label>
+            <label><span>Product ID</span>
+              <input :value="productIdPreview" type="text" readonly />
+              <small v-if="!editName">Preview of the next ID. Settled when the product is saved.</small>
+            </label>
+            <!-- The SKU is issued by the price code, so the field offers the codes
+                 themselves -- searchable and grouped by category -- rather than a
+                 number nobody can choose. -->
+            <label><span>SKU</span>
+              <input v-if="editName" :value="ids.sku" type="text" readonly />
+              <PriceCodeSelect
+                v-else
+                v-model="form.price_code"
+                :groups="priceCodeGroups"
+                :category="form.category"
+              />
+              <small v-if="editName">Issued from {{ ids.price_code || "the default series" }}; part of the product's identity and fixed.</small>
+              <small v-else-if="form.price_code">Will be issued as <strong>{{ skuPreview }}</strong>, continuing the {{ form.price_code }} series.</small>
+              <small v-else>Pick a price code to number this product within it, or leave it blank for the default series.</small>
+            </label>
             <label><span>Product Name *</span><input v-model="form.product_name" type="text" required /></label>
             <ImageUpload v-model="form.image" label="Upload Image 1" />
             <ImageUpload v-model="form.image_2" label="Upload Image 2" />
@@ -148,13 +230,18 @@ init();
         <section class="rug-section-card">
           <header><div><h2>Product Classification</h2></div></header>
           <div class="rug-form-grid">
-            <label><span>Size</span><input v-model="form.size" type="text" /></label>
-            <label><span>Category *</span>
+            <label><span>Product Category *</span>
               <input v-model="form.category" list="pqf-groups" type="search" autocomplete="off" required />
               <datalist id="pqf-groups"><option v-for="g in opts.item_group" :key="g" :value="g" /></datalist>
             </label>
-            <label><span>Material</span><input v-model="form.material" type="text" /></label>
             <label><span>Carton Qty</span><input v-model.number="form.carton_qty" type="number" min="0" step="any" /><small>Number of stock units in one carton.</small></label>
+          </div>
+
+          <!-- Carpets only. The system decides this from the category. -->
+          <div v-if="isCarpet" class="rug-form-grid pqf-carpet">
+            <OptionSelect v-model="form.size" option-type="Product Size" label="Size" searchable />
+            <OptionSelect v-model="form.material" option-type="Product Material" label="Material" searchable />
+            <OptionSelect v-model="form.carpet_category" option-type="Carpet Category" label="Carpet Category" searchable />
           </div>
         </section>
 
@@ -170,28 +257,17 @@ init();
         </section>
 
         <section class="rug-section-card">
-          <header><div><h2>Pricing</h2></div></header>
+          <header>
+            <div>
+              <h2>Pricing</h2>
+              <p v-if="selectedCode">Filled in from price code {{ selectedCode.price_code }}. Change any of them for this product.</p>
+            </div>
+          </header>
           <div class="rug-form-grid">
             <label v-if="ids.cost_visible"><span>Cost Price (LKR)</span><input v-model.number="form.cost_price" type="number" min="0" step="any" /></label>
-            <label class="pqf-margin">
-              <span>Margin %</span>
-              <span class="pqf-margin__row">
-                <!-- Applies as you type; no Enter required. -->
-                <input v-model.number="form.margin" type="number" min="0" max="100" step="any" @input="applyMargin" />
-                <button
-                  v-if="showSetDefault"
-                  type="button"
-                  class="pqf-margin__default"
-                  :disabled="savingDefault"
-                  @click="setDefaultMargin"
-                >{{ savingDefault ? "Saving…" : "Set default" }}</button>
-              </span>
-              <small v-if="marginPreview" class="pqf-margin__preview">{{ marginPreview }}</small>
-              <small v-else-if="defaultMargin !== null" class="pqf-margin__preview">Default margin {{ defaultMargin }}%</small>
-            </label>
             <label><span>Wholesale Price (LKR)</span><input v-model.number="form.wholesale_price" type="number" min="0" step="any" /></label>
-            <label><span>Retail Price (LKR)</span><input v-model.number="form.retail_price" type="number" min="0" step="any" /></label>
             <label><span>Department Price (LKR)</span><input v-model.number="form.department_price" type="number" min="0" step="any" /></label>
+            <label><span>Retail Price (LKR)</span><input v-model.number="form.retail_price" type="number" min="0" step="any" /></label>
           </div>
         </section>
 
@@ -209,6 +285,9 @@ init();
 .pqf-form label :is(input,select){min-height:44px;border:1px solid var(--ref-border-colour);border-radius:.75rem;padding:0 .8rem;background:var(--ref-card-background);color:var(--ref-primary-text)}
 .pqf-form label input[readonly]{opacity:.7;font-style:italic}
 .pqf-form label small{font-weight:500;color:var(--ref-secondary-text)}
+.pqf-codes-button{border:1px solid var(--ref-border-colour);border-radius:.6rem;background:var(--ref-card-background);color:var(--ref-primary-text);font-weight:700;padding:.4rem .9rem;cursor:pointer}
+.pqf-codes-button:hover{border-color:var(--ref-accent, var(--ref-border-colour))}
+.pqf-carpet{margin-top:1rem;padding-top:1rem;border-top:1px dashed var(--ref-border-colour)}
 .pqf-thumbs{display:flex;gap:.6rem;margin-top:.6rem}
 .pqf-thumbs img{width:80px;height:80px;object-fit:cover;border-radius:.6rem;border:1px solid var(--ref-border-colour)}
 .pqf-actions{display:flex;justify-content:flex-end;gap:.6rem;padding-top:1rem}
