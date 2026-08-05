@@ -4,6 +4,8 @@ import { SmjClose } from "@/components/icons";
 import { moduleIcon } from "@/components/icons/moduleIconMap.js";
 import { navigationModules } from "@/router/routes.js";
 
+const SMJ_LOGO = "/assets/my_store_ui/images/smj-logo.png";
+
 defineProps({ open: { type: Boolean, default: false } });
 defineEmits(["close"]);
 const session = inject("retailSession", null);
@@ -17,8 +19,8 @@ const modules = computed(() => session ? session.state.navigation : navigationMo
       <aside class="ref-mobile-navigation__drawer">
         <div class="ref-mobile-navigation__header">
           <span class="ref-mobile-navigation__brand">
-            <span aria-hidden="true">R</span>
-            <span><strong>Retail ERP</strong><small>Menu</small></span>
+            <img class="ref-mobile-navigation__brand-logo" :src="SMJ_LOGO" alt="" aria-hidden="true" />
+            <span><strong>SMJ ERP</strong><small>Menu</small></span>
           </span>
           <button class="ref-icon-button" type="button" data-dialog-close aria-label="Close navigation" @click="$emit('close')">
             <SmjClose size="18" decorative />
