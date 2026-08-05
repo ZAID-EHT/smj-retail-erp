@@ -92,6 +92,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.retail-erp-active *, body.retail-erp-active *::before, body.retail-erp-active *::after,
   .ref-app-shell *, .ref-app-shell *::before, .ref-app-shell *::after {
     scroll-behavior: auto !important;
     animation-duration: .01ms !important;

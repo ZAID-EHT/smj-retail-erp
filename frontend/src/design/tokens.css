@@ -5,6 +5,12 @@
  * so every current template keeps working unmodified; --smj-* aliases are added
  * for new design-system code and documentation traceability.
  */
+/* :root as well as .ref-app-shell: several dialogs (mobile navigation, module
+   dropdown, quick-create menu, print dialog) Teleport to <body>, landing
+   outside .ref-app-shell in the DOM, so a shell-only scope left them unable
+   to read any --ref-* token (and silently fell back to unstyled browser
+   defaults). retail_erp.html is this bundle's only consumer, so :root is safe. */
+:root,
 .ref-app-shell {
   /* Header + brand */
   --ref-header-start: #07369d;
@@ -106,17 +112,18 @@
   --ref-focus-ring: 0 0 0 3px rgba(139, 184, 255, .55);
 }
 
-.ref-app-shell [data-accent="blue"] { --ref-accent: var(--ref-primary-blue); }
-.ref-app-shell [data-accent="dark-blue"] { --ref-accent: var(--ref-module-reports); }
-.ref-app-shell [data-accent="purple"] { --ref-accent: var(--ref-purple); }
-.ref-app-shell [data-accent="pink"] { --ref-accent: var(--ref-pink); }
-.ref-app-shell [data-accent="green"] { --ref-accent: var(--ref-green); }
-.ref-app-shell [data-accent="orange"] { --ref-accent: var(--ref-orange); }
-.ref-app-shell [data-accent="turquoise"] { --ref-accent: var(--ref-turquoise); }
-.ref-app-shell [data-accent="gold"] { --ref-accent: var(--ref-module-finance); }
-.ref-app-shell [data-accent="red"] { --ref-accent: var(--ref-danger); }
+:root [data-accent="blue"] { --ref-accent: var(--ref-primary-blue); }
+:root [data-accent="dark-blue"] { --ref-accent: var(--ref-module-reports); }
+:root [data-accent="purple"] { --ref-accent: var(--ref-purple); }
+:root [data-accent="pink"] { --ref-accent: var(--ref-pink); }
+:root [data-accent="green"] { --ref-accent: var(--ref-green); }
+:root [data-accent="orange"] { --ref-accent: var(--ref-orange); }
+:root [data-accent="turquoise"] { --ref-accent: var(--ref-turquoise); }
+:root [data-accent="gold"] { --ref-accent: var(--ref-module-finance); }
+:root [data-accent="red"] { --ref-accent: var(--ref-danger); }
 
 /* SMJ-named aliases (documentation + new components only; same values as above) */
+:root,
 .ref-app-shell {
   --smj-header-start: var(--ref-header-start);
   --smj-header-end: var(--ref-header-end);
