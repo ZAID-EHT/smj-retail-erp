@@ -833,16 +833,18 @@ def _validate_dynamic_links(meta, clean: dict, existing=None) -> None:
 def _clean_payload(meta, payload: Any, existing=None) -> dict:
 	payload = _parse(payload, dict, "Document")
 	writable = {field.fieldname: field for field in _writable_fields(meta)}
-	# A field this business does not use is dropped from the form, but a browser
-	# tab opened before that change still posts it. Discarding it is right --
-	# the value was never going to be applied -- and failing the whole save over
-	# it would strand a user behind a stale tab with no way to save. Genuinely
-	# unknown or read-only fields are still rejected: that is the mass-assignment
-	# guard, and it now names the offending field instead of guessing.
-	suppressed = OUT_OF_CONTEXT_FIELDS.get(meta.name, frozenset())
-	unknown = set(payload) - set(writable) - suppressed
+	# A client legitimately echoes back fields it cannot write: totals the
+	# controller calculates (amount, base_rate), and fields dropped from the form
+	# for this business that a browser tab opened before the change still knows
+	# about. None of them can reach the document -- only `writable` keys are
+	# applied below -- so refusing the whole save over one is pure obstruction.
+	#
+	# The guard that matters is the other one: a key that is not a field on this
+	# DocType at all (owner, parent, docstatus, permissions) is a mass-assignment
+	# attempt and is still rejected, by name.
+	unknown = {key for key in payload if key not in writable and meta.get_field(key) is None}
 	if unknown:
-		frappe.throw(_("Unsupported or read-only field: {0}").format(", ".join(sorted(unknown))), frappe.ValidationError)
+		frappe.throw(_("Unsupported field: {0}").format(", ".join(sorted(unknown))), frappe.ValidationError)
 	clean = {}
 	for fieldname, value in payload.items():
 		field = writable.get(fieldname)
@@ -856,12 +858,15 @@ def _clean_payload(meta, payload: Any, existing=None) -> dict:
 				child.fieldname: child
 				for child in _writable_fields(child_meta, _permlevels(meta, "write"))
 			}
-			child_suppressed = OUT_OF_CONTEXT_FIELDS.get(child_meta.name, frozenset())
 			rows = []
 			for row in value:
 				if not isinstance(row, dict):
 					frappe.throw(_("{0} must contain rows.").format(field.label), frappe.ValidationError)
-				stray = set(row) - set(child_write) - child_suppressed - {"name", "idx"}
+				stray = {
+					key for key in row
+					if key not in child_write and key not in {"name", "idx"}
+					and child_meta.get_field(key) is None
+				}
 				if stray:
 					frappe.throw(
 						_("Unsupported field on {0}: {1}").format(field.label, ", ".join(sorted(stray))),
