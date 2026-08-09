@@ -216,6 +216,17 @@ FIELD_LABEL_OVERRIDES = {
 	("Batch", "manufacturing_date"): _("Production Date"),
 }
 
+# Defaults ERPNext ships that do not match how this business works. Applied to
+# the values the add form prefills, so the common case needs no thought.
+FIELD_DEFAULT_OVERRIDES = {
+	# SMJ's goods and the supplier's bill arrive together: one Purchase Invoice
+	# records both. ERPNext defaults update_stock to 0, which posts the money
+	# and moves no stock at all -- the invoice looks right, the shelf stays
+	# empty, and the cost strands itself in "Stock Received But Not Billed"
+	# waiting for a Purchase Receipt that never comes.
+	("Purchase Invoice", "update_stock"): 1,
+}
+
 # ERPNext ships production purposes/types inside shared Select fields. Dropping
 # the whole field would break the document, so the options are filtered down to
 # the ones this business can legitimately choose. Enforced on read (the form
@@ -594,6 +605,9 @@ def get_doctype_metadata(feature: str):
 		for field in readable:
 			if field.fieldtype not in LAYOUT_FIELDS | {"Table", "Table MultiSelect", "Button", "HTML"} and new_doc.get(field.fieldname) is not None:
 				defaults[field.fieldname] = new_doc.get(field.fieldname)
+		for (doctype, fieldname), value in FIELD_DEFAULT_OVERRIDES.items():
+			if doctype == meta.name and fieldname in {field.fieldname for field in readable}:
+				defaults[fieldname] = value
 	return {
 		"feature": _public_feature(record), "doctype": meta.name, "label": meta.get("label") or meta.name,
 		"title_field": meta.title_field or "name", "image_field": meta.image_field,
@@ -819,12 +833,21 @@ def _validate_dynamic_links(meta, clean: dict, existing=None) -> None:
 def _clean_payload(meta, payload: Any, existing=None) -> dict:
 	payload = _parse(payload, dict, "Document")
 	writable = {field.fieldname: field for field in _writable_fields(meta)}
-	unknown = set(payload) - set(writable)
+	# A field this business does not use is dropped from the form, but a browser
+	# tab opened before that change still posts it. Discarding it is right --
+	# the value was never going to be applied -- and failing the whole save over
+	# it would strand a user behind a stale tab with no way to save. Genuinely
+	# unknown or read-only fields are still rejected: that is the mass-assignment
+	# guard, and it now names the offending field instead of guessing.
+	suppressed = OUT_OF_CONTEXT_FIELDS.get(meta.name, frozenset())
+	unknown = set(payload) - set(writable) - suppressed
 	if unknown:
 		frappe.throw(_("Unsupported or read-only field: {0}").format(", ".join(sorted(unknown))), frappe.ValidationError)
 	clean = {}
 	for fieldname, value in payload.items():
-		field = writable[fieldname]
+		field = writable.get(fieldname)
+		if field is None:
+			continue
 		if field.fieldtype in {"Table", "Table MultiSelect"}:
 			if not isinstance(value, list):
 				frappe.throw(_("{0} must contain rows.").format(field.label), frappe.ValidationError)
@@ -833,10 +856,17 @@ def _clean_payload(meta, payload: Any, existing=None) -> dict:
 				child.fieldname: child
 				for child in _writable_fields(child_meta, _permlevels(meta, "write"))
 			}
+			child_suppressed = OUT_OF_CONTEXT_FIELDS.get(child_meta.name, frozenset())
 			rows = []
 			for row in value:
-				if not isinstance(row, dict) or set(row) - set(child_write) - {"name", "idx"}:
-					frappe.throw(_("Unsupported child-table field."), frappe.ValidationError)
+				if not isinstance(row, dict):
+					frappe.throw(_("{0} must contain rows.").format(field.label), frappe.ValidationError)
+				stray = set(row) - set(child_write) - child_suppressed - {"name", "idx"}
+				if stray:
+					frappe.throw(
+						_("Unsupported field on {0}: {1}").format(field.label, ", ".join(sorted(stray))),
+						frappe.ValidationError,
+					)
 				clean_row = {key: _coerce_value(child_write[key], item) for key, item in row.items() if key in child_write}
 				_validate_dynamic_links(child_meta, clean_row)
 				rows.append(clean_row)
