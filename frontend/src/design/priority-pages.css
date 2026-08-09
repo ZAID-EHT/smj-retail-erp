@@ -98,7 +98,10 @@
 .priority-product-grid>:is(button,article).smj-product-card{position:relative}
 .priority-product-grid>:is(button,article).is-out,.priority-product-grid>button:disabled,.priority-product-grid>article[aria-disabled="true"]{opacity:.62;cursor:not-allowed}
 .priority-product-grid>:is(button,article).is-out:hover,.priority-product-grid>button:disabled:hover,.priority-product-grid>article[aria-disabled="true"]:hover{border-color:var(--ref-border-colour);box-shadow:none}
-.smj-stock-badge{position:absolute;top:8px;right:8px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.02em}
+/* The image tile paints an opaque background and comes after the badge in the
+   card, so without a stacking order of its own the badge sits behind the photo.
+   It has to stay readable over the image, hence the lift and the shadow. */
+.smj-stock-badge{position:absolute;top:8px;right:8px;z-index:2;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.02em;box-shadow:0 1px 3px rgba(15,23,42,.28)}
 .smj-stock-badge--out{background:var(--ref-danger,#c0392b);color:#fff}
 .smj-cart-source{display:block;color:var(--ref-success,#14a85a);font-size:9px;font-style:normal;margin-top:2px}
 

@@ -1351,18 +1351,22 @@ img.ref-brand__logo {
   margin-top: 15px;
 }
 
+/* Card metrics are ~15% up on the original 174/118/11px tile: a product photo is
+   the thing being picked from, and at the old size it was too small to tell two
+   similar rugs apart. Every number below is scaled together so the tile grows as
+   one piece rather than a big box around small text. */
 .priority-product-grid {
-  grid-template-columns: repeat(auto-fill, minmax(174px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
 }
 
 .priority-product-grid > button,
 .priority-product-grid > article {
   position: relative;
   align-content: start;
-  gap: 6px;
-  padding: 11px;
-  border-radius: 13px;
+  gap: 7px;
+  padding: 13px;
+  border-radius: 15px;
   transition: border-color var(--ref-transition-base), transform var(--ref-transition-base), box-shadow var(--ref-transition-base);
 }
 
@@ -1378,14 +1382,18 @@ img.ref-brand__logo {
 /* The carousel wraps the image, so the tile's height belongs to the wrapper and
    the image inside it fills that box. */
 .priority-product-grid .smj-product-images {
-  height: 118px;
+  height: 136px;
   margin-bottom: 2px;
-  border-radius: 10px;
+  border-radius: 11px;
 }
 
-.priority-product-grid > :is(button, article) > strong { font-size: 12px; }
-.priority-product-grid > :is(button, article) > b { color: var(--ref-primary-text); font-size: 13px; }
+.priority-product-grid > :is(button, article) > strong { font-size: 14px; }
+.priority-product-grid > :is(button, article) > b { color: var(--ref-primary-text); font-size: 15px; }
 .priority-product-grid > :is(button, article) > em { color: var(--ref-success); font-weight: 750; }
+/* Scaled with the tile above; priority-pages.css sets these to 9px and this file
+   loads after it, so the card's secondary lines keep pace with the rest. */
+.priority-product-grid > :is(button, article) small,
+.priority-product-grid > :is(button, article) em { font-size: 10px; }
 
 .smj-stock-triplet {
   display: flex;
@@ -1400,12 +1408,12 @@ img.ref-brand__logo {
 .smj-product-add {
   display: grid;
   place-items: center;
-  min-height: 31px;
+  min-height: 36px;
   margin-top: 2px;
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--ref-success-background);
   color: var(--ref-module-sales);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
 }
 
