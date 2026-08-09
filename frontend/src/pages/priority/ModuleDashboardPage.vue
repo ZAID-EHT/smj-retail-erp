@@ -51,7 +51,6 @@ const MODULE_PRESENTATIONS = {
       "purchase-order-trends": "Order value · last 6 months",
       "purchase-order-analysis": "Submitted orders by current status",
       "top-suppliers": "Ranked by invoiced purchase value",
-      "material-request-analysis": "Submitted requests by status",
     },
   },
   finance: {
@@ -95,18 +94,17 @@ const MODULE_PRESENTATIONS = {
   operations: {
     eyebrow: "Operations workspace",
     title: "Deliver work without losing the details",
-    description: "Bring projects, tasks, support, assets and production workload into one actionable operational view.",
+    description: "Bring projects, tasks, support and assets into one actionable operational view.",
     sectionTitle: "Work in progress",
     sectionDescription: "Task creation and project portfolio status across permitted records.",
     actionTitle: "Create operational work",
-    cardOrder: ["overdue-tasks", "open-tasks", "open-projects", "open-issues", "active-work-orders", "active-assets"],
+    cardOrder: ["overdue-tasks", "open-tasks", "open-projects", "open-issues", "active-assets"],
     focusCharts: ["tasks-created-trend", "project-status"],
     chartSubtitles: {
       "tasks-created-trend": "New tasks · last 6 months",
       "project-status": "Current project portfolio",
       "task-status": "Tasks grouped by current status",
       "issue-priority": "Open and historical issues by priority",
-      "work-order-status": "Submitted production work orders",
       "asset-status": "Submitted assets by status",
     },
   },

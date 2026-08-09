@@ -40,7 +40,6 @@ REQUIRED_CREATE_DOCTYPES = (
 	# Sales
 	"Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "Payment Entry",
 	# Purchasing
-	"Material Request", "Request for Quotation", "Supplier Quotation",
 	"Purchase Order", "Purchase Receipt", "Purchase Invoice",
 	# Stock
 	"Stock Entry", "Stock Reconciliation",
@@ -148,8 +147,7 @@ class TestCreateRoutes(unittest.TestCase):
 		groups = {group["group"]: group["items"] for group in get_quick_create_actions()["groups"]}
 		expected = {
 			"Sales": {"Customer", "Quotation", "Sales Order", "Delivery Note", "Sales Invoice", "Receive Payment"},
-			"Purchasing": {"Supplier", "Material Request", "Request for Quotation", "Supplier Quotation",
-				"Purchase Order", "Purchase Receipt", "Purchase Invoice", "Pay Supplier"},
+			"Purchasing": {"Supplier", "Purchase Order", "Purchase Receipt", "Purchase Invoice", "Pay Supplier"},
 			"Inventory": {"Product", "Stock Entry", "Stock Reconciliation", "Warehouse"},
 			"Administration": {"User", "Role", "Role Profile"},
 			"More": {"Journal Entry", "Contact", "Address", "Internal Transfer"},

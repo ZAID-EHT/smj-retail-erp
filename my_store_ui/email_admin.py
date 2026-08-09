@@ -17,7 +17,7 @@ from my_store_ui.access_management import _email_configuration_status, _require_
 
 # Notifications relevant to the wholesale workflow, surfaced for review.
 RELEVANT_EVENTS = ("Sales Order", "Sales Invoice", "Payment Entry", "Delivery Note",
-                   "Purchase Order", "Material Request")
+                   "Purchase Order", "Purchase Receipt")
 
 
 @frappe.whitelist(methods=["GET"])

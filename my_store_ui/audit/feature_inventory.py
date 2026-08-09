@@ -24,13 +24,14 @@ CAPABILITY_KEYS = (
 	"print", "pdf", "email", "share", "assign", "comment", "attach",
 )
 
+# SMJ resells ready-made goods: manufacturing, subcontracting and
+# quality-inspection DocTypes are out of scope and carry no Retail ERP page.
 SPECIALIZED_DOCTYPES = {
-	"Account", "Asset", "Asset Movement", "BOM", "Bank Transaction", "Delivery Note", "Item",
-	"Job Card", "Journal Entry", "Material Request", "Payment Entry", "Pick List", "POS Invoice",
-	"Production Plan", "Purchase Invoice", "Purchase Order", "Purchase Receipt", "Quality Inspection",
-	"Quotation", "Request for Quotation", "Sales Invoice", "Sales Order", "Stock Entry",
-	"Stock Reconciliation", "Subcontracting Order", "Subcontracting Receipt", "Supplier Quotation",
-	"Work Order",
+	"Account", "Asset", "Asset Movement", "Bank Transaction", "Delivery Note", "Item",
+	"Journal Entry", "Payment Entry", "Pick List", "POS Invoice",
+	"Purchase Invoice", "Purchase Order", "Purchase Receipt",
+	"Quotation", "Sales Invoice", "Sales Order", "Stock Entry",
+	"Stock Reconciliation",
 }
 
 ADMIN_MODULES = {

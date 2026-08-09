@@ -12,24 +12,16 @@ from my_store_ui.universal.api import get_dashboard_connections
 from my_store_ui.universal.registry import ALL_GENERATED_DOCTYPES
 
 CREDITED_CONNECTION_ACTIONS = {
-	("Blanket Order", "sales_order"),
 	("Lead", "prospect"),
-	("Material Request", "sales_order"),
-	("Material Request", "work_order"),
 	("Payment Order", "payment_entry"),
 	("Purchase Invoice", "payment_request"),
 	("Purchase Invoice", "purchase_order"),
 	("Purchase Invoice", "purchase_receipt"),
-	("Purchase Order", "material_request"),
 	("Purchase Order", "payment_request"),
-	("Purchase Order", "subcontracting_order"),
-	("Purchase Order", "supplier_quotation"),
 	("Purchase Receipt", "asset"),
 	("Purchase Receipt", "purchase_invoice"),
 	("Purchase Receipt", "purchase_order"),
 	("Quotation", "sales_order"),
-	("Supplier Quotation", "material_request"),
-	("Supplier Quotation", "request_for_quotation"),
 	("Supplier", "bank_account"),
 	("Supplier", "pricing_rule"),
 }

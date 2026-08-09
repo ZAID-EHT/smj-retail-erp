@@ -61,8 +61,7 @@ class TestPurchaseWorkflow(unittest.TestCase):
 			with self.subTest(writable=fieldname):
 				self.assertIn(fieldname, writable)
 		# Controller-calculated / source-link fields stay read-only.
-		for fieldname in ("amount", "base_amount", "received_qty", "billed_amt", "stock_qty",
-				"material_request", "supplier_quotation"):
+		for fieldname in ("amount", "base_amount", "received_qty", "billed_amt", "stock_qty"):
 			with self.subTest(read_only=fieldname):
 				self.assertNotIn(fieldname, writable, f"{fieldname} must stay controller-owned")
 
@@ -75,8 +74,7 @@ class TestPurchaseWorkflow(unittest.TestCase):
 				self.assertTrue(mapping.get("method"))
 
 	def test_purchasing_mapping_targets_are_installed_doctypes(self):
-		for source in ("Material Request", "Request for Quotation", "Supplier Quotation",
-				"Purchase Order", "Purchase Receipt", "Purchase Invoice"):
+		for source in ("Purchase Order", "Purchase Receipt", "Purchase Invoice"):
 			for action, mapping in MAPPED_ACTIONS.get(source, {}).items():
 				with self.subTest(source=source, action=action):
 					self.assertTrue(

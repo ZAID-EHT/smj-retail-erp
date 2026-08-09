@@ -273,7 +273,6 @@ def get_buying_dashboard(company: str | None = None, months: int = MONTHS_DEFAUL
 		{"key": "total-purchase-amount", "label": _("Total Purchase Amount"), "value": _sum("Purchase Invoice", "base_grand_total", base), "accent": "orange", "to": "/purchases/invoices"},
 	]
 	charts = [
-		{"key": "material-request-analysis", "title": _("Material Request Analysis"), "type": "donut", "segments": _status_breakdown("Material Request", "status", company), "report_link": "/purchases/material-requests"},
 		{"key": "purchase-order-analysis", "title": _("Purchase Order Analysis"), "type": "donut", "segments": _status_breakdown("Purchase Order", "status", company), "report_link": "/purchases/orders"},
 		{"key": "purchase-order-trends", "title": _("Purchase Order Trends"), "type": "line", **_monthly_trend("Purchase Order", "base_grand_total", "transaction_date", months, company), "report_link": "/purchases/orders"},
 		{"key": "top-suppliers", "title": _("Top Suppliers"), "type": "bar", "bars": _top_ranked("Purchase Invoice", "supplier", "supplier_name", "base_grand_total", company, _top_n(TOP_N_DEFAULT)), "report_link": "/purchases/suppliers"},
@@ -462,7 +461,6 @@ def get_operations_dashboard(months: int = MONTHS_DEFAULT):
 		{"key": "open-tasks", "label": _("Open Tasks"), "value": _count("Task", {"status": ["not in", ["Completed", "Cancelled"]]}), "accent": "turquoise", "to": "/operations/tasks"},
 		{"key": "overdue-tasks", "label": _("Overdue Tasks"), "value": _count("Task", {"status": ["not in", ["Completed", "Cancelled"]], "exp_end_date": ["<", nowdate()]}), "accent": "orange", "to": "/operations/tasks"},
 		{"key": "open-issues", "label": _("Open Support Issues"), "value": _count("Issue", {"status": ["not in", ["Closed", "Resolved"]]}), "accent": "purple", "to": "/operations/support/issues"},
-		{"key": "active-work-orders", "label": _("Active Work Orders"), "value": _count("Work Order", {"docstatus": 1, "status": ["not in", ["Completed", "Stopped", "Closed"]]}), "accent": "green", "to": "/operations/manufacturing/work-orders"},
 		{"key": "active-assets", "label": _("Active Assets"), "value": _count("Asset", {"docstatus": 1, "status": ["not in", ["Sold", "Scrapped"]]}), "accent": "gold", "to": "/operations/assets"},
 	]
 	charts = [
@@ -470,7 +468,6 @@ def get_operations_dashboard(months: int = MONTHS_DEFAULT):
 		{"key": "task-status", "title": _("Task Workload"), "type": "bar", "bars": _status_breakdown("Task", "status", None), "report_link": "/operations/tasks"},
 		{"key": "tasks-created-trend", "title": _("Tasks Created"), "type": "line", **_monthly_trend_count("Task", "creation", months), "report_link": "/operations/tasks"},
 		{"key": "issue-priority", "title": _("Support Issues by Priority"), "type": "bar", "bars": _status_breakdown("Issue", "priority", None), "report_link": "/operations/support/issues"},
-		{"key": "work-order-status", "title": _("Production Work Orders"), "type": "donut", "segments": _status_breakdown("Work Order", "status", None), "report_link": "/operations/manufacturing/work-orders"},
 		{"key": "asset-status", "title": _("Asset Status"), "type": "bar", "bars": _status_breakdown("Asset", "status", None), "report_link": "/operations/assets"},
 	]
 	return {"cards": cards, "charts": charts}

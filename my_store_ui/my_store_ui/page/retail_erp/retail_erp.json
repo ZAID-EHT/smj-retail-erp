@@ -9,8 +9,6 @@
  "roles": [
   {"role": "Accounts Manager"},
   {"role": "Accounts User"},
-  {"role": "Manufacturing Manager"},
-  {"role": "Manufacturing User"},
   {"role": "POS Manager"},
   {"role": "POS User"},
   {"role": "Projects Manager"},

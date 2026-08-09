@@ -216,15 +216,11 @@ WORKSPACE_OVERRIDES = {
 GENERIC_LIFECYCLE_ACTIONS = {"submit", "cancel", "amend", "delete", "duplicate", "rename"}
 
 DOCTYPE_SPECIFIC_ACTIONS = {
-    # "customer"/"quotation"/"supplier_quotation"/"request_for_quotation" are
-    # the JS button labels (opportunity.js) for make_customer/make_quotation/
-    # make_supplier_quotation/make_request_for_quotation - the latter two are
-    # real new actions this pass, the former two were dead credits (the
-    # internal method-name keys never matched the scanner's button-label
-    # keys) - verified against source before aliasing.
+    # "customer"/"quotation" are the JS button labels (opportunity.js) for
+    # make_customer/make_quotation. Opportunity's Supplier Quotation and
+    # Request for Quotation conversions are not credited: SMJ does not tender.
     "Opportunity": {
         "close", "reopen", "make_customer", "customer", "make_quotation", "quotation",
-        "make_supplier_quotation", "supplier_quotation", "make_request_for_quotation", "request_for_quotation",
         "set_as_lost", "fetch_latest_exchange_rate",
     },
     # Dead-credit fix: this doctype's entry was previously duplicated further
@@ -239,39 +235,12 @@ DOCTYPE_SPECIFIC_ACTIONS = {
         "hold", "resume", "accounting_ledger", "accounts_payable", "bank_account", "pricing_rule",
         "get_supplier_group_details", "link_with_customer",
     },
-    # "re_open"/"update_status" are JS button labels (material_request.js)
-    # calling the exact same update_status() the stop/reopen actions wrap;
-    # "purchase_order"/"request_for_quotation" are button labels calling the
-    # exact same make_purchase_order/make_request_for_quotation already
-    # credited; "material_transfer"/"issue_material"/"material_receipt" are
-    # ALL the same make_stock_entry call, shown under different labels
-    # depending on material_request_type - verified against source.
-    # "supplier_quotation"/"pick_list"/"material_transfer_in_transit" are
-    # button labels for the new make_supplier_quotation/create_pick_list/
-    # make_in_transit_stock_entry actions (universal/api.py, type-gated).
-    "Material Request": {
-        "stop", "reopen", "re_open", "update_status",
-        "make_request_for_quotation", "request_for_quotation",
-        "make_purchase_order", "purchase_order",
-        "make_stock_entry", "material_transfer", "issue_material", "material_receipt",
-        "make_supplier_quotation", "supplier_quotation",
-        "create_pick_list", "pick_list",
-        "make_in_transit_stock_entry", "material_transfer_in_transit",
-        "bill_of_materials", "make_purchase_order_based_on_supplier", "subcontracted_purchase_order",
-        # "sales_order"/"work_order" are material_request_dashboard.py
-        # Manufacturing-group connections, served by get_dashboard_connections().
-        "sales_order", "work_order",
-    },
-    # Dashboard "Connections" tile (blanket_order_dashboard.py), served by
-    # get_dashboard_connections() — Blanket Order does not itself create a
-    # Sales Order, this is the reverse-linked list of SOs referencing it.
-    "Blanket Order": {"sales_order"},
     # "End Transit" button calls the exact same make_stock_in_entry() -
     # verified against stock_entry.js source.
     "Stock Entry": {
-        "make_stock_in_entry", "end_transit", "alternate_item", "bill_of_materials",
-        "create_sample_retention_stock_entry", "disassemble", "expired_batches",
-        "material_request", "purchase_invoice", "quality_inspection_s",
+        "make_stock_in_entry", "end_transit", "alternate_item",
+        "create_sample_retention_stock_entry", "expired_batches",
+        "purchase_invoice",
         "received_stock_entries", "transit_entry",
     },
     # "purchase_receipt"/"purchase_invoice"/"re_open" are JS button labels
@@ -283,13 +252,11 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     "Purchase Order": {
         "hold", "close", "resume", "reopen", "re_open",
         "make_purchase_receipt", "purchase_receipt", "make_purchase_invoice", "purchase_invoice", "payment",
-        "delivered", "link_to_material_request", "make_inter_company_sales_order",
-        "make_subcontracting_order", "material_to_supplier", "return_of_components",
+        "delivered", "make_inter_company_sales_order",
         "update_items", "update_rate_as_per_last_purchase", "update_status",
-        # purchase_order_dashboard.py Reference/Payment/Sub-contracting group
-        # connections (Material Request, Supplier Quotation, Payment Request,
-        # Subcontracting Order), served by get_dashboard_connections().
-        "material_request", "supplier_quotation", "payment_request", "subcontracting_order",
+        # purchase_order_dashboard.py Reference/Payment group connections
+        # (Payment Request), served by get_dashboard_connections().
+        "payment_request",
     },
     # "customer"/"opportunity"/"quotation" are the JS button labels
     # (lead.js) - same dead-credit-then-fixed pattern as Opportunity above.
@@ -306,33 +273,6 @@ DOCTYPE_SPECIFIC_ACTIONS = {
     # connection — distinct from the "make_sales_order" conversion button
     # above — served by get_dashboard_connections().
     "Quotation": {"make_sales_order", "make_sales_invoice", "set_as_lost", "sales_order", "opportunity", "update_items"},
-    # Bug fix: the internal action key "make_supplier_quotation" chosen for
-    # this MAPPED_ACTIONS entry never matched either real scanner-detected
-    # key for RFQ's "Supplier Quotation" button - the button label scrubs to
-    # "supplier_quotation" and the server method is "make_supplier_quotation_
-    # from_rfq" (request_for_quotation.js/.py) - so this credit was silently
-    # inert until now. supplier_quotation_comparison/send_emails_to_suppliers
-    # are real new actions (universal/api.py).
-    "Request for Quotation": {
-        "make_supplier_quotation", "supplier_quotation", "make_supplier_quotation_from_rfq",
-        "supplier_quotation_comparison", "send_emails_to_suppliers",
-        "download_pdf", "get_suppliers", "link_to_material_requests", "material_request",
-        "opportunity", "possible_supplier",
-    },
-    # Bug fix: "make_purchase_order" alone never matched the real scanner key
-    # "purchase_order" (the "Purchase Order" button label) - same class of
-    # dead credit as Request for Quotation above, fixed the same way.
-    # "make_quotation"/"quotation" is a real new action: Supplier Quotation
-    # can convert into a (selling) Quotation - verified against
-    # supplier_quotation.js source (make_quotation() -> erpnext...
-    # supplier_quotation.make_quotation, a standard get_mapped_doc call).
-    # "material_request"/"request_for_quotation" are supplier_quotation_
-    # dashboard.py Reference connections, served by get_dashboard_connections().
-    "Supplier Quotation": {
-        "make_purchase_order", "purchase_order", "make_quotation", "quotation",
-        "material_request", "request_for_quotation", "make_purchase_invoice",
-        "link_to_material_requests", "update_items",
-    },
     # Real new action: Payment Order batches Payment Entries — dashboard
     # connection (payment_order_dashboard.py), served by get_dashboard_connections().
     "Payment Order": {"payment_entry"},
@@ -664,6 +604,21 @@ NOT_REQUIRED_REPORT_NAMES = {
 # Audit correction: country-specific DocTypes (as opposed to reports, see
 # NOT_REQUIRED_REPORT_NAMES above) not applicable outside their jurisdiction.
 NOT_REQUIRED_DOCTYPE_NAMES = {
+    # SMJ buys ready-made finished goods and resells them. Incoming-goods
+    # inspection and long-term committed-price agreements are not part of that
+    # trade, so these Stock/Selling-module records are deliberately unrouted.
+    "Quality Inspection": "Incoming/outgoing goods inspection; SMJ resells ready-made stock and runs no inspection process.",
+    "Quality Inspection Template": "Template for Quality Inspection, which is out of scope.",
+    "Quality Inspection Parameter": "Parameter for Quality Inspection, which is out of scope.",
+    "Quality Inspection Parameter Group": "Grouping for Quality Inspection parameters, which are out of scope.",
+    "Blanket Order": "Long-term committed-price purchase/sale agreement; SMJ trades on individual orders only.",
+    # SMJ buys direct from the supplier: choose the goods, raise the order,
+    # receive, pay. No internal stock-request step and no multi-vendor tender.
+    "Material Request": "Internal stock-request slip raised before ordering; SMJ raises the Purchase Order directly.",
+    "Request for Quotation": "Multi-supplier tender document; SMJ buys direct from a known supplier.",
+    "Supplier Quotation": "A supplier's priced response to a tender, which SMJ does not run.",
+    "Manufacturer": "OEM/brand master used to drive BOM and production routing; SMJ tracks brand through Item Group and Brand instead.",
+    "Item Manufacturer": "Links an Item to a Manufacturer, which is out of scope.",
     "Import Supplier Invoice": "India GST e-invoice bulk-import tool; not applicable outside India.",
     "Mpesa C2B Register URL": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
     "Mpesa Payment Register": "Kenya M-Pesa mobile-money gateway integration; not applicable outside Kenya.",
@@ -697,9 +652,85 @@ POS_EXTERNAL_LAUNCHER_ACTIONS = {
 # controller lifecycle instead of being exposed as a second staff-facing button.
 # These outcomes prevent false "missing" credits without inventing UI routes.
 DOCUMENT_ACTION_OVERRIDES = {
-    ("Blanket Order", "sales_order"): (
-        "special_adapter", "implemented_unverified", "/retail-erp/sales/blanket-orders",
-        "Dashboard connection is served by the universal connection panel on the routed Blanket Order page.",
+    # SMJ buys ready-made finished goods and resells them: it runs no
+    # production, no subcontracting and no incoming-goods inspection. These
+    # ERPNext buttons only make sense inside those workflows, so Retail ERP
+    # deliberately does not expose them - see MODULE_PRIORITY's
+    # Manufacturing/Subcontracting "not_required" entries.
+    ("Material Request", "bill_of_materials"): (
+        "not_required", "not_required", None,
+        "Pulls raw-material rows out of a BOM; SMJ keeps no BOMs.",
+    ),
+    ("Material Request", "subcontracted_purchase_order"): (
+        "not_required", "not_required", None,
+        "Raises a Purchase Order against a subcontracting request; SMJ subcontracts nothing.",
+    ),
+    ("Material Request", "work_order"): (
+        "not_required", "not_required", None,
+        "Manufacturing-group dashboard connection; SMJ raises no Work Orders.",
+    ),
+    ("Purchase Order", "make_subcontracting_order"): (
+        "not_required", "not_required", None,
+        "Converts a subcontracted PO into a Subcontracting Order; SMJ subcontracts nothing.",
+    ),
+    ("Purchase Order", "material_to_supplier"): (
+        "not_required", "not_required", None,
+        "Issues raw material to a subcontractor; SMJ subcontracts nothing.",
+    ),
+    ("Purchase Order", "return_of_components"): (
+        "not_required", "not_required", None,
+        "Takes back unconsumed subcontracting components; SMJ subcontracts nothing.",
+    ),
+    ("Purchase Order", "subcontracting_order"): (
+        "not_required", "not_required", None,
+        "Sub-contracting dashboard connection; SMJ subcontracts nothing.",
+    ),
+    ("Stock Entry", "bill_of_materials"): (
+        "not_required", "not_required", None,
+        "Fills the entry's item rows from a BOM; SMJ keeps no BOMs.",
+    ),
+    ("Stock Entry", "disassemble"): (
+        "not_required", "not_required", None,
+        "Reverses a Manufacture entry back into components; SMJ manufactures nothing.",
+    ),
+    ("Stock Entry", "quality_inspection_s"): (
+        "not_required", "not_required", None,
+        "Raises Quality Inspections for the entry's rows; SMJ runs no inspection process.",
+    ),
+    # SMJ buys direct from the supplier, so nothing upstream of the Purchase
+    # Order exists. These buttons on kept doctypes all target the removed
+    # Material Request / Request for Quotation / Supplier Quotation documents.
+    ("Opportunity", "make_request_for_quotation"): (
+        "not_required", "not_required", None,
+        "Turns a sales opportunity into a supplier tender; SMJ runs no tenders.",
+    ),
+    ("Opportunity", "request_for_quotation"): (
+        "not_required", "not_required", None,
+        "JS button label for the same tender conversion, which is out of scope.",
+    ),
+    ("Opportunity", "make_supplier_quotation"): (
+        "not_required", "not_required", None,
+        "Creates a supplier's priced tender response; SMJ runs no tenders.",
+    ),
+    ("Opportunity", "supplier_quotation"): (
+        "not_required", "not_required", None,
+        "JS button label for the same conversion, which is out of scope.",
+    ),
+    ("Purchase Order", "link_to_material_request"): (
+        "not_required", "not_required", None,
+        "Back-links a PO to a pending internal stock request; SMJ raises the PO directly.",
+    ),
+    ("Purchase Order", "material_request"): (
+        "not_required", "not_required", None,
+        "Dashboard connection to the originating Material Request, which is out of scope.",
+    ),
+    ("Purchase Order", "supplier_quotation"): (
+        "not_required", "not_required", None,
+        "Dashboard connection to the originating Supplier Quotation, which is out of scope.",
+    ),
+    ("Stock Entry", "material_request"): (
+        "not_required", "not_required", None,
+        "Pulls item rows from a Material Request, which is out of scope.",
     ),
     ("Maintenance Schedule", "sales_order"): (
         "special_adapter", "implemented_unverified", "/retail-erp/operations/maintenance-schedules",
@@ -724,10 +755,6 @@ DOCUMENT_ACTION_OVERRIDES = {
     ("Stock Entry", "make_stock_entry"): (
         "internal", "internal", None,
         "Scanner helper from stock_entry_utils.py used to construct Stock Entry test/integration data; it is not a Stock Entry form action.",
-    ),
-    ("Quality Inspection", "make_quality_inspection"): (
-        "special_adapter", "implemented_unverified", "/retail-erp/operations/manufacturing/boms",
-        "ERPNext defines this mapper in the Quality Inspection module but exposes it on submitted BOMs; Retail ERP's allowlisted BOM action calls that exact mapper.",
     ),
     ("Purchase Order", "make_purchase_invoice_from_portal"): (
         "external_app_adapter", "implemented_unverified", "/purchase-orders",

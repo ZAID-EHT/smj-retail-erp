@@ -21,10 +21,10 @@ ROUTE_REGISTRY = (
 	{"name": "home", "pattern": r"^/home/?$", "module": "Home", "feature_id": "retail.home", "implemented": True},
 	{"name": "smart-sales", "pattern": r"^/smart-sales/?$", "module": "Sales", "feature_id": "retail.smart_sales", "implemented": True, "any_read": ("Customer", "Item", "Sales Order")},
 	{"name": "sales", "pattern": r"^/sales/?$", "module": "Sales", "feature_id": "retail.sales", "implemented": True, "any_read": ("Customer", "Sales Order", "Delivery Note", "Sales Invoice")},
-	{"name": "purchases", "pattern": r"^/purchases/?$", "module": "Purchases", "feature_id": "retail.purchases", "implemented": True, "any_read": ("Supplier", "Material Request", "Purchase Order", "Purchase Receipt", "Purchase Invoice")},
+	{"name": "purchases", "pattern": r"^/purchases/?$", "module": "Purchases", "feature_id": "retail.purchases", "implemented": True, "any_read": ("Supplier", "Purchase Order", "Purchase Receipt", "Purchase Invoice")},
 	{"name": "inventory", "pattern": r"^/inventory/?$", "module": "Inventory", "feature_id": "retail.inventory", "implemented": True, "any_read": ("Item", "Warehouse", "Stock Entry")},
 	{"name": "finance", "pattern": r"^/finance/?$", "module": "Finance", "feature_id": "retail.finance", "implemented": True, "any_read": ("Payment Entry", "Journal Entry", "Account")},
-	{"name": "operations", "pattern": r"^/operations/?$", "module": "Operations", "feature_id": "retail.operations", "implemented": True, "any_read": ("Asset", "Work Order", "Project", "Issue")},
+	{"name": "operations", "pattern": r"^/operations/?$", "module": "Operations", "feature_id": "retail.operations", "implemented": True, "any_read": ("Asset", "Project", "Issue")},
 	{"name": "crm", "pattern": r"^/crm/?$", "module": "CRM", "feature_id": "retail.crm", "implemented": True, "any_read": ("Lead", "Opportunity", "Customer")},
 	{"name": "reports", "pattern": r"^/reports/?$", "module": "Reports", "feature_id": "retail.reports", "implemented": True},
 	{"name": "admin", "pattern": r"^/admin/?$", "module": "Admin", "feature_id": "retail.admin", "implemented": True, "roles": ("System Manager",)},
@@ -128,13 +128,12 @@ NAVIGATION = (
 		{"label": "Sales Funnel", "path": "/sales/funnel", "page": "sales-funnel"},
 		{"label": "Sales Reports", "path": "/reports/sales", "report": "Sales Analytics"},
 	)},
-	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Material Request", "Request for Quotation", "Supplier Quotation", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
+	# Direct buying only: order -> receive -> pay. No internal stock request and
+	# no multi-vendor tendering, so those three documents carry no links.
+	{"name": "purchases", "label": "Purchases", "path": "/purchases", "accent": "purple", "icon": "bag", "any_read": ("Supplier", "Purchase Order", "Purchase Receipt", "Purchase Invoice"), "links": (
 		{"label": "Purchases Dashboard", "path": "/purchases", "any_read": ("Supplier", "Purchase Order", "Purchase Invoice")},
 		{"label": "Suppliers", "path": "/purchases/suppliers", "doctype": "Supplier"},
 		{"label": "Supplier Groups", "path": "/purchases/supplier-groups", "doctype": "Supplier Group"},
-		{"label": "Material Requests", "path": "/purchases/material-requests", "doctype": "Material Request"},
-		{"label": "Requests for Quotation", "path": "/purchases/requests-for-quotation", "doctype": "Request for Quotation"},
-		{"label": "Supplier Quotations", "path": "/purchases/supplier-quotations", "doctype": "Supplier Quotation"},
 		{"label": "Purchase Orders", "path": "/purchases/orders", "doctype": "Purchase Order"},
 		{"label": "Purchase Receipts", "path": "/purchases/receipts", "doctype": "Purchase Receipt"},
 		{"label": "Purchase Invoices", "path": "/purchases/invoices", "doctype": "Purchase Invoice"},
@@ -164,15 +163,13 @@ NAVIGATION = (
 		{"label": "Cost Centers", "path": "/finance/cost-centers", "doctype": "Cost Center"}, {"label": "Modes of Payment", "path": "/finance/modes-of-payment", "doctype": "Mode of Payment"},
 		{"label": "Financial Reports", "path": "/reports/finance", "report": "General Ledger"},
 	)},
-	{"name": "operations", "label": "Operations", "path": "/operations", "accent": "turquoise", "icon": "settings", "any_read": ("Asset", "Work Order", "BOM", "Quality Inspection", "Project", "Issue"), "links": (
-		{"label": "Operations Dashboard", "path": "/operations", "any_read": ("Project", "Asset", "Work Order", "Issue")},
+	# SMJ resells ready-made goods, so this module carries no manufacturing,
+	# subcontracting or quality-inspection links.
+	{"name": "operations", "label": "Operations", "path": "/operations", "accent": "turquoise", "icon": "settings", "any_read": ("Asset", "Project", "Issue"), "links": (
+		{"label": "Operations Dashboard", "path": "/operations", "any_read": ("Project", "Asset", "Issue")},
 		{"label": "Projects", "path": "/operations/projects", "doctype": "Project"}, {"label": "Tasks", "path": "/operations/tasks", "doctype": "Task"},
 		{"label": "Assets", "path": "/operations/assets", "doctype": "Asset"}, {"label": "Asset Movements", "path": "/operations/asset-movements", "doctype": "Asset Movement"},
-		{"label": "Quality Inspections", "path": "/operations/quality-inspections", "doctype": "Quality Inspection"}, {"label": "Support Issues", "path": "/operations/support/issues", "doctype": "Issue"},
-		{"label": "Manufacturing", "path": "/operations/manufacturing", "doctype": "Work Order"}, {"label": "Bills of Materials", "path": "/operations/manufacturing/boms", "doctype": "BOM"},
-		{"label": "Production Plans", "path": "/operations/manufacturing/production-plans", "doctype": "Production Plan"}, {"label": "Work Orders", "path": "/operations/manufacturing/work-orders", "doctype": "Work Order"},
-		{"label": "Job Cards", "path": "/operations/manufacturing/job-cards", "doctype": "Job Card"}, {"label": "Operations", "path": "/operations/manufacturing/operations", "doctype": "Operation"},
-		{"label": "Workstations", "path": "/operations/manufacturing/workstations", "doctype": "Workstation"}, {"label": "Subcontracting", "path": "/operations/subcontracting", "doctype": "Subcontracting Order"},
+		{"label": "Support Issues", "path": "/operations/support/issues", "doctype": "Issue"},
 		{"label": "Departments", "path": "/operations/departments", "doctype": "Department"}, {"label": "Designations", "path": "/operations/designations", "doctype": "Designation"},
 	)},
 	{"name": "crm", "label": "CRM", "path": "/crm", "accent": "pink", "icon": "users", "any_read": ("Lead", "Opportunity", "Customer", "Contact"), "links": (
@@ -394,8 +391,7 @@ QUICK_CREATE_GROUPS = (
 		{"doctype": "Payment Entry", "label": "Receive Payment", "path": "/finance/payments/receive/new"},
 	)),
 	("Purchasing", (
-		"Supplier", "Material Request", "Request for Quotation", "Supplier Quotation",
-		"Purchase Order", "Purchase Receipt", "Purchase Invoice",
+		"Supplier", "Purchase Order", "Purchase Receipt", "Purchase Invoice",
 		{"doctype": "Payment Entry", "label": "Pay Supplier", "path": "/finance/payments/pay/new"},
 	)),
 	("Inventory", (

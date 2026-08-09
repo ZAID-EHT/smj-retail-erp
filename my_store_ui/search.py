@@ -34,9 +34,6 @@ SEARCH_REGISTRY = (
 	{"doctype": "Sales Order", "label": "Sales Orders", "fields": ("customer_name", "status", "transaction_date", "grand_total"), "route": "/sales/orders/{name}"},
 	{"doctype": "Delivery Note", "label": "Delivery Notes", "fields": ("customer_name", "status", "posting_date", "grand_total"), "route": "/sales/delivery-notes/{name}"},
 	{"doctype": "Sales Invoice", "label": "Sales Invoices", "fields": ("customer_name", "status", "posting_date", "grand_total", "outstanding_amount"), "route": "/sales/invoices/{name}"},
-	{"doctype": "Material Request", "label": "Material Requests", "fields": ("status", "transaction_date", "company"), "route": "/purchases/material-requests/{name}"},
-	{"doctype": "Request for Quotation", "label": "Requests for Quotation", "fields": ("transaction_date", "status", "company"), "route": "/purchases/requests-for-quotation/{name}"},
-	{"doctype": "Supplier Quotation", "label": "Supplier Quotations", "fields": ("supplier_name", "status", "transaction_date", "grand_total"), "route": "/purchases/supplier-quotations/{name}"},
 	{"doctype": "Purchase Order", "label": "Purchase Orders", "fields": ("supplier_name", "status", "transaction_date", "grand_total"), "route": "/purchases/orders/{name}"},
 	{"doctype": "Purchase Receipt", "label": "Purchase Receipts", "fields": ("supplier_name", "status", "posting_date", "grand_total"), "route": "/purchases/receipts/{name}"},
 	{"doctype": "Purchase Invoice", "label": "Purchase Invoices", "fields": ("supplier_name", "status", "posting_date", "grand_total", "outstanding_amount"), "route": "/purchases/invoices/{name}"},
@@ -54,7 +51,6 @@ SEARCH_REGISTRY = (
 	{"doctype": "Task", "label": "Tasks", "fields": ("subject", "status", "project"), "route": "/operations/tasks/{name}"},
 	{"doctype": "Asset", "label": "Assets", "fields": ("asset_name", "item_code", "status"), "route": "/operations/assets/{name}"},
 	{"doctype": "Issue", "label": "Support Issues", "fields": ("subject", "status", "customer"), "route": "/operations/support/issues/{name}"},
-	{"doctype": "Work Order", "label": "Work Orders", "fields": ("production_item", "status", "qty"), "route": "/operations/manufacturing/work-orders/{name}"},
 	{"doctype": "User", "label": "Users", "fields": ("full_name", "email", "enabled"), "route": "/admin/users/{name}"},
 )
 

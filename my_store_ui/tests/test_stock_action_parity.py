@@ -25,15 +25,14 @@ class TestStockActionParity(unittest.TestCase):
 
 	def test_source_verified_stock_actions_are_registered(self):
 		expected = {
-			"Material Request": {"bill_of_materials", "make_purchase_order_based_on_supplier", "subcontracted_purchase_order"},
 			"Pick List": {"create_delivery_note", "create_dn_for_pick_lists", "create_stock_entry", "get_items"},
 			"Purchase Receipt": {
 				"asset_movement", "delivery_note", "make_inter_company_delivery_note",
 				"make_purchase_return_against_rejected_warehouse", "make_stock_entry", "retention_stock_entry",
 			},
 			"Stock Entry": {
-				"alternate_item", "bill_of_materials", "create_sample_retention_stock_entry", "disassemble",
-				"expired_batches", "material_request", "purchase_invoice", "quality_inspection_s",
+				"alternate_item", "create_sample_retention_stock_entry",
+				"expired_batches", "purchase_invoice",
 				"received_stock_entries", "transit_entry",
 			},
 			"Serial and Batch Bundle": {"create_serial_nos", "make_0"},
@@ -44,13 +43,11 @@ class TestStockActionParity(unittest.TestCase):
 
 	def test_stock_mappings_use_fixed_symbolic_methods(self):
 		expected = {
-			"Material Request": {"make_purchase_order_based_on_supplier"},
 			"Pick List": {"create_delivery_note", "create_stock_entry"},
 			"Purchase Receipt": {
 				"make_inter_company_delivery_note", "make_purchase_return_against_rejected_warehouse", "make_stock_entry",
 			},
-			"Stock Entry": {"create_sample_retention_stock_entry", "disassemble"},
-			"BOM": {"make_quality_inspection"},
+			"Stock Entry": {"create_sample_retention_stock_entry"},
 		}
 		for doctype, actions in expected.items():
 			for action in actions:
@@ -60,11 +57,18 @@ class TestStockActionParity(unittest.TestCase):
 	def test_regional_and_helper_actions_have_truthful_classification(self):
 		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Stock Entry", "excise_invoice")][1], "not_required")
 		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Stock Entry", "make_stock_entry")][1], "internal")
-		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Quality Inspection", "make_quality_inspection")][2], "/retail-erp/operations/manufacturing/boms")
+
+	def test_manufacturing_and_inspection_actions_are_not_exposed(self):
+		"""SMJ resells ready-made goods: no BOM, subcontracting or inspection actions."""
+		self.assertNotIn("BOM", MAPPED_ACTIONS)
+		self.assertNotIn("disassemble", MAPPED_ACTIONS["Stock Entry"])
+		for action in ("make_subcontracting_order", "material_to_supplier", "return_of_components"):
+			self.assertNotIn(action, MAPPED_ACTIONS["Purchase Order"])
+		self.assertNotIn("bill_of_materials", DOCTYPE_SPECIFIC_ACTIONS["Stock Entry"])
+		self.assertNotIn("quality_inspection_s", DOCTYPE_SPECIFIC_ACTIONS["Stock Entry"])
 
 	def test_live_action_discovery_returns_only_symbolic_actions(self):
 		for feature, doctype in {
-			"material-request": "Material Request",
 			"pick-list": "Pick List",
 			"purchase-receipt": "Purchase Receipt",
 			"stock-entry": "Stock Entry",
@@ -94,7 +98,7 @@ class TestStockActionParity(unittest.TestCase):
 		keys = corrected_production_parity_audit()["required_but_missing_feature_keys"]
 		stock_doctypes = {
 			"inventory-dimension", "material-request", "pick-list", "price-list", "purchase-receipt",
-			"quality-inspection", "serial-and-batch-bundle", "stock-entry", "stock-reconciliation",
+			"serial-and-batch-bundle", "stock-entry", "stock-reconciliation",
 		}
 		self.assertFalse(any(any(f":document-action:{doctype}:" in key for doctype in stock_doctypes) for key in keys))
 

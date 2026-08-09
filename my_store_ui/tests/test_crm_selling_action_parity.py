@@ -41,7 +41,7 @@ class TestCrmSellingActionParity(unittest.TestCase):
 		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Opportunity", "make_opportunity_from_communication")][1], "internal")
 
 	def test_new_transaction_routes_are_registered(self):
-		self.assertEqual(CANONICAL_ROUTE_BY_DOCTYPE["Blanket Order"], "/sales/blanket-orders")
+		self.assertNotIn("Blanket Order", CANONICAL_ROUTE_BY_DOCTYPE)
 		self.assertEqual(CANONICAL_ROUTE_BY_DOCTYPE["Maintenance Schedule"], "/operations/maintenance-schedules")
 		self.assertEqual(CANONICAL_ROUTE_BY_DOCTYPE["Maintenance Visit"], "/operations/maintenance-visits")
 
@@ -55,7 +55,7 @@ class TestCrmSellingActionParity(unittest.TestCase):
 	def test_corrected_audit_has_no_crm_selling_items_left(self):
 		keys = corrected_production_parity_audit()["required_but_missing_feature_keys"]
 		parents = {
-			"blanket-order", "campaign", "delivery-trip", "installation-note", "lead",
+			"campaign", "delivery-trip", "installation-note", "lead",
 			"maintenance-schedule", "maintenance-visit", "opportunity", "prospect", "quotation",
 		}
 		self.assertFalse(any(any(f":document-action:{parent}:" in key for parent in parents) for key in keys))

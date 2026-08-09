@@ -30,39 +30,27 @@ class TestBuyingActionParity(unittest.TestCase):
 	def test_source_verified_buying_actions_are_registered(self):
 		expected = {
 			"Purchase Order": {
-				"delivered", "link_to_material_request", "make_inter_company_sales_order",
-				"make_subcontracting_order", "material_to_supplier", "return_of_components",
+				"delivered", "make_inter_company_sales_order",
 				"update_items", "update_rate_as_per_last_purchase", "update_status",
 			},
-			"Request for Quotation": {
-				"download_pdf", "get_suppliers", "link_to_material_requests",
-				"material_request", "opportunity", "possible_supplier",
-			},
-			"Supplier Quotation": {"make_purchase_invoice", "link_to_material_requests", "update_items"},
 			"Supplier": {"get_supplier_group_details", "link_with_customer"},
 		}
 		for doctype, actions in expected.items():
 			self.assertTrue(actions <= DOCTYPE_SPECIFIC_ACTIONS[doctype], f"Missing credits for {doctype}")
 
 	def test_new_mappings_use_fixed_symbolic_methods(self):
-		self.assertEqual(MAPPED_ACTIONS["Supplier Quotation"]["make_purchase_invoice"]["target"], "Purchase Invoice")
-		for action in {
-			"make_inter_company_sales_order", "make_subcontracting_order",
-			"material_to_supplier", "return_of_components",
-		}:
+		for action in {"make_inter_company_sales_order"}:
 			self.assertIn(action, MAPPED_ACTIONS["Purchase Order"])
 			self.assertNotIn(".", MAPPED_ACTIONS["Purchase Order"][action]["method"])
 
 	def test_portal_and_scheduler_actions_are_not_fake_staff_buttons(self):
 		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Purchase Order", "make_purchase_invoice_from_portal")][0], "external_app_adapter")
-		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Request for Quotation", "create_supplier_quotation")][0], "external_app_adapter")
 		self.assertEqual(DOCUMENT_ACTION_OVERRIDES[("Supplier Scorecard", "make_all_scorecards")][0], "internal")
 
 	def test_live_action_discovery_returns_only_allowlisted_actions(self):
 		for feature, doctype in {
 			"purchase-order": "Purchase Order",
-			"request-for-quotation": "Request for Quotation",
-			"supplier-quotation": "Supplier Quotation",
+			"purchase-receipt": "Purchase Receipt",
 			"supplier": "Supplier",
 		}.items():
 			name = self._first_record(doctype)

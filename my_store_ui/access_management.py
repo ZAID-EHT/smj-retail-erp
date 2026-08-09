@@ -32,7 +32,7 @@ PERMISSION_TYPES = (
 # The business DocTypes whose effective access is worth showing an administrator.
 EFFECTIVE_ACCESS_DOCTYPES = (
 	"Customer", "Supplier", "Item", "Quotation", "Sales Order", "Delivery Note",
-	"Sales Invoice", "Material Request", "Purchase Order", "Purchase Receipt",
+	"Sales Invoice", "Purchase Order", "Purchase Receipt",
 	"Purchase Invoice", "Payment Entry", "Journal Entry", "Stock Entry",
 	"Stock Reconciliation", "User", "Role",
 )

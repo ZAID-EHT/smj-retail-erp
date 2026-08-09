@@ -177,8 +177,7 @@ class TestPriorityPageCoverage(unittest.TestCase):
 	def test_mapping_registry_contains_only_fixed_server_methods(self):
 		expected = {
 			("Quotation", "make_sales_order"), ("Quotation", "make_sales_invoice"),
-			("Material Request", "make_request_for_quotation"), ("Material Request", "make_purchase_order"),
-			("Supplier Quotation", "make_purchase_order"), ("Purchase Order", "make_purchase_receipt"),
+			("Purchase Order", "make_purchase_receipt"),
 			("Purchase Order", "make_purchase_invoice"), ("Purchase Receipt", "make_purchase_invoice"),
 			("Purchase Invoice", "make_payment_entry"), ("Opportunity", "make_quotation"),
 		}

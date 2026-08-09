@@ -50,8 +50,8 @@ STOCK_CHART_KEYS = {
 	"delivery-trends", "item-shortage-summary", "oldest-items", "purchase-receipt-trends",
 	"stock-value-by-item-group", "warehouse-wise-stock-value",
 }
-OPERATIONS_CARD_KEYS = {"open-projects", "open-tasks", "overdue-tasks", "open-issues", "active-work-orders", "active-assets"}
-OPERATIONS_CHART_KEYS = {"project-status", "task-status", "tasks-created-trend", "issue-priority", "work-order-status", "asset-status"}
+OPERATIONS_CARD_KEYS = {"open-projects", "open-tasks", "overdue-tasks", "open-issues", "active-assets"}
+OPERATIONS_CHART_KEYS = {"project-status", "task-status", "tasks-created-trend", "issue-priority", "asset-status"}
 ADMIN_CARD_KEYS = {"enabled-users", "disabled-users", "roles", "companies", "active-warehouses", "recent-errors"}
 ADMIN_CHART_KEYS = {"user-growth", "user-types", "role-assignment", "error-activity", "scheduler-status"}
 CUSTOM_CARD_KEYS = {
