@@ -192,7 +192,12 @@ async function load() {
       price_list: priceList.value,
       customer: customer.value,
     }, controller.signal);
-    warehouse.value ||= data.value.warehouses?.[0] || "";
+    // Deliberately not defaulted. This select filters the catalogue's stock
+    // figures, and pinning it to whichever warehouse happens to sort first
+    // hides every unit held anywhere else: a purchase received into one
+    // warehouse looked like it had never arrived. Empty means "all
+    // warehouses", which is the honest total. A warehouse is still required
+    // to create the order, and createOrder() enforces that.
     priceList.value = data.value.price_list || priceList.value || "";
   } catch (caught) {
     if (caught.name !== "AbortError") error.value = caught;
@@ -473,7 +478,7 @@ onBeforeUnmount(() => {
         </article>
         <article>
           <span class="smj-sales-kpis__icon"><SmjActualStockWarehouse size="20" decorative /></span>
-          <div><small>Actual stock shown</small><strong>{{ stockSummary.actual.toLocaleString() }}</strong><em>{{ warehouse || "Select warehouse" }}</em></div>
+          <div><small>Actual stock shown</small><strong>{{ stockSummary.actual.toLocaleString() }}</strong><em>{{ warehouse || "across all warehouses" }}</em></div>
         </article>
         <article>
           <span class="smj-sales-kpis__icon"><SmjReserveCubeLock size="20" decorative /></span>
@@ -582,7 +587,7 @@ onBeforeUnmount(() => {
           </label>
           <label>
             <span>Warehouse</span>
-            <select v-model="warehouse"><option v-for="value in data?.warehouses || []" :key="value">{{ value }}</option></select>
+            <select v-model="warehouse"><option value="">All warehouses</option><option v-for="value in data?.warehouses || []" :key="value">{{ value }}</option></select>
           </label>
           <label>
             <span>Price List</span>
