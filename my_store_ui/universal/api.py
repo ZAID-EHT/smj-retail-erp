@@ -140,6 +140,9 @@ OUT_OF_CONTEXT_FIELDS = {
 	"Purchase Invoice": {
 		"is_subcontracted", "is_old_subcontracting_flow", "supplied_items",
 		"raw_materials_supplied",
+		# Always on, enforced by my_store_ui.purchase_stock.force_update_stock.
+		# A checkbox that cannot be changed only invites someone to try.
+		"update_stock",
 	},
 	"Purchase Order Item": _BUYING_ROW_NOISE | {
 		"bom", "include_exploded_items", "production_plan", "production_plan_item",
@@ -218,14 +221,7 @@ FIELD_LABEL_OVERRIDES = {
 
 # Defaults ERPNext ships that do not match how this business works. Applied to
 # the values the add form prefills, so the common case needs no thought.
-FIELD_DEFAULT_OVERRIDES = {
-	# SMJ's goods and the supplier's bill arrive together: one Purchase Invoice
-	# records both. ERPNext defaults update_stock to 0, which posts the money
-	# and moves no stock at all -- the invoice looks right, the shelf stays
-	# empty, and the cost strands itself in "Stock Received But Not Billed"
-	# waiting for a Purchase Receipt that never comes.
-	("Purchase Invoice", "update_stock"): 1,
-}
+FIELD_DEFAULT_OVERRIDES = {}
 
 # ERPNext ships production purposes/types inside shared Select fields. Dropping
 # the whole field would break the document, so the options are filtered down to
@@ -281,7 +277,7 @@ SIMPLE_CREATE_FIELDS = {
 	),
 	"Purchase Invoice": (
 		"supplier", "company", "posting_date", "due_date", "bill_no", "bill_date",
-		"currency", "buying_price_list", "update_stock", "set_warehouse", "items",
+		"currency", "buying_price_list", "set_warehouse", "items",
 		"taxes_and_charges", "taxes", "payment_terms_template",
 	),
 	# Payment Entry is deliberately absent: it is served by the custom entity

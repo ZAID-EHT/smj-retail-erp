@@ -235,6 +235,14 @@ doc_events = {
 	"Payment Entry": {
 		"validate": "my_store_ui.wholesale.transaction_id.propagate_payment_entry",
 	},
+	# Goods and the supplier's bill arrive together here, so a Purchase Invoice
+	# always brings its stock in. Enforced as a hook rather than a form default
+	# so it holds on every path into the document -- Retail ERP, the desk, the
+	# REST API, data import. See my_store_ui/purchase_stock.py for the one
+	# exception (goods already received on a Purchase Receipt).
+	"Purchase Invoice": {
+		"validate": "my_store_ui.purchase_stock.force_update_stock",
+	},
 }
 
 # Scheduled Tasks
