@@ -44,11 +44,16 @@ function emptyMessage() {
   return `No matching permitted ${props.field.options || "options"}.`;
 }
 const textTypes = ["Small Text", "Text", "Long Text", "Text Editor", "Code"];
+// A `readonly` input still looks and focuses exactly like a typeable one, so a
+// calculated figure such as Amount reads as something you are meant to fill in.
+// Marking it also drops it out of the tab order: nothing about it should invite
+// an edit that the server would discard anyway.
+const isCalculated = () => Boolean(props.field.read_only);
 </script>
 
 <template>
   <label :class="['ru-field', { 'ru-field--error': error, 'ru-field--wide': textTypes.includes(field.fieldtype) }]" :for="`ru-${parentFieldname}-${field.fieldname}`">
-    <span>{{ field.label }} <b v-if="field.required" aria-hidden="true">*</b></span>
+    <span>{{ field.label }} <b v-if="field.required && !isCalculated()" aria-hidden="true">*</b><em v-if="isCalculated()" class="ru-field__calc">calculated</em></span>
     <small v-if="field.description" class="ru-field__description">{{ field.description }}</small>
     <div v-if="field.fieldtype === 'Link' || field.fieldtype === 'Dynamic Link'" class="ru-link">
       <input :id="`ru-${parentFieldname}-${field.fieldname}`" v-model="query" :readonly="field.read_only" :required="field.required" :placeholder="`Search ${field.options || 'options'}…`" type="search" autocomplete="off" role="combobox" :aria-expanded="linkOpen" aria-autocomplete="list" @focus="openLink" @blur="closeLink" @keydown="onLinkKeydown" />
@@ -63,7 +68,7 @@ const textTypes = ["Small Text", "Text", "Long Text", "Text Editor", "Code"];
     <input v-else-if="field.fieldtype === 'Check'" :id="`ru-${parentFieldname}-${field.fieldname}`" :checked="Boolean(modelValue)" :disabled="field.read_only" type="checkbox" @change="update" />
     <input v-else-if="field.fieldtype === 'Attach' || field.fieldtype === 'Attach Image'" :id="`ru-${parentFieldname}-${field.fieldname}`" :value="modelValue ?? ''" :readonly="field.read_only" type="url" placeholder="/files/example.ext" @input="update" />
     <input v-else-if="field.fieldtype === 'Password'" :id="`ru-${parentFieldname}-${field.fieldname}`" :value="modelValue ?? ''" :readonly="field.read_only" :required="field.required" type="password" autocomplete="new-password" @input="update" />
-    <input v-else :id="`ru-${parentFieldname}-${field.fieldname}`" :value="modelValue ?? ''" :readonly="field.read_only" :required="field.required" :min="field.non_negative ? 0 : undefined" :maxlength="field.length || undefined" :type="field.fieldtype === 'Date' ? 'date' : field.fieldtype === 'Datetime' ? 'datetime-local' : field.fieldtype === 'Time' ? 'time' : field.fieldtype === 'Color' ? 'color' : ['Currency','Float','Int','Percent','Duration','Rating'].includes(field.fieldtype) ? 'number' : 'text'" :step="field.fieldtype === 'Int' ? 1 : 'any'" @input="update" />
+    <input v-else :id="`ru-${parentFieldname}-${field.fieldname}`" :value="modelValue ?? ''" :readonly="field.read_only" :class="{ 'is-calculated': isCalculated() }" :tabindex="isCalculated() ? -1 : undefined" :required="field.required" :min="field.non_negative ? 0 : undefined" :maxlength="field.length || undefined" :type="field.fieldtype === 'Date' ? 'date' : field.fieldtype === 'Datetime' ? 'datetime-local' : field.fieldtype === 'Time' ? 'time' : field.fieldtype === 'Color' ? 'color' : ['Currency','Float','Int','Percent','Duration','Rating'].includes(field.fieldtype) ? 'number' : 'text'" :step="field.fieldtype === 'Int' ? 1 : 'any'" @input="update" />
     <small v-if="error" class="ru-field__error">{{ error }}</small>
   </label>
 </template>

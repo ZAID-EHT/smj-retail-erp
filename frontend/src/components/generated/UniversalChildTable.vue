@@ -2,7 +2,24 @@
 import UniversalField from "./UniversalField.vue";
 const props = defineProps({ modelValue: { type: Array, default: () => [] }, field: { type: Object, required: true }, feature: { type: String, required: true }, readOnly: Boolean });
 const emit = defineEmits(["update:modelValue"]);
-function update(index, fieldname, value) { const rows = props.modelValue.map((row) => ({ ...row })); rows[index][fieldname] = value; emit("update:modelValue", rows); }
+// Amount is calculated by the server on save, so until then the field sat
+// blank and looked like something the user had forgotten to fill in. Every
+// ERPNext transaction line means the same thing by it -- qty x rate -- so it is
+// filled in as soon as both exist. This is display only: the field is read-only
+// and the server strips it from the payload, so it can never disagree with the
+// posted figure.
+const CALCULATED = { amount: ["qty", "rate"] };
+function update(index, fieldname, value) {
+  const rows = props.modelValue.map((row) => ({ ...row }));
+  rows[index][fieldname] = value;
+  for (const [target, [left, right]] of Object.entries(CALCULATED)) {
+    if (fieldname !== left && fieldname !== right) continue;
+    if (!(props.field.child_fields || []).some((item) => item.fieldname === target)) continue;
+    const a = Number(rows[index][left]); const b = Number(rows[index][right]);
+    rows[index][target] = Number.isFinite(a) && Number.isFinite(b) ? a * b : null;
+  }
+  emit("update:modelValue", rows);
+}
 function add() { const row = Object.fromEntries((props.field.child_fields || []).filter((item) => item.default != null).map((item) => [item.fieldname, item.default])); emit("update:modelValue", [...props.modelValue, row]); }
 function remove(index) { emit("update:modelValue", props.modelValue.filter((_row, position) => position !== index)); }
 function duplicate(index) { emit("update:modelValue", [...props.modelValue.slice(0, index + 1), { ...props.modelValue[index], name: undefined, idx: undefined }, ...props.modelValue.slice(index + 1)]); }
