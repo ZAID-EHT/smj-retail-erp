@@ -330,3 +330,20 @@
 .smj-policy .rug-form-grid label span,.smj-periods .rug-form-grid label span{display:block;margin-bottom:4px;color:var(--ref-secondary-text);font-size:11px;font-weight:700}
 .smj-policy .rug-form-grid input,.smj-policy .rug-form-grid select,.smj-periods .rug-form-grid input,.smj-periods .rug-form-grid select{width:100%;padding:8px 10px;border:1px solid var(--ref-border-colour);border-radius:8px;font:inherit;font-size:13px}
 .smj-periods .rug-table small{display:block;color:var(--ref-secondary-text);font-size:9px}
+
+/* The product card is the main control on Smart Sales, but it read as a slab of
+   text: the "+ Add to cart" label had no styling of its own, so a click landed
+   as a text selection and the card never moved. It now lifts on hover, the
+   label looks like the button it is, and nothing inside the card is
+   selectable. */
+.priority-product-grid>:is(button,article){user-select:none;-webkit-user-select:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.priority-product-grid>:is(button,article):hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(23,32,51,.16)}
+.priority-product-grid>:is(button,article):active{transform:translateY(-1px)}
+.priority-product-grid>:is(button,article):focus-visible{outline:2px solid var(--ref-primary-blue);outline-offset:2px}
+.smj-product-add{margin-top:7px;padding:8px 10px;border-radius:8px;background:var(--ref-blue-background,#eef3fb);color:var(--ref-primary-blue);font-size:10px;font-weight:800;text-align:center;transition:background .15s ease,color .15s ease}
+.priority-product-grid>:is(button,article):hover .smj-product-add{background:var(--ref-primary-blue);color:#fff}
+/* A card that will refuse the click must not lift, and must not offer a blue
+   call to action it cannot honour. */
+.priority-product-grid>article[aria-disabled="true"]:hover{transform:none;box-shadow:none}
+.priority-product-grid>article[aria-disabled="true"] .smj-product-add,
+.priority-product-grid>article[aria-disabled="true"]:hover .smj-product-add{background:#eef1f6;color:var(--ref-secondary-text)}

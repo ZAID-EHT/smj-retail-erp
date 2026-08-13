@@ -715,7 +715,7 @@ onBeforeUnmount(() => {
               <small v-if="Number(item.carton_qty || 0) > 1" class="smj-carton-note">
                 Carton = {{ Number(item.carton_qty) }} {{ item.stock_uom }}
               </small>
-              <span class="smj-product-add">{{ outOfStock(item) ? "Unavailable" : "+ Add to cart" }}</span>
+              <span class="smj-product-add">{{ !customerSelected ? "Select a customer first" : outOfStock(item) ? "Out of stock" : "+ Add to cart" }}</span>
             </article>
           </div>
         </section>
