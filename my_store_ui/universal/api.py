@@ -78,6 +78,38 @@ WRITE_ONLY_INPUT_FIELDS = {"User": ("new_password",)}
 # currency, so the mirror is always identical), or a workflow this business
 # does not run. Dropping them from the form does not change a single posted
 # figure -- the controller still calculates and stores them.
+# A second pass, after seeing a real invoice being typed. What a buyer actually
+# decides on a line is: which product, how many, what price, where it goes.
+# Everything here is either fetched from the Item master and shown back at them,
+# or a total the controller computes, or a link only a mapper ever fills.
+_BUYING_ROW_FETCHED = frozenset({
+	# Fetched from the Item and displayed read-back: the Item link already
+	# identifies the product, and the description is a paragraph of catalogue
+	# text taking a third of the row.
+	"item_name", "description",
+	# Purchase UOM: every correct row in this site's history bought the item in
+	# its own stock UOM. Leaving the field editable let "Carton" be picked for an
+	# item with no Carton conversion defined, which silently records 200 cartons
+	# as 200 pieces. Without the field, qty always means stock units.
+	"uom",
+	# Pricing scaffolding. The buyer types the Rate they are paying; the list
+	# price and the two discount fields only ever restate it, and Discount Amount
+	# cannot even be typed (the controller recomputes it from the percentage).
+	"price_list_rate", "discount_percentage", "discount_amount",
+	# No Item carries a tax template; VAT comes from the document-level Purchase
+	# Taxes and Charges table.
+	"item_tax_template",
+	# update_stock is forced on, so the controller always posts to the warehouse's
+	# stock account. There is nothing left to choose.
+	"expense_account",
+	# Serial and batch: no Item on this site is serial-tracked, and batch
+	# tracking is off. These three only ever sat empty.
+	"serial_and_batch_bundle", "use_serial_batch_fields", "batch_no",
+	# Filled by the mapper when an invoice is raised from an order or receipt,
+	# never typed. The Linked Documents panel already shows the relationship.
+	"purchase_order", "purchase_receipt", "purchase_invoice",
+})
+
 _BUYING_ROW_NOISE = frozenset({
 	# Company-currency mirrors of the field right above them.
 	"base_price_list_rate", "base_rate", "base_amount", "base_net_rate", "base_net_amount",
@@ -144,7 +176,7 @@ OUT_OF_CONTEXT_FIELDS = {
 		# A checkbox that cannot be changed only invites someone to try.
 		"update_stock",
 	},
-	"Purchase Order Item": _BUYING_ROW_NOISE | {
+	"Purchase Order Item": _BUYING_ROW_NOISE | _BUYING_ROW_FETCHED | {
 		"bom", "include_exploded_items", "production_plan", "production_plan_item",
 		"production_plan_sub_assembly_item", "fg_item", "fg_item_qty",
 		"subcontracted_quantity", "wip_composite_asset", "manufacturer", "manufacturer_part_no",
@@ -156,7 +188,7 @@ OUT_OF_CONTEXT_FIELDS = {
 		# progress figures.
 		"sales_order", "sales_order_item", "sales_order_packed_item", "returned_qty", "billed_amt",
 	},
-	"Purchase Receipt Item": _BUYING_ROW_NOISE | {
+	"Purchase Receipt Item": _BUYING_ROW_NOISE | _BUYING_ROW_FETCHED | {
 		"bom", "include_exploded_items", "wip_composite_asset", "subcontracting_receipt_item",
 		"manufacturer", "manufacturer_part_no", "quality_inspection",
 		"against_blanket_order", "blanket_order", "blanket_order_rate",
@@ -169,7 +201,7 @@ OUT_OF_CONTEXT_FIELDS = {
 		"return_qty_from_rejected_warehouse", "delivery_note_item", "putaway_rule",
 		"provisional_expense_account", "sales_order", "sales_order_item", "schedule_date",
 	},
-	"Purchase Invoice Item": _BUYING_ROW_NOISE | {
+	"Purchase Invoice Item": _BUYING_ROW_NOISE | _BUYING_ROW_FETCHED | {
 		"bom", "include_exploded_items", "wip_composite_asset",
 		"manufacturer", "manufacturer_part_no", "quality_inspection",
 		"material_request", "material_request_item",
