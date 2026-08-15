@@ -6,6 +6,7 @@ import PageContainer from "@/components/layout/PageContainer.vue";
 import OptionSelect from "@/components/forms/OptionSelect.vue";
 import {
   checkWhatsappNumber, createCustomer, findDuplicateCustomers, getCustomer, getPriceCategories,
+  previewCustomerId,
 } from "@/services/customerQuickEntry.js";
 import {
   assignCustomerSalesManager, getCustomerSalesAssignment, listSalesPersons,
@@ -18,6 +19,12 @@ import {
    a different way. */
 const PHONE_EXAMPLE = "0778754231";
 const PHONE_HINT = `Enter the number as ${PHONE_EXAMPLE}.`;
+
+/* Every customer carries a generated ID (CUS00001, CUS00002, ...) in the same
+   shape as a Product ID. On a new customer this shows the number the next save
+   would take -- a preview, not a reservation, so opening the form does not burn
+   an ID. On an edit it shows the one the record already holds. */
+const customerId = ref("");
 
 const route = useRoute();
 const router = useRouter();
@@ -189,7 +196,12 @@ async function init() {
         credit_limit: c.credit_limit, credit_days: c.credit_days,
       });
       created.value = c.created;
+      customerId.value = editName.value;
     } catch (caught) { error.value = caught; }
+  } else {
+    try {
+      customerId.value = (await previewCustomerId())?.customer_id || "";
+    } catch { customerId.value = ""; }
   }
   loading.init = false;
 }
@@ -250,6 +262,10 @@ init();
         <section class="rug-section-card">
           <header><div><h2>Customer Information</h2></div></header>
           <div class="rug-form-grid">
+            <label><span>Customer ID</span>
+              <input :value="customerId || 'Auto-generated on save'" type="text" readonly class="is-calculated" tabindex="-1" />
+              <small v-if="!editName">Preview of the next ID. Settled when the customer is saved.</small>
+            </label>
             <label><span>Customer *</span><input v-model="form.customer_name" type="text" required /></label>
             <label><span>BR No</span><input v-model="form.br_no" type="text" /></label>
             <label><span>VAT No</span><input v-model="form.vat_no" type="text" /></label>

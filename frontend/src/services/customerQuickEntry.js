@@ -37,3 +37,4 @@ export const checkWhatsappNumber = (whatsapp_no, name) =>
 // The three Price Categories -- Wholesale, Department, Retail -- and which of them
 // the site actually has a selling Price List for.
 export const getPriceCategories = () => call("get_price_categories");
+export const previewCustomerId = () => call("preview_customer_id");

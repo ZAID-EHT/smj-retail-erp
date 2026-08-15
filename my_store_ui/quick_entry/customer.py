@@ -17,7 +17,17 @@ import re
 
 import frappe
 from frappe import _
+from frappe.model.naming import make_autoname
 from frappe.utils import cint, flt
+
+# Customer ID series (CUS00001, CUS00002, ...), matching the Product ID series
+# in quick_entry/product.py. ERPNext names a Customer after its customer_name by
+# default, which gives records called "MOHAMMED" and collides the moment two
+# people share a name. make_autoname treats dots as format separators: literal
+# characters stay, hashes become a zero-padded counter, so "CUS.#####" is
+# CUS00001.
+CUSTOMER_ID_SERIES = "CUS.#####"
+CUSTOMER_ID_PREFIX = "CUS"
 
 CREDIT_TYPE_FIELD = "custom_credit_type"
 CREDIT = "Credit Customer"
@@ -220,6 +230,11 @@ def _create_customer(values: dict | str, name: str | None = None):
 		if not frappe.has_permission("Customer", "create"):
 			frappe.throw(_("You cannot create customers."), frappe.PermissionError)
 		doc = frappe.new_doc("Customer")
+		# Fix the name now rather than letting ERPNext fall back to customer_name.
+		# naming_series is set too so the stored document agrees with its own name.
+		doc.naming_series = CUSTOMER_ID_SERIES
+		doc.name = make_autoname(CUSTOMER_ID_SERIES)
+		doc.flags.name_set = True
 		doc.customer_type = "Company"
 		doc.customer_group = frappe.get_all("Customer Group", filters={"is_group": 0}, pluck="name")[0]
 		doc.territory = frappe.get_all("Territory", filters={"is_group": 0}, pluck="name")[0]
@@ -394,3 +409,19 @@ def get_customer(name: str) -> dict:
 		"credit_limit": credit_limit, "credit_days": cint(doc.custom_credit_days),
 		"created": str(doc.creation),
 	}
+
+
+@frappe.whitelist(methods=["GET"])
+def preview_customer_id() -> dict:
+	"""The Customer ID the next customer would receive.
+
+	A preview, not a reservation: it reads the counter without advancing it, so
+	opening the form ten times does not burn ten numbers. The real value is
+	settled at save time, which is why the form labels it as a preview.
+	"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
+	row = frappe.db.sql("SELECT `current` FROM `tabSeries` WHERE `name` = %s", (CUSTOMER_ID_PREFIX,))
+	current = cint(row[0][0]) if row and row[0][0] is not None else 0
+	digits = len(CUSTOMER_ID_SERIES.split(".")[-1])
+	return {"customer_id": f"{CUSTOMER_ID_PREFIX}{current + 1:0{digits}d}"}
