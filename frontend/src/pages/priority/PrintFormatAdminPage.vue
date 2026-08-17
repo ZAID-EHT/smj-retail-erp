@@ -211,7 +211,18 @@ const documents = computed(() => data.value?.documents || []);
         <div class="smj-print-modal__body">
           <p v-if="previewLoading" class="smj-print-modal__state">Loading preview…</p>
           <p v-else-if="previewError" class="rug-inline-error" role="alert">{{ previewError }}</p>
-          <iframe v-else id="smj-print-frame" :srcdoc="preview.html" title="Print preview"></iframe>
+          <!-- srcdoc without a sandbox inherits this origin and runs any script the
+               print HTML carries, and frappe.get_print does not escape document field
+               values. Omitting allow-scripts disables scripting outright; keeping
+               allow-same-origin is what still lets printPreview() reach contentWindow,
+               and it grants nothing on its own while scripts stay off. -->
+          <iframe
+            v-else
+            id="smj-print-frame"
+            :srcdoc="preview.html"
+            sandbox="allow-same-origin allow-modals"
+            title="Print preview"
+          ></iframe>
         </div>
 
         <footer>

@@ -138,7 +138,18 @@ init();
               >Download PDF</a>
             </div>
           </div>
-          <div v-if="preview.html" class="print-preview" v-html="preview.html" />
+          <!-- Print HTML comes from frappe.get_print, which does not escape document
+               field values: a quotation line described as "<img src=x onerror=...>"
+               is emitted verbatim. Rendered into this page it would execute on our
+               origin with the viewer's session. An empty sandbox denies scripting,
+               so the preview shows such a payload as the text it is. -->
+          <iframe
+            v-if="preview.html"
+            class="print-preview"
+            :srcdoc="preview.html"
+            sandbox=""
+            title="Print preview"
+          ></iframe>
         </section>
       </template>
     </main>
@@ -149,5 +160,5 @@ init();
 .print-page label{display:grid;gap:.4rem;font-weight:700}
 .print-page label select{min-height:44px;border:1px solid var(--ref-border-colour);border-radius:.75rem;padding:0 .8rem;background:var(--ref-card-background);color:var(--ref-primary-text)}
 .print-actions{display:flex;align-items:end}
-.print-preview{margin-top:1rem;padding:1rem;border:1px solid var(--ref-border-colour);border-radius:.75rem;background:#fff;color:#111;max-height:640px;overflow:auto}
+.print-preview{margin-top:1rem;width:100%;height:640px;border:1px solid var(--ref-border-colour);border-radius:.75rem;background:#fff;display:block}
 </style>
