@@ -26,10 +26,13 @@ unrecoverable through the UI.
 
 from __future__ import annotations
 
+from urllib.parse import unquote, urlsplit
+
 import frappe
 from frappe import _
 
 from my_store_ui.services.frontend_routes import NAVIGATION
+from my_store_ui.services.priority_registry import REPORT_GROUPS
 
 # Roles this tool refuses to touch. System Manager and Administrator are how the
 # system is repaired; All and Guest are framework-level and shared by everyone.
@@ -246,7 +249,7 @@ def create_role_with_page_access(
 	paths=None,
 	disabled: int = 0,
 	desk_access: int = 1,
-	is_custom: int = 0,
+	is_custom: int = 1,
 	access_level: str = "submit",
 ) -> dict:
 	"""Atomically create a Role, store its visible pages, and grant their data access."""
@@ -416,3 +419,31 @@ def allowed_paths_for_user() -> set[str] | None:
 			"Retail Role Page", filters={"parent": name, "parenttype": ACCESS_DOCTYPE}, pluck="path",
 		))
 	return allowed
+
+
+def path_is_allowed_for_user(path: str) -> bool:
+	"""Apply configured role page access to routes outside the visible menu too."""
+	allowed = allowed_paths_for_user()
+	if allowed is None:
+		return True
+	relative = urlsplit(str(path or "")).path.rstrip("/") or "/"
+	if relative == "/retail-erp":
+		relative = "/home"
+	elif relative.startswith("/retail-erp/"):
+		relative = relative[len("/retail-erp"):]
+	# These internal destinations must remain reachable so a refusal can render
+	# instead of recursively refusing its own error page.
+	if relative in {"/permission-denied", "/not-found", "/feature-unavailable"}:
+		return True
+	for selected in allowed:
+		selected = str(selected or "").rstrip("/") or "/"
+		if relative == selected or relative.startswith(f"{selected}/"):
+			return True
+	# A report result opens /reports/view/<name>, while role setup selects the
+	# corresponding report group. Preserve that explicit relationship.
+	if relative.startswith("/reports/view/"):
+		report_name = unquote(relative[len("/reports/view/"):])
+		for group, names in REPORT_GROUPS.items():
+			if report_name in names and ("/reports" in allowed or f"/reports/{group}" in allowed):
+				return True
+	return False

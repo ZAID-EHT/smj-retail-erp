@@ -13,7 +13,7 @@ const form = reactive({
   role_name: "",
   disabled: false,
   desk_access: true,
-  is_custom: false,
+  is_custom: true,
   access_level: "submit",
 });
 const loading = ref(true);

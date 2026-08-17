@@ -274,7 +274,10 @@ RESTRICTED_SELECT_OPTIONS = {
 # The full field set is still returned for editing; the frontend applies this
 # subset (in order) only when adding a new record, to keep onboarding simple.
 SIMPLE_CREATE_FIELDS = {
-	"User": ("username", "new_password", "roles", "role_profile_name", "email", "first_name", "last_name", "enabled"),
+	# Account creation is deliberately four controls: the username and password
+	# used to sign in, whether the account is enabled, and one custom role whose
+	# saved page list controls the Retail ERP surface.
+	"User": ("username", "new_password", "enabled", "roles"),
 	# Supplier flows through the universal generated engine, so its curated add
 	# form lives here. Customer and Item use the custom entity forms
 	# (services/entity_schemas.py + form_schemas.py), which are already curated and
@@ -539,8 +542,9 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 		definition["label"] = _("Role Profile (optional)")
 		definition["description"] = _("Choose a saved Role Profile bundle, or assign individual roles in the Roles Assigned table below.")
 	if field.parent == "User" and field.fieldname == "roles":
-		definition["label"] = _("Roles Assigned")
-		definition["description"] = _("Add individual permitted roles for this user. Role Profile selections may replace these roles during standard User validation.")
+		definition["label"] = _("Custom Role")
+		definition["description"] = _("Choose one enabled custom role. This role's saved page access controls the header, pages, direct URLs and search results.")
+		definition["simple_create_single"] = True
 	if field.parent == "User" and field.fieldname == "enabled":
 		definition["label"] = _("Account Enabled")
 		definition["description"] = _("Turn off to immediately revoke this user's access. Re-enable to restore it.")
@@ -548,8 +552,11 @@ def _field_definition(field, *, writable: set[str], depth: int = 0) -> dict:
 		definition["label"] = _("Roles In This Profile")
 		definition["description"] = _("Every user assigned this profile receives these roles.")
 	if field.parent == "User" and field.fieldname == "new_password":
-		definition["label"] = _("Set Password (optional)")
-		definition["description"] = _("Set or reset this user's login password directly. Leave blank to keep the current password or rely on the welcome email.")
+		definition["label"] = _("Login Password")
+		definition["description"] = _("The password this user must enter to sign in.")
+	if field.parent == "User" and field.fieldname == "username":
+		definition["label"] = _("Login Username")
+		definition["description"] = _("The username this person enters on the Retail ERP login page.")
 	if field.fieldtype in {"Table", "Table MultiSelect"} and field.options and depth == 0:
 		child_meta = frappe.get_meta(field.options)
 		# Child DocTypes do not carry standalone DocPerm rows. Their fields
@@ -927,6 +934,24 @@ def _apply_user_create_defaults(doc) -> None:
 		doc.first_name = username or (doc.email or "").split("@", 1)[0]
 
 
+def _validate_user_custom_role(doc) -> None:
+	"""New Retail ERP accounts receive exactly one configured custom role."""
+	roles = list(dict.fromkeys(row.role for row in (doc.get("roles") or []) if row.role))
+	if len(roles) != 1:
+		frappe.throw(_("Choose exactly one custom role."), frappe.ValidationError)
+	role = frappe.db.get_value("Role", roles[0], ["name", "disabled", "is_custom"], as_dict=True)
+	if not role or cint(role.disabled) or not cint(role.is_custom):
+		frappe.throw(_("Choose an enabled custom role."), frappe.ValidationError)
+	access_name = frappe.db.get_value("Retail Role Page Access", {"role": role.name}, "name")
+	if not access_name or not frappe.db.exists(
+		"Retail Role Page", {"parent": access_name, "parenttype": "Retail Role Page Access"}
+	):
+		frappe.throw(
+			_("Configure at least one visible page for role {0} before assigning it.").format(role.name),
+			frappe.ValidationError,
+		)
+
+
 def _guard_self_lockout(doc) -> None:
 	"""A user manager must not be able to lock themselves out.
 
@@ -973,6 +998,7 @@ def create_document(feature: str, values: Any):
 	doc.update(_clean_payload(meta, values))
 	if meta.name == "User":
 		_apply_user_create_defaults(doc)
+		_validate_user_custom_role(doc)
 	doc.insert()
 	return {"name": doc.name, "route": _record_route(record, doc.name), "modified": doc.modified}
 
@@ -2191,10 +2217,19 @@ def get_link_options(feature: str, fieldname: str, search: str = "", parent_fiel
 		if name and (name == "name" or meta_target.has_field(name))
 	] if search else []
 	fields = ["name"] + ([meta_target.title_field] if meta_target.title_field and meta_target.has_field(meta_target.title_field) else [])
+	filters = {}
+	custom_user_role = meta.name == "User" and parent_fieldname == "roles" and fieldname == "role"
+	if custom_user_role:
+		filters = {"disabled": 0, "is_custom": 1}
 	rows = frappe.get_list(
-		target_doctype, fields=fields, or_filters=or_filters, order_by="modified desc",
+		target_doctype, fields=fields, filters=filters, or_filters=or_filters, order_by="modified desc",
 		limit_page_length=LINK_RESULT_LIMITS.get(target_doctype, MAX_LINK_RESULTS),
 	)
+	if custom_user_role and rows:
+		configured = set(frappe.get_all(
+			"Retail Role Page Access", filters={"role": ["in", [row.name for row in rows]]}, pluck="role",
+		))
+		rows = [row for row in rows if row.name in configured]
 	return {"results": [{"value": row.name, "label": row.get(meta_target.title_field) or row.name} for row in rows]}
 
 

@@ -430,6 +430,8 @@ def get_permitted_navigation() -> list[dict]:
 			if item["path"] not in allowed and not links:
 				continue
 		public = {key: value for key, value in item.items() if key not in {"roles", "any_read", "links"}}
+		if allowed is not None and item["path"] not in allowed and links:
+			public["path"] = links[0]["path"]
 		public["links"] = [_public_navigation_link(link) for link in links]
 		result.append(public)
 	return result
@@ -465,6 +467,7 @@ def get_quick_create_actions() -> dict:
 	if frappe.session.user == "Guest":
 		frappe.throw(frappe._("Authentication is required."), frappe.AuthenticationError)
 	from my_store_ui.universal.registry import feature_is_permitted, get_registry_records
+	from my_store_ui.role_pages import path_is_allowed_for_user
 
 	by_doctype: dict[str, dict] = {}
 	for record in get_registry_records():
@@ -488,7 +491,7 @@ def get_quick_create_actions() -> dict:
 			# Never offer an action whose route does not resolve or is not
 			# permitted -- a dead menu entry is worse than a missing one.
 			definition, _params = resolve_frontend_route(path)
-			if not definition or not route_is_permitted(definition):
+			if not definition or not route_is_permitted(definition) or not path_is_allowed_for_user(path):
 				continue
 			items.append({
 				"label": frappe._(spec.get("label") or doctype),

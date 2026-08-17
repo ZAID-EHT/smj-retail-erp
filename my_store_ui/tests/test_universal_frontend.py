@@ -33,6 +33,17 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		frappe.local.session = frappe._dict(user="Administrator", data={})
 		frappe.set_user("Administrator")
 
+	def _configured_custom_role(self, prefix="Universal Custom Role"):
+		name = f"{prefix} {frappe.generate_hash(length=8)}"
+		frappe.get_doc({
+			"doctype": "Role", "role_name": name, "disabled": 0,
+			"desk_access": 1, "is_custom": 1,
+		}).insert(ignore_permissions=True)
+		access = frappe.get_doc({"doctype": "Retail Role Page Access", "role": name})
+		access.append("pages", {"path": "/home", "label": "Dashboard"})
+		access.insert(ignore_permissions=True)
+		return name
+
 
 	def test_custom_overrides_always_win(self):
 		for doctype in CUSTOM_OVERRIDES:
@@ -163,14 +174,16 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 	def test_link_search_is_server_allowlisted(self):
 		result = get_link_options("supplier", "supplier_group", "")
 		self.assertLessEqual(len(result["results"]), 20)
-		all_roles = get_link_options("user", "role", "", parent_fieldname="roles")
-		self.assertEqual(len(all_roles["results"]), min(100, frappe.db.count("Role")))
-		self.assertTrue(any(row["value"] == "Customer" for row in all_roles["results"]))
-		roles = get_link_options("user", "role", "Sales", parent_fieldname="roles")
-		self.assertTrue(roles["results"])
-		self.assertTrue(all("sales" in row["value"].lower() for row in roles["results"]))
-		customer = get_link_options("user", "role", "Customer", parent_fieldname="roles")
-		self.assertEqual([row["value"] for row in customer["results"]], ["Customer"])
+		frappe.db.savepoint("custom_role_link_test")
+		try:
+			custom_role = self._configured_custom_role("Searchable Custom Role")
+			all_roles = get_link_options("user", "role", "", parent_fieldname="roles")
+			self.assertIn(custom_role, {row["value"] for row in all_roles["results"]})
+			self.assertNotIn("Customer", {row["value"] for row in all_roles["results"]})
+			roles = get_link_options("user", "role", "Searchable", parent_fieldname="roles")
+			self.assertEqual([row["value"] for row in roles["results"]], [custom_role])
+		finally:
+			frappe.db.rollback(save_point="custom_role_link_test")
 		with self.assertRaises(frappe.PermissionError):
 			get_link_options("supplier", "owner", "Administrator")
 
@@ -179,7 +192,8 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		fields = {field["fieldname"]: field for field in metadata["fields"]}
 		self.assertEqual(fields["role_profile_name"]["label"], "Role Profile (optional)")
 		self.assertIn("individual roles", fields["role_profile_name"]["description"])
-		self.assertEqual(fields["roles"]["label"], "Roles Assigned")
+		self.assertEqual(fields["roles"]["label"], "Custom Role")
+		self.assertTrue(fields["roles"]["simple_create_single"])
 		self.assertFalse(fields["roles"]["read_only"])
 		self.assertEqual(fields["roles"]["child_fields"][0]["options"], "Role")
 
@@ -197,12 +211,13 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 
 		frappe.db.savepoint("user_password_test")
 		try:
+			custom_role = self._configured_custom_role()
 			email = f"universal_pw_{frappe.generate_hash(length=8)}@example.com"
 			password = "Xq7!vTn2@Lp9zK"
 			created = create_document("user", {
 				"email": email, "first_name": "Universal Password",
 				"send_welcome_email": 0, "enabled": 0,
-				"new_password": password, "roles": [{"role": "Sales User"}],
+				"new_password": password, "roles": [{"role": custom_role}],
 			})
 			# The password set on create yields working login credentials.
 			self.assertEqual(check_password(email, password), email)
@@ -247,7 +262,7 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 		metadata = get_doctype_metadata("user")
 		self.assertEqual(
 			metadata["simple_create_fields"],
-			["username", "new_password", "roles", "role_profile_name", "email", "first_name", "last_name", "enabled"],
+			["username", "new_password", "enabled", "roles"],
 		)
 		# Username, password and role are the only mandatory inputs on the add form.
 		self.assertEqual(metadata["simple_create_required"], ["username", "new_password", "roles"])
@@ -302,10 +317,11 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 
 		frappe.db.savepoint("user_username_test")
 		try:
+			custom_role = self._configured_custom_role()
 			username = f"universal_uname_{frappe.generate_hash(length=8)}"
 			password = "Xq7!vTn2@Lp9zK"
 			created = create_document("user", {
-				"username": username, "new_password": password, "roles": [{"role": "Sales User"}],
+				"username": username, "new_password": password, "roles": [{"role": custom_role}],
 			})
 			doc = frappe.get_doc("User", created["name"])
 			# Email is synthesised from the username; first_name defaults to it too.
@@ -316,7 +332,7 @@ class TestUniversalFrontendFoundation(unittest.TestCase):
 			self.assertEqual(check_password(doc.email, password), doc.name)
 			# Creating with neither a username nor an email is rejected clearly.
 			with self.assertRaises(frappe.ValidationError):
-				create_document("user", {"new_password": password, "roles": [{"role": "Sales User"}]})
+				create_document("user", {"new_password": password, "roles": [{"role": custom_role}]})
 		finally:
 			frappe.db.rollback(save_point="user_username_test")
 

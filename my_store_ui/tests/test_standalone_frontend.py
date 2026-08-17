@@ -116,6 +116,13 @@ class TestStandaloneRetailERP(unittest.TestCase):
 			result = authorize_frontend_route("/retail-erp/sales/orders")
 		self.assertEqual(result, {"outcome": "denied", "route": "/retail-erp/permission-denied"})
 
+	def test_configured_role_page_denial_blocks_direct_url(self):
+		with patch("my_store_ui.standalone.route_is_permitted", return_value=True), patch(
+			"my_store_ui.standalone._role_path_allowed", return_value=False,
+		):
+			result = authorize_frontend_route("/retail-erp/purchases/orders")
+		self.assertEqual(result, {"outcome": "denied", "route": "/retail-erp/permission-denied"})
+
 	def test_guest_bootstrap_contains_no_identity_or_permissions(self):
 		original = frappe.session.user
 		try:

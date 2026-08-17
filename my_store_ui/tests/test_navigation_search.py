@@ -18,6 +18,8 @@ from my_store_ui.search import (
 	global_search,
 )
 from my_store_ui.services.frontend_routes import get_permitted_navigation
+from my_store_ui.role_pages import path_is_allowed_for_user
+from my_store_ui.services.priority_registry import REPORT_GROUPS
 
 
 class TestRetailNavigationAndSearch(unittest.TestCase):
@@ -167,8 +169,20 @@ class TestRetailNavigationAndSearch(unittest.TestCase):
 	def test_minimum_length_and_permission_filtering(self):
 		self.assertEqual(global_search("A")["results"], [])
 		self.assertEqual(global_search("%%")["results"], [])
-		with patch("my_store_ui.search.frappe.has_permission", return_value=False):
+		with patch("my_store_ui.search.frappe.has_permission", return_value=False), patch(
+			"my_store_ui.search.route_is_permitted", return_value=False,
+		):
 			self.assertEqual(global_search("ACC")["results"], [])
+
+	def test_configured_role_paths_restrict_pages_documents_and_reports(self):
+		allowed = {"/sales/orders", "/reports/sales"}
+		with patch("my_store_ui.role_pages.allowed_paths_for_user", return_value=allowed):
+			self.assertTrue(path_is_allowed_for_user("/retail-erp/sales/orders/SO-0001"))
+			self.assertFalse(path_is_allowed_for_user("/retail-erp/purchases/orders"))
+			sales_report = REPORT_GROUPS["sales"][0]
+			self.assertTrue(path_is_allowed_for_user(f"/reports/view/{sales_report}"))
+			purchase_report = REPORT_GROUPS["purchases"][0]
+			self.assertFalse(path_is_allowed_for_user(f"/reports/view/{purchase_report}"))
 
 	def test_guest_search_is_rejected_without_data(self):
 		original = frappe.session.user

@@ -21,6 +21,7 @@ from my_store_ui.services.frontend_routes import (
 	route_is_permitted,
 )
 from my_store_ui.services.priority_registry import ENTITY_ROUTES, REPORT_GROUPS
+from my_store_ui.role_pages import path_is_allowed_for_user
 
 if TYPE_CHECKING:
 	from frappe.model.meta import Meta
@@ -151,7 +152,7 @@ def _page_results(text: str, limit: int) -> list[dict]:
 		if not score:
 			continue
 		definition, _params = resolve_frontend_route(candidate["route"])
-		if not definition or not route_is_permitted(definition):
+		if not definition or not route_is_permitted(definition) or not path_is_allowed_for_user(candidate["route"]):
 			continue
 		results.append({
 			"kind": "page",
@@ -178,6 +179,9 @@ def _report_results(text: str, limit: int) -> list[dict]:
 				continue
 			if not frappe.has_permission("Report", "read", doc=name):
 				continue
+			report_route = f"/reports/view/{quote(name, safe='')}"
+			if not path_is_allowed_for_user(report_route):
+				continue
 			results.append({
 				"kind": "report",
 				"type_label": "Report",
@@ -186,7 +190,7 @@ def _report_results(text: str, limit: int) -> list[dict]:
 				"name": name,
 				"title": name,
 				"subtitle": f"{group.title()} reports · Run report",
-				"route": f"/reports/view/{quote(name, safe='')}",
+				"route": report_route,
 				"score": score,
 			})
 	return sorted(results, key=lambda row: (-row["score"], row["title"]))[:limit]
@@ -254,6 +258,9 @@ def _document_results(text: str, limit: int) -> list[dict]:
 				value = row.get(fieldname)
 				if value not in (None, "", 0):
 					subtitle_values.append(strip_html_tags(str(value)).strip())
+			route = _result_route(definition, row.name)
+			if not path_is_allowed_for_user(route):
+				continue
 			results.append({
 				"kind": "document",
 				"type_label": definition["doctype"],
@@ -262,7 +269,7 @@ def _document_results(text: str, limit: int) -> list[dict]:
 				"name": row.name,
 				"title": str(row.get(fields[1]) or row.name) if len(fields) > 1 else row.name,
 				"subtitle": " · ".join(subtitle_values[:3]),
-				"route": _result_route(definition, row.name),
+				"route": route,
 			})
 	return results[:limit]
 

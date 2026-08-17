@@ -8,6 +8,11 @@ from frappe import _
 from my_store_ui.services.frontend_routes import get_permitted_navigation, resolve_frontend_route, route_is_permitted
 
 
+def _role_path_allowed(path: str) -> bool:
+	from my_store_ui.role_pages import path_is_allowed_for_user
+	return path_is_allowed_for_user(path)
+
+
 ROLE_LANDINGS = (
 	("Administrator", "/retail-erp/home"),
 	("System Manager", "/retail-erp/home"),
@@ -33,9 +38,12 @@ def get_landing_route() -> str:
 	for role, route in ROLE_LANDINGS:
 		if role in roles:
 			definition, _params = resolve_frontend_route(route)
-			if definition and route_is_permitted(definition):
+			if definition and route_is_permitted(definition) and _role_path_allowed(route):
 				return route
-	return "/retail-erp/home"
+	for module in get_permitted_navigation():
+		if module.get("path"):
+			return f"/retail-erp{module['path']}"
+	return "/retail-erp/permission-denied"
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
@@ -71,7 +79,7 @@ def authorize_frontend_route(path: str):
 		return {"outcome": "not_found", "route": "/retail-erp/not-found"}
 	if not definition.get("implemented"):
 		return {"outcome": "unavailable", "route": "/retail-erp/feature-unavailable"}
-	if not route_is_permitted(definition):
+	if not route_is_permitted(definition) or not _role_path_allowed(path):
 		frappe.logger("my_store_ui.security").warning({"event": "frontend_route_denied", "user": frappe.session.user, "feature_id": definition["feature_id"]})
 		return {"outcome": "denied", "route": "/retail-erp/permission-denied"}
 	return {"outcome": "allowed", "route_name": definition["name"], "feature_id": definition["feature_id"]}
