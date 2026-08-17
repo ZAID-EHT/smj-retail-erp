@@ -2339,8 +2339,18 @@ def get_report_definition(feature: str):
 def run_report(feature: str, filters: Any = None):
 	_require_login()
 	record, name = _special_definition(feature, "report")
+	clean = _parse(filters or {}, dict, "Filters")
+	# This engine serves arbitrary reports, so there is no per-report filter
+	# allowlist to check against the way run_priority_report has one. What can be
+	# checked cheaply is the shape: a report filter key is a fieldname, and a
+	# Script Report is free to build a query from whatever key it is handed.
+	# Anything not identifier-shaped is not a fieldname any report declares, so
+	# refusing it closes off the key as a vector without touching legitimate use.
+	for key in clean:
+		if not isinstance(key, str) or not key.isidentifier():
+			frappe.throw(_("Unsupported report filter."), frappe.ValidationError)
 	from frappe.desk.query_report import run
-	return run(name, filters=_parse(filters or {}, dict, "Filters"), ignore_prepared_report=False)
+	return run(name, filters=clean, ignore_prepared_report=False)
 
 
 @frappe.whitelist(methods=["GET"])

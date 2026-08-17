@@ -198,6 +198,14 @@ def email_document(feature: str, name: str, recipients, subject: str, message: s
 	if cint(attach_pdf):
 		if not _can(doc, "print"):
 			frappe.throw(_("You cannot attach a PDF for this document."), frappe.PermissionError)
+		# A format belonging to another DocType renders this document through the
+		# wrong template and emails the result out. printing_admin.py checks this
+		# on preview and download; the same check belongs on the path that sends
+		# the PDF to an outside address.
+		if print_format and print_format != "Standard" and not frappe.db.exists(
+			"Print Format", {"name": print_format, "doc_type": doc.doctype}
+		):
+			frappe.throw(_("That print format is not available for this document."), frappe.ValidationError)
 		try:
 			attachments.append(frappe.attach_print(doc.doctype, doc.name, print_format=print_format, letterhead=letterhead, lang=language))
 		except OSError:
