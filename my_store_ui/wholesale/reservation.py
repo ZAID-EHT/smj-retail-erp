@@ -54,6 +54,12 @@ def get_stock_availability(item_code: str, warehouse: str, company: str | None =
         frappe.throw(_("Authentication is required."), frappe.AuthenticationError)
     if not frappe.has_permission("Bin", "read"):
         frappe.throw(_("Not permitted."), frappe.PermissionError)
+    # has_permission("Bin") is a blanket DocType check, and db.get_value below
+    # does not apply User Permissions -- so without this a user restricted to
+    # one branch could read any warehouse's position just by naming it.
+    # warehouse_stock._check_warehouse makes the same doc-level check.
+    if not frappe.has_permission("Warehouse", "read", doc=warehouse):
+        frappe.throw(_("You do not have access to this warehouse."), frappe.PermissionError)
     bin_row = frappe.db.get_value(
         "Bin", {"item_code": item_code, "warehouse": warehouse},
         ["actual_qty", "reserved_stock", "projected_qty", "ordered_qty", "indented_qty"],

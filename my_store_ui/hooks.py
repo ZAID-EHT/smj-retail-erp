@@ -222,6 +222,9 @@ doc_events = {
 			"my_store_ui.wholesale.transaction_id.propagate_from_source",
 			"my_store_ui.sales_team.price_commission",
 		],
+		# Submitting is what moves the stock, so the credit gate belongs here
+		# rather than in the one endpoint that used to own it.
+		"before_submit": ["my_store_ui.wholesale.delivery_gate.enforce_delivery_gate"],
 		"before_update_after_submit": ["my_store_ui.sales_team.guard_snapshot_after_submit"],
 	},
 	"Sales Invoice": {

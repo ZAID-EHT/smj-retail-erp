@@ -270,6 +270,15 @@ def preview_print_format(doctype: str, print_format: str | None = None,
 		frappe.throw(_("You cannot print this document."), frappe.PermissionError)
 
 	print_format = (print_format or "").strip() or resolve_print_format(doctype)
+	# Its three siblings -- printing_admin.preview_document, .download_pdf and
+	# collaboration.email_document -- all check that the format belongs to the
+	# DocType being rendered. Without it a permitted document renders through a
+	# mismatched template.
+	if print_format and not frappe.db.exists(
+		"Print Format", {"name": print_format, "doc_type": doctype}
+	):
+		frappe.throw(_("That print format is not available for {0}.").format(doctype),
+		             frappe.ValidationError)
 	entry = get_default_map().get(doctype) or {}
 	language = (language or "").strip() or entry.get("language") or None
 

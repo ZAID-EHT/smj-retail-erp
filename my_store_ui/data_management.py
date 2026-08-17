@@ -31,6 +31,30 @@ FORBIDDEN_EXPORT_FIELDS = {
 	"encryption_key", "salt", "session_data", "secret",
 }
 
+# What SMJ pays for its goods is not something plain Item read should reveal.
+# The app gates this twice already -- entity_schemas restricts valuation_rate and
+# standard_rate to stock/accounts roles, and quick_entry/product hides cost_price
+# behind _require_manager_for_cost -- but the export built its field list from the
+# whole DocType, so a salesperson could pull the entire margin structure in one
+# call. These come out unless the caller holds a cost-bearing role.
+# price_list_rate is deliberately absent: on Item Price it is the selling price a
+# salesperson legitimately needs. Buying rates are withheld by filtering the rows
+# to selling price lists instead, so the useful half of the export survives.
+COST_EXPORT_FIELDS = {
+	"valuation_rate", "last_purchase_rate", "standard_rate",
+	"custom_purchase_price", "custom_cost_price",
+}
+
+COST_ROLES = {
+	"Stock Manager", "Accounts User", "Accounts Manager", "Item Manager",
+	"Purchase Master Manager", "Sales Master Manager", "System Manager",
+}
+
+
+def _may_see_cost() -> bool:
+	return frappe.session.user == "Administrator" or bool(set(frappe.get_roles()) & COST_ROLES)
+
+
 MAX_EXPORT_ROWS = 5000
 
 
@@ -91,10 +115,19 @@ def export_records(doctype: str, limit: int = 1000) -> dict:
 		if field.fieldtype not in {"Section Break", "Column Break", "HTML", "Button", "Table", "Table MultiSelect", "Password"}
 		and field.fieldname not in FORBIDDEN_EXPORT_FIELDS and not field.get("is_virtual")
 	]
+	if not _may_see_cost():
+		fields = [f for f in fields if f not in COST_EXPORT_FIELDS]
 	fields = ["name"] + [f for f in fields if f != "name"]
 	limit = max(1, min(cint(limit) or 1000, MAX_EXPORT_ROWS))
+	filters = {}
+	if doctype == "Item Price" and not _may_see_cost():
+		# Every row on a buying price list is a supplier cost. Selling rows are
+		# ordinary sales reference and stay visible.
+		filters["buying"] = 0
 	# get_list applies role permissions AND User Permissions / company scoping.
-	rows = frappe.get_list(doctype, fields=fields, limit_page_length=limit, order_by="modified desc")
+	rows = frappe.get_list(
+		doctype, filters=filters, fields=fields, limit_page_length=limit, order_by="modified desc"
+	)
 	return {"doctype": doctype, "row_count": len(rows), "fields": fields, "rows": rows, "capped_at": limit}
 
 
