@@ -98,6 +98,7 @@ export const moduleRoutes = [
   {
     path: "/admin/permissions",
     redirect: "/admin/roles",
+    meta: { title: "Roles", description: "Manage roles and their Retail ERP access.", accent: "purple", icon: "shield" },
   },
   {
     path: "/admin/roles/new",
@@ -393,7 +394,9 @@ export const priorityRoutes = [
 ];
 
 export const navigationModules = moduleRoutes
-  .filter((route) => !["smart-sales", "feature-unavailable", "permission-denied", "not-found"].includes(route.name))
+  // Redirect-only routes and future utility routes are not navigation modules.
+  // Guard on metadata so one such route can never prevent the whole app mounting.
+  .filter((route) => route.meta?.title && !["smart-sales", "feature-unavailable", "permission-denied", "not-found"].includes(route.name))
   .map((route) => ({
     name: route.name,
     label: route.meta.title,

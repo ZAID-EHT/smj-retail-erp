@@ -165,6 +165,11 @@ class TestPriorityPageCoverage(unittest.TestCase):
 		}
 		self.assertNotIn("/admin/permissions", paths)
 
+		routes = (APP_PATH / "frontend/src/router/routes.js").read_text()
+		self.assertIn('path: "/admin/permissions",', routes)
+		self.assertIn('redirect: "/admin/roles",', routes)
+		self.assertIn("route.meta?.title", routes)
+
 	def test_pos_launcher_is_hidden_without_an_assigned_profile(self):
 		with patch("posawesome.posawesome.api.utils.get_active_pos_profile", return_value=None):
 			result = get_special_page("/retail-erp/pos")
