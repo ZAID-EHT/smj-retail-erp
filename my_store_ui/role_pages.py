@@ -249,7 +249,7 @@ def create_role_with_page_access(
 	paths=None,
 	disabled: int = 0,
 	desk_access: int = 1,
-	is_custom: int = 1,
+	is_custom: int = 0,
 	access_level: str = "submit",
 ) -> dict:
 	"""Atomically create a Role, store its visible pages, and grant their data access."""
