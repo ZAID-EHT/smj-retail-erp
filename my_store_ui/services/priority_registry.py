@@ -312,7 +312,9 @@ SPECIAL_ROUTES = {
 	"/finance/pegged-currencies": {"module": "finance", "label": "Pegged Currencies", "doctype": "Pegged Currencies", "classification": "specialised_provisional"},
 	"/crm/customers": {"module": "crm", "label": "Customers", "alias": "/sales/customers", "doctype": "Customer"},
 	"/pos": {"module": "sales", "label": "Point of Sale", "doctype": "POS Profile", "classification": "safe_integration"},
-	"/admin/permissions": {"module": "admin", "label": "Role Permissions", "page": "permission-manager", "roles": ("System Manager",)},
+	# Retired after page-driven permissions moved into /admin/roles/new. Keep the
+	# alias so old bookmarks land on Roles instead of a dead page.
+	"/admin/permissions": {"module": "admin", "label": "Roles", "alias": "/admin/roles", "roles": ("System Manager",)},
 	"/admin/settings": {"module": "admin", "label": "Settings", "doctypes": ("System Settings",), "roles": ("System Manager",), "classification": "read_only"},
 	"/admin/integrations": {"module": "admin", "label": "Integrations", "doctypes": ("OAuth Client", "Connected App"), "roles": ("System Manager",)},
 	"/admin/website": {"module": "admin", "label": "Website", "doctypes": ("Website Settings", "Web Page"), "roles": ("System Manager",)},

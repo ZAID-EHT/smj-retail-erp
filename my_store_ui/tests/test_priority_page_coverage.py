@@ -155,11 +155,15 @@ class TestPriorityPageCoverage(unittest.TestCase):
 		finally:
 			frappe.session.user = original
 
-	def test_admin_permission_matrix_is_read_only_metadata(self):
-		result = get_special_page("/retail-erp/admin/permissions")
-		self.assertEqual(result["classification"], "read_only")
-		self.assertTrue(result["permission_matrix"])
-		self.assertTrue(all(set(row) == {"doctype", "role", "read", "create", "write", "delete", "submit", "cancel", "print", "email", "import", "export"} for row in result["permission_matrix"]))
+	def test_retired_admin_permission_page_redirects_to_roles_and_is_not_in_navigation(self):
+		result = get_priority_route_definition("/retail-erp/admin/permissions")
+		self.assertEqual(result["redirect"], "/admin/roles")
+		paths = {
+			link["path"]
+			for section in get_permitted_navigation()
+			for link in section.get("links", [])
+		}
+		self.assertNotIn("/admin/permissions", paths)
 
 	def test_pos_launcher_is_hidden_without_an_assigned_profile(self):
 		with patch("posawesome.posawesome.api.utils.get_active_pos_profile", return_value=None):

@@ -487,7 +487,7 @@ def get_navigation():
 		("Operations", "#149CC2", [("Assets", "/app/assets", None, None), ("Projects", "/app/projects", None, None), ("Support", "/app/support", None, None)]),
 		("CRM", "#DF2D88", [("CRM", "/app/crm", None, None), ("Leads", "/app/lead", "Lead", None), ("Opportunities", "/app/opportunity", "Opportunity", None), ("Contacts", "/app/contact", "Contact", None)]),
 		("Reports", "#1239B8", [("Sales Analytics", "/app/query-report/Sales Analytics", "Report", "Sales Analytics"), ("Stock Balance", "/app/query-report/Stock Balance", "Report", "Stock Balance"), ("Accounts Receivable", "/app/query-report/Accounts Receivable", "Report", "Accounts Receivable")]),
-		("Admin", "#7038D4", [("Users", "/app/user", "User", None), ("Role Permissions", "/app/permission-manager", "Page", "permission-manager"), ("System Settings", "/app/system-settings/System Settings", "System Settings", None)]),
+		("Admin", "#7038D4", [("Users", "/app/user", "User", None), ("System Settings", "/app/system-settings/System Settings", "System Settings", None)]),
 	]
 	result = []
 	for label, color, links in sections:

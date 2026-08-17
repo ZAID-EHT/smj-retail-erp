@@ -96,6 +96,10 @@ export const moduleRoutes = [
     meta: { title: "Role Access", description: "Name a role and tick the pages it can see. Ticking also grants the data permission behind each page.", accent: "purple", icon: "shield" },
   },
   {
+    path: "/admin/permissions",
+    redirect: "/admin/roles",
+  },
+  {
     path: "/admin/roles/new",
     name: "role-new",
     component: () => import("@/pages/priority/NewRolePage.vue"),

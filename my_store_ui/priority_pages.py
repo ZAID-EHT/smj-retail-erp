@@ -440,8 +440,6 @@ def get_special_page(path: str):
 			"records": [], "facts": facts,
 			"limitations": _("This is a safe read-only operational summary. Job payloads, logs and site secrets are not exposed."),
 		}
-	if relative_path == "/admin/permissions":
-		return _get_role_permission_matrix(definition)
 	records = []
 	for doctype in tuple(definition.get("doctypes") or ()) + ((definition["doctype"],) if definition.get("doctype") else ()):
 		if not frappe.db.exists("DocType", doctype) or not frappe.has_permission(doctype, "read"):
@@ -466,44 +464,6 @@ def get_special_page(path: str):
 		"records": records, "page_installed": bool(definition.get("page") and frappe.db.exists("Page", definition["page"])),
 		"limitations": _("This installed feature needs a dedicated interaction adapter. Readable context is shown without opening ERPNext Desk."),
 	}
-
-
-def _get_role_permission_matrix(definition: dict) -> dict:
-	"""Return a bounded, metadata-derived permission matrix for administrators.
-
-	This adapter intentionally reads DocPerm metadata only. Role mutation remains
-	available through the permission-checked Role and User generated forms; no
-	permission rule can be altered through this read-only summary.
-	"""
-	from my_store_ui.services.priority_registry import ALL_PRIORITY_DOCTYPES
-
-	rows = []
-	for doctype in sorted(ALL_PRIORITY_DOCTYPES):
-		if not frappe.db.exists("DocType", doctype):
-			continue
-		meta = frappe.get_meta(doctype)
-		for permission in meta.permissions:
-			rows.append({
-				"doctype": doctype,
-				"role": permission.role,
-				"read": bool(permission.read),
-				"create": bool(permission.create),
-				"write": bool(permission.write),
-				"delete": bool(permission.delete),
-				"submit": bool(permission.submit),
-				"cancel": bool(permission.cancel),
-				"print": bool(permission.print),
-				"email": bool(permission.email),
-				"import": bool(permission.get("import")),
-				"export": bool(permission.get("export")),
-			})
-	return {
-		"label": definition.get("label"), "module": "Admin", "classification": "read_only",
-		"records": [], "permission_matrix": rows,
-		"limitations": _("This matrix is read-only and derived from installed DocPerm metadata. Use controlled User and Role forms for permitted account maintenance."),
-	}
-
-
 def _get_pos_context() -> dict:
 	if not frappe.has_permission("POS Profile", "read"):
 		frappe.throw(_("Point of Sale is not available."), frappe.PermissionError)

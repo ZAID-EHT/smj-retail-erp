@@ -203,7 +203,7 @@ NAVIGATION = (
 		{"label": "Dropdown Options", "path": "/admin/options", "doctype": "Retail Option List", "permission": "write"},
 		{"label": "Sales People", "path": "/admin/sales-persons", "doctype": "Sales Person", "permission": "write"},
 		{"label": "Users", "path": "/admin/users", "doctype": "User"}, {"label": "Roles", "path": "/admin/roles", "doctype": "Role"},
-		{"label": "Role Permissions", "path": "/admin/permissions", "page": "permission-manager"}, {"label": "Companies", "path": "/admin/companies", "doctype": "Company"},
+		{"label": "Companies", "path": "/admin/companies", "doctype": "Company"},
 		{"label": "Warehouses", "path": "/admin/warehouses", "doctype": "Warehouse"}, {"label": "Price Lists", "path": "/admin/price-lists", "doctype": "Price List"},
 		{"label": "Settings", "path": "/admin/settings", "doctype": "System Settings"}, {"label": "Integrations", "path": "/admin/integrations", "doctype": "Integration Request"},
 		{"label": "Website", "path": "/admin/website", "doctype": "Website Settings"}, {"label": "Background Jobs", "path": "/admin/background-jobs", "roles": ("System Manager",)},

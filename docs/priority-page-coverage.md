@@ -116,7 +116,7 @@ form/detail engine for permitted maintenance.
 | `/crm/customers` | Customer | Internal alias to handcrafted Customer page | Working alias |
 | `/operations/manufacturing` | Manufacturing DocTypes | Permitted recent records and links | Specialised launch dashboard provisional |
 | `/operations/subcontracting` | Subcontracting DocTypes | Permitted recent records and links | Specialised launch dashboard provisional |
-| `/admin/permissions` | DocPerm metadata | Bounded read-only priority-role matrix | Mutation remains controlled by User/Role forms |
+| `/admin/permissions` | Retired | Redirects to `/admin/roles` | Role creation and page permissions now live in `/admin/roles/new` |
 | `/admin/settings` | System Settings | Safe read-only context | Dedicated safe settings editor pending |
 | `/admin/integrations` | OAuth Client/Connected App | Safe permitted recent records | Secrets never returned; configuration UX pending |
 | `/admin/website` | Website Settings/Web Page | Safe permitted context | Full website builder pending |
@@ -157,4 +157,3 @@ queries and routes results only to clean Retail ERP URLs.
 - No core app was changed and no schema, migration, restart or site configuration change occurred.
 - Automated coverage is representative and deep at the shared adapter layer;
   it is not a claim that every provisional feature completed its full browser workflow.
-
