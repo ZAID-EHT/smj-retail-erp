@@ -14,10 +14,10 @@ the two things that have to be true are made true together:
      the ones they no longer do -- because a page you can open but whose data
      you cannot read is an empty screen, not access control.
 
-Granting is done through frappe.permissions.add_permission, which copies the
-standard permission rows into Custom DocPerm first. Writing Custom DocPerm
-directly would silently drop every other role's access to that DocType, since
-Frappe stops consulting the standard rows as soon as one custom row exists.
+Before granting, the standard permission rows are copied into Custom DocPerm.
+That ordering matters: Frappe stops consulting the standard rows as soon as one
+custom row exists, so inserting only the new role first would silently drop
+every other role's access to that DocType.
 
 Only a System Manager may use any of this, and a small set of roles is refused
 outright: locking out System Manager or All would make the system unusable and
@@ -38,6 +38,11 @@ PROTECTED_ROLES = frozenset({
 })
 
 ACCESS_DOCTYPE = "Retail Role Page Access"
+ACCESS_LEVEL_PERMISSIONS = {
+	"view": ("read",),
+	"edit": ("read", "write", "create"),
+	"submit": ("read", "write", "create", "submit"),
+}
 
 
 def _require_role_admin() -> None:
@@ -71,6 +76,52 @@ def _link_doctypes(link: dict) -> list[str]:
 	for doctype in link.get("any_read") or ():
 		needed.append(doctype)
 	return needed
+
+
+def _page_catalogue_by_path() -> dict[str, dict]:
+	"""Flatten the navigation tree to the exact paths this tool may store."""
+	catalogue = {}
+	for section in get_page_catalogue()["sections"]:
+		catalogue[section["path"]] = {
+			"label": section["label"], "doctypes": section["doctypes"],
+			"admin_only": section["admin_only"],
+		}
+		for link in section["links"]:
+			catalogue.setdefault(link["path"], {
+				"label": link["label"], "doctypes": link["doctypes"],
+				"admin_only": section["admin_only"] or link["admin_only"],
+			})
+	return catalogue
+
+
+def _normalise_paths(paths, *, reject_admin_only: bool = False) -> tuple[list[str], dict[str, dict]]:
+	selected = frappe.parse_json(paths) if isinstance(paths, str) else (paths or [])
+	if not isinstance(selected, list):
+		frappe.throw(_("Page selection has an invalid format."), frappe.ValidationError)
+
+	catalogue = _page_catalogue_by_path()
+	clean, unknown, admin_only = [], [], []
+	for path in selected:
+		path = str(path).strip()
+		if path not in catalogue:
+			if path:
+				unknown.append(path)
+			continue
+		if reject_admin_only and catalogue[path]["admin_only"]:
+			admin_only.append(path)
+			continue
+		if path not in clean:
+			clean.append(path)
+	if unknown:
+		frappe.throw(_("Unknown page: {0}").format(", ".join(sorted(set(unknown))[:5])), frappe.ValidationError)
+	if admin_only:
+		frappe.throw(
+			_("System Manager-only pages cannot be assigned to another role: {0}").format(
+				", ".join(sorted(set(admin_only))[:5])
+			),
+			frappe.PermissionError,
+		)
+	return clean, catalogue
 
 
 @frappe.whitelist(methods=["GET"])
@@ -128,6 +179,11 @@ def list_manageable_roles() -> dict:
 def create_role(role_name: str) -> dict:
 	"""Create an empty role, ready to have pages ticked for it."""
 	_require_role_admin()
+	doc = _insert_role(role_name, desk_access=0)
+	return {"role": doc.name, "created": True}
+
+
+def _insert_role(role_name: str, *, disabled: int = 0, desk_access: int = 0, is_custom: int = 0):
 	role_name = (role_name or "").strip()
 	if not role_name:
 		frappe.throw(_("Give the role a name."), frappe.ValidationError)
@@ -140,11 +196,90 @@ def create_role(role_name: str) -> dict:
 
 	doc = frappe.new_doc("Role")
 	doc.role_name = role_name
-	# Desk access off: these roles are for the Retail ERP screens, not the
-	# ERPNext desk. It can still be turned on in ERPNext if it is ever needed.
-	doc.desk_access = 0
+	doc.disabled = 1 if frappe.utils.cint(disabled) else 0
+	doc.desk_access = 1 if frappe.utils.cint(desk_access) else 0
+	doc.is_custom = 1 if frappe.utils.cint(is_custom) else 0
 	doc.insert()
-	return {"role": doc.name, "created": True}
+	return doc
+
+
+def _grant_access_permissions(doctype: str, role: str, access_level: str) -> list[str]:
+	"""Add the requested access without replacing any other role's rows."""
+	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
+	from frappe.permissions import setup_custom_perms
+
+	if not frappe.db.exists("DocType", doctype):
+		return []
+	permissions = list(ACCESS_LEVEL_PERMISSIONS[access_level])
+	if not frappe.get_meta(doctype).is_submittable and "submit" in permissions:
+		permissions.remove("submit")
+
+	# Frappe switches an entire DocType to Custom DocPerm as soon as one custom
+	# row exists. Materialise the standard rows first so granting this new role
+	# cannot silently erase access belonging to every existing role.
+	setup_custom_perms(doctype)
+	name = frappe.db.get_value(
+		"Custom DocPerm",
+		{"parent": doctype, "role": role, "permlevel": 0, "if_owner": 0},
+	)
+	if name:
+		row = frappe.get_doc("Custom DocPerm", name)
+	else:
+		row = frappe.get_doc({
+			"doctype": "Custom DocPerm", "parent": doctype,
+			"parenttype": "DocType", "parentfield": "permissions",
+			"role": role, "permlevel": 0, "if_owner": 0,
+		})
+	granted = []
+	for permission in permissions:
+		if not frappe.utils.cint(row.get(permission)):
+			row.set(permission, 1)
+			granted.append(permission)
+	row.save()
+	validate_permissions_for_doctype(doctype)
+	return granted
+
+
+@frappe.whitelist(methods=["POST"])
+def create_role_with_page_access(
+	role_name: str,
+	paths=None,
+	disabled: int = 0,
+	desk_access: int = 1,
+	is_custom: int = 0,
+	access_level: str = "submit",
+) -> dict:
+	"""Atomically create a Role, store its visible pages, and grant their data access."""
+	_require_role_admin()
+	access_level = (access_level or "").strip().lower()
+	if access_level not in ACCESS_LEVEL_PERMISSIONS:
+		frappe.throw(_("Choose View, Add & edit, or Submit access."), frappe.ValidationError)
+	clean, catalogue = _normalise_paths(paths, reject_admin_only=True)
+	if not clean:
+		frappe.throw(_("Tick at least one page for this role."), frappe.ValidationError)
+
+	doc = _insert_role(
+		role_name, disabled=disabled, desk_access=desk_access, is_custom=is_custom,
+	)
+	# Store the menu restriction without invoking the legacy read-only grant. The
+	# access level below supplies the complete permission row in one operation.
+	save_role_page_access(doc.name, clean, grant_permissions=0)
+	wanted = set()
+	for path in clean:
+		wanted.update(catalogue[path]["doctypes"])
+	granted = {}
+	for doctype in sorted(wanted):
+		permissions = _grant_access_permissions(doctype, doc.name, access_level)
+		if permissions:
+			granted[doctype] = permissions
+	frappe.clear_cache()
+	return {
+		"role": doc.name,
+		"created": True,
+		"paths": clean,
+		"access_level": access_level,
+		"granted": granted,
+	}
 
 
 @frappe.whitelist(methods=["GET"])
@@ -181,12 +316,7 @@ def _role_readable_doctypes(role: str) -> set[str]:
 
 
 def _grant_read(doctype: str, role: str) -> bool:
-	from frappe.permissions import add_permission
-
-	if not frappe.db.exists("DocType", doctype):
-		return False
-	add_permission(doctype, role, 0, "read")
-	return True
+	return bool(_grant_access_permissions(doctype, role, "view"))
 
 
 def _revoke_read(doctype: str, role: str) -> bool:
@@ -212,28 +342,10 @@ def save_role_page_access(role: str, paths=None, grant_permissions: int = 1) -> 
 	_require_role_admin()
 	role = _assert_role_editable(role)
 
-	selected = frappe.parse_json(paths) if isinstance(paths, str) else (paths or [])
-	if not isinstance(selected, list):
-		frappe.throw(_("Page selection has an invalid format."), frappe.ValidationError)
-
 	# Only paths that exist in the catalogue are accepted, so a crafted request
-	# cannot invent a page or smuggle in something that is not a nav entry.
-	catalogue = {}
-	for section in get_page_catalogue()["sections"]:
-		catalogue[section["path"]] = {"label": section["label"], "doctypes": section["doctypes"]}
-		for link in section["links"]:
-			catalogue.setdefault(link["path"], {"label": link["label"], "doctypes": link["doctypes"]})
-
-	clean, unknown = [], []
-	for path in selected:
-		path = str(path).strip()
-		if path in catalogue:
-			if path not in clean:
-				clean.append(path)
-		elif path:
-			unknown.append(path)
-	if unknown:
-		frappe.throw(_("Unknown page: {0}").format(", ".join(sorted(set(unknown))[:5])), frappe.ValidationError)
+	# cannot invent a page. Existing saved Admin selections remain editable; the
+	# route guard still requires System Manager for those pages.
+	clean, catalogue = _normalise_paths(paths)
 
 	if frappe.db.exists(ACCESS_DOCTYPE, role):
 		doc = frappe.get_doc(ACCESS_DOCTYPE, role)

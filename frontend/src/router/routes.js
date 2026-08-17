@@ -96,6 +96,12 @@ export const moduleRoutes = [
     meta: { title: "Role Access", description: "Name a role and tick the pages it can see. Ticking also grants the data permission behind each page.", accent: "purple", icon: "shield" },
   },
   {
+    path: "/admin/roles/new",
+    name: "role-new",
+    component: () => import("@/pages/priority/NewRolePage.vue"),
+    meta: { title: "New Role", description: "Create a role and choose its Retail ERP page and data access.", accent: "purple", icon: "shield" },
+  },
+  {
     path: "/admin/system",
     name: "system-operations",
     component: () => import("@/pages/priority/SystemOperationsPage.vue"),

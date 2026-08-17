@@ -30,6 +30,8 @@ async function call(method, params = {}, { post = false } = {}) {
 export const getPageCatalogue = () => call("get_page_catalogue");
 export const listManageableRoles = () => call("list_manageable_roles");
 export const createRole = (role_name) => call("create_role", { role_name }, { post: true });
+export const createRoleWithPageAccess = (values) =>
+  call("create_role_with_page_access", values, { post: true });
 export const getRolePageAccess = (role) => call("get_role_page_access", { role });
 export const saveRolePageAccess = (role, paths) =>
   call("save_role_page_access", { role, paths }, { post: true });
