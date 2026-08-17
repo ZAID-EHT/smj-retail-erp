@@ -33,6 +33,10 @@ ROUTE_REGISTRY = (
 	# System Manager server-side; this registration only stops the SPA's own route
 	# guard from treating a real page as not-found.
 	{"name": "access-control", "pattern": r"^/admin/access-control(?:/(?P<tab>access|restrictions|roles|profiles|email))?/?$", "module": "Admin", "feature_id": "retail.admin.access_control", "implemented": True, "roles": ("System Manager",)},
+	# Role Access -- name a role and tick the pages it may see. Ticking also grants
+	# the role read on the DocTypes behind those pages, so the choice is real
+	# rather than cosmetic. System Manager only, re-checked on every endpoint.
+	{"name": "role-pages", "pattern": r"^/admin/role-pages/?$", "module": "Admin", "feature_id": "retail.admin.role_pages", "implemented": True, "roles": ("System Manager",)},
 	# System Operations -- read-only health/readiness/backup, System Manager gated.
 	{"name": "system-operations", "pattern": r"^/admin/system(?:/(?P<tab>health|backups|errors|scheduler|readiness))?/?$", "module": "Admin", "feature_id": "retail.admin.system_operations", "implemented": True, "roles": ("System Manager",)},
 	# Data Management -- guided import/export of allowlisted DocTypes.
@@ -193,6 +197,7 @@ NAVIGATION = (
 	)},
 	{"name": "admin", "label": "Admin", "path": "/admin", "accent": "purple", "icon": "shield", "roles": ("System Manager",), "links": (
 		{"label": "Admin Dashboard", "path": "/admin", "roles": ("System Manager",)},
+		{"label": "Role Access", "path": "/admin/role-pages", "roles": ("System Manager",)},
 		# The two masters the Product and Customer forms send the admin to.
 		{"label": "Price Codes", "path": "/admin/price-codes", "doctype": "Retail Price Code", "permission": "write"},
 		{"label": "Dropdown Options", "path": "/admin/options", "doctype": "Retail Option List", "permission": "write"},
@@ -253,8 +258,34 @@ def _safe_relative_path(path: str) -> str:
 	return path
 
 
+# Reachable whatever the page selection says: without these a user whose role
+# was given a narrow selection could not land anywhere or be told why.
+ALWAYS_REACHABLE = ("/", "/feature-unavailable", "/not-found", "/forbidden")
+
+
+def _path_within_selection(relative: str) -> bool:
+	"""Is this path covered by the page selection for the user's roles?
+
+	Hiding a link is not access control on its own -- the URL can still be typed.
+	Checking here covers every caller of resolve_frontend_route at once, and a
+	detail page is treated as part of the list page that was ticked, so ticking
+	"Customers" also reaches CUS00001.
+	"""
+	allowed = _role_allowed_paths()
+	if allowed is None:
+		return True
+	if relative in ALWAYS_REACHABLE:
+		return True
+	return any(
+		relative == path or relative.startswith(f"{path.rstrip('/')}/")
+		for path in allowed
+	)
+
+
 def resolve_frontend_route(path: str) -> tuple[dict | None, dict]:
 	relative = _safe_relative_path(path)
+	if not _path_within_selection(relative):
+		return None, {}
 	for definition in ROUTE_REGISTRY:
 		if match := re.fullmatch(definition["pattern"], relative):
 			# An optional group that did not participate yields None, and
@@ -366,16 +397,40 @@ def route_is_permitted(definition: dict) -> bool:
 	return True
 
 
+def _role_allowed_paths() -> set[str] | None:
+	"""Page selection covering this user's roles, or None when nothing limits them.
+
+	Imported lazily because role_pages reads NAVIGATION from this module, so a
+	module-level import would be circular.
+	"""
+	try:
+		from my_store_ui.role_pages import allowed_paths_for_user
+
+		return allowed_paths_for_user()
+	except Exception:
+		# On a site that has not migrated yet the table does not exist. That must
+		# not take the whole menu down: no selection means no restriction, as before.
+		return None
+
+
 def get_permitted_navigation() -> list[dict]:
+	allowed = _role_allowed_paths()
 	result = []
 	for item in NAVIGATION:
 		if item.get("roles") and not _has_roles(item["roles"]):
 			continue
 		if item.get("any_read") and not _has_any_read(item["any_read"]):
 			continue
-		links = [_public_navigation_link(link) for link in item.get("links", ()) if _link_is_permitted(link)]
+		links = [link for link in item.get("links", ()) if _link_is_permitted(link)]
+		if allowed is not None:
+			links = [link for link in links if link.get("path") in allowed]
+			# A section whose own path was not ticked still belongs in the header
+			# if something inside it was -- otherwise ticking "Customers" without
+			# also ticking "Sales Dashboard" would hide Customers altogether.
+			if item["path"] not in allowed and not links:
+				continue
 		public = {key: value for key, value in item.items() if key not in {"roles", "any_read", "links"}}
-		public["links"] = links
+		public["links"] = [_public_navigation_link(link) for link in links]
 		result.append(public)
 	return result
 

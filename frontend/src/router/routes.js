@@ -90,6 +90,12 @@ export const moduleRoutes = [
     meta: { title: "Access Control", description: "Effective access, user permissions, roles and email delivery status.", accent: "purple", icon: "shield" },
   },
   {
+    path: "/admin/role-pages",
+    name: "role-pages",
+    component: () => import("@/pages/priority/RoleAccessPage.vue"),
+    meta: { title: "Role Access", description: "Name a role and tick the pages it can see. Ticking also grants the data permission behind each page.", accent: "purple", icon: "shield" },
+  },
+  {
     path: "/admin/system",
     name: "system-operations",
     component: () => import("@/pages/priority/SystemOperationsPage.vue"),
